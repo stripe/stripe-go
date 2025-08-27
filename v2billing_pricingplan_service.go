@@ -17,7 +17,7 @@ type v2BillingPricingPlanService struct {
 	Key string
 }
 
-// Create a PricingPlan object.
+// Create a Pricing Plan object.
 func (c v2BillingPricingPlanService) Create(ctx context.Context, params *V2BillingPricingPlanCreateParams) (*V2BillingPricingPlan, error) {
 	if params == nil {
 		params = &V2BillingPricingPlanCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingPricingPlanService) Create(ctx context.Context, params *V2Billi
 	return pricingplan, err
 }
 
-// Retrieve a PricingPlan object.
+// Retrieve a Pricing Plan object.
 func (c v2BillingPricingPlanService) Retrieve(ctx context.Context, id string, params *V2BillingPricingPlanRetrieveParams) (*V2BillingPricingPlan, error) {
 	if params == nil {
 		params = &V2BillingPricingPlanRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingPricingPlanService) Retrieve(ctx context.Context, id string, pa
 	return pricingplan, err
 }
 
-// Update a PricingPlan object.
+// Update a Pricing Plan object.
 func (c v2BillingPricingPlanService) Update(ctx context.Context, id string, params *V2BillingPricingPlanUpdateParams) (*V2BillingPricingPlan, error) {
 	if params == nil {
 		params = &V2BillingPricingPlanUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingPricingPlanService) Update(ctx context.Context, id string, para
 	return pricingplan, err
 }
 
-// List all PricingPlan objects.
+// List all Pricing Plan objects.
 func (c v2BillingPricingPlanService) List(ctx context.Context, listParams *V2BillingPricingPlanListParams) Seq2[*V2BillingPricingPlan, error] {
 	if listParams == nil {
 		listParams = &V2BillingPricingPlanListParams{}

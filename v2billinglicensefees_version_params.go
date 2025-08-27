@@ -6,25 +6,25 @@
 
 package stripe
 
-// List all versions of a LicenseFee objects.
+// List all versions of a License Fee object.
 type V2BillingLicenseFeesVersionListParams struct {
 	Params `form:"*"`
-	// The ID of the LicenseFee to list versions for.
+	// The ID of the License Fee to list versions for.
 	LicenseFeeID *string `form:"-" json:"-"` // Included in URL
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
-// Retrieve a LicenseFeeVersion object.
+// Retrieve a License Fee Version object.
 type V2BillingLicenseFeesVersionParams struct {
 	Params `form:"*"`
-	// The ID of the License fee object.
+	// The ID of the License Fee object.
 	LicenseFeeID *string `form:"-" json:"-"` // Included in URL
 }
 
-// Retrieve a LicenseFeeVersion object.
+// Retrieve a License Fee Version object.
 type V2BillingLicenseFeesVersionRetrieveParams struct {
 	Params `form:"*"`
-	// The ID of the License fee object.
+	// The ID of the License Fee object.
 	LicenseFeeID *string `form:"-" json:"-"` // Included in URL
 }

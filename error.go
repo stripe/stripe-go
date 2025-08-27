@@ -101,6 +101,7 @@ const (
 	ErrorCodeCouponExpired                                               ErrorCode = "coupon_expired"
 	ErrorCodeCustomerMaxPaymentMethods                                   ErrorCode = "customer_max_payment_methods"
 	ErrorCodeCustomerMaxSubscriptions                                    ErrorCode = "customer_max_subscriptions"
+	ErrorCodeCustomerSessionExpired                                      ErrorCode = "customer_session_expired"
 	ErrorCodeCustomerTaxLocationInvalid                                  ErrorCode = "customer_tax_location_invalid"
 	ErrorCodeDebitNotAuthorized                                          ErrorCode = "debit_not_authorized"
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
@@ -119,6 +120,7 @@ const (
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
 	ErrorCodeIncorrectNumber                                             ErrorCode = "incorrect_number"
 	ErrorCodeIncorrectZip                                                ErrorCode = "incorrect_zip"
+	ErrorCodeIndiaRecurringPaymentMandateCanceled                        ErrorCode = "india_recurring_payment_mandate_canceled"
 	ErrorCodeInstantPayoutsConfigDisabled                                ErrorCode = "instant_payouts_config_disabled"
 	ErrorCodeInstantPayoutsCurrencyDisabled                              ErrorCode = "instant_payouts_currency_disabled"
 	ErrorCodeInstantPayoutsLimitExceeded                                 ErrorCode = "instant_payouts_limit_exceeded"
@@ -440,9 +442,9 @@ func (e *IdempotencyError) Error() string {
 
 // errorStructs: The beginning of the section generated from our OpenAPI spec
 
-// TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired."
-// The temporary session token has expired.
-type TemporarySessionExpiredError struct {
+// AlreadyCanceledError is the Go struct corresponding to the error type "already_canceled."
+// Error returned when user tries to cancel an OutboundPayment that was already canceled.
+type AlreadyCanceledError struct {
 	APIResource
 	Code        string    `json:"code"`
 	DocURL      *string   `json:"doc_url,omitempty"`
@@ -452,45 +454,18 @@ type TemporarySessionExpiredError struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *TemporarySessionExpiredError) Error() string {
+func (e *AlreadyCanceledError) Error() string {
 	ret, _ := json.Marshal(e)
 	return string(ret)
 }
 
 // redact implements the redacter interface.
-func (e *TemporarySessionExpiredError) redact() error {
+func (e *AlreadyCanceledError) redact() error {
 	return e
 }
 
 // canRetry implements the retrier interface.
-func (e *TemporarySessionExpiredError) canRetry() bool {
-	return false
-}
-
-// NonZeroBalanceError is the Go struct corresponding to the error type "non_zero_balance."
-// Error thrown if a user tries to close an account that has non-zero balances.
-type NonZeroBalanceError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *NonZeroBalanceError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *NonZeroBalanceError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *NonZeroBalanceError) canRetry() bool {
+func (e *AlreadyCanceledError) canRetry() bool {
 	return false
 }
 
@@ -518,6 +493,60 @@ func (e *AlreadyExistsError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *AlreadyExistsError) canRetry() bool {
+	return false
+}
+
+// BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe."
+// Returned if an InboundTransfer is not allowed for risk, legal, regulatory or other unforeseen reasons.
+type BlockedByStripeError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *BlockedByStripeError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *BlockedByStripeError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *BlockedByStripeError) canRetry() bool {
+	return false
+}
+
+// ControlledByDashboardError is the Go struct corresponding to the error type "controlled_by_dashboard."
+// Returned when the PayoutMethodBankAccount object is controlled by the Stripe Dashboard, and cannot be archived.
+type ControlledByDashboardError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *ControlledByDashboardError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *ControlledByDashboardError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *ControlledByDashboardError) canRetry() bool {
 	return false
 }
 
@@ -574,87 +603,6 @@ func (e *FinancialAccountNotOpenError) canRetry() bool {
 	return false
 }
 
-// BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe."
-// Returned if an InboundTransfer is not allowed for risk, legal, regulatory or other unforeseen reasons.
-type BlockedByStripeError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *BlockedByStripeError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *BlockedByStripeError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *BlockedByStripeError) canRetry() bool {
-	return false
-}
-
-// AlreadyCanceledError is the Go struct corresponding to the error type "already_canceled."
-// Error returned when user tries to cancel an OutboundPayment that was already canceled.
-type AlreadyCanceledError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *AlreadyCanceledError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *AlreadyCanceledError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *AlreadyCanceledError) canRetry() bool {
-	return false
-}
-
-// NotCancelableError is the Go struct corresponding to the error type "not_cancelable."
-// Error returned when user tries to cancel an OutboundPayment that is not cancelable.
-type NotCancelableError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *NotCancelableError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *NotCancelableError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *NotCancelableError) canRetry() bool {
-	return false
-}
-
 // InsufficientFundsError is the Go struct corresponding to the error type "insufficient_funds."
 // Error returned when the balance of provided financial account and balance type in the OutboundPayment/OutboundTransfer request does not have enough funds.
 type InsufficientFundsError struct {
@@ -679,114 +627,6 @@ func (e *InsufficientFundsError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *InsufficientFundsError) canRetry() bool {
-	return false
-}
-
-// QuotaExceededError is the Go struct corresponding to the error type "quota_exceeded."
-// Error returned when the recipient's recent total amount in outbound payments has exceeded its limit.
-type QuotaExceededError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *QuotaExceededError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *QuotaExceededError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *QuotaExceededError) canRetry() bool {
-	return false
-}
-
-// RecipientNotNotifiableError is the Go struct corresponding to the error type "recipient_not_notifiable."
-// Error returned when the user enables notifications in the OutboundPayment request, but an email is not set up on the recipient account.
-type RecipientNotNotifiableError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *RecipientNotNotifiableError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *RecipientNotNotifiableError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *RecipientNotNotifiableError) canRetry() bool {
-	return false
-}
-
-// InvalidPayoutMethodError is the Go struct corresponding to the error type "invalid_payout_method."
-// Returned in cases where the ID provided doesn't correspond to a valid payout method.
-type InvalidPayoutMethodError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *InvalidPayoutMethodError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *InvalidPayoutMethodError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *InvalidPayoutMethodError) canRetry() bool {
-	return false
-}
-
-// ControlledByDashboardError is the Go struct corresponding to the error type "controlled_by_dashboard."
-// Returned when the PayoutMethodBankAccount object is controlled by the Stripe Dashboard, and cannot be archived.
-type ControlledByDashboardError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *ControlledByDashboardError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *ControlledByDashboardError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *ControlledByDashboardError) canRetry() bool {
 	return false
 }
 
@@ -819,6 +659,114 @@ func (e *InvalidPaymentMethodError) canRetry() bool {
 	return false
 }
 
+// InvalidPayoutMethodError is the Go struct corresponding to the error type "invalid_payout_method."
+// Returned in cases where the ID provided doesn't correspond to a valid payout method.
+type InvalidPayoutMethodError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InvalidPayoutMethodError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InvalidPayoutMethodError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InvalidPayoutMethodError) canRetry() bool {
+	return false
+}
+
+// NonZeroBalanceError is the Go struct corresponding to the error type "non_zero_balance."
+// Error thrown if a user tries to close an account that has non-zero balances.
+type NonZeroBalanceError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *NonZeroBalanceError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *NonZeroBalanceError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *NonZeroBalanceError) canRetry() bool {
+	return false
+}
+
+// NotCancelableError is the Go struct corresponding to the error type "not_cancelable."
+// Error returned when user tries to cancel an OutboundPayment that is not cancelable.
+type NotCancelableError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *NotCancelableError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *NotCancelableError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *NotCancelableError) canRetry() bool {
+	return false
+}
+
+// QuotaExceededError is the Go struct corresponding to the error type "quota_exceeded."
+// Error returned when the recipient's recent total amount in outbound payments has exceeded its limit.
+type QuotaExceededError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *QuotaExceededError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *QuotaExceededError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *QuotaExceededError) canRetry() bool {
+	return false
+}
+
 // RateLimitError is the Go struct corresponding to the error type "rate_limit."
 // Returned when an API key has reached its limit of concurrently running reports. Wait for existing reports to complete before retrying the request.
 type RateLimitError struct {
@@ -843,6 +791,60 @@ func (e *RateLimitError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *RateLimitError) canRetry() bool {
+	return false
+}
+
+// RecipientNotNotifiableError is the Go struct corresponding to the error type "recipient_not_notifiable."
+// Error returned when the user enables notifications in the OutboundPayment request, but an email is not set up on the recipient account.
+type RecipientNotNotifiableError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *RecipientNotNotifiableError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *RecipientNotNotifiableError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *RecipientNotNotifiableError) canRetry() bool {
+	return false
+}
+
+// TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired."
+// The temporary session token has expired.
+type TemporarySessionExpiredError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *TemporarySessionExpiredError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *TemporarySessionExpiredError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *TemporarySessionExpiredError) canRetry() bool {
 	return false
 }
 

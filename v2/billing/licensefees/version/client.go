@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Retrieve a LicenseFeeVersion object.
+// Retrieve a License Fee Version object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -36,7 +36,7 @@ func (c Client) Get(id string, params *stripe.V2BillingLicenseFeesVersionParams)
 	return licensefeeversion, err
 }
 
-// List all versions of a LicenseFee objects.
+// List all versions of a License Fee object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

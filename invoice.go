@@ -1875,6 +1875,30 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams struct
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// End of the invoice item period.
+type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodEndParams struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// Start of the invoice item period.
+type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodStartParams struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams struct {
+	// End of the invoice item period.
+	End *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodEndParams `form:"end"`
+	// Start of the invoice item period.
+	Start *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodStartParams `form:"start"`
+}
+
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1893,6 +1917,10 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPriceDataParams struc
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	Period *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -1901,6 +1929,15 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.

@@ -61,9 +61,9 @@ type V2BillingLicenseFeeVersion struct {
 	APIResource
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
-	// The ID of the LicenseFeeVersion.
+	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The ID of the parent LicenseFee.
+	// The ID of the parent License Fee.
 	LicenseFeeID string `json:"license_fee_id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`

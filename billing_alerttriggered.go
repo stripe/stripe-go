@@ -11,12 +11,18 @@ type BillingAlertTriggered struct {
 	Alert *BillingAlert `json:"alert"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
+	// Currency for the threshold value
+	Currency Currency `json:"currency"`
 	// ID of customer for which the alert triggered
 	Customer string `json:"customer"`
+	// Custom pricing unit for the threshold value
+	CustomPricingUnit string `json:"custom_pricing_unit"`
+	// External customer ID for the customer for which the alert triggered
+	ExternalCustomerID string `json:"external_customer_id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The value triggering the alert
-	Value int64 `json:"value"`
+	Value float64 `json:"value,string"`
 }

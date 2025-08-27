@@ -17,7 +17,7 @@ type v2BillingCadenceService struct {
 	Key string
 }
 
-// Create a billing Cadence object.
+// Create a Billing Cadence object.
 func (c v2BillingCadenceService) Create(ctx context.Context, params *V2BillingCadenceCreateParams) (*V2BillingCadence, error) {
 	if params == nil {
 		params = &V2BillingCadenceCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingCadenceService) Create(ctx context.Context, params *V2BillingCa
 	return cadence, err
 }
 
-// Retrieve a billing Cadence object.
+// Retrieve a Billing Cadence object.
 func (c v2BillingCadenceService) Retrieve(ctx context.Context, id string, params *V2BillingCadenceRetrieveParams) (*V2BillingCadence, error) {
 	if params == nil {
 		params = &V2BillingCadenceRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingCadenceService) Retrieve(ctx context.Context, id string, params
 	return cadence, err
 }
 
-// Update a billing Cadence object.
+// Update a Billing Cadence object.
 func (c v2BillingCadenceService) Update(ctx context.Context, id string, params *V2BillingCadenceUpdateParams) (*V2BillingCadence, error) {
 	if params == nil {
 		params = &V2BillingCadenceUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingCadenceService) Update(ctx context.Context, id string, params *
 	return cadence, err
 }
 
-// Cancel the billing cadence.
+// Cancel the Billing Cadence.
 func (c v2BillingCadenceService) Cancel(ctx context.Context, id string, params *V2BillingCadenceCancelParams) (*V2BillingCadence, error) {
 	if params == nil {
 		params = &V2BillingCadenceCancelParams{}
@@ -65,7 +65,7 @@ func (c v2BillingCadenceService) Cancel(ctx context.Context, id string, params *
 	return cadence, err
 }
 
-// List all the billing Cadences.
+// List Billing Cadences.
 func (c v2BillingCadenceService) List(ctx context.Context, listParams *V2BillingCadenceListParams) Seq2[*V2BillingCadence, error] {
 	if listParams == nil {
 		listParams = &V2BillingCadenceListParams{}

@@ -17,7 +17,7 @@ type v2BillingCustomPricingUnitService struct {
 	Key string
 }
 
-// Create a CustomPricingUnit object.
+// Create a Custom Pricing Unit object.
 func (c v2BillingCustomPricingUnitService) Create(ctx context.Context, params *V2BillingCustomPricingUnitCreateParams) (*V2BillingCustomPricingUnit, error) {
 	if params == nil {
 		params = &V2BillingCustomPricingUnitCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingCustomPricingUnitService) Create(ctx context.Context, params *V
 	return custompricingunit, err
 }
 
-// Retrieve a CustomPricingUnit object.
+// Retrieve a Custom Pricing Unit object.
 func (c v2BillingCustomPricingUnitService) Retrieve(ctx context.Context, id string, params *V2BillingCustomPricingUnitRetrieveParams) (*V2BillingCustomPricingUnit, error) {
 	if params == nil {
 		params = &V2BillingCustomPricingUnitRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingCustomPricingUnitService) Retrieve(ctx context.Context, id stri
 	return custompricingunit, err
 }
 
-// Update a CustomPricingUnit object.
+// Update a Custom Pricing Unit object.
 func (c v2BillingCustomPricingUnitService) Update(ctx context.Context, id string, params *V2BillingCustomPricingUnitUpdateParams) (*V2BillingCustomPricingUnit, error) {
 	if params == nil {
 		params = &V2BillingCustomPricingUnitUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingCustomPricingUnitService) Update(ctx context.Context, id string
 	return custompricingunit, err
 }
 
-// List all CustomPricingUnit objects.
+// List all Custom Pricing Unit objects.
 func (c v2BillingCustomPricingUnitService) List(ctx context.Context, listParams *V2BillingCustomPricingUnitListParams) Seq2[*V2BillingCustomPricingUnit, error] {
 	if listParams == nil {
 		listParams = &V2BillingCustomPricingUnitListParams{}

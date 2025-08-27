@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Retrieve a specific version of a RateCard object.
+// Retrieve a specific version of a Rate Card object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -36,7 +36,7 @@ func (c Client) Get(id string, params *stripe.V2BillingRateCardsVersionParams) (
 	return ratecardversion, err
 }
 
-// List the versions of a RateCard object. Results are sorted in reverse chronological order (most recent first).
+// List the versions of a Rate Card object. Results are sorted in reverse chronological order (most recent first).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

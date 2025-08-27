@@ -79,7 +79,7 @@ func (c v1SubscriptionService) Update(ctx context.Context, id string, params *Su
 	return subscription, err
 }
 
-// Attach a Cadence to an existing subscription. Once attached, the subscription will be billed by the cadence, potentially sharing invoices with the other subscriptions linked to the Cadence.
+// Attach a Billing Cadence to an existing subscription. When attached, the subscription is billed by the Billing Cadence, potentially sharing invoices with the other subscriptions linked to the Billing Cadence.
 func (c v1SubscriptionService) AttachCadence(ctx context.Context, id string, params *SubscriptionAttachCadenceParams) (*Subscription, error) {
 	if params == nil {
 		params = &SubscriptionAttachCadenceParams{}

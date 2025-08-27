@@ -939,22 +939,11 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 	var typedError error
 	// The beginning of the section generated from our OpenAPI spec
 	switch *raw.Error.Type {
-	case "temporary_session_expired":
+	case "already_canceled":
 		tmp := struct {
-			Error *TemporarySessionExpiredError `json:"error"`
+			Error *AlreadyCanceledError `json:"error"`
 		}{
-			Error: &TemporarySessionExpiredError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "non_zero_balance":
-		tmp := struct {
-			Error *NonZeroBalanceError `json:"error"`
-		}{
-			Error: &NonZeroBalanceError{},
+			Error: &AlreadyCanceledError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err
@@ -966,6 +955,28 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *AlreadyExistsError `json:"error"`
 		}{
 			Error: &AlreadyExistsError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "blocked_by_stripe":
+		tmp := struct {
+			Error *BlockedByStripeError `json:"error"`
+		}{
+			Error: &BlockedByStripeError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "controlled_by_dashboard":
+		tmp := struct {
+			Error *ControlledByDashboardError `json:"error"`
+		}{
+			Error: &ControlledByDashboardError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err
@@ -994,88 +1005,11 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
-	case "blocked_by_stripe":
-		tmp := struct {
-			Error *BlockedByStripeError `json:"error"`
-		}{
-			Error: &BlockedByStripeError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "already_canceled":
-		tmp := struct {
-			Error *AlreadyCanceledError `json:"error"`
-		}{
-			Error: &AlreadyCanceledError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "not_cancelable":
-		tmp := struct {
-			Error *NotCancelableError `json:"error"`
-		}{
-			Error: &NotCancelableError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
 	case "insufficient_funds":
 		tmp := struct {
 			Error *InsufficientFundsError `json:"error"`
 		}{
 			Error: &InsufficientFundsError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "quota_exceeded":
-		tmp := struct {
-			Error *QuotaExceededError `json:"error"`
-		}{
-			Error: &QuotaExceededError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "recipient_not_notifiable":
-		tmp := struct {
-			Error *RecipientNotNotifiableError `json:"error"`
-		}{
-			Error: &RecipientNotNotifiableError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "invalid_payout_method":
-		tmp := struct {
-			Error *InvalidPayoutMethodError `json:"error"`
-		}{
-			Error: &InvalidPayoutMethodError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "controlled_by_dashboard":
-		tmp := struct {
-			Error *ControlledByDashboardError `json:"error"`
-		}{
-			Error: &ControlledByDashboardError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err
@@ -1093,11 +1027,77 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	case "invalid_payout_method":
+		tmp := struct {
+			Error *InvalidPayoutMethodError `json:"error"`
+		}{
+			Error: &InvalidPayoutMethodError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "non_zero_balance":
+		tmp := struct {
+			Error *NonZeroBalanceError `json:"error"`
+		}{
+			Error: &NonZeroBalanceError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "not_cancelable":
+		tmp := struct {
+			Error *NotCancelableError `json:"error"`
+		}{
+			Error: &NotCancelableError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "quota_exceeded":
+		tmp := struct {
+			Error *QuotaExceededError `json:"error"`
+		}{
+			Error: &QuotaExceededError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "rate_limit":
 		tmp := struct {
 			Error *RateLimitError `json:"error"`
 		}{
 			Error: &RateLimitError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "recipient_not_notifiable":
+		tmp := struct {
+			Error *RecipientNotNotifiableError `json:"error"`
+		}{
+			Error: &RecipientNotNotifiableError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "temporary_session_expired":
+		tmp := struct {
+			Error *TemporarySessionExpiredError `json:"error"`
+		}{
+			Error: &TemporarySessionExpiredError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err

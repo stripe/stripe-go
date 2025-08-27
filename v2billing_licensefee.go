@@ -79,29 +79,29 @@ type V2BillingLicenseFeeTransformQuantity struct {
 }
 type V2BillingLicenseFee struct {
 	APIResource
-	// Whether this LicenseFee is active. Inactive LicenseFees cannot be used in new activations or be modified.
+	// Whether this License Fee is active. Inactive License Fees cannot be used in new activations or be modified.
 	Active bool `json:"active"`
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
-	// The currency of this LicenseFee.
+	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency Currency `json:"currency"`
-	// A customer-facing name for the LicenseFee.
+	// A customer-facing name for the license fee.
 	// This name is used in Stripe-hosted products like the Customer Portal and Checkout. It does not show up on Invoices.
 	// Maximum length of 250 characters.
 	DisplayName string `json:"display_name"`
-	// The ID of the LicenseFee.
+	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The ID of the LicenseFee's most recently created version.
+	// The ID of the license fee's most recently created version.
 	LatestVersion string `json:"latest_version"`
-	// The LicensedItem that this license fee binds to.
+	// The Licensed Item that this License Fee binds to.
 	LicensedItem *V2BillingLicensedItem `json:"licensed_item"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// The ID of the version that will be used by all Subscriptions when no specific version is specified.
+	// The ID of the License Fee Version that will be used by all subscriptions when no specific version is specified.
 	LiveVersion string `json:"live_version"`
-	// An internal key you can use to search for a particular LicenseFee. Maximum length of 200 characters.
+	// An internal key you can use to search for a particular License Fee. Maximum length of 200 characters.
 	LookupKey string `json:"lookup_key"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`

@@ -75,6 +75,7 @@ import (
 	"github.com/stripe/stripe-go/v82/invoice"
 	"github.com/stripe/stripe-go/v82/invoiceitem"
 	"github.com/stripe/stripe-go/v82/invoicelineitem"
+	"github.com/stripe/stripe-go/v82/invoicepayment"
 	"github.com/stripe/stripe-go/v82/invoicerenderingtemplate"
 	issuingauthorization "github.com/stripe/stripe-go/v82/issuing/authorization"
 	issuingcard "github.com/stripe/stripe-go/v82/issuing/card"
@@ -172,8 +173,6 @@ import (
 	treasuryreceiveddebit "github.com/stripe/stripe-go/v82/treasury/receiveddebit"
 	treasurytransaction "github.com/stripe/stripe-go/v82/treasury/transaction"
 	treasurytransactionentry "github.com/stripe/stripe-go/v82/treasury/transactionentry"
-	v2account "github.com/stripe/stripe-go/v82/v2/account"
-	v2accountlink "github.com/stripe/stripe-go/v82/v2/accountlink"
 	v2billingbillsetting "github.com/stripe/stripe-go/v82/v2/billing/billsetting"
 	v2billingbillsettingsversion "github.com/stripe/stripe-go/v82/v2/billing/billsettings/version"
 	v2billingcadence "github.com/stripe/stripe-go/v82/v2/billing/cadence"
@@ -181,9 +180,11 @@ import (
 	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v82/v2/billing/collectionsettings/version"
 	v2billingcustompricingunit "github.com/stripe/stripe-go/v82/v2/billing/custompricingunit"
 	v2billingintent "github.com/stripe/stripe-go/v82/v2/billing/intent"
+	v2billingintentsaction "github.com/stripe/stripe-go/v82/v2/billing/intents/action"
 	v2billinglicenseditem "github.com/stripe/stripe-go/v82/v2/billing/licenseditem"
 	v2billinglicensefee "github.com/stripe/stripe-go/v82/v2/billing/licensefee"
 	v2billinglicensefeesversion "github.com/stripe/stripe-go/v82/v2/billing/licensefees/version"
+	v2billinglicensefeesubscription "github.com/stripe/stripe-go/v82/v2/billing/licensefeesubscription"
 	v2billingmetereditem "github.com/stripe/stripe-go/v82/v2/billing/metereditem"
 	v2billingmeterevent "github.com/stripe/stripe-go/v82/v2/billing/meterevent"
 	v2billingmetereventadjustment "github.com/stripe/stripe-go/v82/v2/billing/metereventadjustment"
@@ -202,6 +203,7 @@ import (
 	v2coreaccount "github.com/stripe/stripe-go/v82/v2/core/account"
 	v2coreaccountlink "github.com/stripe/stripe-go/v82/v2/core/accountlink"
 	v2coreaccountsperson "github.com/stripe/stripe-go/v82/v2/core/accounts/person"
+	v2coreclaimablesandbox "github.com/stripe/stripe-go/v82/v2/core/claimablesandbox"
 	v2coreevent "github.com/stripe/stripe-go/v82/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v82/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v82/v2/core/vault/gbbankaccount"
@@ -356,6 +358,8 @@ type API struct {
 	InvoiceItems *invoiceitem.Client
 	// InvoiceLineItems is the client used to invoke /v1/invoices/{invoice}/lines APIs.
 	InvoiceLineItems *invoicelineitem.Client
+	// InvoicePayments is the client used to invoke /v1/invoice_payments APIs.
+	InvoicePayments *invoicepayment.Client
 	// InvoiceRenderingTemplates is the client used to invoke /v1/invoice_rendering_templates APIs.
 	InvoiceRenderingTemplates *invoicerenderingtemplate.Client
 	// Invoices is the client used to invoke /v1/invoices APIs.
@@ -552,10 +556,6 @@ type API struct {
 	TreasuryTransactionEntries *treasurytransactionentry.Client
 	// TreasuryTransactions is the client used to invoke /v1/treasury/transactions APIs.
 	TreasuryTransactions *treasurytransaction.Client
-	// V2AccountLinks is the client used to invoke /v2/account_links APIs.
-	V2AccountLinks *v2accountlink.Client
-	// V2Accounts is the client used to invoke /v2/accounts APIs.
-	V2Accounts *v2account.Client
 	// V2BillingBillSettings is the client used to invoke /v2/billing/bill_settings APIs.
 	V2BillingBillSettings *v2billingbillsetting.Client
 	// V2BillingBillSettingsVersions is the client used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
@@ -570,10 +570,14 @@ type API struct {
 	V2BillingCustomPricingUnits *v2billingcustompricingunit.Client
 	// V2BillingIntents is the client used to invoke /v2/billing/intents APIs.
 	V2BillingIntents *v2billingintent.Client
+	// V2BillingIntentsActions is the client used to invoke /v2/billing/intents/{intent_id}/actions APIs.
+	V2BillingIntentsActions *v2billingintentsaction.Client
 	// V2BillingLicensedItems is the client used to invoke /v2/billing/licensed_items APIs.
 	V2BillingLicensedItems *v2billinglicenseditem.Client
 	// V2BillingLicenseFees is the client used to invoke /v2/billing/license_fees APIs.
 	V2BillingLicenseFees *v2billinglicensefee.Client
+	// V2BillingLicenseFeeSubscriptions is the client used to invoke licensefeesubscription related APIs.
+	V2BillingLicenseFeeSubscriptions *v2billinglicensefeesubscription.Client
 	// V2BillingLicenseFeesVersions is the client used to invoke /v2/billing/license_fees/{license_fee_id}/versions APIs.
 	V2BillingLicenseFeesVersions *v2billinglicensefeesversion.Client
 	// V2BillingMeteredItems is the client used to invoke /v2/billing/metered_items APIs.
@@ -612,6 +616,8 @@ type API struct {
 	V2CoreAccounts *v2coreaccount.Client
 	// V2CoreAccountsPersons is the client used to invoke /v2/core/accounts/{account_id}/persons APIs.
 	V2CoreAccountsPersons *v2coreaccountsperson.Client
+	// V2CoreClaimableSandboxes is the client used to invoke /v2/core/claimable_sandboxes APIs.
+	V2CoreClaimableSandboxes *v2coreclaimablesandbox.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2coreeventdestination.Client
 	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
@@ -737,6 +743,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IdentityVerificationSessions = &identityverificationsession.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
 	a.InvoiceLineItems = &invoicelineitem.Client{B: backends.API, Key: key}
+	a.InvoicePayments = &invoicepayment.Client{B: backends.API, Key: key}
 	a.InvoiceRenderingTemplates = &invoicerenderingtemplate.Client{B: backends.API, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.IssuingAuthorizations = &issuingauthorization.Client{B: backends.API, Key: key}
@@ -835,8 +842,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TreasuryReceivedDebits = &treasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.TreasuryTransactionEntries = &treasurytransactionentry.Client{B: backends.API, Key: key}
 	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
-	a.V2AccountLinks = &v2accountlink.Client{B: backends.API, Key: key}
-	a.V2Accounts = &v2account.Client{B: backends.API, Key: key}
 	a.V2BillingBillSettings = &v2billingbillsetting.Client{B: backends.API, Key: key}
 	a.V2BillingBillSettingsVersions = &v2billingbillsettingsversion.Client{B: backends.API, Key: key}
 	a.V2BillingCadences = &v2billingcadence.Client{B: backends.API, Key: key}
@@ -844,8 +849,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
 	a.V2BillingCustomPricingUnits = &v2billingcustompricingunit.Client{B: backends.API, Key: key}
 	a.V2BillingIntents = &v2billingintent.Client{B: backends.API, Key: key}
+	a.V2BillingIntentsActions = &v2billingintentsaction.Client{B: backends.API, Key: key}
 	a.V2BillingLicensedItems = &v2billinglicenseditem.Client{B: backends.API, Key: key}
 	a.V2BillingLicenseFees = &v2billinglicensefee.Client{B: backends.API, Key: key}
+	a.V2BillingLicenseFeeSubscriptions = &v2billinglicensefeesubscription.Client{B: backends.API, Key: key}
 	a.V2BillingLicenseFeesVersions = &v2billinglicensefeesversion.Client{B: backends.API, Key: key}
 	a.V2BillingMeteredItems = &v2billingmetereditem.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventAdjustments = &v2billingmetereventadjustment.Client{B: backends.API, Key: key}
@@ -865,6 +872,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
 	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
+	a.V2CoreClaimableSandboxes = &v2coreclaimablesandbox.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}

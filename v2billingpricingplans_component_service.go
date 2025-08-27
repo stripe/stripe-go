@@ -17,7 +17,7 @@ type v2BillingPricingPlansComponentService struct {
 	Key string
 }
 
-// Create a PricingPlanComponent object.
+// Create a Pricing Plan Component object.
 func (c v2BillingPricingPlansComponentService) Create(ctx context.Context, params *V2BillingPricingPlansComponentCreateParams) (*V2BillingPricingPlanComponent, error) {
 	if params == nil {
 		params = &V2BillingPricingPlansComponentCreateParams{}
@@ -31,7 +31,7 @@ func (c v2BillingPricingPlansComponentService) Create(ctx context.Context, param
 	return pricingplancomponent, err
 }
 
-// Retrieve a PricingPlanComponent object.
+// Retrieve a Pricing Plan Component object.
 func (c v2BillingPricingPlansComponentService) Retrieve(ctx context.Context, id string, params *V2BillingPricingPlansComponentRetrieveParams) (*V2BillingPricingPlanComponent, error) {
 	if params == nil {
 		params = &V2BillingPricingPlansComponentRetrieveParams{}
@@ -45,7 +45,7 @@ func (c v2BillingPricingPlansComponentService) Retrieve(ctx context.Context, id 
 	return pricingplancomponent, err
 }
 
-// Update a PricingPlanComponent object.
+// Update a Pricing Plan Component object.
 func (c v2BillingPricingPlansComponentService) Update(ctx context.Context, id string, params *V2BillingPricingPlansComponentUpdateParams) (*V2BillingPricingPlanComponent, error) {
 	if params == nil {
 		params = &V2BillingPricingPlansComponentUpdateParams{}
@@ -59,7 +59,7 @@ func (c v2BillingPricingPlansComponentService) Update(ctx context.Context, id st
 	return pricingplancomponent, err
 }
 
-// Remove a PricingPlanComponent from the latest version of a PricingPlan.
+// Remove a Pricing Plan Component from the latest version of a Pricing Plan.
 func (c v2BillingPricingPlansComponentService) Delete(ctx context.Context, id string, params *V2BillingPricingPlansComponentDeleteParams) (*V2BillingPricingPlanComponent, error) {
 	if params == nil {
 		params = &V2BillingPricingPlansComponentDeleteParams{}
@@ -73,7 +73,7 @@ func (c v2BillingPricingPlansComponentService) Delete(ctx context.Context, id st
 	return pricingplancomponent, err
 }
 
-// List all PricingPlanComponent objects for a PricingPlan.
+// List all Pricing Plan Component objects for a Pricing Plan.
 func (c v2BillingPricingPlansComponentService) List(ctx context.Context, listParams *V2BillingPricingPlansComponentListParams) Seq2[*V2BillingPricingPlanComponent, error] {
 	if listParams == nil {
 		listParams = &V2BillingPricingPlansComponentListParams{}

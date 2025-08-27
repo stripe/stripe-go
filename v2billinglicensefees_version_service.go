@@ -17,7 +17,7 @@ type v2BillingLicenseFeesVersionService struct {
 	Key string
 }
 
-// Retrieve a LicenseFeeVersion object.
+// Retrieve a License Fee Version object.
 func (c v2BillingLicenseFeesVersionService) Retrieve(ctx context.Context, id string, params *V2BillingLicenseFeesVersionRetrieveParams) (*V2BillingLicenseFeeVersion, error) {
 	if params == nil {
 		params = &V2BillingLicenseFeesVersionRetrieveParams{}
@@ -31,7 +31,7 @@ func (c v2BillingLicenseFeesVersionService) Retrieve(ctx context.Context, id str
 	return licensefeeversion, err
 }
 
-// List all versions of a LicenseFee objects.
+// List all versions of a License Fee object.
 func (c v2BillingLicenseFeesVersionService) List(ctx context.Context, listParams *V2BillingLicenseFeesVersionListParams) Seq2[*V2BillingLicenseFeeVersion, error] {
 	if listParams == nil {
 		listParams = &V2BillingLicenseFeesVersionListParams{}

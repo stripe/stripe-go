@@ -30,7 +30,7 @@ type V2BillingPricingPlan struct {
 	Description string `json:"description"`
 	// Display name of the PricingPlan.
 	DisplayName string `json:"display_name"`
-	// Unique identifier for the PricingPlan.
+	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The ID of the latest version of the PricingPlan.
 	LatestVersion string `json:"latest_version"`
@@ -40,7 +40,7 @@ type V2BillingPricingPlan struct {
 	LiveVersion string `json:"live_version"`
 	// An internal key you can use to search for a particular PricingPlan. Maximum length of 200 characters.
 	LookupKey string `json:"lookup_key"`
-	// Set of key-value pairs that you can attach to an object.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`

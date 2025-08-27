@@ -12,7 +12,7 @@ import "time"
 type V2BillingMeteredItemMeterSegmentCondition struct {
 	// A Meter dimension.
 	Dimension string `json:"dimension"`
-	// To count usage towards this MeteredItem, the dimension must have this value.
+	// To count usage towards this metered item, the dimension must have this value.
 	Value string `json:"value"`
 }
 
@@ -22,8 +22,8 @@ type V2BillingMeteredItemTaxDetails struct {
 	TaxCode string `json:"tax_code"`
 }
 
-// A MeteredItem represents a billable item whose pricing is based on usage, measured by a Meter. You can use RateCards
-// to specify the pricing and create Subscriptions to these items.
+// A Metered Item represents a billable item whose pricing is based on usage, measured by a meter. You can use rate cards
+// to specify the pricing and create subscriptions to these items.
 type V2BillingMeteredItem struct {
 	APIResource
 	// Timestamp of when the object was created.
@@ -31,7 +31,7 @@ type V2BillingMeteredItem struct {
 	// Description that customers will see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName string `json:"display_name"`
-	// The ID of the MeteredItem.
+	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Optional array of Meter dimensions to group event dimension keys for invoice line items.
 	InvoicePresentationDimensions []string `json:"invoice_presentation_dimensions"`
@@ -40,9 +40,9 @@ type V2BillingMeteredItem struct {
 	// An internal key you can use to search for a particular billable item.
 	// Maximum length of 200 characters.
 	LookupKey string `json:"lookup_key"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
-	// ID of the Meter that measures usage for this MeteredItem.
+	// ID of the Meter that measures usage for this Metered Item.
 	Meter string `json:"meter"`
 	// Optional array of Meter segments to filter event dimension keys for billing.
 	MeterSegmentConditions []*V2BillingMeteredItemMeterSegmentCondition `json:"meter_segment_conditions"`

@@ -185,7 +185,7 @@ type V2BillingServiceAction struct {
 	CreditGrant *V2BillingServiceActionCreditGrant `json:"credit_grant"`
 	// Details for the credit grant per tenant. Provided only if `type` is "credit_grant_per_tenant".
 	CreditGrantPerTenant *V2BillingServiceActionCreditGrantPerTenant `json:"credit_grant_per_tenant"`
-	// Unique identifier for the ServiceAction.
+	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`

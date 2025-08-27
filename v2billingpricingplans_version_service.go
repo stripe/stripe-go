@@ -17,7 +17,7 @@ type v2BillingPricingPlansVersionService struct {
 	Key string
 }
 
-// Retrieve a specific version of a PricingPlan.
+// Retrieve a specific Pricing Plan Version of a Pricing Plan.
 func (c v2BillingPricingPlansVersionService) Retrieve(ctx context.Context, id string, params *V2BillingPricingPlansVersionRetrieveParams) (*V2BillingPricingPlanVersion, error) {
 	if params == nil {
 		params = &V2BillingPricingPlansVersionRetrieveParams{}
@@ -31,7 +31,7 @@ func (c v2BillingPricingPlansVersionService) Retrieve(ctx context.Context, id st
 	return pricingplanversion, err
 }
 
-// List all versions of a PricingPlan.
+// List all Pricing Plan Versions of a Pricing Plan.
 func (c v2BillingPricingPlansVersionService) List(ctx context.Context, listParams *V2BillingPricingPlansVersionListParams) Seq2[*V2BillingPricingPlanVersion, error] {
 	if listParams == nil {
 		listParams = &V2BillingPricingPlansVersionListParams{}

@@ -145,6 +145,20 @@ const (
 	V2BillingCollectionSettingVersionPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits V2BillingCollectionSettingVersionPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
+// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+type V2BillingCollectionSettingVersionEmailDeliveryPaymentDue struct {
+	// If true an email for the invoice would be generated and sent out.
+	Enabled bool `json:"enabled"`
+	// If true the payment link to hosted invocie page would be included in email and PDF of the invoice.
+	IncludePaymentLink bool `json:"include_payment_link"`
+}
+
+// Email delivery settings.
+type V2BillingCollectionSettingVersionEmailDelivery struct {
+	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+	PaymentDue *V2BillingCollectionSettingVersionEmailDeliveryPaymentDue `json:"payment_due"`
+}
+
 // Additional fields for Mandate creation.
 type V2BillingCollectionSettingVersionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -266,6 +280,8 @@ type V2BillingCollectionSettingVersion struct {
 	CollectionMethod V2BillingCollectionSettingVersionCollectionMethod `json:"collection_method"`
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
+	// Email delivery settings.
+	EmailDelivery *V2BillingCollectionSettingVersionEmailDelivery `json:"email_delivery"`
 	// The ID of the CollectionSettingVersion object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

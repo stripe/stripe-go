@@ -6,16 +6,19 @@
 
 package stripe
 
-// List all RateCard objects.
+// List all Rate Card objects.
 type V2BillingRateCardListParams struct {
 	Params `form:"*"`
 	// Optionally filter to active/inactive RateCards.
 	Active *bool `form:"active" json:"active,omitempty"`
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// Filter by lookup keys.
+	// You can specify up to 10 lookup keys.
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 }
 
-// Create a RateCard object.
+// Create a Rate Card object.
 type V2BillingRateCardParams struct {
 	Params `form:"*"`
 	// Sets whether the RateCard is active. Inactive RateCards cannot be used in new activations or have new rates added.
@@ -29,7 +32,9 @@ type V2BillingRateCardParams struct {
 	// Changes the version that new RateCard activations will use. Providing `live_version = "latest"` will set the
 	// RateCard's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// An internal key you can use to search for a particular RateCard. Maximum length of 200 characters.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The interval for assessing service. For example, a monthly RateCard with a rate of $1 for the first 10 "workloads"
 	// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
@@ -52,7 +57,7 @@ func (p *V2BillingRateCardParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Create a RateCard object.
+// Create a Rate Card object.
 type V2BillingRateCardCreateParams struct {
 	Params `form:"*"`
 	// The currency of this RateCard.
@@ -61,7 +66,9 @@ type V2BillingRateCardCreateParams struct {
 	// This name is used in Stripe-hosted products like the Customer Portal and Checkout. It does not show up on Invoices.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// An internal key you can use to search for a particular RateCard. Maximum length of 200 characters.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The interval for assessing service. For example, a monthly RateCard with a rate of $1 for the first 10 "workloads"
 	// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
@@ -84,12 +91,12 @@ func (p *V2BillingRateCardCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Retrieve the latest version of a RateCard object.
+// Retrieve the latest version of a Rate Card object.
 type V2BillingRateCardRetrieveParams struct {
 	Params `form:"*"`
 }
 
-// Update a RateCard object.
+// Update a Rate Card object.
 type V2BillingRateCardUpdateParams struct {
 	Params `form:"*"`
 	// Sets whether the RateCard is active. Inactive RateCards cannot be used in new activations or have new rates added.
@@ -101,7 +108,9 @@ type V2BillingRateCardUpdateParams struct {
 	// Changes the version that new RateCard activations will use. Providing `live_version = "latest"` will set the
 	// RateCard's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// An internal key you can use to search for a particular RateCard. Maximum length of 200 characters.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 }
 

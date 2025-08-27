@@ -6,7 +6,9 @@
 
 package stripe
 
-// List BillingIntents.
+import "time"
+
+// List Billing Intents.
 type V2BillingIntentListParams struct {
 	Params `form:"*"`
 	// Optionally set the maximum number of results per page. Defaults to 10.
@@ -45,6 +47,20 @@ type V2BillingIntentActionApplyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Configuration for the billing details.
+type V2BillingIntentActionDeactivateBillingDetailsParams struct {
+	// This controls the proration adjustment for the partial servicing period.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+}
+
+// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+type V2BillingIntentActionDeactivateEffectiveAtParams struct {
+	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// When the deactivate action will take effect.
+	Type *string `form:"type" json:"type"`
+}
+
 // Details for deactivating a pricing plan subscription.
 type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams struct {
 	// ID of the pricing plan subscription to deactivate.
@@ -53,11 +69,27 @@ type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams struct 
 
 // Details for a deactivate action.
 type V2BillingIntentActionDeactivateParams struct {
+	// Configuration for the billing details.
+	BillingDetails *V2BillingIntentActionDeactivateBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+	EffectiveAt *V2BillingIntentActionDeactivateEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for deactivating a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
-	// Behavior for handling prorations.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior"`
 	// Type of the action details.
+	Type *string `form:"type" json:"type"`
+}
+
+// Configuration for the billing details.
+type V2BillingIntentActionModifyBillingDetailsParams struct {
+	// This controls the proration adjustment for the partial servicing period.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+}
+
+// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+type V2BillingIntentActionModifyEffectiveAtParams struct {
+	// The timestamp at which the modify action will take effect. Only present if type is timestamp.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// When the modify action will take effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -75,20 +107,22 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsComponentConfigura
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsParams struct {
 	// New configurations for the components of the pricing plan.
 	ComponentConfigurations []*V2BillingIntentActionModifyPricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
-	// ID of the new pricing plan, if changing plans.
+	// The ID of the new Pricing Plan, if changing plans.
 	NewPricingPlan *string `form:"new_pricing_plan" json:"new_pricing_plan,omitempty"`
-	// Version of the pricing plan to use.
+	// The ID of the new Pricing Plan Version to use.
 	NewPricingPlanVersion *string `form:"new_pricing_plan_version" json:"new_pricing_plan_version,omitempty"`
-	// ID of the pricing plan subscription to modify.
+	// The ID of the Pricing Plan Subscription to modify.
 	PricingPlanSubscription *string `form:"pricing_plan_subscription" json:"pricing_plan_subscription"`
 }
 
 // Details for a modify action.
 type V2BillingIntentActionModifyParams struct {
+	// Configuration for the billing details.
+	BillingDetails *V2BillingIntentActionModifyBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+	EffectiveAt *V2BillingIntentActionModifyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for modifying a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
-	// Behavior for handling prorations.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior"`
 	// Type of the action details.
 	Type *string `form:"type" json:"type"`
 }
@@ -98,6 +132,20 @@ type V2BillingIntentActionRemoveParams struct {
 	// The ID of the discount rule to remove for future invoices.
 	InvoiceDiscountRule *string `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
 	// Type of the remove action.
+	Type *string `form:"type" json:"type"`
+}
+
+// Configuration for the billing details. If not specified, see the default behavior for individual attributes.
+type V2BillingIntentActionSubscribeBillingDetailsParams struct {
+	// This controls the proration adjustment for the partial servicing period.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+}
+
+// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+type V2BillingIntentActionSubscribeEffectiveAtParams struct {
+	// The timestamp at which the subscribe action will take effect. Only present if type is timestamp.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// When the subscribe action will take effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -115,11 +163,11 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfig
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsParams struct {
 	// Configurations for the components of the pricing plan.
 	ComponentConfigurations []*V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// ID of the pricing plan to subscribe to.
+	// ID of the Pricing Plan to subscribe to.
 	PricingPlan *string `form:"pricing_plan" json:"pricing_plan"`
-	// Version of the pricing plan to use.
+	// Version of the Pricing Plan to use.
 	PricingPlanVersion *string `form:"pricing_plan_version" json:"pricing_plan_version"`
 }
 
@@ -132,17 +180,60 @@ func (p *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsParams) Add
 	p.Metadata[key] = value
 }
 
-// Details for a subscribe action.
-type V2BillingIntentActionSubscribeParams struct {
-	// Details for subscribing to a pricing plan.
-	PricingPlanSubscriptionDetails *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details,omitempty"`
-	// Behavior for handling prorations.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior"`
-	// Type of the action details.
-	Type *string `form:"type" json:"type"`
+// A list of up to 20 subscription items, each with an attached price.
+type V2BillingIntentActionSubscribeV1SubscriptionDetailsItemParams struct {
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The ID of the price object.
+	Price *string `form:"price" json:"price"`
+	// Quantity for this item. If not provided, will default to 1.
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
-// Actions to be performed by this BillingIntent.
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingIntentActionSubscribeV1SubscriptionDetailsItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Details for subscribing to a v1 subscription.
+type V2BillingIntentActionSubscribeV1SubscriptionDetailsParams struct {
+	// The subscription's description, meant to be displayable to the customer.
+	// Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+	Description *string `form:"description" json:"description,omitempty"`
+	// A list of up to 20 subscription items, each with an attached price.
+	Items []*V2BillingIntentActionSubscribeV1SubscriptionDetailsItemParams `form:"items" json:"items"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingIntentActionSubscribeV1SubscriptionDetailsParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Details for a subscribe action.
+type V2BillingIntentActionSubscribeParams struct {
+	// Configuration for the billing details. If not specified, see the default behavior for individual attributes.
+	BillingDetails *V2BillingIntentActionSubscribeBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+	EffectiveAt *V2BillingIntentActionSubscribeEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
+	// Details for subscribing to a pricing plan.
+	PricingPlanSubscriptionDetails *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details,omitempty"`
+	// Type of the action details.
+	Type *string `form:"type" json:"type"`
+	// Details for subscribing to a v1 subscription.
+	V1SubscriptionDetails *V2BillingIntentActionSubscribeV1SubscriptionDetailsParams `form:"v1_subscription_details" json:"v1_subscription_details,omitempty"`
+}
+
+// Actions to be performed by this Billing Intent.
 type V2BillingIntentActionParams struct {
 	// Details for an apply action.
 	Apply *V2BillingIntentActionApplyParams `form:"apply" json:"apply,omitempty"`
@@ -154,41 +245,39 @@ type V2BillingIntentActionParams struct {
 	Remove *V2BillingIntentActionRemoveParams `form:"remove" json:"remove,omitempty"`
 	// Details for a subscribe action.
 	Subscribe *V2BillingIntentActionSubscribeParams `form:"subscribe" json:"subscribe,omitempty"`
-	// Type of the BillingIntentAction.
+	// Type of the Billing Intent action.
 	Type *string `form:"type" json:"type"`
 }
 
-// Create a BillingIntent.
+// Create a Billing Intent.
 type V2BillingIntentParams struct {
 	Params `form:"*"`
-	// Actions to be performed by this BillingIntent.
+	// Actions to be performed by this Billing Intent.
 	Actions []*V2BillingIntentActionParams `form:"actions" json:"actions,omitempty"`
 	// ID of an existing Cadence to use.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
-	// Three-letter ISO currency code, in lowercase.
+	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency,omitempty"`
-	// When the BillingIntent will take effect.
-	EffectiveAt *string `form:"effective_at" json:"effective_at,omitempty"`
 }
 
-// Cancel a BillingIntent.
+// Cancel a Billing Intent.
 type V2BillingIntentCancelParams struct {
 	Params `form:"*"`
 }
 
-// Commit a BillingIntent.
+// Commit a Billing Intent.
 type V2BillingIntentCommitParams struct {
 	Params `form:"*"`
 	// ID of the PaymentIntent associated with this commit.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 }
 
-// Release a BillingIntent.
+// Release a Billing Intent.
 type V2BillingIntentReleaseReservationParams struct {
 	Params `form:"*"`
 }
 
-// Reserve a BillingIntent.
+// Reserve a Billing Intent.
 type V2BillingIntentReserveParams struct {
 	Params `form:"*"`
 }
@@ -225,6 +314,20 @@ type V2BillingIntentCreateActionApplyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Configuration for the billing details.
+type V2BillingIntentCreateActionDeactivateBillingDetailsParams struct {
+	// This controls the proration adjustment for the partial servicing period.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+}
+
+// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+type V2BillingIntentCreateActionDeactivateEffectiveAtParams struct {
+	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// When the deactivate action will take effect.
+	Type *string `form:"type" json:"type"`
+}
+
 // Details for deactivating a pricing plan subscription.
 type V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams struct {
 	// ID of the pricing plan subscription to deactivate.
@@ -233,11 +336,27 @@ type V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams s
 
 // Details for a deactivate action.
 type V2BillingIntentCreateActionDeactivateParams struct {
+	// Configuration for the billing details.
+	BillingDetails *V2BillingIntentCreateActionDeactivateBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+	EffectiveAt *V2BillingIntentCreateActionDeactivateEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for deactivating a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
-	// Behavior for handling prorations.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior"`
 	// Type of the action details.
+	Type *string `form:"type" json:"type"`
+}
+
+// Configuration for the billing details.
+type V2BillingIntentCreateActionModifyBillingDetailsParams struct {
+	// This controls the proration adjustment for the partial servicing period.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+}
+
+// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+type V2BillingIntentCreateActionModifyEffectiveAtParams struct {
+	// The timestamp at which the modify action will take effect. Only present if type is timestamp.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// When the modify action will take effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -255,20 +374,22 @@ type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsComponentCon
 type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsParams struct {
 	// New configurations for the components of the pricing plan.
 	ComponentConfigurations []*V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
-	// ID of the new pricing plan, if changing plans.
+	// The ID of the new Pricing Plan, if changing plans.
 	NewPricingPlan *string `form:"new_pricing_plan" json:"new_pricing_plan,omitempty"`
-	// Version of the pricing plan to use.
+	// The ID of the new Pricing Plan Version to use.
 	NewPricingPlanVersion *string `form:"new_pricing_plan_version" json:"new_pricing_plan_version,omitempty"`
-	// ID of the pricing plan subscription to modify.
+	// The ID of the Pricing Plan Subscription to modify.
 	PricingPlanSubscription *string `form:"pricing_plan_subscription" json:"pricing_plan_subscription"`
 }
 
 // Details for a modify action.
 type V2BillingIntentCreateActionModifyParams struct {
+	// Configuration for the billing details.
+	BillingDetails *V2BillingIntentCreateActionModifyBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+	EffectiveAt *V2BillingIntentCreateActionModifyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for modifying a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
-	// Behavior for handling prorations.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior"`
 	// Type of the action details.
 	Type *string `form:"type" json:"type"`
 }
@@ -278,6 +399,20 @@ type V2BillingIntentCreateActionRemoveParams struct {
 	// The ID of the discount rule to remove for future invoices.
 	InvoiceDiscountRule *string `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
 	// Type of the remove action.
+	Type *string `form:"type" json:"type"`
+}
+
+// Configuration for the billing details. If not specified, see the default behavior for individual attributes.
+type V2BillingIntentCreateActionSubscribeBillingDetailsParams struct {
+	// This controls the proration adjustment for the partial servicing period.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+}
+
+// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+type V2BillingIntentCreateActionSubscribeEffectiveAtParams struct {
+	// The timestamp at which the subscribe action will take effect. Only present if type is timestamp.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// When the subscribe action will take effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -295,11 +430,11 @@ type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsComponent
 type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsParams struct {
 	// Configurations for the components of the pricing plan.
 	ComponentConfigurations []*V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// ID of the pricing plan to subscribe to.
+	// ID of the Pricing Plan to subscribe to.
 	PricingPlan *string `form:"pricing_plan" json:"pricing_plan"`
-	// Version of the pricing plan to use.
+	// Version of the Pricing Plan to use.
 	PricingPlanVersion *string `form:"pricing_plan_version" json:"pricing_plan_version"`
 }
 
@@ -312,17 +447,60 @@ func (p *V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsParam
 	p.Metadata[key] = value
 }
 
-// Details for a subscribe action.
-type V2BillingIntentCreateActionSubscribeParams struct {
-	// Details for subscribing to a pricing plan.
-	PricingPlanSubscriptionDetails *V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details,omitempty"`
-	// Behavior for handling prorations.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior"`
-	// Type of the action details.
-	Type *string `form:"type" json:"type"`
+// A list of up to 20 subscription items, each with an attached price.
+type V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsItemParams struct {
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The ID of the price object.
+	Price *string `form:"price" json:"price"`
+	// Quantity for this item. If not provided, will default to 1.
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
-// Actions to be performed by this BillingIntent.
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Details for subscribing to a v1 subscription.
+type V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsParams struct {
+	// The subscription's description, meant to be displayable to the customer.
+	// Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+	Description *string `form:"description" json:"description,omitempty"`
+	// A list of up to 20 subscription items, each with an attached price.
+	Items []*V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsItemParams `form:"items" json:"items"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Details for a subscribe action.
+type V2BillingIntentCreateActionSubscribeParams struct {
+	// Configuration for the billing details. If not specified, see the default behavior for individual attributes.
+	BillingDetails *V2BillingIntentCreateActionSubscribeBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+	EffectiveAt *V2BillingIntentCreateActionSubscribeEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
+	// Details for subscribing to a pricing plan.
+	PricingPlanSubscriptionDetails *V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details,omitempty"`
+	// Type of the action details.
+	Type *string `form:"type" json:"type"`
+	// Details for subscribing to a v1 subscription.
+	V1SubscriptionDetails *V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsParams `form:"v1_subscription_details" json:"v1_subscription_details,omitempty"`
+}
+
+// Actions to be performed by this Billing Intent.
 type V2BillingIntentCreateActionParams struct {
 	// Details for an apply action.
 	Apply *V2BillingIntentCreateActionApplyParams `form:"apply" json:"apply,omitempty"`
@@ -334,24 +512,22 @@ type V2BillingIntentCreateActionParams struct {
 	Remove *V2BillingIntentCreateActionRemoveParams `form:"remove" json:"remove,omitempty"`
 	// Details for a subscribe action.
 	Subscribe *V2BillingIntentCreateActionSubscribeParams `form:"subscribe" json:"subscribe,omitempty"`
-	// Type of the BillingIntentAction.
+	// Type of the Billing Intent action.
 	Type *string `form:"type" json:"type"`
 }
 
-// Create a BillingIntent.
+// Create a Billing Intent.
 type V2BillingIntentCreateParams struct {
 	Params `form:"*"`
-	// Actions to be performed by this BillingIntent.
+	// Actions to be performed by this Billing Intent.
 	Actions []*V2BillingIntentCreateActionParams `form:"actions" json:"actions"`
 	// ID of an existing Cadence to use.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
-	// Three-letter ISO currency code, in lowercase.
+	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency"`
-	// When the BillingIntent will take effect.
-	EffectiveAt *string `form:"effective_at" json:"effective_at"`
 }
 
-// Retrieve a BillingIntent.
+// Retrieve a Billing Intent.
 type V2BillingIntentRetrieveParams struct {
 	Params `form:"*"`
 }

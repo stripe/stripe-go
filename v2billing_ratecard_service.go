@@ -17,7 +17,7 @@ type v2BillingRateCardService struct {
 	Key string
 }
 
-// Create a RateCard object.
+// Create a Rate Card object.
 func (c v2BillingRateCardService) Create(ctx context.Context, params *V2BillingRateCardCreateParams) (*V2BillingRateCard, error) {
 	if params == nil {
 		params = &V2BillingRateCardCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingRateCardService) Create(ctx context.Context, params *V2BillingR
 	return ratecard, err
 }
 
-// Retrieve the latest version of a RateCard object.
+// Retrieve the latest version of a Rate Card object.
 func (c v2BillingRateCardService) Retrieve(ctx context.Context, id string, params *V2BillingRateCardRetrieveParams) (*V2BillingRateCard, error) {
 	if params == nil {
 		params = &V2BillingRateCardRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingRateCardService) Retrieve(ctx context.Context, id string, param
 	return ratecard, err
 }
 
-// Update a RateCard object.
+// Update a Rate Card object.
 func (c v2BillingRateCardService) Update(ctx context.Context, id string, params *V2BillingRateCardUpdateParams) (*V2BillingRateCard, error) {
 	if params == nil {
 		params = &V2BillingRateCardUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingRateCardService) Update(ctx context.Context, id string, params 
 	return ratecard, err
 }
 
-// List all RateCard objects.
+// List all Rate Card objects.
 func (c v2BillingRateCardService) List(ctx context.Context, listParams *V2BillingRateCardListParams) Seq2[*V2BillingRateCard, error] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardListParams{}

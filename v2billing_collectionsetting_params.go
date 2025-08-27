@@ -16,6 +16,20 @@ type V2BillingCollectionSettingListParams struct {
 	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 }
 
+// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+type V2BillingCollectionSettingEmailDeliveryPaymentDueParams struct {
+	// If true an email for the invoice would be generated and sent out.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// If true the payment link to hosted invocie page would be included in email and PDF of the invoice.
+	IncludePaymentLink *bool `form:"include_payment_link" json:"include_payment_link"`
+}
+
+// Email delivery setting.
+type V2BillingCollectionSettingEmailDeliveryParams struct {
+	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+	PaymentDue *V2BillingCollectionSettingEmailDeliveryPaymentDueParams `form:"payment_due" json:"payment_due,omitempty"`
+}
+
 // Additional fields for Mandate creation.
 type V2BillingCollectionSettingPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Transaction type of the mandate.
@@ -141,6 +155,8 @@ type V2BillingCollectionSettingParams struct {
 	// To remove the display name, set it to an empty string in the request.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	// Email delivery settings.
+	EmailDelivery *V2BillingCollectionSettingEmailDeliveryParams `form:"email_delivery" json:"email_delivery,omitempty"`
 	// Optionally change the live version of the CollectionSetting. Billing Cadences and other objects that refer to this
 	// CollectionSetting will use this version when no overrides are set. Providing `live_version = "latest"` will set the
 	// CollectionSetting's `live_version` to its latest version.
@@ -152,6 +168,20 @@ type V2BillingCollectionSettingParams struct {
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
 	// Payment Method specific configuration to be stored on the object.
 	PaymentMethodOptions *V2BillingCollectionSettingPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
+}
+
+// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+type V2BillingCollectionSettingCreateEmailDeliveryPaymentDueParams struct {
+	// If true an email for the invoice would be generated and sent out.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// If true the payment link to hosted invocie page would be included in email and PDF of the invoice.
+	IncludePaymentLink *bool `form:"include_payment_link" json:"include_payment_link"`
+}
+
+// Email delivery setting.
+type V2BillingCollectionSettingCreateEmailDeliveryParams struct {
+	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+	PaymentDue *V2BillingCollectionSettingCreateEmailDeliveryPaymentDueParams `form:"payment_due" json:"payment_due,omitempty"`
 }
 
 // Additional fields for Mandate creation.
@@ -278,6 +308,8 @@ type V2BillingCollectionSettingCreateParams struct {
 	// An optional customer-facing display name for the CollectionSetting object.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	// Email delivery setting.
+	EmailDelivery *V2BillingCollectionSettingCreateEmailDeliveryParams `form:"email_delivery" json:"email_delivery,omitempty"`
 	// A lookup key used to retrieve settings dynamically from a static string.
 	// This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
@@ -290,6 +322,20 @@ type V2BillingCollectionSettingCreateParams struct {
 // Retrieve a CollectionSetting by ID.
 type V2BillingCollectionSettingRetrieveParams struct {
 	Params `form:"*"`
+}
+
+// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+type V2BillingCollectionSettingUpdateEmailDeliveryPaymentDueParams struct {
+	// If true an email for the invoice would be generated and sent out.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// If true the payment link to hosted invocie page would be included in email and PDF of the invoice.
+	IncludePaymentLink *bool `form:"include_payment_link" json:"include_payment_link"`
+}
+
+// Email delivery settings.
+type V2BillingCollectionSettingUpdateEmailDeliveryParams struct {
+	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+	PaymentDue *V2BillingCollectionSettingUpdateEmailDeliveryPaymentDueParams `form:"payment_due" json:"payment_due,omitempty"`
 }
 
 // Additional fields for Mandate creation.
@@ -416,6 +462,8 @@ type V2BillingCollectionSettingUpdateParams struct {
 	// To remove the display name, set it to an empty string in the request.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	// Email delivery settings.
+	EmailDelivery *V2BillingCollectionSettingUpdateEmailDeliveryParams `form:"email_delivery" json:"email_delivery,omitempty"`
 	// Optionally change the live version of the CollectionSetting. Billing Cadences and other objects that refer to this
 	// CollectionSetting will use this version when no overrides are set. Providing `live_version = "latest"` will set the
 	// CollectionSetting's `live_version` to its latest version.

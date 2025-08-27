@@ -145,6 +145,20 @@ const (
 	V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
+// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+type V2BillingCollectionSettingEmailDeliveryPaymentDue struct {
+	// If true an email for the invoice would be generated and sent out.
+	Enabled bool `json:"enabled"`
+	// If true the payment link to hosted invocie page would be included in email and PDF of the invoice.
+	IncludePaymentLink bool `json:"include_payment_link"`
+}
+
+// Email delivery settings.
+type V2BillingCollectionSettingEmailDelivery struct {
+	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+	PaymentDue *V2BillingCollectionSettingEmailDeliveryPaymentDue `json:"payment_due"`
+}
+
 // Additional fields for Mandate creation.
 type V2BillingCollectionSettingPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -270,6 +284,8 @@ type V2BillingCollectionSetting struct {
 	Created time.Time `json:"created"`
 	// An optional field for adding a display name for the CollectionSetting object.
 	DisplayName string `json:"display_name"`
+	// Email delivery settings.
+	EmailDelivery *V2BillingCollectionSettingEmailDelivery `json:"email_delivery"`
 	// The ID of the CollectionSetting.
 	ID string `json:"id"`
 	// The latest version of the current settings object. This will be

@@ -209,6 +209,36 @@ const (
 	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
 )
 
+// Determines if the amount includes the IOF tax.
+type SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof string
+
+// List of values that SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof can take
+const (
+	SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIofAlways SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "always"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIofNever  SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "never"
+)
+
+// Type of amount.
+type SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType string
+
+// List of values that SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType can take
+const (
+	SetupIntentPaymentMethodOptionsPixMandateOptionsAmountTypeFixed   SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType = "fixed"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsAmountTypeMaximum SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType = "maximum"
+)
+
+// Schedule at which the future payments will be charged.
+type SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule string
+
+// List of values that SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule can take
+const (
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleHalfyearly SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "halfyearly"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleMonthly    SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "monthly"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleQuarterly  SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "quarterly"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleWeekly     SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "weekly"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleYearly     SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "yearly"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -1011,6 +1041,32 @@ type SetupIntentPaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
 }
 
+// Additional fields for mandate creation.
+type SetupIntentPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date"`
+	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date"`
+}
+
+// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+type SetupIntentPaymentMethodOptionsPixParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *SetupIntentPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -1095,6 +1151,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Paypal *SetupIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
 	// If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
 	Payto *SetupIntentPaymentMethodOptionsPaytoParams `form:"payto"`
+	// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+	Pix *SetupIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -2390,6 +2448,32 @@ type SetupIntentCreatePaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SetupIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
 }
 
+// Additional fields for mandate creation.
+type SetupIntentCreatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date"`
+	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date"`
+}
+
+// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+type SetupIntentCreatePaymentMethodOptionsPixParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *SetupIntentCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -2474,6 +2558,8 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	Paypal *SetupIntentCreatePaymentMethodOptionsPaypalParams `form:"paypal"`
 	// If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
 	Payto *SetupIntentCreatePaymentMethodOptionsPaytoParams `form:"payto"`
+	// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+	Pix *SetupIntentCreatePaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -3240,6 +3326,32 @@ type SetupIntentUpdatePaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SetupIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
 }
 
+// Additional fields for mandate creation.
+type SetupIntentUpdatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date"`
+	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date"`
+}
+
+// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+type SetupIntentUpdatePaymentMethodOptionsPixParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *SetupIntentUpdatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -3324,6 +3436,8 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	Paypal *SetupIntentUpdatePaymentMethodOptionsPaypalParams `form:"paypal"`
 	// If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
 	Payto *SetupIntentUpdatePaymentMethodOptionsPaytoParams `form:"payto"`
+	// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+	Pix *SetupIntentUpdatePaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -3406,6 +3520,18 @@ type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
 	QRCode        *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
+type SetupIntentNextActionPixDisplayQRCode struct {
+	// The raw data string used to generate QR code, it should be used together with QR code library.
+	Data string `json:"data"`
+	// The date (unix timestamp) when the PIX expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The URL to the hosted pix instructions page, which allows customers to view the pix QR code.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
+	// The image_url_png string used to render png QR code
+	ImageURLPNG string `json:"image_url_png"`
+	// The image_url_svg string used to render svg QR code
+	ImageURLSVG string `json:"image_url_svg"`
+}
 type SetupIntentNextActionRedirectToURL struct {
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
 	ReturnURL string `json:"return_url"`
@@ -3427,6 +3553,7 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 // If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 type SetupIntentNextAction struct {
 	CashAppHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
+	PixDisplayQRCode                     *SetupIntentNextActionPixDisplayQRCode                     `json:"pix_display_qr_code"`
 	RedirectToURL                        *SetupIntentNextActionRedirectToURL                        `json:"redirect_to_url"`
 	// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type SetupIntentNextActionType `json:"type"`
@@ -3540,6 +3667,27 @@ type SetupIntentPaymentMethodOptionsPaytoMandateOptions struct {
 type SetupIntentPaymentMethodOptionsPayto struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
 }
+type SetupIntentPaymentMethodOptionsPixMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof `json:"amount_includes_iof"`
+	// Type of amount.
+	AmountType SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType `json:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+	Currency Currency `json:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`.
+	EndDate string `json:"end_date"`
+	// Schedule at which the future payments will be charged.
+	PaymentSchedule SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app.
+	Reference string `json:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`.
+	StartDate string `json:"start_date"`
+}
+type SetupIntentPaymentMethodOptionsPix struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsPixMandateOptions `json:"mandate_options"`
+}
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
 	ReferencePrefix string `json:"reference_prefix"`
@@ -3589,6 +3737,7 @@ type SetupIntentPaymentMethodOptions struct {
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
 	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
 	Payto         *SetupIntentPaymentMethodOptionsPayto         `json:"payto"`
+	Pix           *SetupIntentPaymentMethodOptionsPix           `json:"pix"`
 	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }

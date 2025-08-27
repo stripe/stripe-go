@@ -2118,7 +2118,9 @@ type PaymentMethod struct {
 	Klarna         *PaymentMethodKlarna         `json:"klarna"`
 	Konbini        *PaymentMethodKonbini        `json:"konbini"`
 	KrCard         *PaymentMethodKrCard         `json:"kr_card"`
-	Link           *PaymentMethodLink           `json:"link"`
+	// The Mandate object of the most recently created Mandate associated with this payment method
+	LatestActiveMandate *Mandate           `json:"latest_active_mandate"`
+	Link                *PaymentMethodLink `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool                `json:"livemode"`
 	MbWay    *PaymentMethodMbWay `json:"mb_way"`

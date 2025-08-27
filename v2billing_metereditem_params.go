@@ -6,18 +6,21 @@
 
 package stripe
 
-// List all MeteredItem objects in reverse chronological order of creation.
+// List all Metered Item objects in reverse chronological order of creation.
 type V2BillingMeteredItemListParams struct {
 	Params `form:"*"`
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// Filter by lookup keys.
+	// You can specify up to 10 lookup keys.
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 }
 
 // Optional array of Meter segments to filter event dimension keys for billing.
 type V2BillingMeteredItemMeterSegmentConditionParams struct {
 	// A Meter dimension.
 	Dimension *string `form:"dimension" json:"dimension"`
-	// To count usage towards this MeteredItem, the dimension must have this value.
+	// To count usage towards this metered item, the dimension must have this value.
 	Value *string `form:"value" json:"value"`
 }
 
@@ -27,7 +30,7 @@ type V2BillingMeteredItemTaxDetailsParams struct {
 	TaxCode *string `form:"tax_code" json:"tax_code"`
 }
 
-// Create a MeteredItem object.
+// Create a Metered Item object.
 type V2BillingMeteredItemParams struct {
 	Params `form:"*"`
 	// Description that customers will see in the invoice line item.
@@ -39,9 +42,9 @@ type V2BillingMeteredItemParams struct {
 	// Maximum length of 200 characters.
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// ID of the Meter that measures usage for this MeteredItem.
+	// ID of the Meter that measures usage for this Metered Item.
 	Meter *string `form:"meter" json:"meter,omitempty"`
 	// Optional array of Meter segments to filter event dimension keys for billing.
 	MeterSegmentConditions []*V2BillingMeteredItemMeterSegmentConditionParams `form:"meter_segment_conditions" json:"meter_segment_conditions,omitempty"`
@@ -68,7 +71,7 @@ func (p *V2BillingMeteredItemParams) AddMetadata(key string, value string) {
 type V2BillingMeteredItemCreateMeterSegmentConditionParams struct {
 	// A Meter dimension.
 	Dimension *string `form:"dimension" json:"dimension"`
-	// To count usage towards this MeteredItem, the dimension must have this value.
+	// To count usage towards this metered item, the dimension must have this value.
 	Value *string `form:"value" json:"value"`
 }
 
@@ -78,7 +81,7 @@ type V2BillingMeteredItemCreateTaxDetailsParams struct {
 	TaxCode *string `form:"tax_code" json:"tax_code"`
 }
 
-// Create a MeteredItem object.
+// Create a Metered Item object.
 type V2BillingMeteredItemCreateParams struct {
 	Params `form:"*"`
 	// Description that customers will see in the invoice line item.
@@ -90,9 +93,9 @@ type V2BillingMeteredItemCreateParams struct {
 	// Must be unique among billable items.
 	// Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// ID of the Meter that measures usage for this MeteredItem.
+	// ID of the Meter that measures usage for this Metered Item.
 	Meter *string `form:"meter" json:"meter"`
 	// Optional array of Meter segments to filter event dimension keys for billing.
 	MeterSegmentConditions []*V2BillingMeteredItemCreateMeterSegmentConditionParams `form:"meter_segment_conditions" json:"meter_segment_conditions,omitempty"`
@@ -114,7 +117,7 @@ func (p *V2BillingMeteredItemCreateParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
-// Retrieve a MeteredItem object.
+// Retrieve a Metered Item object.
 type V2BillingMeteredItemRetrieveParams struct {
 	Params `form:"*"`
 }
@@ -125,7 +128,7 @@ type V2BillingMeteredItemUpdateTaxDetailsParams struct {
 	TaxCode *string `form:"tax_code" json:"tax_code"`
 }
 
-// Update a MeteredItem object. At least one of the fields is required.
+// Update a Metered Item object. At least one of the fields is required.
 type V2BillingMeteredItemUpdateParams struct {
 	Params `form:"*"`
 	// Description that customers will see in the invoice line item.
@@ -135,7 +138,7 @@ type V2BillingMeteredItemUpdateParams struct {
 	// Maximum length of 200 characters.
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Stripe Tax details.
 	TaxDetails *V2BillingMeteredItemUpdateTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`

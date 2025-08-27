@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a MeteredItem object.
+// Create a Metered Item object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2BillingMeteredItemParams) (*stripe.V2Billin
 	return metereditem, err
 }
 
-// Retrieve a MeteredItem object.
+// Retrieve a Metered Item object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2BillingMeteredItemParams) (*stri
 	return metereditem, err
 }
 
-// Update a MeteredItem object. At least one of the fields is required.
+// Update a Metered Item object. At least one of the fields is required.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2BillingMeteredItemParams) (*s
 	return metereditem, err
 }
 
-// List all MeteredItem objects in reverse chronological order of creation.
+// List all Metered Item objects in reverse chronological order of creation.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

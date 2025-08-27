@@ -6,11 +6,14 @@
 
 package stripe
 
-// List all LicensedItem objects in reverse chronological order of creation.
+// List all Licensed Item objects in reverse chronological order of creation.
 type V2BillingLicensedItemListParams struct {
 	Params `form:"*"`
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// Filter by lookup keys.
+	// You can specify up to 10 lookup keys.
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 }
 
 // Stripe Tax details.
@@ -19,7 +22,7 @@ type V2BillingLicensedItemTaxDetailsParams struct {
 	TaxCode *string `form:"tax_code" json:"tax_code"`
 }
 
-// Create a LicensedItem object.
+// Create a Licensed Item object.
 type V2BillingLicensedItemParams struct {
 	Params `form:"*"`
 	// Description that customers will see in the invoice line item.
@@ -29,7 +32,7 @@ type V2BillingLicensedItemParams struct {
 	// Maximum length of 200 characters.
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Stripe Tax details.
 	TaxDetails *V2BillingLicensedItemTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
@@ -54,7 +57,7 @@ type V2BillingLicensedItemCreateTaxDetailsParams struct {
 	TaxCode *string `form:"tax_code" json:"tax_code"`
 }
 
-// Create a LicensedItem object.
+// Create a Licensed Item object.
 type V2BillingLicensedItemCreateParams struct {
 	Params `form:"*"`
 	// Description that customers will see in the invoice line item.
@@ -64,7 +67,7 @@ type V2BillingLicensedItemCreateParams struct {
 	// Must be unique among billable items.
 	// Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Stripe Tax details.
 	TaxDetails *V2BillingLicensedItemCreateTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
@@ -83,7 +86,7 @@ func (p *V2BillingLicensedItemCreateParams) AddMetadata(key string, value string
 	p.Metadata[key] = value
 }
 
-// Retrieve a LicensedItem object.
+// Retrieve a Licensed Item object.
 type V2BillingLicensedItemRetrieveParams struct {
 	Params `form:"*"`
 }
@@ -94,7 +97,7 @@ type V2BillingLicensedItemUpdateTaxDetailsParams struct {
 	TaxCode *string `form:"tax_code" json:"tax_code"`
 }
 
-// Update a LicensedItem object. At least one of the fields is required.
+// Update a Licensed Item object. At least one of the fields is required.
 type V2BillingLicensedItemUpdateParams struct {
 	Params `form:"*"`
 	// Description that customers will see in the invoice line item.
@@ -104,7 +107,7 @@ type V2BillingLicensedItemUpdateParams struct {
 	// Maximum length of 200 characters.
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Stripe Tax details.
 	TaxDetails *V2BillingLicensedItemUpdateTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`

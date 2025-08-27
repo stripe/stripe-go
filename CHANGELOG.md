@@ -4,7 +4,7 @@
 * [#2103](https://github.com/stripe/stripe-go/pull/2103) Bring back invoice payments APIs that were missing in the public preview SDKs
    * Add support for new resource `InvoicePayment`
    * Add support for `Get` and `List` methods on resource `InvoicePayment`
-  
+
 ## 82.5.0-beta.1 - 2025-07-30
 This release changes the pinned API version to `2025-07-30.preview`.
 
@@ -32,6 +32,31 @@ This release changes the pinned API version to `2025-07-30.preview`.
   * Add support for thin event `V2MoneyManagementPayoutMethodUpdatedEvent` with related object `V2MoneyManagementPayoutMethod`
   * Remove support for thin event `V2CoreAccountLinkCompletedEvent`
   * Remove support for thin event `V2OffSessionPaymentRequiresCaptureEvent` with related object `V2PaymentsOffSessionPayment`
+
+## 82.4.1 - 2025-08-11
+* [#2102](https://github.com/stripe/stripe-go/pull/2102) Add missing parameters to Card and BankAccount services
+  * Fixes bugs in `V1Cards` and `V1BankAccounts` services: ensures the new `stripe.Client` pattern supports all parameters previously available in `client.API` for those two services.
+* [#2098](https://github.com/stripe/stripe-go/pull/2098) Bug fixes for `V1BankAccounts` and `V1Cards` services
+  * Fixes bugs in `Create` and `List` methods in `V1BankAccounts` and `V1Cards` services in the `stripe.Client` pattern, which were previously returning errors on any valid inputs.
+
+## 82.4.0 - 2025-07-30
+This release changes the pinned API version to `2025-07-30.basil`.
+
+* [#2088](https://github.com/stripe/stripe-go/pull/2088) Update generated code
+  * Add support for `InstantPayoutsPromotion` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+  * Add support for `AdjustableQuantity` on `BillingPortalConfigurationFeaturesSubscriptionUpdateProductsParams` and `BillingPortalConfigurationFeaturesSubscriptionUpdateProducts`
+  * Remove support for value `disabled` from enum `Capability.Status`
+  * Add support for `TransactionID` on `ChargePaymentMethodDetailsCashapp`
+  * Add support for `OriginContext` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Template` on `CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams`, `CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions`, `PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams`, and `PaymentLinkInvoiceCreationInvoiceDataRenderingOptions`
+  * Add support for `SetupFutureUsage` on `CheckoutSessionPaymentMethodOptionsPixParams` and `CheckoutSessionPaymentMethodOptionsPix`
+  * Add support for `Duration` on `InvoiceCreatePreviewScheduleDetailsPhaseParams` and `SubscriptionSchedulePhaseParams`
+  * Change type of `InvoiceCreatePreviewSubscriptionDetailsParams.CancelAt` and `SubscriptionParams.CancelAt` from `DateTime` to `DateTime | enum('max_period_end'|'min_period_end')`
+  * Add support for `PriceData` on `PaymentLinkLineItemParams`
+  * Add support for `Standard` on `TaxRegistrationCountryOptionsAeParams`, `TaxRegistrationCountryOptionsAe`, `TaxRegistrationCountryOptionsAlParams`, `TaxRegistrationCountryOptionsAoParams`, `TaxRegistrationCountryOptionsAuParams`, `TaxRegistrationCountryOptionsAu`, `TaxRegistrationCountryOptionsAwParams`, `TaxRegistrationCountryOptionsBaParams`, `TaxRegistrationCountryOptionsBbParams`, `TaxRegistrationCountryOptionsBdParams`, `TaxRegistrationCountryOptionsBfParams`, `TaxRegistrationCountryOptionsBhParams`, `TaxRegistrationCountryOptionsBsParams`, `TaxRegistrationCountryOptionsCdParams`, `TaxRegistrationCountryOptionsChParams`, `TaxRegistrationCountryOptionsCh`, `TaxRegistrationCountryOptionsEtParams`, `TaxRegistrationCountryOptionsGbParams`, `TaxRegistrationCountryOptionsGb`, `TaxRegistrationCountryOptionsGnParams`, `TaxRegistrationCountryOptionsIsParams`, `TaxRegistrationCountryOptionsJpParams`, `TaxRegistrationCountryOptionsJp`, `TaxRegistrationCountryOptionsMeParams`, `TaxRegistrationCountryOptionsMkParams`, `TaxRegistrationCountryOptionsMrParams`, `TaxRegistrationCountryOptionsNoParams`, `TaxRegistrationCountryOptionsNo`, `TaxRegistrationCountryOptionsNzParams`, `TaxRegistrationCountryOptionsNz`, `TaxRegistrationCountryOptionsOmParams`, `TaxRegistrationCountryOptionsRsParams`, `TaxRegistrationCountryOptionsSgParams`, `TaxRegistrationCountryOptionsSg`, `TaxRegistrationCountryOptionsSrParams`, `TaxRegistrationCountryOptionsUyParams`, `TaxRegistrationCountryOptionsZaParams`, and `TaxRegistrationCountryOptionsZwParams`
+  * Add support for new value `inbound_goods` on enums `TaxRegistrationCountryOptionsAtStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsBeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsBgStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsCyStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsCzStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsDeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsDkStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsEeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsEsStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsFiStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsFrStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsGrStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsHrStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsHuStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsIeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsItStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsLtStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsLuStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsLvStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsMtStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsNlStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsPlStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsPtStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsRoStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsSeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsSiStandard.PlaceOfSupplyScheme`, and `TaxRegistrationCountryOptionsSkStandard.PlaceOfSupplyScheme`
+  * Add support for `Aed`, `Bgn`, `Huf`, and `Ron` on `TerminalConfigurationTippingParams` and `TerminalConfigurationTipping`
+* [#2086](https://github.com/stripe/stripe-go/pull/2086) update changelog example to feature APIs that are not part of a preview
 
 ## 82.4.0-beta.2 - 2025-07-09
 * [#2084](https://github.com/stripe/stripe-go/pull/2084) Pull in V2 FinancialAccount changes for June release
@@ -81,6 +106,8 @@ This release changes the pinned API version to `2025-06-30.preview`.
   * Remove support for error code `outbound_payment_recipient_email_does_not_exist` on `RecipientNotNotifiableError`
 
 ## 82.3.0 - 2025-07-01
+This release changes the pinned API version to `2025-06-30.basil`.
+
 * [#2078](https://github.com/stripe/stripe-go/pull/2078) Update generated code
   * Add support for `Migrate` method on resource `Subscription`
   * Add support for `CollectPaymentMethod` and `ConfirmPaymentIntent` methods on resource `TerminalReader`
@@ -109,7 +136,7 @@ This release changes the pinned API version to `2025-06-30.preview`.
   * Add support for new values `collect_payment_method` and `confirm_payment_intent` on enum `TerminalReaderAction.Type`
   * Add support for `Status` on `TreasuryFinancialAccountListParams`
   * Add support for snapshot event `EventTypeTerminalReaderActionUpdated` with resource `TerminalReader`
-* [#2082](https://github.com/stripe/stripe-go/pull/2082) Add form information to amount
+* [#2082](https://github.com/stripe/stripe-go/pull/2082) Add form information to amount. Fixes a bug on v2 endpoints that uses the amount type
 * [#2076](https://github.com/stripe/stripe-go/pull/2076) Switch to use generated API versions and add major/monthly version constants
   * Export constants for the major and monthly API versions
     * e.g. `2025-05-28.basil` has major version `basil` and monthly version `2025-05-28`

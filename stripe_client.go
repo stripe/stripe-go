@@ -132,6 +132,8 @@ type Client struct {
 	V1InvoiceItems *v1InvoiceItemService
 	// V1InvoiceLineItems is the service used to invoke /v1/invoices/{invoice}/lines APIs.
 	V1InvoiceLineItems *v1InvoiceLineItemService
+	// V1InvoicePayments is the service used to invoke /v1/invoice_payments APIs.
+	V1InvoicePayments *v1InvoicePaymentService
 	// V1InvoiceRenderingTemplates is the service used to invoke /v1/invoice_rendering_templates APIs.
 	V1InvoiceRenderingTemplates *v1InvoiceRenderingTemplateService
 	// V1Invoices is the service used to invoke /v1/invoices APIs.
@@ -328,10 +330,6 @@ type Client struct {
 	V1TreasuryTransactions *v1TreasuryTransactionService
 	// V1WebhookEndpoints is the service used to invoke /v1/webhook_endpoints APIs.
 	V1WebhookEndpoints *v1WebhookEndpointService
-	// V2AccountLinks is the service used to invoke /v2/account_links APIs.
-	V2AccountLinks *v2AccountLinkService
-	// V2Accounts is the service used to invoke /v2/accounts APIs.
-	V2Accounts *v2AccountService
 	// V2BillingBillSettings is the service used to invoke /v2/billing/bill_settings APIs.
 	V2BillingBillSettings *v2BillingBillSettingService
 	// V2BillingBillSettingsVersions is the service used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
@@ -346,10 +344,14 @@ type Client struct {
 	V2BillingCustomPricingUnits *v2BillingCustomPricingUnitService
 	// V2BillingIntents is the service used to invoke /v2/billing/intents APIs.
 	V2BillingIntents *v2BillingIntentService
+	// V2BillingIntentsActions is the service used to invoke /v2/billing/intents/{intent_id}/actions APIs.
+	V2BillingIntentsActions *v2BillingIntentsActionService
 	// V2BillingLicensedItems is the service used to invoke /v2/billing/licensed_items APIs.
 	V2BillingLicensedItems *v2BillingLicensedItemService
 	// V2BillingLicenseFees is the service used to invoke /v2/billing/license_fees APIs.
 	V2BillingLicenseFees *v2BillingLicenseFeeService
+	// V2BillingLicenseFeeSubscriptions is the service used to invoke licensefeesubscription related APIs.
+	V2BillingLicenseFeeSubscriptions *v2BillingLicenseFeeSubscriptionService
 	// V2BillingLicenseFeesVersions is the service used to invoke /v2/billing/license_fees/{license_fee_id}/versions APIs.
 	V2BillingLicenseFeesVersions *v2BillingLicenseFeesVersionService
 	// V2BillingMeteredItems is the service used to invoke /v2/billing/metered_items APIs.
@@ -388,6 +390,8 @@ type Client struct {
 	V2CoreAccounts *v2CoreAccountService
 	// V2CoreAccountsPersons is the service used to invoke /v2/core/accounts/{account_id}/persons APIs.
 	V2CoreAccountsPersons *v2CoreAccountsPersonService
+	// V2CoreClaimableSandboxes is the service used to invoke /v2/core/claimable_sandboxes APIs.
+	V2CoreClaimableSandboxes *v2CoreClaimableSandboxService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
@@ -527,6 +531,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1IdentityVerificationSessions = &v1IdentityVerificationSessionService{B: backends.API, Key: key}
 	client.V1InvoiceItems = &v1InvoiceItemService{B: backends.API, Key: key}
 	client.V1InvoiceLineItems = &v1InvoiceLineItemService{B: backends.API, Key: key}
+	client.V1InvoicePayments = &v1InvoicePaymentService{B: backends.API, Key: key}
 	client.V1InvoiceRenderingTemplates = &v1InvoiceRenderingTemplateService{B: backends.API, Key: key}
 	client.V1Invoices = &v1InvoiceService{B: backends.API, Key: key}
 	client.V1IssuingAuthorizations = &v1IssuingAuthorizationService{B: backends.API, Key: key}
@@ -625,8 +630,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TreasuryTransactionEntries = &v1TreasuryTransactionEntryService{B: backends.API, Key: key}
 	client.V1TreasuryTransactions = &v1TreasuryTransactionService{B: backends.API, Key: key}
 	client.V1WebhookEndpoints = &v1WebhookEndpointService{B: backends.API, Key: key}
-	client.V2AccountLinks = &v2AccountLinkService{B: backends.API, Key: key}
-	client.V2Accounts = &v2AccountService{B: backends.API, Key: key}
 	client.V2BillingBillSettings = &v2BillingBillSettingService{B: backends.API, Key: key}
 	client.V2BillingBillSettingsVersions = &v2BillingBillSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingCadences = &v2BillingCadenceService{B: backends.API, Key: key}
@@ -634,8 +637,10 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingCollectionSettingsVersions = &v2BillingCollectionSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingCustomPricingUnits = &v2BillingCustomPricingUnitService{B: backends.API, Key: key}
 	client.V2BillingIntents = &v2BillingIntentService{B: backends.API, Key: key}
+	client.V2BillingIntentsActions = &v2BillingIntentsActionService{B: backends.API, Key: key}
 	client.V2BillingLicensedItems = &v2BillingLicensedItemService{B: backends.API, Key: key}
 	client.V2BillingLicenseFees = &v2BillingLicenseFeeService{B: backends.API, Key: key}
+	client.V2BillingLicenseFeeSubscriptions = &v2BillingLicenseFeeSubscriptionService{B: backends.API, Key: key}
 	client.V2BillingLicenseFeesVersions = &v2BillingLicenseFeesVersionService{B: backends.API, Key: key}
 	client.V2BillingMeteredItems = &v2BillingMeteredItemService{B: backends.API, Key: key}
 	client.V2BillingMeterEventAdjustments = &v2BillingMeterEventAdjustmentService{B: backends.API, Key: key}
@@ -655,6 +660,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
+	client.V2CoreClaimableSandboxes = &v2CoreClaimableSandboxService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}

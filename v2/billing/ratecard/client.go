@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a RateCard object.
+// Create a Rate Card object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2BillingRateCardParams) (*stripe.V2BillingRa
 	return ratecard, err
 }
 
-// Retrieve the latest version of a RateCard object.
+// Retrieve the latest version of a Rate Card object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2BillingRateCardParams) (*stripe.
 	return ratecard, err
 }
 
-// Update a RateCard object.
+// Update a Rate Card object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2BillingRateCardParams) (*stri
 	return ratecard, err
 }
 
-// List all RateCard objects.
+// List all Rate Card objects.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

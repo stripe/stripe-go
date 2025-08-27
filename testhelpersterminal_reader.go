@@ -6,6 +6,18 @@
 
 package stripe
 
+// Simulated data for the card payment method.
+type TestHelpersTerminalReaderPresentPaymentMethodCardParams struct {
+	// Card security code.
+	CVC *string `form:"cvc"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth *int64 `form:"exp_month"`
+	// Two- or four-digit number representing the card's expiration year.
+	ExpYear *int64 `form:"exp_year"`
+	// The card number, as a string without any separators.
+	Number *string `form:"number"`
+}
+
 // Simulated data for the card_present payment method.
 type TestHelpersTerminalReaderPresentPaymentMethodCardPresentParams struct {
 	// The card number, as a string without any separators.
@@ -23,6 +35,8 @@ type TestHelpersTerminalReaderPresentPaymentMethodParams struct {
 	Params `form:"*"`
 	// Simulated on-reader tip amount.
 	AmountTip *int64 `form:"amount_tip"`
+	// Simulated data for the card payment method.
+	Card *TestHelpersTerminalReaderPresentPaymentMethodCardParams `form:"card"`
 	// Simulated data for the card_present payment method.
 	CardPresent *TestHelpersTerminalReaderPresentPaymentMethodCardPresentParams `form:"card_present"`
 	// Specifies which fields in the response should be expanded.

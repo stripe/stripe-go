@@ -8,17 +8,7 @@ package stripe
 
 import "time"
 
-// When the BillingIntent will take effect.
-type V2BillingIntentEffectiveAt string
-
-// List of values that V2BillingIntentEffectiveAt can take
-const (
-	V2BillingIntentEffectiveAtCurrentBillingPeriodStart V2BillingIntentEffectiveAt = "current_billing_period_start"
-	V2BillingIntentEffectiveAtOnCommit                  V2BillingIntentEffectiveAt = "on_commit"
-	V2BillingIntentEffectiveAtOnReserve                 V2BillingIntentEffectiveAt = "on_reserve"
-)
-
-// Current status of the BillingIntent.
+// Current status of the Billing Intent.
 type V2BillingIntentStatus string
 
 // List of values that V2BillingIntentStatus can take
@@ -29,9 +19,9 @@ const (
 	V2BillingIntentStatusReserved  V2BillingIntentStatus = "reserved"
 )
 
-// Breakdown of the amount for this BillingIntent.
+// Breakdown of the amount for this Billing Intent.
 type V2BillingIntentAmountDetails struct {
-	// Three-letter ISO currency code, in lowercase.
+	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency Currency `json:"currency"`
 	// Amount of discount applied.
 	Discount string `json:"discount"`
@@ -41,41 +31,39 @@ type V2BillingIntentAmountDetails struct {
 	Subtotal string `json:"subtotal"`
 	// Amount of tax.
 	Tax string `json:"tax"`
-	// Total amount for the BillingIntent.
+	// Total amount for the Billing Intent.
 	Total string `json:"total"`
 }
 
-// Timestamps for status transitions of the BillingIntent.
+// Timestamps for status transitions of the Billing Intent.
 type V2BillingIntentStatusTransitions struct {
-	// Time at which the BillingIntent was canceled.
+	// Time at which the Billing Intent was canceled.
 	CanceledAt time.Time `json:"canceled_at"`
-	// Time at which the BillingIntent was committed.
+	// Time at which the Billing Intent was committed.
 	CommittedAt time.Time `json:"committed_at"`
-	// Time at which the BillingIntent was drafted.
+	// Time at which the Billing Intent was drafted.
 	DraftedAt time.Time `json:"drafted_at"`
-	// Time at which the BillingIntent was reserved.
+	// Time at which the Billing Intent was reserved.
 	ReservedAt time.Time `json:"reserved_at"`
 }
 type V2BillingIntent struct {
 	APIResource
-	// Breakdown of the amount for this BillingIntent.
+	// Breakdown of the amount for this Billing Intent.
 	AmountDetails *V2BillingIntentAmountDetails `json:"amount_details"`
 	// ID of an existing Cadence to use.
 	Cadence string `json:"cadence"`
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
-	// Three-letter ISO currency code, in lowercase.
+	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency Currency `json:"currency"`
-	// When the BillingIntent will take effect.
-	EffectiveAt V2BillingIntentEffectiveAt `json:"effective_at"`
-	// Unique identifier for the BillingIntent.
+	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// Current status of the BillingIntent.
+	// Current status of the Billing Intent.
 	Status V2BillingIntentStatus `json:"status"`
-	// Timestamps for status transitions of the BillingIntent.
+	// Timestamps for status transitions of the Billing Intent.
 	StatusTransitions *V2BillingIntentStatusTransitions `json:"status_transitions"`
 }

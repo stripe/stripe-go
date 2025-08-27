@@ -301,8 +301,26 @@ func (p *BillingCreditGrantUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// The custom pricing unit object.
+type BillingCreditGrantAmountCustomPricingUnitCustomPricingUnitDetails struct {
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The name of the custom pricing unit.
+	DisplayName string `json:"display_name"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A lookup key for the custom pricing unit.
+	LookupKey string `json:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// The status of the custom pricing unit.
+	Status string `json:"status"`
+}
+
 // The custom pricing unit amount.
 type BillingCreditGrantAmountCustomPricingUnit struct {
+	// The custom pricing unit object.
+	CustomPricingUnitDetails *BillingCreditGrantAmountCustomPricingUnitCustomPricingUnitDetails `json:"custom_pricing_unit_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A positive integer representing the amount.

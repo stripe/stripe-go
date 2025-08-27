@@ -6,14 +6,14 @@
 
 package stripe
 
-// List all Rates associated with a RateCard for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new Rate is created for the same MeteredItem.
+// List all Rates associated with a Rate Card for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.
 type V2BillingRateCardsRateListParams struct {
 	Params `form:"*"`
-	// The ID of the RateCard to retrieve rates for.
+	// The ID of the Rate Card to retrieve rates for.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
-	// Optionally filter by a MeteredItem.
+	// Optionally filter by a Metered Item.
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
 	// Optionally filter by a RateCard version. If not specified, defaults to the latest version.
 	RateCardVersion *string `form:"rate_card_version" json:"rate_card_version,omitempty"`
@@ -49,20 +49,20 @@ type V2BillingRateCardsRateTransformQuantityParams struct {
 	Round *string `form:"round" json:"round"`
 }
 
-// Set the rate for a MeteredItem on the latest version of a RateCard object. This will create a new RateCard version
-// if the MeteredItem already has a rate on the RateCard.
+// Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
+// if the Metered Item already has a rate on the Rate Card.
 type V2BillingRateCardsRateParams struct {
 	Params `form:"*"`
-	// The ID of the RateCard to create a new rate for.
+	// The ID of the Rate Card to create a new rate for.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// The custom pricing unit that this rate binds to.
 	CustomPricingUnitAmount *V2BillingRateCardsRateCustomPricingUnitAmountParams `form:"custom_pricing_unit_amount" json:"custom_pricing_unit_amount,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// The MeteredItem that this rate binds to.
+	// The Metered Item that this rate binds to.
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
-	// The ID of the Price object to take price information from. The Price must have the same interval as the RateCard.
-	// Updates to the Price will not be reflected in the RateCard or its rates.
+	// The ID of the price object to take price information from. The price must have the same interval as the rate card.
+	// Updates to the Price will not be reflected in the Rate Card or its rates.
 	Price *string `form:"price" json:"price,omitempty"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
@@ -116,20 +116,20 @@ type V2BillingRateCardsRateCreateTransformQuantityParams struct {
 	Round *string `form:"round" json:"round"`
 }
 
-// Set the rate for a MeteredItem on the latest version of a RateCard object. This will create a new RateCard version
-// if the MeteredItem already has a rate on the RateCard.
+// Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
+// if the Metered Item already has a rate on the Rate Card.
 type V2BillingRateCardsRateCreateParams struct {
 	Params `form:"*"`
-	// The ID of the RateCard to create a new rate for.
+	// The ID of the Rate Card to create a new rate for.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// The custom pricing unit that this rate binds to.
 	CustomPricingUnitAmount *V2BillingRateCardsRateCreateCustomPricingUnitAmountParams `form:"custom_pricing_unit_amount" json:"custom_pricing_unit_amount,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// The MeteredItem that this rate binds to.
+	// The Metered Item that this rate binds to.
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
-	// The ID of the Price object to take price information from. The Price must have the same interval as the RateCard.
-	// Updates to the Price will not be reflected in the RateCard or its rates.
+	// The ID of the price object to take price information from. The price must have the same interval as the rate card.
+	// Updates to the Price will not be reflected in the Rate Card or its rates.
 	Price *string `form:"price" json:"price,omitempty"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
@@ -153,16 +153,16 @@ func (p *V2BillingRateCardsRateCreateParams) AddMetadata(key string, value strin
 	p.Metadata[key] = value
 }
 
-// Remove an existing Rate from a RateCard. This will create a new RateCard version without that rate.
+// Remove an existing Rate from a Rate Card. This will create a new Rate Card Version without that Rate.
 type V2BillingRateCardsRateDeleteParams struct {
 	Params `form:"*"`
-	// The ID of the RateCard.
+	// The ID of the Rate Card.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 }
 
 // Retrieve a Rate object.
 type V2BillingRateCardsRateRetrieveParams struct {
 	Params `form:"*"`
-	// The ID of the RateCard.
+	// The ID of the Rate Card.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 }
