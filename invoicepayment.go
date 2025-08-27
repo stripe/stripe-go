@@ -19,6 +19,7 @@ const (
 type InvoicePaymentListPaymentParams struct {
 	// Only return invoice payments associated by this payment intent ID.
 	PaymentIntent *string `form:"payment_intent"`
+	// Only return invoice payments associated by this payment record ID.
 	PaymentRecord *string `form:"payment_record"`
 	// Only return invoice payments associated by this payment type.
 	Type *string `form:"type"`

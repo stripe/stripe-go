@@ -12,24 +12,36 @@ import (
 	"time"
 )
 
-// Configurations on the Account that was onboarded via the account link.
-type V2CoreAccountLinkReturnedEventDataConfiguration string
+// Open Enum.
+type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode string
 
-// List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
+// List of values that V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode can take
 const (
-	V2CoreAccountLinkReturnedEventDataConfigurationCustomer  V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
-	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
-	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
-	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeArchivedMeter                   V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "archived_meter"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventCustomerNotFound      V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_customer_not_found"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_invalid_value"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "no_meter"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_in_future"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
 )
 
-// Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkReturnedEventDataUseCase string
+// Open Enum.
+type V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode string
 
-// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
+// List of values that V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode can take
 const (
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeArchivedMeter                   V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "archived_meter"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventCustomerNotFound      V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_customer_not_found"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_invalid_value"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "no_meter"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_in_future"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
 )
 
 // Open Enum. The capability which had its status updated.
@@ -122,36 +134,24 @@ const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
 )
 
-// Open Enum.
-type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode string
+// Configurations on the Account that was onboarded via the account link.
+type V2CoreAccountLinkReturnedEventDataConfiguration string
 
-// List of values that V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode can take
+// List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
 const (
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeArchivedMeter                   V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "archived_meter"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventCustomerNotFound      V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_customer_not_found"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_invalid_value"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "no_meter"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_in_future"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
+	V2CoreAccountLinkReturnedEventDataConfigurationCustomer  V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
+	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
+	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
+	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
 )
 
-// Open Enum.
-type V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode string
+// Open Enum. The use case type of the account link that has been completed.
+type V2CoreAccountLinkReturnedEventDataUseCase string
 
-// List of values that V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode can take
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
 const (
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeArchivedMeter                   V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "archived_meter"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventCustomerNotFound      V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_customer_not_found"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_invalid_value"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "no_meter"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_in_future"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // V2Event is the interface implemented by V2 Events. To get the underlying Event,
@@ -169,24 +169,25 @@ type V2RawEvent struct {
 	RelatedObject *RelatedObject   `json:"related_object"`
 }
 
-// V2CoreAccountIncludingRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
-// Occurs when an Account's requirements are updated.
-type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
+// V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
+// Occurs when a Meter has invalid async usage events.
+type V1BillingMeterErrorReportTriggeredEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
+	Data               V1BillingMeterErrorReportTriggeredEventData `json:"data"`
+	RelatedObject      RelatedObject                               `json:"related_object"`
+	fetchRelatedObject func() (*BillingMeter, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the related BillingMeter object for the event.
+func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingMeter, error) {
 	return e.fetchRelatedObject()
 }
 
-// V2CoreAccountLinkReturnedEvent is the Go struct for the "v2.core.account_link.returned" event.
-// Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkReturnedEvent struct {
+// V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
+// Occurs when a Meter's id is missing or invalid in async usage events.
+type V1BillingMeterNoMeterFoundEvent struct {
 	V2BaseEvent
-	Data V2CoreAccountLinkReturnedEventData `json:"data"`
+	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
@@ -228,19 +229,6 @@ func (e V2CoreAccountUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) 
 	return e.fetchRelatedObject()
 }
 
-// V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
-// This event occurs when account defaults are created or updated.
-type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
 // V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
 // Occurs when the status of an Account's customer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent struct {
@@ -265,61 +253,6 @@ type V2CoreAccountIncludingConfigurationCustomerUpdatedEvent struct {
 
 // FetchRelatedObject fetches the related V2CoreAccount object for the event.
 func (e V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
-// Occurs when an Identity is updated.
-type V2CoreAccountIncludingIdentityUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountPersonCreatedEvent is the Go struct for the "v2.core.account_person.created" event.
-// Occurs when a Person is created.
-type V2CoreAccountPersonCreatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
-}
-
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountPersonDeletedEvent is the Go struct for the "v2.core.account_person.deleted" event.
-// Occurs when a Person is deleted.
-type V2CoreAccountPersonDeletedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
-}
-
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CorePerson, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountPersonUpdatedEvent is the Go struct for the "v2.core.account_person.updated" event.
-// Occurs when a Person is updated.
-type V2CoreAccountPersonUpdatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
-}
-
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -404,6 +337,107 @@ func (e V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObjec
 	return e.fetchRelatedObject()
 }
 
+// V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
+// This event occurs when account defaults are created or updated.
+type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
+// Occurs when an Identity is updated.
+type V2CoreAccountIncludingIdentityUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
+// Occurs when an Account's requirements are updated.
+type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountLinkReturnedEvent is the Go struct for the "v2.core.account_link.returned" event.
+// Occurs when the generated AccountLink is completed.
+type V2CoreAccountLinkReturnedEvent struct {
+	V2BaseEvent
+	Data V2CoreAccountLinkReturnedEventData `json:"data"`
+}
+
+// V2CoreAccountPersonCreatedEvent is the Go struct for the "v2.core.account_person.created" event.
+// Occurs when a Person is created.
+type V2CoreAccountPersonCreatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
+	fetchRelatedObject func() (*V2CorePerson, error)
+}
+
+// FetchRelatedObject fetches the related V2CorePerson object for the event.
+func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountPersonDeletedEvent is the Go struct for the "v2.core.account_person.deleted" event.
+// Occurs when a Person is deleted.
+type V2CoreAccountPersonDeletedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
+	fetchRelatedObject func() (*V2CorePerson, error)
+}
+
+// FetchRelatedObject fetches the related V2CorePerson object for the event.
+func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountPersonUpdatedEvent is the Go struct for the "v2.core.account_person.updated" event.
+// Occurs when a Person is updated.
+type V2CoreAccountPersonUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
+	fetchRelatedObject func() (*V2CorePerson, error)
+}
+
+// FetchRelatedObject fetches the related V2CorePerson object for the event.
+func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
+// A ping event used to test the connection to an EventDestination.
+type V2CoreEventDestinationPingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2EventDestination, error)
+}
+
+// FetchRelatedObject fetches the related V2EventDestination object for the event.
+func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
 // Occurs when an Adjustment is created.
 type V2MoneyManagementAdjustmentCreatedEvent struct {
@@ -415,27 +449,6 @@ type V2MoneyManagementAdjustmentCreatedEvent struct {
 // FetchRelatedObject fetches the related V2MoneyManagementAdjustment object for the event.
 func (e V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject() (*V2MoneyManagementAdjustment, error) {
 	return e.fetchRelatedObject()
-}
-
-// V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
-// Occurs when a Meter has invalid async usage events.
-type V1BillingMeterErrorReportTriggeredEvent struct {
-	V2BaseEvent
-	Data               V1BillingMeterErrorReportTriggeredEventData `json:"data"`
-	RelatedObject      RelatedObject                               `json:"related_object"`
-	fetchRelatedObject func() (*BillingMeter, error)
-}
-
-// FetchRelatedObject fetches the related BillingMeter object for the event.
-func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingMeter, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
-// Occurs when a Meter's id is missing or invalid in async usage events.
-type V1BillingMeterNoMeterFoundEvent struct {
-	V2BaseEvent
-	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
 }
 
 // V2MoneyManagementFinancialAccountCreatedEvent is the Go struct for the "v2.money_management.financial_account.created" event.
@@ -566,98 +579,6 @@ type V2MoneyManagementInboundTransferBankDebitSucceededEvent struct {
 
 // FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
 func (e V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
-// A ping event used to test the connection to an EventDestination.
-type V2CoreEventDestinationPingEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2EventDestination, error)
-}
-
-// FetchRelatedObject fetches the related V2EventDestination object for the event.
-func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
-// Sent after a failed authorization if there are still retries available on the OffSessionPayment.
-type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
-// Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
-// retry or an initial authorization.
-type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentCanceledEvent is the Go struct for the "v2.payments.off_session_payment.canceled" event.
-// Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
-type V2PaymentsOffSessionPaymentCanceledEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentCreatedEvent is the Go struct for the "v2.payments.off_session_payment.created" event.
-// Sent immediately following a user's call to the Off-Session Payments create endpoint.
-type V2PaymentsOffSessionPaymentCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentFailedEvent is the Go struct for the "v2.payments.off_session_payment.failed" event.
-// Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
-type V2PaymentsOffSessionPaymentFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentSucceededEvent is the Go struct for the "v2.payments.off_session_payment.succeeded" event.
-// Sent immediately after a successful authorization.
-type V2PaymentsOffSessionPaymentSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -974,56 +895,83 @@ func (e V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject() (*V2Money
 	return e.fetchRelatedObject()
 }
 
-// Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkReturnedEventData struct {
-	// The ID of the v2 account.
-	AccountID string `json:"account_id"`
-	// Configurations on the Account that was onboarded via the account link.
-	Configurations []V2CoreAccountLinkReturnedEventDataConfiguration `json:"configurations"`
-	// Open Enum. The use case type of the account link that has been completed.
-	UseCase V2CoreAccountLinkReturnedEventDataUseCase `json:"use_case"`
+// V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
+// Sent after a failed authorization if there are still retries available on the OffSessionPayment.
+type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// Occurs when the status of an Account's customer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
 }
 
-// Occurs when a Person is created.
-type V2CoreAccountPersonCreatedEventData struct {
-	// The ID of the v2 account.
-	AccountID string `json:"account_id"`
+// V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
+// Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
+// retry or an initial authorization.
+type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// Occurs when a Person is deleted.
-type V2CoreAccountPersonDeletedEventData struct {
-	// The ID of the v2 account.
-	AccountID string `json:"account_id"`
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
 }
 
-// Occurs when a Person is updated.
-type V2CoreAccountPersonUpdatedEventData struct {
-	// The ID of the v2 account.
-	AccountID string `json:"account_id"`
+// V2PaymentsOffSessionPaymentCanceledEvent is the Go struct for the "v2.payments.off_session_payment.canceled" event.
+// Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
+type V2PaymentsOffSessionPaymentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// Occurs when the status of an Account's merchant configuration capability is updated.
-type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
 }
 
-// Occurs when the status of an Account's recipient configuration capability is updated.
-type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+// V2PaymentsOffSessionPaymentCreatedEvent is the Go struct for the "v2.payments.off_session_payment.created" event.
+// Sent immediately following a user's call to the Off-Session Payments create endpoint.
+type V2PaymentsOffSessionPaymentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// Occurs when the status of an Account's storer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentFailedEvent is the Go struct for the "v2.payments.off_session_payment.failed" event.
+// Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
+type V2PaymentsOffSessionPaymentFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentSucceededEvent is the Go struct for the "v2.payments.off_session_payment.succeeded" event.
+// Sent immediately after a successful authorization.
+type V2PaymentsOffSessionPaymentSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
 }
 
 // The request causes the error.
@@ -1114,6 +1062,58 @@ type V1BillingMeterNoMeterFoundEventData struct {
 	ValidationStart time.Time `json:"validation_start"`
 }
 
+// Occurs when the status of an Account's customer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
+// Occurs when the status of an Account's merchant configuration capability is updated.
+type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
+// Occurs when the status of an Account's recipient configuration capability is updated.
+type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
+// Occurs when the status of an Account's storer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
+// Occurs when the generated AccountLink is completed.
+type V2CoreAccountLinkReturnedEventData struct {
+	// The ID of the v2 account.
+	AccountID string `json:"account_id"`
+	// Configurations on the Account that was onboarded via the account link.
+	Configurations []V2CoreAccountLinkReturnedEventDataConfiguration `json:"configurations"`
+	// Open Enum. The use case type of the account link that has been completed.
+	UseCase V2CoreAccountLinkReturnedEventDataUseCase `json:"use_case"`
+}
+
+// Occurs when a Person is created.
+type V2CoreAccountPersonCreatedEventData struct {
+	// The ID of the v2 account.
+	AccountID string `json:"account_id"`
+}
+
+// Occurs when a Person is deleted.
+type V2CoreAccountPersonDeletedEventData struct {
+	// The ID of the v2 account.
+	AccountID string `json:"account_id"`
+}
+
+// Occurs when a Person is updated.
+type V2CoreAccountPersonUpdatedEventData struct {
+	// The ID of the v2 account.
+	AccountID string `json:"account_id"`
+}
+
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventData struct {
 	// The transaction ID of the received credit.
@@ -1130,18 +1130,21 @@ type V2MoneyManagementReceivedCreditAvailableEventData struct {
 // If the event type is not known, it returns the raw event.
 func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, error) {
 	switch event.Type {
-	case "v2.core.account[requirements].updated":
-		result := &V2CoreAccountIncludingRequirementsUpdatedEvent{}
+	case "v1.billing.meter.error_report_triggered":
+		result := &V1BillingMeterErrorReportTriggeredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
+			v := &BillingMeter{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
-	case "v2.core.account_link.returned":
-		result := &V2CoreAccountLinkReturnedEvent{}
+	case "v1.billing.meter.no_meter_found":
+		result := &V1BillingMeterNoMeterFoundEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
@@ -1177,16 +1180,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return v, err
 		}
 		return result, nil
-	case "v2.core.account[defaults].updated":
-		result := &V2CoreAccountIncludingDefaultsUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
 	case "v2.core.account[configuration.customer].capability_status_updated":
 		result := &V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -1208,55 +1201,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2CoreAccount{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		return result, nil
-	case "v2.core.account[identity].updated":
-		result := &V2CoreAccountIncludingIdentityUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account_person.created":
-		result := &V2CoreAccountPersonCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account_person.deleted":
-		result := &V2CoreAccountPersonDeletedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account_person.updated":
-		result := &V2CoreAccountPersonUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.core.account[configuration.merchant].capability_status_updated":
@@ -1328,6 +1272,92 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return v, err
 		}
 		return result, nil
+	case "v2.core.account[defaults].updated":
+		result := &V2CoreAccountIncludingDefaultsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[identity].updated":
+		result := &V2CoreAccountIncludingIdentityUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[requirements].updated":
+		result := &V2CoreAccountIncludingRequirementsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account_link.returned":
+		result := &V2CoreAccountLinkReturnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account_person.created":
+		result := &V2CoreAccountPersonCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CorePerson, error) {
+			v := &V2CorePerson{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account_person.deleted":
+		result := &V2CoreAccountPersonDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CorePerson, error) {
+			v := &V2CorePerson{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account_person.updated":
+		result := &V2CoreAccountPersonUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CorePerson, error) {
+			v := &V2CorePerson{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.event_destination.ping":
+		result := &V2CoreEventDestinationPingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2EventDestination, error) {
+			v := &V2EventDestination{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.money_management.adjustment.created":
 		result := &V2MoneyManagementAdjustmentCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -1336,26 +1366,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementAdjustment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		return result, nil
-	case "v1.billing.meter.error_report_triggered":
-		result := &V1BillingMeterErrorReportTriggeredEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*BillingMeter, error) {
-			v := &BillingMeter{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v1.billing.meter.no_meter_found":
-		result := &V1BillingMeterNoMeterFoundEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.financial_account.created":
@@ -1457,76 +1467,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.event_destination.ping":
-		result := &V2CoreEventDestinationPingEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2EventDestination, error) {
-			v := &V2EventDestination{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.authorization_attempt_failed":
-		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.authorization_attempt_started":
-		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.canceled":
-		result := &V2PaymentsOffSessionPaymentCanceledEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.created":
-		result := &V2PaymentsOffSessionPaymentCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.failed":
-		result := &V2PaymentsOffSessionPaymentFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.succeeded":
-		result := &V2PaymentsOffSessionPaymentSucceededEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -1770,6 +1710,66 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
 			v := &V2MoneyManagementTransaction{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.authorization_attempt_failed":
+		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.authorization_attempt_started":
+		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.canceled":
+		result := &V2PaymentsOffSessionPaymentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.created":
+		result := &V2PaymentsOffSessionPaymentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.failed":
+		result := &V2PaymentsOffSessionPaymentFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.succeeded":
+		result := &V2PaymentsOffSessionPaymentSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

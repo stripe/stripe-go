@@ -13,14 +13,15 @@ type V2MoneyManagementTransactionCategory string
 
 // List of values that V2MoneyManagementTransactionCategory can take
 const (
-	V2MoneyManagementTransactionCategoryAdjustment       V2MoneyManagementTransactionCategory = "adjustment"
-	V2MoneyManagementTransactionCategoryInboundTransfer  V2MoneyManagementTransactionCategory = "inbound_transfer"
-	V2MoneyManagementTransactionCategoryOutboundPayment  V2MoneyManagementTransactionCategory = "outbound_payment"
-	V2MoneyManagementTransactionCategoryOutboundTransfer V2MoneyManagementTransactionCategory = "outbound_transfer"
-	V2MoneyManagementTransactionCategoryReceivedCredit   V2MoneyManagementTransactionCategory = "received_credit"
-	V2MoneyManagementTransactionCategoryReceivedDebit    V2MoneyManagementTransactionCategory = "received_debit"
-	V2MoneyManagementTransactionCategoryReturn           V2MoneyManagementTransactionCategory = "return"
-	V2MoneyManagementTransactionCategoryStripeFee        V2MoneyManagementTransactionCategory = "stripe_fee"
+	V2MoneyManagementTransactionCategoryAdjustment         V2MoneyManagementTransactionCategory = "adjustment"
+	V2MoneyManagementTransactionCategoryCurrencyConversion V2MoneyManagementTransactionCategory = "currency_conversion"
+	V2MoneyManagementTransactionCategoryInboundTransfer    V2MoneyManagementTransactionCategory = "inbound_transfer"
+	V2MoneyManagementTransactionCategoryOutboundPayment    V2MoneyManagementTransactionCategory = "outbound_payment"
+	V2MoneyManagementTransactionCategoryOutboundTransfer   V2MoneyManagementTransactionCategory = "outbound_transfer"
+	V2MoneyManagementTransactionCategoryReceivedCredit     V2MoneyManagementTransactionCategory = "received_credit"
+	V2MoneyManagementTransactionCategoryReceivedDebit      V2MoneyManagementTransactionCategory = "received_debit"
+	V2MoneyManagementTransactionCategoryReturn             V2MoneyManagementTransactionCategory = "return"
+	V2MoneyManagementTransactionCategoryStripeFee          V2MoneyManagementTransactionCategory = "stripe_fee"
 )
 
 // Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
@@ -28,13 +29,14 @@ type V2MoneyManagementTransactionFlowType string
 
 // List of values that V2MoneyManagementTransactionFlowType can take
 const (
-	V2MoneyManagementTransactionFlowTypeAdjustment       V2MoneyManagementTransactionFlowType = "adjustment"
-	V2MoneyManagementTransactionFlowTypeFeeTransaction   V2MoneyManagementTransactionFlowType = "fee_transaction"
-	V2MoneyManagementTransactionFlowTypeInboundTransfer  V2MoneyManagementTransactionFlowType = "inbound_transfer"
-	V2MoneyManagementTransactionFlowTypeOutboundPayment  V2MoneyManagementTransactionFlowType = "outbound_payment"
-	V2MoneyManagementTransactionFlowTypeOutboundTransfer V2MoneyManagementTransactionFlowType = "outbound_transfer"
-	V2MoneyManagementTransactionFlowTypeReceivedCredit   V2MoneyManagementTransactionFlowType = "received_credit"
-	V2MoneyManagementTransactionFlowTypeReceivedDebit    V2MoneyManagementTransactionFlowType = "received_debit"
+	V2MoneyManagementTransactionFlowTypeAdjustment         V2MoneyManagementTransactionFlowType = "adjustment"
+	V2MoneyManagementTransactionFlowTypeCurrencyConversion V2MoneyManagementTransactionFlowType = "currency_conversion"
+	V2MoneyManagementTransactionFlowTypeFeeTransaction     V2MoneyManagementTransactionFlowType = "fee_transaction"
+	V2MoneyManagementTransactionFlowTypeInboundTransfer    V2MoneyManagementTransactionFlowType = "inbound_transfer"
+	V2MoneyManagementTransactionFlowTypeOutboundPayment    V2MoneyManagementTransactionFlowType = "outbound_payment"
+	V2MoneyManagementTransactionFlowTypeOutboundTransfer   V2MoneyManagementTransactionFlowType = "outbound_transfer"
+	V2MoneyManagementTransactionFlowTypeReceivedCredit     V2MoneyManagementTransactionFlowType = "received_credit"
+	V2MoneyManagementTransactionFlowTypeReceivedDebit      V2MoneyManagementTransactionFlowType = "received_debit"
 )
 
 // Closed Enum. Current status of the Transaction.
@@ -66,6 +68,8 @@ type V2MoneyManagementTransactionBalanceImpact struct {
 type V2MoneyManagementTransactionFlow struct {
 	// If applicable, the ID of the Adjustment that created this Transaction.
 	Adjustment string `json:"adjustment"`
+	// In the future, this will be the ID of the currency conversion that created this Transaction. For now, this field is always null.
+	CurrencyConversion string `json:"currency_conversion"`
 	// If applicable, the ID of the FeeTransaction that created this Transaction.
 	FeeTransaction string `json:"fee_transaction"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.

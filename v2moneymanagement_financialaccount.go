@@ -526,6 +526,8 @@ type V2MoneyManagementFinancialAccount struct {
 	Country V2MoneyManagementFinancialAccountCountry `json:"country"`
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
+	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
+	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

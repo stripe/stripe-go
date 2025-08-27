@@ -110,6 +110,36 @@ const (
 	MandatePaymentMethodDetailsPaytoPurposeUtility          MandatePaymentMethodDetailsPaytoPurpose = "utility"
 )
 
+// Determines if the amount includes the IOF tax.
+type MandatePaymentMethodDetailsPixAmountIncludesIof string
+
+// List of values that MandatePaymentMethodDetailsPixAmountIncludesIof can take
+const (
+	MandatePaymentMethodDetailsPixAmountIncludesIofAlways MandatePaymentMethodDetailsPixAmountIncludesIof = "always"
+	MandatePaymentMethodDetailsPixAmountIncludesIofNever  MandatePaymentMethodDetailsPixAmountIncludesIof = "never"
+)
+
+// Type of amount.
+type MandatePaymentMethodDetailsPixAmountType string
+
+// List of values that MandatePaymentMethodDetailsPixAmountType can take
+const (
+	MandatePaymentMethodDetailsPixAmountTypeFixed   MandatePaymentMethodDetailsPixAmountType = "fixed"
+	MandatePaymentMethodDetailsPixAmountTypeMaximum MandatePaymentMethodDetailsPixAmountType = "maximum"
+)
+
+// Schedule at which the future payments will be charged.
+type MandatePaymentMethodDetailsPixPaymentSchedule string
+
+// List of values that MandatePaymentMethodDetailsPixPaymentSchedule can take
+const (
+	MandatePaymentMethodDetailsPixPaymentScheduleHalfyearly MandatePaymentMethodDetailsPixPaymentSchedule = "halfyearly"
+	MandatePaymentMethodDetailsPixPaymentScheduleMonthly    MandatePaymentMethodDetailsPixPaymentSchedule = "monthly"
+	MandatePaymentMethodDetailsPixPaymentScheduleQuarterly  MandatePaymentMethodDetailsPixPaymentSchedule = "quarterly"
+	MandatePaymentMethodDetailsPixPaymentScheduleWeekly     MandatePaymentMethodDetailsPixPaymentSchedule = "weekly"
+	MandatePaymentMethodDetailsPixPaymentScheduleYearly     MandatePaymentMethodDetailsPixPaymentSchedule = "yearly"
+)
+
 // This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 type MandatePaymentMethodDetailsType string
 
@@ -152,6 +182,23 @@ const (
 	MandateTypeSingleUse MandateType = "single_use"
 )
 
+// Retrieves a list of Mandates for a given PaymentMethod.
+type MandateListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The Stripe account ID that the mandates are intended for. Learn more about the [use case for connected accounts payments](https://stripe.com/docs/payments/connected-accounts).
+	OnBehalfOf    *string `form:"on_behalf_of"`
+	PaymentMethod *string `form:"payment_method"`
+	// The status of the mandates to retrieve. Status indicates whether or not you can use it to initiate a payment, and can have a value of `active`, `pending`, or `inactive`.
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *MandateListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves a Mandate object.
 type MandateParams struct {
 	Params `form:"*"`
@@ -191,7 +238,12 @@ type MandateCustomerAcceptance struct {
 	// The mandate includes the type of customer acceptance information, such as: `online` or `offline`.
 	Type MandateCustomerAcceptanceType `json:"type"`
 }
-type MandateMultiUse struct{}
+type MandateMultiUse struct {
+	// The amount of the payment on a multi use mandate.
+	Amount int64 `json:"amount"`
+	// The currency of the payment on a multi use mandate.
+	Currency Currency `json:"currency"`
+}
 type MandatePaymentMethodDetailsACSSDebit struct {
 	// List of Stripe products where this mandate can be selected automatically.
 	DefaultFor []MandatePaymentMethodDetailsACSSDebitDefaultFor `json:"default_for"`
@@ -252,6 +304,20 @@ type MandatePaymentMethodDetailsPayto struct {
 	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
 	StartDate string `json:"start_date"`
 }
+type MandatePaymentMethodDetailsPix struct {
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof MandatePaymentMethodDetailsPixAmountIncludesIof `json:"amount_includes_iof"`
+	// Type of amount.
+	AmountType MandatePaymentMethodDetailsPixAmountType `json:"amount_type"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`.
+	EndDate string `json:"end_date"`
+	// Schedule at which the future payments will be charged.
+	PaymentSchedule MandatePaymentMethodDetailsPixPaymentSchedule `json:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app.
+	Reference string `json:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`.
+	StartDate string `json:"start_date"`
+}
 type MandatePaymentMethodDetailsRevolutPay struct{}
 type MandatePaymentMethodDetailsSEPADebit struct {
 	// The unique reference of the mandate.
@@ -278,6 +344,7 @@ type MandatePaymentMethodDetails struct {
 	NzBankAccount *MandatePaymentMethodDetailsNzBankAccount `json:"nz_bank_account"`
 	Paypal        *MandatePaymentMethodDetailsPaypal        `json:"paypal"`
 	Payto         *MandatePaymentMethodDetailsPayto         `json:"payto"`
+	Pix           *MandatePaymentMethodDetailsPix           `json:"pix"`
 	RevolutPay    *MandatePaymentMethodDetailsRevolutPay    `json:"revolut_pay"`
 	SEPADebit     *MandatePaymentMethodDetailsSEPADebit     `json:"sepa_debit"`
 	// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
@@ -312,6 +379,13 @@ type Mandate struct {
 	Status MandateStatus `json:"status"`
 	// The type of the mandate.
 	Type MandateType `json:"type"`
+}
+
+// MandateList is a list of Mandates as retrieved from a list endpoint.
+type MandateList struct {
+	APIResource
+	ListMeta
+	Data []*Mandate `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Mandate.

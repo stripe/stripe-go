@@ -1054,6 +1054,45 @@ const (
 	CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage = "off_session"
 )
 
+// Determines if the amount includes the IOF tax.
+type CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixAmountIncludesIofAlways CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof = "always"
+	CheckoutSessionPaymentMethodOptionsPixAmountIncludesIofNever  CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof = "never"
+)
+
+// Determines if the amount includes the IOF tax.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIofAlways CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "always"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIofNever  CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "never"
+)
+
+// Type of amount.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountTypeFixed   CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType = "fixed"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountTypeMaximum CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType = "maximum"
+)
+
+// Schedule at which the future payments will be charged.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleHalfyearly CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "halfyearly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleMonthly    CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "monthly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleQuarterly  CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "quarterly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleWeekly     CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "weekly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleYearly     CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "yearly"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1065,7 +1104,8 @@ type CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage can take
 const (
-	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "off_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1395,7 +1435,7 @@ func (p *CheckoutSessionListParams) AddExpand(f string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionAdaptivePricingParams struct {
-	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	// If set to `true`, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
 	Enabled *bool `form:"enabled"`
 }
 
@@ -1561,6 +1601,31 @@ type CheckoutSessionCustomerUpdateParams struct {
 	// Describes whether Checkout saves shipping information onto `customer.shipping`.
 	// To collect shipping information, use `shipping_address_collection`. Defaults to `never`.
 	Shipping *string `form:"shipping"`
+}
+
+// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+type CheckoutSessionDiscountCouponDataParams struct {
+	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
+	AmountOff *int64 `form:"amount_off"`
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
+	Currency *string `form:"currency"`
+	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
+	Duration *string `form:"duration"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
+	Name *string `form:"name"`
+	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
+	PercentOff *float64 `form:"percent_off"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionDiscountCouponDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
@@ -2361,10 +2426,34 @@ type CheckoutSessionPaymentMethodOptionsPaytoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date"`
+	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2915,7 +3004,7 @@ type CheckoutSessionParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `custom`.
+	// Where the user is coming from. This informs the optimizations that are applied to the session.
 	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
@@ -3016,31 +3105,6 @@ type CheckoutSessionCollectedInformationParams struct {
 	ShippingDetails *CheckoutSessionCollectedInformationShippingDetailsParams `form:"shipping_details"`
 }
 
-// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
-type CheckoutSessionDiscountCouponDataParams struct {
-	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
-	AmountOff *int64 `form:"amount_off"`
-	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
-	Currency *string `form:"currency"`
-	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
-	Duration *string `form:"duration"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
-	Name *string `form:"name"`
-	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
-	PercentOff *float64 `form:"percent_off"`
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *CheckoutSessionDiscountCouponDataParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
@@ -3070,7 +3134,7 @@ func (p *CheckoutSessionExpireParams) AddExpand(f string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionCreateAdaptivePricingParams struct {
-	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	// If set to `true`, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
 	Enabled *bool `form:"enabled"`
 }
 
@@ -3238,10 +3302,37 @@ type CheckoutSessionCreateCustomerUpdateParams struct {
 	Shipping *string `form:"shipping"`
 }
 
+// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+type CheckoutSessionCreateDiscountCouponDataParams struct {
+	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
+	AmountOff *int64 `form:"amount_off"`
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
+	Currency *string `form:"currency"`
+	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
+	Duration *string `form:"duration"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
+	Name *string `form:"name"`
+	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
+	PercentOff *float64 `form:"percent_off"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreateDiscountCouponDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 type CheckoutSessionCreateDiscountParams struct {
 	// The ID of the coupon to apply to this Session.
 	Coupon *string `form:"coupon"`
+	// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+	CouponData *CheckoutSessionCreateDiscountCouponDataParams `form:"coupon_data"`
 	// The ID of a promotion code to apply to this Session.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -4032,10 +4123,34 @@ type CheckoutSessionCreatePaymentMethodOptionsPaytoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date"`
+	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4584,7 +4699,7 @@ type CheckoutSessionCreateParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionCreateOptionalItemParams `form:"optional_items"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `custom`.
+	// Where the user is coming from. This informs the optimizations that are applied to the session.
 	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionCreatePaymentIntentDataParams `form:"payment_intent_data"`
@@ -4962,7 +5077,7 @@ func (p *CheckoutSessionUpdateParams) AddMetadata(key string, value string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionAdaptivePricing struct {
-	// Whether Adaptive Pricing is enabled.
+	// If enabled, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions).
 	Enabled bool `json:"enabled"`
 }
 
@@ -5676,9 +5791,30 @@ type CheckoutSessionPaymentMethodOptionsPayto struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsPixMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof `json:"amount_includes_iof"`
+	// Type of amount.
+	AmountType CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType `json:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+	Currency Currency `json:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`.
+	EndDate string `json:"end_date"`
+	// Schedule at which the future payments will be charged.
+	PaymentSchedule CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app.
+	Reference string `json:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`.
+	StartDate string `json:"start_date"`
+}
 type CheckoutSessionPaymentMethodOptionsPix struct {
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
 	// The number of seconds after which Pix payment will expire.
-	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
+	ExpiresAfterSeconds int64                                                 `json:"expires_after_seconds"`
+	MandateOptions      *CheckoutSessionPaymentMethodOptionsPixMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
