@@ -138,7 +138,7 @@ type V2BillingServiceActionCreditGrantPerTenantParams struct {
 	Name *string `form:"name" json:"name"`
 }
 
-// Create a ServiceAction object.
+// Create a Service Action object.
 type V2BillingServiceActionParams struct {
 	Params `form:"*"`
 	// Details for the credit grant. Required if `type` is `credit_grant`.
@@ -287,7 +287,7 @@ type V2BillingServiceActionCreateCreditGrantPerTenantParams struct {
 	Name *string `form:"name" json:"name"`
 }
 
-// Create a ServiceAction object.
+// Create a Service Action object.
 type V2BillingServiceActionCreateParams struct {
 	Params `form:"*"`
 	// Details for the credit grant. Required if `type` is `credit_grant`.
@@ -304,7 +304,7 @@ type V2BillingServiceActionCreateParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Retrieve a ServiceAction object.
+// Retrieve a Service Action object.
 type V2BillingServiceActionRetrieveParams struct {
 	Params `form:"*"`
 }

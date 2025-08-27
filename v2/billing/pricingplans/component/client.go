@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a PricingPlanComponent object.
+// Create a Pricing Plan Component object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -36,7 +36,7 @@ func (c Client) New(params *stripe.V2BillingPricingPlansComponentParams) (*strip
 	return pricingplancomponent, err
 }
 
-// Retrieve a PricingPlanComponent object.
+// Retrieve a Pricing Plan Component object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -50,7 +50,7 @@ func (c Client) Get(id string, params *stripe.V2BillingPricingPlansComponentPara
 	return pricingplancomponent, err
 }
 
-// Update a PricingPlanComponent object.
+// Update a Pricing Plan Component object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -64,7 +64,7 @@ func (c Client) Update(id string, params *stripe.V2BillingPricingPlansComponentP
 	return pricingplancomponent, err
 }
 
-// Remove a PricingPlanComponent from the latest version of a PricingPlan.
+// Remove a Pricing Plan Component from the latest version of a Pricing Plan.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -78,7 +78,7 @@ func (c Client) Del(id string, params *stripe.V2BillingPricingPlansComponentPara
 	return pricingplancomponent, err
 }
 
-// List all PricingPlanComponent objects for a PricingPlan.
+// List all Pricing Plan Component objects for a Pricing Plan.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

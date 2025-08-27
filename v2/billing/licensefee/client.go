@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a LicenseFee object.
+// Create a License Fee object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2BillingLicenseFeeParams) (*stripe.V2Billing
 	return licensefee, err
 }
 
-// Retrieve a LicenseFee object.
+// Retrieve a License Fee object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2BillingLicenseFeeParams) (*strip
 	return licensefee, err
 }
 
-// Update a LicenseFee object.
+// Update a License Fee object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2BillingLicenseFeeParams) (*st
 	return licensefee, err
 }
 
-// List all LicenseFee objects.
+// List all License Fee objects.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

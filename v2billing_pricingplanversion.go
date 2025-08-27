@@ -12,9 +12,9 @@ type V2BillingPricingPlanVersion struct {
 	APIResource
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
-	// The timestamp when this version became inactive.
+	// The timestamp when this version became inactive. Null if it's the latest version.
 	EndDate time.Time `json:"end_date"`
-	// Unique identifier for the PricingPlanVersion.
+	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`

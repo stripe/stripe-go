@@ -517,7 +517,7 @@ type V2MoneyManagementFinancialAccountStorage struct {
 	HoldsCurrencies []V2MoneyManagementFinancialAccountStorageHoldsCurrency `json:"holds_currencies"`
 }
 
-// The Financial Account is the container that allows for the configuration of money movement.
+// A FinancialAccount represents a balance and can be used as the source or destination for the money management (`/v2/money_management`) APIs.
 type V2MoneyManagementFinancialAccount struct {
 	APIResource
 	// Multi-currency balance of this FinancialAccount, split by availability state. Each balance is represented as a hash where the key is the three-letter ISO currency code, in lowercase, and the value is the amount for that currency.
@@ -532,7 +532,7 @@ type V2MoneyManagementFinancialAccount struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Metadata associated with the FinancialAccount
+	// Metadata associated with the FinancialAccount.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`

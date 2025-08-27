@@ -6,7 +6,7 @@
 
 package stripe
 
-// List all LicenseFee objects.
+// List all License Fee objects.
 type V2BillingLicenseFeeListParams struct {
 	Params `form:"*"`
 	// Filter by licensed item.
@@ -40,25 +40,25 @@ type V2BillingLicenseFeeTransformQuantityParams struct {
 	Round *string `form:"round" json:"round"`
 }
 
-// Create a LicenseFee object.
+// Create a License Fee object.
 type V2BillingLicenseFeeParams struct {
 	Params `form:"*"`
-	// The currency of this LicenseFee.
+	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency,omitempty"`
-	// A customer-facing name for the LicenseFee.
+	// A customer-facing name for the License Fee.
 	// This name is used in Stripe-hosted products like the Customer Portal and Checkout. It does not show up on Invoices.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
-	// The LicensedItem that this rate binds to.
+	// The Licensed Item that this License Fee binds to.
 	LicensedItem *string `form:"licensed_item" json:"licensed_item,omitempty"`
-	// Changes the version that new LicenseFee will use. Providing `live_version = "latest"` will set the
-	// LicenseFee's `live_version` to its latest version.
+	// Changes the version that new license fee will use. Providing `live_version = "latest"` will set the
+	// license fee's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
-	// An internal key you can use to search for a particular LicenseFee. Maximum length of 200 characters.
+	// An internal key you can use to search for a particular license fee. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// The interval for assessing service. For example, a monthly LicenseFee with a rate of $1 for the first 10 "workloads"
+	// The interval for assessing service. For example, a monthly license fee with a rate of $1 for the first 10 "workloads"
 	// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
 	// distinct from billing interval; the service interval deals with the rate at which the customer accumulates fees,
 	// while the billing interval in Cadence deals with the rate the customer is billed.
@@ -112,22 +112,22 @@ type V2BillingLicenseFeeCreateTransformQuantityParams struct {
 	Round *string `form:"round" json:"round"`
 }
 
-// Create a LicenseFee object.
+// Create a License Fee object.
 type V2BillingLicenseFeeCreateParams struct {
 	Params `form:"*"`
-	// The currency of this LicenseFee.
+	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency"`
-	// A customer-facing name for the LicenseFee.
+	// A customer-facing name for the License Fee.
 	// This name is used in Stripe-hosted products like the Customer Portal and Checkout. It does not show up on Invoices.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
-	// The LicensedItem that this rate binds to.
+	// The Licensed Item that this License Fee binds to.
 	LicensedItem *string `form:"licensed_item" json:"licensed_item"`
-	// An internal key you can use to search for a particular LicenseFee. Maximum length of 200 characters.
+	// An internal key you can use to search for a particular license fee. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// The interval for assessing service. For example, a monthly LicenseFee with a rate of $1 for the first 10 "workloads"
+	// The interval for assessing service. For example, a monthly license fee with a rate of $1 for the first 10 "workloads"
 	// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
 	// distinct from billing interval; the service interval deals with the rate at which the customer accumulates fees,
 	// while the billing interval in Cadence deals with the rate the customer is billed.
@@ -159,7 +159,7 @@ func (p *V2BillingLicenseFeeCreateParams) AddMetadata(key string, value string) 
 	p.Metadata[key] = value
 }
 
-// Retrieve a LicenseFee object.
+// Retrieve a License Fee object.
 type V2BillingLicenseFeeRetrieveParams struct {
 	Params `form:"*"`
 }
@@ -186,19 +186,19 @@ type V2BillingLicenseFeeUpdateTransformQuantityParams struct {
 	Round *string `form:"round" json:"round"`
 }
 
-// Update a LicenseFee object.
+// Update a License Fee object.
 type V2BillingLicenseFeeUpdateParams struct {
 	Params `form:"*"`
-	// A customer-facing name for the LicenseFee.
+	// A customer-facing name for the License Fee.
 	// This name is used in Stripe-hosted products like the Customer Portal and Checkout. It does not show up on Invoices.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
-	// Changes the version that new LicenseFee will use. Providing `live_version = "latest"` will set the
-	// LicenseFee's `live_version` to its latest version.
+	// Changes the version that new license fee will use. Providing `live_version = "latest"` will set the
+	// license fee's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
-	// An internal key you can use to search for a particular LicenseFee. Maximum length of 200 characters.
+	// An internal key you can use to search for a particular license fee. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity

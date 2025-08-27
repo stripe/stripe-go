@@ -17,7 +17,7 @@ type v2BillingIntentService struct {
 	Key string
 }
 
-// Create a BillingIntent.
+// Create a Billing Intent.
 func (c v2BillingIntentService) Create(ctx context.Context, params *V2BillingIntentCreateParams) (*V2BillingIntent, error) {
 	if params == nil {
 		params = &V2BillingIntentCreateParams{}
@@ -28,7 +28,7 @@ func (c v2BillingIntentService) Create(ctx context.Context, params *V2BillingInt
 	return intent, err
 }
 
-// Retrieve a BillingIntent.
+// Retrieve a Billing Intent.
 func (c v2BillingIntentService) Retrieve(ctx context.Context, id string, params *V2BillingIntentRetrieveParams) (*V2BillingIntent, error) {
 	if params == nil {
 		params = &V2BillingIntentRetrieveParams{}
@@ -40,7 +40,7 @@ func (c v2BillingIntentService) Retrieve(ctx context.Context, id string, params 
 	return intent, err
 }
 
-// Cancel a BillingIntent.
+// Cancel a Billing Intent.
 func (c v2BillingIntentService) Cancel(ctx context.Context, id string, params *V2BillingIntentCancelParams) (*V2BillingIntent, error) {
 	if params == nil {
 		params = &V2BillingIntentCancelParams{}
@@ -52,7 +52,7 @@ func (c v2BillingIntentService) Cancel(ctx context.Context, id string, params *V
 	return intent, err
 }
 
-// Commit a BillingIntent.
+// Commit a Billing Intent.
 func (c v2BillingIntentService) Commit(ctx context.Context, id string, params *V2BillingIntentCommitParams) (*V2BillingIntent, error) {
 	if params == nil {
 		params = &V2BillingIntentCommitParams{}
@@ -64,7 +64,7 @@ func (c v2BillingIntentService) Commit(ctx context.Context, id string, params *V
 	return intent, err
 }
 
-// Release a BillingIntent.
+// Release a Billing Intent.
 func (c v2BillingIntentService) ReleaseReservation(ctx context.Context, id string, params *V2BillingIntentReleaseReservationParams) (*V2BillingIntent, error) {
 	if params == nil {
 		params = &V2BillingIntentReleaseReservationParams{}
@@ -76,7 +76,7 @@ func (c v2BillingIntentService) ReleaseReservation(ctx context.Context, id strin
 	return intent, err
 }
 
-// Reserve a BillingIntent.
+// Reserve a Billing Intent.
 func (c v2BillingIntentService) Reserve(ctx context.Context, id string, params *V2BillingIntentReserveParams) (*V2BillingIntent, error) {
 	if params == nil {
 		params = &V2BillingIntentReserveParams{}
@@ -88,7 +88,7 @@ func (c v2BillingIntentService) Reserve(ctx context.Context, id string, params *
 	return intent, err
 }
 
-// List BillingIntents.
+// List Billing Intents.
 func (c v2BillingIntentService) List(ctx context.Context, listParams *V2BillingIntentListParams) Seq2[*V2BillingIntent, error] {
 	if listParams == nil {
 		listParams = &V2BillingIntentListParams{}

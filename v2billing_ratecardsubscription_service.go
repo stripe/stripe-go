@@ -17,7 +17,7 @@ type v2BillingRateCardSubscriptionService struct {
 	Key string
 }
 
-// Create a RateCardSubscription to bill a RateCard on a specified billing Cadence.
+// Create a Rate Card Subscription to bill a Rate Card on a specified Billing Cadence.
 func (c v2BillingRateCardSubscriptionService) Create(ctx context.Context, params *V2BillingRateCardSubscriptionCreateParams) (*V2BillingRateCardSubscription, error) {
 	if params == nil {
 		params = &V2BillingRateCardSubscriptionCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingRateCardSubscriptionService) Create(ctx context.Context, params
 	return ratecardsubscription, err
 }
 
-// Retrieve a RateCardSubscription by ID.
+// Retrieve a Rate Card Subscription by ID.
 func (c v2BillingRateCardSubscriptionService) Retrieve(ctx context.Context, id string, params *V2BillingRateCardSubscriptionRetrieveParams) (*V2BillingRateCardSubscription, error) {
 	if params == nil {
 		params = &V2BillingRateCardSubscriptionRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingRateCardSubscriptionService) Retrieve(ctx context.Context, id s
 	return ratecardsubscription, err
 }
 
-// Update fields on an existing, active RateCardSubscription.
+// Update fields on an existing, active Rate Card Subscription.
 func (c v2BillingRateCardSubscriptionService) Update(ctx context.Context, id string, params *V2BillingRateCardSubscriptionUpdateParams) (*V2BillingRateCardSubscription, error) {
 	if params == nil {
 		params = &V2BillingRateCardSubscriptionUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingRateCardSubscriptionService) Update(ctx context.Context, id str
 	return ratecardsubscription, err
 }
 
-// Cancel an existing, active RateCardSubscription.
+// Cancel an existing, active Rate Card Subscription.
 func (c v2BillingRateCardSubscriptionService) Cancel(ctx context.Context, id string, params *V2BillingRateCardSubscriptionCancelParams) (*V2BillingRateCardSubscription, error) {
 	if params == nil {
 		params = &V2BillingRateCardSubscriptionCancelParams{}
@@ -65,7 +65,7 @@ func (c v2BillingRateCardSubscriptionService) Cancel(ctx context.Context, id str
 	return ratecardsubscription, err
 }
 
-// List all RateCardSubscription objects.
+// List all Rate Card Subscription objects.
 func (c v2BillingRateCardSubscriptionService) List(ctx context.Context, listParams *V2BillingRateCardSubscriptionListParams) Seq2[*V2BillingRateCardSubscription, error] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardSubscriptionListParams{}

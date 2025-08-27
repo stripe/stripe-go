@@ -11,7 +11,9 @@ type InvoiceItemParentType string
 
 // List of values that InvoiceItemParentType can take
 const (
-	InvoiceItemParentTypeSubscriptionDetails InvoiceItemParentType = "subscription_details"
+	InvoiceItemParentTypeLicenseFeeSubscriptionDetails InvoiceItemParentType = "license_fee_subscription_details"
+	InvoiceItemParentTypeRateCardSubscriptionDetails   InvoiceItemParentType = "rate_card_subscription_details"
+	InvoiceItemParentTypeSubscriptionDetails           InvoiceItemParentType = "subscription_details"
 )
 
 // The type of the pricing details.
@@ -19,7 +21,9 @@ type InvoiceItemPricingType string
 
 // List of values that InvoiceItemPricingType can take
 const (
-	InvoiceItemPricingTypePriceDetails InvoiceItemPricingType = "price_details"
+	InvoiceItemPricingTypeLicenseFeeDetails   InvoiceItemPricingType = "license_fee_details"
+	InvoiceItemPricingTypePriceDetails        InvoiceItemPricingType = "price_details"
+	InvoiceItemPricingTypeRateCardRateDetails InvoiceItemPricingType = "rate_card_rate_details"
 )
 
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
@@ -404,6 +408,30 @@ func (p *InvoiceItemCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Details about the license fee subscription that generated this invoice item
+type InvoiceItemParentLicenseFeeSubscriptionDetails struct {
+	// The license fee subscription that generated this invoice item
+	LicenseFeeSubscription string `json:"license_fee_subscription"`
+	// The license fee version that generated this invoice item
+	LicenseFeeVersion string `json:"license_fee_version"`
+	// The pricing plan subscription that manages the license fee subscription
+	PricingPlanSubscription string `json:"pricing_plan_subscription"`
+	// The pricing plan version at the time this invoice item was generated
+	PricingPlanVersion string `json:"pricing_plan_version"`
+}
+
+// Details about the rate card subscription that generated this invoice item
+type InvoiceItemParentRateCardSubscriptionDetails struct {
+	// The pricing plan subscription that manages the rate card subscription
+	PricingPlanSubscription string `json:"pricing_plan_subscription"`
+	// The pricing plan version at the time this invoice item was generated
+	PricingPlanVersion string `json:"pricing_plan_version"`
+	// The rate card subscription that generated this invoice item
+	RateCardSubscription string `json:"rate_card_subscription"`
+	// The rate card version that generated this invoice item
+	RateCardVersion string `json:"rate_card_version"`
+}
+
 // Details about the subscription that generated this invoice item
 type InvoiceItemParentSubscriptionDetails struct {
 	// The subscription that generated this invoice item
@@ -414,10 +442,22 @@ type InvoiceItemParentSubscriptionDetails struct {
 
 // The parent that generated this invoice item.
 type InvoiceItemParent struct {
+	// Details about the license fee subscription that generated this invoice item
+	LicenseFeeSubscriptionDetails *InvoiceItemParentLicenseFeeSubscriptionDetails `json:"license_fee_subscription_details"`
+	// Details about the rate card subscription that generated this invoice item
+	RateCardSubscriptionDetails *InvoiceItemParentRateCardSubscriptionDetails `json:"rate_card_subscription_details"`
 	// Details about the subscription that generated this invoice item
 	SubscriptionDetails *InvoiceItemParentSubscriptionDetails `json:"subscription_details"`
 	// The type of parent that generated this invoice item
 	Type InvoiceItemParentType `json:"type"`
+}
+type InvoiceItemPricingLicenseFeeDetails struct {
+	// The ID of the licensed item this item is associated with
+	LicensedItem string `json:"licensed_item"`
+	// The ID of the license fee this item is associated with
+	LicenseFee string `json:"license_fee"`
+	// The version of the license fee this item is associated with
+	LicenseFeeVersion string `json:"license_fee_version"`
 }
 type InvoiceItemPricingPriceDetails struct {
 	// The ID of the price this item is associated with.
@@ -425,10 +465,20 @@ type InvoiceItemPricingPriceDetails struct {
 	// The ID of the product this item is associated with.
 	Product string `json:"product"`
 }
+type InvoiceItemPricingRateCardRateDetails struct {
+	// The ID of billable item this item is associated with
+	MeteredItem string `json:"metered_item"`
+	// The ID of the rate card this item is associated with
+	RateCard string `json:"rate_card"`
+	// The ID of the rate card rate this item is associated with
+	RateCardRate string `json:"rate_card_rate"`
+}
 
 // The pricing information of the invoice item.
 type InvoiceItemPricing struct {
-	PriceDetails *InvoiceItemPricingPriceDetails `json:"price_details"`
+	LicenseFeeDetails   *InvoiceItemPricingLicenseFeeDetails   `json:"license_fee_details"`
+	PriceDetails        *InvoiceItemPricingPriceDetails        `json:"price_details"`
+	RateCardRateDetails *InvoiceItemPricingRateCardRateDetails `json:"rate_card_rate_details"`
 	// The type of the pricing details.
 	Type InvoiceItemPricingType `json:"type"`
 	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.

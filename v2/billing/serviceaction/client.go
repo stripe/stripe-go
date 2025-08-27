@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a ServiceAction object.
+// Create a Service Action object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2BillingServiceActionParams) (*stripe.V2Bill
 	return serviceaction, err
 }
 
-// Retrieve a ServiceAction object.
+// Retrieve a Service Action object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

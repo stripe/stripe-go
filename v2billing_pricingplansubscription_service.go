@@ -17,7 +17,7 @@ type v2BillingPricingPlanSubscriptionService struct {
 	Key string
 }
 
-// Retrieve a PricingPlanSubscription object.
+// Retrieve a Pricing Plan Subscription object.
 func (c v2BillingPricingPlanSubscriptionService) Retrieve(ctx context.Context, id string, params *V2BillingPricingPlanSubscriptionRetrieveParams) (*V2BillingPricingPlanSubscription, error) {
 	if params == nil {
 		params = &V2BillingPricingPlanSubscriptionRetrieveParams{}
@@ -29,7 +29,7 @@ func (c v2BillingPricingPlanSubscriptionService) Retrieve(ctx context.Context, i
 	return pricingplansubscription, err
 }
 
-// List all PricingPlanSubscription objects.
+// List all Pricing Plan Subscription objects.
 func (c v2BillingPricingPlanSubscriptionService) List(ctx context.Context, listParams *V2BillingPricingPlanSubscriptionListParams) Seq2[*V2BillingPricingPlanSubscription, error] {
 	if listParams == nil {
 		listParams = &V2BillingPricingPlanSubscriptionListParams{}

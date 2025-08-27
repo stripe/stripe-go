@@ -17,7 +17,7 @@ type v2BillingServiceActionService struct {
 	Key string
 }
 
-// Create a ServiceAction object.
+// Create a Service Action object.
 func (c v2BillingServiceActionService) Create(ctx context.Context, params *V2BillingServiceActionCreateParams) (*V2BillingServiceAction, error) {
 	if params == nil {
 		params = &V2BillingServiceActionCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingServiceActionService) Create(ctx context.Context, params *V2Bil
 	return serviceaction, err
 }
 
-// Retrieve a ServiceAction object.
+// Retrieve a Service Action object.
 func (c v2BillingServiceActionService) Retrieve(ctx context.Context, id string, params *V2BillingServiceActionRetrieveParams) (*V2BillingServiceAction, error) {
 	if params == nil {
 		params = &V2BillingServiceActionRetrieveParams{}

@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a RateCardSubscription to bill a RateCard on a specified billing Cadence.
+// Create a Rate Card Subscription to bill a Rate Card on a specified Billing Cadence.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2BillingRateCardSubscriptionParams) (*stripe
 	return ratecardsubscription, err
 }
 
-// Retrieve a RateCardSubscription by ID.
+// Retrieve a Rate Card Subscription by ID.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2BillingRateCardSubscriptionParam
 	return ratecardsubscription, err
 }
 
-// Update fields on an existing, active RateCardSubscription.
+// Update fields on an existing, active Rate Card Subscription.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2BillingRateCardSubscriptionPa
 	return ratecardsubscription, err
 }
 
-// Cancel an existing, active RateCardSubscription.
+// Cancel an existing, active Rate Card Subscription.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -71,7 +71,7 @@ func (c Client) Cancel(id string, params *stripe.V2BillingRateCardSubscriptionCa
 	return ratecardsubscription, err
 }
 
-// List all RateCardSubscription objects.
+// List all Rate Card Subscription objects.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

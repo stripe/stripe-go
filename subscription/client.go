@@ -122,12 +122,12 @@ func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Su
 	return subscription, err
 }
 
-// Attach a Cadence to an existing subscription. Once attached, the subscription will be billed by the cadence, potentially sharing invoices with the other subscriptions linked to the Cadence.
+// Attach a Billing Cadence to an existing subscription. When attached, the subscription is billed by the Billing Cadence, potentially sharing invoices with the other subscriptions linked to the Billing Cadence.
 func AttachCadence(id string, params *stripe.SubscriptionAttachCadenceParams) (*stripe.Subscription, error) {
 	return getC().AttachCadence(id, params)
 }
 
-// Attach a Cadence to an existing subscription. Once attached, the subscription will be billed by the cadence, potentially sharing invoices with the other subscriptions linked to the Cadence.
+// Attach a Billing Cadence to an existing subscription. When attached, the subscription is billed by the Billing Cadence, potentially sharing invoices with the other subscriptions linked to the Billing Cadence.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

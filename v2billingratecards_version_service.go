@@ -17,7 +17,7 @@ type v2BillingRateCardsVersionService struct {
 	Key string
 }
 
-// Retrieve a specific version of a RateCard object.
+// Retrieve a specific version of a Rate Card object.
 func (c v2BillingRateCardsVersionService) Retrieve(ctx context.Context, id string, params *V2BillingRateCardsVersionRetrieveParams) (*V2BillingRateCardVersion, error) {
 	if params == nil {
 		params = &V2BillingRateCardsVersionRetrieveParams{}
@@ -30,7 +30,7 @@ func (c v2BillingRateCardsVersionService) Retrieve(ctx context.Context, id strin
 	return ratecardversion, err
 }
 
-// List the versions of a RateCard object. Results are sorted in reverse chronological order (most recent first).
+// List the versions of a Rate Card object. Results are sorted in reverse chronological order (most recent first).
 func (c v2BillingRateCardsVersionService) List(ctx context.Context, listParams *V2BillingRateCardsVersionListParams) Seq2[*V2BillingRateCardVersion, error] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardsVersionListParams{}

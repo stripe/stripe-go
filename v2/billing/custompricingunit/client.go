@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a CustomPricingUnit object.
+// Create a Custom Pricing Unit object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2BillingCustomPricingUnitParams) (*stripe.V2
 	return custompricingunit, err
 }
 
-// Retrieve a CustomPricingUnit object.
+// Retrieve a Custom Pricing Unit object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2BillingCustomPricingUnitParams) 
 	return custompricingunit, err
 }
 
-// Update a CustomPricingUnit object.
+// Update a Custom Pricing Unit object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2BillingCustomPricingUnitParam
 	return custompricingunit, err
 }
 
-// List all CustomPricingUnit objects.
+// List all Custom Pricing Unit objects.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

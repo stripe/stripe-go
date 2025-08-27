@@ -17,7 +17,7 @@ type v2BillingMeteredItemService struct {
 	Key string
 }
 
-// Create a MeteredItem object.
+// Create a Metered Item object.
 func (c v2BillingMeteredItemService) Create(ctx context.Context, params *V2BillingMeteredItemCreateParams) (*V2BillingMeteredItem, error) {
 	if params == nil {
 		params = &V2BillingMeteredItemCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingMeteredItemService) Create(ctx context.Context, params *V2Billi
 	return metereditem, err
 }
 
-// Retrieve a MeteredItem object.
+// Retrieve a Metered Item object.
 func (c v2BillingMeteredItemService) Retrieve(ctx context.Context, id string, params *V2BillingMeteredItemRetrieveParams) (*V2BillingMeteredItem, error) {
 	if params == nil {
 		params = &V2BillingMeteredItemRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingMeteredItemService) Retrieve(ctx context.Context, id string, pa
 	return metereditem, err
 }
 
-// Update a MeteredItem object. At least one of the fields is required.
+// Update a Metered Item object. At least one of the fields is required.
 func (c v2BillingMeteredItemService) Update(ctx context.Context, id string, params *V2BillingMeteredItemUpdateParams) (*V2BillingMeteredItem, error) {
 	if params == nil {
 		params = &V2BillingMeteredItemUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingMeteredItemService) Update(ctx context.Context, id string, para
 	return metereditem, err
 }
 
-// List all MeteredItem objects in reverse chronological order of creation.
+// List all Metered Item objects in reverse chronological order of creation.
 func (c v2BillingMeteredItemService) List(ctx context.Context, listParams *V2BillingMeteredItemListParams) Seq2[*V2BillingMeteredItem, error] {
 	if listParams == nil {
 		listParams = &V2BillingMeteredItemListParams{}

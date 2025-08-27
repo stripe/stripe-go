@@ -12,24 +12,36 @@ import (
 	"time"
 )
 
-// Configurations on the Account that was onboarded via the account link.
-type V2CoreAccountLinkReturnedEventDataConfiguration string
+// Open Enum.
+type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode string
 
-// List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
+// List of values that V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode can take
 const (
-	V2CoreAccountLinkReturnedEventDataConfigurationCustomer  V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
-	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
-	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
-	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeArchivedMeter                   V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "archived_meter"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventCustomerNotFound      V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_customer_not_found"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_invalid_value"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "no_meter"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_in_future"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
 )
 
-// Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkReturnedEventDataUseCase string
+// Open Enum.
+type V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode string
 
-// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
+// List of values that V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode can take
 const (
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeArchivedMeter                   V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "archived_meter"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventCustomerNotFound      V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_customer_not_found"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_invalid_value"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "no_meter"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_in_future"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
 )
 
 // Open Enum. The capability which had its status updated.
@@ -122,55 +134,327 @@ const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
 )
 
-// Open Enum.
-type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode string
+// Configurations on the Account that was onboarded via the account link.
+type V2CoreAccountLinkReturnedEventDataConfiguration string
 
-// List of values that V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode can take
+// List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
 const (
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeArchivedMeter                   V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "archived_meter"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventCustomerNotFound      V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_customer_not_found"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_invalid_value"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "no_meter"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_in_future"
-	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
+	V2CoreAccountLinkReturnedEventDataConfigurationCustomer  V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
+	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
+	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
+	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
 )
 
-// Open Enum.
-type V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode string
+// Open Enum. The use case type of the account link that has been completed.
+type V2CoreAccountLinkReturnedEventDataUseCase string
 
-// List of values that V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode can take
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
 const (
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeArchivedMeter                   V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "archived_meter"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventCustomerNotFound      V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_customer_not_found"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_invalid_value"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "no_meter"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_in_future"
-	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
-// Closed Enum. The use case type of the account link that has been completed.
-type AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase string
+// The HTTP method.
+type V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod string
 
-// List of values that AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase can take
+// List of values that V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod can take
 const (
-	AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCaseAccountOnboarding AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase = "account_onboarding"
-	AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCaseAccountUpdate     AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase = "account_update"
+	V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethodDELETE V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod = "DELETE"
+	V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethodGET    V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod = "GET"
+	V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethodPOST   V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod = "POST"
+	V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethodPUT    V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod = "PUT"
 )
 
-// Closed Enum. The recipient_data feature which had its status updated.
-type AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName string
+// The HTTP method.
+type V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod string
 
-// List of values that AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName can take
+// List of values that V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod can take
 const (
-	AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureNameBankAccountsLocal AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName = "bank_accounts.local"
-	AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureNameBankAccountsWire  AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName = "bank_accounts.wire"
-	AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureNameCards             AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName = "cards"
+	V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethodDELETE V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod = "DELETE"
+	V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethodGET    V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod = "GET"
+	V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethodPOST   V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod = "POST"
+	V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethodPUT    V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod = "PUT"
+)
+
+// The HTTP method.
+type V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethod string
+
+// List of values that V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethod can take
+const (
+	V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethodDELETE V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethod = "DELETE"
+	V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethodGET    V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethod = "GET"
+	V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethodPOST   V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethod = "POST"
+	V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethodPUT    V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethod = "PUT"
+)
+
+// The HTTP method.
+type V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod string
+
+// List of values that V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod can take
+const (
+	V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethodDELETE V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod = "DELETE"
+	V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethodGET    V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod = "GET"
+	V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethodPOST   V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod = "POST"
+	V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethodPUT    V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod = "PUT"
+)
+
+// The type of the charge.
+type V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeType string
+
+// List of values that V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeType can take
+const (
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeTypeMoneyMoving V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeType = "money_moving"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeTypeValidation  V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeType = "validation"
+)
+
+// The type of the dimension.
+type V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType string
+
+// List of values that V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType can take
+const (
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionTypeIssuer V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType = "issuer"
+)
+
+// The type of the payment method.
+type V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType string
+
+// List of values that V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType can take
+const (
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeACSSDebit            V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "acss_debit"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeAffirm               V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "affirm"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeAfterpayClearpay     V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "afterpay_clearpay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeAlipay               V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "alipay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeAlma                 V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "alma"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeAmazonPay            V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "amazon_pay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeApplePay             V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "apple_pay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeAUBECSDebit          V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "au_becs_debit"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeBACSDebit            V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "bacs_debit"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeBancontact           V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "bancontact"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeBLIK                 V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "blik"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeBoleto               V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "boleto"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeCard                 V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "card"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeCardPresent          V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "card_present"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeCartesBancaires      V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "cartes_bancaires"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeCashApp              V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "cashapp"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeDummyPassthroughCard V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "dummy_passthrough_card"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeEPS                  V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "eps"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeFPX                  V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "fpx"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeGiropay              V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "giropay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeGrabpay              V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "grabpay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeIDEAL                V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "ideal"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeInteracPresent       V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "interac_present"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeKakaoPay             V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "kakao_pay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeKlarna               V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "klarna"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeKonbini              V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "konbini"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeLink                 V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "link"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeMobilepay            V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "mobilepay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeMultibanco           V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "multibanco"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeNaverPay             V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "naver_pay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeOXXO                 V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "oxxo"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeP24                  V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "p24"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypePaperCheck           V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "paper_check"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypePayNow               V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "paynow"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypePaypal               V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "paypal"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypePayto                V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "payto"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypePayByBank            V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "pay_by_bank"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypePix                  V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "pix"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypePromptPay            V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "promptpay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeRevolutPay           V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "revolut_pay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeSEPADebit            V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "sepa_debit"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeSofort               V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "sofort"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeSwish                V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "swish"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeTWINT                V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "twint"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeUpi                  V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "upi"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeWeChatPay            V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "wechat_pay"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodTypeZip                  V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType = "zip"
+)
+
+// The type of the charge.
+type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType string
+
+// List of values that V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType can take
+const (
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeTypeMoneyMoving V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType = "money_moving"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeTypeValidation  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType = "validation"
+)
+
+// The type of the dimension.
+type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType string
+
+// List of values that V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType can take
+const (
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionTypeIssuer V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType = "issuer"
+)
+
+// The type of the payment method.
+type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType string
+
+// List of values that V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType can take
+const (
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeACSSDebit            V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "acss_debit"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeAffirm               V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "affirm"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeAfterpayClearpay     V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "afterpay_clearpay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeAlipay               V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "alipay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeAlma                 V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "alma"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeAmazonPay            V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "amazon_pay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeApplePay             V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "apple_pay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeAUBECSDebit          V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "au_becs_debit"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeBACSDebit            V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "bacs_debit"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeBancontact           V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "bancontact"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeBLIK                 V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "blik"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeBoleto               V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "boleto"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeCard                 V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "card"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeCardPresent          V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "card_present"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeCartesBancaires      V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "cartes_bancaires"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeCashApp              V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "cashapp"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeDummyPassthroughCard V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "dummy_passthrough_card"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeEPS                  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "eps"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeFPX                  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "fpx"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeGiropay              V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "giropay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeGrabpay              V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "grabpay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeIDEAL                V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "ideal"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeInteracPresent       V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "interac_present"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeKakaoPay             V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "kakao_pay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeKlarna               V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "klarna"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeKonbini              V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "konbini"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeLink                 V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "link"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeMobilepay            V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "mobilepay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeMultibanco           V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "multibanco"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeNaverPay             V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "naver_pay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeOXXO                 V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "oxxo"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeP24                  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "p24"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypePaperCheck           V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "paper_check"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypePayNow               V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "paynow"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypePaypal               V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "paypal"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypePayto                V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "payto"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypePayByBank            V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "pay_by_bank"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypePix                  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "pix"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypePromptPay            V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "promptpay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeRevolutPay           V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "revolut_pay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeSEPADebit            V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "sepa_debit"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeSofort               V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "sofort"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeSwish                V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "swish"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeTWINT                V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "twint"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeUpi                  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "upi"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeWeChatPay            V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "wechat_pay"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeZip                  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "zip"
+)
+
+// Fraud attack type.
+type V2CoreHealthFraudRateIncreasedEventDataImpactAttackType string
+
+// List of values that V2CoreHealthFraudRateIncreasedEventDataImpactAttackType can take
+const (
+	V2CoreHealthFraudRateIncreasedEventDataImpactAttackTypeSpike           V2CoreHealthFraudRateIncreasedEventDataImpactAttackType = "spike"
+	V2CoreHealthFraudRateIncreasedEventDataImpactAttackTypeSustainedAttack V2CoreHealthFraudRateIncreasedEventDataImpactAttackType = "sustained_attack"
+)
+
+// The type of the payment method.
+type V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType string
+
+// List of values that V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType can take
+const (
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeACSSDebit            V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "acss_debit"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeAffirm               V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "affirm"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeAfterpayClearpay     V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "afterpay_clearpay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeAlipay               V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "alipay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeAlma                 V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "alma"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeAmazonPay            V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "amazon_pay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeApplePay             V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "apple_pay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeAUBECSDebit          V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "au_becs_debit"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeBACSDebit            V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "bacs_debit"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeBancontact           V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "bancontact"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeBLIK                 V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "blik"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeBoleto               V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "boleto"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeCard                 V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "card"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeCardPresent          V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "card_present"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeCartesBancaires      V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "cartes_bancaires"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeCashApp              V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "cashapp"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeDummyPassthroughCard V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "dummy_passthrough_card"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeEPS                  V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "eps"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeFPX                  V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "fpx"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeGiropay              V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "giropay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeGrabpay              V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "grabpay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeIDEAL                V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "ideal"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeInteracPresent       V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "interac_present"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeKakaoPay             V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "kakao_pay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeKlarna               V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "klarna"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeKonbini              V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "konbini"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeLink                 V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "link"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeMobilepay            V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "mobilepay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeMultibanco           V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "multibanco"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeNaverPay             V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "naver_pay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeOXXO                 V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "oxxo"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeP24                  V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "p24"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypePaperCheck           V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "paper_check"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypePayNow               V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "paynow"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypePaypal               V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "paypal"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypePayto                V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "payto"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypePayByBank            V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "pay_by_bank"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypePix                  V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "pix"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypePromptPay            V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "promptpay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeRevolutPay           V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "revolut_pay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeSEPADebit            V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "sepa_debit"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeSofort               V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "sofort"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeSwish                V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "swish"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeTWINT                V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "twint"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeUpi                  V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "upi"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeWeChatPay            V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "wechat_pay"
+	V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodTypeZip                  V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType = "zip"
+)
+
+// The type of the payment method.
+type V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType string
+
+// List of values that V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType can take
+const (
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeACSSDebit            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "acss_debit"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeAffirm               V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "affirm"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeAfterpayClearpay     V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "afterpay_clearpay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeAlipay               V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "alipay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeAlma                 V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "alma"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeAmazonPay            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "amazon_pay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeApplePay             V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "apple_pay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeAUBECSDebit          V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "au_becs_debit"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeBACSDebit            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "bacs_debit"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeBancontact           V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "bancontact"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeBLIK                 V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "blik"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeBoleto               V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "boleto"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeCard                 V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "card"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeCardPresent          V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "card_present"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeCartesBancaires      V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "cartes_bancaires"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeCashApp              V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "cashapp"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeDummyPassthroughCard V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "dummy_passthrough_card"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeEPS                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "eps"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeFPX                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "fpx"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeGiropay              V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "giropay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeGrabpay              V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "grabpay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeIDEAL                V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "ideal"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeInteracPresent       V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "interac_present"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeKakaoPay             V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "kakao_pay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeKlarna               V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "klarna"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeKonbini              V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "konbini"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeLink                 V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "link"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeMobilepay            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "mobilepay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeMultibanco           V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "multibanco"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeNaverPay             V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "naver_pay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeOXXO                 V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "oxxo"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeP24                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "p24"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypePaperCheck           V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "paper_check"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypePayNow               V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "paynow"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypePaypal               V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "paypal"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypePayto                V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "payto"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypePayByBank            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "pay_by_bank"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypePix                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "pix"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypePromptPay            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "promptpay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeRevolutPay           V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "revolut_pay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeSEPADebit            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "sepa_debit"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeSofort               V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "sofort"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeSwish                V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "swish"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeTWINT                V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "twint"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeUpi                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "upi"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeWeChatPay            V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "wechat_pay"
+	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeZip                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "zip"
 )
 
 // V2Event is the interface implemented by V2 Events. To get the underlying Event,
@@ -186,254 +470,6 @@ type V2RawEvent struct {
 	V2BaseEvent
 	Data          *json.RawMessage `json:"data"`
 	RelatedObject *RelatedObject   `json:"related_object"`
-}
-
-// V2CoreAccountIncludingRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
-// Occurs when an Account's requirements are updated.
-type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountLinkReturnedEvent is the Go struct for the "v2.core.account_link.returned" event.
-// Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkReturnedEvent struct {
-	V2BaseEvent
-	Data V2CoreAccountLinkReturnedEventData `json:"data"`
-}
-
-// V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
-// This event occurs when an account is closed.
-type V2CoreAccountClosedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountClosedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountCreatedEvent is the Go struct for the "v2.core.account.created" event.
-// Occurs when an Account is created.
-type V2CoreAccountCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountCreatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountUpdatedEvent is the Go struct for the "v2.core.account.updated" event.
-// Occurs when an Account is updated.
-type V2CoreAccountUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
-// This event occurs when account defaults are created or updated.
-type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
-// Occurs when the status of an Account's customer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                               `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationCustomerUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].updated" event.
-// Occurs when an Account's customer configuration is updated.
-type V2CoreAccountIncludingConfigurationCustomerUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
-// Occurs when an Identity is updated.
-type V2CoreAccountIncludingIdentityUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountPersonCreatedEvent is the Go struct for the "v2.core.account_person.created" event.
-// Occurs when a Person is created.
-type V2CoreAccountPersonCreatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
-}
-
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountPersonDeletedEvent is the Go struct for the "v2.core.account_person.deleted" event.
-// Occurs when a Person is deleted.
-type V2CoreAccountPersonDeletedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
-}
-
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CorePerson, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountPersonUpdatedEvent is the Go struct for the "v2.core.account_person.updated" event.
-// Occurs when a Person is updated.
-type V2CoreAccountPersonUpdatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
-}
-
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].capability_status_updated" event.
-// Occurs when the status of an Account's merchant configuration capability is updated.
-type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                               `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationMerchantUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].updated" event.
-// Occurs when an Account's merchant configuration is updated.
-type V2CoreAccountIncludingConfigurationMerchantUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].capability_status_updated" event.
-// Occurs when the status of an Account's recipient configuration capability is updated.
-type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                                `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationRecipientUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].updated" event.
-// Occurs when a Recipient's configuration is updated.
-type V2CoreAccountIncludingConfigurationRecipientUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].capability_status_updated" event.
-// Occurs when the status of an Account's storer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                             `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationStorerUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].updated" event.
-// Occurs when a Storer's configuration is updated.
-type V2CoreAccountIncludingConfigurationStorerUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
-// Occurs when an Adjustment is created.
-type V2MoneyManagementAdjustmentCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementAdjustment, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementAdjustment object for the event.
-func (e V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject() (*V2MoneyManagementAdjustment, error) {
-	return e.fetchRelatedObject()
 }
 
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
@@ -455,439 +491,6 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 type V1BillingMeterNoMeterFoundEvent struct {
 	V2BaseEvent
 	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
-}
-
-// AccountConfigurationRecipientDataAccountLinkCompletedEvent is the Go struct for the "account.configuration_recipient_data.account_link_completed" event.
-// Occurs when an Account link generated for a recipient is completed.
-type AccountConfigurationRecipientDataAccountLinkCompletedEvent struct {
-	V2BaseEvent
-	Data               AccountConfigurationRecipientDataAccountLinkCompletedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                  `json:"related_object"`
-	fetchRelatedObject func() (*V2Account, error)
-}
-
-// FetchRelatedObject fetches the related V2Account object for the event.
-func (e AccountConfigurationRecipientDataAccountLinkCompletedEvent) FetchRelatedObject() (*V2Account, error) {
-	return e.fetchRelatedObject()
-}
-
-// AccountConfigurationRecipientDataFeatureStatusUpdatedEvent is the Go struct for the "account.configuration_recipient_data.feature_status_updated" event.
-// Occurs when an Account's recipient feature status is updated.
-type AccountConfigurationRecipientDataFeatureStatusUpdatedEvent struct {
-	V2BaseEvent
-	Data               AccountConfigurationRecipientDataFeatureStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                  `json:"related_object"`
-	fetchRelatedObject func() (*V2Account, error)
-}
-
-// FetchRelatedObject fetches the related V2Account object for the event.
-func (e AccountConfigurationRecipientDataFeatureStatusUpdatedEvent) FetchRelatedObject() (*V2Account, error) {
-	return e.fetchRelatedObject()
-}
-
-// AccountRequirementsUpdatedEvent is the Go struct for the "account.requirements.updated" event.
-// Occurs when an Account's requirements are updated.
-type AccountRequirementsUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2Account, error)
-}
-
-// FetchRelatedObject fetches the related V2Account object for the event.
-func (e AccountRequirementsUpdatedEvent) FetchRelatedObject() (*V2Account, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementFinancialAccountCreatedEvent is the Go struct for the "v2.money_management.financial_account.created" event.
-// Occurs when a FinancialAccount is created.
-type V2MoneyManagementFinancialAccountCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementFinancialAccount object for the event.
-func (e V2MoneyManagementFinancialAccountCreatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementFinancialAccountUpdatedEvent is the Go struct for the "v2.money_management.financial_account.updated" event.
-// Occurs when a FinancialAccount is updated.
-type V2MoneyManagementFinancialAccountUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementFinancialAccount object for the event.
-func (e V2MoneyManagementFinancialAccountUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementFinancialAddressActivatedEvent is the Go struct for the "v2.money_management.financial_address.activated" event.
-// Occurs when a FinancialAddress is activated and is ready to receive funds.
-type V2MoneyManagementFinancialAddressActivatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementFinancialAddress object for the event.
-func (e V2MoneyManagementFinancialAddressActivatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAddress, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementFinancialAddressFailedEvent is the Go struct for the "v2.money_management.financial_address.failed" event.
-// Occurs when a FinancialAddress fails to activate and can not receive funds.
-type V2MoneyManagementFinancialAddressFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementFinancialAddress object for the event.
-func (e V2MoneyManagementFinancialAddressFailedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAddress, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementInboundTransferAvailableEvent is the Go struct for the "v2.money_management.inbound_transfer.available" event.
-// Occurs when an InboundTransfer's funds are made available.
-type V2MoneyManagementInboundTransferAvailableEvent struct {
-	V2BaseEvent
-	Data               V2MoneyManagementInboundTransferAvailableEventData `json:"data"`
-	RelatedObject      RelatedObject                                      `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferAvailableEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementInboundTransferBankDebitFailedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_failed" event.
-// Occurs when an InboundTransfer fails.
-type V2MoneyManagementInboundTransferBankDebitFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitFailedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementInboundTransferBankDebitProcessingEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_processing" event.
-// Occurs when an InboundTransfer starts processing.
-type V2MoneyManagementInboundTransferBankDebitProcessingEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitProcessingEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementInboundTransferBankDebitQueuedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_queued" event.
-// Occurs when an InboundTransfer is queued.
-type V2MoneyManagementInboundTransferBankDebitQueuedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitQueuedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementInboundTransferBankDebitReturnedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_returned" event.
-// Occurs when an InboundTransfer is returned.
-type V2MoneyManagementInboundTransferBankDebitReturnedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitReturnedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementInboundTransferBankDebitSucceededEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_succeeded" event.
-// Occurs when an InboundTransfer succeeds.
-type V2MoneyManagementInboundTransferBankDebitSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
-// A ping event used to test the connection to an EventDestination.
-type V2CoreEventDestinationPingEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2EventDestination, error)
-}
-
-// FetchRelatedObject fetches the related V2EventDestination object for the event.
-func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
-// Sent after a failed authorization if there are still retries available on the OffSessionPayment.
-type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
-// Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
-// retry or an initial authorization.
-type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentCanceledEvent is the Go struct for the "v2.payments.off_session_payment.canceled" event.
-// Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
-type V2PaymentsOffSessionPaymentCanceledEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentCreatedEvent is the Go struct for the "v2.payments.off_session_payment.created" event.
-// Sent immediately following a user's call to the Off-Session Payments create endpoint.
-type V2PaymentsOffSessionPaymentCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentFailedEvent is the Go struct for the "v2.payments.off_session_payment.failed" event.
-// Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
-type V2PaymentsOffSessionPaymentFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2PaymentsOffSessionPaymentSucceededEvent is the Go struct for the "v2.payments.off_session_payment.succeeded" event.
-// Sent immediately after a successful authorization.
-type V2PaymentsOffSessionPaymentSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundPaymentCanceledEvent is the Go struct for the "v2.money_management.outbound_payment.canceled" event.
-// Occurs when an OutboundPayment transitions into the canceled state.
-type V2MoneyManagementOutboundPaymentCanceledEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentCanceledEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundPaymentCreatedEvent is the Go struct for the "v2.money_management.outbound_payment.created" event.
-// Occurs when an OutboundPayment is created.
-type V2MoneyManagementOutboundPaymentCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentCreatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundPaymentFailedEvent is the Go struct for the "v2.money_management.outbound_payment.failed" event.
-// Occurs when an OutboundPayment transitions into the failed state.
-type V2MoneyManagementOutboundPaymentFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentFailedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundPaymentPostedEvent is the Go struct for the "v2.money_management.outbound_payment.posted" event.
-// Occurs when an OutboundPayment transitions into the posted state.
-type V2MoneyManagementOutboundPaymentPostedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentPostedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundPaymentReturnedEvent is the Go struct for the "v2.money_management.outbound_payment.returned" event.
-// Occurs when an OutboundPayment transitions into the returned state.
-type V2MoneyManagementOutboundPaymentReturnedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundPaymentUpdatedEvent is the Go struct for the "v2.money_management.outbound_payment.updated" event.
-// Occurs when an OutboundPayment is updated.
-type V2MoneyManagementOutboundPaymentUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundTransferCanceledEvent is the Go struct for the "v2.money_management.outbound_transfer.canceled" event.
-// Occurs when an OutboundTransfer transitions into the canceled state.
-type V2MoneyManagementOutboundTransferCanceledEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferCanceledEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundTransferCreatedEvent is the Go struct for the "v2.money_management.outbound_transfer.created" event.
-// Occurs when an OutboundTransfer is created.
-type V2MoneyManagementOutboundTransferCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferCreatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundTransferFailedEvent is the Go struct for the "v2.money_management.outbound_transfer.failed" event.
-// Occurs when an OutboundTransfer transitions into the failed state.
-type V2MoneyManagementOutboundTransferFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferFailedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundTransferPostedEvent is the Go struct for the "v2.money_management.outbound_transfer.posted" event.
-// Occurs when an OutboundTransfer transitions into the posted state.
-type V2MoneyManagementOutboundTransferPostedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferPostedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundTransferReturnedEvent is the Go struct for the "v2.money_management.outbound_transfer.returned" event.
-// Occurs when an OutboundTransfer transitions into the returned state.
-type V2MoneyManagementOutboundTransferReturnedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferReturnedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementOutboundTransferUpdatedEvent is the Go struct for the "v2.money_management.outbound_transfer.updated" event.
-// Event that is emitted every time an Outbound Transfer is updated.
-type V2MoneyManagementOutboundTransferUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementPayoutMethodUpdatedEvent is the Go struct for the "v2.money_management.payout_method.updated" event.
-// Occurs when a PayoutMethod is updated.
-type V2MoneyManagementPayoutMethodUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementPayoutMethod, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementPayoutMethod object for the event.
-func (e V2MoneyManagementPayoutMethodUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementPayoutMethod, error) {
-	return e.fetchRelatedObject()
 }
 
 // V2BillingCadenceBilledEvent is the Go struct for the "v2.billing.cadence.billed" event.
@@ -1392,6 +995,679 @@ func (e V2BillingRateCardVersionCreatedEvent) FetchRelatedObject() (*V2BillingRa
 	return e.fetchRelatedObject()
 }
 
+// V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
+// This event occurs when an account is closed.
+type V2CoreAccountClosedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountClosedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountCreatedEvent is the Go struct for the "v2.core.account.created" event.
+// Occurs when an Account is created.
+type V2CoreAccountCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountCreatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountUpdatedEvent is the Go struct for the "v2.core.account.updated" event.
+// Occurs when an Account is updated.
+type V2CoreAccountUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
+// Occurs when the status of an Account's customer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                               `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationCustomerUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].updated" event.
+// Occurs when an Account's customer configuration is updated.
+type V2CoreAccountIncludingConfigurationCustomerUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].capability_status_updated" event.
+// Occurs when the status of an Account's merchant configuration capability is updated.
+type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                               `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationMerchantUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].updated" event.
+// Occurs when an Account's merchant configuration is updated.
+type V2CoreAccountIncludingConfigurationMerchantUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].capability_status_updated" event.
+// Occurs when the status of an Account's recipient configuration capability is updated.
+type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                                `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationRecipientUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].updated" event.
+// Occurs when a Recipient's configuration is updated.
+type V2CoreAccountIncludingConfigurationRecipientUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].capability_status_updated" event.
+// Occurs when the status of an Account's storer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                             `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationStorerUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].updated" event.
+// Occurs when a Storer's configuration is updated.
+type V2CoreAccountIncludingConfigurationStorerUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
+// This event occurs when account defaults are created or updated.
+type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
+// Occurs when an Identity is updated.
+type V2CoreAccountIncludingIdentityUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
+// Occurs when an Account's requirements are updated.
+type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountLinkReturnedEvent is the Go struct for the "v2.core.account_link.returned" event.
+// Occurs when the generated AccountLink is completed.
+type V2CoreAccountLinkReturnedEvent struct {
+	V2BaseEvent
+	Data V2CoreAccountLinkReturnedEventData `json:"data"`
+}
+
+// V2CoreAccountPersonCreatedEvent is the Go struct for the "v2.core.account_person.created" event.
+// Occurs when a Person is created.
+type V2CoreAccountPersonCreatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
+	fetchRelatedObject func() (*V2CorePerson, error)
+}
+
+// FetchRelatedObject fetches the related V2CorePerson object for the event.
+func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountPersonDeletedEvent is the Go struct for the "v2.core.account_person.deleted" event.
+// Occurs when a Person is deleted.
+type V2CoreAccountPersonDeletedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
+	fetchRelatedObject func() (*V2CorePerson, error)
+}
+
+// FetchRelatedObject fetches the related V2CorePerson object for the event.
+func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountPersonUpdatedEvent is the Go struct for the "v2.core.account_person.updated" event.
+// Occurs when a Person is updated.
+type V2CoreAccountPersonUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
+	fetchRelatedObject func() (*V2CorePerson, error)
+}
+
+// FetchRelatedObject fetches the related V2CorePerson object for the event.
+func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
+// A ping event used to test the connection to an EventDestination.
+type V2CoreEventDestinationPingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2EventDestination, error)
+}
+
+// FetchRelatedObject fetches the related V2EventDestination object for the event.
+func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreHealthAPIErrorFiringEvent is the Go struct for the "v2.core.health.api_error.firing" event.
+// Occurs when an API error alert is firing.
+type V2CoreHealthAPIErrorFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthAPIErrorFiringEventData `json:"data"`
+}
+
+// V2CoreHealthAPIErrorResolvedEvent is the Go struct for the "v2.core.health.api_error.resolved" event.
+// Occurs when an API error alert is resolved.
+type V2CoreHealthAPIErrorResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthAPIErrorResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthAPILatencyFiringEvent is the Go struct for the "v2.core.health.api_latency.firing" event.
+// Occurs when an API latency alert is firing.
+type V2CoreHealthAPILatencyFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthAPILatencyFiringEventData `json:"data"`
+}
+
+// V2CoreHealthAPILatencyResolvedEvent is the Go struct for the "v2.core.health.api_latency.resolved" event.
+// Occurs when an API latency alert is resolved.
+type V2CoreHealthAPILatencyResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthAPILatencyResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthAuthorizationRateDropFiringEvent is the Go struct for the "v2.core.health.authorization_rate_drop.firing" event.
+// Occurs when an authorization rate drop alert is firing.
+type V2CoreHealthAuthorizationRateDropFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthAuthorizationRateDropFiringEventData `json:"data"`
+}
+
+// V2CoreHealthAuthorizationRateDropResolvedEvent is the Go struct for the "v2.core.health.authorization_rate_drop.resolved" event.
+// Occurs when an authorization rate drop alert is resolved.
+type V2CoreHealthAuthorizationRateDropResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthAuthorizationRateDropResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthEventGenerationFailureResolvedEvent is the Go struct for the "v2.core.health.event_generation_failure.resolved" event.
+// Occurs when an event generation failure alert is resolved.
+type V2CoreHealthEventGenerationFailureResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthEventGenerationFailureResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthFraudRateIncreasedEvent is the Go struct for the "v2.core.health.fraud_rate.increased" event.
+// Occurs when the fraud rate has increased.
+type V2CoreHealthFraudRateIncreasedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthFraudRateIncreasedEventData `json:"data"`
+}
+
+// V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent is the Go struct for the "v2.core.health.issuing_authorization_request_timeout.firing" event.
+// Occurs when an issuing authorization request timeout alert is firing.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventData `json:"data"`
+}
+
+// V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent is the Go struct for the "v2.core.health.issuing_authorization_request_timeout.resolved" event.
+// Occurs when an issuing authorization request timeout alert is resolved.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthPaymentMethodErrorFiringEvent is the Go struct for the "v2.core.health.payment_method_error.firing" event.
+// Occurs when a payment method error alert is firing.
+type V2CoreHealthPaymentMethodErrorFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthPaymentMethodErrorFiringEventData `json:"data"`
+}
+
+// V2CoreHealthPaymentMethodErrorResolvedEvent is the Go struct for the "v2.core.health.payment_method_error.resolved" event.
+// Occurs when a payment method error alert is resolved.
+type V2CoreHealthPaymentMethodErrorResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthPaymentMethodErrorResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthTrafficVolumeDropFiringEvent is the Go struct for the "v2.core.health.traffic_volume_drop.firing" event.
+// Occurs when a traffic volume drop alert is firing.
+type V2CoreHealthTrafficVolumeDropFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthTrafficVolumeDropFiringEventData `json:"data"`
+}
+
+// V2CoreHealthTrafficVolumeDropResolvedEvent is the Go struct for the "v2.core.health.traffic_volume_drop.resolved" event.
+// Occurs when a traffic volume drop alert is resolved.
+type V2CoreHealthTrafficVolumeDropResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthTrafficVolumeDropResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthWebhookLatencyFiringEvent is the Go struct for the "v2.core.health.webhook_latency.firing" event.
+// Occurs when a webhook latency alert is firing.
+type V2CoreHealthWebhookLatencyFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthWebhookLatencyFiringEventData `json:"data"`
+}
+
+// V2CoreHealthWebhookLatencyResolvedEvent is the Go struct for the "v2.core.health.webhook_latency.resolved" event.
+// Occurs when a webhook latency alert is resolved.
+type V2CoreHealthWebhookLatencyResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthWebhookLatencyResolvedEventData `json:"data"`
+}
+
+// V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
+// Occurs when an Adjustment is created.
+type V2MoneyManagementAdjustmentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementAdjustment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementAdjustment object for the event.
+func (e V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject() (*V2MoneyManagementAdjustment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountCreatedEvent is the Go struct for the "v2.money_management.financial_account.created" event.
+// Occurs when a FinancialAccount is created.
+type V2MoneyManagementFinancialAccountCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementFinancialAccount object for the event.
+func (e V2MoneyManagementFinancialAccountCreatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountUpdatedEvent is the Go struct for the "v2.money_management.financial_account.updated" event.
+// Occurs when a FinancialAccount is updated.
+type V2MoneyManagementFinancialAccountUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementFinancialAccount object for the event.
+func (e V2MoneyManagementFinancialAccountUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAddressActivatedEvent is the Go struct for the "v2.money_management.financial_address.activated" event.
+// Occurs when a FinancialAddress is activated and is ready to receive funds.
+type V2MoneyManagementFinancialAddressActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementFinancialAddress object for the event.
+func (e V2MoneyManagementFinancialAddressActivatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAddress, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAddressFailedEvent is the Go struct for the "v2.money_management.financial_address.failed" event.
+// Occurs when a FinancialAddress fails to activate and can not receive funds.
+type V2MoneyManagementFinancialAddressFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementFinancialAddress object for the event.
+func (e V2MoneyManagementFinancialAddressFailedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAddress, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferAvailableEvent is the Go struct for the "v2.money_management.inbound_transfer.available" event.
+// Occurs when an InboundTransfer's funds are made available.
+type V2MoneyManagementInboundTransferAvailableEvent struct {
+	V2BaseEvent
+	Data               V2MoneyManagementInboundTransferAvailableEventData `json:"data"`
+	RelatedObject      RelatedObject                                      `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
+func (e V2MoneyManagementInboundTransferAvailableEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitFailedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_failed" event.
+// Occurs when an InboundTransfer fails.
+type V2MoneyManagementInboundTransferBankDebitFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
+func (e V2MoneyManagementInboundTransferBankDebitFailedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitProcessingEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_processing" event.
+// Occurs when an InboundTransfer starts processing.
+type V2MoneyManagementInboundTransferBankDebitProcessingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
+func (e V2MoneyManagementInboundTransferBankDebitProcessingEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitQueuedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_queued" event.
+// Occurs when an InboundTransfer is queued.
+type V2MoneyManagementInboundTransferBankDebitQueuedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
+func (e V2MoneyManagementInboundTransferBankDebitQueuedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitReturnedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_returned" event.
+// Occurs when an InboundTransfer is returned.
+type V2MoneyManagementInboundTransferBankDebitReturnedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
+func (e V2MoneyManagementInboundTransferBankDebitReturnedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitSucceededEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_succeeded" event.
+// Occurs when an InboundTransfer succeeds.
+type V2MoneyManagementInboundTransferBankDebitSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
+func (e V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentCanceledEvent is the Go struct for the "v2.money_management.outbound_payment.canceled" event.
+// Occurs when an OutboundPayment transitions into the canceled state.
+type V2MoneyManagementOutboundPaymentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
+func (e V2MoneyManagementOutboundPaymentCanceledEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentCreatedEvent is the Go struct for the "v2.money_management.outbound_payment.created" event.
+// Occurs when an OutboundPayment is created.
+type V2MoneyManagementOutboundPaymentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
+func (e V2MoneyManagementOutboundPaymentCreatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentFailedEvent is the Go struct for the "v2.money_management.outbound_payment.failed" event.
+// Occurs when an OutboundPayment transitions into the failed state.
+type V2MoneyManagementOutboundPaymentFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
+func (e V2MoneyManagementOutboundPaymentFailedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentPostedEvent is the Go struct for the "v2.money_management.outbound_payment.posted" event.
+// Occurs when an OutboundPayment transitions into the posted state.
+type V2MoneyManagementOutboundPaymentPostedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
+func (e V2MoneyManagementOutboundPaymentPostedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentReturnedEvent is the Go struct for the "v2.money_management.outbound_payment.returned" event.
+// Occurs when an OutboundPayment transitions into the returned state.
+type V2MoneyManagementOutboundPaymentReturnedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
+func (e V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentUpdatedEvent is the Go struct for the "v2.money_management.outbound_payment.updated" event.
+// Occurs when an OutboundPayment is updated.
+type V2MoneyManagementOutboundPaymentUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
+func (e V2MoneyManagementOutboundPaymentUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferCanceledEvent is the Go struct for the "v2.money_management.outbound_transfer.canceled" event.
+// Occurs when an OutboundTransfer transitions into the canceled state.
+type V2MoneyManagementOutboundTransferCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
+func (e V2MoneyManagementOutboundTransferCanceledEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferCreatedEvent is the Go struct for the "v2.money_management.outbound_transfer.created" event.
+// Occurs when an OutboundTransfer is created.
+type V2MoneyManagementOutboundTransferCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
+func (e V2MoneyManagementOutboundTransferCreatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferFailedEvent is the Go struct for the "v2.money_management.outbound_transfer.failed" event.
+// Occurs when an OutboundTransfer transitions into the failed state.
+type V2MoneyManagementOutboundTransferFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
+func (e V2MoneyManagementOutboundTransferFailedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferPostedEvent is the Go struct for the "v2.money_management.outbound_transfer.posted" event.
+// Occurs when an OutboundTransfer transitions into the posted state.
+type V2MoneyManagementOutboundTransferPostedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
+func (e V2MoneyManagementOutboundTransferPostedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferReturnedEvent is the Go struct for the "v2.money_management.outbound_transfer.returned" event.
+// Occurs when an OutboundTransfer transitions into the returned state.
+type V2MoneyManagementOutboundTransferReturnedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
+func (e V2MoneyManagementOutboundTransferReturnedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferUpdatedEvent is the Go struct for the "v2.money_management.outbound_transfer.updated" event.
+// Event that is emitted every time an Outbound Transfer is updated.
+type V2MoneyManagementOutboundTransferUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
+func (e V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutMethodUpdatedEvent is the Go struct for the "v2.money_management.payout_method.updated" event.
+// Occurs when a PayoutMethod is updated.
+type V2MoneyManagementPayoutMethodUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutMethod, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementPayoutMethod object for the event.
+func (e V2MoneyManagementPayoutMethodUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementPayoutMethod, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2MoneyManagementReceivedCreditAvailableEvent is the Go struct for the "v2.money_management.received_credit.available" event.
 // Occurs when a ReceivedCredit's funds are received and are available in your balance.
 type V2MoneyManagementReceivedCreditAvailableEvent struct {
@@ -1510,6 +1786,111 @@ func (e V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject() (*V2Mon
 	return e.fetchRelatedObject()
 }
 
+// V2MoneyManagementTransactionCreatedEvent is the Go struct for the "v2.money_management.transaction.created" event.
+// Occurs when a Transaction is created.
+type V2MoneyManagementTransactionCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementTransaction object for the event.
+func (e V2MoneyManagementTransactionCreatedEvent) FetchRelatedObject() (*V2MoneyManagementTransaction, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementTransactionUpdatedEvent is the Go struct for the "v2.money_management.transaction.updated" event.
+// Occurs when a Transaction is updated.
+type V2MoneyManagementTransactionUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementTransaction object for the event.
+func (e V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementTransaction, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
+// Sent after a failed authorization if there are still retries available on the OffSessionPayment.
+type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
+// Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
+// retry or an initial authorization.
+type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentCanceledEvent is the Go struct for the "v2.payments.off_session_payment.canceled" event.
+// Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
+type V2PaymentsOffSessionPaymentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentCreatedEvent is the Go struct for the "v2.payments.off_session_payment.created" event.
+// Sent immediately following a user's call to the Off-Session Payments create endpoint.
+type V2PaymentsOffSessionPaymentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentFailedEvent is the Go struct for the "v2.payments.off_session_payment.failed" event.
+// Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
+type V2PaymentsOffSessionPaymentFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentSucceededEvent is the Go struct for the "v2.payments.off_session_payment.succeeded" event.
+// Sent immediately after a successful authorization.
+type V2PaymentsOffSessionPaymentSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2ReportingReportRunCreatedEvent is the Go struct for the "v2.reporting.report_run.created" event.
 // Occurs when a ReportRun is created.
 type V2ReportingReportRunCreatedEvent struct {
@@ -1560,84 +1941,6 @@ type V2ReportingReportRunUpdatedEvent struct {
 // FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
 func (e V2ReportingReportRunUpdatedEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
 	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementTransactionCreatedEvent is the Go struct for the "v2.money_management.transaction.created" event.
-// Occurs when a Transaction is created.
-type V2MoneyManagementTransactionCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementTransaction object for the event.
-func (e V2MoneyManagementTransactionCreatedEvent) FetchRelatedObject() (*V2MoneyManagementTransaction, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2MoneyManagementTransactionUpdatedEvent is the Go struct for the "v2.money_management.transaction.updated" event.
-// Occurs when a Transaction is updated.
-type V2MoneyManagementTransactionUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
-}
-
-// FetchRelatedObject fetches the related V2MoneyManagementTransaction object for the event.
-func (e V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementTransaction, error) {
-	return e.fetchRelatedObject()
-}
-
-// Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkReturnedEventData struct {
-	// The ID of the v2 account.
-	AccountID string `json:"account_id"`
-	// Configurations on the Account that was onboarded via the account link.
-	Configurations []V2CoreAccountLinkReturnedEventDataConfiguration `json:"configurations"`
-	// Open Enum. The use case type of the account link that has been completed.
-	UseCase V2CoreAccountLinkReturnedEventDataUseCase `json:"use_case"`
-}
-
-// Occurs when the status of an Account's customer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
-}
-
-// Occurs when a Person is created.
-type V2CoreAccountPersonCreatedEventData struct {
-	// The ID of the v2 account.
-	AccountID string `json:"account_id"`
-}
-
-// Occurs when a Person is deleted.
-type V2CoreAccountPersonDeletedEventData struct {
-	// The ID of the v2 account.
-	AccountID string `json:"account_id"`
-}
-
-// Occurs when a Person is updated.
-type V2CoreAccountPersonUpdatedEventData struct {
-	// The ID of the v2 account.
-	AccountID string `json:"account_id"`
-}
-
-// Occurs when the status of an Account's merchant configuration capability is updated.
-type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
-}
-
-// Occurs when the status of an Account's recipient configuration capability is updated.
-type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
-}
-
-// Occurs when the status of an Account's storer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
 }
 
 // The request causes the error.
@@ -1728,24 +2031,6 @@ type V1BillingMeterNoMeterFoundEventData struct {
 	ValidationStart time.Time `json:"validation_start"`
 }
 
-// Occurs when an Account link generated for a recipient is completed.
-type AccountConfigurationRecipientDataAccountLinkCompletedEventData struct {
-	// Closed Enum. The use case type of the account link that has been completed.
-	UseCase AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase `json:"use_case"`
-}
-
-// Occurs when an Account's recipient feature status is updated.
-type AccountConfigurationRecipientDataFeatureStatusUpdatedEventData struct {
-	// Closed Enum. The recipient_data feature which had its status updated.
-	FeatureName AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName `json:"feature_name"`
-}
-
-// Occurs when an InboundTransfer's funds are made available.
-type V2MoneyManagementInboundTransferAvailableEventData struct {
-	// The transaction ID of the received credit.
-	TransactionID string `json:"transaction_id"`
-}
-
 // Occurs when a billing Cadence is created.
 type V2BillingCadenceCreatedEventData struct {
 	// Timestamp of when the object was created.
@@ -1800,6 +2085,500 @@ type V2BillingRateCardVersionCreatedEventData struct {
 	RateCardID string `json:"rate_card_id"`
 }
 
+// Occurs when the status of an Account's customer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
+// Occurs when the status of an Account's merchant configuration capability is updated.
+type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
+// Occurs when the status of an Account's recipient configuration capability is updated.
+type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
+// Occurs when the status of an Account's storer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
+// Occurs when the generated AccountLink is completed.
+type V2CoreAccountLinkReturnedEventData struct {
+	// The ID of the v2 account.
+	AccountID string `json:"account_id"`
+	// Configurations on the Account that was onboarded via the account link.
+	Configurations []V2CoreAccountLinkReturnedEventDataConfiguration `json:"configurations"`
+	// Open Enum. The use case type of the account link that has been completed.
+	UseCase V2CoreAccountLinkReturnedEventDataUseCase `json:"use_case"`
+}
+
+// Occurs when a Person is created.
+type V2CoreAccountPersonCreatedEventData struct {
+	// The ID of the v2 account.
+	AccountID string `json:"account_id"`
+}
+
+// Occurs when a Person is deleted.
+type V2CoreAccountPersonDeletedEventData struct {
+	// The ID of the v2 account.
+	AccountID string `json:"account_id"`
+}
+
+// Occurs when a Person is updated.
+type V2CoreAccountPersonUpdatedEventData struct {
+	// The ID of the v2 account.
+	AccountID string `json:"account_id"`
+}
+
+// The user impact.
+type V2CoreHealthAPIErrorFiringEventDataImpact struct {
+	// The canonical path.
+	CanonicalPath string `json:"canonical_path"`
+	// The error code.
+	ErrorCode string `json:"error_code"`
+	// The HTTP method.
+	HTTPMethod V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod `json:"http_method"`
+	// The HTTP status.
+	HTTPStatus string `json:"http_status"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+}
+
+// Occurs when an API error alert is firing.
+type V2CoreHealthAPIErrorFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthAPIErrorFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthAPIErrorResolvedEventDataImpact struct {
+	// The canonical path.
+	CanonicalPath string `json:"canonical_path"`
+	// The error code.
+	ErrorCode string `json:"error_code"`
+	// The HTTP method.
+	HTTPMethod V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod `json:"http_method"`
+	// The HTTP status.
+	HTTPStatus string `json:"http_status"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+}
+
+// Occurs when an API error alert is resolved.
+type V2CoreHealthAPIErrorResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthAPIErrorResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthAPILatencyFiringEventDataImpact struct {
+	// The canonical path.
+	CanonicalPath string `json:"canonical_path"`
+	// The HTTP method.
+	HTTPMethod V2CoreHealthAPILatencyFiringEventDataImpactHTTPMethod `json:"http_method"`
+	// The HTTP status.
+	HTTPStatus string `json:"http_status"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+}
+
+// Occurs when an API latency alert is firing.
+type V2CoreHealthAPILatencyFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthAPILatencyFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthAPILatencyResolvedEventDataImpact struct {
+	// The canonical path.
+	CanonicalPath string `json:"canonical_path"`
+	// The HTTP method.
+	HTTPMethod V2CoreHealthAPILatencyResolvedEventDataImpactHTTPMethod `json:"http_method"`
+	// The HTTP status.
+	HTTPStatus string `json:"http_status"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+}
+
+// Occurs when an API latency alert is resolved.
+type V2CoreHealthAPILatencyResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthAPILatencyResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// Dimensions that describe what subset of payments are impacted.
+type V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimension struct {
+	// The issuer dimension.
+	Issuer string `json:"issuer"`
+	// The type of the dimension.
+	Type V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType `json:"type"`
+}
+
+// The user impact.
+type V2CoreHealthAuthorizationRateDropFiringEventDataImpact struct {
+	// The type of the charge.
+	ChargeType V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeType `json:"charge_type"`
+	// The current authorization rate percentage.
+	CurrentPercentage string `json:"current_percentage"`
+	// Dimensions that describe what subset of payments are impacted.
+	Dimensions []*V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimension `json:"dimensions"`
+	// The type of the payment method.
+	PaymentMethodType V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType `json:"payment_method_type"`
+	// The previous authorization rate percentage.
+	PreviousPercentage string `json:"previous_percentage"`
+}
+
+// Occurs when an authorization rate drop alert is firing.
+type V2CoreHealthAuthorizationRateDropFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthAuthorizationRateDropFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// Dimensions that describe what subset of payments are impacted.
+type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimension struct {
+	// The issuer dimension.
+	Issuer string `json:"issuer"`
+	// The type of the dimension.
+	Type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType `json:"type"`
+}
+
+// The user impact.
+type V2CoreHealthAuthorizationRateDropResolvedEventDataImpact struct {
+	// The type of the charge.
+	ChargeType V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType `json:"charge_type"`
+	// The current authorization rate percentage.
+	CurrentPercentage string `json:"current_percentage"`
+	// Dimensions that describe what subset of payments are impacted.
+	Dimensions []*V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimension `json:"dimensions"`
+	// The type of the payment method.
+	PaymentMethodType V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType `json:"payment_method_type"`
+	// The previous authorization rate percentage.
+	PreviousPercentage string `json:"previous_percentage"`
+}
+
+// Occurs when an authorization rate drop alert is resolved.
+type V2CoreHealthAuthorizationRateDropResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthAuthorizationRateDropResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthEventGenerationFailureResolvedEventDataImpact struct {
+	// The account id the event should have been generated for. Only present when the account is a connected account.
+	Account string `json:"account"`
+	// The type of event that Stripe failed to generate.
+	EventType string `json:"event_type"`
+	// Indicates if the event was for livemode or not.
+	Livemode bool `json:"livemode"`
+	// The number of webhooks that Stripe failed to create and deliver.
+	MissingDeliveryAttempts int64 `json:"missing_delivery_attempts"`
+	// The related object id.
+	RelatedObjectID string `json:"related_object_id"`
+}
+
+// Occurs when an event generation failure alert is resolved.
+type V2CoreHealthEventGenerationFailureResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthEventGenerationFailureResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthFraudRateIncreasedEventDataImpact struct {
+	// Fraud attack type.
+	AttackType V2CoreHealthFraudRateIncreasedEventDataImpactAttackType `json:"attack_type"`
+	// The number of impacted requests which are detected.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// Estimated aggregated amount for the impacted requests.
+	RealizedFraudAmount Amount `json:"realized_fraud_amount"`
+}
+
+// Occurs when the fraud rate has increased.
+type V2CoreHealthFraudRateIncreasedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthFraudRateIncreasedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpact struct {
+	// Estimated aggregated amount for the approved requests.
+	ApprovedAmount *Amount `json:"approved_amount"`
+	// The number of approved requests which are impacted.
+	ApprovedImpactedRequests int64 `json:"approved_impacted_requests"`
+	// Estimated aggregated amount for the declined requests.
+	DeclinedAmount *Amount `json:"declined_amount"`
+	// The number of declined requests which are impacted.
+	DeclinedImpactedRequests int64 `json:"declined_impacted_requests"`
+}
+
+// Occurs when an issuing authorization request timeout alert is firing.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpact struct {
+	// Estimated aggregated amount for the approved requests.
+	ApprovedAmount *Amount `json:"approved_amount"`
+	// The number of approved requests which are impacted.
+	ApprovedImpactedRequests int64 `json:"approved_impacted_requests"`
+	// Estimated aggregated amount for the declined requests.
+	DeclinedAmount *Amount `json:"declined_amount"`
+	// The number of declined requests which are impacted.
+	DeclinedImpactedRequests int64 `json:"declined_impacted_requests"`
+}
+
+// Occurs when an issuing authorization request timeout alert is resolved.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthPaymentMethodErrorFiringEventDataImpact struct {
+	// The returned error code.
+	ErrorCode string `json:"error_code"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// The type of the payment method.
+	PaymentMethodType V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType `json:"payment_method_type"`
+}
+
+// Occurs when a payment method error alert is firing.
+type V2CoreHealthPaymentMethodErrorFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthPaymentMethodErrorFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthPaymentMethodErrorResolvedEventDataImpact struct {
+	// The returned error code.
+	ErrorCode string `json:"error_code"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// The type of the payment method.
+	PaymentMethodType V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType `json:"payment_method_type"`
+}
+
+// Occurs when a payment method error alert is resolved.
+type V2CoreHealthPaymentMethodErrorResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthPaymentMethodErrorResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthTrafficVolumeDropFiringEventDataImpact struct {
+	// The total volume of payment requests within the latest observation time window.
+	ActualTraffic int64 `json:"actual_traffic"`
+	// The expected volume of payment requests within the latest observation time window.
+	ExpectedTraffic int64 `json:"expected_traffic"`
+	// The size of the observation time window.
+	TimeWindow string `json:"time_window"`
+}
+
+// Occurs when a traffic volume drop alert is firing.
+type V2CoreHealthTrafficVolumeDropFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthTrafficVolumeDropFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthTrafficVolumeDropResolvedEventDataImpact struct {
+	// The total volume of payment requests within the latest observation time window.
+	ActualTraffic int64 `json:"actual_traffic"`
+	// The expected volume of payment requests within the latest observation time window.
+	ExpectedTraffic int64 `json:"expected_traffic"`
+	// The size of the observation time window.
+	TimeWindow string `json:"time_window"`
+}
+
+// Occurs when a traffic volume drop alert is resolved.
+type V2CoreHealthTrafficVolumeDropResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthTrafficVolumeDropResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthWebhookLatencyFiringEventDataImpact struct {
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+}
+
+// Occurs when a webhook latency alert is firing.
+type V2CoreHealthWebhookLatencyFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthWebhookLatencyFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthWebhookLatencyResolvedEventDataImpact struct {
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+}
+
+// Occurs when a webhook latency alert is resolved.
+type V2CoreHealthWebhookLatencyResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthWebhookLatencyResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// Occurs when an InboundTransfer's funds are made available.
+type V2MoneyManagementInboundTransferAvailableEventData struct {
+	// The transaction ID of the received credit.
+	TransactionID string `json:"transaction_id"`
+}
+
 // Occurs when a ReceivedCredit's funds are received and are available in your balance.
 type V2MoneyManagementReceivedCreditAvailableEventData struct {
 	// The transaction ID of the received credit.
@@ -1810,214 +2589,6 @@ type V2MoneyManagementReceivedCreditAvailableEventData struct {
 // If the event type is not known, it returns the raw event.
 func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, error) {
 	switch event.Type {
-	case "v2.core.account[requirements].updated":
-		result := &V2CoreAccountIncludingRequirementsUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account_link.returned":
-		result := &V2CoreAccountLinkReturnedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account.closed":
-		result := &V2CoreAccountClosedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account.created":
-		result := &V2CoreAccountCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account.updated":
-		result := &V2CoreAccountUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account[defaults].updated":
-		result := &V2CoreAccountIncludingDefaultsUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.customer].capability_status_updated":
-		result := &V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.customer].updated":
-		result := &V2CoreAccountIncludingConfigurationCustomerUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account[identity].updated":
-		result := &V2CoreAccountIncludingIdentityUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account_person.created":
-		result := &V2CoreAccountPersonCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account_person.deleted":
-		result := &V2CoreAccountPersonDeletedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account_person.updated":
-		result := &V2CoreAccountPersonUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.merchant].capability_status_updated":
-		result := &V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.merchant].updated":
-		result := &V2CoreAccountIncludingConfigurationMerchantUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.recipient].capability_status_updated":
-		result := &V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.recipient].updated":
-		result := &V2CoreAccountIncludingConfigurationRecipientUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.storer].capability_status_updated":
-		result := &V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.storer].updated":
-		result := &V2CoreAccountIncludingConfigurationStorerUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.adjustment.created":
-		result := &V2MoneyManagementAdjustmentCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementAdjustment, error) {
-			v := &V2MoneyManagementAdjustment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.billing.meter.error_report_triggered":
 		result := &V1BillingMeterErrorReportTriggeredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -2036,345 +2607,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
-		}
-		return result, nil
-	case "account.configuration_recipient_data.account_link_completed":
-		result := &AccountConfigurationRecipientDataAccountLinkCompletedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2Account, error) {
-			v := &V2Account{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "account.configuration_recipient_data.feature_status_updated":
-		result := &AccountConfigurationRecipientDataFeatureStatusUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2Account, error) {
-			v := &V2Account{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "account.requirements.updated":
-		result := &AccountRequirementsUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2Account, error) {
-			v := &V2Account{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.financial_account.created":
-		result := &V2MoneyManagementFinancialAccountCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
-			v := &V2MoneyManagementFinancialAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.financial_account.updated":
-		result := &V2MoneyManagementFinancialAccountUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
-			v := &V2MoneyManagementFinancialAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.financial_address.activated":
-		result := &V2MoneyManagementFinancialAddressActivatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
-			v := &V2MoneyManagementFinancialAddress{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.financial_address.failed":
-		result := &V2MoneyManagementFinancialAddressFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
-			v := &V2MoneyManagementFinancialAddress{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.inbound_transfer.available":
-		result := &V2MoneyManagementInboundTransferAvailableEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
-			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.money_management.inbound_transfer.bank_debit_failed":
-		result := &V2MoneyManagementInboundTransferBankDebitFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
-			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.inbound_transfer.bank_debit_processing":
-		result := &V2MoneyManagementInboundTransferBankDebitProcessingEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
-			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.inbound_transfer.bank_debit_queued":
-		result := &V2MoneyManagementInboundTransferBankDebitQueuedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
-			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.inbound_transfer.bank_debit_returned":
-		result := &V2MoneyManagementInboundTransferBankDebitReturnedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
-			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.inbound_transfer.bank_debit_succeeded":
-		result := &V2MoneyManagementInboundTransferBankDebitSucceededEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
-			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.event_destination.ping":
-		result := &V2CoreEventDestinationPingEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2EventDestination, error) {
-			v := &V2EventDestination{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.authorization_attempt_failed":
-		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.authorization_attempt_started":
-		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.canceled":
-		result := &V2PaymentsOffSessionPaymentCanceledEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.created":
-		result := &V2PaymentsOffSessionPaymentCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.failed":
-		result := &V2PaymentsOffSessionPaymentFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.payments.off_session_payment.succeeded":
-		result := &V2PaymentsOffSessionPaymentSucceededEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_payment.canceled":
-		result := &V2MoneyManagementOutboundPaymentCanceledEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
-			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_payment.created":
-		result := &V2MoneyManagementOutboundPaymentCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
-			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_payment.failed":
-		result := &V2MoneyManagementOutboundPaymentFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
-			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_payment.posted":
-		result := &V2MoneyManagementOutboundPaymentPostedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
-			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_payment.returned":
-		result := &V2MoneyManagementOutboundPaymentReturnedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
-			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_payment.updated":
-		result := &V2MoneyManagementOutboundPaymentUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
-			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_transfer.canceled":
-		result := &V2MoneyManagementOutboundTransferCanceledEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
-			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_transfer.created":
-		result := &V2MoneyManagementOutboundTransferCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
-			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_transfer.failed":
-		result := &V2MoneyManagementOutboundTransferFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
-			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_transfer.posted":
-		result := &V2MoneyManagementOutboundTransferPostedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
-			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_transfer.returned":
-		result := &V2MoneyManagementOutboundTransferReturnedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
-			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.outbound_transfer.updated":
-		result := &V2MoneyManagementOutboundTransferUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
-			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.payout_method.updated":
-		result := &V2MoneyManagementPayoutMethodUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
-			v := &V2MoneyManagementPayoutMethod{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
 		}
 		return result, nil
 	case "v2.billing.cadence.billed":
@@ -2781,6 +3013,569 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.account.closed":
+		result := &V2CoreAccountClosedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account.created":
+		result := &V2CoreAccountCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account.updated":
+		result := &V2CoreAccountUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.customer].capability_status_updated":
+		result := &V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.customer].updated":
+		result := &V2CoreAccountIncludingConfigurationCustomerUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.merchant].capability_status_updated":
+		result := &V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.merchant].updated":
+		result := &V2CoreAccountIncludingConfigurationMerchantUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.recipient].capability_status_updated":
+		result := &V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.recipient].updated":
+		result := &V2CoreAccountIncludingConfigurationRecipientUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.storer].capability_status_updated":
+		result := &V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.storer].updated":
+		result := &V2CoreAccountIncludingConfigurationStorerUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[defaults].updated":
+		result := &V2CoreAccountIncludingDefaultsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[identity].updated":
+		result := &V2CoreAccountIncludingIdentityUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[requirements].updated":
+		result := &V2CoreAccountIncludingRequirementsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account_link.returned":
+		result := &V2CoreAccountLinkReturnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account_person.created":
+		result := &V2CoreAccountPersonCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CorePerson, error) {
+			v := &V2CorePerson{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account_person.deleted":
+		result := &V2CoreAccountPersonDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CorePerson, error) {
+			v := &V2CorePerson{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account_person.updated":
+		result := &V2CoreAccountPersonUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CorePerson, error) {
+			v := &V2CorePerson{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.event_destination.ping":
+		result := &V2CoreEventDestinationPingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2EventDestination, error) {
+			v := &V2EventDestination{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.health.api_error.firing":
+		result := &V2CoreHealthAPIErrorFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.api_error.resolved":
+		result := &V2CoreHealthAPIErrorResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.api_latency.firing":
+		result := &V2CoreHealthAPILatencyFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.api_latency.resolved":
+		result := &V2CoreHealthAPILatencyResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.authorization_rate_drop.firing":
+		result := &V2CoreHealthAuthorizationRateDropFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.authorization_rate_drop.resolved":
+		result := &V2CoreHealthAuthorizationRateDropResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.event_generation_failure.resolved":
+		result := &V2CoreHealthEventGenerationFailureResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.fraud_rate.increased":
+		result := &V2CoreHealthFraudRateIncreasedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.issuing_authorization_request_timeout.firing":
+		result := &V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.issuing_authorization_request_timeout.resolved":
+		result := &V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.payment_method_error.firing":
+		result := &V2CoreHealthPaymentMethodErrorFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.payment_method_error.resolved":
+		result := &V2CoreHealthPaymentMethodErrorResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.traffic_volume_drop.firing":
+		result := &V2CoreHealthTrafficVolumeDropFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.traffic_volume_drop.resolved":
+		result := &V2CoreHealthTrafficVolumeDropResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.webhook_latency.firing":
+		result := &V2CoreHealthWebhookLatencyFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.webhook_latency.resolved":
+		result := &V2CoreHealthWebhookLatencyResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.adjustment.created":
+		result := &V2MoneyManagementAdjustmentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementAdjustment, error) {
+			v := &V2MoneyManagementAdjustment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.financial_account.created":
+		result := &V2MoneyManagementFinancialAccountCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
+			v := &V2MoneyManagementFinancialAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.financial_account.updated":
+		result := &V2MoneyManagementFinancialAccountUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
+			v := &V2MoneyManagementFinancialAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.financial_address.activated":
+		result := &V2MoneyManagementFinancialAddressActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
+			v := &V2MoneyManagementFinancialAddress{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.financial_address.failed":
+		result := &V2MoneyManagementFinancialAddressFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
+			v := &V2MoneyManagementFinancialAddress{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_transfer.available":
+		result := &V2MoneyManagementInboundTransferAvailableEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
+			v := &V2MoneyManagementInboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_transfer.bank_debit_failed":
+		result := &V2MoneyManagementInboundTransferBankDebitFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
+			v := &V2MoneyManagementInboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_transfer.bank_debit_processing":
+		result := &V2MoneyManagementInboundTransferBankDebitProcessingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
+			v := &V2MoneyManagementInboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_transfer.bank_debit_queued":
+		result := &V2MoneyManagementInboundTransferBankDebitQueuedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
+			v := &V2MoneyManagementInboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_transfer.bank_debit_returned":
+		result := &V2MoneyManagementInboundTransferBankDebitReturnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
+			v := &V2MoneyManagementInboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.inbound_transfer.bank_debit_succeeded":
+		result := &V2MoneyManagementInboundTransferBankDebitSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
+			v := &V2MoneyManagementInboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_payment.canceled":
+		result := &V2MoneyManagementOutboundPaymentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
+			v := &V2MoneyManagementOutboundPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_payment.created":
+		result := &V2MoneyManagementOutboundPaymentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
+			v := &V2MoneyManagementOutboundPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_payment.failed":
+		result := &V2MoneyManagementOutboundPaymentFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
+			v := &V2MoneyManagementOutboundPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_payment.posted":
+		result := &V2MoneyManagementOutboundPaymentPostedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
+			v := &V2MoneyManagementOutboundPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_payment.returned":
+		result := &V2MoneyManagementOutboundPaymentReturnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
+			v := &V2MoneyManagementOutboundPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_payment.updated":
+		result := &V2MoneyManagementOutboundPaymentUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
+			v := &V2MoneyManagementOutboundPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_transfer.canceled":
+		result := &V2MoneyManagementOutboundTransferCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
+			v := &V2MoneyManagementOutboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_transfer.created":
+		result := &V2MoneyManagementOutboundTransferCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
+			v := &V2MoneyManagementOutboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_transfer.failed":
+		result := &V2MoneyManagementOutboundTransferFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
+			v := &V2MoneyManagementOutboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_transfer.posted":
+		result := &V2MoneyManagementOutboundTransferPostedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
+			v := &V2MoneyManagementOutboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_transfer.returned":
+		result := &V2MoneyManagementOutboundTransferReturnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
+			v := &V2MoneyManagementOutboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_transfer.updated":
+		result := &V2MoneyManagementOutboundTransferUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
+			v := &V2MoneyManagementOutboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_method.updated":
+		result := &V2MoneyManagementPayoutMethodUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
+			v := &V2MoneyManagementPayoutMethod{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.money_management.received_credit.available":
 		result := &V2MoneyManagementReceivedCreditAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -2874,6 +3669,86 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return v, err
 		}
 		return result, nil
+	case "v2.money_management.transaction.created":
+		result := &V2MoneyManagementTransactionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
+			v := &V2MoneyManagementTransaction{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.transaction.updated":
+		result := &V2MoneyManagementTransactionUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
+			v := &V2MoneyManagementTransaction{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.authorization_attempt_failed":
+		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.authorization_attempt_started":
+		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.canceled":
+		result := &V2PaymentsOffSessionPaymentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.created":
+		result := &V2PaymentsOffSessionPaymentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.failed":
+		result := &V2PaymentsOffSessionPaymentFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.succeeded":
+		result := &V2PaymentsOffSessionPaymentSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.reporting.report_run.created":
 		result := &V2ReportingReportRunCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -2910,26 +3785,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
 			v := &V2ReportingReportRun{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.transaction.created":
-		result := &V2MoneyManagementTransactionCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
-			v := &V2MoneyManagementTransaction{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.money_management.transaction.updated":
-		result := &V2MoneyManagementTransactionUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
-			v := &V2MoneyManagementTransaction{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

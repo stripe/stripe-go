@@ -6,7 +6,7 @@
 
 package stripe
 
-// List all PricingPlan objects.
+// List all Pricing Plan objects.
 type V2BillingPricingPlanListParams struct {
 	Params `form:"*"`
 	// Filter for active/inactive PricingPlans. Mutually exclusive with `lookup_keys`.
@@ -18,7 +18,7 @@ type V2BillingPricingPlanListParams struct {
 	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 }
 
-// Create a PricingPlan object.
+// Create a Pricing Plan object.
 type V2BillingPricingPlanParams struct {
 	Params `form:"*"`
 	// Whether the PricingPlan is active.
@@ -33,7 +33,7 @@ type V2BillingPricingPlanParams struct {
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
 	// An internal key you can use to search for a particular PricingPlan. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to a PricingPlan.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe Tax tax behavior - whether the PricingPlan is inclusive or exclusive of tax.
 	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
@@ -48,7 +48,7 @@ func (p *V2BillingPricingPlanParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Create a PricingPlan object.
+// Create a Pricing Plan object.
 type V2BillingPricingPlanCreateParams struct {
 	Params `form:"*"`
 	// The currency of the PricingPlan.
@@ -59,7 +59,7 @@ type V2BillingPricingPlanCreateParams struct {
 	DisplayName *string `form:"display_name" json:"display_name"`
 	// An internal key you can use to search for a particular PricingPlan. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to a PricingPlan.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe Tax tax behavior - whether the PricingPlan is inclusive or exclusive of tax.
 	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior"`
@@ -74,12 +74,12 @@ func (p *V2BillingPricingPlanCreateParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
-// Retrieve a PricingPlan object.
+// Retrieve a Pricing Plan object.
 type V2BillingPricingPlanRetrieveParams struct {
 	Params `form:"*"`
 }
 
-// Update a PricingPlan object.
+// Update a Pricing Plan object.
 type V2BillingPricingPlanUpdateParams struct {
 	Params `form:"*"`
 	// Whether the PricingPlan is active.

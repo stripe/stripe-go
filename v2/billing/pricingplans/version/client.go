@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Retrieve a specific version of a PricingPlan.
+// Retrieve a specific Pricing Plan Version of a Pricing Plan.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -36,7 +36,7 @@ func (c Client) Get(id string, params *stripe.V2BillingPricingPlansVersionParams
 	return pricingplanversion, err
 }
 
-// List all versions of a PricingPlan.
+// List all Pricing Plan Versions of a Pricing Plan.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

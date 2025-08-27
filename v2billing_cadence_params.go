@@ -6,24 +6,24 @@
 
 package stripe
 
-// If provided, only Cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock`.
+// If provided, only cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock`.
 type V2BillingCadenceListPayerParams struct {
-	// The ID of the Customer object. If provided, only Cadences that specifically reference the provided customer ID will be returned.
+	// The ID of the Customer object. If provided, only cadences that specifically reference the provided customer ID will be returned.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// A string identifying the type of the payer. Currently the only supported value is `customer`.
 	Type *string `form:"type" json:"type"`
 }
 
-// List all the billing Cadences.
+// List Billing Cadences.
 type V2BillingCadenceListParams struct {
 	Params `form:"*"`
 	// Additional resource to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
-	// If provided, only Cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock`.
+	// If provided, only cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock`.
 	Payer *V2BillingCadenceListPayerParams `form:"payer" json:"payer,omitempty"`
-	// If provided, only Cadences that specifically reference the provided test clock ID (via the
+	// If provided, only cadences that specifically reference the provided test clock ID (via the
 	// customer's test clock) will be returned.
 	// Mutually exclusive with `payer`.
 	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
@@ -39,8 +39,10 @@ type V2BillingCadenceBillingCycleDayTimeParams struct {
 	Hour *int64 `form:"hour" json:"hour"`
 	// The minute at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	// Will default to the minute the cadence was created in UTC timezone.
-	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
 }
 
 // Specific configuration for determining billing dates when type=day.
@@ -61,8 +63,10 @@ type V2BillingCadenceBillingCycleMonthTimeParams struct {
 	Hour *int64 `form:"hour" json:"hour"`
 	// The minute at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	// Will default to the minute the cadence was created in UTC timezone.
-	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
 }
 
 // Specific configuration for determining billing dates when type=month.
@@ -88,8 +92,10 @@ type V2BillingCadenceBillingCycleWeekTimeParams struct {
 	Hour *int64 `form:"hour" json:"hour"`
 	// The minute at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	// Will default to the minute the cadence was created in UTC timezone.
-	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
 }
 
 // Specific configuration for determining billing dates when type=week.
@@ -115,8 +121,10 @@ type V2BillingCadenceBillingCycleYearTimeParams struct {
 	Hour *int64 `form:"hour" json:"hour"`
 	// The minute at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	// Will default to the minute the cadence was created in UTC timezone.
-	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
 }
 
 // Specific configuration for determining billing dates when type=year.
@@ -168,7 +176,7 @@ type V2BillingCadencePayerParams struct {
 // If no setting is provided here, the settings from the customer referenced on the payer will be used.
 // If no customer settings are present, the merchant default settings will be used.
 type V2BillingCadenceSettingsBillParams struct {
-	// The ID of the referenced Settings object.
+	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of Settings to use.
 	// If not provided, this will always default to the `live_version` specified on the setting, any time the settings are used.
@@ -181,7 +189,7 @@ type V2BillingCadenceSettingsBillParams struct {
 // If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
 // If no customer settings are present, the merchant default settings will be used.
 type V2BillingCadenceSettingsCollectionParams struct {
-	// The ID of the referenced Settings object.
+	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of Settings to use.
 	// If not provided, this will always default to the `live_version` specified on the setting, any time the settings are used.
@@ -202,14 +210,14 @@ type V2BillingCadenceSettingsParams struct {
 	Collection *V2BillingCadenceSettingsCollectionParams `form:"collection" json:"collection,omitempty"`
 }
 
-// Create a billing Cadence object.
+// Create a Billing Cadence object.
 type V2BillingCadenceParams struct {
 	Params `form:"*"`
 	// The billing cycle is the object that defines future billing cycle dates.
 	BillingCycle *V2BillingCadenceBillingCycleParams `form:"billing_cycle" json:"billing_cycle,omitempty"`
 	// Additional resource to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
 	Payer *V2BillingCadencePayerParams `form:"payer" json:"payer,omitempty"`
@@ -226,7 +234,7 @@ func (p *V2BillingCadenceParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Cancel the billing cadence.
+// Cancel the Billing Cadence.
 type V2BillingCadenceCancelParams struct {
 	Params `form:"*"`
 	// Additional resource to include in the response.
@@ -243,8 +251,10 @@ type V2BillingCadenceCreateBillingCycleDayTimeParams struct {
 	Hour *int64 `form:"hour" json:"hour"`
 	// The minute at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	// Will default to the minute the cadence was created in UTC timezone.
-	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
 }
 
 // Specific configuration for determining billing dates when type=day.
@@ -265,8 +275,10 @@ type V2BillingCadenceCreateBillingCycleMonthTimeParams struct {
 	Hour *int64 `form:"hour" json:"hour"`
 	// The minute at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	// Will default to the minute the cadence was created in UTC timezone.
-	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
 }
 
 // Specific configuration for determining billing dates when type=month.
@@ -292,8 +304,10 @@ type V2BillingCadenceCreateBillingCycleWeekTimeParams struct {
 	Hour *int64 `form:"hour" json:"hour"`
 	// The minute at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	// Will default to the minute the cadence was created in UTC timezone.
-	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
 }
 
 // Specific configuration for determining billing dates when type=week.
@@ -319,8 +333,10 @@ type V2BillingCadenceCreateBillingCycleYearTimeParams struct {
 	Hour *int64 `form:"hour" json:"hour"`
 	// The minute at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	// Will default to the minute the cadence was created in UTC timezone.
-	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
 }
 
 // Specific configuration for determining billing dates when type=year.
@@ -372,7 +388,7 @@ type V2BillingCadenceCreatePayerParams struct {
 // If no setting is provided here, the settings from the customer referenced on the payer will be used.
 // If no customer settings are present, the merchant default settings will be used.
 type V2BillingCadenceCreateSettingsBillParams struct {
-	// The ID of the referenced Settings object.
+	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of the Settings to use.
 	// If not provided, this will always default to the live version any time the settings are used.
@@ -383,7 +399,7 @@ type V2BillingCadenceCreateSettingsBillParams struct {
 // If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
 // If no customer settings are present, the merchant default settings will be used.
 type V2BillingCadenceCreateSettingsCollectionParams struct {
-	// The ID of the referenced Settings object.
+	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of the Settings to use.
 	// If not provided, this will always default to the live version any time the settings are used.
@@ -402,15 +418,14 @@ type V2BillingCadenceCreateSettingsParams struct {
 	Collection *V2BillingCadenceCreateSettingsCollectionParams `form:"collection" json:"collection,omitempty"`
 }
 
-// Create a billing Cadence object.
+// Create a Billing Cadence object.
 type V2BillingCadenceCreateParams struct {
 	Params `form:"*"`
 	// The billing cycle is the object that defines future billing cycle dates.
 	BillingCycle *V2BillingCadenceCreateBillingCycleParams `form:"billing_cycle" json:"billing_cycle"`
 	// Additional resource to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful
-	// for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
 	Payer *V2BillingCadenceCreatePayerParams `form:"payer" json:"payer"`
@@ -427,7 +442,7 @@ func (p *V2BillingCadenceCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Retrieve a billing Cadence object.
+// Retrieve a Billing Cadence object.
 type V2BillingCadenceRetrieveParams struct {
 	Params `form:"*"`
 	// Additional resource to include in the response.
@@ -442,7 +457,7 @@ type V2BillingCadenceUpdatePayerParams struct {
 
 // Settings that configure bills generation, which includes calculating totals, tax, and presenting invoices. If null is provided, the current bill settings will be removed from the billing cadence.
 type V2BillingCadenceUpdateSettingsBillParams struct {
-	// The ID of the referenced Settings object.
+	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of Settings to use.
 	// If not provided, this will always default to the `live_version` specified on the setting, any time the settings are used.
@@ -453,7 +468,7 @@ type V2BillingCadenceUpdateSettingsBillParams struct {
 
 // Settings that configure and manage the behavior of collecting payments. If null is provided, the current collection settings will be removed from the billing cadence.
 type V2BillingCadenceUpdateSettingsCollectionParams struct {
-	// The ID of the referenced Settings object.
+	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of Settings to use.
 	// If not provided, this will always default to the `live_version` specified on the setting, any time the settings are used.
@@ -470,12 +485,12 @@ type V2BillingCadenceUpdateSettingsParams struct {
 	Collection *V2BillingCadenceUpdateSettingsCollectionParams `form:"collection" json:"collection,omitempty"`
 }
 
-// Update a billing Cadence object.
+// Update a Billing Cadence object.
 type V2BillingCadenceUpdateParams struct {
 	Params `form:"*"`
 	// Additional resource to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
 	Payer *V2BillingCadenceUpdatePayerParams `form:"payer" json:"payer,omitempty"`

@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a BillingIntent.
+// Create a Billing Intent.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -33,7 +33,7 @@ func (c Client) New(params *stripe.V2BillingIntentParams) (*stripe.V2BillingInte
 	return intent, err
 }
 
-// Retrieve a BillingIntent.
+// Retrieve a Billing Intent.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -45,7 +45,7 @@ func (c Client) Get(id string, params *stripe.V2BillingIntentParams) (*stripe.V2
 	return intent, err
 }
 
-// Cancel a BillingIntent.
+// Cancel a Billing Intent.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -57,7 +57,7 @@ func (c Client) Cancel(id string, params *stripe.V2BillingIntentCancelParams) (*
 	return intent, err
 }
 
-// Commit a BillingIntent.
+// Commit a Billing Intent.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -69,7 +69,7 @@ func (c Client) Commit(id string, params *stripe.V2BillingIntentCommitParams) (*
 	return intent, err
 }
 
-// Release a BillingIntent.
+// Release a Billing Intent.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -81,7 +81,7 @@ func (c Client) ReleaseReservation(id string, params *stripe.V2BillingIntentRele
 	return intent, err
 }
 
-// Reserve a BillingIntent.
+// Reserve a Billing Intent.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -93,7 +93,7 @@ func (c Client) Reserve(id string, params *stripe.V2BillingIntentReserveParams) 
 	return intent, err
 }
 
-// List BillingIntents.
+// List Billing Intents.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

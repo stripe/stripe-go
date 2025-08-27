@@ -280,7 +280,9 @@ type CardListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 	Account    *string `form:"-"` // Included in URL
-	Object     *string `form:"object"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	Object *string   `form:"object"`
 }
 
 // AppendTo implements custom encoding logic for CardListParams
@@ -290,6 +292,11 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Account != nil || p.Customer != nil {
 		body.Add(form.FormatKey(append(keyParts, "object")), "card")
 	}
+}
+
+// AddExpand appends a new field to expand.
+func (p *CardListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Delete a specified source for a given customer.

@@ -20,6 +20,7 @@ type BillingAlertCreditBalanceThresholdFilterType string
 // List of values that BillingAlertCreditBalanceThresholdFilterType can take
 const (
 	BillingAlertCreditBalanceThresholdFilterTypeCustomer BillingAlertCreditBalanceThresholdFilterType = "customer"
+	BillingAlertCreditBalanceThresholdFilterTypeTenant   BillingAlertCreditBalanceThresholdFilterType = "tenant"
 )
 
 // The type of this balance. We currently only support `monetary` amounts.
@@ -29,14 +30,6 @@ type BillingAlertCreditBalanceThresholdLteBalanceType string
 const (
 	BillingAlertCreditBalanceThresholdLteBalanceTypeCustomPricingUnit BillingAlertCreditBalanceThresholdLteBalanceType = "custom_pricing_unit"
 	BillingAlertCreditBalanceThresholdLteBalanceTypeMonetary          BillingAlertCreditBalanceThresholdLteBalanceType = "monetary"
-)
-
-// Defines how the alert will behave.
-type BillingAlertCreditBalanceThresholdRecurrence string
-
-// List of values that BillingAlertCreditBalanceThresholdRecurrence can take
-const (
-	BillingAlertCreditBalanceThresholdRecurrenceOneTime BillingAlertCreditBalanceThresholdRecurrence = "one_time"
 )
 
 // Status of the alert. This can be active, inactive or archived.
@@ -122,8 +115,6 @@ type BillingAlertCreditBalanceThresholdParams struct {
 	Filters []*BillingAlertCreditBalanceThresholdFilterParams `form:"filters"`
 	// Defines at which value the alert will fire.
 	Lte *BillingAlertCreditBalanceThresholdLteParams `form:"lte"`
-	// Whether the alert should only fire only once, or once per billing cycle.
-	Recurrence *string `form:"recurrence"`
 }
 
 // The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
@@ -242,8 +233,6 @@ type BillingAlertCreateCreditBalanceThresholdParams struct {
 	Filters []*BillingAlertCreateCreditBalanceThresholdFilterParams `form:"filters"`
 	// Defines at which value the alert will fire.
 	Lte *BillingAlertCreateCreditBalanceThresholdLteParams `form:"lte"`
-	// Whether the alert should only fire only once, or once per billing cycle.
-	Recurrence *string `form:"recurrence"`
 }
 
 // The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
@@ -305,8 +294,26 @@ type BillingAlertCreditBalanceThresholdFilter struct {
 	Type     BillingAlertCreditBalanceThresholdFilterType `json:"type"`
 }
 
+// The custom pricing unit object.
+type BillingAlertCreditBalanceThresholdLteCustomPricingUnitCustomPricingUnitDetails struct {
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The name of the custom pricing unit.
+	DisplayName string `json:"display_name"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A lookup key for the custom pricing unit.
+	LookupKey string `json:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// The status of the custom pricing unit.
+	Status string `json:"status"`
+}
+
 // The custom pricing unit amount.
 type BillingAlertCreditBalanceThresholdLteCustomPricingUnit struct {
+	// The custom pricing unit object.
+	CustomPricingUnitDetails *BillingAlertCreditBalanceThresholdLteCustomPricingUnitCustomPricingUnitDetails `json:"custom_pricing_unit_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A positive decimal string representing the amount.
@@ -334,8 +341,6 @@ type BillingAlertCreditBalanceThreshold struct {
 	// The filters allow limiting the scope of this credit balance alert. You must specify only a customer filter at this time.
 	Filters []*BillingAlertCreditBalanceThresholdFilter `json:"filters"`
 	Lte     *BillingAlertCreditBalanceThresholdLte      `json:"lte"`
-	// Defines how the alert will behave.
-	Recurrence BillingAlertCreditBalanceThresholdRecurrence `json:"recurrence"`
 }
 
 // The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.

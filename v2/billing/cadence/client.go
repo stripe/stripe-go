@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a billing Cadence object.
+// Create a Billing Cadence object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2BillingCadenceParams) (*stripe.V2BillingCad
 	return cadence, err
 }
 
-// Retrieve a billing Cadence object.
+// Retrieve a Billing Cadence object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2BillingCadenceParams) (*stripe.V
 	return cadence, err
 }
 
-// Update a billing Cadence object.
+// Update a Billing Cadence object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2BillingCadenceParams) (*strip
 	return cadence, err
 }
 
-// Cancel the billing cadence.
+// Cancel the Billing Cadence.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -70,7 +70,7 @@ func (c Client) Cancel(id string, params *stripe.V2BillingCadenceCancelParams) (
 	return cadence, err
 }
 
-// List all the billing Cadences.
+// List Billing Cadences.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

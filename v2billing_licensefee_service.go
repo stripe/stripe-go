@@ -17,7 +17,7 @@ type v2BillingLicenseFeeService struct {
 	Key string
 }
 
-// Create a LicenseFee object.
+// Create a License Fee object.
 func (c v2BillingLicenseFeeService) Create(ctx context.Context, params *V2BillingLicenseFeeCreateParams) (*V2BillingLicenseFee, error) {
 	if params == nil {
 		params = &V2BillingLicenseFeeCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingLicenseFeeService) Create(ctx context.Context, params *V2Billin
 	return licensefee, err
 }
 
-// Retrieve a LicenseFee object.
+// Retrieve a License Fee object.
 func (c v2BillingLicenseFeeService) Retrieve(ctx context.Context, id string, params *V2BillingLicenseFeeRetrieveParams) (*V2BillingLicenseFee, error) {
 	if params == nil {
 		params = &V2BillingLicenseFeeRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingLicenseFeeService) Retrieve(ctx context.Context, id string, par
 	return licensefee, err
 }
 
-// Update a LicenseFee object.
+// Update a License Fee object.
 func (c v2BillingLicenseFeeService) Update(ctx context.Context, id string, params *V2BillingLicenseFeeUpdateParams) (*V2BillingLicenseFee, error) {
 	if params == nil {
 		params = &V2BillingLicenseFeeUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingLicenseFeeService) Update(ctx context.Context, id string, param
 	return licensefee, err
 }
 
-// List all LicenseFee objects.
+// List all License Fee objects.
 func (c v2BillingLicenseFeeService) List(ctx context.Context, listParams *V2BillingLicenseFeeListParams) Seq2[*V2BillingLicenseFee, error] {
 	if listParams == nil {
 		listParams = &V2BillingLicenseFeeListParams{}

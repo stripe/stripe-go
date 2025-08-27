@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Retrieve a PricingPlanSubscription object.
+// Retrieve a Pricing Plan Subscription object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) Get(id string, params *stripe.V2BillingPricingPlanSubscriptionPa
 	return pricingplansubscription, err
 }
 
-// List all PricingPlanSubscription objects.
+// List all Pricing Plan Subscription objects.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

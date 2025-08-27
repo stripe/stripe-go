@@ -124,8 +124,26 @@ func (p *BillingCreditBalanceSummaryRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The custom pricing unit object.
+type BillingCreditBalanceSummaryBalanceAvailableBalanceCustomPricingUnitCustomPricingUnitDetails struct {
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The name of the custom pricing unit.
+	DisplayName string `json:"display_name"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A lookup key for the custom pricing unit.
+	LookupKey string `json:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// The status of the custom pricing unit.
+	Status string `json:"status"`
+}
+
 // The custom pricing unit amount.
 type BillingCreditBalanceSummaryBalanceAvailableBalanceCustomPricingUnit struct {
+	// The custom pricing unit object.
+	CustomPricingUnitDetails *BillingCreditBalanceSummaryBalanceAvailableBalanceCustomPricingUnitCustomPricingUnitDetails `json:"custom_pricing_unit_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A positive integer representing the amount.
@@ -148,8 +166,26 @@ type BillingCreditBalanceSummaryBalanceAvailableBalance struct {
 	Type BillingCreditBalanceSummaryBalanceAvailableBalanceType `json:"type"`
 }
 
+// The custom pricing unit object.
+type BillingCreditBalanceSummaryBalanceLedgerBalanceCustomPricingUnitCustomPricingUnitDetails struct {
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The name of the custom pricing unit.
+	DisplayName string `json:"display_name"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A lookup key for the custom pricing unit.
+	LookupKey string `json:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// The status of the custom pricing unit.
+	Status string `json:"status"`
+}
+
 // The custom pricing unit amount.
 type BillingCreditBalanceSummaryBalanceLedgerBalanceCustomPricingUnit struct {
+	// The custom pricing unit object.
+	CustomPricingUnitDetails *BillingCreditBalanceSummaryBalanceLedgerBalanceCustomPricingUnitCustomPricingUnitDetails `json:"custom_pricing_unit_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A positive integer representing the amount.

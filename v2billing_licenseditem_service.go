@@ -17,7 +17,7 @@ type v2BillingLicensedItemService struct {
 	Key string
 }
 
-// Create a LicensedItem object.
+// Create a Licensed Item object.
 func (c v2BillingLicensedItemService) Create(ctx context.Context, params *V2BillingLicensedItemCreateParams) (*V2BillingLicensedItem, error) {
 	if params == nil {
 		params = &V2BillingLicensedItemCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingLicensedItemService) Create(ctx context.Context, params *V2Bill
 	return licenseditem, err
 }
 
-// Retrieve a LicensedItem object.
+// Retrieve a Licensed Item object.
 func (c v2BillingLicensedItemService) Retrieve(ctx context.Context, id string, params *V2BillingLicensedItemRetrieveParams) (*V2BillingLicensedItem, error) {
 	if params == nil {
 		params = &V2BillingLicensedItemRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingLicensedItemService) Retrieve(ctx context.Context, id string, p
 	return licenseditem, err
 }
 
-// Update a LicensedItem object. At least one of the fields is required.
+// Update a Licensed Item object. At least one of the fields is required.
 func (c v2BillingLicensedItemService) Update(ctx context.Context, id string, params *V2BillingLicensedItemUpdateParams) (*V2BillingLicensedItem, error) {
 	if params == nil {
 		params = &V2BillingLicensedItemUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingLicensedItemService) Update(ctx context.Context, id string, par
 	return licenseditem, err
 }
 
-// List all LicensedItem objects in reverse chronological order of creation.
+// List all Licensed Item objects in reverse chronological order of creation.
 func (c v2BillingLicensedItemService) List(ctx context.Context, listParams *V2BillingLicensedItemListParams) Seq2[*V2BillingLicensedItem, error] {
 	if listParams == nil {
 		listParams = &V2BillingLicensedItemListParams{}
