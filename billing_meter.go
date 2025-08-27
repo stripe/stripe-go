@@ -26,7 +26,7 @@ const (
 	BillingMeterDefaultAggregationFormulaSum   BillingMeterDefaultAggregationFormula = "sum"
 )
 
-// The time window to pre-aggregate meter events for, if any.
+// The time window which meter events have been pre-aggregated for, if any.
 type BillingMeterEventTimeWindow string
 
 // List of values that BillingMeterEventTimeWindow can take
@@ -89,7 +89,7 @@ type BillingMeterParams struct {
 	DisplayName *string `form:"display_name"`
 	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.
 	EventName *string `form:"event_name"`
-	// The time window to pre-aggregate meter events for, if any.
+	// The time window which meter events have been pre-aggregated for, if any.
 	EventTimeWindow *string `form:"event_time_window"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -157,7 +157,7 @@ type BillingMeterCreateParams struct {
 	DisplayName *string `form:"display_name"`
 	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.
 	EventName *string `form:"event_name"`
-	// The time window to pre-aggregate meter events for, if any.
+	// The time window which meter events have been pre-aggregated for, if any.
 	EventTimeWindow *string `form:"event_time_window"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -228,7 +228,7 @@ type BillingMeter struct {
 	DisplayName string `json:"display_name"`
 	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.
 	EventName string `json:"event_name"`
-	// The time window to pre-aggregate meter events for, if any.
+	// The time window which meter events have been pre-aggregated for, if any.
 	EventTimeWindow BillingMeterEventTimeWindow `json:"event_time_window"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

@@ -49,6 +49,26 @@ const (
 	SubscriptionScheduleEndBehaviorRenew   SubscriptionScheduleEndBehavior = "renew"
 )
 
+// Select how to calculate the end of the invoice item period.
+type SubscriptionSchedulePhaseAddInvoiceItemPeriodEndType string
+
+// List of values that SubscriptionSchedulePhaseAddInvoiceItemPeriodEndType can take
+const (
+	SubscriptionSchedulePhaseAddInvoiceItemPeriodEndTypeMinItemPeriodEnd SubscriptionSchedulePhaseAddInvoiceItemPeriodEndType = "min_item_period_end"
+	SubscriptionSchedulePhaseAddInvoiceItemPeriodEndTypePhaseEnd         SubscriptionSchedulePhaseAddInvoiceItemPeriodEndType = "phase_end"
+	SubscriptionSchedulePhaseAddInvoiceItemPeriodEndTypeTimestamp        SubscriptionSchedulePhaseAddInvoiceItemPeriodEndType = "timestamp"
+)
+
+// Select how to calculate the start of the invoice item period.
+type SubscriptionSchedulePhaseAddInvoiceItemPeriodStartType string
+
+// List of values that SubscriptionSchedulePhaseAddInvoiceItemPeriodStartType can take
+const (
+	SubscriptionSchedulePhaseAddInvoiceItemPeriodStartTypeMaxItemPeriodStart SubscriptionSchedulePhaseAddInvoiceItemPeriodStartType = "max_item_period_start"
+	SubscriptionSchedulePhaseAddInvoiceItemPeriodStartTypePhaseStart         SubscriptionSchedulePhaseAddInvoiceItemPeriodStartType = "phase_start"
+	SubscriptionSchedulePhaseAddInvoiceItemPeriodStartTypeTimestamp          SubscriptionSchedulePhaseAddInvoiceItemPeriodStartType = "timestamp"
+)
+
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 type SubscriptionSchedulePhaseBillingCycleAnchor string
 
@@ -188,10 +208,38 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// End of the invoice item period.
+type SubscriptionSchedulePhaseAddInvoiceItemPeriodEndParams struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// Start of the invoice item period.
+type SubscriptionSchedulePhaseAddInvoiceItemPeriodStartParams struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+type SubscriptionSchedulePhaseAddInvoiceItemPeriodParams struct {
+	// End of the invoice item period.
+	End *SubscriptionSchedulePhaseAddInvoiceItemPeriodEndParams `form:"end"`
+	// Start of the invoice item period.
+	Start *SubscriptionSchedulePhaseAddInvoiceItemPeriodStartParams `form:"start"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	Period *SubscriptionSchedulePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -200,6 +248,15 @@ type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionSchedulePhaseAddInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -525,10 +582,38 @@ type SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// End of the invoice item period.
+type SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodEndParams struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// Start of the invoice item period.
+type SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodStartParams struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+type SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodParams struct {
+	// End of the invoice item period.
+	End *SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodEndParams `form:"end"`
+	// Start of the invoice item period.
+	Start *SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodStartParams `form:"start"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionScheduleCreatePhaseAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	Period *SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -537,6 +622,15 @@ type SubscriptionScheduleCreatePhaseAddInvoiceItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionScheduleCreatePhaseAddInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -818,10 +912,38 @@ type SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// End of the invoice item period.
+type SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodEndParams struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// Start of the invoice item period.
+type SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodStartParams struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+type SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodParams struct {
+	// End of the invoice item period.
+	End *SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodEndParams `form:"end"`
+	// Start of the invoice item period.
+	Start *SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodStartParams `form:"start"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionScheduleUpdatePhaseAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	Period *SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -830,6 +952,15 @@ type SubscriptionScheduleUpdatePhaseAddInvoiceItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionScheduleUpdatePhaseAddInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -1109,11 +1240,30 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode `json:"promotion_code"`
 }
+type SubscriptionSchedulePhaseAddInvoiceItemPeriodEnd struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp int64 `json:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type SubscriptionSchedulePhaseAddInvoiceItemPeriodEndType `json:"type"`
+}
+type SubscriptionSchedulePhaseAddInvoiceItemPeriodStart struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp int64 `json:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type SubscriptionSchedulePhaseAddInvoiceItemPeriodStartType `json:"type"`
+}
+type SubscriptionSchedulePhaseAddInvoiceItemPeriod struct {
+	End   *SubscriptionSchedulePhaseAddInvoiceItemPeriodEnd   `json:"end"`
+	Start *SubscriptionSchedulePhaseAddInvoiceItemPeriodStart `json:"start"`
+}
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 type SubscriptionSchedulePhaseAddInvoiceItem struct {
 	// The stackable discounts that will be applied to the item.
 	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscount `json:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string                              `json:"metadata"`
+	Period   *SubscriptionSchedulePhaseAddInvoiceItemPeriod `json:"period"`
 	// ID of the price used to generate the invoice item.
 	Price *Price `json:"price"`
 	// The quantity of the invoice item.
