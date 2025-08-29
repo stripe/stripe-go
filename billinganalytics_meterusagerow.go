@@ -6,7 +6,7 @@
 
 package stripe
 
-type BillingMeterUsageRow struct {
+type BillingAnalyticsMeterUsageRow struct {
 	// Timestamp indicating the end of the bucket. Measured in seconds since the Unix epoch.
 	BucketEndTime int64 `json:"bucket_end_time"`
 	// Timestamp indicating the start of the bucket. Measured in seconds since the Unix epoch.

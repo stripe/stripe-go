@@ -1435,12 +1435,6 @@ type PaymentMethodUpdateCardParams struct {
 	Networks *PaymentMethodUpdateCardNetworksParams `form:"networks"`
 }
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
-type PaymentMethodUpdateLinkParams struct{}
-
-// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
-type PaymentMethodUpdatePayByBankParams struct{}
-
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type PaymentMethodUpdatePaytoParams struct {
 	// The account number for the bank account.
@@ -1470,12 +1464,8 @@ type PaymentMethodUpdateParams struct {
 	Card *PaymentMethodUpdateCardParams `form:"card"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
-	Link *PaymentMethodUpdateLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
-	PayByBank *PaymentMethodUpdatePayByBankParams `form:"pay_by_bank"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *PaymentMethodUpdatePaytoParams `form:"payto"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
