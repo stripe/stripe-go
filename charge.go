@@ -2857,8 +2857,7 @@ type ChargeTransferData struct {
 }
 
 // The `Charge` object represents a single attempt to move money into your Stripe account.
-// PaymentIntent confirmation is the most common way to create Charges, but transferring
-// money to a different Stripe account through Connect also creates Charges.
+// PaymentIntent confirmation is the most common way to create Charges, but [Account Debits](https://stripe.com/docs/connect/account-debits) may also create Charges.
 // Some legacy payment flows create Charges directly, which is not recommended for new integrations.
 type Charge struct {
 	APIResource

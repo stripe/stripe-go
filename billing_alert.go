@@ -71,7 +71,7 @@ type BillingAlertUsageThresholdParams struct {
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *string `form:"meter"`
-	// Whether the alert should only fire only once, or once per billing cycle.
+	// Defines how the alert will behave.
 	Recurrence *string `form:"recurrence"`
 }
 
@@ -145,7 +145,7 @@ type BillingAlertCreateUsageThresholdParams struct {
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *string `form:"meter"`
-	// Whether the alert should only fire only once, or once per billing cycle.
+	// Defines how the alert will behave.
 	Recurrence *string `form:"recurrence"`
 }
 

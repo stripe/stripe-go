@@ -659,7 +659,7 @@ type InvoicePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoicePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
@@ -1890,7 +1890,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodStartParams str
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodEndParams `form:"end"`
@@ -1918,7 +1918,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams struct {
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -2745,7 +2745,7 @@ type InvoiceUpdatePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
@@ -3183,7 +3183,7 @@ type InvoiceCreatePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoiceCreatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
