@@ -258,8 +258,6 @@ type AccountSettingsPayoutsScheduleWeeklyPayoutDay string
 const (
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayFriday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "friday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayMonday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "monday"
-	AccountSettingsPayoutsScheduleWeeklyPayoutDaySaturday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "saturday"
-	AccountSettingsPayoutsScheduleWeeklyPayoutDaySunday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "sunday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayThursday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "thursday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayTuesday   AccountSettingsPayoutsScheduleWeeklyPayoutDay = "tuesday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayWednesday AccountSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
