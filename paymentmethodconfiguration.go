@@ -786,6 +786,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationPaypayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPaypayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPaypayDisplayPreferencePreferenceNone PaymentMethodConfigurationPaypayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPaypayDisplayPreferencePreferenceOff  PaymentMethodConfigurationPaypayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPaypayDisplayPreferencePreferenceOn   PaymentMethodConfigurationPaypayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPaypayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPaypayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPaypayDisplayPreferenceValueOff PaymentMethodConfigurationPaypayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPaypayDisplayPreferenceValueOn  PaymentMethodConfigurationPaypayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationPaytoDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationPaytoDisplayPreferencePreference can take
@@ -1589,6 +1608,18 @@ type PaymentMethodConfigurationPaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationPaypayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Customers can pay with PayPay online or using the PayPay app.
+type PaymentMethodConfigurationPaypayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationPaypayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1863,6 +1894,8 @@ type PaymentMethodConfigurationParams struct {
 	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal"`
+	// Customers can pay with PayPay online or using the PayPay app.
+	Paypay *PaymentMethodConfigurationPaypayParams `form:"paypay"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationPaytoParams `form:"payto"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
@@ -2405,6 +2438,18 @@ type PaymentMethodConfigurationCreatePaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreatePaypayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Customers can pay with PayPay online or using the PayPay app.
+type PaymentMethodConfigurationCreatePaypayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreatePaypayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2677,6 +2722,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	PayNow *PaymentMethodConfigurationCreatePayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationCreatePaypalParams `form:"paypal"`
+	// Customers can pay with PayPay online or using the PayPay app.
+	Paypay *PaymentMethodConfigurationCreatePaypayParams `form:"paypay"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationCreatePaytoParams `form:"payto"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
@@ -3231,6 +3278,18 @@ type PaymentMethodConfigurationUpdatePaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdatePaypayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Customers can pay with PayPay online or using the PayPay app.
+type PaymentMethodConfigurationUpdatePaypayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdatePaypayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -3503,6 +3562,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	PayNow *PaymentMethodConfigurationUpdatePayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationUpdatePaypalParams `form:"paypal"`
+	// Customers can pay with PayPay online or using the PayPay app.
+	Paypay *PaymentMethodConfigurationUpdatePaypayParams `form:"paypay"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationUpdatePaytoParams `form:"payto"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
@@ -4073,6 +4134,19 @@ type PaymentMethodConfigurationPaypal struct {
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationPaypayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPaypayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPaypayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPaypay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPaypayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationPaytoDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4342,6 +4416,7 @@ type PaymentMethodConfiguration struct {
 	Payco         *PaymentMethodConfigurationPayco         `json:"payco"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
+	Paypay        *PaymentMethodConfigurationPaypay        `json:"paypay"`
 	Payto         *PaymentMethodConfigurationPayto         `json:"payto"`
 	Pix           *PaymentMethodConfigurationPix           `json:"pix"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`

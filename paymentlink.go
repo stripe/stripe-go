@@ -162,6 +162,7 @@ const (
 	PaymentLinkPaymentMethodTypePayByBank        PaymentLinkPaymentMethodType = "pay_by_bank"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
 	PaymentLinkPaymentMethodTypePaypal           PaymentLinkPaymentMethodType = "paypal"
+	PaymentLinkPaymentMethodTypePaypay           PaymentLinkPaymentMethodType = "paypay"
 	PaymentLinkPaymentMethodTypePayto            PaymentLinkPaymentMethodType = "payto"
 	PaymentLinkPaymentMethodTypePix              PaymentLinkPaymentMethodType = "pix"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"

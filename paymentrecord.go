@@ -1532,6 +1532,7 @@ type PaymentRecordPaymentMethodDetailsPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type PaymentRecordPaymentMethodDetailsPaypay struct{}
 type PaymentRecordPaymentMethodDetailsPayto struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -1736,6 +1737,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	PaymentMethod      string                                               `json:"payment_method"`
 	PayNow             *PaymentRecordPaymentMethodDetailsPayNow             `json:"paynow"`
 	Paypal             *PaymentRecordPaymentMethodDetailsPaypal             `json:"paypal"`
+	Paypay             *PaymentRecordPaymentMethodDetailsPaypay             `json:"paypay"`
 	Payto              *PaymentRecordPaymentMethodDetailsPayto              `json:"payto"`
 	Pix                *PaymentRecordPaymentMethodDetailsPix                `json:"pix"`
 	PromptPay          *PaymentRecordPaymentMethodDetailsPromptPay          `json:"promptpay"`

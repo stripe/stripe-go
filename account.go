@@ -689,6 +689,12 @@ type AccountCapabilitiesPaypalPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypay_payments capability.
+type AccountCapabilitiesPaypayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The payto_payments capability.
 type AccountCapabilitiesPaytoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -944,6 +950,8 @@ type AccountCapabilitiesParams struct {
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
 	PaypalPayments *AccountCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
@@ -1885,6 +1893,12 @@ type AccountUpdateCapabilitiesPaypalPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypay_payments capability.
+type AccountUpdateCapabilitiesPaypayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The payto_payments capability.
 type AccountUpdateCapabilitiesPaytoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2140,6 +2154,8 @@ type AccountUpdateCapabilitiesParams struct {
 	PayNowPayments *AccountUpdateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
 	PaypalPayments *AccountUpdateCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountUpdateCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountUpdateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
@@ -3052,6 +3068,12 @@ type AccountCreateCapabilitiesPaypalPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypay_payments capability.
+type AccountCreateCapabilitiesPaypayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The payto_payments capability.
 type AccountCreateCapabilitiesPaytoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3307,6 +3329,8 @@ type AccountCreateCapabilitiesParams struct {
 	PayNowPayments *AccountCreateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
 	PaypalPayments *AccountCreateCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountCreateCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountCreateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
@@ -4075,6 +4099,8 @@ type AccountCapabilities struct {
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
 	// The status of the PayPal payments capability of the account, or whether the account can directly process PayPal charges.
 	PaypalPayments AccountCapabilityStatus `json:"paypal_payments"`
+	// The status of the Paypay capability of the account, or whether the account can directly process Paypay payments.
+	PaypayPayments AccountCapabilityStatus `json:"paypay_payments"`
 	// The status of the PayTo capability of the account, or whether the account can directly process PayTo charges.
 	PaytoPayments AccountCapabilityStatus `json:"payto_payments"`
 	// The status of the pix payments capability of the account, or whether the account can directly process pix charges.
