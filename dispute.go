@@ -642,6 +642,8 @@ type DisputePaymentMethodDetailsCard struct {
 	NetworkReasonCode string `json:"network_reason_code"`
 }
 type DisputePaymentMethodDetailsKlarna struct {
+	// Chargeback loss reason mapped by Stripe from Klarna's chargeback loss reason
+	ChargebackLossReasonCode string `json:"chargeback_loss_reason_code"`
 	// The reason for the dispute as defined by Klarna
 	ReasonCode string `json:"reason_code"`
 }
