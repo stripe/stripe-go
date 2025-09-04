@@ -322,6 +322,7 @@ const (
 	PaymentMethodTypePayco            PaymentMethodType = "payco"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
 	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
+	PaymentMethodTypePaypay           PaymentMethodType = "paypay"
 	PaymentMethodTypePayto            PaymentMethodType = "payto"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
@@ -634,6 +635,9 @@ type PaymentMethodPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodPaypalParams struct{}
 
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type PaymentMethodPaypayParams struct{}
+
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type PaymentMethodPaytoParams struct {
 	// The account number for the bank account.
@@ -826,6 +830,8 @@ type PaymentMethodParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *PaymentMethodPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -1143,6 +1149,9 @@ type PaymentMethodCreatePayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodCreatePaypalParams struct{}
 
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type PaymentMethodCreatePaypayParams struct{}
+
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type PaymentMethodCreatePaytoParams struct {
 	// The account number for the bank account.
@@ -1339,6 +1348,8 @@ type PaymentMethodCreateParams struct {
 	PayNow *PaymentMethodCreatePayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodCreatePaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *PaymentMethodCreatePaypayParams `form:"paypay"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *PaymentMethodCreatePaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -1435,12 +1446,6 @@ type PaymentMethodUpdateCardParams struct {
 	Networks *PaymentMethodUpdateCardNetworksParams `form:"networks"`
 }
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
-type PaymentMethodUpdateLinkParams struct{}
-
-// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
-type PaymentMethodUpdatePayByBankParams struct{}
-
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type PaymentMethodUpdatePaytoParams struct {
 	// The account number for the bank account.
@@ -1470,12 +1475,8 @@ type PaymentMethodUpdateParams struct {
 	Card *PaymentMethodUpdateCardParams `form:"card"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
-	Link *PaymentMethodUpdateLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
-	PayByBank *PaymentMethodUpdatePayByBankParams `form:"pay_by_bank"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *PaymentMethodUpdatePaytoParams `form:"payto"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -1962,6 +1963,7 @@ type PaymentMethodPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedEmail string `json:"verified_email"`
 }
+type PaymentMethodPaypay struct{}
 type PaymentMethodPayto struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -2138,6 +2140,7 @@ type PaymentMethod struct {
 	Payco     *PaymentMethodPayco     `json:"payco"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
 	Paypal    *PaymentMethodPaypal    `json:"paypal"`
+	Paypay    *PaymentMethodPaypay    `json:"paypay"`
 	Payto     *PaymentMethodPayto     `json:"payto"`
 	Pix       *PaymentMethodPix       `json:"pix"`
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`

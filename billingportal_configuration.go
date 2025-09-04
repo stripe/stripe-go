@@ -84,6 +84,15 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionTypeShorteningInterval   BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionType = "shortening_interval"
 )
 
+// Determines how handle updates to trialing subscriptions. Valid values are `end_trial` and `continue_trial`. Defaults to a value of `end_trial` if you don't set it during creation.
+type BillingPortalConfigurationFeaturesSubscriptionUpdateTrialUpdateBehavior string
+
+// List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateTrialUpdateBehavior can take
+const (
+	BillingPortalConfigurationFeaturesSubscriptionUpdateTrialUpdateBehaviorContinueTrial BillingPortalConfigurationFeaturesSubscriptionUpdateTrialUpdateBehavior = "continue_trial"
+	BillingPortalConfigurationFeaturesSubscriptionUpdateTrialUpdateBehaviorEndTrial      BillingPortalConfigurationFeaturesSubscriptionUpdateTrialUpdateBehavior = "end_trial"
+)
+
 // Returns a list of configurations that describe the functionality of the customer portal.
 type BillingPortalConfigurationListParams struct {
 	ListParams `form:"*"`
@@ -194,6 +203,8 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
+	// The behavior when updating a subscription that is trialing.
+	TrialUpdateBehavior *string `form:"trial_update_behavior"`
 }
 
 // Information about the features available in the portal.
@@ -347,6 +358,8 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
+	// The behavior when updating a subscription that is trialing.
+	TrialUpdateBehavior *string `form:"trial_update_behavior"`
 }
 
 // Information about the features available in the portal.
@@ -508,6 +521,8 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
+	// The behavior when updating a subscription that is trialing.
+	TrialUpdateBehavior *string `form:"trial_update_behavior"`
 }
 
 // Information about the features available in the portal.
@@ -641,6 +656,8 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. Defaults to a value of `none` if you don't set it during creation.
 	ProrationBehavior   BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior    `json:"proration_behavior"`
 	ScheduleAtPeriodEnd *BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEnd `json:"schedule_at_period_end"`
+	// Determines how handle updates to trialing subscriptions. Valid values are `end_trial` and `continue_trial`. Defaults to a value of `end_trial` if you don't set it during creation.
+	TrialUpdateBehavior BillingPortalConfigurationFeaturesSubscriptionUpdateTrialUpdateBehavior `json:"trial_update_behavior"`
 }
 type BillingPortalConfigurationFeatures struct {
 	CustomerUpdate      *BillingPortalConfigurationFeaturesCustomerUpdate      `json:"customer_update"`

@@ -23,7 +23,7 @@ type Client struct {
 }
 
 // Returns aggregated meter usage data for a customer within a specified time interval. The data can be grouped by various dimensions and can include multiple meters if specified.
-func Get(params *stripe.BillingMeterUsageParams) (*stripe.BillingMeterUsage, error) {
+func Get(params *stripe.BillingAnalyticsMeterUsageParams) (*stripe.BillingAnalyticsMeterUsage, error) {
 	return getC().Get(params)
 }
 
@@ -32,8 +32,8 @@ func Get(params *stripe.BillingMeterUsageParams) (*stripe.BillingMeterUsage, err
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Get(params *stripe.BillingMeterUsageParams) (*stripe.BillingMeterUsage, error) {
-	meterusage := &stripe.BillingMeterUsage{}
+func (c Client) Get(params *stripe.BillingAnalyticsMeterUsageParams) (*stripe.BillingAnalyticsMeterUsage, error) {
+	meterusage := &stripe.BillingAnalyticsMeterUsage{}
 	err := c.B.Call(
 		http.MethodGet, "/v1/billing/analytics/meter_usage", c.Key, params, meterusage)
 	return meterusage, err
