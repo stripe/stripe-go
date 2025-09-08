@@ -368,6 +368,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreferenceNone PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreferenceOff  PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreferenceOn   PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceValueOff PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceValueOn  PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationGiropayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationGiropayDisplayPreferencePreference can take
@@ -1344,6 +1363,18 @@ type PaymentMethodConfigurationFPXParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://stripe.com/docs//payments/benefits/fr-meal-vouchers) for more details.
+type PaymentMethodConfigurationFRMealVoucherConecsParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationGiropayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1846,6 +1877,8 @@ type PaymentMethodConfigurationParams struct {
 	Expand []*string `form:"expand"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://stripe.com/docs/payments/fpx) for more details.
 	FPX *PaymentMethodConfigurationFPXParams `form:"fpx"`
+	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://stripe.com/docs//payments/benefits/fr-meal-vouchers) for more details.
+	FRMealVoucherConecs *PaymentMethodConfigurationFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://stripe.com/docs/payments/giropay) for more details.
 	Giropay *PaymentMethodConfigurationGiropayParams `form:"giropay"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://stripe.com/docs/google-pay) for more details.
@@ -2171,6 +2204,18 @@ type PaymentMethodConfigurationCreateFPXDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateFPXParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateFPXDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateFRMealVoucherConecsDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://stripe.com/docs//payments/benefits/fr-meal-vouchers) for more details.
+type PaymentMethodConfigurationCreateFRMealVoucherConecsParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2674,6 +2719,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Expand []*string `form:"expand"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://stripe.com/docs/payments/fpx) for more details.
 	FPX *PaymentMethodConfigurationCreateFPXParams `form:"fpx"`
+	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://stripe.com/docs//payments/benefits/fr-meal-vouchers) for more details.
+	FRMealVoucherConecs *PaymentMethodConfigurationCreateFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://stripe.com/docs/payments/giropay) for more details.
 	Giropay *PaymentMethodConfigurationCreateGiropayParams `form:"giropay"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://stripe.com/docs/google-pay) for more details.
@@ -3011,6 +3058,18 @@ type PaymentMethodConfigurationUpdateFPXDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateFPXParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateFPXDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateFRMealVoucherConecsDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://stripe.com/docs//payments/benefits/fr-meal-vouchers) for more details.
+type PaymentMethodConfigurationUpdateFRMealVoucherConecsParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3516,6 +3575,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://stripe.com/docs/payments/fpx) for more details.
 	FPX *PaymentMethodConfigurationUpdateFPXParams `form:"fpx"`
+	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://stripe.com/docs//payments/benefits/fr-meal-vouchers) for more details.
+	FRMealVoucherConecs *PaymentMethodConfigurationUpdateFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://stripe.com/docs/payments/giropay) for more details.
 	Giropay *PaymentMethodConfigurationUpdateGiropayParams `form:"giropay"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://stripe.com/docs/google-pay) for more details.
@@ -3847,6 +3908,19 @@ type PaymentMethodConfigurationFPX struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                            `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationFPXDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationFRMealVoucherConecsDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationFRMealVoucherConecs struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                            `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationFRMealVoucherConecsDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationGiropayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -4369,23 +4443,24 @@ type PaymentMethodConfiguration struct {
 	AmazonPay        *PaymentMethodConfigurationAmazonPay        `json:"amazon_pay"`
 	ApplePay         *PaymentMethodConfigurationApplePay         `json:"apple_pay"`
 	// For child configs, the Connect application associated with the configuration.
-	Application     string                                     `json:"application"`
-	AUBECSDebit     *PaymentMethodConfigurationAUBECSDebit     `json:"au_becs_debit"`
-	BACSDebit       *PaymentMethodConfigurationBACSDebit       `json:"bacs_debit"`
-	Bancontact      *PaymentMethodConfigurationBancontact      `json:"bancontact"`
-	Billie          *PaymentMethodConfigurationBillie          `json:"billie"`
-	BLIK            *PaymentMethodConfigurationBLIK            `json:"blik"`
-	Boleto          *PaymentMethodConfigurationBoleto          `json:"boleto"`
-	Card            *PaymentMethodConfigurationCard            `json:"card"`
-	CartesBancaires *PaymentMethodConfigurationCartesBancaires `json:"cartes_bancaires"`
-	CashApp         *PaymentMethodConfigurationCashApp         `json:"cashapp"`
-	CustomerBalance *PaymentMethodConfigurationCustomerBalance `json:"customer_balance"`
-	EPS             *PaymentMethodConfigurationEPS             `json:"eps"`
-	FPX             *PaymentMethodConfigurationFPX             `json:"fpx"`
-	Giropay         *PaymentMethodConfigurationGiropay         `json:"giropay"`
-	GooglePay       *PaymentMethodConfigurationGooglePay       `json:"google_pay"`
-	Gopay           *PaymentMethodConfigurationGopay           `json:"gopay"`
-	Grabpay         *PaymentMethodConfigurationGrabpay         `json:"grabpay"`
+	Application         string                                         `json:"application"`
+	AUBECSDebit         *PaymentMethodConfigurationAUBECSDebit         `json:"au_becs_debit"`
+	BACSDebit           *PaymentMethodConfigurationBACSDebit           `json:"bacs_debit"`
+	Bancontact          *PaymentMethodConfigurationBancontact          `json:"bancontact"`
+	Billie              *PaymentMethodConfigurationBillie              `json:"billie"`
+	BLIK                *PaymentMethodConfigurationBLIK                `json:"blik"`
+	Boleto              *PaymentMethodConfigurationBoleto              `json:"boleto"`
+	Card                *PaymentMethodConfigurationCard                `json:"card"`
+	CartesBancaires     *PaymentMethodConfigurationCartesBancaires     `json:"cartes_bancaires"`
+	CashApp             *PaymentMethodConfigurationCashApp             `json:"cashapp"`
+	CustomerBalance     *PaymentMethodConfigurationCustomerBalance     `json:"customer_balance"`
+	EPS                 *PaymentMethodConfigurationEPS                 `json:"eps"`
+	FPX                 *PaymentMethodConfigurationFPX                 `json:"fpx"`
+	FRMealVoucherConecs *PaymentMethodConfigurationFRMealVoucherConecs `json:"fr_meal_voucher_conecs"`
+	Giropay             *PaymentMethodConfigurationGiropay             `json:"giropay"`
+	GooglePay           *PaymentMethodConfigurationGooglePay           `json:"google_pay"`
+	Gopay               *PaymentMethodConfigurationGopay               `json:"gopay"`
+	Grabpay             *PaymentMethodConfigurationGrabpay             `json:"grabpay"`
 	// Unique identifier for the object.
 	ID             string                                    `json:"id"`
 	IDBankTransfer *PaymentMethodConfigurationIDBankTransfer `json:"id_bank_transfer"`
