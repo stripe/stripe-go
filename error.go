@@ -415,7 +415,7 @@ func (e *IdempotencyError) Error() string {
 // errorStructs: The beginning of the section generated from our OpenAPI spec
 
 // TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired."
-// Information about the error that occurred
+// The temporary session token has expired.
 type TemporarySessionExpiredError struct {
 	APIResource
 	Code        string    `json:"code"`

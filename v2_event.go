@@ -27,7 +27,7 @@ type V2EventReasonRequest struct {
 // Reason for the event.
 type V2EventReason struct {
 	// Information on the API request that instigated the event.
-	Request *V2EventReasonRequest `json:"request,omitempty"`
+	Request *V2EventReasonRequest `json:"request"`
 	// Event reason type.
 	Type V2EventReasonType `json:"type"`
 }
@@ -36,7 +36,7 @@ type V2EventReason struct {
 type V2BaseEvent struct {
 	APIResource
 	// Authentication context needed to fetch the event or related object.
-	Context string `json:"context,omitempty"`
+	Context string `json:"context"`
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
 	// Unique identifier for the event.
@@ -46,7 +46,7 @@ type V2BaseEvent struct {
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// Reason for the event.
-	Reason *V2EventReason `json:"reason,omitempty"`
+	Reason *V2EventReason `json:"reason"`
 	// The type of the event.
 	Type string `json:"type"`
 }
