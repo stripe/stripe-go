@@ -825,6 +825,21 @@ type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure struct {
 	ResultReason       PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
 	Version            PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion            `json:"version"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsCardWalletApplePay struct {
+	// Type of the apple_pay transaction, one of `apple_pay` or `apple_pay_later`.
+	Type string `json:"type"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsCardWalletGooglePay struct{}
+
+// If this Card is part of a card wallet, this contains the details of the card wallet.
+type PaymentAttemptRecordPaymentMethodDetailsCardWallet struct {
+	ApplePay *PaymentAttemptRecordPaymentMethodDetailsCardWalletApplePay `json:"apple_pay"`
+	// (For tokenized numbers only.) The last four digits of the device account number.
+	DynamicLast4 string                                                       `json:"dynamic_last4"`
+	GooglePay    *PaymentAttemptRecordPaymentMethodDetailsCardWalletGooglePay `json:"google_pay"`
+	// The type of the card wallet, one of `apple_pay` or `google_pay`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
+	Type string `json:"type"`
+}
 
 // Details of the card used for this payment attempt.
 type PaymentAttemptRecordPaymentMethodDetailsCard struct {
@@ -858,6 +873,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
+	// If this Card is part of a card wallet, this contains the details of the card wallet.
+	Wallet *PaymentAttemptRecordPaymentMethodDetailsCardWallet `json:"wallet"`
 }
 
 // Details about payments collected offline.
