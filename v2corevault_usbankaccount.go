@@ -29,7 +29,7 @@ type V2CoreVaultUSBankAccount struct {
 	// Creation time of the object.
 	Created time.Time `json:"created"`
 	// The fedwire routing number of the bank account.
-	FedwireRoutingNumber string `json:"fedwire_routing_number"`
+	FedwireRoutingNumber string `json:"fedwire_routing_number,omitempty"`
 	// The ID of the USBankAccount object.
 	ID string `json:"id"`
 	// The last 4 digits of the account number.
@@ -39,5 +39,5 @@ type V2CoreVaultUSBankAccount struct {
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The ACH routing number of the bank account.
-	RoutingNumber string `json:"routing_number"`
+	RoutingNumber string `json:"routing_number,omitempty"`
 }

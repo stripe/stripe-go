@@ -8,7 +8,9 @@ package stripe
 
 // The human readable local name of the field.
 type V2MoneyManagementPayoutMethodsBankAccountSpecCountriesFieldLocalNameHuman struct {
-	Content         string `json:"content"`
+	// The default content of the localizable string.
+	Content string `json:"content"`
+	// A unique key representing the instance of this localizable string.
 	LocalizationKey string `json:"localization_key"`
 }
 
