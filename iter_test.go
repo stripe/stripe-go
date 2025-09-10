@@ -144,7 +144,7 @@ func TestIterListAndMeta(t *testing.T) {
 }
 
 func TestV1ListEmpty(t *testing.T) {
-	tq := testV1Query[*item]{{v: &v1Page[*item]{}, e: nil}}
+	tq := testV1Query[*item]{{v: &V1Page[*item]{}, e: nil}}
 	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
@@ -152,7 +152,7 @@ func TestV1ListEmpty(t *testing.T) {
 }
 
 func TestV1ListEmptyErr(t *testing.T) {
-	tq := testV1Query[*item]{{v: &v1Page[*item]{}, e: errTest}}
+	tq := testV1Query[*item]{{v: &V1Page[*item]{}, e: errTest}}
 	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
@@ -160,7 +160,7 @@ func TestV1ListEmptyErr(t *testing.T) {
 }
 
 func TestV1ListOne(t *testing.T) {
-	tq := testV1Query[*item]{{v: &v1Page[*item]{Data: []*item{{"1"}}}, e: nil}}
+	tq := testV1Query[*item]{{v: &V1Page[*item]{Data: []*item{{"1"}}}, e: nil}}
 	want := []*item{{"1"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
@@ -169,7 +169,7 @@ func TestV1ListOne(t *testing.T) {
 }
 
 func TestV1ListOneErr(t *testing.T) {
-	tq := testV1Query[*item]{{v: &v1Page[*item]{Data: []*item{{"1"}}}, e: errTest}}
+	tq := testV1Query[*item]{{v: &V1Page[*item]{Data: []*item{{"1"}}}, e: errTest}}
 	want := []*item{{"1"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
@@ -179,8 +179,8 @@ func TestV1ListOneErr(t *testing.T) {
 
 func TestV1ListPage2EmptyErr(t *testing.T) {
 	tq := testV1Query[*item]{
-		{v: &v1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
-		{v: &v1Page[*item]{}, e: errTest},
+		{v: &V1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &V1Page[*item]{}, e: errTest},
 	}
 	want := []*item{{"x"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
@@ -191,8 +191,8 @@ func TestV1ListPage2EmptyErr(t *testing.T) {
 
 func TestV1ListTwoPages(t *testing.T) {
 	tq := testV1Query[*item]{
-		{v: &v1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
-		{v: &v1Page[*item]{Data: []*item{{"y"}}}, e: nil},
+		{v: &V1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &V1Page[*item]{Data: []*item{{"y"}}}, e: nil},
 	}
 	want := []*item{{"x"}, {"y"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
@@ -203,8 +203,8 @@ func TestV1ListTwoPages(t *testing.T) {
 
 func TestV1ListTwoPagesErr(t *testing.T) {
 	tq := testV1Query[*item]{
-		{v: &v1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
-		{v: &v1Page[*item]{Data: []*item{{"y"}}}, e: errTest},
+		{v: &V1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &V1Page[*item]{Data: []*item{{"y"}}}, e: errTest},
 	}
 	want := []*item{{"x"}, {"y"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
@@ -214,7 +214,7 @@ func TestV1ListTwoPagesErr(t *testing.T) {
 }
 
 func TestV1ListReversed(t *testing.T) {
-	tq := testV1Query[*item]{{v: &v1Page[*item]{Data: []*item{{"1"}, {"2"}}}, e: nil}}
+	tq := testV1Query[*item]{{v: &V1Page[*item]{Data: []*item{{"1"}, {"2"}}}, e: nil}}
 	want := []*item{{"2"}, {"1"}}
 	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
 	assert.Equal(t, 0, len(tq))
@@ -224,8 +224,8 @@ func TestV1ListReversed(t *testing.T) {
 
 func TestV1ListReversedTwoPages(t *testing.T) {
 	tq := testV1Query[*item]{
-		{v: &v1Page[*item]{Data: []*item{{"3"}, {"4"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
-		{v: &v1Page[*item]{Data: []*item{{"1"}, {"2"}}}, e: nil},
+		{v: &V1Page[*item]{Data: []*item{{"3"}, {"4"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &V1Page[*item]{Data: []*item{{"1"}, {"2"}}}, e: nil},
 	}
 	want := []*item{{"4"}, {"3"}, {"2"}, {"1"}}
 	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
@@ -259,17 +259,17 @@ func (tq *testQuery) query(*Params, *form.Values) ([]interface{}, ListContainer,
 }
 
 type testV1Query[T LastResponseSetter] []struct {
-	v *v1Page[T]
+	v *V1Page[T]
 	e error
 }
 
-func (tq *testV1Query[T]) query(*Params, *form.Values) (*v1Page[T], error) {
+func (tq *testV1Query[T]) query(*Params, *form.Values) (*V1Page[T], error) {
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
 	return x.v, x.e
 }
 
-func collectList[T LastResponseSetter](it *v1List[T]) ([]T, error) {
+func collectList[T LastResponseSetter](it *V1List[T]) ([]T, error) {
 	var tt []T
 	var err error
 	it.All()(func(t T, e error) bool {
@@ -332,7 +332,7 @@ func TestMaybeAddLastResponseIndividualJSON(t *testing.T) {
 	item1 := &testItemWithResponse{ID: "cus_1", Name: "Customer 1"}
 	item2 := &testItemWithResponse{ID: "cus_2", Name: "Customer 2"}
 
-	page := &v1Page[*testItemWithResponse]{
+	page := &V1Page[*testItemWithResponse]{
 		APIResource: APIResource{
 			LastResponse: &APIResponse{
 				RawJSON: []byte(pageRawJSON),
@@ -372,7 +372,7 @@ func TestMaybeAddLastResponseMismatchedLengths(t *testing.T) {
 		]
 	}`
 
-	page := &v1Page[*testItemSimple]{
+	page := &V1Page[*testItemSimple]{
 		APIResource: APIResource{
 			LastResponse: &APIResponse{
 				RawJSON:   []byte(pageRawJSON),
@@ -391,7 +391,7 @@ func TestMaybeAddLastResponseInvalidJSON(t *testing.T) {
 	// Test error when page JSON is invalid
 	pageRawJSON := `{invalid json`
 
-	page := &v1Page[*testItemSimple]{
+	page := &V1Page[*testItemSimple]{
 		APIResource: APIResource{
 			LastResponse: &APIResponse{
 				RawJSON: []byte(pageRawJSON),
@@ -415,7 +415,7 @@ func TestMaybeAddLastResponseWithNonLastResponseSetter(t *testing.T) {
 	}`
 
 	// Note: simpleItem does NOT implement LastResponseSetter
-	page := &v1Page[*simpleItem]{
+	page := &V1Page[*simpleItem]{
 		APIResource: APIResource{
 			LastResponse: &APIResponse{
 				RawJSON: []byte(pageRawJSON),

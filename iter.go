@@ -120,21 +120,21 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 	return iter
 }
 
-// v1List provides a convenient interface for iterating over the elements
+// V1List provides a convenient interface for iterating over the elements
 // returned from paginated list API calls. It is meant to be an improvement
 // over the Iter type, which was written before Go introduced generics and iter.Seq2.
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
-type v1List[T any] struct {
+type V1List[T any] struct {
 	cur        T
 	err        error
 	formValues *form.Values
 	listParams ListParams
 	query      v1Query[T]
-	*v1Page[T]
+	*V1Page[T]
 }
 
-type v1Page[T any] struct {
+type V1Page[T any] struct {
 	APIResource
 	ListMeta
 	Data []T `json:"data"`
@@ -142,7 +142,7 @@ type v1Page[T any] struct {
 
 // All returns a Seq2 that will be evaluated on each item in a v1List.
 // The All function will continue to fetch pages of items as needed.
-func (it *v1List[T]) All() Seq2[T, error] {
+func (it *V1List[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		for it.next() {
 			if !yield(it.cur, nil) {
@@ -162,7 +162,7 @@ func (it *v1List[T]) All() Seq2[T, error] {
 // through the current method.
 // It returns false when the iterator stops
 // at the end of the list.
-func (it *v1List[T]) next() bool {
+func (it *V1List[T]) next() bool {
 	if len(it.Data) == 0 && it.HasMore && !it.listParams.Single {
 		// determine if we're moving forward or backwards in paging
 		if it.listParams.EndingBefore != nil {
@@ -182,9 +182,9 @@ func (it *v1List[T]) next() bool {
 	return true
 }
 
-func (it *v1List[T]) getPage() {
+func (it *V1List[T]) getPage() {
 	page, err := it.query(it.listParams.GetParams(), it.formValues)
-	it.v1Page = page
+	it.V1Page = page
 	if err != nil {
 		it.err = err
 		return
@@ -205,7 +205,7 @@ func (it *v1List[T]) getPage() {
 // It parses the page's JSON and adds each `data` item's JSON to the
 // LastResponse of the corresponding resource. Note that not
 // every resource implements the LastResponseSetter interface.
-func maybeAddLastResponse[T any](page *v1Page[T]) error {
+func maybeAddLastResponse[T any](page *V1Page[T]) error {
 	if page.LastResponse == nil {
 		return nil
 	}
@@ -242,11 +242,11 @@ func maybeAddLastResponse[T any](page *v1Page[T]) error {
 }
 
 // Query is the function used to get a page listing.
-type v1Query[T any] func(*Params, *form.Values) (*v1Page[T], error)
+type v1Query[T any] func(*Params, *form.Values) (*V1Page[T], error)
 
 // newV1List returns a new v1List for a given query and its options, and initializes
 // it by fetching the first page of items.
-func newV1List[T any](container ListParamsContainer, query v1Query[T]) *v1List[T] {
+func newV1List[T any](container ListParamsContainer, query v1Query[T]) *V1List[T] {
 	var listParams *ListParams
 	formValues := &form.Values{}
 
@@ -263,7 +263,7 @@ func newV1List[T any](container ListParamsContainer, query v1Query[T]) *v1List[T
 	if listParams == nil {
 		listParams = &ListParams{}
 	}
-	iter := &v1List[T]{
+	iter := &V1List[T]{
 		formValues: formValues,
 		listParams: *listParams,
 		query:      query,
