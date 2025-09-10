@@ -36,6 +36,7 @@ type BankAccountFutureRequirementsErrorCode string
 
 // List of values that BankAccountFutureRequirementsErrorCode can take
 const (
+	BankAccountFutureRequirementsErrorCodeExternalRequest                                        BankAccountFutureRequirementsErrorCode = "external_request"
 	BankAccountFutureRequirementsErrorCodeInformationMissing                                     BankAccountFutureRequirementsErrorCode = "information_missing"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountFutureRequirementsErrorCode = "invalid_address_city_state_postal_code"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountFutureRequirementsErrorCode = "invalid_address_highway_contract_box"
@@ -138,6 +139,7 @@ type BankAccountRequirementsErrorCode string
 
 // List of values that BankAccountRequirementsErrorCode can take
 const (
+	BankAccountRequirementsErrorCodeExternalRequest                                        BankAccountRequirementsErrorCode = "external_request"
 	BankAccountRequirementsErrorCodeInformationMissing                                     BankAccountRequirementsErrorCode = "information_missing"
 	BankAccountRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountRequirementsErrorCode = "invalid_address_city_state_postal_code"
 	BankAccountRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountRequirementsErrorCode = "invalid_address_highway_contract_box"
