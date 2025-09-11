@@ -143,7 +143,7 @@ func TestSearchIterMultiplePages(t *testing.T) {
 }
 
 func TestV1SearchListEmpty(t *testing.T) {
-	tq := testV1SearchQuery[int]{{nil, &SearchMeta{}, nil}}
+	tq := testV1SearchQuery[int]{{v: &v1SearchPage[int]{}, e: nil}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
@@ -151,7 +151,7 @@ func TestV1SearchListEmpty(t *testing.T) {
 }
 
 func TestV1SearchListEmptyErr(t *testing.T) {
-	tq := testV1SearchQuery[int]{{nil, &SearchMeta{}, errTest}}
+	tq := testV1SearchQuery[int]{{v: &v1SearchPage[int]{}, e: errTest}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
@@ -159,7 +159,7 @@ func TestV1SearchListEmptyErr(t *testing.T) {
 }
 
 func TestV1SearchListOne(t *testing.T) {
-	tq := testV1SearchQuery[int]{{[]*int{intPtr(1)}, &SearchMeta{}, nil}}
+	tq := testV1SearchQuery[int]{{v: &v1SearchPage[int]{Data: []*int{intPtr(1)}}, e: nil}}
 	want := []*int{intPtr(1)}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
@@ -168,7 +168,7 @@ func TestV1SearchListOne(t *testing.T) {
 }
 
 func TestV1SearchListOneErr(t *testing.T) {
-	tq := testV1SearchQuery[int]{{[]*int{intPtr(1)}, &SearchMeta{}, errTest}}
+	tq := testV1SearchQuery[int]{{v: &v1SearchPage[int]{Data: []*int{intPtr(1)}}, e: errTest}}
 	want := []*int{intPtr(1)}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
@@ -178,8 +178,8 @@ func TestV1SearchListOneErr(t *testing.T) {
 
 func TestV1SearchListPage2Empty(t *testing.T) {
 	tq := testV1SearchQuery[item]{
-		{[]*item{{"x"}}, &SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}, nil},
-		{nil, &SearchMeta{}, nil},
+		{v: &v1SearchPage[item]{Data: []*item{{"x"}}, SearchMeta: SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}}, e: nil},
+		{v: &v1SearchPage[item]{}, e: nil},
 	}
 	want := []*item{{"x"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
@@ -190,8 +190,8 @@ func TestV1SearchListPage2Empty(t *testing.T) {
 
 func TestV1SearchListPage2EmptyErr(t *testing.T) {
 	tq := testV1SearchQuery[item]{
-		{[]*item{{"x"}}, &SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}, nil},
-		{nil, &SearchMeta{}, errTest},
+		{v: &v1SearchPage[item]{Data: []*item{{"x"}}, SearchMeta: SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}}, e: nil},
+		{v: &v1SearchPage[item]{}, e: errTest},
 	}
 	want := []*item{{"x"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
@@ -202,8 +202,8 @@ func TestV1SearchListPage2EmptyErr(t *testing.T) {
 
 func TestV1SearchListTwoPages(t *testing.T) {
 	tq := testV1SearchQuery[item]{
-		{[]*item{{"x"}}, &SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}, nil},
-		{[]*item{{"y"}}, &SearchMeta{HasMore: false, URL: ""}, nil},
+		{v: &v1SearchPage[item]{Data: []*item{{"x"}}, SearchMeta: SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}}, e: nil},
+		{v: &v1SearchPage[item]{Data: []*item{{"y"}}, SearchMeta: SearchMeta{HasMore: false, URL: ""}}, e: nil},
 	}
 	want := []*item{{"x"}, {"y"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
@@ -214,8 +214,8 @@ func TestV1SearchListTwoPages(t *testing.T) {
 
 func TestV1SearchListTwoPagesErr(t *testing.T) {
 	tq := testV1SearchQuery[item]{
-		{[]*item{{"x"}}, &SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}, nil},
-		{[]*item{{"y"}}, &SearchMeta{HasMore: false, URL: ""}, errTest},
+		{v: &v1SearchPage[item]{Data: []*item{{"x"}}, SearchMeta: SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}}, e: nil},
+		{v: &v1SearchPage[item]{Data: []*item{{"y"}}, SearchMeta: SearchMeta{HasMore: false, URL: ""}}, e: errTest},
 	}
 	want := []*item{{"x"}, {"y"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
@@ -275,15 +275,14 @@ func (tq *testSearchQuery) query(*Params, *form.Values) ([]interface{}, SearchCo
 }
 
 type testV1SearchQuery[T any] []struct {
-	v []*T
-	m SearchContainer
+	v *v1SearchPage[T]
 	e error
 }
 
-func (tq *testV1SearchQuery[T]) query(*Params, *form.Values) ([]*T, SearchContainer, error) {
+func (tq *testV1SearchQuery[T]) query(*Params, *form.Values) (*v1SearchPage[T], error) {
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
-	return x.v, x.m, x.e
+	return x.v, x.e
 }
 
 // TestClient is used to invoke /charges APIs.
@@ -320,12 +319,12 @@ type TestServer struct {
 }
 
 func (c TestServer) Search(ctx context.Context, params *SearchParams) Seq2[*TestEntity, error] {
-	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*TestEntity, SearchContainer, error) {
-		list := &TestSearchResult{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[TestEntity], error) {
+		list := &v1SearchPage[TestEntity]{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/something/search", c.Key, []byte(b.Encode()), p, list)
 		ret := make([]*TestEntity, len(list.Data))
 		copy(ret, list.Data)
-		return ret, list, err
+		return list, err
 	}).All()
 }
 

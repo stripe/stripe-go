@@ -130,14 +130,18 @@ func GetSearchIter(container SearchParamsContainer, query SearchQuery) *SearchIt
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
 type v1SearchList[T any] struct {
-	cur             *T
-	err             error
-	formValues      *form.Values
-	searchContainer SearchContainer
-	searchParams    SearchParams
-	meta            *SearchMeta
-	query           v1SearchQuery[T]
-	values          []*T
+	cur          *T
+	err          error
+	formValues   *form.Values
+	searchParams SearchParams
+	query        v1SearchQuery[T]
+	*v1SearchPage[T]
+}
+
+type v1SearchPage[T any] struct {
+	APIResource
+	SearchMeta
+	Data []*T `json:"data"`
 }
 
 func (it *v1SearchList[T]) All() Seq2[*T, error] {
@@ -162,26 +166,27 @@ func (it *v1SearchList[T]) All() Seq2[*T, error] {
 // at the end of the list.
 func (it *v1SearchList[T]) next() bool {
 	// Refresh the page if there is an more data to fetch
-	if len(it.values) == 0 && it.meta.HasMore && !it.searchParams.Single && it.meta.NextPage != nil {
-		it.formValues.Set(Page, *it.meta.NextPage)
+	if len(it.Data) == 0 && it.HasMore && !it.searchParams.Single && it.NextPage != nil {
+		it.formValues.Set(Page, *it.NextPage)
 		it.getPage()
 	}
 	// If there was no new data after fetching, return false
-	if len(it.values) == 0 {
+	if len(it.Data) == 0 {
 		return false
 	}
-	it.cur = it.values[0]
-	it.values = it.values[1:]
+	it.cur = it.Data[0]
+	it.Data = it.Data[1:]
 	return true
 }
 
 func (it *v1SearchList[T]) getPage() {
-	it.values, it.searchContainer, it.err = it.query(it.searchParams.GetParams(), it.formValues)
-	it.meta = it.searchContainer.GetSearchMeta()
+	page, err := it.query(it.searchParams.GetParams(), it.formValues)
+	it.v1SearchPage = page
+	it.err = err
 }
 
 // SearchQuery is the function used to get search results.
-type v1SearchQuery[T any] func(*Params, *form.Values) ([]*T, SearchContainer, error)
+type v1SearchQuery[T any] func(*Params, *form.Values) (*v1SearchPage[T], error)
 
 //
 // Public functions

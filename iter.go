@@ -124,14 +124,18 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
 type v1List[T any] struct {
-	cur           *T
-	err           error
-	formValues    *form.Values
-	listContainer ListContainer
-	listParams    ListParams
-	listMeta      *ListMeta
-	query         v1Query[T]
-	values        []*T
+	cur        *T
+	err        error
+	formValues *form.Values
+	listParams ListParams
+	query      v1Query[T]
+	*v1Page[T]
+}
+
+type v1Page[T any] struct {
+	APIResource
+	ListMeta
+	Data []*T `json:"data"`
 }
 
 // All returns a Seq2 that will be evaluated on each item in a v1List.
@@ -157,7 +161,7 @@ func (it *v1List[T]) All() Seq2[*T, error] {
 // It returns false when the iterator stops
 // at the end of the list.
 func (it *v1List[T]) next() bool {
-	if len(it.values) == 0 && it.listMeta.HasMore && !it.listParams.Single {
+	if len(it.Data) == 0 && it.HasMore && !it.listParams.Single {
 		// determine if we're moving forward or backwards in paging
 		if it.listParams.EndingBefore != nil {
 			it.listParams.EndingBefore = String(listItemID(it.cur))
@@ -168,27 +172,27 @@ func (it *v1List[T]) next() bool {
 		}
 		it.getPage()
 	}
-	if len(it.values) == 0 {
+	if len(it.Data) == 0 {
 		return false
 	}
-	it.cur = it.values[0]
-	it.values = it.values[1:]
+	it.cur = it.Data[0]
+	it.Data = it.Data[1:]
 	return true
 }
 
 func (it *v1List[T]) getPage() {
-	it.values, it.listContainer, it.err = it.query(it.listParams.GetParams(), it.formValues)
-	it.listMeta = it.listContainer.GetListMeta()
-
+	page, err := it.query(it.listParams.GetParams(), it.formValues)
+	it.v1Page = page
+	it.err = err
 	if it.listParams.EndingBefore != nil {
 		// We are moving backward,
 		// but items arrive in forward order.
-		reverse(it.values)
+		reverse(it.Data)
 	}
 }
 
 // Query is the function used to get a page listing.
-type v1Query[T any] func(*Params, *form.Values) ([]*T, ListContainer, error)
+type v1Query[T any] func(*Params, *form.Values) (*v1Page[T], error)
 
 // newV1List returns a new v1List for a given query and its options, and initializes
 // it by fetching the first page of items.
