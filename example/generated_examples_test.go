@@ -13096,7 +13096,7 @@ func TestV2CoreEventDestinationPostClient(t *testing.T) {
 func TestV2CoreEventDestinationDeleteService(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationParams{}
 	testServer := MockServer(
-		t, http.MethodDelete, "/v2/core/event_destinations/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\",\"deleted\":true}")
+		t, http.MethodDelete, "/v2/core/event_destinations/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13109,7 +13109,7 @@ func TestV2CoreEventDestinationDeleteService(t *testing.T) {
 func TestV2CoreEventDestinationDeleteClient(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationDeleteParams{}
 	testServer := MockServer(
-		t, http.MethodDelete, "/v2/core/event_destinations/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\",\"deleted\":true}")
+		t, http.MethodDelete, "/v2/core/event_destinations/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

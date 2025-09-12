@@ -85,13 +85,13 @@ func (c v1SubscriptionScheduleService) List(ctx context.Context, listParams *Sub
 		listParams = &SubscriptionScheduleListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SubscriptionSchedule, ListContainer, error) {
-		list := &SubscriptionScheduleList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SubscriptionSchedule], error) {
+		list := &v1Page[*SubscriptionSchedule]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscription_schedules", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
