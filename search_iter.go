@@ -141,18 +141,18 @@ type v1SearchList[T any] struct {
 type v1SearchPage[T any] struct {
 	APIResource
 	SearchMeta
-	Data []*T `json:"data"`
+	Data []T `json:"data"`
 }
 
-func (it *v1SearchList[T]) All() Seq2[*T, error] {
-	return func(yield func(*T, error) bool) {
+func (it *v1SearchList[T]) All() Seq2[T, error] {
+	return func(yield func(T, error) bool) {
 		for it.next() {
-			if !yield(it.cur, nil) {
+			if !yield(*it.cur, nil) {
 				return
 			}
 		}
 		if it.err != nil {
-			if !yield(nil, it.err) {
+			if !yield(*new(T), it.err) {
 				return
 			}
 		}
@@ -174,7 +174,7 @@ func (it *v1SearchList[T]) next() bool {
 	if len(it.Data) == 0 {
 		return false
 	}
-	it.cur = it.Data[0]
+	it.cur = &it.Data[0]
 	it.Data = it.Data[1:]
 	return true
 }

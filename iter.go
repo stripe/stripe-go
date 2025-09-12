@@ -1,6 +1,8 @@
 package stripe
 
 import (
+	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/stripe/stripe-go/v82/form"
@@ -124,7 +126,7 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
 type v1List[T any] struct {
-	cur        *T
+	cur        T
 	err        error
 	formValues *form.Values
 	listParams ListParams
@@ -135,20 +137,20 @@ type v1List[T any] struct {
 type v1Page[T any] struct {
 	APIResource
 	ListMeta
-	Data []*T `json:"data"`
+	Data []T `json:"data"`
 }
 
 // All returns a Seq2 that will be evaluated on each item in a v1List.
 // The All function will continue to fetch pages of items as needed.
-func (it *v1List[T]) All() Seq2[*T, error] {
-	return func(yield func(*T, error) bool) {
+func (it *v1List[T]) All() Seq2[T, error] {
+	return func(yield func(T, error) bool) {
 		for it.next() {
 			if !yield(it.cur, nil) {
 				return
 			}
 		}
 		if it.err != nil {
-			if !yield(nil, it.err) {
+			if !yield(*new(T), it.err) {
 				return
 			}
 		}
@@ -183,12 +185,60 @@ func (it *v1List[T]) next() bool {
 func (it *v1List[T]) getPage() {
 	page, err := it.query(it.listParams.GetParams(), it.formValues)
 	it.v1Page = page
-	it.err = err
+	if err != nil {
+		it.err = err
+		return
+	}
+	if err := maybeAddLastResponse(page); err != nil {
+		it.err = err
+		return
+	}
+
 	if it.listParams.EndingBefore != nil {
 		// We are moving backward,
 		// but items arrive in forward order.
 		reverse(it.Data)
 	}
+}
+
+// maybeAddLastResponse adds the LastResponse to the items in the page.
+// It parses the page's JSON and adds each `data` item's JSON to the
+// LastResponse of the corresponding resource. Note that not
+// every resource implements the LastResponseSetter interface.
+func maybeAddLastResponse[T any](page *v1Page[T]) error {
+	if page.LastResponse == nil {
+		return nil
+	}
+	lastResponse := page.LastResponse
+
+	var pageData struct {
+		Data []json.RawMessage `json:"data"`
+	}
+	if err := json.Unmarshal(lastResponse.RawJSON, &pageData); err != nil {
+		return err
+	}
+
+	if len(pageData.Data) != len(page.Data) {
+		return fmt.Errorf("mismatch in data length for requestID %s", lastResponse.RequestID)
+	}
+
+	for i, item := range page.Data {
+		// Note that not every resource implements the LastResponseSetter interface
+		// (e.g. CreditNoteLineItem).
+		if item, ok := any(item).(LastResponseSetter); ok {
+			// Create a copy of the original response with individual item's raw JSON
+			itemResponse := &APIResponse{
+				Header:         lastResponse.Header,
+				IdempotencyKey: lastResponse.IdempotencyKey,
+				RawJSON:        []byte(pageData.Data[i]),
+				RequestID:      lastResponse.RequestID,
+				Status:         lastResponse.Status,
+				StatusCode:     lastResponse.StatusCode,
+			}
+			item.SetLastResponse(itemResponse)
+		}
+	}
+	return nil
 }
 
 // Query is the function used to get a page listing.
