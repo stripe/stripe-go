@@ -1,6 +1,8 @@
 package stripe
 
 import (
+	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/stripe/stripe-go/v82/form"
@@ -130,7 +132,7 @@ func GetSearchIter(container SearchParamsContainer, query SearchQuery) *SearchIt
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
 type v1SearchList[T any] struct {
-	cur          *T
+	cur          T
 	err          error
 	formValues   *form.Values
 	searchParams SearchParams
@@ -147,7 +149,7 @@ type v1SearchPage[T any] struct {
 func (it *v1SearchList[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		for it.next() {
-			if !yield(*it.cur, nil) {
+			if !yield(it.cur, nil) {
 				return
 			}
 		}
@@ -174,7 +176,7 @@ func (it *v1SearchList[T]) next() bool {
 	if len(it.Data) == 0 {
 		return false
 	}
-	it.cur = &it.Data[0]
+	it.cur = it.Data[0]
 	it.Data = it.Data[1:]
 	return true
 }
@@ -182,7 +184,54 @@ func (it *v1SearchList[T]) next() bool {
 func (it *v1SearchList[T]) getPage() {
 	page, err := it.query(it.searchParams.GetParams(), it.formValues)
 	it.v1SearchPage = page
-	it.err = err
+	if err != nil {
+		it.err = err
+		return
+	}
+	if err := maybeAddLastResponseSearch(page); err != nil {
+		it.err = err
+		return
+	}
+}
+
+// maybeAddLastResponse adds the LastResponse to the items in the page.
+// It parses the page's JSON and adds each `data` item's JSON to the
+// LastResponse of the corresponding resource. Note that not
+// every resource implements the LastResponseSetter interface.
+func maybeAddLastResponseSearch[T any](page *v1SearchPage[T]) error {
+	if page.LastResponse == nil {
+		return nil
+	}
+	lastResponse := page.LastResponse
+
+	var pageData struct {
+		Data []json.RawMessage `json:"data"`
+	}
+	if err := json.Unmarshal(lastResponse.RawJSON, &pageData); err != nil {
+		return err
+	}
+
+	if len(pageData.Data) != len(page.Data) {
+		return fmt.Errorf("mismatch in data length for requestID %s", lastResponse.RequestID)
+	}
+
+	for i, item := range page.Data {
+		// Note that not every resource implements the LastResponseSetter interface
+		// (e.g. CreditNoteLineItem).
+		if item, ok := any(item).(LastResponseSetter); ok {
+			// Create a copy of the original response with individual item's raw JSON
+			itemResponse := &APIResponse{
+				Header:         lastResponse.Header,
+				IdempotencyKey: lastResponse.IdempotencyKey,
+				RawJSON:        []byte(pageData.Data[i]),
+				RequestID:      lastResponse.RequestID,
+				Status:         lastResponse.Status,
+				StatusCode:     lastResponse.StatusCode,
+			}
+			item.SetLastResponse(itemResponse)
+		}
+	}
+	return nil
 }
 
 // SearchQuery is the function used to get search results.

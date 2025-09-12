@@ -353,3 +353,148 @@ func collectSearchList[T LastResponseSetter](it *v1SearchList[T]) ([]T, error) {
 	})
 	return tt, err
 }
+
+type testSearchItemWithResponse struct {
+	ID           string
+	Name         string
+	lastResponse *APIResponse
+}
+
+func (t *testSearchItemWithResponse) SetLastResponse(response *APIResponse) {
+	t.lastResponse = response
+}
+
+type testSearchItemSimple struct {
+	ID string
+}
+
+func (t *testSearchItemSimple) SetLastResponse(response *APIResponse) {}
+
+type simpleSearchItem struct {
+	ID string
+}
+
+func TestMaybeAddLastResponseSearchIndividualJSON(t *testing.T) {
+	// Test that each item gets its corresponding raw JSON from the data array
+	pageRawJSON := `{
+		"object": "search_result",
+		"url": "/v1/customers/search",
+		"has_more": false,
+		"data": [
+			{"id": "cus_1", "name": "Customer 1"},
+			{"id": "cus_2", "name": "Customer 2"}
+		]
+	}`
+
+	item1 := &testSearchItemWithResponse{ID: "cus_1", Name: "Customer 1"}
+	item2 := &testSearchItemWithResponse{ID: "cus_2", Name: "Customer 2"}
+
+	page := &v1SearchPage[*testSearchItemWithResponse]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*testSearchItemWithResponse{item1, item2},
+	}
+
+	// Call the function
+	err := maybeAddLastResponseSearch(page)
+	assert.NoError(t, err)
+
+	// Verify each item has its corresponding JSON
+	expectedJSON1 := `{"id": "cus_1", "name": "Customer 1"}`
+	expectedJSON2 := `{"id": "cus_2", "name": "Customer 2"}`
+
+	assert.NotNil(t, item1.lastResponse)
+	assert.JSONEq(t, expectedJSON1, string(item1.lastResponse.RawJSON))
+
+	assert.NotNil(t, item2.lastResponse)
+	assert.JSONEq(t, expectedJSON2, string(item2.lastResponse.RawJSON))
+
+	// Verify other fields are copied from the original response
+	assert.Equal(t, page.LastResponse.Header, item1.lastResponse.Header)
+	assert.Equal(t, page.LastResponse.IdempotencyKey, item1.lastResponse.IdempotencyKey)
+	assert.Equal(t, page.LastResponse.RequestID, item1.lastResponse.RequestID)
+	assert.Equal(t, page.LastResponse.Status, item1.lastResponse.Status)
+	assert.Equal(t, page.LastResponse.StatusCode, item1.lastResponse.StatusCode)
+}
+
+func TestMaybeAddLastResponseSearchMismatchedLengths(t *testing.T) {
+	// Test error when data array length doesn't match page.Data length
+	pageRawJSON := `{
+		"object": "search_result",
+		"data": [
+			{"id": "cus_1"}
+		]
+	}`
+
+	page := &v1SearchPage[*testSearchItemSimple]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON:   []byte(pageRawJSON),
+				RequestID: "req_search_test123",
+			},
+		},
+		Data: []*testSearchItemSimple{{"cus_1"}, {"cus_2"}}, // 2 items but only 1 in JSON data array
+	}
+
+	err := maybeAddLastResponseSearch(page)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "mismatch in data length for requestID req_search_test123")
+}
+
+func TestMaybeAddLastResponseSearchInvalidJSON(t *testing.T) {
+	// Test error when page JSON is invalid
+	pageRawJSON := `{invalid json`
+
+	page := &v1SearchPage[*testSearchItemSimple]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*testSearchItemSimple{{"cus_1"}},
+	}
+
+	err := maybeAddLastResponseSearch(page)
+	assert.Error(t, err)
+}
+
+func TestMaybeAddLastResponseSearchWithNonLastResponseSetter(t *testing.T) {
+	// Test with items that don't implement LastResponseSetter
+	pageRawJSON := `{
+		"object": "search_result",
+		"data": [
+			{"id": "item_1"},
+			{"id": "item_2"}
+		]
+	}`
+
+	// Note: simpleSearchItem does NOT implement LastResponseSetter
+	page := &v1SearchPage[*simpleSearchItem]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*simpleSearchItem{{"item_1"}, {"item_2"}},
+	}
+
+	// Should not error even though items don't implement LastResponseSetter
+	err := maybeAddLastResponseSearch(page)
+	assert.NoError(t, err)
+}
+
+func TestMaybeAddLastResponseSearchNilLastResponse(t *testing.T) {
+	// Test when LastResponse is nil - should return nil without error
+	page := &v1SearchPage[*testSearchItemSimple]{
+		APIResource: APIResource{
+			LastResponse: nil, // nil LastResponse
+		},
+		Data: []*testSearchItemSimple{{"cus_1"}},
+	}
+
+	err := maybeAddLastResponseSearch(page)
+	assert.NoError(t, err)
+}
