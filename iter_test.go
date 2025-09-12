@@ -283,12 +283,6 @@ func collectList[T LastResponseSetter](it *v1List[T]) ([]T, error) {
 	return tt, err
 }
 
-func intPtr(i int) *int {
-	intPtr := new(int)
-	*intPtr = i
-	return intPtr
-}
-
 type collectable interface {
 	Next() bool
 	Current() interface{}
