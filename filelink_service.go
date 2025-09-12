@@ -60,13 +60,13 @@ func (c v1FileLinkService) List(ctx context.Context, listParams *FileLinkListPar
 		listParams = &FileLinkListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FileLink, ListContainer, error) {
-		list := &FileLinkList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FileLink], error) {
+		list := &v1Page[*FileLink]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/file_links", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

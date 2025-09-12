@@ -109,14 +109,14 @@ func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) S
 		listParams = &QuoteListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Quote, ListContainer, error) {
-		list := &QuoteList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Quote], error) {
+		list := &v1Page[*Quote]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/quotes", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -128,14 +128,14 @@ func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listPa
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/quotes/%s/computed_upfront_line_items", StringValue(listParams.Quote))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
-		list := &LineItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
+		list := &v1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -147,13 +147,13 @@ func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteList
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/quotes/%s/line_items", StringValue(listParams.Quote))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
-		list := &LineItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
+		list := &v1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
