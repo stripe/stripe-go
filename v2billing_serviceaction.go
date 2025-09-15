@@ -45,6 +45,15 @@ const (
 	V2BillingServiceActionCreditGrantApplicabilityConfigScopePriceTypeMetered V2BillingServiceActionCreditGrantApplicabilityConfigScopePriceType = "metered"
 )
 
+// The category of the credit grant.
+type V2BillingServiceActionCreditGrantCategory string
+
+// List of values that V2BillingServiceActionCreditGrantCategory can take
+const (
+	V2BillingServiceActionCreditGrantCategoryPaid        V2BillingServiceActionCreditGrantCategory = "paid"
+	V2BillingServiceActionCreditGrantCategoryPromotional V2BillingServiceActionCreditGrantCategory = "promotional"
+)
+
 // The type of the expiry configuration. We currently support `end_of_service_period`.
 type V2BillingServiceActionCreditGrantExpiryConfigType string
 
@@ -68,6 +77,15 @@ type V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopePriceType
 // List of values that V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopePriceType can take
 const (
 	V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopePriceTypeMetered V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopePriceType = "metered"
+)
+
+// The category of the credit grant.
+type V2BillingServiceActionCreditGrantPerTenantCategory string
+
+// List of values that V2BillingServiceActionCreditGrantPerTenantCategory can take
+const (
+	V2BillingServiceActionCreditGrantPerTenantCategoryPaid        V2BillingServiceActionCreditGrantPerTenantCategory = "paid"
+	V2BillingServiceActionCreditGrantPerTenantCategoryPromotional V2BillingServiceActionCreditGrantPerTenantCategory = "promotional"
 )
 
 // The type of the expiry configuration. We currently support `end_of_service_period`.
@@ -122,10 +140,14 @@ type V2BillingServiceActionCreditGrant struct {
 	Amount *V2BillingServiceActionCreditGrantAmount `json:"amount"`
 	// Defines the scope where the credit grant is applicable.
 	ApplicabilityConfig *V2BillingServiceActionCreditGrantApplicabilityConfig `json:"applicability_config"`
+	// The category of the credit grant.
+	Category V2BillingServiceActionCreditGrantCategory `json:"category"`
 	// The expiry configuration for the credit grant.
 	ExpiryConfig *V2BillingServiceActionCreditGrantExpiryConfig `json:"expiry_config"`
 	// A descriptive name shown in dashboard.
 	Name string `json:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority int64 `json:"priority"`
 }
 
 // The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
@@ -172,10 +194,14 @@ type V2BillingServiceActionCreditGrantPerTenant struct {
 	Amount *V2BillingServiceActionCreditGrantPerTenantAmount `json:"amount"`
 	// Defines the scope where the credit grant is applicable.
 	ApplicabilityConfig *V2BillingServiceActionCreditGrantPerTenantApplicabilityConfig `json:"applicability_config"`
+	// The category of the credit grant.
+	Category V2BillingServiceActionCreditGrantPerTenantCategory `json:"category"`
 	// The expiry configuration for the credit grant.
 	ExpiryConfig *V2BillingServiceActionCreditGrantPerTenantExpiryConfig `json:"expiry_config"`
 	// Customer-facing name for the credit grant.
 	Name string `json:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority int64 `json:"priority"`
 }
 type V2BillingServiceAction struct {
 	APIResource

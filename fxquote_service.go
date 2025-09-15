@@ -48,13 +48,13 @@ func (c v1FxQuoteService) List(ctx context.Context, listParams *FxQuoteListParam
 		listParams = &FxQuoteListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FxQuote, ListContainer, error) {
-		list := &FxQuoteList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FxQuote], error) {
+		list := &v1Page[*FxQuote]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/fx_quotes", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

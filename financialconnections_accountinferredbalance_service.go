@@ -28,13 +28,13 @@ func (c v1FinancialConnectionsAccountInferredBalanceService) List(ctx context.Co
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/inferred_balances", StringValue(
 			listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccountInferredBalance, ListContainer, error) {
-		list := &FinancialConnectionsAccountInferredBalanceList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountInferredBalance], error) {
+		list := &v1Page[*FinancialConnectionsAccountInferredBalance]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

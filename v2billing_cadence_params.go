@@ -76,6 +76,11 @@ type V2BillingCadenceBillingCycleMonthParams struct {
 	// billed, this will anchor to the last day of the month. If not provided,
 	// this will default to the day the cadence was created.
 	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The month to anchor the billing on for a type="month" billing cycle from
+	// 1-12. If not provided, this will default to the month the cadence was created.
+	// This setting can only be used for monthly billing cycles with `interval_count` of 2, 3, 4 or 6.
+	// All occurrences will be calculated from month provided.
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
 	// The time at which the billing cycle ends.
 	// This field is optional, and if not provided, it will default to
 	// the time at which the cadence was created in UTC timezone.
@@ -288,6 +293,11 @@ type V2BillingCadenceCreateBillingCycleMonthParams struct {
 	// billed, this will anchor to the last day of the month. If not provided,
 	// this will default to the day the cadence was created.
 	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The month to anchor the billing on for a type="month" billing cycle from
+	// 1-12. If not provided, this will default to the month the cadence was created.
+	// This setting can only be used for monthly billing cycles with `interval_count` of 2, 3, 4 or 6.
+	// All occurrences will be calculated from month provided.
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
 	// The time at which the billing cycle ends.
 	// This field is optional, and if not provided, it will default to
 	// the time at which the cadence was created in UTC timezone.

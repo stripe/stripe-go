@@ -13046,7 +13046,8 @@ func TestV2BillingCadencePostService(t *testing.T) {
 				},
 			},
 			Month: &stripe.V2BillingCadenceBillingCycleMonthParams{
-				DayOfMonth: stripe.Int64(1361669285),
+				DayOfMonth:  stripe.Int64(1361669285),
+				MonthOfYear: stripe.Int64(82933018),
 				Time: &stripe.V2BillingCadenceBillingCycleMonthTimeParams{
 					Hour:   stripe.Int64(3208676),
 					Minute: stripe.Int64(1074026988),
@@ -13101,7 +13102,8 @@ func TestV2BillingCadencePostClient(t *testing.T) {
 				},
 			},
 			Month: &stripe.V2BillingCadenceCreateBillingCycleMonthParams{
-				DayOfMonth: stripe.Int64(1361669285),
+				DayOfMonth:  stripe.Int64(1361669285),
+				MonthOfYear: stripe.Int64(82933018),
 				Time: &stripe.V2BillingCadenceCreateBillingCycleMonthTimeParams{
 					Hour:   stripe.Int64(3208676),
 					Minute: stripe.Int64(1074026988),
@@ -13540,7 +13542,7 @@ func TestV2BillingIntentPostService(t *testing.T) {
 					},
 					EffectiveAt: &stripe.V2BillingIntentActionDeactivateEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
-						Type:      stripe.String("current_billing_period_start"),
+						Type:      stripe.String("on_reserve"),
 					},
 					PricingPlanSubscriptionDetails: &stripe.V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams{
 						PricingPlanSubscription: stripe.String("pricing_plan_subscription"),
@@ -13645,7 +13647,7 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 					},
 					EffectiveAt: &stripe.V2BillingIntentCreateActionDeactivateEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
-						Type:      stripe.String("current_billing_period_start"),
+						Type:      stripe.String("on_reserve"),
 					},
 					PricingPlanSubscriptionDetails: &stripe.V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams{
 						PricingPlanSubscription: stripe.String("pricing_plan_subscription"),
@@ -14012,9 +14014,7 @@ func TestV2BillingLicenseFeeGet2Client(t *testing.T) {
 }
 
 func TestV2BillingLicenseFeePost2Service(t *testing.T) {
-	params := &stripe.V2BillingLicenseFeeParams{
-		DisplayName: stripe.String("display_name"),
-	}
+	params := &stripe.V2BillingLicenseFeeParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/billing/license_fees/id_123", params, "{\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"lookup_key\":null,\"metadata\":null,\"object\":\"v2.billing.licensed_item\",\"tax_details\":null,\"unit_label\":null,\"livemode\":true},\"live_version\":\"live_version\",\"lookup_key\":null,\"metadata\":null,\"object\":\"v2.billing.license_fee\",\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiering_mode\":null,\"tiers\":[{\"flat_amount\":null,\"unit_amount\":null,\"up_to_decimal\":null,\"up_to_inf\":null}],\"transform_quantity\":null,\"unit_amount\":null,\"livemode\":true}")
 	defer testServer.Close()
@@ -14027,9 +14027,7 @@ func TestV2BillingLicenseFeePost2Service(t *testing.T) {
 }
 
 func TestV2BillingLicenseFeePost2Client(t *testing.T) {
-	params := &stripe.V2BillingLicenseFeeUpdateParams{
-		DisplayName: stripe.String("display_name"),
-	}
+	params := &stripe.V2BillingLicenseFeeUpdateParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/billing/license_fees/id_123", params, "{\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"lookup_key\":null,\"metadata\":null,\"object\":\"v2.billing.licensed_item\",\"tax_details\":null,\"unit_label\":null,\"livemode\":true},\"live_version\":\"live_version\",\"lookup_key\":null,\"metadata\":null,\"object\":\"v2.billing.license_fee\",\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiering_mode\":null,\"tiers\":[{\"flat_amount\":null,\"unit_amount\":null,\"up_to_decimal\":null,\"up_to_inf\":null}],\"transform_quantity\":null,\"unit_amount\":null,\"livemode\":true}")
 	defer testServer.Close()
@@ -14811,7 +14809,7 @@ func TestV2BillingPricingPlansVersionGet2Client(t *testing.T) {
 func TestV2BillingPricingPlanSubscriptionGetService(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanSubscriptionListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions", params, "{\"data\":[{\"billing_cadence\":\"billing_cadence\",\"collection_status\":\"past_due\",\"collection_status_transitions\":{\"awaiting_customer_action_at\":null,\"current_at\":null,\"past_due_at\":null,\"paused_at\":null,\"unpaid_at\":null},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metadata\":null,\"object\":\"v2.billing.pricing_plan_subscription\",\"pricing_plan\":\"pricing_plan\",\"pricing_plan_version\":\"pricing_plan_version\",\"servicing_status\":\"pending\",\"servicing_status_transitions\":{\"activated_at\":null,\"canceled_at\":null,\"paused_at\":null},\"test_clock\":null,\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions", params, "{\"data\":[{\"billing_cadence\":\"billing_cadence\",\"collection_status\":\"past_due\",\"collection_status_transitions\":{\"awaiting_customer_action_at\":null,\"current_at\":null,\"past_due_at\":null,\"paused_at\":null,\"unpaid_at\":null},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metadata\":null,\"object\":\"v2.billing.pricing_plan_subscription\",\"pricing_plan\":\"pricing_plan\",\"pricing_plan_version\":\"pricing_plan_version\",\"servicing_status\":\"pending\",\"servicing_status_transitions\":{\"activated_at\":null,\"canceled_at\":null,\"paused_at\":null,\"will_activate_at\":null,\"will_cancel_at\":null},\"test_clock\":null,\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14823,7 +14821,7 @@ func TestV2BillingPricingPlanSubscriptionGetService(t *testing.T) {
 func TestV2BillingPricingPlanSubscriptionGetClient(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanSubscriptionListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions", params, "{\"data\":[{\"billing_cadence\":\"billing_cadence\",\"collection_status\":\"past_due\",\"collection_status_transitions\":{\"awaiting_customer_action_at\":null,\"current_at\":null,\"past_due_at\":null,\"paused_at\":null,\"unpaid_at\":null},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metadata\":null,\"object\":\"v2.billing.pricing_plan_subscription\",\"pricing_plan\":\"pricing_plan\",\"pricing_plan_version\":\"pricing_plan_version\",\"servicing_status\":\"pending\",\"servicing_status_transitions\":{\"activated_at\":null,\"canceled_at\":null,\"paused_at\":null},\"test_clock\":null,\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions", params, "{\"data\":[{\"billing_cadence\":\"billing_cadence\",\"collection_status\":\"past_due\",\"collection_status_transitions\":{\"awaiting_customer_action_at\":null,\"current_at\":null,\"past_due_at\":null,\"paused_at\":null,\"unpaid_at\":null},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metadata\":null,\"object\":\"v2.billing.pricing_plan_subscription\",\"pricing_plan\":\"pricing_plan\",\"pricing_plan_version\":\"pricing_plan_version\",\"servicing_status\":\"pending\",\"servicing_status_transitions\":{\"activated_at\":null,\"canceled_at\":null,\"paused_at\":null,\"will_activate_at\":null,\"will_cancel_at\":null},\"test_clock\":null,\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14835,7 +14833,7 @@ func TestV2BillingPricingPlanSubscriptionGetClient(t *testing.T) {
 func TestV2BillingPricingPlanSubscriptionGet2Service(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanSubscriptionParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions/id_123", params, "{\"billing_cadence\":\"billing_cadence\",\"collection_status\":\"past_due\",\"collection_status_transitions\":{\"awaiting_customer_action_at\":null,\"current_at\":null,\"past_due_at\":null,\"paused_at\":null,\"unpaid_at\":null},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metadata\":null,\"object\":\"v2.billing.pricing_plan_subscription\",\"pricing_plan\":\"pricing_plan\",\"pricing_plan_version\":\"pricing_plan_version\",\"servicing_status\":\"pending\",\"servicing_status_transitions\":{\"activated_at\":null,\"canceled_at\":null,\"paused_at\":null},\"test_clock\":null,\"livemode\":true}")
+		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions/id_123", params, "{\"billing_cadence\":\"billing_cadence\",\"collection_status\":\"past_due\",\"collection_status_transitions\":{\"awaiting_customer_action_at\":null,\"current_at\":null,\"past_due_at\":null,\"paused_at\":null,\"unpaid_at\":null},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metadata\":null,\"object\":\"v2.billing.pricing_plan_subscription\",\"pricing_plan\":\"pricing_plan\",\"pricing_plan_version\":\"pricing_plan_version\",\"servicing_status\":\"pending\",\"servicing_status_transitions\":{\"activated_at\":null,\"canceled_at\":null,\"paused_at\":null,\"will_activate_at\":null,\"will_cancel_at\":null},\"test_clock\":null,\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14848,7 +14846,7 @@ func TestV2BillingPricingPlanSubscriptionGet2Service(t *testing.T) {
 func TestV2BillingPricingPlanSubscriptionGet2Client(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanSubscriptionRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions/id_123", params, "{\"billing_cadence\":\"billing_cadence\",\"collection_status\":\"past_due\",\"collection_status_transitions\":{\"awaiting_customer_action_at\":null,\"current_at\":null,\"past_due_at\":null,\"paused_at\":null,\"unpaid_at\":null},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metadata\":null,\"object\":\"v2.billing.pricing_plan_subscription\",\"pricing_plan\":\"pricing_plan\",\"pricing_plan_version\":\"pricing_plan_version\",\"servicing_status\":\"pending\",\"servicing_status_transitions\":{\"activated_at\":null,\"canceled_at\":null,\"paused_at\":null},\"test_clock\":null,\"livemode\":true}")
+		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions/id_123", params, "{\"billing_cadence\":\"billing_cadence\",\"collection_status\":\"past_due\",\"collection_status_transitions\":{\"awaiting_customer_action_at\":null,\"current_at\":null,\"past_due_at\":null,\"paused_at\":null,\"unpaid_at\":null},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metadata\":null,\"object\":\"v2.billing.pricing_plan_subscription\",\"pricing_plan\":\"pricing_plan\",\"pricing_plan_version\":\"pricing_plan_version\",\"servicing_status\":\"pending\",\"servicing_status_transitions\":{\"activated_at\":null,\"canceled_at\":null,\"paused_at\":null,\"will_activate_at\":null,\"will_cancel_at\":null},\"test_clock\":null,\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
