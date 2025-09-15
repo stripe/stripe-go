@@ -37,13 +37,13 @@ func (c v1InvoicePaymentService) List(ctx context.Context, listParams *InvoicePa
 		listParams = &InvoicePaymentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoicePayment, ListContainer, error) {
-		list := &InvoicePaymentList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoicePayment], error) {
+		list := &v1Page[*InvoicePayment]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoice_payments", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

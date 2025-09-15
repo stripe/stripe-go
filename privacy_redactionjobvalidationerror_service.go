@@ -28,13 +28,13 @@ func (c v1PrivacyRedactionJobValidationErrorService) List(ctx context.Context, l
 	path := FormatURLPath(
 		"/v1/privacy/redaction_jobs/%s/validation_errors", StringValue(
 			listParams.Job))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PrivacyRedactionJobValidationError, ListContainer, error) {
-		list := &PrivacyRedactionJobValidationErrorList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PrivacyRedactionJobValidationError], error) {
+		list := &v1Page[*PrivacyRedactionJobValidationError]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

@@ -886,7 +886,7 @@ type QuoteSubscriptionDataBillOnAcceptanceParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteSubscriptionDataBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -1763,7 +1763,7 @@ type QuoteCreateSubscriptionDataBillOnAcceptanceParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteCreateSubscriptionDataBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
