@@ -815,6 +815,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCardChecks struct {
 
 // If this card has network token credentials, this contains the details of the network token credentials.
 type PaymentAttemptRecordPaymentMethodDetailsCardNetworkToken struct {
+	// Indicates if Stripe used a network token, either user provided or Stripe managed when processing the transaction.
 	Used bool `json:"used"`
 }
 
