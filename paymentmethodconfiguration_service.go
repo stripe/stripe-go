@@ -63,13 +63,13 @@ func (c v1PaymentMethodConfigurationService) List(ctx context.Context, listParam
 		listParams = &PaymentMethodConfigurationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentMethodConfiguration, ListContainer, error) {
-		list := &PaymentMethodConfigurationList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentMethodConfiguration], error) {
+		list := &v1Page[*PaymentMethodConfiguration]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_configurations", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
