@@ -8176,7 +8176,6 @@ func TestSubscriptionSchedulesPost(t *testing.T) {
 						Quantity: stripe.Int64(1),
 					},
 				},
-				Iterations: stripe.Int64(12),
 			},
 		},
 	}
@@ -8199,7 +8198,6 @@ func TestSubscriptionSchedulesPostService(t *testing.T) {
 						Quantity: stripe.Int64(1),
 					},
 				},
-				Iterations: stripe.Int64(12),
 			},
 		},
 	}
@@ -8222,7 +8220,6 @@ func TestSubscriptionSchedulesPostClient(t *testing.T) {
 						Quantity: stripe.Int64(1),
 					},
 				},
-				Iterations: stripe.Int64(12),
 			},
 		},
 	}
