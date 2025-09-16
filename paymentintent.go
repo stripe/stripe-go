@@ -1634,7 +1634,7 @@ type PaymentIntentAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
@@ -3884,7 +3884,7 @@ type PaymentIntentCaptureAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentCaptureAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
@@ -4382,7 +4382,7 @@ type PaymentIntentConfirmAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentConfirmAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
@@ -5009,7 +5009,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
@@ -5255,7 +5255,7 @@ type PaymentIntentCreateAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentCreateAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
@@ -7464,7 +7464,7 @@ type PaymentIntentUpdateAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentUpdateAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
@@ -9514,7 +9514,7 @@ type PaymentIntentAmountDetailsTip struct {
 	Amount int64 `json:"amount"`
 }
 type PaymentIntentAmountDetails struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount int64 `json:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items"`
