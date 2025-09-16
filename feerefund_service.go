@@ -83,13 +83,13 @@ func (c v1FeeRefundService) List(ctx context.Context, listParams *FeeRefundListP
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/application_fees/%s/refunds", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FeeRefund], error) {
-		list := &v1Page[*FeeRefund]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FeeRefund, ListContainer, error) {
+		list := &FeeRefundList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

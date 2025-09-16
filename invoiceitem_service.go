@@ -73,13 +73,13 @@ func (c v1InvoiceItemService) List(ctx context.Context, listParams *InvoiceItemL
 		listParams = &InvoiceItemListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoiceItem], error) {
-		list := &v1Page[*InvoiceItem]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceItem, ListContainer, error) {
+		list := &InvoiceItemList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoiceitems", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

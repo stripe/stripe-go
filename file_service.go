@@ -57,13 +57,13 @@ func (c v1FileService) List(ctx context.Context, listParams *FileListParams) Seq
 		listParams = &FileListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*File], error) {
-		list := &v1Page[*File]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*File, ListContainer, error) {
+		list := &FileList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/files", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

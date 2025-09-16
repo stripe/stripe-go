@@ -218,14 +218,14 @@ func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParam
 		listParams = &InvoiceListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Invoice], error) {
-		list := &v1Page[*Invoice]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Invoice, ListContainer, error) {
+		list := &InvoiceList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -237,14 +237,14 @@ func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceList
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/invoices/%s/lines", StringValue(listParams.Invoice))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoiceLineItem], error) {
-		list := &v1Page[*InvoiceLineItem]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceLineItem, ListContainer, error) {
+		list := &InvoiceLineItemList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -257,13 +257,13 @@ func (c v1InvoiceService) Search(ctx context.Context, params *InvoiceSearchParam
 		params = &InvoiceSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Invoice], error) {
-		list := &v1SearchPage[*Invoice]{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Invoice, SearchContainer, error) {
+		list := &InvoiceSearchResult{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices/search", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

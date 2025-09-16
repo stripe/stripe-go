@@ -61,13 +61,13 @@ func (c v1PromotionCodeService) List(ctx context.Context, listParams *PromotionC
 		listParams = &PromotionCodeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PromotionCode], error) {
-		list := &v1Page[*PromotionCode]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PromotionCode, ListContainer, error) {
+		list := &PromotionCodeList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/promotion_codes", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

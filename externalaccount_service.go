@@ -128,14 +128,14 @@ func (c v1ExternalAccountService) ListBankAccount(ctx context.Context, listParam
 		listParams = &BankAccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BankAccount], error) {
-		list := &v1Page[*BankAccount]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BankAccount, ListContainer, error) {
+		list := &BankAccountList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/external_accounts", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -145,13 +145,13 @@ func (c v1ExternalAccountService) ListCard(ctx context.Context, listParams *Card
 		listParams = &CardListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Card], error) {
-		list := &v1Page[*Card]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Card, ListContainer, error) {
+		list := &CardList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/external_accounts", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

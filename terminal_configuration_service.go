@@ -73,13 +73,13 @@ func (c v1TerminalConfigurationService) List(ctx context.Context, listParams *Te
 		listParams = &TerminalConfigurationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TerminalConfiguration], error) {
-		list := &v1Page[*TerminalConfiguration]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TerminalConfiguration, ListContainer, error) {
+		list := &TerminalConfigurationList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/configurations", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

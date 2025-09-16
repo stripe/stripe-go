@@ -73,13 +73,13 @@ func (c v1WebhookEndpointService) List(ctx context.Context, listParams *WebhookE
 		listParams = &WebhookEndpointListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*WebhookEndpoint], error) {
-		list := &v1Page[*WebhookEndpoint]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*WebhookEndpoint, ListContainer, error) {
+		list := &WebhookEndpointList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/webhook_endpoints", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

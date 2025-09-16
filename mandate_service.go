@@ -37,13 +37,13 @@ func (c v1MandateService) List(ctx context.Context, listParams *MandateListParam
 		listParams = &MandateListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Mandate], error) {
-		list := &v1Page[*Mandate]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Mandate, ListContainer, error) {
+		list := &MandateList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/mandates", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

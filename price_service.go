@@ -60,14 +60,14 @@ func (c v1PriceService) List(ctx context.Context, listParams *PriceListParams) S
 		listParams = &PriceListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Price], error) {
-		list := &v1Page[*Price]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Price, ListContainer, error) {
+		list := &PriceList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -80,13 +80,13 @@ func (c v1PriceService) Search(ctx context.Context, params *PriceSearchParams) S
 		params = &PriceSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Price], error) {
-		list := &v1SearchPage[*Price]{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Price, SearchContainer, error) {
+		list := &PriceSearchResult{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/prices/search", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

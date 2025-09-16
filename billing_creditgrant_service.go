@@ -85,13 +85,13 @@ func (c v1BillingCreditGrantService) List(ctx context.Context, listParams *Billi
 		listParams = &BillingCreditGrantListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingCreditGrant], error) {
-		list := &v1Page[*BillingCreditGrant]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingCreditGrant, ListContainer, error) {
+		list := &BillingCreditGrantList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/credit_grants", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

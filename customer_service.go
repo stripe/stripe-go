@@ -113,14 +113,14 @@ func (c v1CustomerService) List(ctx context.Context, listParams *CustomerListPar
 		listParams = &CustomerListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Customer], error) {
-		list := &v1Page[*Customer]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Customer, ListContainer, error) {
+		list := &CustomerList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/customers", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -132,14 +132,14 @@ func (c v1CustomerService) ListPaymentMethods(ctx context.Context, listParams *C
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/payment_methods", StringValue(listParams.Customer))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentMethod], error) {
-		list := &v1Page[*PaymentMethod]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentMethod, ListContainer, error) {
+		list := &PaymentMethodList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -152,13 +152,13 @@ func (c v1CustomerService) Search(ctx context.Context, params *CustomerSearchPar
 		params = &CustomerSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Customer], error) {
-		list := &v1SearchPage[*Customer]{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Customer, SearchContainer, error) {
+		list := &CustomerSearchResult{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/customers/search", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

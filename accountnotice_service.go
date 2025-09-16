@@ -49,13 +49,13 @@ func (c v1AccountNoticeService) List(ctx context.Context, listParams *AccountNot
 		listParams = &AccountNoticeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*AccountNotice], error) {
-		list := &v1Page[*AccountNotice]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*AccountNotice, ListContainer, error) {
+		list := &AccountNoticeList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/account_notices", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

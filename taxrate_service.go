@@ -60,13 +60,13 @@ func (c v1TaxRateService) List(ctx context.Context, listParams *TaxRateListParam
 		listParams = &TaxRateListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TaxRate], error) {
-		list := &v1Page[*TaxRate]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxRate, ListContainer, error) {
+		list := &TaxRateList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/tax_rates", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

@@ -37,13 +37,13 @@ func (c v1CountrySpecService) List(ctx context.Context, listParams *CountrySpecL
 		listParams = &CountrySpecListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CountrySpec], error) {
-		list := &v1Page[*CountrySpec]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CountrySpec, ListContainer, error) {
+		list := &CountrySpecList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/country_specs", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

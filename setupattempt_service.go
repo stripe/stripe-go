@@ -25,13 +25,13 @@ func (c v1SetupAttemptService) List(ctx context.Context, listParams *SetupAttemp
 		listParams = &SetupAttemptListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SetupAttempt], error) {
-		list := &v1Page[*SetupAttempt]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SetupAttempt, ListContainer, error) {
+		list := &SetupAttemptList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/setup_attempts", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

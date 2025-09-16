@@ -84,13 +84,13 @@ func (c v1BillingMeterService) List(ctx context.Context, listParams *BillingMete
 		listParams = &BillingMeterListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingMeter], error) {
-		list := &v1Page[*BillingMeter]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingMeter, ListContainer, error) {
+		list := &BillingMeterList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/meters", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

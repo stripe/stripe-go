@@ -72,13 +72,13 @@ func (c v1PlanService) List(ctx context.Context, listParams *PlanListParams) Seq
 		listParams = &PlanListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Plan], error) {
-		list := &v1Page[*Plan]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Plan, ListContainer, error) {
+		list := &PlanList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/plans", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

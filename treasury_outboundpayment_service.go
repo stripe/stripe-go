@@ -61,13 +61,13 @@ func (c v1TreasuryOutboundPaymentService) List(ctx context.Context, listParams *
 		listParams = &TreasuryOutboundPaymentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryOutboundPayment], error) {
-		list := &v1Page[*TreasuryOutboundPayment]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryOutboundPayment, ListContainer, error) {
+		list := &TreasuryOutboundPaymentList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/outbound_payments", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

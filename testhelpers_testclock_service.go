@@ -73,13 +73,13 @@ func (c v1TestHelpersTestClockService) List(ctx context.Context, listParams *Tes
 		listParams = &TestHelpersTestClockListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TestHelpersTestClock], error) {
-		list := &v1Page[*TestHelpersTestClock]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TestHelpersTestClock, ListContainer, error) {
+		list := &TestHelpersTestClockList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/test_helpers/test_clocks", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

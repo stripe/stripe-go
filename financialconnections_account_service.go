@@ -85,14 +85,14 @@ func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listPara
 		listParams = &FinancialConnectionsAccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccount], error) {
-		list := &v1Page[*FinancialConnectionsAccount]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccount, ListContainer, error) {
+		list := &FinancialConnectionsAccountList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/accounts", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -105,13 +105,13 @@ func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, li
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/owners", StringValue(
 			listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountOwner], error) {
-		list := &v1Page[*FinancialConnectionsAccountOwner]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccountOwner, ListContainer, error) {
+		list := &FinancialConnectionsAccountOwnerList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

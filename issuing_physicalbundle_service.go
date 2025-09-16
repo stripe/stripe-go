@@ -37,13 +37,13 @@ func (c v1IssuingPhysicalBundleService) List(ctx context.Context, listParams *Is
 		listParams = &IssuingPhysicalBundleListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingPhysicalBundle], error) {
-		list := &v1Page[*IssuingPhysicalBundle]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingPhysicalBundle, ListContainer, error) {
+		list := &IssuingPhysicalBundleList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/physical_bundles", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

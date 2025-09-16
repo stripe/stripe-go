@@ -49,13 +49,13 @@ func (c v1IssuingTokenService) List(ctx context.Context, listParams *IssuingToke
 		listParams = &IssuingTokenListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingToken], error) {
-		list := &v1Page[*IssuingToken]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingToken, ListContainer, error) {
+		list := &IssuingTokenList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/tokens", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

@@ -37,13 +37,13 @@ func (c v1ClimateSupplierService) List(ctx context.Context, listParams *ClimateS
 		listParams = &ClimateSupplierListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ClimateSupplier], error) {
-		list := &v1Page[*ClimateSupplier]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ClimateSupplier, ListContainer, error) {
+		list := &ClimateSupplierList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/climate/suppliers", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

@@ -50,13 +50,13 @@ func (c v1CapitalFinancingOfferService) List(ctx context.Context, listParams *Ca
 		listParams = &CapitalFinancingOfferListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CapitalFinancingOffer], error) {
-		list := &v1Page[*CapitalFinancingOffer]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CapitalFinancingOffer, ListContainer, error) {
+		list := &CapitalFinancingOfferList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/capital/financing_offers", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

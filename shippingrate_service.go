@@ -61,13 +61,13 @@ func (c v1ShippingRateService) List(ctx context.Context, listParams *ShippingRat
 		listParams = &ShippingRateListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ShippingRate], error) {
-		list := &v1Page[*ShippingRate]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ShippingRate, ListContainer, error) {
+		list := &ShippingRateList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/shipping_rates", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

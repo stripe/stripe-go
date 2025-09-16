@@ -117,13 +117,13 @@ func (c v1IdentityVerificationSessionService) List(ctx context.Context, listPara
 		listParams = &IdentityVerificationSessionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IdentityVerificationSession], error) {
-		list := &v1Page[*IdentityVerificationSession]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IdentityVerificationSession, ListContainer, error) {
+		list := &IdentityVerificationSessionList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/identity/verification_sessions", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

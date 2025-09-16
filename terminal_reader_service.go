@@ -169,13 +169,13 @@ func (c v1TerminalReaderService) List(ctx context.Context, listParams *TerminalR
 		listParams = &TerminalReaderListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TerminalReader], error) {
-		list := &v1Page[*TerminalReader]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TerminalReader, ListContainer, error) {
+		list := &TerminalReaderList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/readers", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

@@ -77,14 +77,14 @@ func (c v1CheckoutSessionService) List(ctx context.Context, listParams *Checkout
 		listParams = &CheckoutSessionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CheckoutSession], error) {
-		list := &v1Page[*CheckoutSession]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CheckoutSession, ListContainer, error) {
+		list := &CheckoutSessionList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/checkout/sessions", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -96,13 +96,13 @@ func (c v1CheckoutSessionService) ListLineItems(ctx context.Context, listParams 
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/checkout/sessions/%s/line_items", StringValue(listParams.Session))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
-		list := &v1Page[*LineItem]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
+		list := &LineItemList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

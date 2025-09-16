@@ -72,13 +72,13 @@ func (c v1TopupService) List(ctx context.Context, listParams *TopupListParams) S
 		listParams = &TopupListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Topup], error) {
-		list := &v1Page[*Topup]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Topup, ListContainer, error) {
+		list := &TopupList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/topups", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

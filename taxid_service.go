@@ -78,13 +78,13 @@ func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) S
 		listParams = &TaxIDListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TaxID], error) {
-		list := &v1Page[*TaxID]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxID, ListContainer, error) {
+		list := &TaxIDList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

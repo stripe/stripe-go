@@ -41,13 +41,13 @@ func (c v1BalanceTransactionService) List(ctx context.Context, listParams *Balan
 		listParams = &BalanceTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BalanceTransaction], error) {
-		list := &v1Page[*BalanceTransaction]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BalanceTransaction, ListContainer, error) {
+		list := &BalanceTransactionList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/balance_transactions", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

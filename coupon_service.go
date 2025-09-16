@@ -74,13 +74,13 @@ func (c v1CouponService) List(ctx context.Context, listParams *CouponListParams)
 		listParams = &CouponListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Coupon], error) {
-		list := &v1Page[*Coupon]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Coupon, ListContainer, error) {
+		list := &CouponList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/coupons", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

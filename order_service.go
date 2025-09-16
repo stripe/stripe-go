@@ -96,14 +96,14 @@ func (c v1OrderService) List(ctx context.Context, listParams *OrderListParams) S
 		listParams = &OrderListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Order], error) {
-		list := &v1Page[*Order]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Order, ListContainer, error) {
+		list := &OrderList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/orders", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
 
@@ -114,13 +114,13 @@ func (c v1OrderService) ListLineItems(ctx context.Context, listParams *OrderList
 	}
 	listParams.Context = ctx
 	path := FormatURLPath("/v1/orders/%s/line_items", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
-		list := &v1Page[*LineItem]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
+		list := &LineItemList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

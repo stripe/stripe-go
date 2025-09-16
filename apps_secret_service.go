@@ -60,13 +60,13 @@ func (c v1AppsSecretService) List(ctx context.Context, listParams *AppsSecretLis
 		listParams = &AppsSecretListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*AppsSecret], error) {
-		list := &v1Page[*AppsSecret]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*AppsSecret, ListContainer, error) {
+		list := &AppsSecretList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/apps/secrets", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

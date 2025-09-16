@@ -43,13 +43,13 @@ func (c v1CustomerCashBalanceTransactionService) List(ctx context.Context, listP
 	path := FormatURLPath(
 		"/v1/customers/%s/cash_balance_transactions", StringValue(
 			listParams.Customer))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CustomerCashBalanceTransaction], error) {
-		list := &v1Page[*CustomerCashBalanceTransaction]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CustomerCashBalanceTransaction, ListContainer, error) {
+		list := &CustomerCashBalanceTransactionList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

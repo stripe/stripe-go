@@ -28,13 +28,13 @@ func (c v1PaymentIntentAmountDetailsLineItemService) List(ctx context.Context, l
 	path := FormatURLPath(
 		"/v1/payment_intents/%s/amount_details_line_items", StringValue(
 			listParams.Intent))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentIntentAmountDetailsLineItem], error) {
-		list := &v1Page[*PaymentIntentAmountDetailsLineItem]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentIntentAmountDetailsLineItem, ListContainer, error) {
+		list := &PaymentIntentAmountDetailsLineItemList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

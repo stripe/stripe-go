@@ -37,13 +37,13 @@ func (c v1TreasuryReceivedCreditService) List(ctx context.Context, listParams *T
 		listParams = &TreasuryReceivedCreditListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryReceivedCredit], error) {
-		list := &v1Page[*TreasuryReceivedCredit]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryReceivedCredit, ListContainer, error) {
+		list := &TreasuryReceivedCreditList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/received_credits", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

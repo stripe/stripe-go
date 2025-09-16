@@ -60,13 +60,13 @@ func (c v1IssuingCardService) List(ctx context.Context, listParams *IssuingCardL
 		listParams = &IssuingCardListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingCard], error) {
-		list := &v1Page[*IssuingCard]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingCard, ListContainer, error) {
+		list := &IssuingCardList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cards", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }

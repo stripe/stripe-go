@@ -49,13 +49,13 @@ func (c v1TreasuryDebitReversalService) List(ctx context.Context, listParams *Tr
 		listParams = &TreasuryDebitReversalListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryDebitReversal], error) {
-		list := &v1Page[*TreasuryDebitReversal]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryDebitReversal, ListContainer, error) {
+		list := &TreasuryDebitReversalList{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/debit_reversals", c.Key, []byte(b.Encode()), p, list)
-		return list, err
+		return list.Data, list, err
 	}).All()
 }
