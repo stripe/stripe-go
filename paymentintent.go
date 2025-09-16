@@ -4794,6 +4794,8 @@ type PaymentIntentConfirmParams struct {
 	ConfirmationToken *string `form:"confirmation_token"`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
@@ -9434,6 +9436,8 @@ type PaymentIntentUpdateParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
