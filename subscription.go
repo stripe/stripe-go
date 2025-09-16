@@ -1009,6 +1009,7 @@ func (p *SubscriptionSearchParams) AddExpand(f string) {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionMigrateBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
