@@ -1218,6 +1218,58 @@ func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, er
 	return e.fetchRelatedObject()
 }
 
+// V2CoreClaimableSandboxClaimedEvent is the Go struct for the "v2.core.claimable_sandbox.claimed" event.
+// Occurs when a claimable sandbox is claimed.
+type V2CoreClaimableSandboxClaimedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxClaimedEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxExpiredEvent is the Go struct for the "v2.core.claimable_sandbox.expired" event.
+// Occurs when a claimable sandbox expires.
+type V2CoreClaimableSandboxExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxExpiredEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxExpiringEvent is the Go struct for the "v2.core.claimable_sandbox.expiring" event.
+// Occurs when a claimable sandbox is expiring in 7 days.
+type V2CoreClaimableSandboxExpiringEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxExpiringEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent is the Go struct for the "v2.core.claimable_sandbox.sandbox_details_owner_account_updated" event.
+// Occurs when a claimable sandbox is activated by the user with the intention to go live and your Stripe app is installed on the live account.
+type V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
 // A ping event used to test the connection to an EventDestination.
 type V2CoreEventDestinationPingEvent struct {
@@ -3196,6 +3248,46 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.claimed":
+		result := &V2CoreClaimableSandboxClaimedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.expired":
+		result := &V2CoreClaimableSandboxExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.expiring":
+		result := &V2CoreClaimableSandboxExpiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.sandbox_details_owner_account_updated":
+		result := &V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
 		}
 		return result, nil
 	case "v2.core.event_destination.ping":
