@@ -4798,6 +4798,20 @@ func (p *CheckoutSessionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type CheckoutSessionUpdateAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
+type CheckoutSessionUpdateAutomaticTaxParams struct {
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *CheckoutSessionUpdateAutomaticTaxLiabilityParams `form:"liability"`
+}
+
 // The shipping details to apply to this Session.
 type CheckoutSessionUpdateCollectedInformationShippingDetailsParams struct {
 	// The address of the customer
@@ -4843,6 +4857,26 @@ type CheckoutSessionUpdateDiscountParams struct {
 	Coupon *string `form:"coupon"`
 	// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
 	CouponData *CheckoutSessionUpdateDiscountCouponDataParams `form:"coupon_data"`
+}
+
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionUpdateInvoiceCreationInvoiceDataIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Parameters passed when creating invoices for payment-mode Checkout Sessions.
+type CheckoutSessionUpdateInvoiceCreationInvoiceDataParams struct {
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionUpdateInvoiceCreationInvoiceDataIssuerParams `form:"issuer"`
+}
+
+// Generate a post-purchase Invoice for one-time payments.
+type CheckoutSessionUpdateInvoiceCreationParams struct {
+	// Parameters passed when creating invoices for payment-mode Checkout Sessions.
+	InvoiceData *CheckoutSessionUpdateInvoiceCreationInvoiceDataParams `form:"invoice_data"`
 }
 
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
@@ -5020,8 +5054,24 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionUpdateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionUpdateSubscriptionDataInvoiceSettingsIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// All invoices will be billed using the specified settings.
+type CheckoutSessionUpdateSubscriptionDataInvoiceSettingsParams struct {
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionUpdateSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionUpdateSubscriptionDataParams struct {
+	// All invoices will be billed using the specified settings.
+	InvoiceSettings *CheckoutSessionUpdateSubscriptionDataInvoiceSettingsParams `form:"invoice_settings"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
@@ -5033,12 +5083,16 @@ type CheckoutSessionUpdateSubscriptionDataParams struct {
 // Related guide: [Dynamically update Checkout](https://docs.stripe.com/payments/checkout/dynamic-updates)
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
+	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
+	AutomaticTax *CheckoutSessionUpdateAutomaticTaxParams `form:"automatic_tax"`
 	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
 	CollectedInformation *CheckoutSessionUpdateCollectedInformationParams `form:"collected_information"`
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Generate a post-purchase Invoice for one-time payments.
+	InvoiceCreation *CheckoutSessionUpdateInvoiceCreationParams `form:"invoice_creation"`
 	// A list of items the customer is purchasing.
 	//
 	// When updating line items, you must retransmit the entire array of line items.
