@@ -2978,6 +2978,8 @@ type CheckoutSessionParams struct {
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
@@ -4673,6 +4675,8 @@ type CheckoutSessionCreateParams struct {
 	CustomText *CheckoutSessionCreateCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionCreateDiscountParams `form:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
@@ -6230,6 +6234,8 @@ type CheckoutSession struct {
 	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionDiscount `json:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []string `json:"excluded_payment_method_types"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
