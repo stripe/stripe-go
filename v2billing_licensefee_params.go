@@ -27,7 +27,7 @@ type V2BillingLicenseFeeTierParams struct {
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal *string `form:"up_to_decimal" json:"up_to_decimal,omitempty"`
+	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,high_precision,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
 }
@@ -99,7 +99,7 @@ type V2BillingLicenseFeeCreateTierParams struct {
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal *string `form:"up_to_decimal" json:"up_to_decimal,omitempty"`
+	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,high_precision,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
 }
@@ -173,7 +173,7 @@ type V2BillingLicenseFeeUpdateTierParams struct {
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal *string `form:"up_to_decimal" json:"up_to_decimal,omitempty"`
+	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,high_precision,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
 }
@@ -192,7 +192,7 @@ type V2BillingLicenseFeeUpdateParams struct {
 	// A customer-facing name for the License Fee.
 	// This name is used in Stripe-hosted products like the Customer Portal and Checkout. It does not show up on Invoices.
 	// Maximum length of 250 characters.
-	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	DisplayName *string `form:"display_name" json:"display_name"`
 	// Changes the version that new license fee will use. Providing `live_version = "latest"` will set the
 	// license fee's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`

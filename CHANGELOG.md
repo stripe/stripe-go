@@ -1,5 +1,41 @@
 # Changelog
 
+## 82.6.0-beta.1 - 2025-08-27
+This release changes the pinned API version to `2025-08-27.preview`.
+
+* [#2096](https://github.com/stripe/stripe-go/pull/2096) Update generated code for beta
+  * Add support for `Get` and `List` methods on resource `InvoicePayment`
+  * Add support for `List` method on resource `Mandate`
+  * Add support for `Applied` on `V2CoreAccountConfigurationCustomerParams`, `V2CoreAccountConfigurationCustomer`, `V2CoreAccountConfigurationMerchantParams`, `V2CoreAccountConfigurationMerchant`, `V2CoreAccountConfigurationRecipientParams`, `V2CoreAccountConfigurationRecipient`, `V2CoreAccountConfigurationStorerParams`, and `V2CoreAccountConfigurationStorer`
+  * Add support for new values `ao_nif`, `az_tin`, `bd_etin`, `cr_cpj`, `cr_nite`, `do_rcn`, `gt_nit`, `kz_bin`, `mz_nuit`, `pe_ruc`, `pk_ntn`, `sa_crn`, and `sa_tin` on enum `V2CoreAccountIdentityBusinessDetailsIdNumbers.Type`
+  * Add support for new values `ao_nif`, `az_tin`, `bd_brc`, `bd_etin`, `bd_nid`, `cr_cpf`, `cr_dimex`, `cr_nite`, `do_rcn`, `gt_nit`, `kz_iin`, `mz_nuit`, `pe_dni`, `pk_cnic`, `pk_snic`, and `sa_tin` on enums `V2CoreAccountIdentityIndividualIdNumbers.Type` and `V2CorePersonIdNumbers.Type`
+  * Change type of `BillingAlertTriggered.Value` from `longInteger` to `decimal_string`
+  * Add support for `DisplayName` on `V2MoneyManagementFinancialAccountParams` and `V2MoneyManagementFinancialAccount`
+  * Add support for new value `currency_conversion` on enums `V2MoneyManagementTransaction.Category` and `V2MoneyManagementTransactionEntryTransactionDetails.Category`
+  * Add support for `CurrencyConversion` on `V2MoneyManagementTransactionEntryTransactionDetailsFlow` and `V2MoneyManagementTransactionFlow`
+  * Add support for new value `currency_conversion` on enums `V2MoneyManagementTransactionEntryTransactionDetailsFlow.Type` and `V2MoneyManagementTransactionFlow.Type`
+  * Add support for `Payments` on `BalanceSettingsParams` and `BalanceSettings`
+  * Remove support for `DebitNegativeBalances`, `Payouts`, and `SettlementTiming` on `BalanceSettingsParams` and `BalanceSettings`
+  * Add support for `Mandate` on `ChargePaymentMethodDetailsPix`, `PaymentAttemptRecordPaymentMethodDetailsPix`, and `PaymentRecordPaymentMethodDetailsPix`
+  * Add support for `CouponData` on `CheckoutSessionDiscountParams`
+  * Add support for `MandateOptions` on `CheckoutSessionPaymentMethodOptionsPixParams`, `CheckoutSessionPaymentMethodOptionsPix`, `PaymentIntentConfirmPaymentMethodOptionsPixParams`, `PaymentIntentPaymentMethodOptionsPixParams`, and `PaymentIntentPaymentMethodOptionsPix`
+  * Change type of `CheckoutSessionPaymentMethodOptionsPix.SetupFutureUsage`, `CheckoutSessionPaymentMethodOptionsPixParams.SetupFutureUsage`, `PaymentIntentConfirmPaymentMethodOptionsPixParams.SetupFutureUsage`, `PaymentIntentPaymentMethodOptionsPix.SetupFutureUsage`, and `PaymentIntentPaymentMethodOptionsPixParams.SetupFutureUsage` from `literal('none')` to `enum('none'|'off_session')`
+  * Add support for `Amount` on `MandateMultiUse`, `PaymentAttemptRecord`, and `PaymentRecord`
+  * Add support for `Currency` on `MandateMultiUse`
+  * Add support for `Pix` on `MandatePaymentMethodDetails`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Add support for `Limit` on `PaymentAttemptRecordListParams`
+  * Add support for `AmountAuthorized`, `AmountRefunded`, and `Application` on `PaymentAttemptRecord` and `PaymentRecord`
+  * Add support for `ProcessorDetails` on `PaymentAttemptRecord`, `PaymentRecordReportPaymentParams`, and `PaymentRecord`
+  * Remove support for `PaymentReference` on `PaymentAttemptRecord`, `PaymentRecordReportPaymentParams`, and `PaymentRecord`
+  * Add support for `Installments` on `PaymentAttemptRecordPaymentMethodDetailsAlma` and `PaymentRecordPaymentMethodDetailsAlma`
+  * Add support for `TransactionID` on `PaymentAttemptRecordPaymentMethodDetailsAlma`, `PaymentAttemptRecordPaymentMethodDetailsAmazonPay`, `PaymentAttemptRecordPaymentMethodDetailsBillie`, `PaymentAttemptRecordPaymentMethodDetailsKakaoPay`, `PaymentAttemptRecordPaymentMethodDetailsKrCard`, `PaymentAttemptRecordPaymentMethodDetailsNaverPay`, `PaymentAttemptRecordPaymentMethodDetailsPayco`, `PaymentAttemptRecordPaymentMethodDetailsRevolutPay`, `PaymentAttemptRecordPaymentMethodDetailsSamsungPay`, `PaymentAttemptRecordPaymentMethodDetailsSatispay`, `PaymentRecordPaymentMethodDetailsAlma`, `PaymentRecordPaymentMethodDetailsAmazonPay`, `PaymentRecordPaymentMethodDetailsBillie`, `PaymentRecordPaymentMethodDetailsKakaoPay`, `PaymentRecordPaymentMethodDetailsKrCard`, `PaymentRecordPaymentMethodDetailsNaverPay`, `PaymentRecordPaymentMethodDetailsPayco`, `PaymentRecordPaymentMethodDetailsRevolutPay`, `PaymentRecordPaymentMethodDetailsSamsungPay`, and `PaymentRecordPaymentMethodDetailsSatispay`
+  * Add support for `Location` and `Reader` on `PaymentAttemptRecordPaymentMethodDetailsPaynow` and `PaymentRecordPaymentMethodDetailsPaynow`
+  * Add support for `LatestActiveMandate` on `PaymentMethod`
+  * Add support for `Metadata` and `Period` on `QuotePreviewSubscriptionSchedulePhaseAddInvoiceItem`
+  * Add support for `PixDisplayQRCode` on `SetupIntentNextAction`
+  * Add support for `ReaderSecurity` on `TerminalConfigurationParams` and `TerminalConfiguration`
+  * Add support for error codes `customer_session_expired` and `india_recurring_payment_mandate_canceled` on `QuotePreviewInvoiceLastFinalizationError`
+
 ## 82.6.0-alpha.2 - 2025-09-17
 * [#2118](https://github.com/stripe/stripe-go/pull/2118) generate private-preview SDK w/ mid Sept changes
   * Add support for `retrieve` method on resource `V2.Core.ClaimableSandbox`
@@ -63,41 +99,21 @@
   * Add support for thin events `V2ReportingReportRunCreatedEvent`, `V2ReportingReportRunFailedEvent`, `V2ReportingReportRunSucceededEvent`, and `V2ReportingReportRunUpdatedEvent` with related object `V2ReportingReportRun`
   * Add support for error type `RateLimitError`
 
-## 82.6.0-beta.1 - 2025-08-27
-This release changes the pinned API version to `2025-08-27.preview`.
+## 82.5.1 - 2025-09-17
+* [#2119](https://github.com/stripe/stripe-go/pull/2119) Add prevented to the dispute.status enum.
+  * It's supported in the 2025-08-27.basil of the API, but was mistakenly excluded from this SDK. That issue is now resolved.
+* [#2117](https://github.com/stripe/stripe-go/pull/2117) Add LastResponse to resources returned in List and Search APIs
+  Add a `LastResponse` to each resource returned from either a `List` or `Search` API call using `stripe.Client`. The `RawJSON` is the JSON corresponding to just that item. This is useful for accessing fields not exposed in the SDK.
 
-* [#2096](https://github.com/stripe/stripe-go/pull/2096) Update generated code for beta
-  * Add support for `Get` and `List` methods on resource `InvoicePayment`
-  * Add support for `List` method on resource `Mandate`
-  * Add support for `Applied` on `V2CoreAccountConfigurationCustomerParams`, `V2CoreAccountConfigurationCustomer`, `V2CoreAccountConfigurationMerchantParams`, `V2CoreAccountConfigurationMerchant`, `V2CoreAccountConfigurationRecipientParams`, `V2CoreAccountConfigurationRecipient`, `V2CoreAccountConfigurationStorerParams`, and `V2CoreAccountConfigurationStorer`
-  * Add support for new values `ao_nif`, `az_tin`, `bd_etin`, `cr_cpj`, `cr_nite`, `do_rcn`, `gt_nit`, `kz_bin`, `mz_nuit`, `pe_ruc`, `pk_ntn`, `sa_crn`, and `sa_tin` on enum `V2CoreAccountIdentityBusinessDetailsIdNumbers.Type`
-  * Add support for new values `ao_nif`, `az_tin`, `bd_brc`, `bd_etin`, `bd_nid`, `cr_cpf`, `cr_dimex`, `cr_nite`, `do_rcn`, `gt_nit`, `kz_iin`, `mz_nuit`, `pe_dni`, `pk_cnic`, `pk_snic`, and `sa_tin` on enums `V2CoreAccountIdentityIndividualIdNumbers.Type` and `V2CorePersonIdNumbers.Type`
-  * Change type of `BillingAlertTriggered.Value` from `longInteger` to `decimal_string`
-  * Add support for `DisplayName` on `V2MoneyManagementFinancialAccountParams` and `V2MoneyManagementFinancialAccount`
-  * Add support for new value `currency_conversion` on enums `V2MoneyManagementTransaction.Category` and `V2MoneyManagementTransactionEntryTransactionDetails.Category`
-  * Add support for `CurrencyConversion` on `V2MoneyManagementTransactionEntryTransactionDetailsFlow` and `V2MoneyManagementTransactionFlow`
-  * Add support for new value `currency_conversion` on enums `V2MoneyManagementTransactionEntryTransactionDetailsFlow.Type` and `V2MoneyManagementTransactionFlow.Type`
-  * Add support for `Payments` on `BalanceSettingsParams` and `BalanceSettings`
-  * Remove support for `DebitNegativeBalances`, `Payouts`, and `SettlementTiming` on `BalanceSettingsParams` and `BalanceSettings`
-  * Add support for `Mandate` on `ChargePaymentMethodDetailsPix`, `PaymentAttemptRecordPaymentMethodDetailsPix`, and `PaymentRecordPaymentMethodDetailsPix`
-  * Add support for `CouponData` on `CheckoutSessionDiscountParams`
-  * Add support for `MandateOptions` on `CheckoutSessionPaymentMethodOptionsPixParams`, `CheckoutSessionPaymentMethodOptionsPix`, `PaymentIntentConfirmPaymentMethodOptionsPixParams`, `PaymentIntentPaymentMethodOptionsPixParams`, and `PaymentIntentPaymentMethodOptionsPix`
-  * Change type of `CheckoutSessionPaymentMethodOptionsPix.SetupFutureUsage`, `CheckoutSessionPaymentMethodOptionsPixParams.SetupFutureUsage`, `PaymentIntentConfirmPaymentMethodOptionsPixParams.SetupFutureUsage`, `PaymentIntentPaymentMethodOptionsPix.SetupFutureUsage`, and `PaymentIntentPaymentMethodOptionsPixParams.SetupFutureUsage` from `literal('none')` to `enum('none'|'off_session')`
-  * Add support for `Amount` on `MandateMultiUse`, `PaymentAttemptRecord`, and `PaymentRecord`
-  * Add support for `Currency` on `MandateMultiUse`
-  * Add support for `Pix` on `MandatePaymentMethodDetails`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
-  * Add support for `Limit` on `PaymentAttemptRecordListParams`
-  * Add support for `AmountAuthorized`, `AmountRefunded`, and `Application` on `PaymentAttemptRecord` and `PaymentRecord`
-  * Add support for `ProcessorDetails` on `PaymentAttemptRecord`, `PaymentRecordReportPaymentParams`, and `PaymentRecord`
-  * Remove support for `PaymentReference` on `PaymentAttemptRecord`, `PaymentRecordReportPaymentParams`, and `PaymentRecord`
-  * Add support for `Installments` on `PaymentAttemptRecordPaymentMethodDetailsAlma` and `PaymentRecordPaymentMethodDetailsAlma`
-  * Add support for `TransactionID` on `PaymentAttemptRecordPaymentMethodDetailsAlma`, `PaymentAttemptRecordPaymentMethodDetailsAmazonPay`, `PaymentAttemptRecordPaymentMethodDetailsBillie`, `PaymentAttemptRecordPaymentMethodDetailsKakaoPay`, `PaymentAttemptRecordPaymentMethodDetailsKrCard`, `PaymentAttemptRecordPaymentMethodDetailsNaverPay`, `PaymentAttemptRecordPaymentMethodDetailsPayco`, `PaymentAttemptRecordPaymentMethodDetailsRevolutPay`, `PaymentAttemptRecordPaymentMethodDetailsSamsungPay`, `PaymentAttemptRecordPaymentMethodDetailsSatispay`, `PaymentRecordPaymentMethodDetailsAlma`, `PaymentRecordPaymentMethodDetailsAmazonPay`, `PaymentRecordPaymentMethodDetailsBillie`, `PaymentRecordPaymentMethodDetailsKakaoPay`, `PaymentRecordPaymentMethodDetailsKrCard`, `PaymentRecordPaymentMethodDetailsNaverPay`, `PaymentRecordPaymentMethodDetailsPayco`, `PaymentRecordPaymentMethodDetailsRevolutPay`, `PaymentRecordPaymentMethodDetailsSamsungPay`, and `PaymentRecordPaymentMethodDetailsSatispay`
-  * Add support for `Location` and `Reader` on `PaymentAttemptRecordPaymentMethodDetailsPaynow` and `PaymentRecordPaymentMethodDetailsPaynow`
-  * Add support for `LatestActiveMandate` on `PaymentMethod`
-  * Add support for `Metadata` and `Period` on `QuotePreviewSubscriptionSchedulePhaseAddInvoiceItem`
-  * Add support for `PixDisplayQRCode` on `SetupIntentNextAction`
-  * Add support for `ReaderSecurity` on `TerminalConfigurationParams` and `TerminalConfiguration`
-  * Add support for error codes `customer_session_expired` and `india_recurring_payment_mandate_canceled` on `QuotePreviewInvoiceLastFinalizationError`
+```go
+for cust, err := range sc.V1Customers.List(context.TODO(), &stripe.CustomerListParams{}) {
+    if err != nil {
+        return err
+    }
+    customerJSON := cust.LastResponse.RawJSON
+    log.Printf("Customer JSON: %s", customerJSON) // {"id":"cus_123",...}
+}
+```
 
 ## 82.5.0 - 2025-08-27
 * [#2108](https://github.com/stripe/stripe-go/pull/2108) Add section on private preview SDKs in readme

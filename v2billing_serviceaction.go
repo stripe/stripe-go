@@ -45,15 +45,6 @@ const (
 	V2BillingServiceActionCreditGrantApplicabilityConfigScopePriceTypeMetered V2BillingServiceActionCreditGrantApplicabilityConfigScopePriceType = "metered"
 )
 
-// The category of the credit grant.
-type V2BillingServiceActionCreditGrantCategory string
-
-// List of values that V2BillingServiceActionCreditGrantCategory can take
-const (
-	V2BillingServiceActionCreditGrantCategoryPaid        V2BillingServiceActionCreditGrantCategory = "paid"
-	V2BillingServiceActionCreditGrantCategoryPromotional V2BillingServiceActionCreditGrantCategory = "promotional"
-)
-
 // The type of the expiry configuration. We currently support `end_of_service_period`.
 type V2BillingServiceActionCreditGrantExpiryConfigType string
 
@@ -79,15 +70,6 @@ const (
 	V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopePriceTypeMetered V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopePriceType = "metered"
 )
 
-// The category of the credit grant.
-type V2BillingServiceActionCreditGrantPerTenantCategory string
-
-// List of values that V2BillingServiceActionCreditGrantPerTenantCategory can take
-const (
-	V2BillingServiceActionCreditGrantPerTenantCategoryPaid        V2BillingServiceActionCreditGrantPerTenantCategory = "paid"
-	V2BillingServiceActionCreditGrantPerTenantCategoryPromotional V2BillingServiceActionCreditGrantPerTenantCategory = "promotional"
-)
-
 // The type of the expiry configuration. We currently support `end_of_service_period`.
 type V2BillingServiceActionCreditGrantPerTenantExpiryConfigType string
 
@@ -101,15 +83,15 @@ type V2BillingServiceActionCreditGrantAmountCustomPricingUnit struct {
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value string `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The amount of the credit grant.
 type V2BillingServiceActionCreditGrantAmount struct {
 	// The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
-	CustomPricingUnit *V2BillingServiceActionCreditGrantAmountCustomPricingUnit `json:"custom_pricing_unit"`
+	CustomPricingUnit *V2BillingServiceActionCreditGrantAmountCustomPricingUnit `json:"custom_pricing_unit,omitempty"`
 	// The monetary amount of the credit grant. Required if `type` is `monetary`.
-	Monetary *Amount `json:"monetary"`
+	Monetary Amount `json:"monetary,omitempty"`
 	// The type of the credit grant amount. We currently support `monetary` and `custom_pricing_unit` billing credits.
 	Type V2BillingServiceActionCreditGrantAmountType `json:"type"`
 }
@@ -117,9 +99,9 @@ type V2BillingServiceActionCreditGrantAmount struct {
 // The applicability scope of the credit grant.
 type V2BillingServiceActionCreditGrantApplicabilityConfigScope struct {
 	// The billable items to apply the credit grant to.
-	BillableItems []string `json:"billable_items"`
+	BillableItems []string `json:"billable_items,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
-	PriceType V2BillingServiceActionCreditGrantApplicabilityConfigScopePriceType `json:"price_type"`
+	PriceType V2BillingServiceActionCreditGrantApplicabilityConfigScopePriceType `json:"price_type,omitempty"`
 }
 
 // Defines the scope where the credit grant is applicable.
@@ -140,14 +122,10 @@ type V2BillingServiceActionCreditGrant struct {
 	Amount *V2BillingServiceActionCreditGrantAmount `json:"amount"`
 	// Defines the scope where the credit grant is applicable.
 	ApplicabilityConfig *V2BillingServiceActionCreditGrantApplicabilityConfig `json:"applicability_config"`
-	// The category of the credit grant.
-	Category V2BillingServiceActionCreditGrantCategory `json:"category"`
 	// The expiry configuration for the credit grant.
 	ExpiryConfig *V2BillingServiceActionCreditGrantExpiryConfig `json:"expiry_config"`
 	// A descriptive name shown in dashboard.
 	Name string `json:"name"`
-	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
-	Priority int64 `json:"priority"`
 }
 
 // The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
@@ -155,15 +133,15 @@ type V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnit struct {
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value string `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The amount of the credit grant.
 type V2BillingServiceActionCreditGrantPerTenantAmount struct {
 	// The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
-	CustomPricingUnit *V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnit `json:"custom_pricing_unit"`
+	CustomPricingUnit *V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnit `json:"custom_pricing_unit,omitempty"`
 	// The monetary amount of the credit grant. Required if `type` is `monetary`.
-	Monetary *Amount `json:"monetary"`
+	Monetary Amount `json:"monetary,omitempty"`
 	// The type of the credit grant amount. We currently support `monetary` and `custom_pricing_unit` billing credits.
 	Type V2BillingServiceActionCreditGrantPerTenantAmountType `json:"type"`
 }
@@ -171,9 +149,9 @@ type V2BillingServiceActionCreditGrantPerTenantAmount struct {
 // The applicability scope of the credit grant.
 type V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScope struct {
 	// The billable items to apply the credit grant to.
-	BillableItems []string `json:"billable_items"`
+	BillableItems []string `json:"billable_items,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
-	PriceType V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopePriceType `json:"price_type"`
+	PriceType V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopePriceType `json:"price_type,omitempty"`
 }
 
 // Defines the scope where the credit grant is applicable.
@@ -194,29 +172,25 @@ type V2BillingServiceActionCreditGrantPerTenant struct {
 	Amount *V2BillingServiceActionCreditGrantPerTenantAmount `json:"amount"`
 	// Defines the scope where the credit grant is applicable.
 	ApplicabilityConfig *V2BillingServiceActionCreditGrantPerTenantApplicabilityConfig `json:"applicability_config"`
-	// The category of the credit grant.
-	Category V2BillingServiceActionCreditGrantPerTenantCategory `json:"category"`
 	// The expiry configuration for the credit grant.
 	ExpiryConfig *V2BillingServiceActionCreditGrantPerTenantExpiryConfig `json:"expiry_config"`
 	// Customer-facing name for the credit grant.
 	Name string `json:"name"`
-	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
-	Priority int64 `json:"priority"`
 }
 type V2BillingServiceAction struct {
 	APIResource
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
 	// Details for the credit grant. Provided only if `type` is "credit_grant".
-	CreditGrant *V2BillingServiceActionCreditGrant `json:"credit_grant"`
+	CreditGrant *V2BillingServiceActionCreditGrant `json:"credit_grant,omitempty"`
 	// Details for the credit grant per tenant. Provided only if `type` is "credit_grant_per_tenant".
-	CreditGrantPerTenant *V2BillingServiceActionCreditGrantPerTenant `json:"credit_grant_per_tenant"`
+	CreditGrantPerTenant *V2BillingServiceActionCreditGrantPerTenant `json:"credit_grant_per_tenant,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// An internal key you can use to search for this service action.
-	LookupKey string `json:"lookup_key"`
+	LookupKey string `json:"lookup_key,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The interval for assessing service.

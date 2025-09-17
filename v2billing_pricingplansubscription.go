@@ -34,29 +34,25 @@ const (
 // Timestamps for collection status transitions.
 type V2BillingPricingPlanSubscriptionCollectionStatusTransitions struct {
 	// When the collection status transitioned to awaiting customer action.
-	AwaitingCustomerActionAt string `json:"awaiting_customer_action_at"`
+	AwaitingCustomerActionAt string `json:"awaiting_customer_action_at,omitempty"`
 	// When the collection status transitioned to current.
-	CurrentAt string `json:"current_at"`
+	CurrentAt string `json:"current_at,omitempty"`
 	// When the collection status transitioned to past due.
-	PastDueAt string `json:"past_due_at"`
+	PastDueAt string `json:"past_due_at,omitempty"`
 	// When the collection status transitioned to paused.
-	PausedAt string `json:"paused_at"`
+	PausedAt string `json:"paused_at,omitempty"`
 	// When the collection status transitioned to unpaid.
-	UnpaidAt string `json:"unpaid_at"`
+	UnpaidAt string `json:"unpaid_at,omitempty"`
 }
 
 // Timestamps for servicing status transitions.
 type V2BillingPricingPlanSubscriptionServicingStatusTransitions struct {
 	// When the servicing status transitioned to activated.
-	ActivatedAt string `json:"activated_at"`
+	ActivatedAt string `json:"activated_at,omitempty"`
 	// When the servicing status transitioned to canceled.
-	CanceledAt string `json:"canceled_at"`
+	CanceledAt string `json:"canceled_at,omitempty"`
 	// When the servicing status transitioned to paused.
-	PausedAt string `json:"paused_at"`
-	// When the servicing is scheduled to transition to activate.
-	WillActivateAt string `json:"will_activate_at"`
-	// When the servicing is scheduled to cancel.
-	WillCancelAt string `json:"will_cancel_at"`
+	PausedAt string `json:"paused_at,omitempty"`
 }
 type V2BillingPricingPlanSubscription struct {
 	APIResource
@@ -73,7 +69,7 @@ type V2BillingPricingPlanSubscription struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The ID of the Pricing Plan for this subscription.
@@ -85,5 +81,5 @@ type V2BillingPricingPlanSubscription struct {
 	// Timestamps for servicing status transitions.
 	ServicingStatusTransitions *V2BillingPricingPlanSubscriptionServicingStatusTransitions `json:"servicing_status_transitions"`
 	// The ID of the Test Clock of the associated Billing Cadence, if any.
-	TestClock string `json:"test_clock"`
+	TestClock string `json:"test_clock,omitempty"`
 }

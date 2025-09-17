@@ -134,6 +134,15 @@ const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
 )
 
+// Open Enum. The use case type of the account link that has been completed.
+type V2CoreAccountLinkReturnedEventDataUseCase string
+
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
+const (
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
+)
+
 // Configurations on the Account that was onboarded via the account link.
 type V2CoreAccountLinkReturnedEventDataConfiguration string
 
@@ -143,15 +152,6 @@ const (
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
 	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
-)
-
-// Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkReturnedEventDataUseCase string
-
-// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
-const (
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // The HTTP method.
@@ -497,8 +497,7 @@ type V1BillingMeterNoMeterFoundEvent struct {
 // Occurs when a billing Cadence generates an invoice.
 type V2BillingCadenceBilledEvent struct {
 	V2BaseEvent
-	Data               V2BillingCadenceBilledEventData `json:"data"`
-	RelatedObject      RelatedObject                   `json:"related_object"`
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingCadence, error)
 }
 
@@ -531,6 +530,19 @@ type V2BillingCadenceCreatedEvent struct {
 
 // FetchRelatedObject fetches the related V2BillingCadence object for the event.
 func (e V2BillingCadenceCreatedEvent) FetchRelatedObject() (*V2BillingCadence, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingCadenceErroredEvent is the Go struct for the "v2.billing.cadence.errored" event.
+// Occurs when a billing Cadence encounters an error during a tick.
+type V2BillingCadenceErroredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingCadence, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingCadence object for the event.
+func (e V2BillingCadenceErroredEvent) FetchRelatedObject() (*V2BillingCadence, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -1182,11 +1194,11 @@ type V2CoreAccountPersonCreatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -1196,11 +1208,11 @@ type V2CoreAccountPersonDeletedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -1210,63 +1222,11 @@ type V2CoreAccountPersonUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreClaimableSandboxClaimedEvent is the Go struct for the "v2.core.claimable_sandbox.claimed" event.
-// Occurs when a claimable sandbox is claimed.
-type V2CoreClaimableSandboxClaimedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
-func (e V2CoreClaimableSandboxClaimedEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreClaimableSandboxExpiredEvent is the Go struct for the "v2.core.claimable_sandbox.expired" event.
-// Occurs when a claimable sandbox expires.
-type V2CoreClaimableSandboxExpiredEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
-func (e V2CoreClaimableSandboxExpiredEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreClaimableSandboxExpiringEvent is the Go struct for the "v2.core.claimable_sandbox.expiring" event.
-// Occurs when a claimable sandbox is expiring in 7 days.
-type V2CoreClaimableSandboxExpiringEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
-func (e V2CoreClaimableSandboxExpiringEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent is the Go struct for the "v2.core.claimable_sandbox.sandbox_details_owner_account_updated" event.
-// Occurs when a claimable sandbox is activated by the user with the intention to go live and your Stripe app is installed on the live account.
-type V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
-}
-
-// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
-func (e V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -1931,58 +1891,6 @@ func (e V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject() (*V2Paym
 	return e.fetchRelatedObject()
 }
 
-// V2ReportingReportRunCreatedEvent is the Go struct for the "v2.reporting.report_run.created" event.
-// Occurs when a ReportRun is created.
-type V2ReportingReportRunCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2ReportingReportRun, error)
-}
-
-// FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
-func (e V2ReportingReportRunCreatedEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2ReportingReportRunFailedEvent is the Go struct for the "v2.reporting.report_run.failed" event.
-// Occurs when a ReportRun has failed to complete.
-type V2ReportingReportRunFailedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2ReportingReportRun, error)
-}
-
-// FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
-func (e V2ReportingReportRunFailedEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2ReportingReportRunSucceededEvent is the Go struct for the "v2.reporting.report_run.succeeded" event.
-// Occurs when a ReportRun has successfully completed.
-type V2ReportingReportRunSucceededEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2ReportingReportRun, error)
-}
-
-// FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
-func (e V2ReportingReportRunSucceededEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2ReportingReportRunUpdatedEvent is the Go struct for the "v2.reporting.report_run.updated" event.
-// Occurs when a ReportRun is updated.
-type V2ReportingReportRunUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2ReportingReportRun, error)
-}
-
-// FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
-func (e V2ReportingReportRunUpdatedEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
-	return e.fetchRelatedObject()
-}
-
 // The request causes the error.
 type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeSampleErrorRequest struct {
 	// The request idempotency key.
@@ -2069,12 +1977,6 @@ type V1BillingMeterNoMeterFoundEventData struct {
 	ValidationEnd time.Time `json:"validation_end"`
 	// The start of the window that is encapsulated by this summary.
 	ValidationStart time.Time `json:"validation_start"`
-}
-
-// Occurs when a billing Cadence generates an invoice.
-type V2BillingCadenceBilledEventData struct {
-	// The IDs of the invoices that were generated by the tick for this Cadence.
-	Invoices []string `json:"invoices"`
 }
 
 // Occurs when a billing Cadence is created.
@@ -2188,7 +2090,7 @@ type V2CoreHealthAPIErrorFiringEventDataImpact struct {
 	// The canonical path.
 	CanonicalPath string `json:"canonical_path"`
 	// The error code.
-	ErrorCode string `json:"error_code"`
+	ErrorCode string `json:"error_code,omitempty"`
 	// The HTTP method.
 	HTTPMethod V2CoreHealthAPIErrorFiringEventDataImpactHTTPMethod `json:"http_method"`
 	// The HTTP status.
@@ -2216,7 +2118,7 @@ type V2CoreHealthAPIErrorResolvedEventDataImpact struct {
 	// The canonical path.
 	CanonicalPath string `json:"canonical_path"`
 	// The error code.
-	ErrorCode string `json:"error_code"`
+	ErrorCode string `json:"error_code,omitempty"`
 	// The HTTP method.
 	HTTPMethod V2CoreHealthAPIErrorResolvedEventDataImpactHTTPMethod `json:"http_method"`
 	// The HTTP status.
@@ -2298,7 +2200,7 @@ type V2CoreHealthAPILatencyResolvedEventData struct {
 // Dimensions that describe what subset of payments are impacted.
 type V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimension struct {
 	// The issuer dimension.
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 	// The type of the dimension.
 	Type V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType `json:"type"`
 }
@@ -2308,13 +2210,13 @@ type V2CoreHealthAuthorizationRateDropFiringEventDataImpact struct {
 	// The type of the charge.
 	ChargeType V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeType `json:"charge_type"`
 	// The current authorization rate percentage.
-	CurrentPercentage string `json:"current_percentage"`
+	CurrentPercentage float64 `json:"current_percentage,string"`
 	// Dimensions that describe what subset of payments are impacted.
-	Dimensions []*V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimension `json:"dimensions"`
+	Dimensions []*V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimension `json:"dimensions,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType `json:"payment_method_type"`
 	// The previous authorization rate percentage.
-	PreviousPercentage string `json:"previous_percentage"`
+	PreviousPercentage float64 `json:"previous_percentage,string"`
 }
 
 // Occurs when an authorization rate drop alert is firing.
@@ -2334,7 +2236,7 @@ type V2CoreHealthAuthorizationRateDropFiringEventData struct {
 // Dimensions that describe what subset of payments are impacted.
 type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimension struct {
 	// The issuer dimension.
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 	// The type of the dimension.
 	Type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType `json:"type"`
 }
@@ -2344,13 +2246,13 @@ type V2CoreHealthAuthorizationRateDropResolvedEventDataImpact struct {
 	// The type of the charge.
 	ChargeType V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType `json:"charge_type"`
 	// The current authorization rate percentage.
-	CurrentPercentage string `json:"current_percentage"`
+	CurrentPercentage float64 `json:"current_percentage,string"`
 	// Dimensions that describe what subset of payments are impacted.
-	Dimensions []*V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimension `json:"dimensions"`
+	Dimensions []*V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimension `json:"dimensions,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType `json:"payment_method_type"`
 	// The previous authorization rate percentage.
-	PreviousPercentage string `json:"previous_percentage"`
+	PreviousPercentage float64 `json:"previous_percentage,string"`
 }
 
 // Occurs when an authorization rate drop alert is resolved.
@@ -2372,7 +2274,7 @@ type V2CoreHealthAuthorizationRateDropResolvedEventData struct {
 // The user impact.
 type V2CoreHealthEventGenerationFailureResolvedEventDataImpact struct {
 	// The account id the event should have been generated for. Only present when the account is a connected account.
-	Account string `json:"account"`
+	Account string `json:"account,omitempty"`
 	// The type of event that Stripe failed to generate.
 	EventType string `json:"event_type"`
 	// Indicates if the event was for livemode or not.
@@ -2416,7 +2318,7 @@ type V2CoreHealthFraudRateIncreasedEventData struct {
 	// The user impact.
 	Impact *V2CoreHealthFraudRateIncreasedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
-	ResolvedAt time.Time `json:"resolved_at"`
+	ResolvedAt time.Time `json:"resolved_at,omitempty"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -2426,13 +2328,13 @@ type V2CoreHealthFraudRateIncreasedEventData struct {
 // The user impact.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpact struct {
 	// Estimated aggregated amount for the approved requests.
-	ApprovedAmount *Amount `json:"approved_amount"`
+	ApprovedAmount Amount `json:"approved_amount,omitempty"`
 	// The number of approved requests which are impacted.
-	ApprovedImpactedRequests int64 `json:"approved_impacted_requests"`
+	ApprovedImpactedRequests int64 `json:"approved_impacted_requests,omitempty"`
 	// Estimated aggregated amount for the declined requests.
-	DeclinedAmount *Amount `json:"declined_amount"`
+	DeclinedAmount Amount `json:"declined_amount,omitempty"`
 	// The number of declined requests which are impacted.
-	DeclinedImpactedRequests int64 `json:"declined_impacted_requests"`
+	DeclinedImpactedRequests int64 `json:"declined_impacted_requests,omitempty"`
 }
 
 // Occurs when an issuing authorization request timeout alert is firing.
@@ -2452,13 +2354,13 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventData struct {
 // The user impact.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpact struct {
 	// Estimated aggregated amount for the approved requests.
-	ApprovedAmount *Amount `json:"approved_amount"`
+	ApprovedAmount Amount `json:"approved_amount,omitempty"`
 	// The number of approved requests which are impacted.
-	ApprovedImpactedRequests int64 `json:"approved_impacted_requests"`
+	ApprovedImpactedRequests int64 `json:"approved_impacted_requests,omitempty"`
 	// Estimated aggregated amount for the declined requests.
-	DeclinedAmount *Amount `json:"declined_amount"`
+	DeclinedAmount Amount `json:"declined_amount,omitempty"`
 	// The number of declined requests which are impacted.
-	DeclinedImpactedRequests int64 `json:"declined_impacted_requests"`
+	DeclinedImpactedRequests int64 `json:"declined_impacted_requests,omitempty"`
 }
 
 // Occurs when an issuing authorization request timeout alert is resolved.
@@ -2480,7 +2382,7 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventData struct {
 // The user impact.
 type V2CoreHealthPaymentMethodErrorFiringEventDataImpact struct {
 	// The returned error code.
-	ErrorCode string `json:"error_code"`
+	ErrorCode string `json:"error_code,omitempty"`
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The type of the payment method.
@@ -2504,7 +2406,7 @@ type V2CoreHealthPaymentMethodErrorFiringEventData struct {
 // The user impact.
 type V2CoreHealthPaymentMethodErrorResolvedEventDataImpact struct {
 	// The returned error code.
-	ErrorCode string `json:"error_code"`
+	ErrorCode string `json:"error_code,omitempty"`
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The type of the payment method.
@@ -2532,7 +2434,7 @@ type V2CoreHealthTrafficVolumeDropFiringEventDataImpact struct {
 	// The total volume of payment requests within the latest observation time window.
 	ActualTraffic int64 `json:"actual_traffic"`
 	// The expected volume of payment requests within the latest observation time window.
-	ExpectedTraffic int64 `json:"expected_traffic"`
+	ExpectedTraffic int64 `json:"expected_traffic,omitempty"`
 	// The size of the observation time window.
 	TimeWindow string `json:"time_window"`
 }
@@ -2556,7 +2458,7 @@ type V2CoreHealthTrafficVolumeDropResolvedEventDataImpact struct {
 	// The total volume of payment requests within the latest observation time window.
 	ActualTraffic int64 `json:"actual_traffic"`
 	// The expected volume of payment requests within the latest observation time window.
-	ExpectedTraffic int64 `json:"expected_traffic"`
+	ExpectedTraffic int64 `json:"expected_traffic,omitempty"`
 	// The size of the observation time window.
 	TimeWindow string `json:"time_window"`
 }
@@ -2664,9 +2566,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.billing.cadence.canceled":
 		result := &V2BillingCadenceCanceledEvent{}
@@ -2689,6 +2588,16 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "v2.billing.cadence.errored":
+		result := &V2BillingCadenceErroredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
+			v := &V2BillingCadence{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
 		}
 		return result, nil
 	case "v2.billing.license_fee.created":
@@ -3215,8 +3124,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -3228,8 +3137,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -3241,53 +3150,13 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
-		}
-		return result, nil
-	case "v2.core.claimable_sandbox.claimed":
-		result := &V2CoreClaimableSandboxClaimedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
-			v := &V2CoreClaimableSandbox{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.claimable_sandbox.expired":
-		result := &V2CoreClaimableSandboxExpiredEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
-			v := &V2CoreClaimableSandbox{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.claimable_sandbox.expiring":
-		result := &V2CoreClaimableSandboxExpiringEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
-			v := &V2CoreClaimableSandbox{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.claimable_sandbox.sandbox_details_owner_account_updated":
-		result := &V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
-			v := &V2CoreClaimableSandbox{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
 		}
 		return result, nil
 	case "v2.core.event_destination.ping":
@@ -3824,46 +3693,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
 			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.reporting.report_run.created":
-		result := &V2ReportingReportRunCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
-			v := &V2ReportingReportRun{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.reporting.report_run.failed":
-		result := &V2ReportingReportRunFailedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
-			v := &V2ReportingReportRun{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.reporting.report_run.succeeded":
-		result := &V2ReportingReportRunSucceededEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
-			v := &V2ReportingReportRun{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.reporting.report_run.updated":
-		result := &V2ReportingReportRunUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
-			v := &V2ReportingReportRun{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
