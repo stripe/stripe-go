@@ -66,6 +66,7 @@ type V2BillingIntentActionDeactivateEffectiveAtType string
 
 // List of values that V2BillingIntentActionDeactivateEffectiveAtType can take
 const (
+	V2BillingIntentActionDeactivateEffectiveAtTypeCurrentBillingPeriodEnd   V2BillingIntentActionDeactivateEffectiveAtType = "current_billing_period_end"
 	V2BillingIntentActionDeactivateEffectiveAtTypeCurrentBillingPeriodStart V2BillingIntentActionDeactivateEffectiveAtType = "current_billing_period_start"
 	V2BillingIntentActionDeactivateEffectiveAtTypeOnReserve                 V2BillingIntentActionDeactivateEffectiveAtType = "on_reserve"
 	V2BillingIntentActionDeactivateEffectiveAtTypeTimestamp                 V2BillingIntentActionDeactivateEffectiveAtType = "timestamp"

@@ -29,3 +29,17 @@ func (c v2CoreClaimableSandboxService) Create(ctx context.Context, params *V2Cor
 		http.MethodPost, "/v2/core/claimable_sandboxes", c.Key, params, claimablesandbox)
 	return claimablesandbox, err
 }
+
+// Retrieves the details of a claimable sandbox that was previously been created.
+// Supply the unique claimable sandbox ID that was returned from your creation request,
+// and Stripe will return the corresponding sandbox information.
+func (c v2CoreClaimableSandboxService) Retrieve(ctx context.Context, id string, params *V2CoreClaimableSandboxRetrieveParams) (*V2CoreClaimableSandbox, error) {
+	if params == nil {
+		params = &V2CoreClaimableSandboxRetrieveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/core/claimable_sandboxes/%s", id)
+	claimablesandbox := &V2CoreClaimableSandbox{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, claimablesandbox)
+	return claimablesandbox, err
+}

@@ -50,10 +50,14 @@ type V2BillingServiceActionCreditGrantParams struct {
 	Amount *V2BillingServiceActionCreditGrantAmountParams `form:"amount" json:"amount"`
 	// Defines the scope where the credit grant is applicable.
 	ApplicabilityConfig *V2BillingServiceActionCreditGrantApplicabilityConfigParams `form:"applicability_config" json:"applicability_config"`
+	// The category of the credit grant.
+	Category *string `form:"category" json:"category,omitempty"`
 	// The expiry configuration for the credit grant.
 	ExpiryConfig *V2BillingServiceActionCreditGrantExpiryConfigParams `form:"expiry_config" json:"expiry_config"`
 	// A descriptive name shown in dashboard.
 	Name *string `form:"name" json:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 }
 
 // The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
@@ -130,12 +134,16 @@ type V2BillingServiceActionCreditGrantPerTenantParams struct {
 	Amount *V2BillingServiceActionCreditGrantPerTenantAmountParams `form:"amount" json:"amount"`
 	// Defines the scope where the credit grant is applicable.
 	ApplicabilityConfig *V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigParams `form:"applicability_config" json:"applicability_config"`
+	// The category of the credit grant.
+	Category *string `form:"category" json:"category,omitempty"`
 	// The expiry configuration for the credit grant.
 	ExpiryConfig *V2BillingServiceActionCreditGrantPerTenantExpiryConfigParams `form:"expiry_config" json:"expiry_config"`
 	// The grant condition for the credit grant.
 	GrantCondition *V2BillingServiceActionCreditGrantPerTenantGrantConditionParams `form:"grant_condition" json:"grant_condition"`
 	// Customer-facing name for the credit grant.
 	Name *string `form:"name" json:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 }
 
 // Create a Service Action object.
@@ -199,10 +207,14 @@ type V2BillingServiceActionCreateCreditGrantParams struct {
 	Amount *V2BillingServiceActionCreateCreditGrantAmountParams `form:"amount" json:"amount"`
 	// Defines the scope where the credit grant is applicable.
 	ApplicabilityConfig *V2BillingServiceActionCreateCreditGrantApplicabilityConfigParams `form:"applicability_config" json:"applicability_config"`
+	// The category of the credit grant.
+	Category *string `form:"category" json:"category,omitempty"`
 	// The expiry configuration for the credit grant.
 	ExpiryConfig *V2BillingServiceActionCreateCreditGrantExpiryConfigParams `form:"expiry_config" json:"expiry_config"`
 	// A descriptive name shown in dashboard.
 	Name *string `form:"name" json:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 }
 
 // The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
@@ -279,12 +291,16 @@ type V2BillingServiceActionCreateCreditGrantPerTenantParams struct {
 	Amount *V2BillingServiceActionCreateCreditGrantPerTenantAmountParams `form:"amount" json:"amount"`
 	// Defines the scope where the credit grant is applicable.
 	ApplicabilityConfig *V2BillingServiceActionCreateCreditGrantPerTenantApplicabilityConfigParams `form:"applicability_config" json:"applicability_config"`
+	// The category of the credit grant.
+	Category *string `form:"category" json:"category,omitempty"`
 	// The expiry configuration for the credit grant.
 	ExpiryConfig *V2BillingServiceActionCreateCreditGrantPerTenantExpiryConfigParams `form:"expiry_config" json:"expiry_config"`
 	// The grant condition for the credit grant.
 	GrantCondition *V2BillingServiceActionCreateCreditGrantPerTenantGrantConditionParams `form:"grant_condition" json:"grant_condition"`
 	// Customer-facing name for the credit grant.
 	Name *string `form:"name" json:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 }
 
 // Create a Service Action object.

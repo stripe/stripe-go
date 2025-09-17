@@ -92,6 +92,9 @@ type V2BillingCadenceBillingCycleMonth struct {
 	// If this number is greater than the number of days in the month being billed,
 	// this will anchor to the last day of the month.
 	DayOfMonth int64 `json:"day_of_month"`
+	// The month to anchor the billing on for a type="month" billing cycle from
+	// 1-12. Occurrences are calculated from the month anchor.
+	MonthOfYear int64 `json:"month_of_year"`
 	// The time at which the billing cycle ends.
 	Time *V2BillingCadenceBillingCycleMonthTime `json:"time"`
 }

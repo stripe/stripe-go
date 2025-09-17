@@ -53,6 +53,10 @@ type V2BillingRateCardSubscriptionServicingStatusTransitions struct {
 	CanceledAt string `json:"canceled_at"`
 	// When the servicing status transitioned to paused.
 	PausedAt string `json:"paused_at"`
+	// When the servicing is scheduled to transition to activate.
+	WillActivateAt string `json:"will_activate_at"`
+	// When the servicing is scheduled to cancel.
+	WillCancelAt string `json:"will_cancel_at"`
 }
 type V2BillingRateCardSubscription struct {
 	APIResource

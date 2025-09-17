@@ -192,7 +192,7 @@ type V2BillingLicenseFeeUpdateParams struct {
 	// A customer-facing name for the License Fee.
 	// This name is used in Stripe-hosted products like the Customer Portal and Checkout. It does not show up on Invoices.
 	// Maximum length of 250 characters.
-	DisplayName *string `form:"display_name" json:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Changes the version that new license fee will use. Providing `live_version = "latest"` will set the
 	// license fee's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
