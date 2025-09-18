@@ -36,6 +36,16 @@ const (
 	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
 )
 
+// The border style for the Checkout Session. Must be one of `rounded`, `rectangular`, or `pill`.
+type CheckoutSessionBrandingSettingsBorderStyle string
+
+// List of values that CheckoutSessionBrandingSettingsBorderStyle can take
+const (
+	CheckoutSessionBrandingSettingsBorderStylePill        CheckoutSessionBrandingSettingsBorderStyle = "pill"
+	CheckoutSessionBrandingSettingsBorderStyleRectangular CheckoutSessionBrandingSettingsBorderStyle = "rectangular"
+	CheckoutSessionBrandingSettingsBorderStyleRounded     CheckoutSessionBrandingSettingsBorderStyle = "rounded"
+)
+
 // The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 type CheckoutSessionCollectedInformationTaxIDType string
 
@@ -1471,6 +1481,44 @@ type CheckoutSessionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *CheckoutSessionAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsIconParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the icon. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsLogoParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the logo. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+type CheckoutSessionBrandingSettingsParams struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor *string `form:"background_color"`
+	// The border style for the Checkout Session.
+	BorderStyle *string `form:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor *string `form:"button_color"`
+	// A string to override the business name shown on the Checkout Session.
+	DisplayName *string `form:"display_name"`
+	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily *string `form:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionBrandingSettingsIconParams `form:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionBrandingSettingsLogoParams `form:"logo"`
 }
 
 // Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
@@ -2964,6 +3012,8 @@ type CheckoutSessionParams struct {
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
+	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+	BrandingSettings *CheckoutSessionBrandingSettingsParams `form:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
 	CancelURL *string `form:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
@@ -3214,6 +3264,44 @@ type CheckoutSessionCreateAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *CheckoutSessionCreateAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionCreateBrandingSettingsIconParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the icon. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionCreateBrandingSettingsLogoParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the logo. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+type CheckoutSessionCreateBrandingSettingsParams struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor *string `form:"background_color"`
+	// The border style for the Checkout Session.
+	BorderStyle *string `form:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor *string `form:"button_color"`
+	// A string to override the business name shown on the Checkout Session.
+	DisplayName *string `form:"display_name"`
+	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily *string `form:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionCreateBrandingSettingsIconParams `form:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionCreateBrandingSettingsLogoParams `form:"logo"`
 }
 
 // Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
@@ -4705,6 +4793,8 @@ type CheckoutSessionCreateParams struct {
 	AutomaticTax *CheckoutSessionCreateAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
+	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+	BrandingSettings *CheckoutSessionCreateBrandingSettingsParams `form:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
 	CancelURL *string `form:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
@@ -5259,6 +5349,28 @@ type CheckoutSessionAutomaticTax struct {
 	Provider string `json:"provider"`
 	// The status of the most recent automated tax calculation for this session.
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
+}
+
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsIcon struct{}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsLogo struct{}
+type CheckoutSessionBrandingSettings struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor string `json:"background_color"`
+	// The border style for the Checkout Session. Must be one of `rounded`, `rectangular`, or `pill`.
+	BorderStyle CheckoutSessionBrandingSettingsBorderStyle `json:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor string `json:"button_color"`
+	// The display name shown on the Checkout Session.
+	DisplayName string `json:"display_name"`
+	// The font family for the Checkout Session. Must be one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily string `json:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionBrandingSettingsIcon `json:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionBrandingSettingsLogo `json:"logo"`
 }
 
 // Shipping information for this Checkout Session.
@@ -6296,6 +6408,7 @@ type CheckoutSession struct {
 	AutomaticTax *CheckoutSessionAutomaticTax `json:"automatic_tax"`
 	// Describes whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
+	BrandingSettings         *CheckoutSessionBrandingSettings        `json:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website.
 	CancelURL string `json:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
