@@ -230,8 +230,16 @@ func (p *SubscriptionScheduleListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configure behavior for flexible billing mode.
+type SubscriptionScheduleBillingModeFlexibleParams struct {
+	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
+	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionScheduleBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *SubscriptionScheduleBillingModeFlexibleParams `form:"flexible"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
@@ -1100,8 +1108,16 @@ func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configure behavior for flexible billing mode.
+type SubscriptionScheduleCreateBillingModeFlexibleParams struct {
+	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
+	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionScheduleCreateBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *SubscriptionScheduleCreateBillingModeFlexibleParams `form:"flexible"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
@@ -1968,8 +1984,16 @@ func (p *SubscriptionScheduleUpdateParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// Configure behavior for flexible billing mode
+type SubscriptionScheduleBillingModeFlexible struct {
+	// When true, proration line items will show accurate discount amounts and use gross amounts, making them consistent with non-proration line items.
+	ConsistentProrationDiscountAmounts bool `json:"consistent_proration_discount_amounts"`
+}
+
 // The billing mode of the subscription.
 type SubscriptionScheduleBillingMode struct {
+	// Configure behavior for flexible billing mode
+	Flexible *SubscriptionScheduleBillingModeFlexible `json:"flexible"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type SubscriptionScheduleBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.

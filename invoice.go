@@ -1856,8 +1856,16 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
 	TrialSettings *InvoiceCreatePreviewScheduleDetailsAmendmentTrialSettingsParams `form:"trial_settings"`
 }
 
+// Configure behavior for flexible billing mode.
+type InvoiceCreatePreviewScheduleDetailsBillingModeFlexibleParams struct {
+	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
+	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewScheduleDetailsBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *InvoiceCreatePreviewScheduleDetailsBillingModeFlexibleParams `form:"flexible"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
@@ -2293,8 +2301,16 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Configure behavior for flexible billing mode.
+type InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams struct {
+	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
+	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewSubscriptionDetailsBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams `form:"flexible"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }

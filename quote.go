@@ -884,8 +884,16 @@ type QuoteSubscriptionDataBillOnAcceptanceParams struct {
 	BillUntil *QuoteSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
+// Configure behavior for flexible billing mode.
+type QuoteSubscriptionDataBillingModeFlexibleParams struct {
+	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
+	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteSubscriptionDataBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *QuoteSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
@@ -1761,8 +1769,16 @@ type QuoteCreateSubscriptionDataBillOnAcceptanceParams struct {
 	BillUntil *QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
+// Configure behavior for flexible billing mode.
+type QuoteCreateSubscriptionDataBillingModeFlexibleParams struct {
+	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
+	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteCreateSubscriptionDataBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *QuoteCreateSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
@@ -3008,9 +3024,14 @@ type QuoteSubscriptionDataBillOnAcceptance struct {
 	// The end of the period to bill until when the Quote is accepted.
 	BillUntil *QuoteSubscriptionDataBillOnAcceptanceBillUntil `json:"bill_until"`
 }
+type QuoteSubscriptionDataBillingModeFlexible struct {
+	// When true, proration line items will show accurate discount amounts and use gross amounts, making them consistent with non-proration line items.
+	ConsistentProrationDiscountAmounts bool `json:"consistent_proration_discount_amounts"`
+}
 
 // The billing mode of the quote.
 type QuoteSubscriptionDataBillingMode struct {
+	Flexible *QuoteSubscriptionDataBillingModeFlexible `json:"flexible"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type QuoteSubscriptionDataBillingModeType `json:"type"`
 }
