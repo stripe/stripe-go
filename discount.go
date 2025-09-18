@@ -8,6 +8,19 @@ package stripe
 
 import "encoding/json"
 
+type DiscountSourceType string
+
+// List of values that DiscountSourceType can take
+const (
+	DiscountSourceTypeCoupon DiscountSourceType = "coupon"
+)
+
+type DiscountSource struct {
+	// The coupon that was redeemed to create this discount.
+	Coupon *Coupon            `json:"coupon"`
+	Type   DiscountSourceType `json:"type"`
+}
+
 // A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
 // It contains information about when the discount began, when it will end, and what it is applied to.
 //
@@ -35,7 +48,8 @@ type Discount struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The promotion code applied to create this discount.
-	PromotionCode *PromotionCode `json:"promotion_code"`
+	PromotionCode *PromotionCode  `json:"promotion_code"`
+	Source        *DiscountSource `json:"source"`
 	// Date that the coupon was applied.
 	Start int64 `json:"start"`
 	// The subscription that this coupon is applied to, if it is applied to a particular subscription.
