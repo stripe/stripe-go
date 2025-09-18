@@ -1789,6 +1789,34 @@ func (p *CheckoutSessionLineItemParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Controls settings applied for collecting the customer's business name on the session.
+type CheckoutSessionNameCollectionBusinessParams struct {
+	// Enable business name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide a business name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name on the session.
+type CheckoutSessionNameCollectionIndividualParams struct {
+	// Enable individual name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls name collection settings for the session.
+//
+// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+//
+// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+type CheckoutSessionNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name on the session.
+	Business *CheckoutSessionNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name on the session.
+	Individual *CheckoutSessionNameCollectionIndividualParams `form:"individual"`
+}
+
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 type CheckoutSessionOptionalItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer.
@@ -3006,6 +3034,12 @@ type CheckoutSessionParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
+	// Controls name collection settings for the session.
+	//
+	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+	//
+	// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+	NameCollection *CheckoutSessionNameCollectionParams `form:"name_collection"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//
 	// There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -3494,6 +3528,34 @@ func (p *CheckoutSessionCreateLineItemParams) AddMetadata(key string, value stri
 	}
 
 	p.Metadata[key] = value
+}
+
+// Controls settings applied for collecting the customer's business name on the session.
+type CheckoutSessionCreateNameCollectionBusinessParams struct {
+	// Enable business name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide a business name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name on the session.
+type CheckoutSessionCreateNameCollectionIndividualParams struct {
+	// Enable individual name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls name collection settings for the session.
+//
+// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+//
+// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+type CheckoutSessionCreateNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name on the session.
+	Business *CheckoutSessionCreateNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name on the session.
+	Individual *CheckoutSessionCreateNameCollectionIndividualParams `form:"individual"`
 }
 
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
@@ -4711,6 +4773,12 @@ type CheckoutSessionCreateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
+	// Controls name collection settings for the session.
+	//
+	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+	//
+	// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+	NameCollection *CheckoutSessionCreateNameCollectionParams `form:"name_collection"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//
 	// There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -5214,6 +5282,8 @@ type CheckoutSessionCollectedInformation struct {
 	BusinessName string `json:"business_name"`
 	// Customer's email for this Checkout Session
 	Email string `json:"email"`
+	// Customer's individual name for this Checkout Session
+	IndividualName string `json:"individual_name"`
 	// Customer's phone number for this Checkout Session
 	Phone string `json:"phone"`
 	// Shipping information for this Checkout Session.
@@ -5365,9 +5435,13 @@ type CheckoutSessionCustomerDetailsTaxID struct {
 type CheckoutSessionCustomerDetails struct {
 	// The customer's address after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 	Address *Address `json:"address"`
+	// The customer's business name after a completed Checkout Session.
+	BusinessName string `json:"business_name"`
 	// The email associated with the Customer, if one exists, on the Checkout Session after a completed Checkout Session or at time of session expiry.
 	// Otherwise, if the customer has consented to promotional content, this value is the most recent valid email provided by the customer on the Checkout form.
 	Email string `json:"email"`
+	// The customer's individual name after a completed Checkout Session.
+	IndividualName string `json:"individual_name"`
 	// The customer's name after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 	Name string `json:"name"`
 	// The customer's phone number after a completed Checkout Session.
@@ -5431,6 +5505,22 @@ type CheckoutSessionInvoiceCreation struct {
 	// Indicates whether invoice creation is enabled for the Checkout Session.
 	Enabled     bool                                       `json:"enabled"`
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
+}
+type CheckoutSessionNameCollectionBusiness struct {
+	// Indicates whether business name collection is enabled for the session
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type CheckoutSessionNameCollectionIndividual struct {
+	// Indicates whether individual name collection is enabled for the session
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type CheckoutSessionNameCollection struct {
+	Business   *CheckoutSessionNameCollectionBusiness   `json:"business"`
+	Individual *CheckoutSessionNameCollectionIndividual `json:"individual"`
 }
 type CheckoutSessionOptionalItemAdjustableQuantity struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer.
@@ -6269,7 +6359,8 @@ type CheckoutSession struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The mode of the Checkout Session.
-	Mode CheckoutSessionMode `json:"mode"`
+	Mode           CheckoutSessionMode            `json:"mode"`
+	NameCollection *CheckoutSessionNameCollection `json:"name_collection"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The optional items presented to the customer at checkout.
