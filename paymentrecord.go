@@ -701,6 +701,57 @@ func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string
 	p.Metadata[key] = value
 }
 
+// Customer information for this payment.
+type PaymentRecordReportPaymentAttemptInformationalCustomerDetailsParams struct {
+	// The customer who made the payment.
+	Customer *string `form:"customer"`
+	// The customer's phone number.
+	Email *string `form:"email"`
+	// The customer's name.
+	Name *string `form:"name"`
+	// The customer's phone number.
+	Phone *string `form:"phone"`
+}
+
+// Shipping information for this payment.
+type PaymentRecordReportPaymentAttemptInformationalShippingDetailsParams struct {
+	// The physical shipping address.
+	Address *AddressParams `form:"address"`
+	// The shipping recipient's name.
+	Name *string `form:"name"`
+	// The shipping recipient's phone number.
+	Phone *string `form:"phone"`
+}
+
+// Report informational updates on the specified Payment Record.
+type PaymentRecordReportPaymentAttemptInformationalParams struct {
+	Params `form:"*"`
+	// Customer information for this payment.
+	CustomerDetails *PaymentRecordReportPaymentAttemptInformationalCustomerDetailsParams `form:"customer_details"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Shipping information for this payment.
+	ShippingDetails *PaymentRecordReportPaymentAttemptInformationalShippingDetailsParams `form:"shipping_details"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentRecordReportPaymentAttemptInformationalParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentRecordReportPaymentAttemptInformationalParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The amount you initially requested for this payment.
 type PaymentRecordReportPaymentAmountRequestedParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
