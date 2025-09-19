@@ -485,11 +485,11 @@ func WithBackends(backends *Backends) ClientOption {
 
 // ParseThinEvent parses a Stripe event from the payload and verifies its signature.
 // It returns a ThinEvent object and an error if the parsing or verification fails.
-func (c *Client) ParseThinEvent(payload []byte, header string, secret string, opts ...WebhookOption) (*ThinEvent, error) {
+func (c *Client) ParseThinEvent(payload []byte, header string, secret string, opts ...WebhookOption) (*EventNotification, error) {
 	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
 	}
-	var event ThinEvent
+	var event EventNotification
 	if err := json.Unmarshal(payload, &event); err != nil {
 		return nil, err
 	}
