@@ -22,7 +22,7 @@ func TestNewClientWithNilBackend(t *testing.T) {
 }
 
 func TestParseThinEvent(t *testing.T) {
-	thinEvent := &stripe.ThinEvent{
+	thinEvent := &stripe.EventNotification{
 		ID:       "evt_123",
 		Object:   "event",
 		Type:     "charge.succeeded",
@@ -61,7 +61,7 @@ func TestParseThinEvent(t *testing.T) {
 }
 
 func TestParseThinEventNoTolerance(t *testing.T) {
-	thinEvent := &stripe.ThinEvent{
+	thinEvent := &stripe.EventNotification{
 		ID:       "evt_123",
 		Object:   "event",
 		Type:     "charge.succeeded",
