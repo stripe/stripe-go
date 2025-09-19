@@ -36,6 +36,16 @@ const (
 	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
 )
 
+// The border style for the Checkout Session. Must be one of `rounded`, `rectangular`, or `pill`.
+type CheckoutSessionBrandingSettingsBorderStyle string
+
+// List of values that CheckoutSessionBrandingSettingsBorderStyle can take
+const (
+	CheckoutSessionBrandingSettingsBorderStylePill        CheckoutSessionBrandingSettingsBorderStyle = "pill"
+	CheckoutSessionBrandingSettingsBorderStyleRectangular CheckoutSessionBrandingSettingsBorderStyle = "rectangular"
+	CheckoutSessionBrandingSettingsBorderStyleRounded     CheckoutSessionBrandingSettingsBorderStyle = "rounded"
+)
+
 // The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 type CheckoutSessionCollectedInformationTaxIDType string
 
@@ -1473,6 +1483,44 @@ type CheckoutSessionAutomaticTaxParams struct {
 	Liability *CheckoutSessionAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsIconParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the icon. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsLogoParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the logo. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+type CheckoutSessionBrandingSettingsParams struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor *string `form:"background_color"`
+	// The border style for the Checkout Session.
+	BorderStyle *string `form:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor *string `form:"button_color"`
+	// A string to override the business name shown on the Checkout Session.
+	DisplayName *string `form:"display_name"`
+	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily *string `form:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionBrandingSettingsIconParams `form:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionBrandingSettingsLogoParams `form:"logo"`
+}
+
 // Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
 type CheckoutSessionConsentCollectionPaymentMethodReuseAgreementParams struct {
 	// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's
@@ -1719,6 +1767,8 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1787,6 +1837,34 @@ func (p *CheckoutSessionLineItemParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Controls settings applied for collecting the customer's business name on the session.
+type CheckoutSessionNameCollectionBusinessParams struct {
+	// Enable business name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide a business name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name on the session.
+type CheckoutSessionNameCollectionIndividualParams struct {
+	// Enable individual name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls name collection settings for the session.
+//
+// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+//
+// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+type CheckoutSessionNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name on the session.
+	Business *CheckoutSessionNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name on the session.
+	Individual *CheckoutSessionNameCollectionIndividualParams `form:"individual"`
 }
 
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
@@ -2812,9 +2890,17 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// Configure behavior for flexible billing mode.
+type CheckoutSessionSubscriptionDataBillingModeFlexibleParams struct {
+	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
+	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type CheckoutSessionSubscriptionDataBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *CheckoutSessionSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -2928,6 +3014,8 @@ type CheckoutSessionParams struct {
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
+	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+	BrandingSettings *CheckoutSessionBrandingSettingsParams `form:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
 	CancelURL *string `form:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
@@ -2978,6 +3066,8 @@ type CheckoutSessionParams struct {
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
@@ -2996,6 +3086,12 @@ type CheckoutSessionParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
+	// Controls name collection settings for the session.
+	//
+	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+	//
+	// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+	NameCollection *CheckoutSessionNameCollectionParams `form:"name_collection"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//
 	// There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -3170,6 +3266,44 @@ type CheckoutSessionCreateAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *CheckoutSessionCreateAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionCreateBrandingSettingsIconParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the icon. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionCreateBrandingSettingsLogoParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the logo. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+type CheckoutSessionCreateBrandingSettingsParams struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor *string `form:"background_color"`
+	// The border style for the Checkout Session.
+	BorderStyle *string `form:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor *string `form:"button_color"`
+	// A string to override the business name shown on the Checkout Session.
+	DisplayName *string `form:"display_name"`
+	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily *string `form:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionCreateBrandingSettingsIconParams `form:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionCreateBrandingSettingsLogoParams `form:"logo"`
 }
 
 // Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
@@ -3418,6 +3552,8 @@ type CheckoutSessionCreateLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -3484,6 +3620,34 @@ func (p *CheckoutSessionCreateLineItemParams) AddMetadata(key string, value stri
 	}
 
 	p.Metadata[key] = value
+}
+
+// Controls settings applied for collecting the customer's business name on the session.
+type CheckoutSessionCreateNameCollectionBusinessParams struct {
+	// Enable business name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide a business name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name on the session.
+type CheckoutSessionCreateNameCollectionIndividualParams struct {
+	// Enable individual name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls name collection settings for the session.
+//
+// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+//
+// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+type CheckoutSessionCreateNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name on the session.
+	Business *CheckoutSessionCreateNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name on the session.
+	Individual *CheckoutSessionCreateNameCollectionIndividualParams `form:"individual"`
 }
 
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
@@ -4509,9 +4673,17 @@ type CheckoutSessionCreateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionCreateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// Configure behavior for flexible billing mode.
+type CheckoutSessionCreateSubscriptionDataBillingModeFlexibleParams struct {
+	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
+	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type CheckoutSessionCreateSubscriptionDataBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *CheckoutSessionCreateSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -4625,6 +4797,8 @@ type CheckoutSessionCreateParams struct {
 	AutomaticTax *CheckoutSessionCreateAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
+	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+	BrandingSettings *CheckoutSessionCreateBrandingSettingsParams `form:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
 	CancelURL *string `form:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
@@ -4673,6 +4847,8 @@ type CheckoutSessionCreateParams struct {
 	CustomText *CheckoutSessionCreateCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionCreateDiscountParams `form:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
@@ -4691,6 +4867,12 @@ type CheckoutSessionCreateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
+	// Controls name collection settings for the session.
+	//
+	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+	//
+	// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+	NameCollection *CheckoutSessionCreateNameCollectionParams `form:"name_collection"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//
 	// There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -4798,6 +4980,20 @@ func (p *CheckoutSessionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type CheckoutSessionUpdateAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
+type CheckoutSessionUpdateAutomaticTaxParams struct {
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *CheckoutSessionUpdateAutomaticTaxLiabilityParams `form:"liability"`
+}
+
 // The shipping details to apply to this Session.
 type CheckoutSessionUpdateCollectedInformationShippingDetailsParams struct {
 	// The address of the customer
@@ -4845,6 +5041,26 @@ type CheckoutSessionUpdateDiscountParams struct {
 	CouponData *CheckoutSessionUpdateDiscountCouponDataParams `form:"coupon_data"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionUpdateInvoiceCreationInvoiceDataIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Parameters passed when creating invoices for payment-mode Checkout Sessions.
+type CheckoutSessionUpdateInvoiceCreationInvoiceDataParams struct {
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionUpdateInvoiceCreationInvoiceDataIssuerParams `form:"issuer"`
+}
+
+// Generate a post-purchase Invoice for one-time payments.
+type CheckoutSessionUpdateInvoiceCreationParams struct {
+	// Parameters passed when creating invoices for payment-mode Checkout Sessions.
+	InvoiceData *CheckoutSessionUpdateInvoiceCreationInvoiceDataParams `form:"invoice_data"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 type CheckoutSessionUpdateLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any positive integer. Setting to false will remove any previously specified constraints on quantity.
@@ -4867,6 +5083,8 @@ type CheckoutSessionUpdateLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -5020,8 +5238,24 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionUpdateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionUpdateSubscriptionDataInvoiceSettingsIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// All invoices will be billed using the specified settings.
+type CheckoutSessionUpdateSubscriptionDataInvoiceSettingsParams struct {
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionUpdateSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionUpdateSubscriptionDataParams struct {
+	// All invoices will be billed using the specified settings.
+	InvoiceSettings *CheckoutSessionUpdateSubscriptionDataInvoiceSettingsParams `form:"invoice_settings"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
@@ -5033,12 +5267,16 @@ type CheckoutSessionUpdateSubscriptionDataParams struct {
 // Related guide: [Dynamically update Checkout](https://docs.stripe.com/payments/checkout/dynamic-updates)
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
+	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
+	AutomaticTax *CheckoutSessionUpdateAutomaticTaxParams `form:"automatic_tax"`
 	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
 	CollectedInformation *CheckoutSessionUpdateCollectedInformationParams `form:"collected_information"`
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Generate a post-purchase Invoice for one-time payments.
+	InvoiceCreation *CheckoutSessionUpdateInvoiceCreationParams `form:"invoice_creation"`
 	// A list of items the customer is purchasing.
 	//
 	// When updating line items, you must retransmit the entire array of line items.
@@ -5119,6 +5357,28 @@ type CheckoutSessionAutomaticTax struct {
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
 }
 
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsIcon struct{}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsLogo struct{}
+type CheckoutSessionBrandingSettings struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor string `json:"background_color"`
+	// The border style for the Checkout Session. Must be one of `rounded`, `rectangular`, or `pill`.
+	BorderStyle CheckoutSessionBrandingSettingsBorderStyle `json:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor string `json:"button_color"`
+	// The display name shown on the Checkout Session.
+	DisplayName string `json:"display_name"`
+	// The font family for the Checkout Session. Must be one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily string `json:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionBrandingSettingsIcon `json:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionBrandingSettingsLogo `json:"logo"`
+}
+
 // Shipping information for this Checkout Session.
 type CheckoutSessionCollectedInformationShippingDetails struct {
 	Address *Address `json:"address"`
@@ -5140,6 +5400,8 @@ type CheckoutSessionCollectedInformation struct {
 	BusinessName string `json:"business_name"`
 	// Customer's email for this Checkout Session
 	Email string `json:"email"`
+	// Customer's individual name for this Checkout Session
+	IndividualName string `json:"individual_name"`
 	// Customer's phone number for this Checkout Session
 	Phone string `json:"phone"`
 	// Shipping information for this Checkout Session.
@@ -5291,9 +5553,13 @@ type CheckoutSessionCustomerDetailsTaxID struct {
 type CheckoutSessionCustomerDetails struct {
 	// The customer's address after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 	Address *Address `json:"address"`
+	// The customer's business name after a completed Checkout Session.
+	BusinessName string `json:"business_name"`
 	// The email associated with the Customer, if one exists, on the Checkout Session after a completed Checkout Session or at time of session expiry.
 	// Otherwise, if the customer has consented to promotional content, this value is the most recent valid email provided by the customer on the Checkout form.
 	Email string `json:"email"`
+	// The customer's individual name after a completed Checkout Session.
+	IndividualName string `json:"individual_name"`
 	// The customer's name after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 	Name string `json:"name"`
 	// The customer's phone number after a completed Checkout Session.
@@ -5357,6 +5623,22 @@ type CheckoutSessionInvoiceCreation struct {
 	// Indicates whether invoice creation is enabled for the Checkout Session.
 	Enabled     bool                                       `json:"enabled"`
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
+}
+type CheckoutSessionNameCollectionBusiness struct {
+	// Indicates whether business name collection is enabled for the session
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type CheckoutSessionNameCollectionIndividual struct {
+	// Indicates whether individual name collection is enabled for the session
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type CheckoutSessionNameCollection struct {
+	Business   *CheckoutSessionNameCollectionBusiness   `json:"business"`
+	Individual *CheckoutSessionNameCollectionIndividual `json:"individual"`
 }
 type CheckoutSessionOptionalItemAdjustableQuantity struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer.
@@ -6132,6 +6414,7 @@ type CheckoutSession struct {
 	AutomaticTax *CheckoutSessionAutomaticTax `json:"automatic_tax"`
 	// Describes whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
+	BrandingSettings         *CheckoutSessionBrandingSettings        `json:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website.
 	CancelURL string `json:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
@@ -6176,6 +6459,8 @@ type CheckoutSession struct {
 	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionDiscount `json:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []string `json:"excluded_payment_method_types"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
@@ -6193,7 +6478,8 @@ type CheckoutSession struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The mode of the Checkout Session.
-	Mode CheckoutSessionMode `json:"mode"`
+	Mode           CheckoutSessionMode            `json:"mode"`
+	NameCollection *CheckoutSessionNameCollection `json:"name_collection"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The optional items presented to the customer at checkout.

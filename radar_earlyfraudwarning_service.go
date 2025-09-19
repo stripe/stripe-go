@@ -39,13 +39,13 @@ func (c v1RadarEarlyFraudWarningService) List(ctx context.Context, listParams *R
 		listParams = &RadarEarlyFraudWarningListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*RadarEarlyFraudWarning, ListContainer, error) {
-		list := &RadarEarlyFraudWarningList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*RadarEarlyFraudWarning], error) {
+		list := &v1Page[*RadarEarlyFraudWarning]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/radar/early_fraud_warnings", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

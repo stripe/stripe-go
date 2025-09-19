@@ -6,6 +6,17 @@
 
 package stripe
 
+// The tax calculation provider this account uses. Defaults to `stripe` when not using a [third-party provider](https://docs.stripe.com/tax/third-party-apps).
+type TaxSettingsDefaultsProvider string
+
+// List of values that TaxSettingsDefaultsProvider can take
+const (
+	TaxSettingsDefaultsProviderAnrok   TaxSettingsDefaultsProvider = "anrok"
+	TaxSettingsDefaultsProviderAvalara TaxSettingsDefaultsProvider = "avalara"
+	TaxSettingsDefaultsProviderSphere  TaxSettingsDefaultsProvider = "sphere"
+	TaxSettingsDefaultsProviderStripe  TaxSettingsDefaultsProvider = "stripe"
+)
+
 // Default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) used to specify whether the price is considered inclusive of taxes or exclusive of taxes. If the item's price has a tax behavior set, it will take precedence over the default tax behavior.
 type TaxSettingsDefaultsTaxBehavior string
 
@@ -98,6 +109,8 @@ func (p *TaxSettingsUpdateParams) AddExpand(f string) {
 }
 
 type TaxSettingsDefaults struct {
+	// The tax calculation provider this account uses. Defaults to `stripe` when not using a [third-party provider](https://docs.stripe.com/tax/third-party-apps).
+	Provider TaxSettingsDefaultsProvider `json:"provider"`
 	// Default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) used to specify whether the price is considered inclusive of taxes or exclusive of taxes. If the item's price has a tax behavior set, it will take precedence over the default tax behavior.
 	TaxBehavior TaxSettingsDefaultsTaxBehavior `json:"tax_behavior"`
 	// Default [tax code](https://stripe.com/docs/tax/tax-categories) used to classify your products and prices.

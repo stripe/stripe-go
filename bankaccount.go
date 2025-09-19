@@ -36,6 +36,7 @@ type BankAccountFutureRequirementsErrorCode string
 
 // List of values that BankAccountFutureRequirementsErrorCode can take
 const (
+	BankAccountFutureRequirementsErrorCodeExternalRequest                                        BankAccountFutureRequirementsErrorCode = "external_request"
 	BankAccountFutureRequirementsErrorCodeInformationMissing                                     BankAccountFutureRequirementsErrorCode = "information_missing"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountFutureRequirementsErrorCode = "invalid_address_city_state_postal_code"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountFutureRequirementsErrorCode = "invalid_address_highway_contract_box"
@@ -78,6 +79,7 @@ const (
 	BankAccountFutureRequirementsErrorCodeInvalidURLWebsiteIncompleteUnderConstruction           BankAccountFutureRequirementsErrorCode = "invalid_url_website_incomplete_under_construction"
 	BankAccountFutureRequirementsErrorCodeInvalidURLWebsiteOther                                 BankAccountFutureRequirementsErrorCode = "invalid_url_website_other"
 	BankAccountFutureRequirementsErrorCodeInvalidValueOther                                      BankAccountFutureRequirementsErrorCode = "invalid_value_other"
+	BankAccountFutureRequirementsErrorCodeUnsupportedBusinessType                                BankAccountFutureRequirementsErrorCode = "unsupported_business_type"
 	BankAccountFutureRequirementsErrorCodeVerificationDirectorsMismatch                          BankAccountFutureRequirementsErrorCode = "verification_directors_mismatch"
 	BankAccountFutureRequirementsErrorCodeVerificationDocumentAddressMismatch                    BankAccountFutureRequirementsErrorCode = "verification_document_address_mismatch"
 	BankAccountFutureRequirementsErrorCodeVerificationDocumentAddressMissing                     BankAccountFutureRequirementsErrorCode = "verification_document_address_missing"
@@ -138,6 +140,7 @@ type BankAccountRequirementsErrorCode string
 
 // List of values that BankAccountRequirementsErrorCode can take
 const (
+	BankAccountRequirementsErrorCodeExternalRequest                                        BankAccountRequirementsErrorCode = "external_request"
 	BankAccountRequirementsErrorCodeInformationMissing                                     BankAccountRequirementsErrorCode = "information_missing"
 	BankAccountRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountRequirementsErrorCode = "invalid_address_city_state_postal_code"
 	BankAccountRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountRequirementsErrorCode = "invalid_address_highway_contract_box"
@@ -180,6 +183,7 @@ const (
 	BankAccountRequirementsErrorCodeInvalidURLWebsiteIncompleteUnderConstruction           BankAccountRequirementsErrorCode = "invalid_url_website_incomplete_under_construction"
 	BankAccountRequirementsErrorCodeInvalidURLWebsiteOther                                 BankAccountRequirementsErrorCode = "invalid_url_website_other"
 	BankAccountRequirementsErrorCodeInvalidValueOther                                      BankAccountRequirementsErrorCode = "invalid_value_other"
+	BankAccountRequirementsErrorCodeUnsupportedBusinessType                                BankAccountRequirementsErrorCode = "unsupported_business_type"
 	BankAccountRequirementsErrorCodeVerificationDirectorsMismatch                          BankAccountRequirementsErrorCode = "verification_directors_mismatch"
 	BankAccountRequirementsErrorCodeVerificationDocumentAddressMismatch                    BankAccountRequirementsErrorCode = "verification_document_address_mismatch"
 	BankAccountRequirementsErrorCodeVerificationDocumentAddressMissing                     BankAccountRequirementsErrorCode = "verification_document_address_missing"

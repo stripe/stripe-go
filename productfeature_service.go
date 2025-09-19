@@ -65,13 +65,13 @@ func (c v1ProductFeatureService) List(ctx context.Context, listParams *ProductFe
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/products/%s/features", StringValue(listParams.Product))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ProductFeature, ListContainer, error) {
-		list := &ProductFeatureList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ProductFeature], error) {
+		list := &v1Page[*ProductFeature]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

@@ -643,6 +643,8 @@ type IssuingCard struct {
 	ReplacementFor *IssuingCard `json:"replacement_for"`
 	// The reason why the previous card needed to be replaced.
 	ReplacementReason IssuingCardReplacementReason `json:"replacement_reason"`
+	// Text separate from cardholder name, printed on the card.
+	SecondLine string `json:"second_line"`
 	// Where and how the card will be shipped.
 	Shipping         *IssuingCardShipping         `json:"shipping"`
 	SpendingControls *IssuingCardSpendingControls `json:"spending_controls"`

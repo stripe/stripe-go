@@ -137,14 +137,14 @@ func (c v1SubscriptionService) List(ctx context.Context, listParams *Subscriptio
 		listParams = &SubscriptionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Subscription, ListContainer, error) {
-		list := &SubscriptionList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Subscription], error) {
+		list := &v1Page[*Subscription]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -157,13 +157,13 @@ func (c v1SubscriptionService) Search(ctx context.Context, params *SubscriptionS
 		params = &SubscriptionSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Subscription, SearchContainer, error) {
-		list := &SubscriptionSearchResult{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Subscription], error) {
+		list := &v1SearchPage[*Subscription]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions/search", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

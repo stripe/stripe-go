@@ -150,6 +150,24 @@ func (c Client) ReportPaymentAttemptGuaranteed(id string, params *stripe.Payment
 	return paymentrecord, err
 }
 
+// Report informational updates on the specified Payment Record.
+func ReportPaymentAttemptInformational(id string, params *stripe.PaymentRecordReportPaymentAttemptInformationalParams) (*stripe.PaymentRecord, error) {
+	return getC().ReportPaymentAttemptInformational(id, params)
+}
+
+// Report informational updates on the specified Payment Record.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ReportPaymentAttemptInformational(id string, params *stripe.PaymentRecordReportPaymentAttemptInformationalParams) (*stripe.PaymentRecord, error) {
+	path := stripe.FormatURLPath(
+		"/v1/payment_records/%s/report_payment_attempt_informational", id)
+	paymentrecord := &stripe.PaymentRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
+	return paymentrecord, err
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

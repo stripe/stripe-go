@@ -37,13 +37,13 @@ func (c v1FinancialConnectionsInstitutionService) List(ctx context.Context, list
 		listParams = &FinancialConnectionsInstitutionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsInstitution, ListContainer, error) {
-		list := &FinancialConnectionsInstitutionList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsInstitution], error) {
+		list := &v1Page[*FinancialConnectionsInstitution]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/institutions", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

@@ -37,13 +37,13 @@ func (c v1EntitlementsActiveEntitlementService) List(ctx context.Context, listPa
 		listParams = &EntitlementsActiveEntitlementListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*EntitlementsActiveEntitlement, ListContainer, error) {
-		list := &EntitlementsActiveEntitlementList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*EntitlementsActiveEntitlement], error) {
+		list := &v1Page[*EntitlementsActiveEntitlement]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/entitlements/active_entitlements", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

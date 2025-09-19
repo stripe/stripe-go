@@ -274,8 +274,16 @@ type QuotePreviewSubscriptionScheduleAppliesTo struct {
 	Type QuotePreviewSubscriptionScheduleAppliesToType `json:"type"`
 }
 
+// Configure behavior for flexible billing mode
+type QuotePreviewSubscriptionScheduleBillingModeFlexible struct {
+	// When true, proration line items will show accurate discount amounts and use gross amounts, making them consistent with non-proration line items.
+	ConsistentProrationDiscountAmounts bool `json:"consistent_proration_discount_amounts"`
+}
+
 // The billing mode of the subscription.
 type QuotePreviewSubscriptionScheduleBillingMode struct {
+	// Configure behavior for flexible billing mode
+	Flexible *QuotePreviewSubscriptionScheduleBillingModeFlexible `json:"flexible"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type QuotePreviewSubscriptionScheduleBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.

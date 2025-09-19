@@ -61,13 +61,13 @@ func (c v1EntitlementsFeatureService) List(ctx context.Context, listParams *Enti
 		listParams = &EntitlementsFeatureListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*EntitlementsFeature, ListContainer, error) {
-		list := &EntitlementsFeatureList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*EntitlementsFeature], error) {
+		list := &v1Page[*EntitlementsFeature]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/entitlements/features", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

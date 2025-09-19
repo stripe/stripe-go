@@ -251,14 +251,14 @@ func (c v1PaymentIntentService) List(ctx context.Context, listParams *PaymentInt
 		listParams = &PaymentIntentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentIntent, ListContainer, error) {
-		list := &PaymentIntentList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentIntent], error) {
+		list := &v1Page[*PaymentIntent]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -271,13 +271,13 @@ func (c v1PaymentIntentService) Search(ctx context.Context, params *PaymentInten
 		params = &PaymentIntentSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*PaymentIntent, SearchContainer, error) {
-		list := &PaymentIntentSearchResult{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*PaymentIntent], error) {
+		list := &v1SearchPage[*PaymentIntent]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents/search", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

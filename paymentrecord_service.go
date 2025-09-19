@@ -102,3 +102,16 @@ func (c v1PaymentRecordService) ReportPaymentAttemptGuaranteed(ctx context.Conte
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
+
+// Report informational updates on the specified Payment Record.
+func (c v1PaymentRecordService) ReportPaymentAttemptInformational(ctx context.Context, id string, params *PaymentRecordReportPaymentAttemptInformationalParams) (*PaymentRecord, error) {
+	if params == nil {
+		params = &PaymentRecordReportPaymentAttemptInformationalParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/payment_records/%s/report_payment_attempt_informational", id)
+	paymentrecord := &PaymentRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
+	return paymentrecord, err
+}
