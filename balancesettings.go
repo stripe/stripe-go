@@ -180,6 +180,8 @@ type BalanceSettingsPaymentsPayouts struct {
 type BalanceSettingsPaymentsSettlementTiming struct {
 	// The number of days charge funds are held before becoming available.
 	DelayDays int64 `json:"delay_days"`
+	// The number of days charge funds are held before becoming available. If present, overrides the default, or minimum available, for the account.
+	DelayDaysOverride int64 `json:"delay_days_override"`
 }
 type BalanceSettingsPayments struct {
 	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://docs.stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
