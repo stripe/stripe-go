@@ -37,7 +37,7 @@ type V2BillingBillSettingVersionCalculationTax struct {
 // Settings related to calculating a bill.
 type V2BillingBillSettingVersionCalculation struct {
 	// Settings for calculating tax.
-	Tax *V2BillingBillSettingVersionCalculationTax `json:"tax"`
+	Tax *V2BillingBillSettingVersionCalculationTax `json:"tax,omitempty"`
 }
 
 // The amount of time until the invoice will be overdue for payment.
@@ -52,20 +52,20 @@ type V2BillingBillSettingVersionInvoiceTimeUntilDue struct {
 // Settings related to invoice behavior.
 type V2BillingBillSettingVersionInvoice struct {
 	// The amount of time until the invoice will be overdue for payment.
-	TimeUntilDue *V2BillingBillSettingVersionInvoiceTimeUntilDue `json:"time_until_due"`
+	TimeUntilDue *V2BillingBillSettingVersionInvoiceTimeUntilDue `json:"time_until_due,omitempty"`
 }
 type V2BillingBillSettingVersion struct {
 	APIResource
 	// Settings related to calculating a bill.
-	Calculation *V2BillingBillSettingVersionCalculation `json:"calculation"`
+	Calculation *V2BillingBillSettingVersionCalculation `json:"calculation,omitempty"`
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
 	// The ID of the BillSettingVersion object.
 	ID string `json:"id"`
 	// Settings related to invoice behavior.
-	Invoice *V2BillingBillSettingVersionInvoice `json:"invoice"`
+	Invoice *V2BillingBillSettingVersionInvoice `json:"invoice,omitempty"`
 	// The ID of the invoice rendering template to be used when generating invoices.
-	InvoiceRenderingTemplate string `json:"invoice_rendering_template"`
+	InvoiceRenderingTemplate string `json:"invoice_rendering_template,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.

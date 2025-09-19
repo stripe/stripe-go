@@ -26,7 +26,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffParams struct {
 	// The maximum number of times this discount can be applied for this cadence.
 	MaximumApplications *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams `form:"maximum_applications" json:"maximum_applications"`
 	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
-	PercentOff *string `form:"percent_off" json:"percent_off"`
+	PercentOff *float64 `form:"percent_off,high_precision" json:"percent_off,high_precision"`
 }
 
 // Details for applying a discount rule to future invoices.
@@ -293,7 +293,7 @@ type V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffParams struct 
 	// The maximum number of times this discount can be applied for this cadence.
 	MaximumApplications *V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams `form:"maximum_applications" json:"maximum_applications"`
 	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
-	PercentOff *string `form:"percent_off" json:"percent_off"`
+	PercentOff *float64 `form:"percent_off,high_precision" json:"percent_off,high_precision"`
 }
 
 // Details for applying a discount rule to future invoices.

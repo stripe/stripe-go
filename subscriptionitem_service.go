@@ -73,13 +73,13 @@ func (c v1SubscriptionItemService) List(ctx context.Context, listParams *Subscri
 		listParams = &SubscriptionItemListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SubscriptionItem, ListContainer, error) {
-		list := &SubscriptionItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SubscriptionItem], error) {
+		list := &v1Page[*SubscriptionItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscription_items", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

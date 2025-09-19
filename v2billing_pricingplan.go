@@ -27,7 +27,7 @@ type V2BillingPricingPlan struct {
 	Currency Currency `json:"currency"`
 	// A description for pricing plan subscription.
 	// Maximum length of 500 characters.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Display name of the PricingPlan.
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
@@ -37,11 +37,11 @@ type V2BillingPricingPlan struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The ID of the live version of the PricingPlan.
-	LiveVersion string `json:"live_version"`
+	LiveVersion string `json:"live_version,omitempty"`
 	// An internal key you can use to search for a particular PricingPlan. Maximum length of 200 characters.
-	LookupKey string `json:"lookup_key"`
+	LookupKey string `json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The Stripe Tax tax behavior - whether the PricingPlan is inclusive or exclusive of tax.

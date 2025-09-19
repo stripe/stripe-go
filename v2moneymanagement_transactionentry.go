@@ -52,21 +52,21 @@ type V2MoneyManagementTransactionEntryBalanceImpact struct {
 // Details about the Flow object that created the Transaction.
 type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	// If applicable, the ID of the Adjustment that created this Transaction.
-	Adjustment string `json:"adjustment"`
+	Adjustment string `json:"adjustment,omitempty"`
 	// In the future, this will be the ID of the currency conversion that created this Transaction. For now, this field is always null.
-	CurrencyConversion string `json:"currency_conversion"`
+	CurrencyConversion string `json:"currency_conversion,omitempty"`
 	// If applicable, the ID of the FeeTransaction that created this Transaction.
-	FeeTransaction string `json:"fee_transaction"`
+	FeeTransaction string `json:"fee_transaction,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.
-	InboundTransfer string `json:"inbound_transfer"`
+	InboundTransfer string `json:"inbound_transfer,omitempty"`
 	// If applicable, the ID of the OutboundPayment that created this Transaction.
-	OutboundPayment string `json:"outbound_payment"`
+	OutboundPayment string `json:"outbound_payment,omitempty"`
 	// If applicable, the ID of the OutboundTransfer that created this Transaction.
-	OutboundTransfer string `json:"outbound_transfer"`
+	OutboundTransfer string `json:"outbound_transfer,omitempty"`
 	// If applicable, the ID of the ReceivedCredit that created this Transaction.
-	ReceivedCredit string `json:"received_credit"`
+	ReceivedCredit string `json:"received_credit,omitempty"`
 	// If applicable, the ID of the ReceivedDebit that created this Transaction.
-	ReceivedDebit string `json:"received_debit"`
+	ReceivedDebit string `json:"received_debit,omitempty"`
 	// Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
 	Type V2MoneyManagementTransactionEntryTransactionDetailsFlowType `json:"type"`
 }

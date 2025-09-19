@@ -55,9 +55,9 @@ type V2BillingRateCard struct {
 	// The ID of the Rate Card Version that will be used by all subscriptions when no specific version is specified.
 	LiveVersion string `json:"live_version"`
 	// An internal key you can use to search for a particular RateCard. Maximum length of 200 characters.
-	LookupKey string `json:"lookup_key"`
+	LookupKey string `json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The interval for assessing service. For example, a monthly Rate Card with a rate of $1 for the first 10 "workloads"

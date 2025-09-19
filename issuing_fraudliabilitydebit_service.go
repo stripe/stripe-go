@@ -37,13 +37,13 @@ func (c v1IssuingFraudLiabilityDebitService) List(ctx context.Context, listParam
 		listParams = &IssuingFraudLiabilityDebitListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingFraudLiabilityDebit, ListContainer, error) {
-		list := &IssuingFraudLiabilityDebitList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingFraudLiabilityDebit], error) {
+		list := &v1Page[*IssuingFraudLiabilityDebit]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/fraud_liability_debits", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

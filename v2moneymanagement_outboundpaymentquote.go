@@ -50,7 +50,7 @@ const (
 // Delivery options to be used to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentQuoteDeliveryOptions struct {
 	// Open Enum. Method for bank account.
-	BankAccount V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsBankAccount `json:"bank_account"`
+	BankAccount V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsBankAccount `json:"bank_account,omitempty"`
 }
 
 // The estimated fees for the OutboundPaymentQuote.
@@ -108,7 +108,7 @@ type V2MoneyManagementOutboundPaymentQuote struct {
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
 	// Delivery options to be used to send the OutboundPayment.
-	DeliveryOptions *V2MoneyManagementOutboundPaymentQuoteDeliveryOptions `json:"delivery_options"`
+	DeliveryOptions *V2MoneyManagementOutboundPaymentQuoteDeliveryOptions `json:"delivery_options,omitempty"`
 	// The estimated fees for the OutboundPaymentQuote.
 	EstimatedFees []*V2MoneyManagementOutboundPaymentQuoteEstimatedFee `json:"estimated_fees"`
 	// Details about the sender of an OutboundPaymentQuote.

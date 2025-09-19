@@ -27,12 +27,12 @@ type Client struct {
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) New(params *stripe.V2CoreAccountsPersonParams) (*stripe.V2CorePerson, error) {
+func (c Client) New(params *stripe.V2CoreAccountsPersonParams) (*stripe.V2CoreAccountPerson, error) {
 	path := stripe.FormatURLPath(
 		"/v2/core/accounts/%s/persons", stripe.StringValue(params.AccountID))
-	person := &stripe.V2CorePerson{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, person)
-	return person, err
+	accountperson := &stripe.V2CoreAccountPerson{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, accountperson)
+	return accountperson, err
 }
 
 // Retrieves a Person associated with an Account.
@@ -40,12 +40,12 @@ func (c Client) New(params *stripe.V2CoreAccountsPersonParams) (*stripe.V2CorePe
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Get(id string, params *stripe.V2CoreAccountsPersonParams) (*stripe.V2CorePerson, error) {
+func (c Client) Get(id string, params *stripe.V2CoreAccountsPersonParams) (*stripe.V2CoreAccountPerson, error) {
 	path := stripe.FormatURLPath(
 		"/v2/core/accounts/%s/persons/%s", stripe.StringValue(params.AccountID), id)
-	person := &stripe.V2CorePerson{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, person)
-	return person, err
+	accountperson := &stripe.V2CoreAccountPerson{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, accountperson)
+	return accountperson, err
 }
 
 // Updates a Person associated with an Account.
@@ -53,12 +53,12 @@ func (c Client) Get(id string, params *stripe.V2CoreAccountsPersonParams) (*stri
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Update(id string, params *stripe.V2CoreAccountsPersonParams) (*stripe.V2CorePerson, error) {
+func (c Client) Update(id string, params *stripe.V2CoreAccountsPersonParams) (*stripe.V2CoreAccountPerson, error) {
 	path := stripe.FormatURLPath(
 		"/v2/core/accounts/%s/persons/%s", stripe.StringValue(params.AccountID), id)
-	person := &stripe.V2CorePerson{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, person)
-	return person, err
+	accountperson := &stripe.V2CoreAccountPerson{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, accountperson)
+	return accountperson, err
 }
 
 // Delete a Person associated with an Account.
@@ -66,12 +66,12 @@ func (c Client) Update(id string, params *stripe.V2CoreAccountsPersonParams) (*s
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Del(id string, params *stripe.V2CoreAccountsPersonParams) (*stripe.V2CorePerson, error) {
+func (c Client) Del(id string, params *stripe.V2CoreAccountsPersonParams) (*stripe.V2DeletedObject, error) {
 	path := stripe.FormatURLPath(
 		"/v2/core/accounts/%s/persons/%s", stripe.StringValue(params.AccountID), id)
-	person := &stripe.V2CorePerson{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, person)
-	return person, err
+	deletedObj := &stripe.V2DeletedObject{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
+	return deletedObj, err
 }
 
 // Returns a list of Persons associated with an Account.
@@ -79,11 +79,11 @@ func (c Client) Del(id string, params *stripe.V2CoreAccountsPersonParams) (*stri
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) All(listParams *stripe.V2CoreAccountsPersonListParams) stripe.Seq2[*stripe.V2CorePerson, error] {
+func (c Client) All(listParams *stripe.V2CoreAccountsPersonListParams) stripe.Seq2[*stripe.V2CoreAccountPerson, error] {
 	path := stripe.FormatURLPath(
 		"/v2/core/accounts/%s/persons", stripe.StringValue(listParams.AccountID))
-	return stripe.NewV2List(path, listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2CorePerson], error) {
-		page := &stripe.V2Page[*stripe.V2CorePerson]{}
+	return stripe.NewV2List(path, listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2CoreAccountPerson], error) {
+		page := &stripe.V2Page[*stripe.V2CoreAccountPerson]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

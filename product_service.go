@@ -72,14 +72,14 @@ func (c v1ProductService) List(ctx context.Context, listParams *ProductListParam
 		listParams = &ProductListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Product, ListContainer, error) {
-		list := &ProductList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Product], error) {
+		list := &v1Page[*Product]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/products", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -92,13 +92,13 @@ func (c v1ProductService) Search(ctx context.Context, params *ProductSearchParam
 		params = &ProductSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Product, SearchContainer, error) {
-		list := &ProductSearchResult{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Product], error) {
+		list := &v1SearchPage[*Product]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/products/search", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

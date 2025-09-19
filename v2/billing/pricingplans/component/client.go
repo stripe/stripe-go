@@ -69,13 +69,13 @@ func (c Client) Update(id string, params *stripe.V2BillingPricingPlansComponentP
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Del(id string, params *stripe.V2BillingPricingPlansComponentParams) (*stripe.V2BillingPricingPlanComponent, error) {
+func (c Client) Del(id string, params *stripe.V2BillingPricingPlansComponentParams) (*stripe.V2DeletedObject, error) {
 	path := stripe.FormatURLPath(
 		"/v2/billing/pricing_plans/%s/components/%s", stripe.StringValue(
 			params.PricingPlanID), id)
-	pricingplancomponent := &stripe.V2BillingPricingPlanComponent{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, pricingplancomponent)
-	return pricingplancomponent, err
+	deletedObj := &stripe.V2DeletedObject{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
+	return deletedObj, err
 }
 
 // List all Pricing Plan Component objects for a Pricing Plan.

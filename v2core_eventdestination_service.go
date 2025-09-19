@@ -54,15 +54,15 @@ func (c v2CoreEventDestinationService) Update(ctx context.Context, id string, pa
 }
 
 // Delete an event destination.
-func (c v2CoreEventDestinationService) Delete(ctx context.Context, id string, params *V2CoreEventDestinationDeleteParams) (*V2EventDestination, error) {
+func (c v2CoreEventDestinationService) Delete(ctx context.Context, id string, params *V2CoreEventDestinationDeleteParams) (*V2DeletedObject, error) {
 	if params == nil {
 		params = &V2CoreEventDestinationDeleteParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v2/core/event_destinations/%s", id)
-	eventdestination := &V2EventDestination{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, eventdestination)
-	return eventdestination, err
+	deletedObj := &V2DeletedObject{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
+	return deletedObj, err
 }
 
 // Disable an event destination.

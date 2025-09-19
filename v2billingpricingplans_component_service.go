@@ -60,7 +60,7 @@ func (c v2BillingPricingPlansComponentService) Update(ctx context.Context, id st
 }
 
 // Remove a Pricing Plan Component from the latest version of a Pricing Plan.
-func (c v2BillingPricingPlansComponentService) Delete(ctx context.Context, id string, params *V2BillingPricingPlansComponentDeleteParams) (*V2BillingPricingPlanComponent, error) {
+func (c v2BillingPricingPlansComponentService) Delete(ctx context.Context, id string, params *V2BillingPricingPlansComponentDeleteParams) (*V2DeletedObject, error) {
 	if params == nil {
 		params = &V2BillingPricingPlansComponentDeleteParams{}
 	}
@@ -68,9 +68,9 @@ func (c v2BillingPricingPlansComponentService) Delete(ctx context.Context, id st
 	path := FormatURLPath(
 		"/v2/billing/pricing_plans/%s/components/%s", StringValue(
 			params.PricingPlanID), id)
-	pricingplancomponent := &V2BillingPricingPlanComponent{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, pricingplancomponent)
-	return pricingplancomponent, err
+	deletedObj := &V2DeletedObject{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
+	return deletedObj, err
 }
 
 // List all Pricing Plan Component objects for a Pricing Plan.

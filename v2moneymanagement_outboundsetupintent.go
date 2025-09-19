@@ -57,7 +57,7 @@ type V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayee struct {
 // Specifies which actions needs to be taken next to continue setup of the credential.
 type V2MoneyManagementOutboundSetupIntentNextAction struct {
 	// Confirmation of Payee details.
-	ConfirmationOfPayee *V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayee `json:"confirmation_of_payee"`
+	ConfirmationOfPayee *V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayee `json:"confirmation_of_payee,omitempty"`
 	// The type of next action.
 	Type V2MoneyManagementOutboundSetupIntentNextActionType `json:"type"`
 }
@@ -72,10 +72,10 @@ type V2MoneyManagementOutboundSetupIntent struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Specifies which actions needs to be taken next to continue setup of the credential.
-	NextAction *V2MoneyManagementOutboundSetupIntentNextAction `json:"next_action"`
+	NextAction *V2MoneyManagementOutboundSetupIntentNextAction `json:"next_action,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// Information about the payout method that's created and linked to this outbound setup intent.
+	// Use the PayoutMethods API to list and interact with PayoutMethod objects.
 	PayoutMethod *V2MoneyManagementPayoutMethod `json:"payout_method"`
 	// Closed Enum. Status of the outbound setup intent.
 	Status V2MoneyManagementOutboundSetupIntentStatus `json:"status"`

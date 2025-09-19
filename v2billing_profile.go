@@ -22,21 +22,21 @@ type V2BillingProfile struct {
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
 	// The ID of the customer object.
-	Customer string `json:"customer"`
+	Customer string `json:"customer,omitempty"`
 	// The ID of the payment method object.
-	DefaultPaymentMethod string `json:"default_payment_method"`
+	DefaultPaymentMethod string `json:"default_payment_method,omitempty"`
 	// A customer-facing name for the billing profile.
 	// Maximum length of 250 characters.
-	DisplayName string `json:"display_name"`
+	DisplayName string `json:"display_name,omitempty"`
 	// The ID of the billing profile object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// An internal key you can use to search for a particular billing profile.
 	// Maximum length of 200 characters.
-	LookupKey string `json:"lookup_key"`
+	LookupKey string `json:"lookup_key,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The current status of the billing profile.

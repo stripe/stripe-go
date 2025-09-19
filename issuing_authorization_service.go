@@ -75,13 +75,13 @@ func (c v1IssuingAuthorizationService) List(ctx context.Context, listParams *Iss
 		listParams = &IssuingAuthorizationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingAuthorization, ListContainer, error) {
-		list := &IssuingAuthorizationList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingAuthorization], error) {
+		list := &v1Page[*IssuingAuthorization]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/authorizations", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

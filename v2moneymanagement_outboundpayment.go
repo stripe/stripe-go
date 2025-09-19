@@ -90,7 +90,7 @@ const (
 // Delivery options to be used to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentDeliveryOptions struct {
 	// Open Enum. Method for bank account.
-	BankAccount V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount `json:"bank_account"`
+	BankAccount V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount `json:"bank_account,omitempty"`
 }
 
 // The FinancialAccount that funds were pulled from.
@@ -123,25 +123,25 @@ type V2MoneyManagementOutboundPaymentStatusDetailsReturned struct {
 // Status details for an OutboundPayment in a `failed` or `returned` state.
 type V2MoneyManagementOutboundPaymentStatusDetails struct {
 	// The `failed` status reason.
-	Failed *V2MoneyManagementOutboundPaymentStatusDetailsFailed `json:"failed"`
+	Failed *V2MoneyManagementOutboundPaymentStatusDetailsFailed `json:"failed,omitempty"`
 	// The `returned` status reason.
-	Returned *V2MoneyManagementOutboundPaymentStatusDetailsReturned `json:"returned"`
+	Returned *V2MoneyManagementOutboundPaymentStatusDetailsReturned `json:"returned,omitempty"`
 }
 
 // Hash containing timestamps of when the object transitioned to a particular status.
 type V2MoneyManagementOutboundPaymentStatusTransitions struct {
 	// Timestamp describing when an OutboundPayment changed status to `canceled`.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
 	// Timestamp describing when an OutboundPayment changed status to `failed`.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
-	FailedAt time.Time `json:"failed_at"`
+	FailedAt time.Time `json:"failed_at,omitempty"`
 	// Timestamp describing when an OutboundPayment changed status to `posted`.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
-	PostedAt time.Time `json:"posted_at"`
+	PostedAt time.Time `json:"posted_at,omitempty"`
 	// Timestamp describing when an OutboundPayment changed status to `returned`.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
-	ReturnedAt time.Time `json:"returned_at"`
+	ReturnedAt time.Time `json:"returned_at,omitempty"`
 }
 
 // To which payout method the OutboundPayment was sent.
@@ -162,7 +162,7 @@ type V2MoneyManagementOutboundPaymentTraceID struct {
 	// even after the payment or transfer is posted.
 	Status V2MoneyManagementOutboundPaymentTraceIDStatus `json:"status"`
 	// The trace ID value if `trace_id.status` is `supported`, otherwise empty.
-	Value string `json:"value"`
+	Value string `json:"value,omitempty"`
 }
 
 // OutboundPayment represents a single money movement from one FinancialAccount you own to a payout method someone else owns.
@@ -176,12 +176,12 @@ type V2MoneyManagementOutboundPayment struct {
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
 	// Delivery options to be used to send the OutboundPayment.
-	DeliveryOptions *V2MoneyManagementOutboundPaymentDeliveryOptions `json:"delivery_options"`
+	DeliveryOptions *V2MoneyManagementOutboundPaymentDeliveryOptions `json:"delivery_options,omitempty"`
 	// An arbitrary string attached to the OutboundPayment. Often useful for displaying to users.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// The date when funds are expected to arrive in the payout method. This field is not set if the payout method is in a `failed`, `canceled`, or `returned` state.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
-	ExpectedArrivalDate time.Time `json:"expected_arrival_date"`
+	ExpectedArrivalDate time.Time `json:"expected_arrival_date,omitempty"`
 	// The FinancialAccount that funds were pulled from.
 	From *V2MoneyManagementOutboundPaymentFrom `json:"from"`
 	// Unique identifier for the OutboundPayment.
@@ -189,13 +189,13 @@ type V2MoneyManagementOutboundPayment struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
-	OutboundPaymentQuote string `json:"outbound_payment_quote"`
+	OutboundPaymentQuote string `json:"outbound_payment_quote,omitempty"`
 	// A link to the Stripe-hosted receipt for this OutboundPayment. The receipt link remains active for 60 days from the OutboundPayment creation date. After this period, the link will expire and the receipt url value will be null.
-	ReceiptURL string `json:"receipt_url"`
+	ReceiptURL string `json:"receipt_url,omitempty"`
 	// Details about the OutboundPayment notification settings for recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotification `json:"recipient_notification"`
 	// The description that appears on the receiving end for an OutboundPayment (for example, bank statement for external bank transfer). It will default to `STRIPE` if not set on the account settings.
@@ -206,9 +206,9 @@ type V2MoneyManagementOutboundPayment struct {
 	// If an OutboundPayment fails to arrive at its payout method, its status will change to `returned`.
 	Status V2MoneyManagementOutboundPaymentStatus `json:"status"`
 	// Status details for an OutboundPayment in a `failed` or `returned` state.
-	StatusDetails *V2MoneyManagementOutboundPaymentStatusDetails `json:"status_details"`
+	StatusDetails *V2MoneyManagementOutboundPaymentStatusDetails `json:"status_details,omitempty"`
 	// Hash containing timestamps of when the object transitioned to a particular status.
-	StatusTransitions *V2MoneyManagementOutboundPaymentStatusTransitions `json:"status_transitions"`
+	StatusTransitions *V2MoneyManagementOutboundPaymentStatusTransitions `json:"status_transitions,omitempty"`
 	// To which payout method the OutboundPayment was sent.
 	To *V2MoneyManagementOutboundPaymentTo `json:"to"`
 	// A unique identifier that can be used to track this OutboundPayment with recipient bank. Banks might call this a “reference number” or something similar.

@@ -23,9 +23,9 @@ type V2CoreClaimableSandboxPrefillParams struct {
 type V2CoreClaimableSandboxParams struct {
 	Params `form:"*"`
 	// If true, returns a key that can be used with [Stripe's MCP server](https://docs.stripe.com/mcp).
-	EnableMcpAccess *bool `form:"enable_mcp_access" json:"enable_mcp_access,omitempty"`
+	EnableMcpAccess *bool `form:"enable_mcp_access" json:"enable_mcp_access"`
 	// Values that are prefilled when a user claims the sandbox.
-	Prefill *V2CoreClaimableSandboxPrefillParams `form:"prefill" json:"prefill,omitempty"`
+	Prefill *V2CoreClaimableSandboxPrefillParams `form:"prefill" json:"prefill"`
 }
 
 // Values that are prefilled when a user claims the sandbox.
@@ -48,11 +48,4 @@ type V2CoreClaimableSandboxCreateParams struct {
 	EnableMcpAccess *bool `form:"enable_mcp_access" json:"enable_mcp_access"`
 	// Values that are prefilled when a user claims the sandbox.
 	Prefill *V2CoreClaimableSandboxCreatePrefillParams `form:"prefill" json:"prefill"`
-}
-
-// Retrieves the details of a claimable sandbox that was previously been created.
-// Supply the unique claimable sandbox ID that was returned from your creation request,
-// and Stripe will return the corresponding sandbox information.
-type V2CoreClaimableSandboxRetrieveParams struct {
-	Params `form:"*"`
 }

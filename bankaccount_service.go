@@ -135,11 +135,11 @@ func (c v1BankAccountService) List(ctx context.Context, listParams *BankAccountL
 			StringValue(listParams.Customer))
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BankAccount, ListContainer, error) {
-		list := &BankAccountList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BankAccount], error) {
+		list := &v1Page[*BankAccount]{}
 
 		if outerErr != nil {
-			return nil, nil, outerErr
+			return nil, outerErr
 		}
 
 		if p == nil {
@@ -147,6 +147,6 @@ func (c v1BankAccountService) List(ctx context.Context, listParams *BankAccountL
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

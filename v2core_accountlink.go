@@ -78,49 +78,49 @@ const (
 // Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 type V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptions struct {
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due.
-	Fields V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFields `json:"fields"`
+	Fields V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFields `json:"fields,omitempty"`
 	// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
-	FutureRequirements V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFutureRequirements `json:"future_requirements"`
+	FutureRequirements V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFutureRequirements `json:"future_requirements,omitempty"`
 }
 
 // Indicates that the AccountLink provided should onboard an account.
 type V2CoreAccountLinkUseCaseAccountOnboarding struct {
 	// Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
-	CollectionOptions *V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptions `json:"collection_options"`
+	CollectionOptions *V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptions `json:"collection_options,omitempty"`
 	// Open Enum. A v2/core/account can be configured to enable certain functionality. The configuration param targets the v2/core/account_link to collect information for the specified v2/core/account configuration/s.
 	Configurations []V2CoreAccountLinkUseCaseAccountOnboardingConfiguration `json:"configurations"`
 	// The URL the user will be redirected to if the AccountLink is expired, has been used, or is otherwise invalid. The URL you specify should attempt to generate a new AccountLink with the same parameters used to create the original AccountLink, then redirect the user to the new AccountLink's URL so they can continue the flow. If a new AccountLink cannot be generated or the redirect fails you should display a useful error to the user. Please make sure to implement authentication before redirecting the user in case this URL is leaked to a third party.
 	RefreshURL string `json:"refresh_url"`
 	// The URL that the user will be redirected to upon completing the linked flow.
-	ReturnURL string `json:"return_url"`
+	ReturnURL string `json:"return_url,omitempty"`
 }
 
 // Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 type V2CoreAccountLinkUseCaseAccountUpdateCollectionOptions struct {
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due.
-	Fields V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsFields `json:"fields"`
+	Fields V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsFields `json:"fields,omitempty"`
 	// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
-	FutureRequirements V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsFutureRequirements `json:"future_requirements"`
+	FutureRequirements V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsFutureRequirements `json:"future_requirements,omitempty"`
 }
 
 // Indicates that the AccountLink provided should update a previously onboarded account.
 type V2CoreAccountLinkUseCaseAccountUpdate struct {
 	// Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
-	CollectionOptions *V2CoreAccountLinkUseCaseAccountUpdateCollectionOptions `json:"collection_options"`
+	CollectionOptions *V2CoreAccountLinkUseCaseAccountUpdateCollectionOptions `json:"collection_options,omitempty"`
 	// Open Enum. A v2/account can be configured to enable certain functionality. The configuration param targets the v2/account_link to collect information for the specified v2/account configuration/s.
 	Configurations []V2CoreAccountLinkUseCaseAccountUpdateConfiguration `json:"configurations"`
 	// The URL the user will be redirected to if the AccountLink is expired, has been used, or is otherwise invalid. The URL you specify should attempt to generate a new AccountLink with the same parameters used to create the original AccountLink, then redirect the user to the new AccountLink's URL so they can continue the flow. If a new AccountLink cannot be generated or the redirect fails you should display a useful error to the user. Please make sure to implement authentication before redirecting the user in case this URL is leaked to a third party.
 	RefreshURL string `json:"refresh_url"`
 	// The URL that the user will be redirected to upon completing the linked flow.
-	ReturnURL string `json:"return_url"`
+	ReturnURL string `json:"return_url,omitempty"`
 }
 
 // The use case of AccountLink the user is requesting.
 type V2CoreAccountLinkUseCase struct {
 	// Indicates that the AccountLink provided should onboard an account.
-	AccountOnboarding *V2CoreAccountLinkUseCaseAccountOnboarding `json:"account_onboarding"`
+	AccountOnboarding *V2CoreAccountLinkUseCaseAccountOnboarding `json:"account_onboarding,omitempty"`
 	// Indicates that the AccountLink provided should update a previously onboarded account.
-	AccountUpdate *V2CoreAccountLinkUseCaseAccountUpdate `json:"account_update"`
+	AccountUpdate *V2CoreAccountLinkUseCaseAccountUpdate `json:"account_update,omitempty"`
 	// Open Enum. The type of AccountLink the user is requesting.
 	Type V2CoreAccountLinkUseCaseType `json:"type"`
 }

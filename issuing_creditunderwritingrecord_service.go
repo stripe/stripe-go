@@ -89,13 +89,13 @@ func (c v1IssuingCreditUnderwritingRecordService) List(ctx context.Context, list
 		listParams = &IssuingCreditUnderwritingRecordListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingCreditUnderwritingRecord, ListContainer, error) {
-		list := &IssuingCreditUnderwritingRecordList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingCreditUnderwritingRecord], error) {
+		list := &v1Page[*IssuingCreditUnderwritingRecord]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/credit_underwriting_records", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

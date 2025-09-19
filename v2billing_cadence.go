@@ -63,7 +63,7 @@ type V2BillingCadenceBillingCycleDayTime struct {
 	Minute int64 `json:"minute"`
 	// The second at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	Second int64 `json:"second"`
+	Second int64 `json:"second,omitempty"`
 }
 
 // Specific configuration for determining billing dates when type=day.
@@ -83,7 +83,7 @@ type V2BillingCadenceBillingCycleMonthTime struct {
 	Minute int64 `json:"minute"`
 	// The second at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	Second int64 `json:"second"`
+	Second int64 `json:"second,omitempty"`
 }
 
 // Specific configuration for determining billing dates when type=month.
@@ -92,9 +92,6 @@ type V2BillingCadenceBillingCycleMonth struct {
 	// If this number is greater than the number of days in the month being billed,
 	// this will anchor to the last day of the month.
 	DayOfMonth int64 `json:"day_of_month"`
-	// The month to anchor the billing on for a type="month" billing cycle from
-	// 1-12. Occurrences are calculated from the month anchor.
-	MonthOfYear int64 `json:"month_of_year"`
 	// The time at which the billing cycle ends.
 	Time *V2BillingCadenceBillingCycleMonthTime `json:"time"`
 }
@@ -110,7 +107,7 @@ type V2BillingCadenceBillingCycleWeekTime struct {
 	Minute int64 `json:"minute"`
 	// The second at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	Second int64 `json:"second"`
+	Second int64 `json:"second,omitempty"`
 }
 
 // Specific configuration for determining billing dates when type=week.
@@ -133,7 +130,7 @@ type V2BillingCadenceBillingCycleYearTime struct {
 	Minute int64 `json:"minute"`
 	// The second at which the billing cycle ends.
 	// Must be an integer between 0 and 59, inclusive.
-	Second int64 `json:"second"`
+	Second int64 `json:"second,omitempty"`
 }
 
 // Specific configuration for determining billing dates when type=year.
@@ -151,17 +148,17 @@ type V2BillingCadenceBillingCycleYear struct {
 // The billing cycle is the object that defines future billing cycle dates.
 type V2BillingCadenceBillingCycle struct {
 	// Specific configuration for determining billing dates when type=day.
-	Day *V2BillingCadenceBillingCycleDay `json:"day"`
+	Day *V2BillingCadenceBillingCycleDay `json:"day,omitempty"`
 	// The number of intervals (specified in the interval attribute) between cadence billings. For example, type=month and interval_count=3 bills every 3 months.
 	IntervalCount int64 `json:"interval_count"`
 	// Specific configuration for determining billing dates when type=month.
-	Month *V2BillingCadenceBillingCycleMonth `json:"month"`
+	Month *V2BillingCadenceBillingCycleMonth `json:"month,omitempty"`
 	// The frequency at which a cadence bills.
 	Type V2BillingCadenceBillingCycleType `json:"type"`
 	// Specific configuration for determining billing dates when type=week.
-	Week *V2BillingCadenceBillingCycleWeek `json:"week"`
+	Week *V2BillingCadenceBillingCycleWeek `json:"week,omitempty"`
 	// Specific configuration for determining billing dates when type=year.
-	Year *V2BillingCadenceBillingCycleYear `json:"year"`
+	Year *V2BillingCadenceBillingCycleYear `json:"year,omitempty"`
 }
 
 // The maximum applications configuration for this discount.
@@ -175,7 +172,7 @@ type V2BillingCadenceInvoiceDiscountRulePercentOff struct {
 	// The maximum applications configuration for this discount.
 	MaximumApplications *V2BillingCadenceInvoiceDiscountRulePercentOffMaximumApplications `json:"maximum_applications"`
 	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
-	PercentOff string `json:"percent_off"`
+	PercentOff float64 `json:"percent_off,string"`
 }
 
 // The discount rules applied to all invoices for the cadence.
@@ -183,7 +180,7 @@ type V2BillingCadenceInvoiceDiscountRule struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Details if the discount is a percentage off.
-	PercentOff *V2BillingCadenceInvoiceDiscountRulePercentOff `json:"percent_off"`
+	PercentOff *V2BillingCadenceInvoiceDiscountRulePercentOff `json:"percent_off,omitempty"`
 	// The type of the discount.
 	Type V2BillingCadenceInvoiceDiscountRuleType `json:"type"`
 }
@@ -191,9 +188,9 @@ type V2BillingCadenceInvoiceDiscountRule struct {
 // The payer determines the entity financially responsible for the bill.
 type V2BillingCadencePayer struct {
 	// The ID of the Billing Profile object which determines how a bill will be paid.
-	BillingProfile string `json:"billing_profile"`
+	BillingProfile string `json:"billing_profile,omitempty"`
 	// The ID of the Customer object.
-	Customer string `json:"customer"`
+	Customer string `json:"customer,omitempty"`
 	// A string identifying the type of the payer. Currently the only supported value is `customer`.
 	Type V2BillingCadencePayerType `json:"type"`
 }
@@ -203,7 +200,7 @@ type V2BillingCadenceSettingsBill struct {
 	// The ID of the referenced settings object.
 	ID string `json:"id"`
 	// Returns the Settings Version when the cadence is pinned to a specific version.
-	Version string `json:"version"`
+	Version string `json:"version,omitempty"`
 }
 
 // Settings that configure and manage the behavior of collecting payments.
@@ -211,15 +208,15 @@ type V2BillingCadenceSettingsCollection struct {
 	// The ID of the referenced settings object.
 	ID string `json:"id"`
 	// Returns the Settings Version when the cadence is pinned to a specific version.
-	Version string `json:"version"`
+	Version string `json:"version,omitempty"`
 }
 
 // The settings associated with the cadence.
 type V2BillingCadenceSettings struct {
 	// Settings that configure bills generation, which includes calculating totals, tax, and presenting invoices.
-	Bill *V2BillingCadenceSettingsBill `json:"bill"`
+	Bill *V2BillingCadenceSettingsBill `json:"bill,omitempty"`
 	// Settings that configure and manage the behavior of collecting payments.
-	Collection *V2BillingCadenceSettingsCollection `json:"collection"`
+	Collection *V2BillingCadenceSettingsCollection `json:"collection,omitempty"`
 }
 type V2BillingCadence struct {
 	APIResource
@@ -230,21 +227,21 @@ type V2BillingCadence struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The discount rules applied to all invoices for the cadence.
-	InvoiceDiscountRules []*V2BillingCadenceInvoiceDiscountRule `json:"invoice_discount_rules"`
+	InvoiceDiscountRules []*V2BillingCadenceInvoiceDiscountRule `json:"invoice_discount_rules,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// The date that the billing cadence will next bill. Null if the cadence is not active.
-	NextBillingDate time.Time `json:"next_billing_date"`
+	NextBillingDate time.Time `json:"next_billing_date,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The payer determines the entity financially responsible for the bill.
 	Payer *V2BillingCadencePayer `json:"payer"`
 	// The settings associated with the cadence.
-	Settings *V2BillingCadenceSettings `json:"settings"`
+	Settings *V2BillingCadenceSettings `json:"settings,omitempty"`
 	// The current status of the cadence.
 	Status V2BillingCadenceStatus `json:"status"`
 	// The ID of the Test Clock.
-	TestClock string `json:"test_clock"`
+	TestClock string `json:"test_clock,omitempty"`
 }
