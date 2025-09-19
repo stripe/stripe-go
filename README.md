@@ -375,6 +375,17 @@ if ok {
 }
 ```
 
+For `List` and `Search` operations, you can access each resource's `RawJSON` as you iterate
+```go
+for cust, err := range sc.V1Customers.List(context.TODO(), &stripe.CustomerListParams{}) {
+    if err != nil {
+        return err
+    }
+    customerJSON := cust.LastResponse.RawJSON
+    log.Printf("Customer JSON: %s", customerJSON) // {"id":"cus_123",...}
+}
+```
+
 ### Webhook signing
 
 Stripe can optionally sign the webhook events it sends to your endpoint, allowing you to validate that they were not sent by a third-party. You can read more about it [here](https://stripe.com/docs/webhooks/signatures).
