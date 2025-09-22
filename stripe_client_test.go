@@ -21,25 +21,28 @@ func TestNewClientWithNilBackend(t *testing.T) {
 	assert.NotNil(t, client)
 }
 
-func TestParseThinEvent(t *testing.T) {
-	thinEvent := &stripe.EventNotification{
-		ID:       "evt_123",
-		Object:   "event",
-		Type:     "charge.succeeded",
-		Livemode: true,
-		Created:  time.Now(),
-		Context:  nil,
-		RelatedObject: &stripe.RelatedObject{
-			ID:   "ch_123",
-			Type: "charge",
-			URL:  "/v1/charges/ch_123",
+func TestParseEventNotification(t *testing.T) {
+	eventNotification := &stripe.V1BillingMeterErrorReportTriggeredEventNotification{
+		EventNotification: stripe.EventNotification{
+			ID:       "evt_123",
+			Object:   "event",
+			Type:     "v1.billing.meter.error_report_triggered",
+			Livemode: true,
+			Created:  time.Now(),
+			Context:  nil,
+		},
+		RelatedObject: stripe.RelatedObject{
+			ID:   "bm_123",
+			Type: "billing.meter",
+			URL:  "/v1/billing/meters/bm_123",
 		},
 	}
-	thinEventJSON, err := json.Marshal(thinEvent)
+	eventNotificationJSON, err := json.Marshal(eventNotification)
 	assert.NoError(t, err)
+
 	p := stripe.SignedPayload{
 		UnsignedPayload: stripe.UnsignedPayload{
-			Payload:   thinEventJSON,
+			Payload:   eventNotificationJSON,
 			Timestamp: time.Now(),
 			Secret:    "whsec_test_secret",
 			Scheme:    "v1",
@@ -48,37 +51,43 @@ func TestParseThinEvent(t *testing.T) {
 	p.Signature = stripe.ComputeSignature(p.Timestamp, p.Payload, p.Secret)
 	p.Header = generateHeader(p)
 	sc := stripe.NewClient("sk_test_secret")
-	thinEvent, err = sc.ParseThinEvent(p.Payload, p.Header, p.Secret)
+	eventNotificationContainer, err := sc.ParseEventNotification(p.Payload, p.Header, p.Secret)
 	assert.NoError(t, err)
-	assert.Equal(t, "evt_123", thinEvent.ID)
-	assert.Equal(t, "event", thinEvent.Object)
-	assert.Equal(t, "charge.succeeded", thinEvent.Type)
-	assert.Equal(t, true, thinEvent.Livemode)
-	assert.Equal(t, "ch_123", thinEvent.RelatedObject.ID)
-	assert.Equal(t, "charge", thinEvent.RelatedObject.Type)
-	assert.Equal(t, "/v1/charges/ch_123", thinEvent.RelatedObject.URL)
-	assert.NotNil(t, thinEvent)
+
+	// Type assert the container itself, not the result of GetEventNotification()
+	specificEventNotification, ok := eventNotificationContainer.(*stripe.V1BillingMeterErrorReportTriggeredEventNotification)
+	assert.True(t, ok)
+
+	assert.Equal(t, "evt_123", specificEventNotification.ID)
+	assert.Equal(t, "event", specificEventNotification.Object)
+	assert.Equal(t, "v1.billing.meter.error_report_triggered", specificEventNotification.Type)
+	assert.Equal(t, true, specificEventNotification.Livemode)
+	assert.Equal(t, "bm_123", specificEventNotification.RelatedObject.ID)
+	assert.Equal(t, "billing.meter", specificEventNotification.RelatedObject.Type)
+	assert.Equal(t, "/v1/billing/meters/bm_123", specificEventNotification.RelatedObject.URL)
 }
 
-func TestParseThinEventNoTolerance(t *testing.T) {
-	thinEvent := &stripe.EventNotification{
-		ID:       "evt_123",
-		Object:   "event",
-		Type:     "charge.succeeded",
-		Livemode: true,
-		Created:  time.Now(),
-		Context:  nil,
+func TestParseEventNotificationNoTolerance(t *testing.T) {
+	unknownEvent := &stripe.UnknownEventNotification{
+		EventNotification: stripe.EventNotification{
+			ID:       "evt_123",
+			Object:   "event",
+			Type:     "charge.succeeded",
+			Livemode: true,
+			Created:  time.Now(),
+			Context:  nil,
+		},
 		RelatedObject: &stripe.RelatedObject{
 			ID:   "ch_123",
 			Type: "charge",
 			URL:  "/v1/charges/ch_123",
 		},
 	}
-	thinEventJSON, err := json.Marshal(thinEvent)
+	eventJSON, err := json.Marshal(unknownEvent)
 	assert.NoError(t, err)
 	p := stripe.SignedPayload{
 		UnsignedPayload: stripe.UnsignedPayload{
-			Payload:   thinEventJSON,
+			Payload:   eventJSON,
 			Timestamp: time.Now(),
 			Secret:    "whsec_test_secret",
 			Scheme:    "v1",
@@ -87,7 +96,7 @@ func TestParseThinEventNoTolerance(t *testing.T) {
 	p.Signature = stripe.ComputeSignature(p.Timestamp, p.Payload, p.Secret)
 	p.Header = generateHeader(p)
 	sc := stripe.NewClient("sk_test_secret")
-	_, err = sc.ParseThinEvent(p.Payload, p.Header, p.Secret, stripe.WithTolerance(0))
+	_, err = sc.ParseEventNotification(p.Payload, p.Header, p.Secret, stripe.WithTolerance(0))
 	assert.Equal(t, stripe.ErrWebhookTooOld, err)
 }
 

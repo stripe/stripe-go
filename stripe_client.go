@@ -291,6 +291,9 @@ type Client struct {
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
 	V2CoreEvents *v2CoreEventService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
+
+	backend Backend
+	key     string
 }
 
 // NewClient creates a new Stripe [Client] with the given API key.
@@ -319,6 +322,9 @@ func initClient(client *Client, cfg clientConfig) {
 	}
 	backends := cfg.backends
 	key := cfg.key
+	// enough information on the Client to make API calls
+	client.backend = backends.API
+	client.key = key
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
 	client.OAuth = &oauthService{B: backends.Connect, Key: key}
@@ -483,17 +489,32 @@ func WithBackends(backends *Backends) ClientOption {
 	}
 }
 
-// ParseThinEvent parses a Stripe event from the payload and verifies its signature.
-// It returns a ThinEvent object and an error if the parsing or verification fails.
-func (c *Client) ParseThinEvent(payload []byte, header string, secret string, opts ...WebhookOption) (*EventNotification, error) {
+// ParseEventNotification parses a Stripe event from the payload and verifies its signature.
+// It returns a union of all possible event notification types that implement EventNotificationContainer.
+func (c *Client) ParseEventNotification(payload []byte, header string, secret string, opts ...WebhookOption) (EventNotificationContainer, error) {
 	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
 	}
-	var event EventNotification
-	if err := json.Unmarshal(payload, &event); err != nil {
+
+	var baseEvent UnknownEventNotification
+	if err := json.Unmarshal(payload, &baseEvent); err != nil {
 		return nil, err
 	}
-	return &event, nil
+
+	baseEvent.client = *c
+
+	switch baseEvent.Type {
+	case "v1.billing.meter.error_report_triggered":
+		result := &V1BillingMeterErrorReportTriggeredEventNotification{}
+		result.EventNotification = baseEvent.EventNotification
+		result.EventNotification.client = *c
+		if err := json.Unmarshal(payload, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	default:
+		return &baseEvent, nil
+	}
 }
 
 // ConstructEvent initializes an Event object from a JSON webhook payload, validating
@@ -511,3 +532,9 @@ func (c *Client) ParseThinEvent(payload []byte, header string, secret string, op
 func (c *Client) ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
 	return ConstructEvent(payload, header, secret, opts...)
 }
+
+// func (c *Client) RawRequest(method string, path string, content string, params *RawParams) (*APIResponse, error) {
+// 	// return c.
+// 	return c.backend.CallRaw()
+// 	// return c.B.RawRequest(method, path, c.Key, content, params)
+// }
