@@ -8,6 +8,14 @@ package stripe
 
 import "encoding/json"
 
+// The type of promotion.
+type PromotionCodePromotionType string
+
+// List of values that PromotionCodePromotionType can take
+const (
+	PromotionCodePromotionTypeCoupon PromotionCodePromotionType = "coupon"
+)
+
 // Returns a list of your promotion codes.
 type PromotionCodeListParams struct {
 	ListParams `form:"*"`
@@ -34,6 +42,14 @@ func (p *PromotionCodeListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The promotion referenced by this promotion code.
+type PromotionCodePromotionParams struct {
+	// If the promotion type is 'coupon', the coupon for this promotion code.
+	Coupon *string `form:"coupon"`
+	// Specifies the type of promotion code.
+	Type *string `form:"type"`
+}
+
 // Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type PromotionCodeRestrictionsCurrencyOptionsParams struct {
 	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
@@ -52,7 +68,7 @@ type PromotionCodeRestrictionsParams struct {
 	MinimumAmountCurrency *string `form:"minimum_amount_currency"`
 }
 
-// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
+// A promotion code points to an underlying promotion. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 type PromotionCodeParams struct {
 	Params `form:"*"`
 	// Whether the promotion code is currently active. A promotion code can only be reactivated when the coupon is still valid and the promotion code is otherwise redeemable.
@@ -61,8 +77,6 @@ type PromotionCodeParams struct {
 	//
 	// If left blank, we will generate one automatically.
 	Code *string `form:"code"`
-	// The coupon for this promotion code.
-	Coupon *string `form:"coupon"`
 	// The customer that this promotion code can be used by. If not set, the promotion code can be used by all customers.
 	Customer *string `form:"customer"`
 	// The account that this promotion code can be used by. If not set, the promotion code can be used by all accounts.
@@ -75,6 +89,8 @@ type PromotionCodeParams struct {
 	MaxRedemptions *int64 `form:"max_redemptions"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The promotion referenced by this promotion code.
+	Promotion *PromotionCodePromotionParams `form:"promotion"`
 	// Settings that restrict the redemption of the promotion code.
 	Restrictions *PromotionCodeRestrictionsParams `form:"restrictions"`
 }
@@ -91,6 +107,14 @@ func (p *PromotionCodeParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// The promotion referenced by this promotion code.
+type PromotionCodeCreatePromotionParams struct {
+	// If the promotion type is 'coupon', the coupon for this promotion code.
+	Coupon *string `form:"coupon"`
+	// Specifies the type of promotion code.
+	Type *string `form:"type"`
 }
 
 // Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
@@ -111,7 +135,7 @@ type PromotionCodeCreateRestrictionsParams struct {
 	MinimumAmountCurrency *string `form:"minimum_amount_currency"`
 }
 
-// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
+// A promotion code points to an underlying promotion. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 type PromotionCodeCreateParams struct {
 	Params `form:"*"`
 	// Whether the promotion code is currently active.
@@ -120,8 +144,6 @@ type PromotionCodeCreateParams struct {
 	//
 	// If left blank, we will generate one automatically.
 	Code *string `form:"code"`
-	// The coupon for this promotion code.
-	Coupon *string `form:"coupon"`
 	// The customer that this promotion code can be used by. If not set, the promotion code can be used by all customers.
 	Customer *string `form:"customer"`
 	// The account that this promotion code can be used by. If not set, the promotion code can be used by all accounts.
@@ -134,6 +156,8 @@ type PromotionCodeCreateParams struct {
 	MaxRedemptions *int64 `form:"max_redemptions"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The promotion referenced by this promotion code.
+	Promotion *PromotionCodeCreatePromotionParams `form:"promotion"`
 	// Settings that restrict the redemption of the promotion code.
 	Restrictions *PromotionCodeCreateRestrictionsParams `form:"restrictions"`
 }
@@ -203,6 +227,13 @@ func (p *PromotionCodeUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type PromotionCodePromotion struct {
+	// If promotion type is 'coupon', the coupon for this promotion.
+	Coupon *Coupon `json:"coupon"`
+	// The type of promotion.
+	Type PromotionCodePromotionType `json:"type"`
+}
+
 // Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type PromotionCodeRestrictionsCurrencyOptions struct {
 	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
@@ -219,8 +250,8 @@ type PromotionCodeRestrictions struct {
 	MinimumAmountCurrency Currency `json:"minimum_amount_currency"`
 }
 
-// A Promotion Code represents a customer-redeemable code for a [coupon](https://stripe.com/docs/api#coupons).
-// You can create multiple codes for a single coupon.
+// A Promotion Code represents a customer-redeemable code for an underlying promotion.
+// You can create multiple codes for a single promotion.
 //
 // If you enable promotion codes in your [customer portal configuration](https://stripe.com/docs/customer-management/configure-portal), then customers can redeem a code themselves when updating a subscription in the portal.
 // Customers can also view the currently active promotion codes and coupons on each of their subscriptions in the portal.
@@ -230,10 +261,6 @@ type PromotionCode struct {
 	Active bool `json:"active"`
 	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9).
 	Code string `json:"code"`
-	// A coupon contains information about a percent-off or amount-off discount you
-	// might want to apply to a customer. Coupons may be applied to [subscriptions](https://stripe.com/docs/api#subscriptions), [invoices](https://stripe.com/docs/api#invoices),
-	// [checkout sessions](https://stripe.com/docs/api/checkout/sessions), [quotes](https://stripe.com/docs/api#quotes), and more. Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge) or [payment intents](https://stripe.com/docs/api/payment_intents).
-	Coupon *Coupon `json:"coupon"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The customer that this promotion code can be used by.
@@ -252,6 +279,7 @@ type PromotionCode struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object       string                     `json:"object"`
+	Promotion    *PromotionCodePromotion    `json:"promotion"`
 	Restrictions *PromotionCodeRestrictions `json:"restrictions"`
 	// Number of times this promotion code has been used.
 	TimesRedeemed int64 `json:"times_redeemed"`

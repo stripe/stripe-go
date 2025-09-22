@@ -24,6 +24,15 @@ const (
 	QuotePreviewSubscriptionScheduleBillingBehaviorProrateUpFront     QuotePreviewSubscriptionScheduleBillingBehavior = "prorate_up_front"
 )
 
+// Controls how invoices and invoice items display proration amounts and discount amounts.
+type QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscounts string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscounts can take
+const (
+	QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscountsIncluded QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscounts = "included"
+	QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscountsItemized QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscounts = "itemized"
+)
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuotePreviewSubscriptionScheduleBillingModeType string
 
@@ -276,8 +285,8 @@ type QuotePreviewSubscriptionScheduleAppliesTo struct {
 
 // Configure behavior for flexible billing mode
 type QuotePreviewSubscriptionScheduleBillingModeFlexible struct {
-	// When true, proration line items will show accurate discount amounts and use gross amounts, making them consistent with non-proration line items.
-	ConsistentProrationDiscountAmounts bool `json:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
 }
 
 // The billing mode of the subscription.

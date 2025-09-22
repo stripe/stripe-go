@@ -28,6 +28,15 @@ const (
 	SubscriptionAutomaticTaxLiabilityTypeSelf    SubscriptionAutomaticTaxLiabilityType = "self"
 )
 
+// Controls how invoices and invoice items display proration amounts and discount amounts.
+type SubscriptionBillingModeFlexibleProrationDiscounts string
+
+// List of values that SubscriptionBillingModeFlexibleProrationDiscounts can take
+const (
+	SubscriptionBillingModeFlexibleProrationDiscountsIncluded SubscriptionBillingModeFlexibleProrationDiscounts = "included"
+	SubscriptionBillingModeFlexibleProrationDiscountsItemized SubscriptionBillingModeFlexibleProrationDiscounts = "itemized"
+)
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionBillingModeType string
 
@@ -35,6 +44,34 @@ type SubscriptionBillingModeType string
 const (
 	SubscriptionBillingModeTypeClassic  SubscriptionBillingModeType = "classic"
 	SubscriptionBillingModeTypeFlexible SubscriptionBillingModeType = "flexible"
+)
+
+// Controls which subscription items the billing schedule applies to.
+type SubscriptionBillingScheduleAppliesToType string
+
+// List of values that SubscriptionBillingScheduleAppliesToType can take
+const (
+	SubscriptionBillingScheduleAppliesToTypePrice SubscriptionBillingScheduleAppliesToType = "price"
+)
+
+// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+type SubscriptionBillingScheduleBillUntilDurationInterval string
+
+// List of values that SubscriptionBillingScheduleBillUntilDurationInterval can take
+const (
+	SubscriptionBillingScheduleBillUntilDurationIntervalDay   SubscriptionBillingScheduleBillUntilDurationInterval = "day"
+	SubscriptionBillingScheduleBillUntilDurationIntervalMonth SubscriptionBillingScheduleBillUntilDurationInterval = "month"
+	SubscriptionBillingScheduleBillUntilDurationIntervalWeek  SubscriptionBillingScheduleBillUntilDurationInterval = "week"
+	SubscriptionBillingScheduleBillUntilDurationIntervalYear  SubscriptionBillingScheduleBillUntilDurationInterval = "year"
+)
+
+// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+type SubscriptionBillingScheduleBillUntilType string
+
+// List of values that SubscriptionBillingScheduleBillUntilType can take
+const (
+	SubscriptionBillingScheduleBillUntilTypeDuration  SubscriptionBillingScheduleBillUntilType = "duration"
+	SubscriptionBillingScheduleBillUntilTypeTimestamp SubscriptionBillingScheduleBillUntilType = "timestamp"
 )
 
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
@@ -399,6 +436,8 @@ type SubscriptionParams struct {
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionBillingModeParams `form:"billing_mode"`
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*SubscriptionBillingScheduleParams `form:"billing_schedules"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
@@ -606,6 +645,42 @@ type SubscriptionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *SubscriptionAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type SubscriptionBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
@@ -986,8 +1061,8 @@ type SubscriptionBillingCycleAnchorConfigParams struct {
 
 // Configure behavior for flexible billing mode.
 type SubscriptionBillingModeFlexibleParams struct {
-	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
-	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -1017,8 +1092,8 @@ func (p *SubscriptionSearchParams) AddExpand(f string) {
 
 // Configure behavior for flexible billing mode.
 type SubscriptionMigrateBillingModeFlexibleParams struct {
-	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
-	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -1168,6 +1243,42 @@ type SubscriptionUpdateAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *SubscriptionUpdateAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionUpdateBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionUpdateBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionUpdateBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionUpdateBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type SubscriptionUpdateBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionUpdateBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionUpdateBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
@@ -1569,6 +1680,8 @@ type SubscriptionUpdateParams struct {
 	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*SubscriptionUpdateBillingScheduleParams `form:"billing_schedules"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionUpdateBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
@@ -1782,8 +1895,8 @@ type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 
 // Configure behavior for flexible billing mode.
 type SubscriptionCreateBillingModeFlexibleParams struct {
-	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
-	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -1792,6 +1905,42 @@ type SubscriptionCreateBillingModeParams struct {
 	Flexible *SubscriptionCreateBillingModeFlexibleParams `form:"flexible"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
+}
+
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionCreateBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionCreateBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionCreateBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionCreateBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type SubscriptionCreateBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionCreateBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionCreateBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
@@ -2175,6 +2324,8 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionCreateBillingModeParams `form:"billing_mode"`
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*SubscriptionCreateBillingScheduleParams `form:"billing_schedules"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionCreateBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
@@ -2313,8 +2464,8 @@ type SubscriptionBillingCycleAnchorConfig struct {
 
 // Configure behavior for flexible billing mode
 type SubscriptionBillingModeFlexible struct {
-	// When true, proration line items will show accurate discount amounts and use gross amounts, making them consistent with non-proration line items.
-	ConsistentProrationDiscountAmounts bool `json:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts SubscriptionBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
 }
 
 // The billing mode of the subscription.
@@ -2325,6 +2476,44 @@ type SubscriptionBillingMode struct {
 	Type SubscriptionBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.
 	UpdatedAt int64 `json:"updated_at"`
+}
+
+// Specifies which subscription items the billing schedule applies to.
+type SubscriptionBillingScheduleAppliesTo struct {
+	// The billing schedule will apply to the subscription item with the given price ID.
+	Price *Price `json:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type SubscriptionBillingScheduleAppliesToType `json:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionBillingScheduleBillUntilDuration struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval SubscriptionBillingScheduleBillUntilDurationInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Specifies the billing period.
+type SubscriptionBillingScheduleBillUntil struct {
+	// The timestamp the billing schedule will apply until.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Specifies the billing period.
+	Duration *SubscriptionBillingScheduleBillUntilDuration `json:"duration"`
+	// If specified, the billing schedule will apply until the specified timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type SubscriptionBillingScheduleBillUntilType `json:"type"`
+}
+
+// Billing schedules for this subscription.
+type SubscriptionBillingSchedule struct {
+	// Specifies which subscription items the billing schedule applies to.
+	AppliesTo []*SubscriptionBillingScheduleAppliesTo `json:"applies_to"`
+	// Specifies the billing period.
+	BillUntil *SubscriptionBillingScheduleBillUntil `json:"bill_until"`
+	// Unique identifier for the billing schedule.
+	Key string `json:"key"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -2597,6 +2786,8 @@ type Subscription struct {
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
 	// The billing mode of the subscription.
 	BillingMode *SubscriptionBillingMode `json:"billing_mode"`
+	// Billing schedules for this subscription.
+	BillingSchedules []*SubscriptionBillingSchedule `json:"billing_schedules"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled

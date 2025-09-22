@@ -8,6 +8,7 @@ package stripe
 
 import "encoding/json"
 
+// The source type of the discount.
 type DiscountSourceType string
 
 // List of values that DiscountSourceType can take
@@ -17,8 +18,9 @@ const (
 
 type DiscountSource struct {
 	// The coupon that was redeemed to create this discount.
-	Coupon *Coupon            `json:"coupon"`
-	Type   DiscountSourceType `json:"type"`
+	Coupon *Coupon `json:"coupon"`
+	// The source type of the discount.
+	Type DiscountSourceType `json:"type"`
 }
 
 // A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
@@ -28,10 +30,6 @@ type DiscountSource struct {
 type Discount struct {
 	// The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Will not be present for subscription mode.
 	CheckoutSession string `json:"checkout_session"`
-	// A coupon contains information about a percent-off or amount-off discount you
-	// might want to apply to a customer. Coupons may be applied to [subscriptions](https://stripe.com/docs/api#subscriptions), [invoices](https://stripe.com/docs/api#invoices),
-	// [checkout sessions](https://stripe.com/docs/api/checkout/sessions), [quotes](https://stripe.com/docs/api#quotes), and more. Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge) or [payment intents](https://stripe.com/docs/api/payment_intents).
-	Coupon *Coupon `json:"coupon"`
 	// The ID of the customer associated with this discount.
 	Customer *Customer `json:"customer"`
 	// The ID of the account associated with this discount.

@@ -217,6 +217,15 @@ const (
 	QuoteSubscriptionDataBillingCycleAnchorReset QuoteSubscriptionDataBillingCycleAnchor = "reset"
 )
 
+// Controls how invoices and invoice items display proration amounts and discount amounts.
+type QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts string
+
+// List of values that QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts can take
+const (
+	QuoteSubscriptionDataBillingModeFlexibleProrationDiscountsIncluded QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts = "included"
+	QuoteSubscriptionDataBillingModeFlexibleProrationDiscountsItemized QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts = "itemized"
+)
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteSubscriptionDataBillingModeType string
 
@@ -886,8 +895,8 @@ type QuoteSubscriptionDataBillOnAcceptanceParams struct {
 
 // Configure behavior for flexible billing mode.
 type QuoteSubscriptionDataBillingModeFlexibleParams struct {
-	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
-	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -1771,8 +1780,8 @@ type QuoteCreateSubscriptionDataBillOnAcceptanceParams struct {
 
 // Configure behavior for flexible billing mode.
 type QuoteCreateSubscriptionDataBillingModeFlexibleParams struct {
-	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
-	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -3025,8 +3034,8 @@ type QuoteSubscriptionDataBillOnAcceptance struct {
 	BillUntil *QuoteSubscriptionDataBillOnAcceptanceBillUntil `json:"bill_until"`
 }
 type QuoteSubscriptionDataBillingModeFlexible struct {
-	// When true, proration line items will show accurate discount amounts and use gross amounts, making them consistent with non-proration line items.
-	ConsistentProrationDiscountAmounts bool `json:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
 }
 
 // The billing mode of the quote.

@@ -6480,7 +6480,11 @@ func TestPromotionCodesGet2Client(t *testing.T) {
 }
 
 func TestPromotionCodesPost(t *testing.T) {
-	params := &stripe.PromotionCodeParams{Coupon: stripe.String("Z4OV52SU")}
+	params := &stripe.PromotionCodeParams{
+		Promotion: &stripe.PromotionCodePromotionParams{
+			Coupon: stripe.String("Z4OV52SU"),
+		},
+	}
 	result, err := promotioncode.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6488,7 +6492,11 @@ func TestPromotionCodesPost(t *testing.T) {
 
 func TestPromotionCodesPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.PromotionCodeParams{Coupon: stripe.String("Z4OV52SU")}
+	params := &stripe.PromotionCodeParams{
+		Promotion: &stripe.PromotionCodePromotionParams{
+			Coupon: stripe.String("Z4OV52SU"),
+		},
+	}
 	result, err := sc.PromotionCodes.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6496,7 +6504,11 @@ func TestPromotionCodesPostService(t *testing.T) {
 
 func TestPromotionCodesPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
-	params := &stripe.PromotionCodeCreateParams{Coupon: stripe.String("Z4OV52SU")}
+	params := &stripe.PromotionCodeCreateParams{
+		Promotion: &stripe.PromotionCodeCreatePromotionParams{
+			Coupon: stripe.String("Z4OV52SU"),
+		},
+	}
 	result, err := sc.V1PromotionCodes.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)

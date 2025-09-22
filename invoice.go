@@ -1862,8 +1862,8 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
 
 // Configure behavior for flexible billing mode.
 type InvoiceCreatePreviewScheduleDetailsBillingModeFlexibleParams struct {
-	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
-	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -2307,8 +2307,8 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 
 // Configure behavior for flexible billing mode.
 type InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams struct {
-	// Set to `true` to display gross amounts, net amounts, and discount amounts consistently between prorations and non-proration items on invoices, line items, and invoice items. Once set to `true`, you can't change it back to `false`.
-	ConsistentProrationDiscountAmounts *bool `form:"consistent_proration_discount_amounts"`
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -2317,6 +2317,42 @@ type InvoiceCreatePreviewSubscriptionDetailsBillingModeParams struct {
 	Flexible *InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams `form:"flexible"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
+}
+
+// Configure billing schedule differently for individual subscription items.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
@@ -2428,6 +2464,8 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *InvoiceCreatePreviewSubscriptionDetailsBillingModeParams `form:"billing_mode"`
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams `form:"billing_schedules"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
