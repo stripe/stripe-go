@@ -678,7 +678,7 @@ type DisputePaymentMethodDetails struct {
 }
 type DisputeSmartDisputes struct {
 	// Evidence that could be provided to improve the SmartDisputes packet
-	RecommendedEvidence []string `json:"recommended_evidence"`
+	RecommendedEvidence [][]string `json:"recommended_evidence"`
 	// Smart Disputes auto representment packet availability status.
 	Status DisputeSmartDisputesStatus `json:"status"`
 }
