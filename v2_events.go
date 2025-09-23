@@ -70,7 +70,7 @@ type V1BillingMeterErrorReportTriggeredEvent struct {
 }
 
 // FetchRelatedObject fetches the related BillingMeter object for the event.
-func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingMeter, error) {
+func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingMeter, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -137,7 +137,7 @@ type V2CoreEventDestinationPingEvent struct {
 }
 
 // FetchRelatedObject fetches the related V2EventDestination object for the event.
-func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
+func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
 	return e.fetchRelatedObject()
 }
 
