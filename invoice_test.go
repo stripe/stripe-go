@@ -54,30 +54,7 @@ func TestInvoice_Unmarshal(t *testing.T) {
 			{
 				"id":     "dis_123",
 				"object": "discount",
-				"coupon": map[string]interface{}{
-					"id":          "co_123",
-					"object":      "coupon",
-					"currency":    "usd",
-					"percent_off": 25.5,
-				},
-			},
-			{
-				"id":     "dis_abc",
-				"object": "discount",
-				"coupon": map[string]interface{}{
-					"id":          "co_abc",
-					"object":      "coupon",
-					"currency":    "eur",
-					"percent_off": 35.5,
-				},
-			},
-		},
-		"total_discount_amounts": []map[string]interface{}{
-			{
-				"amount": 123,
-				"discount": map[string]interface{}{
-					"id":     "dis_123",
-					"object": "discount",
+				"source": map[string]interface{}{
 					"coupon": map[string]interface{}{
 						"id":          "co_123",
 						"object":      "coupon",
@@ -87,15 +64,46 @@ func TestInvoice_Unmarshal(t *testing.T) {
 				},
 			},
 			{
-				"amount": 345,
-				"discount": map[string]interface{}{
-					"id":     "dis_abc",
-					"object": "discount",
+				"id":     "dis_abc",
+				"object": "discount",
+				"source": map[string]interface{}{
 					"coupon": map[string]interface{}{
 						"id":          "co_abc",
 						"object":      "coupon",
 						"currency":    "eur",
 						"percent_off": 35.5,
+					},
+				},
+			},
+		},
+		"total_discount_amounts": []map[string]interface{}{
+			{
+				"amount": 123,
+				"discount": map[string]interface{}{
+					"id":     "dis_123",
+					"object": "discount",
+					"source": map[string]interface{}{
+						"coupon": map[string]interface{}{
+							"id":          "co_123",
+							"object":      "coupon",
+							"currency":    "usd",
+							"percent_off": 25.5,
+						},
+					},
+				},
+			},
+			{
+				"amount": 345,
+				"discount": map[string]interface{}{
+					"id":     "dis_abc",
+					"object": "discount",
+					"source": map[string]interface{}{
+						"coupon": map[string]interface{}{
+							"id":          "co_abc",
+							"object":      "coupon",
+							"currency":    "eur",
+							"percent_off": 35.5,
+						},
 					},
 				},
 			},
