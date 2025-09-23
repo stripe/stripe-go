@@ -232,8 +232,6 @@ type AccountSettingsPayoutsScheduleWeeklyPayoutDay string
 const (
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayFriday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "friday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayMonday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "monday"
-	AccountSettingsPayoutsScheduleWeeklyPayoutDaySaturday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "saturday"
-	AccountSettingsPayoutsScheduleWeeklyPayoutDaySunday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "sunday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayThursday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "thursday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayTuesday   AccountSettingsPayoutsScheduleWeeklyPayoutDay = "tuesday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayWednesday AccountSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
@@ -567,6 +565,12 @@ type AccountCapabilitiesLinkPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The mb_way_payments capability.
+type AccountCapabilitiesMbWayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The mobilepay_payments capability.
 type AccountCapabilitiesMobilepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -623,6 +627,12 @@ type AccountCapabilitiesPaycoPaymentsParams struct {
 
 // The paynow_payments capability.
 type AccountCapabilitiesPayNowPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The paypay_payments capability.
+type AccountCapabilitiesPaypayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -802,6 +812,8 @@ type AccountCapabilitiesParams struct {
 	LegacyPayments *AccountCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
 	LinkPayments *AccountCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mb_way_payments capability.
+	MbWayPayments *AccountCapabilitiesMbWayPaymentsParams `form:"mb_way_payments"`
 	// The mobilepay_payments capability.
 	MobilepayPayments *AccountCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
 	// The multibanco_payments capability.
@@ -822,6 +834,8 @@ type AccountCapabilitiesParams struct {
 	PaycoPayments *AccountCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The pix_payments capability.
 	PixPayments *AccountCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
@@ -1187,9 +1201,9 @@ type AccountSettingsPayoutsScheduleParams struct {
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
 	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
-	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
+	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. Required and applicable only if `interval` is `weekly`.
 	WeeklyAnchor *string `form:"weekly_anchor"`
-	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. Required and applicable only if `interval` is `weekly`.
 	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
@@ -1581,6 +1595,12 @@ type AccountUpdateCapabilitiesLinkPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The mb_way_payments capability.
+type AccountUpdateCapabilitiesMbWayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The mobilepay_payments capability.
 type AccountUpdateCapabilitiesMobilepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -1637,6 +1657,12 @@ type AccountUpdateCapabilitiesPaycoPaymentsParams struct {
 
 // The paynow_payments capability.
 type AccountUpdateCapabilitiesPayNowPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The paypay_payments capability.
+type AccountUpdateCapabilitiesPaypayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -1816,6 +1842,8 @@ type AccountUpdateCapabilitiesParams struct {
 	LegacyPayments *AccountUpdateCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
 	LinkPayments *AccountUpdateCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mb_way_payments capability.
+	MbWayPayments *AccountUpdateCapabilitiesMbWayPaymentsParams `form:"mb_way_payments"`
 	// The mobilepay_payments capability.
 	MobilepayPayments *AccountUpdateCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
 	// The multibanco_payments capability.
@@ -1836,6 +1864,8 @@ type AccountUpdateCapabilitiesParams struct {
 	PaycoPayments *AccountUpdateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountUpdateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountUpdateCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The pix_payments capability.
 	PixPayments *AccountUpdateCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
@@ -2205,9 +2235,9 @@ type AccountUpdateSettingsPayoutsScheduleParams struct {
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
 	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
-	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
+	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. Required and applicable only if `interval` is `weekly`.
 	WeeklyAnchor *string `form:"weekly_anchor"`
-	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. Required and applicable only if `interval` is `weekly`.
 	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
@@ -2584,6 +2614,12 @@ type AccountCreateCapabilitiesLinkPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The mb_way_payments capability.
+type AccountCreateCapabilitiesMbWayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The mobilepay_payments capability.
 type AccountCreateCapabilitiesMobilepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2640,6 +2676,12 @@ type AccountCreateCapabilitiesPaycoPaymentsParams struct {
 
 // The paynow_payments capability.
 type AccountCreateCapabilitiesPayNowPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The paypay_payments capability.
+type AccountCreateCapabilitiesPaypayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -2819,6 +2861,8 @@ type AccountCreateCapabilitiesParams struct {
 	LegacyPayments *AccountCreateCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
 	LinkPayments *AccountCreateCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mb_way_payments capability.
+	MbWayPayments *AccountCreateCapabilitiesMbWayPaymentsParams `form:"mb_way_payments"`
 	// The mobilepay_payments capability.
 	MobilepayPayments *AccountCreateCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
 	// The multibanco_payments capability.
@@ -2839,6 +2883,8 @@ type AccountCreateCapabilitiesParams struct {
 	PaycoPayments *AccountCreateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCreateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountCreateCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The pix_payments capability.
 	PixPayments *AccountCreateCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
@@ -3240,9 +3286,9 @@ type AccountCreateSettingsPayoutsScheduleParams struct {
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
 	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
-	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
+	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. Required and applicable only if `interval` is `weekly`.
 	WeeklyAnchor *string `form:"weekly_anchor"`
-	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. Required and applicable only if `interval` is `weekly`.
 	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
@@ -3487,6 +3533,8 @@ type AccountCapabilities struct {
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
 	// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
 	LinkPayments AccountCapabilityStatus `json:"link_payments"`
+	// The status of the MB WAY payments capability of the account, or whether the account can directly process MB WAY charges.
+	MbWayPayments AccountCapabilityStatus `json:"mb_way_payments"`
 	// The status of the MobilePay capability of the account, or whether the account can directly process MobilePay charges.
 	MobilepayPayments AccountCapabilityStatus `json:"mobilepay_payments"`
 	// The status of the Multibanco payments capability of the account, or whether the account can directly process Multibanco charges.
@@ -3507,6 +3555,8 @@ type AccountCapabilities struct {
 	PaycoPayments AccountCapabilityStatus `json:"payco_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
+	// The status of the Paypay capability of the account, or whether the account can directly process Paypay payments.
+	PaypayPayments AccountCapabilityStatus `json:"paypay_payments"`
 	// The status of the pix payments capability of the account, or whether the account can directly process pix charges.
 	PixPayments AccountCapabilityStatus `json:"pix_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.

@@ -438,6 +438,9 @@ type SetupIntentPaymentMethodDataKrCardParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentPaymentMethodDataLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type SetupIntentPaymentMethodDataMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type SetupIntentPaymentMethodDataMobilepayParams struct{}
 
@@ -485,6 +488,9 @@ type SetupIntentPaymentMethodDataPayNowParams struct{}
 
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentPaymentMethodDataPaypalParams struct{}
+
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type SetupIntentPaymentMethodDataPaypayParams struct{}
 
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentPaymentMethodDataPixParams struct{}
@@ -604,6 +610,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	KrCard *SetupIntentPaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentPaymentMethodDataLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *SetupIntentPaymentMethodDataMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -626,6 +634,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *SetupIntentPaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1177,6 +1187,9 @@ type SetupIntentConfirmPaymentMethodDataKrCardParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type SetupIntentConfirmPaymentMethodDataMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type SetupIntentConfirmPaymentMethodDataMobilepayParams struct{}
 
@@ -1224,6 +1237,9 @@ type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
 
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentConfirmPaymentMethodDataPaypalParams struct{}
+
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type SetupIntentConfirmPaymentMethodDataPaypayParams struct{}
 
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentConfirmPaymentMethodDataPixParams struct{}
@@ -1343,6 +1359,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	KrCard *SetupIntentConfirmPaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentConfirmPaymentMethodDataLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *SetupIntentConfirmPaymentMethodDataMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -1365,6 +1383,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentConfirmPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *SetupIntentConfirmPaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentConfirmPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1638,6 +1658,9 @@ type SetupIntentCreatePaymentMethodDataKrCardParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentCreatePaymentMethodDataLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type SetupIntentCreatePaymentMethodDataMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type SetupIntentCreatePaymentMethodDataMobilepayParams struct{}
 
@@ -1685,6 +1708,9 @@ type SetupIntentCreatePaymentMethodDataPayNowParams struct{}
 
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentCreatePaymentMethodDataPaypalParams struct{}
+
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type SetupIntentCreatePaymentMethodDataPaypayParams struct{}
 
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentCreatePaymentMethodDataPixParams struct{}
@@ -1804,6 +1830,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	KrCard *SetupIntentCreatePaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentCreatePaymentMethodDataLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *SetupIntentCreatePaymentMethodDataMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -1826,6 +1854,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	PayNow *SetupIntentCreatePaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentCreatePaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *SetupIntentCreatePaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentCreatePaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -2377,6 +2407,9 @@ type SetupIntentUpdatePaymentMethodDataKrCardParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentUpdatePaymentMethodDataLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type SetupIntentUpdatePaymentMethodDataMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type SetupIntentUpdatePaymentMethodDataMobilepayParams struct{}
 
@@ -2424,6 +2457,9 @@ type SetupIntentUpdatePaymentMethodDataPayNowParams struct{}
 
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentUpdatePaymentMethodDataPaypalParams struct{}
+
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type SetupIntentUpdatePaymentMethodDataPaypayParams struct{}
 
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentUpdatePaymentMethodDataPixParams struct{}
@@ -2543,6 +2579,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	KrCard *SetupIntentUpdatePaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentUpdatePaymentMethodDataLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *SetupIntentUpdatePaymentMethodDataMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -2565,6 +2603,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	PayNow *SetupIntentUpdatePaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentUpdatePaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *SetupIntentUpdatePaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentUpdatePaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.

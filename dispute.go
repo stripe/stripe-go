@@ -118,7 +118,6 @@ type DisputeStatus string
 const (
 	DisputeStatusLost                 DisputeStatus = "lost"
 	DisputeStatusNeedsResponse        DisputeStatus = "needs_response"
-	DisputeStatusPrevented            DisputeStatus = "prevented"
 	DisputeStatusUnderReview          DisputeStatus = "under_review"
 	DisputeStatusWarningClosed        DisputeStatus = "warning_closed"
 	DisputeStatusWarningNeedsResponse DisputeStatus = "warning_needs_response"
@@ -620,6 +619,8 @@ type DisputePaymentMethodDetailsCard struct {
 	NetworkReasonCode string `json:"network_reason_code"`
 }
 type DisputePaymentMethodDetailsKlarna struct {
+	// Chargeback loss reason mapped by Stripe from Klarna's chargeback loss reason
+	ChargebackLossReasonCode string `json:"chargeback_loss_reason_code"`
 	// The reason for the dispute as defined by Klarna
 	ReasonCode string `json:"reason_code"`
 }

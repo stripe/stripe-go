@@ -11,6 +11,15 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
+// Controls how invoices and invoice items display proration amounts and discount amounts.
+type SubscriptionScheduleBillingModeFlexibleProrationDiscounts string
+
+// List of values that SubscriptionScheduleBillingModeFlexibleProrationDiscounts can take
+const (
+	SubscriptionScheduleBillingModeFlexibleProrationDiscountsIncluded SubscriptionScheduleBillingModeFlexibleProrationDiscounts = "included"
+	SubscriptionScheduleBillingModeFlexibleProrationDiscountsItemized SubscriptionScheduleBillingModeFlexibleProrationDiscounts = "itemized"
+)
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionScheduleBillingModeType string
 
@@ -141,9 +150,17 @@ func (p *SubscriptionScheduleListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configure behavior for flexible billing mode.
+type SubscriptionScheduleBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionScheduleBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *SubscriptionScheduleBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -224,7 +241,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemPeriodStartParams struct {
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionSchedulePhaseAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *SubscriptionSchedulePhaseAddInvoiceItemPeriodEndParams `form:"end"`
@@ -238,7 +255,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionSchedulePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -397,8 +414,6 @@ type SubscriptionSchedulePhaseParams struct {
 	InvoiceSettings *SubscriptionSchedulePhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*SubscriptionSchedulePhaseItemParams `form:"items"`
-	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set. This parameter is deprecated and will be removed in a future version. Use `duration` instead.
-	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
@@ -516,9 +531,17 @@ func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configure behavior for flexible billing mode.
+type SubscriptionScheduleCreateBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionScheduleCreateBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *SubscriptionScheduleCreateBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -598,7 +621,7 @@ type SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodStartParams struct {
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodEndParams `form:"end"`
@@ -612,7 +635,7 @@ type SubscriptionScheduleCreatePhaseAddInvoiceItemParams struct {
 	Discounts []*SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -770,8 +793,6 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	InvoiceSettings *SubscriptionScheduleCreatePhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*SubscriptionScheduleCreatePhaseItemParams `form:"items"`
-	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set. This parameter is deprecated and will be removed in a future version. Use `duration` instead.
-	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
@@ -928,7 +949,7 @@ type SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodStartParams struct {
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodEndParams `form:"end"`
@@ -942,7 +963,7 @@ type SubscriptionScheduleUpdatePhaseAddInvoiceItemParams struct {
 	Discounts []*SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -1101,8 +1122,6 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	InvoiceSettings *SubscriptionScheduleUpdatePhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*SubscriptionScheduleUpdatePhaseItemParams `form:"items"`
-	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set. This parameter is deprecated and will be removed in a future version. Use `duration` instead.
-	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
@@ -1174,8 +1193,16 @@ func (p *SubscriptionScheduleUpdateParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// Configure behavior for flexible billing mode
+type SubscriptionScheduleBillingModeFlexible struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts SubscriptionScheduleBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
+}
+
 // The billing mode of the subscription.
 type SubscriptionScheduleBillingMode struct {
+	// Configure behavior for flexible billing mode
+	Flexible *SubscriptionScheduleBillingModeFlexible `json:"flexible"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type SubscriptionScheduleBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.

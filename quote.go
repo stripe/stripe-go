@@ -114,6 +114,15 @@ const (
 	QuoteStatusOpen     QuoteStatus = "open"
 )
 
+// Controls how invoices and invoice items display proration amounts and discount amounts.
+type QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts string
+
+// List of values that QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts can take
+const (
+	QuoteSubscriptionDataBillingModeFlexibleProrationDiscountsIncluded QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts = "included"
+	QuoteSubscriptionDataBillingModeFlexibleProrationDiscountsItemized QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts = "itemized"
+)
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteSubscriptionDataBillingModeType string
 
@@ -263,9 +272,17 @@ type QuoteLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// Configure behavior for flexible billing mode.
+type QuoteSubscriptionDataBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteSubscriptionDataBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *QuoteSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -543,9 +560,17 @@ type QuoteCreateLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// Configure behavior for flexible billing mode.
+type QuoteCreateSubscriptionDataBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteCreateSubscriptionDataBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *QuoteCreateSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -998,9 +1023,14 @@ type QuoteStatusTransitions struct {
 	// The time that the quote was finalized. Measured in seconds since Unix epoch.
 	FinalizedAt int64 `json:"finalized_at"`
 }
+type QuoteSubscriptionDataBillingModeFlexible struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
+}
 
 // The billing mode of the quote.
 type QuoteSubscriptionDataBillingMode struct {
+	Flexible *QuoteSubscriptionDataBillingModeFlexible `json:"flexible"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type QuoteSubscriptionDataBillingModeType `json:"type"`
 }

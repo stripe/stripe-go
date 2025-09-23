@@ -112,6 +112,32 @@ type TestHelpersIssuingAuthorizationNetworkDataParams struct {
 	AcquiringInstitutionID *string `form:"acquiring_institution_id"`
 }
 
+// Stripe's assessment of this authorization's likelihood of being card testing activity.
+type TestHelpersIssuingAuthorizationRiskAssessmentCardTestingRiskParams struct {
+	// The % of declines due to a card number not existing in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of card testing activity, meaning bad actors may be attempting different card number combinations to guess a correct one. Takes on values between 0 and 100.
+	InvalidAccountNumberDeclineRatePastHour *int64 `form:"invalid_account_number_decline_rate_past_hour"`
+	// The % of declines due to incorrect verification data (like CVV or expiry) in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of bad actors attempting to utilize valid card credentials at merchants with verification requirements. Takes on values between 0 and 100.
+	InvalidCredentialsDeclineRatePastHour *int64 `form:"invalid_credentials_decline_rate_past_hour"`
+	// The likelihood that this authorization is associated with card testing activity. This is assessed by evaluating decline activity over the last hour.
+	RiskLevel *string `form:"risk_level"`
+}
+
+// The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
+type TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams struct {
+	// The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
+	DisputeRate *int64 `form:"dispute_rate"`
+	// The likelihood that authorizations from this merchant will result in a dispute based on their history on Stripe Issuing.
+	RiskLevel *string `form:"risk_level"`
+}
+
+// Stripe's assessment of the fraud risk for this authorization.
+type TestHelpersIssuingAuthorizationRiskAssessmentParams struct {
+	// Stripe's assessment of this authorization's likelihood of being card testing activity.
+	CardTestingRisk *TestHelpersIssuingAuthorizationRiskAssessmentCardTestingRiskParams `form:"card_testing_risk"`
+	// The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
+	MerchantDisputeRisk *TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams `form:"merchant_dispute_risk"`
+}
+
 // The exemption applied to this authorization.
 type TestHelpersIssuingAuthorizationVerificationDataAuthenticationExemptionParams struct {
 	// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
@@ -159,6 +185,8 @@ type TestHelpersIssuingAuthorizationParams struct {
 	Expand []*string `form:"expand"`
 	// Fleet-specific information for authorizations using Fleet cards.
 	Fleet *TestHelpersIssuingAuthorizationFleetParams `form:"fleet"`
+	// Probability that this transaction can be disputed in the event of fraud. Assessed by comparing the characteristics of the authorization to card network rules.
+	FraudDisputabilityLikelihood *string `form:"fraud_disputability_likelihood"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingAuthorizationFuelParams `form:"fuel"`
 	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
@@ -171,6 +199,8 @@ type TestHelpersIssuingAuthorizationParams struct {
 	MerchantData *TestHelpersIssuingAuthorizationMerchantDataParams `form:"merchant_data"`
 	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkData *TestHelpersIssuingAuthorizationNetworkDataParams `form:"network_data"`
+	// Stripe's assessment of the fraud risk for this authorization.
+	RiskAssessment *TestHelpersIssuingAuthorizationRiskAssessmentParams `form:"risk_assessment"`
 	// Verifications that Stripe performed on information that the cardholder provided to the merchant.
 	VerificationData *TestHelpersIssuingAuthorizationVerificationDataParams `form:"verification_data"`
 	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.
@@ -582,6 +612,32 @@ type TestHelpersIssuingAuthorizationCreateNetworkDataParams struct {
 	AcquiringInstitutionID *string `form:"acquiring_institution_id"`
 }
 
+// Stripe's assessment of this authorization's likelihood of being card testing activity.
+type TestHelpersIssuingAuthorizationCreateRiskAssessmentCardTestingRiskParams struct {
+	// The % of declines due to a card number not existing in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of card testing activity, meaning bad actors may be attempting different card number combinations to guess a correct one. Takes on values between 0 and 100.
+	InvalidAccountNumberDeclineRatePastHour *int64 `form:"invalid_account_number_decline_rate_past_hour"`
+	// The % of declines due to incorrect verification data (like CVV or expiry) in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of bad actors attempting to utilize valid card credentials at merchants with verification requirements. Takes on values between 0 and 100.
+	InvalidCredentialsDeclineRatePastHour *int64 `form:"invalid_credentials_decline_rate_past_hour"`
+	// The likelihood that this authorization is associated with card testing activity. This is assessed by evaluating decline activity over the last hour.
+	RiskLevel *string `form:"risk_level"`
+}
+
+// The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
+type TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParams struct {
+	// The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
+	DisputeRate *int64 `form:"dispute_rate"`
+	// The likelihood that authorizations from this merchant will result in a dispute based on their history on Stripe Issuing.
+	RiskLevel *string `form:"risk_level"`
+}
+
+// Stripe's assessment of the fraud risk for this authorization.
+type TestHelpersIssuingAuthorizationCreateRiskAssessmentParams struct {
+	// Stripe's assessment of this authorization's likelihood of being card testing activity.
+	CardTestingRisk *TestHelpersIssuingAuthorizationCreateRiskAssessmentCardTestingRiskParams `form:"card_testing_risk"`
+	// The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
+	MerchantDisputeRisk *TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParams `form:"merchant_dispute_risk"`
+}
+
 // The exemption applied to this authorization.
 type TestHelpersIssuingAuthorizationCreateVerificationDataAuthenticationExemptionParams struct {
 	// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
@@ -629,6 +685,8 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	Expand []*string `form:"expand"`
 	// Fleet-specific information for authorizations using Fleet cards.
 	Fleet *TestHelpersIssuingAuthorizationCreateFleetParams `form:"fleet"`
+	// Probability that this transaction can be disputed in the event of fraud. Assessed by comparing the characteristics of the authorization to card network rules.
+	FraudDisputabilityLikelihood *string `form:"fraud_disputability_likelihood"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingAuthorizationCreateFuelParams `form:"fuel"`
 	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
@@ -641,6 +699,8 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	MerchantData *TestHelpersIssuingAuthorizationCreateMerchantDataParams `form:"merchant_data"`
 	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkData *TestHelpersIssuingAuthorizationCreateNetworkDataParams `form:"network_data"`
+	// Stripe's assessment of the fraud risk for this authorization.
+	RiskAssessment *TestHelpersIssuingAuthorizationCreateRiskAssessmentParams `form:"risk_assessment"`
 	// Verifications that Stripe performed on information that the cardholder provided to the merchant.
 	VerificationData *TestHelpersIssuingAuthorizationCreateVerificationDataParams `form:"verification_data"`
 	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.

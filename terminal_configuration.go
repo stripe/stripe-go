@@ -19,6 +19,8 @@ const (
 // Deletes a Configuration object.
 type TerminalConfigurationParams struct {
 	Params `form:"*"`
+	// An object containing device type specific settings for BBPOS WisePad 3 readers
+	BBPOSWisePad3 *TerminalConfigurationBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
 	// Specifies which fields in the response should be expanded.
@@ -42,6 +44,12 @@ type TerminalConfigurationParams struct {
 // AddExpand appends a new field to expand.
 func (p *TerminalConfigurationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// An object containing device type specific settings for BBPOS WisePad 3 readers
+type TerminalConfigurationBBPOSWisePad3Params struct {
+	// A File ID representing an image you would like displayed on the reader.
+	Splashscreen *string `form:"splashscreen"`
 }
 
 // An object containing device type specific settings for BBPOS WisePOS E readers
@@ -409,6 +417,12 @@ func (p *TerminalConfigurationRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// An object containing device type specific settings for BBPOS WisePad 3 readers
+type TerminalConfigurationUpdateBBPOSWisePad3Params struct {
+	// A File ID representing an image you would like displayed on the reader.
+	Splashscreen *string `form:"splashscreen"`
+}
+
 // An object containing device type specific settings for BBPOS WisePOS E readers
 type TerminalConfigurationUpdateBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
@@ -746,6 +760,8 @@ type TerminalConfigurationUpdateWifiParams struct {
 // Updates a new Configuration object.
 type TerminalConfigurationUpdateParams struct {
 	Params `form:"*"`
+	// An object containing device type specific settings for BBPOS WisePad 3 readers
+	BBPOSWisePad3 *TerminalConfigurationUpdateBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers
 	BBPOSWisePOSE *TerminalConfigurationUpdateBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
 	// Specifies which fields in the response should be expanded.
@@ -769,6 +785,12 @@ type TerminalConfigurationUpdateParams struct {
 // AddExpand appends a new field to expand.
 func (p *TerminalConfigurationUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// An object containing device type specific settings for BBPOS WisePad 3 readers
+type TerminalConfigurationCreateBBPOSWisePad3Params struct {
+	// A File ID representing an image you would like displayed on the reader.
+	Splashscreen *string `form:"splashscreen"`
 }
 
 // An object containing device type specific settings for BBPOS WisePOS E readers
@@ -1108,6 +1130,8 @@ type TerminalConfigurationCreateWifiParams struct {
 // Creates a new Configuration object.
 type TerminalConfigurationCreateParams struct {
 	Params `form:"*"`
+	// An object containing device type specific settings for BBPOS WisePad 3 readers
+	BBPOSWisePad3 *TerminalConfigurationCreateBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers
 	BBPOSWisePOSE *TerminalConfigurationCreateBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
 	// Specifies which fields in the response should be expanded.
@@ -1133,6 +1157,10 @@ func (p *TerminalConfigurationCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type TerminalConfigurationBBPOSWisePad3 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen"`
+}
 type TerminalConfigurationBBPOSWisePOSE struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
@@ -1386,6 +1414,7 @@ type TerminalConfigurationWifi struct {
 // For information about how to use it, see the [Terminal configurations documentation](https://docs.stripe.com/terminal/fleet/configurations-overview).
 type TerminalConfiguration struct {
 	APIResource
+	BBPOSWisePad3 *TerminalConfigurationBBPOSWisePad3 `json:"bbpos_wisepad3"`
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSE `json:"bbpos_wisepos_e"`
 	Deleted       bool                                `json:"deleted"`
 	// Unique identifier for the object.
