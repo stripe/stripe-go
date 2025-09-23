@@ -54,7 +54,7 @@ const (
 	CardAvailablePayoutMethodStandard CardAvailablePayoutMethod = "standard"
 )
 
-// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
+// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 type CardBrand string
 
 // List of values that CardBrand can take
@@ -584,7 +584,7 @@ type Card struct {
 	AllowRedisplay CardAllowRedisplay `json:"allow_redisplay"`
 	// A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
 	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
-	// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
+	// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 	Brand CardBrand `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`

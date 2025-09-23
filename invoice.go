@@ -559,7 +559,7 @@ type InvoicePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoicePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
@@ -759,6 +759,8 @@ type InvoiceAddLinesLinePriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1026,6 +1028,8 @@ type InvoiceUpdateLinesLinePriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1313,9 +1317,17 @@ type InvoiceCreatePreviewIssuerParams struct {
 	Type *string `form:"type"`
 }
 
+// Configure behavior for flexible billing mode.
+type InvoiceCreatePreviewScheduleDetailsBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewScheduleDetailsBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *InvoiceCreatePreviewScheduleDetailsBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -1345,7 +1357,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodStartParams str
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodEndParams `form:"end"`
@@ -1373,7 +1385,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams struct {
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -1564,8 +1576,6 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	InvoiceSettings *InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*InvoiceCreatePreviewScheduleDetailsPhaseItemParams `form:"items"`
-	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set. This parameter is deprecated and will be removed in a future version. Use `duration` instead.
-	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
@@ -1618,9 +1628,17 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Configure behavior for flexible billing mode.
+type InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewSubscriptionDetailsBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -1997,7 +2015,7 @@ type InvoiceUpdatePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
@@ -2372,7 +2390,7 @@ type InvoiceCreatePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoiceCreatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 

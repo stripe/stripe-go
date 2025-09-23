@@ -20,6 +20,7 @@ import (
 	"github.com/stripe/stripe-go/v82/applicationfee"
 	appssecret "github.com/stripe/stripe-go/v82/apps/secret"
 	"github.com/stripe/stripe-go/v82/balance"
+	"github.com/stripe/stripe-go/v82/balancesettings"
 	"github.com/stripe/stripe-go/v82/balancetransaction"
 	"github.com/stripe/stripe-go/v82/bankaccount"
 	billingalert "github.com/stripe/stripe-go/v82/billing/alert"
@@ -176,6 +177,8 @@ type API struct {
 	AppsSecrets *appssecret.Client
 	// Balance is the client used to invoke /v1/balance APIs.
 	Balance *balance.Client
+	// BalanceSettings is the client used to invoke /v1/balance_settings APIs.
+	BalanceSettings *balancesettings.Client
 	// BalanceTransactions is the client used to invoke /v1/balance_transactions APIs.
 	BalanceTransactions *balancetransaction.Client
 	// BankAccounts is the client used to invoke /v1/accounts/{account}/external_accounts APIs.
@@ -467,6 +470,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
+	a.BalanceSettings = &balancesettings.Client{B: backends.API, Key: key}
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingAlerts = &billingalert.Client{B: backends.API, Key: key}

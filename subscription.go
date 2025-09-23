@@ -28,6 +28,15 @@ const (
 	SubscriptionAutomaticTaxLiabilityTypeSelf    SubscriptionAutomaticTaxLiabilityType = "self"
 )
 
+// Controls how invoices and invoice items display proration amounts and discount amounts.
+type SubscriptionBillingModeFlexibleProrationDiscounts string
+
+// List of values that SubscriptionBillingModeFlexibleProrationDiscounts can take
+const (
+	SubscriptionBillingModeFlexibleProrationDiscountsIncluded SubscriptionBillingModeFlexibleProrationDiscounts = "included"
+	SubscriptionBillingModeFlexibleProrationDiscountsItemized SubscriptionBillingModeFlexibleProrationDiscounts = "itemized"
+)
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionBillingModeType string
 
@@ -340,7 +349,7 @@ type SubscriptionParams struct {
 	BackdateStartDate *int64 `form:"backdate_start_date"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
-	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
+	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
 	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
@@ -480,7 +489,7 @@ type SubscriptionAddInvoiceItemPeriodStartParams struct {
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the current period of the subscription.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *SubscriptionAddInvoiceItemPeriodEndParams `form:"end"`
@@ -494,7 +503,7 @@ type SubscriptionAddInvoiceItemParams struct {
 	Discounts []*SubscriptionAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the current period of the subscription.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -814,7 +823,7 @@ func (p *SubscriptionListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
+// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
 type SubscriptionBillingCycleAnchorConfigParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
 	DayOfMonth *int64 `form:"day_of_month"`
@@ -828,9 +837,17 @@ type SubscriptionBillingCycleAnchorConfigParams struct {
 	Second *int64 `form:"second"`
 }
 
+// Configure behavior for flexible billing mode.
+type SubscriptionBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *SubscriptionBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -851,8 +868,17 @@ func (p *SubscriptionSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configure behavior for flexible billing mode.
+type SubscriptionMigrateBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionMigrateBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *SubscriptionMigrateBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -926,7 +952,7 @@ type SubscriptionUpdateAddInvoiceItemPeriodStartParams struct {
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the current period of the subscription.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionUpdateAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *SubscriptionUpdateAddInvoiceItemPeriodEndParams `form:"end"`
@@ -940,7 +966,7 @@ type SubscriptionUpdateAddInvoiceItemParams struct {
 	Discounts []*SubscriptionUpdateAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the current period of the subscription.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionUpdateAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -1405,7 +1431,7 @@ type SubscriptionCreateAddInvoiceItemPeriodStartParams struct {
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the current period of the subscription.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionCreateAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *SubscriptionCreateAddInvoiceItemPeriodEndParams `form:"end"`
@@ -1419,7 +1445,7 @@ type SubscriptionCreateAddInvoiceItemParams struct {
 	Discounts []*SubscriptionCreateAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the current period of the subscription.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionCreateAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -1456,7 +1482,7 @@ type SubscriptionCreateAutomaticTaxParams struct {
 	Liability *SubscriptionCreateAutomaticTaxLiabilityParams `form:"liability"`
 }
 
-// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
+// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
 type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
 	DayOfMonth *int64 `form:"day_of_month"`
@@ -1470,9 +1496,17 @@ type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 	Second *int64 `form:"second"`
 }
 
+// Configure behavior for flexible billing mode.
+type SubscriptionCreateBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionCreateBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *SubscriptionCreateBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -1746,7 +1780,7 @@ type SubscriptionCreateParams struct {
 	BackdateStartDate *int64 `form:"backdate_start_date"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
-	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
+	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
 	BillingCycleAnchorConfig    *SubscriptionCreateBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                             `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
@@ -1884,8 +1918,16 @@ type SubscriptionBillingCycleAnchorConfig struct {
 	Second int64 `json:"second"`
 }
 
+// Configure behavior for flexible billing mode
+type SubscriptionBillingModeFlexible struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts SubscriptionBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
+}
+
 // The billing mode of the subscription.
 type SubscriptionBillingMode struct {
+	// Configure behavior for flexible billing mode
+	Flexible *SubscriptionBillingModeFlexible `json:"flexible"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type SubscriptionBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.

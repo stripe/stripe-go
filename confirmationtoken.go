@@ -369,6 +369,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeKonbini          ConfirmationTokenPaymentMethodPreviewType = "konbini"
 	ConfirmationTokenPaymentMethodPreviewTypeKrCard           ConfirmationTokenPaymentMethodPreviewType = "kr_card"
 	ConfirmationTokenPaymentMethodPreviewTypeLink             ConfirmationTokenPaymentMethodPreviewType = "link"
+	ConfirmationTokenPaymentMethodPreviewTypeMbWay            ConfirmationTokenPaymentMethodPreviewType = "mb_way"
 	ConfirmationTokenPaymentMethodPreviewTypeMobilepay        ConfirmationTokenPaymentMethodPreviewType = "mobilepay"
 	ConfirmationTokenPaymentMethodPreviewTypeMultibanco       ConfirmationTokenPaymentMethodPreviewType = "multibanco"
 	ConfirmationTokenPaymentMethodPreviewTypeNaverPay         ConfirmationTokenPaymentMethodPreviewType = "naver_pay"
@@ -379,6 +380,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypePayco            ConfirmationTokenPaymentMethodPreviewType = "payco"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
+	ConfirmationTokenPaymentMethodPreviewTypePaypay           ConfirmationTokenPaymentMethodPreviewType = "paypay"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
@@ -946,6 +948,7 @@ type ConfirmationTokenPaymentMethodPreviewLink struct {
 	// Deprecated:
 	PersistentToken string `json:"persistent_token"`
 }
+type ConfirmationTokenPaymentMethodPreviewMbWay struct{}
 type ConfirmationTokenPaymentMethodPreviewMobilepay struct{}
 type ConfirmationTokenPaymentMethodPreviewMultibanco struct{}
 type ConfirmationTokenPaymentMethodPreviewNaverPay struct {
@@ -985,6 +988,7 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
 	PayerID string `json:"payer_id"`
 }
+type ConfirmationTokenPaymentMethodPreviewPaypay struct{}
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
@@ -1095,6 +1099,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Konbini         *ConfirmationTokenPaymentMethodPreviewKonbini         `json:"konbini"`
 	KrCard          *ConfirmationTokenPaymentMethodPreviewKrCard          `json:"kr_card"`
 	Link            *ConfirmationTokenPaymentMethodPreviewLink            `json:"link"`
+	MbWay           *ConfirmationTokenPaymentMethodPreviewMbWay           `json:"mb_way"`
 	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay"`
 	Multibanco      *ConfirmationTokenPaymentMethodPreviewMultibanco      `json:"multibanco"`
 	NaverPay        *ConfirmationTokenPaymentMethodPreviewNaverPay        `json:"naver_pay"`
@@ -1105,6 +1110,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Payco           *ConfirmationTokenPaymentMethodPreviewPayco           `json:"payco"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
 	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal"`
+	Paypay          *ConfirmationTokenPaymentMethodPreviewPaypay          `json:"paypay"`
 	Pix             *ConfirmationTokenPaymentMethodPreviewPix             `json:"pix"`
 	PromptPay       *ConfirmationTokenPaymentMethodPreviewPromptPay       `json:"promptpay"`
 	RevolutPay      *ConfirmationTokenPaymentMethodPreviewRevolutPay      `json:"revolut_pay"`
