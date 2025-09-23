@@ -1,11 +1,11 @@
-// event_notification_webhook_handler.go - receive and process thin events like the
+// event_notification_webhook_handler.go - receive and process event notifications like the
 // "v1.billing.meter.error_report_triggered" event.
 //
 // This example uses the rawrequests module to make calls to /v2 APIs.
 //
 // In this example, we:
-//   - parse the incoming thin event payload and get the event id
-//   - get the full event from /v2/core/events/ with the event id from the thin event
+//   - parse the incoming event notification payload and get the event id
+//   - get the full event from /v2/core/events/ with the event id from the event notification
 //   - if the full event is a v1.billing.meter.error_report_triggered, use the
 //     billing/meter package to retrieve the Billing Meter object associated with the
 //     event.
