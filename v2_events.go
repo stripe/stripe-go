@@ -96,10 +96,10 @@ func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx co
 }
 
 // Retrieve the related Meter from the Stripe API.
-func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject() (*BillingMeter, error) {
+func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
 	related_obj := &BillingMeter{}
 	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, nil, related_obj)
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &Params{Context: ctx}, related_obj)
 	return related_obj, err
 }
 
@@ -294,5 +294,35 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		return result, nil
 	default:
 		return event, nil
+	}
+}
+
+// Turns a JSON payload into the corresponding EventNotification, if possible.
+// WARN: Not meant for production use! It doesn't do any signature validation. It's useful as a test util though.
+func EventNotificationFromJson(payload []byte, client Client) (EventNotificationContainer, error) {
+	var result = &struct {
+		Type string `json:"type"`
+	}{}
+	if err := json.Unmarshal(payload, result); err != nil {
+		return nil, err
+	}
+	// let's try to cast to a more specific type
+
+	switch result.Type {
+	case "v1.billing.meter.error_report_triggered":
+		evt := V1BillingMeterErrorReportTriggeredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+
+	default:
+		evt := UnknownEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	}
 }
