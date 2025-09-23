@@ -60,17 +60,17 @@ type UnknownEventNotification struct {
 	RelatedObject *RelatedObject `json:"related_object"`
 }
 
-func (u *UnknownEventNotification) GetEventNotification() *EventNotification {
-	return &u.EventNotification
+func (en *UnknownEventNotification) GetEventNotification() *EventNotification {
+	return &en.EventNotification
 }
 
-func (u *UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
-	return u.fetchEvent(ctx)
+func (en *UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
+	return en.fetchEvent(ctx)
 }
 
 // Tries to fetch the related object, if one exists. Returns nil if the struct doesn't have a RelatedObject property
-func (u *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*APIResource, error) {
-	if u.RelatedObject == nil {
+func (en *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*APIResource, error) {
+	if en.RelatedObject == nil {
 		return nil, nil
 	}
 
@@ -79,6 +79,6 @@ func (u *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*API
 	// maybe need a lookup map here?
 	obj := &APIResource{}
 
-	err := u.client.backend.Call(http.MethodGet, u.RelatedObject.URL, u.client.key, nil, obj)
+	err := en.client.backend.Call(http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, obj)
 	return obj, err
 }

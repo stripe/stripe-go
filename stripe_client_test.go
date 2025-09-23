@@ -157,7 +157,7 @@ func TestFetchEventHTTPCall(t *testing.T) {
 	}`
 
 	// Create mock server that expects a GET to /v2/core/events/evt_123
-	server := MockServer(t, http.MethodGet, "/v2/core/events/evt_123", nil, mockEventResponse)
+	server := MockServerWithStripeContext(t, http.MethodGet, "/v2/core/events/evt_123", "ctx_123", nil, mockEventResponse)
 	defer server.Close()
 
 	// Create client with custom backend pointing to mock server
@@ -203,7 +203,6 @@ func TestFetchEventHTTPCall(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.IsType(t, &stripe.V1BillingMeterErrorReportTriggeredEvent{}, event)
-	assert.Equal(t, "ctx_123", event.LastResponse.Header.Get("Stripe-Context"))
 }
 func TestFetchRelatedObject(t *testing.T) {
 	// Create mock response for the V2 event retrieve call
@@ -279,7 +278,8 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	}`
 
 	// Create mock server that expects a GET to /v1/billing/meters/bm_123
-	server := MockServer(t, http.MethodGet, "/v1/billing/meters/bm_123", nil, mockRelatedObjectResponse)
+	// it also checks that stripe-context is correct
+	server := MockServerWithStripeContext(t, http.MethodGet, "/v1/billing/meters/bm_123", "ctx_123", nil, mockRelatedObjectResponse)
 	defer server.Close()
 
 	// Create client with custom backend pointing to mock server
@@ -330,7 +330,6 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	related_obj_resp, err := eventNotification.FetchRelatedObject(context.TODO())
 	assert.NoError(t, err)
 	assert.IsType(t, &stripe.APIResource{}, related_obj_resp)
-	assert.Equal(t, "ctx_123", related_obj_resp.LastResponse.Header.Get("Stripe-Context"))
 
 	type UnknownResponse struct {
 		Object string `json:"object"`
@@ -341,5 +340,3 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "billing.meter", rawResp.Object)
 }
-
-// TODO: test that parsing an event with context uses it in subsequent requests
