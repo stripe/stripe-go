@@ -114,7 +114,7 @@ func TestParseEventNotificationPing(t *testing.T) {
 		"type": "v2.core.event_destination.ping"
 		}`)
 
-	evt, err := stripe.EventNotificationFromJson(payload, *stripe.NewClient("sk_test_secret"))
+	evt, err := stripe.EventNotificationFromJSON(payload, *stripe.NewClient("sk_test_secret"))
 	if err != nil {
 		t.Errorf("Failed to parse event notification: %v", err)
 	}
@@ -127,7 +127,7 @@ func TestParseUnknownEventNotification(t *testing.T) {
 		"type": "imaginary"
 		}`)
 
-	evt, err := stripe.EventNotificationFromJson(payload, *stripe.NewClient("sk_test_secret"))
+	evt, err := stripe.EventNotificationFromJSON(payload, *stripe.NewClient("sk_test_secret"))
 	if err != nil {
 		t.Errorf("Failed to parse event notification: %v", err)
 	}

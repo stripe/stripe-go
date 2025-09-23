@@ -492,7 +492,7 @@ func (c *Client) ParseEventNotification(payload []byte, header string, secret st
 		return nil, err
 	}
 
-	return EventNotificationFromJson(payload, *c)
+	return EventNotificationFromJSON(payload, *c)
 
 }
 
