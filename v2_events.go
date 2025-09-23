@@ -95,7 +95,7 @@ func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx co
 	return evt.(*V1BillingMeterErrorReportTriggeredEvent), nil
 }
 
-// Retrieve the related Meter from the Stripe API.
+// FetchRelatedObject retrieves the related Meter from the Stripe API.
 func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
 	relatedObj := &BillingMeter{}
 	err := en.client.backend.Call(
@@ -162,7 +162,7 @@ func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Co
 	return evt.(*V2CoreEventDestinationPingEvent), nil
 }
 
-// Retrieve the related EventDestination from the Stripe API.
+// FetchRelatedObject retrieves the related EventDestination from the Stripe API.
 func (en *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
 	relatedObj := &V2EventDestination{}
 	err := en.client.backend.Call(
@@ -299,7 +299,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 
 // V2Events: The end of the section generated from our OpenAPI spec
 
-// Turns a JSON payload into the corresponding EventNotification, if possible.
+// EventNotificationFromJson turns a JSON payload into the corresponding EventNotification, if possible.
 // WARN: Not meant for production use! It doesn't do any signature validation. It's useful as a test util though.
 func EventNotificationFromJson(payload []byte, client Client) (EventNotificationContainer, error) {
 	// we can pull the type out to base our matching on

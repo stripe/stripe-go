@@ -68,7 +68,7 @@ func (en *UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, er
 	return en.fetchEvent(ctx)
 }
 
-// Tries to fetch the related object, if one exists. Returns nil if the struct doesn't have a RelatedObject property
+// FetchRelatedObject tries to fetch the related object, if one exists. Returns nil if the struct doesn't have a RelatedObject property
 func (en *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*APIResource, error) {
 	if en.RelatedObject == nil {
 		return nil, nil

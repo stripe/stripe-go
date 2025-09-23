@@ -327,16 +327,16 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	assert.NotNil(t, eventNotification)
 	assert.NotNil(t, eventNotification.RelatedObject)
 
-	related_obj_resp, err := eventNotification.FetchRelatedObject(context.TODO())
+	relatedObjResp, err := eventNotification.FetchRelatedObject(context.TODO())
 	assert.NoError(t, err)
-	assert.IsType(t, &stripe.APIResource{}, related_obj_resp)
+	assert.IsType(t, &stripe.APIResource{}, relatedObjResp)
 
 	type UnknownResponse struct {
 		Object string `json:"object"`
 	}
 
 	var rawResp UnknownResponse
-	err = json.Unmarshal(related_obj_resp.LastResponse.RawJSON, &rawResp)
+	err = json.Unmarshal(relatedObjResp.LastResponse.RawJSON, &rawResp)
 	assert.NoError(t, err)
 	assert.Equal(t, "billing.meter", rawResp.Object)
 }
