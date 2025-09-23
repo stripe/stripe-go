@@ -61,9 +61,9 @@ const (
 type V2CoreVaultGBBankAccountConfirmationOfPayeeResultMatched struct {
 	// The business type given by the bank for this account, in case of a MATCH or PARTIAL_MATCH.
 	// Closed enum.
-	BusinessType V2CoreVaultGBBankAccountConfirmationOfPayeeResultMatchedBusinessType `json:"business_type"`
+	BusinessType V2CoreVaultGBBankAccountConfirmationOfPayeeResultMatchedBusinessType `json:"business_type,omitempty"`
 	// The name given by the bank for this account, in case of a MATCH or PARTIAL_MATCH.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 }
 
 // The fields that are matched against what the network has on file.

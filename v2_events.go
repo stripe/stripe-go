@@ -134,6 +134,15 @@ const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
 )
 
+// Open Enum. The use case type of the account link that has been completed.
+type V2CoreAccountLinkReturnedEventDataUseCase string
+
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
+const (
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
+)
+
 // Configurations on the Account that was onboarded via the account link.
 type V2CoreAccountLinkReturnedEventDataConfiguration string
 
@@ -143,15 +152,6 @@ const (
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
 	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
-)
-
-// Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkReturnedEventDataUseCase string
-
-// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
-const (
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // V2Event is the interface implemented by V2 Events. To get the underlying Event,
@@ -389,11 +389,11 @@ type V2CoreAccountPersonCreatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -403,11 +403,11 @@ type V2CoreAccountPersonDeletedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -417,11 +417,11 @@ type V2CoreAccountPersonUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -1313,8 +1313,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -1326,8 +1326,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -1339,8 +1339,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

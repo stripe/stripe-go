@@ -63,11 +63,11 @@ func (c Client) Update(id string, params *stripe.V2CoreEventDestinationParams) (
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Del(id string, params *stripe.V2CoreEventDestinationParams) (*stripe.V2EventDestination, error) {
+func (c Client) Del(id string, params *stripe.V2CoreEventDestinationParams) (*stripe.V2DeletedObject, error) {
 	path := stripe.FormatURLPath("/v2/core/event_destinations/%s", id)
-	eventdestination := &stripe.V2EventDestination{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, eventdestination)
-	return eventdestination, err
+	deletedObj := &stripe.V2DeletedObject{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
+	return deletedObj, err
 }
 
 // Disable an event destination.

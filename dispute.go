@@ -67,6 +67,17 @@ const (
 	DisputeEvidenceDetailsSubmissionMethodSmartDisputes DisputeEvidenceDetailsSubmissionMethod = "smart_disputes"
 )
 
+// Intended submission method for the dispute.
+type DisputeIntendedSubmissionMethod string
+
+// List of values that DisputeIntendedSubmissionMethod can take
+const (
+	DisputeIntendedSubmissionMethodManual              DisputeIntendedSubmissionMethod = "manual"
+	DisputeIntendedSubmissionMethodPreferManual        DisputeIntendedSubmissionMethod = "prefer_manual"
+	DisputeIntendedSubmissionMethodPreferSmartDisputes DisputeIntendedSubmissionMethod = "prefer_smart_disputes"
+	DisputeIntendedSubmissionMethodSmartDisputes       DisputeIntendedSubmissionMethod = "smart_disputes"
+)
+
 // The AmazonPay dispute type, chargeback or claim
 type DisputePaymentMethodDetailsAmazonPayDisputeType string
 
@@ -173,6 +184,8 @@ type DisputeParams struct {
 	Evidence *DisputeEvidenceParams `form:"evidence"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Intended submission method for the dispute.
+	IntendedSubmissionMethod *string `form:"intended_submission_method"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
@@ -472,6 +485,8 @@ type DisputeUpdateParams struct {
 	Evidence *DisputeUpdateEvidenceParams `form:"evidence"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Intended submission method for the dispute.
+	IntendedSubmissionMethod *string `form:"intended_submission_method"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
@@ -642,6 +657,8 @@ type DisputePaymentMethodDetailsCard struct {
 	NetworkReasonCode string `json:"network_reason_code"`
 }
 type DisputePaymentMethodDetailsKlarna struct {
+	// Chargeback loss reason mapped by Stripe from Klarna's chargeback loss reason
+	ChargebackLossReasonCode string `json:"chargeback_loss_reason_code"`
 	// The reason for the dispute as defined by Klarna
 	ReasonCode string `json:"reason_code"`
 }
@@ -661,7 +678,7 @@ type DisputePaymentMethodDetails struct {
 }
 type DisputeSmartDisputes struct {
 	// Evidence that could be provided to improve the SmartDisputes packet
-	RecommendedEvidence []string `json:"recommended_evidence"`
+	RecommendedEvidence [][]string `json:"recommended_evidence"`
 	// Smart Disputes auto representment packet availability status.
 	Status DisputeSmartDisputesStatus `json:"status"`
 }
@@ -689,6 +706,8 @@ type Dispute struct {
 	EvidenceDetails          *DisputeEvidenceDetails          `json:"evidence_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Intended submission method for the dispute.
+	IntendedSubmissionMethod DisputeIntendedSubmissionMethod `json:"intended_submission_method"`
 	// If true, it's still possible to refund the disputed payment. After the payment has been fully refunded, no further funds are withdrawn from your Stripe account as a result of this dispute.
 	IsChargeRefundable bool `json:"is_charge_refundable"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

@@ -144,7 +144,7 @@ func TestIterListAndMeta(t *testing.T) {
 }
 
 func TestV1ListEmpty(t *testing.T) {
-	tq := testV1Query[*int]{{nil, &ListMeta{}, nil}}
+	tq := testV1Query[*item]{{v: &v1Page[*item]{}, e: nil}}
 	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
@@ -152,7 +152,7 @@ func TestV1ListEmpty(t *testing.T) {
 }
 
 func TestV1ListEmptyErr(t *testing.T) {
-	tq := testV1Query[*int]{{nil, &ListMeta{}, errTest}}
+	tq := testV1Query[*item]{{v: &v1Page[*item]{}, e: errTest}}
 	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
@@ -160,8 +160,8 @@ func TestV1ListEmptyErr(t *testing.T) {
 }
 
 func TestV1ListOne(t *testing.T) {
-	tq := testV1Query[*int]{{[]*int{intPtr(1)}, &ListMeta{}, nil}}
-	want := []*int{intPtr(1)}
+	tq := testV1Query[*item]{{v: &v1Page[*item]{Data: []*item{{"1"}}}, e: nil}}
+	want := []*item{{"1"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
@@ -169,8 +169,8 @@ func TestV1ListOne(t *testing.T) {
 }
 
 func TestV1ListOneErr(t *testing.T) {
-	tq := testV1Query[*int]{{[]*int{intPtr(1)}, &ListMeta{}, errTest}}
-	want := []*int{intPtr(1)}
+	tq := testV1Query[*item]{{v: &v1Page[*item]{Data: []*item{{"1"}}}, e: errTest}}
+	want := []*item{{"1"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
@@ -179,8 +179,8 @@ func TestV1ListOneErr(t *testing.T) {
 
 func TestV1ListPage2EmptyErr(t *testing.T) {
 	tq := testV1Query[*item]{
-		{[]*item{{"x"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
-		{nil, &ListMeta{}, errTest},
+		{v: &v1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &v1Page[*item]{}, e: errTest},
 	}
 	want := []*item{{"x"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
@@ -191,8 +191,8 @@ func TestV1ListPage2EmptyErr(t *testing.T) {
 
 func TestV1ListTwoPages(t *testing.T) {
 	tq := testV1Query[*item]{
-		{[]*item{{"x"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
-		{[]*item{{"y"}}, &ListMeta{}, nil},
+		{v: &v1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &v1Page[*item]{Data: []*item{{"y"}}}, e: nil},
 	}
 	want := []*item{{"x"}, {"y"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
@@ -203,8 +203,8 @@ func TestV1ListTwoPages(t *testing.T) {
 
 func TestV1ListTwoPagesErr(t *testing.T) {
 	tq := testV1Query[*item]{
-		{[]*item{{"x"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
-		{[]*item{{"y"}}, &ListMeta{}, errTest},
+		{v: &v1Page[*item]{Data: []*item{{"x"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &v1Page[*item]{Data: []*item{{"y"}}}, e: errTest},
 	}
 	want := []*item{{"x"}, {"y"}}
 	g, gerr := collectList(newV1List(nil, tq.query))
@@ -214,8 +214,8 @@ func TestV1ListTwoPagesErr(t *testing.T) {
 }
 
 func TestV1ListReversed(t *testing.T) {
-	tq := testV1Query[*int]{{[]*int{intPtr(1), intPtr(2)}, &ListMeta{}, nil}}
-	want := []*int{intPtr(2), intPtr(1)}
+	tq := testV1Query[*item]{{v: &v1Page[*item]{Data: []*item{{"1"}, {"2"}}}, e: nil}}
+	want := []*item{{"2"}, {"1"}}
 	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
@@ -224,8 +224,8 @@ func TestV1ListReversed(t *testing.T) {
 
 func TestV1ListReversedTwoPages(t *testing.T) {
 	tq := testV1Query[*item]{
-		{[]*item{{"3"}, {"4"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
-		{[]*item{{"1"}, {"2"}}, &ListMeta{}, nil},
+		{v: &v1Page[*item]{Data: []*item{{"3"}, {"4"}}, ListMeta: ListMeta{HasMore: true}}, e: nil},
+		{v: &v1Page[*item]{Data: []*item{{"1"}, {"2"}}}, e: nil},
 	}
 	want := []*item{{"4"}, {"3"}, {"2"}, {"1"}}
 	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
@@ -244,6 +244,8 @@ type item struct {
 	ID string
 }
 
+func (i *item) SetLastResponse(response *APIResponse) {}
+
 type testQuery []struct {
 	v []interface{}
 	m ListContainer
@@ -256,22 +258,21 @@ func (tq *testQuery) query(*Params, *form.Values) ([]interface{}, ListContainer,
 	return x.v, x.m, x.e
 }
 
-type testV1Query[T any] []struct {
-	v []T
-	m ListContainer
+type testV1Query[T LastResponseSetter] []struct {
+	v *v1Page[T]
 	e error
 }
 
-func (tq *testV1Query[T]) query(*Params, *form.Values) ([]T, ListContainer, error) {
+func (tq *testV1Query[T]) query(*Params, *form.Values) (*v1Page[T], error) {
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
-	return x.v, x.m, x.e
+	return x.v, x.e
 }
 
-func collectList[T any](it *v1List[T]) ([]*T, error) {
-	var tt []*T
+func collectList[T LastResponseSetter](it *v1List[T]) ([]T, error) {
+	var tt []T
 	var err error
-	it.All()(func(t *T, e error) bool {
+	it.All()(func(t T, e error) bool {
 		if e != nil {
 			err = e
 			return false
@@ -280,12 +281,6 @@ func collectList[T any](it *v1List[T]) ([]*T, error) {
 		return true
 	})
 	return tt, err
-}
-
-func intPtr(i int) *int {
-	intPtr := new(int)
-	*intPtr = i
-	return intPtr
 }
 
 type collectable interface {
@@ -300,4 +295,136 @@ func collect(it collectable) ([]interface{}, error) {
 		g = append(g, it.Current())
 	}
 	return g, it.Err()
+}
+
+type testItemWithResponse struct {
+	ID           string
+	Name         string
+	lastResponse *APIResponse
+}
+
+func (t *testItemWithResponse) SetLastResponse(response *APIResponse) {
+	t.lastResponse = response
+}
+
+type testItemSimple struct {
+	ID string
+}
+
+func (t *testItemSimple) SetLastResponse(response *APIResponse) {}
+
+type simpleItem struct {
+	ID string
+}
+
+func TestMaybeAddLastResponseIndividualJSON(t *testing.T) {
+	// Test that each item gets its corresponding raw JSON from the data array
+	pageRawJSON := `{
+		"object": "list",
+		"url": "/v1/customers",
+		"has_more": false,
+		"data": [
+			{"id": "cus_1", "name": "Customer 1"},
+			{"id": "cus_2", "name": "Customer 2"}
+		]
+	}`
+
+	item1 := &testItemWithResponse{ID: "cus_1", Name: "Customer 1"}
+	item2 := &testItemWithResponse{ID: "cus_2", Name: "Customer 2"}
+
+	page := &v1Page[*testItemWithResponse]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*testItemWithResponse{item1, item2},
+	}
+
+	// Call the function
+	err := maybeAddLastResponse(page)
+	assert.NoError(t, err)
+
+	// Verify each item has its corresponding JSON
+	expectedJSON1 := `{"id": "cus_1", "name": "Customer 1"}`
+	expectedJSON2 := `{"id": "cus_2", "name": "Customer 2"}`
+
+	assert.NotNil(t, item1.lastResponse)
+	assert.JSONEq(t, expectedJSON1, string(item1.lastResponse.RawJSON))
+
+	assert.NotNil(t, item2.lastResponse)
+	assert.JSONEq(t, expectedJSON2, string(item2.lastResponse.RawJSON))
+
+	// Verify other fields are copied from the original response
+	assert.Equal(t, page.LastResponse.Header, item1.lastResponse.Header)
+	assert.Equal(t, page.LastResponse.IdempotencyKey, item1.lastResponse.IdempotencyKey)
+	assert.Equal(t, page.LastResponse.RequestID, item1.lastResponse.RequestID)
+	assert.Equal(t, page.LastResponse.Status, item1.lastResponse.Status)
+	assert.Equal(t, page.LastResponse.StatusCode, item1.lastResponse.StatusCode)
+}
+
+func TestMaybeAddLastResponseMismatchedLengths(t *testing.T) {
+	// Test error when data array length doesn't match page.Data length
+	pageRawJSON := `{
+		"object": "list",
+		"data": [
+			{"id": "cus_1"}
+		]
+	}`
+
+	page := &v1Page[*testItemSimple]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON:   []byte(pageRawJSON),
+				RequestID: "req_test123",
+			},
+		},
+		Data: []*testItemSimple{{"cus_1"}, {"cus_2"}}, // 2 items but only 1 in JSON data array
+	}
+
+	err := maybeAddLastResponse(page)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "mismatch in data length for requestID req_test123")
+}
+
+func TestMaybeAddLastResponseInvalidJSON(t *testing.T) {
+	// Test error when page JSON is invalid
+	pageRawJSON := `{invalid json`
+
+	page := &v1Page[*testItemSimple]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*testItemSimple{{"cus_1"}},
+	}
+
+	err := maybeAddLastResponse(page)
+	assert.Error(t, err)
+}
+
+func TestMaybeAddLastResponseWithNonLastResponseSetter(t *testing.T) {
+	// Test with items that don't implement LastResponseSetter
+	pageRawJSON := `{
+		"object": "list",
+		"data": [
+			{"id": "item_1"},
+			{"id": "item_2"}
+		]
+	}`
+
+	// Note: simpleItem does NOT implement LastResponseSetter
+	page := &v1Page[*simpleItem]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*simpleItem{{"item_1"}, {"item_2"}},
+	}
+
+	// Should not error even though items don't implement LastResponseSetter
+	err := maybeAddLastResponse(page)
+	assert.NoError(t, err)
 }

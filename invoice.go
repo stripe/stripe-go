@@ -147,6 +147,15 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
 )
 
+// Determines if the amount includes the IOF tax.
+type InvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof can take
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIofAlways InvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof = "always"
+	InvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIofNever  InvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof = "never"
+)
+
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 type InvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType string
 
@@ -235,6 +244,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypePayco              InvoicePaymentSettingsPaymentMethodType = "payco"
 	InvoicePaymentSettingsPaymentMethodTypePayNow             InvoicePaymentSettingsPaymentMethodType = "paynow"
 	InvoicePaymentSettingsPaymentMethodTypePaypal             InvoicePaymentSettingsPaymentMethodType = "paypal"
+	InvoicePaymentSettingsPaymentMethodTypePix                InvoicePaymentSettingsPaymentMethodType = "pix"
 	InvoicePaymentSettingsPaymentMethodTypePromptPay          InvoicePaymentSettingsPaymentMethodType = "promptpay"
 	InvoicePaymentSettingsPaymentMethodTypeRevolutPay         InvoicePaymentSettingsPaymentMethodType = "revolut_pay"
 	InvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer InvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
@@ -584,6 +594,12 @@ type InvoicePaymentSettingsPaymentMethodOptionsIDBankTransferParams struct{}
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
+// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+}
+
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 
@@ -645,6 +661,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	IDBankTransfer *InvoicePaymentSettingsPaymentMethodOptionsIDBankTransferParams `form:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+	Pix *InvoicePaymentSettingsPaymentMethodOptionsPixParams `form:"pix"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *InvoicePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
@@ -659,7 +677,7 @@ type InvoicePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoicePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
@@ -881,6 +899,8 @@ type InvoiceAddLinesLinePriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1201,6 +1221,8 @@ type InvoiceUpdateLinesLinePriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1838,9 +1860,17 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
 	TrialSettings *InvoiceCreatePreviewScheduleDetailsAmendmentTrialSettingsParams `form:"trial_settings"`
 }
 
+// Configure behavior for flexible billing mode.
+type InvoiceCreatePreviewScheduleDetailsBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewScheduleDetailsBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *InvoiceCreatePreviewScheduleDetailsBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -1890,7 +1920,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodStartParams str
 	Type *string `form:"type"`
 }
 
-// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
 	End *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodEndParams `form:"end"`
@@ -1918,7 +1948,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams struct {
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. Defaults to the period of the underlying subscription that surrounds the start of the phase.
+	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
@@ -2177,8 +2207,6 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	InvoiceSettings *InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*InvoiceCreatePreviewScheduleDetailsPhaseItemParams `form:"items"`
-	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set. This parameter is deprecated and will be removed in a future version. Use `duration` instead.
-	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
@@ -2277,10 +2305,54 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Configure behavior for flexible billing mode.
+type InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewSubscriptionDetailsBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *InvoiceCreatePreviewSubscriptionDetailsBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
+}
+
+// Configure billing schedule differently for individual subscription items.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
@@ -2392,6 +2464,8 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *InvoiceCreatePreviewSubscriptionDetailsBillingModeParams `form:"billing_mode"`
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams `form:"billing_schedules"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
@@ -2670,6 +2744,12 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsIDBankTransferParams struct
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
+// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+}
+
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 
@@ -2731,6 +2811,8 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	IDBankTransfer *InvoiceUpdatePaymentSettingsPaymentMethodOptionsIDBankTransferParams `form:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *InvoiceUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+	Pix *InvoiceUpdatePaymentSettingsPaymentMethodOptionsPixParams `form:"pix"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *InvoiceUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
@@ -2745,7 +2827,7 @@ type InvoiceUpdatePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
@@ -3108,6 +3190,12 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsIDBankTransferParams struct
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
+// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+}
+
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 
@@ -3169,6 +3257,8 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	IDBankTransfer *InvoiceCreatePaymentSettingsPaymentMethodOptionsIDBankTransferParams `form:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *InvoiceCreatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+	Pix *InvoiceCreatePaymentSettingsPaymentMethodOptionsPixParams `form:"pix"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *InvoiceCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
@@ -3183,7 +3273,7 @@ type InvoiceCreatePaymentSettingsParams struct {
 	DefaultMandate *string `form:"default_mandate"`
 	// Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 	PaymentMethodOptions *InvoiceCreatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
@@ -3556,6 +3646,12 @@ type InvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer struct{}
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
 
+// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsPix struct {
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof InvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
+}
+
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
 type InvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
@@ -3608,6 +3704,8 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	IDBankTransfer *InvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer `json:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *InvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
+	// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+	Pix *InvoicePaymentSettingsPaymentMethodOptionsPix `json:"pix"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *InvoicePaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
 	// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.

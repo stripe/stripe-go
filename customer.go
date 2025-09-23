@@ -47,6 +47,8 @@ type CustomerParams struct {
 	Address *AddressParams `form:"address"`
 	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
 	Balance *int64 `form:"balance"`
+	// The customer's business name. This may be up to *150 characters*.
+	BusinessName *string `form:"business_name"`
 	// Balance information and default balance settings for this customer.
 	CashBalance *CustomerCashBalanceParams `form:"cash_balance"`
 	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
@@ -61,6 +63,8 @@ type CustomerParams struct {
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The customer's full name. This may be up to *150 characters*.
+	IndividualName *string `form:"individual_name"`
 	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
@@ -368,6 +372,8 @@ type CustomerUpdateParams struct {
 	Address *AddressParams `form:"address"`
 	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
 	Balance *int64 `form:"balance"`
+	// The customer's business name. This may be up to *150 characters*.
+	BusinessName *string `form:"business_name"`
 	// Balance information and default balance settings for this customer.
 	CashBalance *CustomerUpdateCashBalanceParams `form:"cash_balance"`
 	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
@@ -382,6 +388,8 @@ type CustomerUpdateParams struct {
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The customer's full name. This may be up to *150 characters*.
+	IndividualName *string `form:"individual_name"`
 	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
@@ -495,6 +503,8 @@ type CustomerCreateParams struct {
 	Address *AddressParams `form:"address"`
 	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
 	Balance *int64 `form:"balance"`
+	// The customer's business name. This may be up to *150 characters*.
+	BusinessName *string `form:"business_name"`
 	// Balance information and default balance settings for this customer.
 	CashBalance *CustomerCreateCashBalanceParams `form:"cash_balance"`
 	// An arbitrary string that you can attach to a customer object. It is displayed alongside the customer in the dashboard.
@@ -503,6 +513,8 @@ type CustomerCreateParams struct {
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The customer's full name. This may be up to *150 characters*.
+	IndividualName *string `form:"individual_name"`
 	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
@@ -598,6 +610,8 @@ type Customer struct {
 	Address *Address `json:"address"`
 	// The current balance, if any, that's stored on the customer in their default currency. If negative, the customer has credit to apply to their next invoice. If positive, the customer has an amount owed that's added to their next invoice. The balance only considers amounts that Stripe hasn't successfully applied to any invoice. It doesn't reflect unpaid invoices. This balance is only taken into account after invoices finalize. For multi-currency balances, see [invoice_credit_balance](https://stripe.com/docs/api/customers/object#customer_object-invoice_credit_balance).
 	Balance int64 `json:"balance"`
+	// The customer's business name.
+	BusinessName string `json:"business_name"`
 	// The current funds being held by Stripe on behalf of the customer. You can apply these funds towards payment intents when the source is "cash_balance". The `settings[reconciliation_mode]` field describes if these funds apply to these payment intents manually or automatically.
 	CashBalance *CashBalance `json:"cash_balance"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -624,6 +638,8 @@ type Customer struct {
 	Email string `json:"email"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// The customer's individual name.
+	IndividualName string `json:"individual_name"`
 	// The current multi-currency balances, if any, that's stored on the customer. If positive in a currency, the customer has a credit to apply to their next invoice denominated in that currency. If negative, the customer has an amount owed that's added to their next invoice denominated in that currency. These balances don't apply to unpaid invoices. They solely track amounts that Stripe hasn't successfully applied to any invoice. Stripe only applies a balance in a specific currency to an invoice after that invoice (which is in the same currency) finalizes.
 	InvoiceCreditBalance map[string]int64 `json:"invoice_credit_balance"`
 	// The prefix for the customer used to generate unique invoice numbers.

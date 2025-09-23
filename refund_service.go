@@ -86,13 +86,13 @@ func (c v1RefundService) List(ctx context.Context, listParams *RefundListParams)
 		listParams = &RefundListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Refund, ListContainer, error) {
-		list := &RefundList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Refund], error) {
+		list := &v1Page[*Refund]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/refunds", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

@@ -403,6 +403,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypePayco            ConfirmationTokenPaymentMethodPreviewType = "payco"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
+	ConfirmationTokenPaymentMethodPreviewTypePaypay           ConfirmationTokenPaymentMethodPreviewType = "paypay"
 	ConfirmationTokenPaymentMethodPreviewTypePayto            ConfirmationTokenPaymentMethodPreviewType = "payto"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
@@ -1029,6 +1030,7 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedEmail string `json:"verified_email"`
 }
+type ConfirmationTokenPaymentMethodPreviewPaypay struct{}
 type ConfirmationTokenPaymentMethodPreviewPayto struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -1182,6 +1184,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Payco           *ConfirmationTokenPaymentMethodPreviewPayco           `json:"payco"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
 	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal"`
+	Paypay          *ConfirmationTokenPaymentMethodPreviewPaypay          `json:"paypay"`
 	Payto           *ConfirmationTokenPaymentMethodPreviewPayto           `json:"payto"`
 	Pix             *ConfirmationTokenPaymentMethodPreviewPix             `json:"pix"`
 	PromptPay       *ConfirmationTokenPaymentMethodPreviewPromptPay       `json:"promptpay"`
