@@ -69,7 +69,7 @@ type V1BillingMeterErrorReportTriggeredEvent struct {
 	fetchRelatedObject func() (*BillingMeter, error)
 }
 
-// FetchRelatedObject fetches the related BillingMeter object for the event.
+// FetchRelatedObject fetches the BillingMeter related to the event.
 func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
 	return e.fetchRelatedObject()
 }
@@ -86,7 +86,7 @@ func (en *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotificat
 	return &en.EventNotification
 }
 
-// FetchEvent retrieves the V1BillingMeterErrorReportTriggered that created this Notification
+// FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
 func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
 	evt, err := en.EventNotification.fetchEvent(ctx)
 	if err != nil {
@@ -95,7 +95,7 @@ func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx co
 	return evt.(*V1BillingMeterErrorReportTriggeredEvent), nil
 }
 
-// FetchRelatedObject retrieves the related Meter from the Stripe API.
+// FetchRelatedObject fetches the BillingMeter related to the event.
 func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
 	relatedObj := &BillingMeter{}
 	err := en.client.backend.Call(
@@ -119,7 +119,7 @@ func (en *V1BillingMeterNoMeterFoundEventNotification) GetEventNotification() *E
 	return &en.EventNotification
 }
 
-// FetchEvent retrieves the V1BillingMeterNoMeterFound that created this Notification
+// FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
 func (en *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
 	evt, err := en.EventNotification.fetchEvent(ctx)
 	if err != nil {
@@ -136,7 +136,7 @@ type V2CoreEventDestinationPingEvent struct {
 	fetchRelatedObject func() (*V2EventDestination, error)
 }
 
-// FetchRelatedObject fetches the related V2EventDestination object for the event.
+// FetchRelatedObject fetches the V2EventDestination related to the event.
 func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
 	return e.fetchRelatedObject()
 }
@@ -153,7 +153,7 @@ func (en *V2CoreEventDestinationPingEventNotification) GetEventNotification() *E
 	return &en.EventNotification
 }
 
-// FetchEvent retrieves the V2CoreEventDestinationPing that created this Notification
+// FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
 func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
 	evt, err := en.EventNotification.fetchEvent(ctx)
 	if err != nil {
@@ -162,7 +162,7 @@ func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Co
 	return evt.(*V2CoreEventDestinationPingEvent), nil
 }
 
-// FetchRelatedObject retrieves the related EventDestination from the Stripe API.
+// FetchRelatedObject fetches the V2EventDestination related to the event.
 func (en *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
 	relatedObj := &V2EventDestination{}
 	err := en.client.backend.Call(
