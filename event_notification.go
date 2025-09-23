@@ -2,6 +2,7 @@ package stripe
 
 import (
 	"context"
+	"net/http"
 	"time"
 )
 
@@ -28,7 +29,7 @@ type EventNotification struct {
 	client Client
 }
 
-func (en *EventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
+func (en *EventNotification) fetchEvent(ctx context.Context) (V2Event, error) {
 	// TODO: usage?
 	return en.client.V2CoreEvents.Retrieve(ctx, en.ID, &V2CoreEventRetrieveParams{
 		Params{
@@ -63,6 +64,10 @@ func (u *UnknownEventNotification) GetEventNotification() *EventNotification {
 	return &u.EventNotification
 }
 
+func (u *UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
+	return u.fetchEvent(ctx)
+}
+
 func (u *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*APIResource, error) {
 	if u.RelatedObject == nil {
 		return nil, nil
@@ -73,29 +78,6 @@ func (u *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*API
 	// maybe need a lookup map here?
 	obj := &APIResource{}
 
-	err := u.client.backend.Call("get", u.RelatedObject.URL, u.client.key, nil, obj)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return obj, nil
-
-	// (ctx, en.ID, &V2CoreEventRetrieveParams{
-	// 	Params{
-	// 		StripeContext: en.Context,
-	// 	},
-	// })
-}
-
-// FIXME: remove
-type V1BillingMeterErrorReportTriggeredEventNotification struct {
-	EventNotification
-	RelatedObject      RelatedObject                                            `json:"related_object"`
-	FetchRelatedObject func() (*BillingMeter, error)                            `json:"-"`
-	FetchEvent         func() (*V1BillingMeterErrorReportTriggeredEvent, error) `json:"-"`
-}
-
-func (v *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotification() *EventNotification {
-	return &v.EventNotification
+	err := u.client.backend.Call(http.MethodGet, u.RelatedObject.URL, u.client.key, nil, obj)
+	return obj, err
 }

@@ -7,6 +7,7 @@
 package stripe
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"time"
@@ -73,11 +74,58 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 	return e.fetchRelatedObject()
 }
 
+// V1BillingMeterErrorReportTriggeredEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.error_report_triggered"
+// Occurs when a Meter has invalid async usage events.
+type V1BillingMeterErrorReportTriggeredEventNotification struct {
+	EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// Method to ensure we conform to `EventNotificationContainer`.
+func (en *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotification() *EventNotification {
+	return &en.EventNotification
+}
+
+// Retrieve the V1BillingMeterErrorReportTriggered that created this Notification
+func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
+	evt, err := en.EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingMeterErrorReportTriggeredEvent), nil
+}
+
+// Retrieve the related Meter from the Stripe API.
+func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject() (*BillingMeter, error) {
+	related_obj := &BillingMeter{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, nil, related_obj)
+	return related_obj, err
+}
+
 // V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
 // Occurs when a Meter's id is missing or invalid in async usage events.
 type V1BillingMeterNoMeterFoundEvent struct {
 	V2BaseEvent
 	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
+}
+
+// V1BillingMeterNoMeterFoundEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.no_meter_found"
+// Occurs when a Meter's id is missing or invalid in async usage events.
+type V1BillingMeterNoMeterFoundEventNotification struct{ EventNotification }
+
+// Method to ensure we conform to `EventNotificationContainer`.
+func (en *V1BillingMeterNoMeterFoundEventNotification) GetEventNotification() *EventNotification {
+	return &en.EventNotification
+}
+
+// Retrieve the V1BillingMeterNoMeterFound that created this Notification
+func (en *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
+	evt, err := en.EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingMeterNoMeterFoundEvent), nil
 }
 
 // V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
@@ -91,6 +139,35 @@ type V2CoreEventDestinationPingEvent struct {
 // FetchRelatedObject fetches the related V2EventDestination object for the event.
 func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreEventDestinationPingEventNotification is the webhook payload you'll get when handling an event with type "v2.core.event_destination.ping"
+// A ping event used to test the connection to an EventDestination.
+type V2CoreEventDestinationPingEventNotification struct {
+	EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// Method to ensure we conform to `EventNotificationContainer`.
+func (en *V2CoreEventDestinationPingEventNotification) GetEventNotification() *EventNotification {
+	return &en.EventNotification
+}
+
+// Retrieve the V2CoreEventDestinationPing that created this Notification
+func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
+	evt, err := en.EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreEventDestinationPingEvent), nil
+}
+
+// Retrieve the related EventDestination from the Stripe API.
+func (en *V2CoreEventDestinationPingEventNotification) FetchRelatedObject() (*V2EventDestination, error) {
+	related_obj := &V2EventDestination{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, nil, related_obj)
+	return related_obj, err
 }
 
 // The request causes the error.
