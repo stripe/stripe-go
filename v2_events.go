@@ -77,18 +77,18 @@ func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject(ctx context
 // V1BillingMeterErrorReportTriggeredEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.error_report_triggered"
 // Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEventNotification struct {
-	EventNotification
+	V2EventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotification() *EventNotification {
-	return &en.EventNotification
+func (en *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
 }
 
 // FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
 func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
-	evt, err := en.EventNotification.fetchEvent(ctx)
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -112,16 +112,16 @@ type V1BillingMeterNoMeterFoundEvent struct {
 
 // V1BillingMeterNoMeterFoundEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.no_meter_found"
 // Occurs when a Meter's id is missing or invalid in async usage events.
-type V1BillingMeterNoMeterFoundEventNotification struct{ EventNotification }
+type V1BillingMeterNoMeterFoundEventNotification struct{ V2EventNotification }
 
 // GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1BillingMeterNoMeterFoundEventNotification) GetEventNotification() *EventNotification {
-	return &en.EventNotification
+func (en *V1BillingMeterNoMeterFoundEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
 }
 
 // FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
 func (en *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
-	evt, err := en.EventNotification.fetchEvent(ctx)
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -144,18 +144,18 @@ func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context
 // V2CoreEventDestinationPingEventNotification is the webhook payload you'll get when handling an event with type "v2.core.event_destination.ping"
 // A ping event used to test the connection to an EventDestination.
 type V2CoreEventDestinationPingEventNotification struct {
-	EventNotification
+	V2EventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreEventDestinationPingEventNotification) GetEventNotification() *EventNotification {
-	return &en.EventNotification
+func (en *V2CoreEventDestinationPingEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
 }
 
 // FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
 func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
-	evt, err := en.EventNotification.fetchEvent(ctx)
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -334,7 +334,7 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		evt.client = client
 		return &evt, nil
 	default:
-		evt := UnknownEventNotification{}
+		evt := V2UnknownEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

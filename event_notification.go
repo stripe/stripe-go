@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-// EventNotification represents the json that's delivered from an Event Destination.
+// V2EventNotification represents the json that's delivered from an Event Destination.
 // Use it to check basic information about a delivered event.
 // If you want more details, use `sc.V2Events.Get(thinEvent.ID)`
 // to fetch the full event object.
-type EventNotification struct {
+type V2EventNotification struct {
 	// Unique identifier for the event
 	ID string `json:"id"`
 	// The string "event"
@@ -29,7 +29,7 @@ type EventNotification struct {
 	client Client
 }
 
-func (en *EventNotification) fetchEvent(ctx context.Context) (V2Event, error) {
+func (en *V2EventNotification) fetchEvent(ctx context.Context) (V2Event, error) {
 	// TODO: usage?
 	return en.client.V2CoreEvents.Retrieve(ctx, en.ID, &V2CoreEventRetrieveParams{
 		Params{
@@ -44,7 +44,7 @@ func (en *EventNotification) fetchEvent(ctx context.Context) (V2Event, error) {
 // interface to return from parseThinEvent
 // this is how go's unions basically work?
 type EventNotificationContainer interface {
-	GetEventNotification() *EventNotification
+	GetEventNotification() *V2EventNotification
 }
 
 type RelatedObject struct {
@@ -53,23 +53,23 @@ type RelatedObject struct {
 	URL  string `json:"url"`
 }
 
-type UnknownEventNotification struct {
-	EventNotification
+type V2UnknownEventNotification struct {
+	V2EventNotification
 
 	// [Optional] Object containing the reference to API resource relevant to the event
 	RelatedObject *RelatedObject `json:"related_object"`
 }
 
-func (en *UnknownEventNotification) GetEventNotification() *EventNotification {
-	return &en.EventNotification
+func (en *V2UnknownEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
 }
 
-func (en *UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
+func (en *V2UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
 	return en.fetchEvent(ctx)
 }
 
 // FetchRelatedObject tries to fetch the related object, if one exists. Returns nil if the struct doesn't have a RelatedObject property
-func (en *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*APIResource, error) {
+func (en *V2UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*APIResource, error) {
 	if en.RelatedObject == nil {
 		return nil, nil
 	}

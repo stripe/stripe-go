@@ -63,7 +63,7 @@ func main() {
 			}
 			fmt.Printf("Event data reason: %+v\n", event.Data.Reason)
 
-		case *stripe.UnknownEventNotification:
+		case *stripe.V2UnknownEventNotification:
 			fmt.Printf("Received an event the SDK doesn't have types for: %s\n", evt.Type)
 			fmt.Printf("Event ID: %s; has related object? %t\n", evt.ID, evt.RelatedObject != nil)
 		default:

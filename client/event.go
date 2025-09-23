@@ -20,7 +20,7 @@ func (a *API) ParseThinEventWithTolerance(payload []byte, header string, secret 
 	if err := webhook.ValidatePayloadWithTolerance(payload, header, secret, tolerance); err != nil {
 		return nil, err
 	}
-	var event stripe.UnknownEventNotification
+	var event stripe.V2UnknownEventNotification
 	if err := json.Unmarshal(payload, &event); err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (a *API) ParseThinEventWithTolerance(payload []byte, header string, secret 
 	switch event.Type {
 	case "v1.billing.meter.error_report_triggered":
 		result := &stripe.V1BillingMeterErrorReportTriggeredEventNotification{}
-		result.EventNotification = event.EventNotification
+		result.V2EventNotification = event.V2EventNotification
 		if err := json.Unmarshal(payload, result); err != nil {
 			return nil, err
 		}
