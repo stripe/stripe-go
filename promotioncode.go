@@ -42,9 +42,9 @@ func (p *PromotionCodeListParams) AddExpand(f string) {
 
 // The promotion referenced by this promotion code.
 type PromotionCodePromotionParams struct {
-	// If the promotion type is 'coupon', the coupon for this promotion code.
+	// If promotion `type` is `coupon`, the coupon for this promotion code.
 	Coupon *string `form:"coupon"`
-	// Specifies the type of promotion code.
+	// Specifies the type of promotion.
 	Type *string `form:"type"`
 }
 
@@ -107,9 +107,9 @@ func (p *PromotionCodeParams) AddMetadata(key string, value string) {
 
 // The promotion referenced by this promotion code.
 type PromotionCodeCreatePromotionParams struct {
-	// If the promotion type is 'coupon', the coupon for this promotion code.
+	// If promotion `type` is `coupon`, the coupon for this promotion code.
 	Coupon *string `form:"coupon"`
-	// Specifies the type of promotion code.
+	// Specifies the type of promotion.
 	Type *string `form:"type"`
 }
 
@@ -222,7 +222,7 @@ func (p *PromotionCodeUpdateParams) AddMetadata(key string, value string) {
 }
 
 type PromotionCodePromotion struct {
-	// If promotion type is 'coupon', the coupon for this promotion.
+	// If promotion `type` is `coupon`, the coupon for this promotion.
 	Coupon *Coupon `json:"coupon"`
 	// The type of promotion.
 	Type PromotionCodePromotionType `json:"type"`
