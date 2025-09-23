@@ -118,7 +118,6 @@ type DisputeStatus string
 const (
 	DisputeStatusLost                 DisputeStatus = "lost"
 	DisputeStatusNeedsResponse        DisputeStatus = "needs_response"
-	DisputeStatusPrevented            DisputeStatus = "prevented"
 	DisputeStatusUnderReview          DisputeStatus = "under_review"
 	DisputeStatusWarningClosed        DisputeStatus = "warning_closed"
 	DisputeStatusWarningNeedsResponse DisputeStatus = "warning_needs_response"
