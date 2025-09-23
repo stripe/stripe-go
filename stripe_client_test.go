@@ -118,7 +118,7 @@ func TestParseEventNotificationPing(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed to parse event notification: %v", err)
 	}
-	assert.IsType(t, &stripe.V2CoreEventDestinationPingEvent{}, evt)
+	assert.IsType(t, &stripe.V2CoreEventDestinationPingEventNotification{}, evt)
 }
 
 func TestParseUnknownEventNotification(t *testing.T) {
@@ -175,7 +175,8 @@ func TestFetchEventHTTPCall(t *testing.T) {
 	payload := []byte(`{
 		"id": "evt_123",
 		"object": "event",
-		"type": "v1.billing.meter.error_report_triggered"
+		"type": "v1.billing.meter.error_report_triggered",
+		"context": "ctx_123"
 	}`)
 
 	// Create signed payload for ParseEventNotification
@@ -202,6 +203,7 @@ func TestFetchEventHTTPCall(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.IsType(t, &stripe.V1BillingMeterErrorReportTriggeredEvent{}, event)
+	assert.Equal(t, "ctx_123", event.LastResponse.Header.Get("Stripe-Context"))
 }
 func TestFetchRelatedObject(t *testing.T) {
 	// Create mock response for the V2 event retrieve call
@@ -264,6 +266,7 @@ func TestFetchRelatedObject(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.IsType(t, &stripe.BillingMeter{}, event)
+	assert.Equal(t, "", event.LastResponse.Header.Get("Stripe-Context"))
 }
 
 func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
@@ -295,6 +298,7 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 		"id": "evt_123",
 		"object": "event",
 		"type": "imaginary_with_related_object",
+		"context": "ctx_123",
 		"related_object": {
 			"id": "bm_123",
 			"type": "billing.meter",
@@ -323,16 +327,19 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	assert.NotNil(t, eventNotification)
 	assert.NotNil(t, eventNotification.RelatedObject)
 
-	related_obj, err := eventNotification.FetchRelatedObject(context.TODO())
+	related_obj_resp, err := eventNotification.FetchRelatedObject(context.TODO())
 	assert.NoError(t, err)
-	assert.IsType(t, &stripe.APIResource{}, related_obj)
+	assert.IsType(t, &stripe.APIResource{}, related_obj_resp)
+	assert.Equal(t, "ctx_123", related_obj_resp.LastResponse.Header.Get("Stripe-Context"))
 
 	type UnknownResponse struct {
 		Object string `json:"object"`
 	}
 
 	var rawResp UnknownResponse
-	err = json.Unmarshal(related_obj.LastResponse.RawJSON, &rawResp)
+	err = json.Unmarshal(related_obj_resp.LastResponse.RawJSON, &rawResp)
 	assert.NoError(t, err)
 	assert.Equal(t, "billing.meter", rawResp.Object)
 }
+
+// TODO: test that parsing an event with context uses it in subsequent requests

@@ -1,11 +1,6 @@
-//
-//
-// File generated from our OpenAPI spec
-//
-//
-
 package stripe
 
+// V2Events: The beginning of the section generated from our OpenAPI spec
 import (
 	"context"
 	"encoding/json"
@@ -60,6 +55,11 @@ type V2RawEvent struct {
 	RelatedObject *RelatedObject   `json:"related_object"`
 }
 
+// Used for everything internal to the EventNotifications
+type eventNotificationParams struct {
+	Params `form:"*"`
+}
+
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
 // Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEvent struct {
@@ -70,7 +70,7 @@ type V1BillingMeterErrorReportTriggeredEvent struct {
 }
 
 // FetchRelatedObject fetches the related BillingMeter object for the event.
-func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingMeter, error) {
+func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -81,12 +81,12 @@ type V1BillingMeterErrorReportTriggeredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// Method to ensure we conform to `EventNotificationContainer`.
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
 func (en *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotification() *EventNotification {
 	return &en.EventNotification
 }
 
-// Retrieve the V1BillingMeterErrorReportTriggered that created this Notification
+// FetchEvent retrieves the V1BillingMeterErrorReportTriggered that created this Notification
 func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
 	evt, err := en.EventNotification.fetchEvent(ctx)
 	if err != nil {
@@ -97,10 +97,10 @@ func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx co
 
 // Retrieve the related Meter from the Stripe API.
 func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
-	related_obj := &BillingMeter{}
+	relatedObj := &BillingMeter{}
 	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &Params{Context: ctx}, related_obj)
-	return related_obj, err
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
@@ -114,12 +114,12 @@ type V1BillingMeterNoMeterFoundEvent struct {
 // Occurs when a Meter's id is missing or invalid in async usage events.
 type V1BillingMeterNoMeterFoundEventNotification struct{ EventNotification }
 
-// Method to ensure we conform to `EventNotificationContainer`.
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
 func (en *V1BillingMeterNoMeterFoundEventNotification) GetEventNotification() *EventNotification {
 	return &en.EventNotification
 }
 
-// Retrieve the V1BillingMeterNoMeterFound that created this Notification
+// FetchEvent retrieves the V1BillingMeterNoMeterFound that created this Notification
 func (en *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
 	evt, err := en.EventNotification.fetchEvent(ctx)
 	if err != nil {
@@ -137,7 +137,7 @@ type V2CoreEventDestinationPingEvent struct {
 }
 
 // FetchRelatedObject fetches the related V2EventDestination object for the event.
-func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
+func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -148,12 +148,12 @@ type V2CoreEventDestinationPingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// Method to ensure we conform to `EventNotificationContainer`.
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
 func (en *V2CoreEventDestinationPingEventNotification) GetEventNotification() *EventNotification {
 	return &en.EventNotification
 }
 
-// Retrieve the V2CoreEventDestinationPing that created this Notification
+// FetchEvent retrieves the V2CoreEventDestinationPing that created this Notification
 func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
 	evt, err := en.EventNotification.fetchEvent(ctx)
 	if err != nil {
@@ -163,11 +163,11 @@ func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Co
 }
 
 // Retrieve the related EventDestination from the Stripe API.
-func (en *V2CoreEventDestinationPingEventNotification) FetchRelatedObject() (*V2EventDestination, error) {
-	related_obj := &V2EventDestination{}
+func (en *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+	relatedObj := &V2EventDestination{}
 	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, nil, related_obj)
-	return related_obj, err
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // The request causes the error.
@@ -297,17 +297,20 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 	}
 }
 
+// V2Events: The end of the section generated from our OpenAPI spec
+
 // Turns a JSON payload into the corresponding EventNotification, if possible.
 // WARN: Not meant for production use! It doesn't do any signature validation. It's useful as a test util though.
 func EventNotificationFromJson(payload []byte, client Client) (EventNotificationContainer, error) {
+	// we can pull the type out to base our matching on
 	var result = &struct {
 		Type string `json:"type"`
 	}{}
 	if err := json.Unmarshal(payload, result); err != nil {
 		return nil, err
 	}
-	// let's try to cast to a more specific type
 
+	// V2EventNotificationTypes: The beginning of the section generated from our OpenAPI spec
 	switch result.Type {
 	case "v1.billing.meter.error_report_triggered":
 		evt := V1BillingMeterErrorReportTriggeredEventNotification{}
@@ -316,7 +319,20 @@ func EventNotificationFromJson(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
-
+	case "v1.billing.meter.no_meter_found":
+		evt := V1BillingMeterNoMeterFoundEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.event_destination.ping":
+		evt := V2CoreEventDestinationPingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	default:
 		evt := UnknownEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -325,4 +341,5 @@ func EventNotificationFromJson(payload []byte, client Client) (EventNotification
 		evt.client = client
 		return &evt, nil
 	}
+	// V2EventNotificationTypes: The end of the section generated from our OpenAPI spec
 }
