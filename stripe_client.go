@@ -493,7 +493,6 @@ func (c *Client) ParseEventNotification(payload []byte, header string, secret st
 	}
 
 	return EventNotificationFromJSON(payload, *c)
-
 }
 
 // ConstructEvent initializes an Event object from a JSON webhook payload, validating
