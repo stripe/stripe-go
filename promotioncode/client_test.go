@@ -32,7 +32,10 @@ func TestPromotionCodeList(t *testing.T) {
 func TestPromotionCodeNew(t *testing.T) {
 	params := &stripe.PromotionCodeParams{
 		Code:     stripe.String("MYCODE"),
-		Coupon:   stripe.String("co_123"),
+		Promotion: &stripe.PromotionCodePromotionParams{
+			Coupon:	stripe.String("co_123"),
+			Type:	stripe.String("coupon"),
+		},
 		Customer: stripe.String("cus_123"),
 		Restrictions: &stripe.PromotionCodeRestrictionsParams{
 			FirstTimeTransaction:  stripe.Bool(true),
