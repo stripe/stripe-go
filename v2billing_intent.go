@@ -38,20 +38,20 @@ type V2BillingIntentAmountDetails struct {
 // Timestamps for status transitions of the Billing Intent.
 type V2BillingIntentStatusTransitions struct {
 	// Time at which the Billing Intent was canceled.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
 	// Time at which the Billing Intent was committed.
-	CommittedAt time.Time `json:"committed_at"`
+	CommittedAt time.Time `json:"committed_at,omitempty"`
 	// Time at which the Billing Intent was drafted.
-	DraftedAt time.Time `json:"drafted_at"`
+	DraftedAt time.Time `json:"drafted_at,omitempty"`
 	// Time at which the Billing Intent was reserved.
-	ReservedAt time.Time `json:"reserved_at"`
+	ReservedAt time.Time `json:"reserved_at,omitempty"`
 }
 type V2BillingIntent struct {
 	APIResource
 	// Breakdown of the amount for this Billing Intent.
 	AmountDetails *V2BillingIntentAmountDetails `json:"amount_details"`
 	// ID of an existing Cadence to use.
-	Cadence string `json:"cadence"`
+	Cadence string `json:"cadence,omitempty"`
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.

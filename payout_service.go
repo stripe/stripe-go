@@ -90,13 +90,13 @@ func (c v1PayoutService) List(ctx context.Context, listParams *PayoutListParams)
 		listParams = &PayoutListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Payout, ListContainer, error) {
-		list := &PayoutList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Payout], error) {
+		list := &v1Page[*Payout]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payouts", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

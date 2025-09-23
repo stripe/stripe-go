@@ -8,8 +8,7 @@ package stripe
 
 // List all CollectionSettingVersions by CollectionSetting ID.
 type V2BillingCollectionSettingsVersionListParams struct {
-	Params `form:"*"`
-	// ID of the CollectionSettings to retrieve versions for.
+	Params              `form:"*"`
 	CollectionSettingID *string `form:"-" json:"-"` // Included in URL
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
@@ -17,14 +16,12 @@ type V2BillingCollectionSettingsVersionListParams struct {
 
 // Retrieve a CollectionSetting Version by ID.
 type V2BillingCollectionSettingsVersionParams struct {
-	Params `form:"*"`
-	// The ID of the CollectionSetting that has the version.
+	Params              `form:"*"`
 	CollectionSettingID *string `form:"-" json:"-"` // Included in URL
 }
 
 // Retrieve a CollectionSetting Version by ID.
 type V2BillingCollectionSettingsVersionRetrieveParams struct {
-	Params `form:"*"`
-	// The ID of the CollectionSetting that has the version.
+	Params              `form:"*"`
 	CollectionSettingID *string `form:"-" json:"-"` // Included in URL
 }

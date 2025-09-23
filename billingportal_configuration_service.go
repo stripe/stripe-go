@@ -61,13 +61,13 @@ func (c v1BillingPortalConfigurationService) List(ctx context.Context, listParam
 		listParams = &BillingPortalConfigurationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingPortalConfiguration, ListContainer, error) {
-		list := &BillingPortalConfigurationList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingPortalConfiguration], error) {
+		list := &v1Page[*BillingPortalConfiguration]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing_portal/configurations", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

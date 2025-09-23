@@ -60,13 +60,13 @@ func (c v1MarginService) List(ctx context.Context, listParams *MarginListParams)
 		listParams = &MarginListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Margin, ListContainer, error) {
-		list := &MarginList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Margin], error) {
+		list := &v1Page[*Margin]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/margins", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

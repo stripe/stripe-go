@@ -120,13 +120,13 @@ func (c v1AccountService) List(ctx context.Context, listParams *AccountListParam
 		listParams = &AccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Account, ListContainer, error) {
-		list := &AccountList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Account], error) {
+		list := &v1Page[*Account]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/accounts", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
