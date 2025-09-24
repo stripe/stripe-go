@@ -258,8 +258,6 @@ type AccountSettingsPayoutsScheduleWeeklyPayoutDay string
 const (
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayFriday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "friday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayMonday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "monday"
-	AccountSettingsPayoutsScheduleWeeklyPayoutDaySaturday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "saturday"
-	AccountSettingsPayoutsScheduleWeeklyPayoutDaySunday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "sunday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayThursday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "thursday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayTuesday   AccountSettingsPayoutsScheduleWeeklyPayoutDay = "tuesday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayWednesday AccountSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
@@ -691,6 +689,12 @@ type AccountCapabilitiesPaypalPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypay_payments capability.
+type AccountCapabilitiesPaypayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The payto_payments capability.
 type AccountCapabilitiesPaytoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -946,6 +950,8 @@ type AccountCapabilitiesParams struct {
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
 	PaypalPayments *AccountCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
@@ -1365,9 +1371,9 @@ type AccountSettingsPayoutsScheduleParams struct {
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
 	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
-	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
+	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. Required and applicable only if `interval` is `weekly`.
 	WeeklyAnchor *string `form:"weekly_anchor"`
-	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. Required and applicable only if `interval` is `weekly`.
 	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
@@ -1887,6 +1893,12 @@ type AccountUpdateCapabilitiesPaypalPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypay_payments capability.
+type AccountUpdateCapabilitiesPaypayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The payto_payments capability.
 type AccountUpdateCapabilitiesPaytoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2142,6 +2154,8 @@ type AccountUpdateCapabilitiesParams struct {
 	PayNowPayments *AccountUpdateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
 	PaypalPayments *AccountUpdateCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountUpdateCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountUpdateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
@@ -2565,9 +2579,9 @@ type AccountUpdateSettingsPayoutsScheduleParams struct {
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
 	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
-	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
+	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. Required and applicable only if `interval` is `weekly`.
 	WeeklyAnchor *string `form:"weekly_anchor"`
-	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. Required and applicable only if `interval` is `weekly`.
 	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
@@ -3054,6 +3068,12 @@ type AccountCreateCapabilitiesPaypalPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypay_payments capability.
+type AccountCreateCapabilitiesPaypayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The payto_payments capability.
 type AccountCreateCapabilitiesPaytoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3309,6 +3329,8 @@ type AccountCreateCapabilitiesParams struct {
 	PayNowPayments *AccountCreateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
 	PaypalPayments *AccountCreateCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The paypay_payments capability.
+	PaypayPayments *AccountCreateCapabilitiesPaypayPaymentsParams `form:"paypay_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountCreateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
@@ -3784,9 +3806,9 @@ type AccountCreateSettingsPayoutsScheduleParams struct {
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
 	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
-	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
+	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. Required and applicable only if `interval` is `weekly`.
 	WeeklyAnchor *string `form:"weekly_anchor"`
-	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. Required and applicable only if `interval` is `weekly`.
 	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
@@ -4077,6 +4099,8 @@ type AccountCapabilities struct {
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
 	// The status of the PayPal payments capability of the account, or whether the account can directly process PayPal charges.
 	PaypalPayments AccountCapabilityStatus `json:"paypal_payments"`
+	// The status of the Paypay capability of the account, or whether the account can directly process Paypay payments.
+	PaypayPayments AccountCapabilityStatus `json:"paypay_payments"`
 	// The status of the PayTo capability of the account, or whether the account can directly process PayTo charges.
 	PaytoPayments AccountCapabilityStatus `json:"payto_payments"`
 	// The status of the pix payments capability of the account, or whether the account can directly process pix charges.

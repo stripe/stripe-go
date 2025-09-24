@@ -96,6 +96,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypePayco            PaymentIntentExcludedPaymentMethodType = "payco"
 	PaymentIntentExcludedPaymentMethodTypePayNow           PaymentIntentExcludedPaymentMethodType = "paynow"
 	PaymentIntentExcludedPaymentMethodTypePaypal           PaymentIntentExcludedPaymentMethodType = "paypal"
+	PaymentIntentExcludedPaymentMethodTypePaypay           PaymentIntentExcludedPaymentMethodType = "paypay"
 	PaymentIntentExcludedPaymentMethodTypePayto            PaymentIntentExcludedPaymentMethodType = "payto"
 	PaymentIntentExcludedPaymentMethodTypePix              PaymentIntentExcludedPaymentMethodType = "pix"
 	PaymentIntentExcludedPaymentMethodTypePromptPay        PaymentIntentExcludedPaymentMethodType = "promptpay"
@@ -1633,7 +1634,7 @@ type PaymentIntentAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
@@ -2142,6 +2143,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *PaymentMethodPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -3108,6 +3111,16 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	Subsellers []*string `form:"subsellers"`
 }
 
+// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
+type PaymentIntentPaymentMethodOptionsPaypayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
@@ -3531,6 +3544,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	PayNow *PaymentIntentPaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *PaymentIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
+	Paypay *PaymentIntentPaymentMethodOptionsPaypayParams `form:"paypay"`
 	// If this is a `payto` PaymentMethod, this sub-hash contains details about the PayTo payment method options.
 	Payto *PaymentIntentPaymentMethodOptionsPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
@@ -3869,7 +3884,7 @@ type PaymentIntentCaptureAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentCaptureAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
@@ -4367,7 +4382,7 @@ type PaymentIntentConfirmAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentConfirmAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
@@ -4779,6 +4794,8 @@ type PaymentIntentConfirmParams struct {
 	ConfirmationToken *string `form:"confirmation_token"`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
@@ -4994,7 +5011,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
@@ -5240,7 +5257,7 @@ type PaymentIntentCreateAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentCreateAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
@@ -5749,6 +5766,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *PaymentMethodPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -6715,6 +6734,16 @@ type PaymentIntentCreatePaymentMethodOptionsPaypalParams struct {
 	Subsellers []*string `form:"subsellers"`
 }
 
+// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
+type PaymentIntentCreatePaymentMethodOptionsPaypayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
 type PaymentIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
@@ -7138,6 +7167,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	PayNow *PaymentIntentCreatePaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *PaymentIntentCreatePaymentMethodOptionsPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
+	Paypay *PaymentIntentCreatePaymentMethodOptionsPaypayParams `form:"paypay"`
 	// If this is a `payto` PaymentMethod, this sub-hash contains details about the PayTo payment method options.
 	Payto *PaymentIntentCreatePaymentMethodOptionsPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
@@ -7435,7 +7466,7 @@ type PaymentIntentUpdateAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentUpdateAmountDetailsParams struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
@@ -7927,6 +7958,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *PaymentMethodPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
@@ -8893,6 +8926,16 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypalParams struct {
 	Subsellers []*string `form:"subsellers"`
 }
 
+// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsPaypayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
 type PaymentIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
@@ -9316,6 +9359,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	PayNow *PaymentIntentUpdatePaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *PaymentIntentUpdatePaymentMethodOptionsPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
+	Paypay *PaymentIntentUpdatePaymentMethodOptionsPaypayParams `form:"paypay"`
 	// If this is a `payto` PaymentMethod, this sub-hash contains details about the PayTo payment method options.
 	Payto *PaymentIntentUpdatePaymentMethodOptionsPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
@@ -9391,6 +9436,8 @@ type PaymentIntentUpdateParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
@@ -9471,7 +9518,7 @@ type PaymentIntentAmountDetailsTip struct {
 	Amount int64 `json:"amount"`
 }
 type PaymentIntentAmountDetails struct {
-	// The amount an item was discounted for.
+	// The total discount applied on the transaction.
 	DiscountAmount int64 `json:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items"`
@@ -10588,6 +10635,7 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
 	Subsellers []string `json:"subsellers"`
 }
+type PaymentIntentPaymentMethodOptionsPaypay struct{}
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptions struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount int64 `json:"amount"`
@@ -10870,6 +10918,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Payco            *PaymentIntentPaymentMethodOptionsPayco            `json:"payco"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
 	Paypal           *PaymentIntentPaymentMethodOptionsPaypal           `json:"paypal"`
+	Paypay           *PaymentIntentPaymentMethodOptionsPaypay           `json:"paypay"`
 	Payto            *PaymentIntentPaymentMethodOptionsPayto            `json:"payto"`
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`

@@ -25,6 +25,7 @@ import (
 	"github.com/stripe/stripe-go/v82/balancetransaction"
 	"github.com/stripe/stripe-go/v82/bankaccount"
 	billingalert "github.com/stripe/stripe-go/v82/billing/alert"
+	billinganalyticsmeterusage "github.com/stripe/stripe-go/v82/billing/analytics/meterusage"
 	billingcreditbalancesummary "github.com/stripe/stripe-go/v82/billing/creditbalancesummary"
 	billingcreditbalancetransaction "github.com/stripe/stripe-go/v82/billing/creditbalancetransaction"
 	billingcreditgrant "github.com/stripe/stripe-go/v82/billing/creditgrant"
@@ -32,7 +33,6 @@ import (
 	billingmeterevent "github.com/stripe/stripe-go/v82/billing/meterevent"
 	billingmetereventadjustment "github.com/stripe/stripe-go/v82/billing/metereventadjustment"
 	billingmetereventsummary "github.com/stripe/stripe-go/v82/billing/metereventsummary"
-	billingmeterusage "github.com/stripe/stripe-go/v82/billing/meterusage"
 	billingportalconfiguration "github.com/stripe/stripe-go/v82/billingportal/configuration"
 	billingportalsession "github.com/stripe/stripe-go/v82/billingportal/session"
 	"github.com/stripe/stripe-go/v82/capability"
@@ -260,6 +260,8 @@ type API struct {
 	BankAccounts *bankaccount.Client
 	// BillingAlerts is the client used to invoke /v1/billing/alerts APIs.
 	BillingAlerts *billingalert.Client
+	// BillingAnalyticsMeterUsage is the client used to invoke /v1/billing/analytics/meter_usage APIs.
+	BillingAnalyticsMeterUsage *billinganalyticsmeterusage.Client
 	// BillingCreditBalanceSummary is the client used to invoke /v1/billing/credit_balance_summary APIs.
 	BillingCreditBalanceSummary *billingcreditbalancesummary.Client
 	// BillingCreditBalanceTransactions is the client used to invoke /v1/billing/credit_balance_transactions APIs.
@@ -274,8 +276,6 @@ type API struct {
 	BillingMeterEventSummaries *billingmetereventsummary.Client
 	// BillingMeters is the client used to invoke /v1/billing/meters APIs.
 	BillingMeters *billingmeter.Client
-	// BillingMeterUsage is the client used to invoke /v1/billing/analytics/meter_usage APIs.
-	BillingMeterUsage *billingmeterusage.Client
 	// BillingPortalConfigurations is the client used to invoke /v1/billing_portal/configurations APIs.
 	BillingPortalConfigurations *billingportalconfiguration.Client
 	// BillingPortalSessions is the client used to invoke /v1/billing_portal/sessions APIs.
@@ -694,6 +694,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingAlerts = &billingalert.Client{B: backends.API, Key: key}
+	a.BillingAnalyticsMeterUsage = &billinganalyticsmeterusage.Client{B: backends.API, Key: key}
 	a.BillingCreditBalanceSummary = &billingcreditbalancesummary.Client{B: backends.API, Key: key}
 	a.BillingCreditBalanceTransactions = &billingcreditbalancetransaction.Client{B: backends.API, Key: key}
 	a.BillingCreditGrants = &billingcreditgrant.Client{B: backends.API, Key: key}
@@ -701,7 +702,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
 	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}
 	a.BillingMeters = &billingmeter.Client{B: backends.API, Key: key}
-	a.BillingMeterUsage = &billingmeterusage.Client{B: backends.API, Key: key}
 	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}

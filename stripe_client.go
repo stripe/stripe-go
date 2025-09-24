@@ -34,6 +34,8 @@ type Client struct {
 	V1BankAccounts *v1BankAccountService
 	// V1BillingAlerts is the service used to invoke /v1/billing/alerts APIs.
 	V1BillingAlerts *v1BillingAlertService
+	// V1BillingAnalyticsMeterUsage is the service used to invoke /v1/billing/analytics/meter_usage APIs.
+	V1BillingAnalyticsMeterUsage *v1BillingAnalyticsMeterUsageService
 	// V1BillingCreditBalanceSummary is the service used to invoke /v1/billing/credit_balance_summary APIs.
 	V1BillingCreditBalanceSummary *v1BillingCreditBalanceSummaryService
 	// V1BillingCreditBalanceTransactions is the service used to invoke /v1/billing/credit_balance_transactions APIs.
@@ -48,8 +50,6 @@ type Client struct {
 	V1BillingMeterEventSummaries *v1BillingMeterEventSummaryService
 	// V1BillingMeters is the service used to invoke /v1/billing/meters APIs.
 	V1BillingMeters *v1BillingMeterService
-	// V1BillingMeterUsage is the service used to invoke /v1/billing/analytics/meter_usage APIs.
-	V1BillingMeterUsage *v1BillingMeterUsageService
 	// V1BillingPortalConfigurations is the service used to invoke /v1/billing_portal/configurations APIs.
 	V1BillingPortalConfigurations *v1BillingPortalConfigurationService
 	// V1BillingPortalSessions is the service used to invoke /v1/billing_portal/sessions APIs.
@@ -482,6 +482,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BalanceTransactions = &v1BalanceTransactionService{B: backends.API, Key: key}
 	client.V1BankAccounts = &v1BankAccountService{B: backends.API, Key: key}
 	client.V1BillingAlerts = &v1BillingAlertService{B: backends.API, Key: key}
+	client.V1BillingAnalyticsMeterUsage = &v1BillingAnalyticsMeterUsageService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceSummary = &v1BillingCreditBalanceSummaryService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceTransactions = &v1BillingCreditBalanceTransactionService{B: backends.API, Key: key}
 	client.V1BillingCreditGrants = &v1BillingCreditGrantService{B: backends.API, Key: key}
@@ -489,7 +490,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BillingMeterEvents = &v1BillingMeterEventService{B: backends.API, Key: key}
 	client.V1BillingMeterEventSummaries = &v1BillingMeterEventSummaryService{B: backends.API, Key: key}
 	client.V1BillingMeters = &v1BillingMeterService{B: backends.API, Key: key}
-	client.V1BillingMeterUsage = &v1BillingMeterUsageService{B: backends.API, Key: key}
 	client.V1BillingPortalConfigurations = &v1BillingPortalConfigurationService{B: backends.API, Key: key}
 	client.V1BillingPortalSessions = &v1BillingPortalSessionService{B: backends.API, Key: key}
 	client.V1Capabilities = &v1CapabilityService{B: backends.API, Key: key}

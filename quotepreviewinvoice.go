@@ -304,6 +304,15 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
 )
 
+// Determines if the amount includes the IOF tax.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIofAlways QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof = "always"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIofNever  QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof = "never"
+)
+
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType string
 
@@ -392,6 +401,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayco              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "payco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayNow             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paynow"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePaypal             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paypal"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePix                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "pix"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePromptPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "promptpay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeRevolutPay         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "revolut_pay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
@@ -692,6 +702,12 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer struct
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
 
+// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPix struct {
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
+}
+
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
@@ -744,6 +760,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	IDBankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer `json:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
+	// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+	Pix *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPix `json:"pix"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
 	// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
