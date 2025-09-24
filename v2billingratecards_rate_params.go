@@ -8,8 +8,7 @@ package stripe
 
 // List all Rates associated with a Rate Card for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.
 type V2BillingRateCardsRateListParams struct {
-	Params `form:"*"`
-	// The ID of the Rate Card to retrieve rates for.
+	Params     `form:"*"`
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
@@ -36,7 +35,7 @@ type V2BillingRateCardsRateTierParams struct {
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal *string `form:"up_to_decimal" json:"up_to_decimal,omitempty"`
+	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,high_precision,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
 }
@@ -52,8 +51,7 @@ type V2BillingRateCardsRateTransformQuantityParams struct {
 // Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
 // if the Metered Item already has a rate on the Rate Card.
 type V2BillingRateCardsRateParams struct {
-	Params `form:"*"`
-	// The ID of the Rate Card to create a new rate for.
+	Params     `form:"*"`
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// The custom pricing unit that this rate binds to.
 	CustomPricingUnitAmount *V2BillingRateCardsRateCustomPricingUnitAmountParams `form:"custom_pricing_unit_amount" json:"custom_pricing_unit_amount,omitempty"`
@@ -61,9 +59,6 @@ type V2BillingRateCardsRateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Metered Item that this rate binds to.
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
-	// The ID of the price object to take price information from. The price must have the same interval as the rate card.
-	// Updates to the Price will not be reflected in the Rate Card or its rates.
-	Price *string `form:"price" json:"price,omitempty"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.
@@ -103,7 +98,7 @@ type V2BillingRateCardsRateCreateTierParams struct {
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal *string `form:"up_to_decimal" json:"up_to_decimal,omitempty"`
+	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,high_precision,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
 }
@@ -119,8 +114,7 @@ type V2BillingRateCardsRateCreateTransformQuantityParams struct {
 // Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
 // if the Metered Item already has a rate on the Rate Card.
 type V2BillingRateCardsRateCreateParams struct {
-	Params `form:"*"`
-	// The ID of the Rate Card to create a new rate for.
+	Params     `form:"*"`
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// The custom pricing unit that this rate binds to.
 	CustomPricingUnitAmount *V2BillingRateCardsRateCreateCustomPricingUnitAmountParams `form:"custom_pricing_unit_amount" json:"custom_pricing_unit_amount,omitempty"`
@@ -128,9 +122,6 @@ type V2BillingRateCardsRateCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Metered Item that this rate binds to.
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
-	// The ID of the price object to take price information from. The price must have the same interval as the rate card.
-	// Updates to the Price will not be reflected in the Rate Card or its rates.
-	Price *string `form:"price" json:"price,omitempty"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.
@@ -155,14 +146,12 @@ func (p *V2BillingRateCardsRateCreateParams) AddMetadata(key string, value strin
 
 // Remove an existing Rate from a Rate Card. This will create a new Rate Card Version without that Rate.
 type V2BillingRateCardsRateDeleteParams struct {
-	Params `form:"*"`
-	// The ID of the Rate Card.
+	Params     `form:"*"`
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 }
 
 // Retrieve a Rate object.
 type V2BillingRateCardsRateRetrieveParams struct {
-	Params `form:"*"`
-	// The ID of the Rate Card.
+	Params     `form:"*"`
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 }

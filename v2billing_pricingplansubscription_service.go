@@ -29,6 +29,18 @@ func (c v2BillingPricingPlanSubscriptionService) Retrieve(ctx context.Context, i
 	return pricingplansubscription, err
 }
 
+// Update a Pricing Plan Subscription object.
+func (c v2BillingPricingPlanSubscriptionService) Update(ctx context.Context, id string, params *V2BillingPricingPlanSubscriptionUpdateParams) (*V2BillingPricingPlanSubscription, error) {
+	if params == nil {
+		params = &V2BillingPricingPlanSubscriptionUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/billing/pricing_plan_subscriptions/%s", id)
+	pricingplansubscription := &V2BillingPricingPlanSubscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, pricingplansubscription)
+	return pricingplansubscription, err
+}
+
 // List all Pricing Plan Subscription objects.
 func (c v2BillingPricingPlanSubscriptionService) List(ctx context.Context, listParams *V2BillingPricingPlanSubscriptionListParams) Seq2[*V2BillingPricingPlanSubscription, error] {
 	if listParams == nil {

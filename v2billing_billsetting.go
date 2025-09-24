@@ -37,7 +37,7 @@ type V2BillingBillSettingCalculationTax struct {
 // Settings related to calculating a bill.
 type V2BillingBillSettingCalculation struct {
 	// Settings for calculating tax.
-	Tax *V2BillingBillSettingCalculationTax `json:"tax"`
+	Tax *V2BillingBillSettingCalculationTax `json:"tax,omitempty"`
 }
 
 // The amount of time until the invoice will be overdue for payment.
@@ -52,24 +52,24 @@ type V2BillingBillSettingInvoiceTimeUntilDue struct {
 // Settings related to invoice behavior.
 type V2BillingBillSettingInvoice struct {
 	// The amount of time until the invoice will be overdue for payment.
-	TimeUntilDue *V2BillingBillSettingInvoiceTimeUntilDue `json:"time_until_due"`
+	TimeUntilDue *V2BillingBillSettingInvoiceTimeUntilDue `json:"time_until_due,omitempty"`
 }
 
 // BillSetting is responsible for settings which dictate generating bills, which include settings for calculating totals on bills, tax on bill items, as well as how to generate and present invoices.
 type V2BillingBillSetting struct {
 	APIResource
 	// Settings related to calculating a bill.
-	Calculation *V2BillingBillSettingCalculation `json:"calculation"`
+	Calculation *V2BillingBillSettingCalculation `json:"calculation,omitempty"`
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
 	// An optional field for adding a display name for the BillSetting object.
-	DisplayName string `json:"display_name"`
+	DisplayName string `json:"display_name,omitempty"`
 	// The ID of the BillSetting object.
 	ID string `json:"id"`
 	// Settings related to invoice behavior.
-	Invoice *V2BillingBillSettingInvoice `json:"invoice"`
+	Invoice *V2BillingBillSettingInvoice `json:"invoice,omitempty"`
 	// The ID of the invoice rendering template to be used when generating invoices.
-	InvoiceRenderingTemplate string `json:"invoice_rendering_template"`
+	InvoiceRenderingTemplate string `json:"invoice_rendering_template,omitempty"`
 	// The latest version of the current settings object. This will be
 	// Updated every time an attribute of the settings is updated.
 	LatestVersion string `json:"latest_version"`
@@ -80,7 +80,7 @@ type V2BillingBillSetting struct {
 	LiveVersion string `json:"live_version"`
 	// A lookup key used to retrieve settings dynamically from a static string.
 	// This may be up to 200 characters.
-	LookupKey string `json:"lookup_key"`
+	LookupKey string `json:"lookup_key,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 }

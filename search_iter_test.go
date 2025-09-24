@@ -143,7 +143,7 @@ func TestSearchIterMultiplePages(t *testing.T) {
 }
 
 func TestV1SearchListEmpty(t *testing.T) {
-	tq := testV1SearchQuery[int]{{nil, &SearchMeta{}, nil}}
+	tq := testV1SearchQuery[*item]{{v: &v1SearchPage[*item]{}, e: nil}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
@@ -151,7 +151,7 @@ func TestV1SearchListEmpty(t *testing.T) {
 }
 
 func TestV1SearchListEmptyErr(t *testing.T) {
-	tq := testV1SearchQuery[int]{{nil, &SearchMeta{}, errTest}}
+	tq := testV1SearchQuery[*item]{{v: &v1SearchPage[*item]{}, e: errTest}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
@@ -159,8 +159,8 @@ func TestV1SearchListEmptyErr(t *testing.T) {
 }
 
 func TestV1SearchListOne(t *testing.T) {
-	tq := testV1SearchQuery[int]{{[]*int{intPtr(1)}, &SearchMeta{}, nil}}
-	want := []*int{intPtr(1)}
+	tq := testV1SearchQuery[*item]{{v: &v1SearchPage[*item]{Data: []*item{{"1"}}}, e: nil}}
+	want := []*item{{"1"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
@@ -168,8 +168,8 @@ func TestV1SearchListOne(t *testing.T) {
 }
 
 func TestV1SearchListOneErr(t *testing.T) {
-	tq := testV1SearchQuery[int]{{[]*int{intPtr(1)}, &SearchMeta{}, errTest}}
-	want := []*int{intPtr(1)}
+	tq := testV1SearchQuery[*item]{{v: &v1SearchPage[*item]{Data: []*item{{"1"}}}, e: errTest}}
+	want := []*item{{"1"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
@@ -177,9 +177,9 @@ func TestV1SearchListOneErr(t *testing.T) {
 }
 
 func TestV1SearchListPage2Empty(t *testing.T) {
-	tq := testV1SearchQuery[item]{
-		{[]*item{{"x"}}, &SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}, nil},
-		{nil, &SearchMeta{}, nil},
+	tq := testV1SearchQuery[*item]{
+		{v: &v1SearchPage[*item]{Data: []*item{{"x"}}, SearchMeta: SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}}, e: nil},
+		{v: &v1SearchPage[*item]{}, e: nil},
 	}
 	want := []*item{{"x"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
@@ -189,9 +189,9 @@ func TestV1SearchListPage2Empty(t *testing.T) {
 }
 
 func TestV1SearchListPage2EmptyErr(t *testing.T) {
-	tq := testV1SearchQuery[item]{
-		{[]*item{{"x"}}, &SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}, nil},
-		{nil, &SearchMeta{}, errTest},
+	tq := testV1SearchQuery[*item]{
+		{v: &v1SearchPage[*item]{Data: []*item{{"x"}}, SearchMeta: SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}}, e: nil},
+		{v: &v1SearchPage[*item]{}, e: errTest},
 	}
 	want := []*item{{"x"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
@@ -201,9 +201,9 @@ func TestV1SearchListPage2EmptyErr(t *testing.T) {
 }
 
 func TestV1SearchListTwoPages(t *testing.T) {
-	tq := testV1SearchQuery[item]{
-		{[]*item{{"x"}}, &SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}, nil},
-		{[]*item{{"y"}}, &SearchMeta{HasMore: false, URL: ""}, nil},
+	tq := testV1SearchQuery[*item]{
+		{v: &v1SearchPage[*item]{Data: []*item{{"x"}}, SearchMeta: SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}}, e: nil},
+		{v: &v1SearchPage[*item]{Data: []*item{{"y"}}, SearchMeta: SearchMeta{HasMore: false, URL: ""}}, e: nil},
 	}
 	want := []*item{{"x"}, {"y"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
@@ -213,9 +213,9 @@ func TestV1SearchListTwoPages(t *testing.T) {
 }
 
 func TestV1SearchListTwoPagesErr(t *testing.T) {
-	tq := testV1SearchQuery[item]{
-		{[]*item{{"x"}}, &SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}, nil},
-		{[]*item{{"y"}}, &SearchMeta{HasMore: false, URL: ""}, errTest},
+	tq := testV1SearchQuery[*item]{
+		{v: &v1SearchPage[*item]{Data: []*item{{"x"}}, SearchMeta: SearchMeta{HasMore: true, URL: "", NextPage: &nextPageTestToken}}, e: nil},
+		{v: &v1SearchPage[*item]{Data: []*item{{"y"}}, SearchMeta: SearchMeta{HasMore: false, URL: ""}}, e: errTest},
 	}
 	want := []*item{{"x"}, {"y"}}
 	g, gerr := collectSearchList(newV1SearchList(nil, tq.query))
@@ -274,16 +274,15 @@ func (tq *testSearchQuery) query(*Params, *form.Values) ([]interface{}, SearchCo
 	return x.v, x.m, x.e
 }
 
-type testV1SearchQuery[T any] []struct {
-	v []*T
-	m SearchContainer
+type testV1SearchQuery[T LastResponseSetter] []struct {
+	v *v1SearchPage[T]
 	e error
 }
 
-func (tq *testV1SearchQuery[T]) query(*Params, *form.Values) ([]*T, SearchContainer, error) {
+func (tq *testV1SearchQuery[T]) query(*Params, *form.Values) (*v1SearchPage[T], error) {
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
-	return x.v, x.m, x.e
+	return x.v, x.e
 }
 
 // TestClient is used to invoke /charges APIs.
@@ -320,12 +319,12 @@ type TestServer struct {
 }
 
 func (c TestServer) Search(ctx context.Context, params *SearchParams) Seq2[*TestEntity, error] {
-	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*TestEntity, SearchContainer, error) {
-		list := &TestSearchResult{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*TestEntity], error) {
+		list := &v1SearchPage[*TestEntity]{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/something/search", c.Key, []byte(b.Encode()), p, list)
 		ret := make([]*TestEntity, len(list.Data))
 		copy(ret, list.Data)
-		return ret, list, err
+		return list, err
 	}).All()
 }
 
@@ -341,10 +340,10 @@ type TestSearchResult struct {
 	Data []*TestEntity `json:"data"`
 }
 
-func collectSearchList[T any](it *v1SearchList[T]) ([]*T, error) {
-	var tt []*T
+func collectSearchList[T LastResponseSetter](it *v1SearchList[T]) ([]T, error) {
+	var tt []T
 	var err error
-	it.All()(func(t *T, e error) bool {
+	it.All()(func(t T, e error) bool {
 		if e != nil {
 			err = e
 			return false
@@ -353,4 +352,149 @@ func collectSearchList[T any](it *v1SearchList[T]) ([]*T, error) {
 		return true
 	})
 	return tt, err
+}
+
+type testSearchItemWithResponse struct {
+	ID           string
+	Name         string
+	lastResponse *APIResponse
+}
+
+func (t *testSearchItemWithResponse) SetLastResponse(response *APIResponse) {
+	t.lastResponse = response
+}
+
+type testSearchItemSimple struct {
+	ID string
+}
+
+func (t *testSearchItemSimple) SetLastResponse(response *APIResponse) {}
+
+type simpleSearchItem struct {
+	ID string
+}
+
+func TestMaybeAddLastResponseSearchIndividualJSON(t *testing.T) {
+	// Test that each item gets its corresponding raw JSON from the data array
+	pageRawJSON := `{
+		"object": "search_result",
+		"url": "/v1/customers/search",
+		"has_more": false,
+		"data": [
+			{"id": "cus_1", "name": "Customer 1"},
+			{"id": "cus_2", "name": "Customer 2"}
+		]
+	}`
+
+	item1 := &testSearchItemWithResponse{ID: "cus_1", Name: "Customer 1"}
+	item2 := &testSearchItemWithResponse{ID: "cus_2", Name: "Customer 2"}
+
+	page := &v1SearchPage[*testSearchItemWithResponse]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*testSearchItemWithResponse{item1, item2},
+	}
+
+	// Call the function
+	err := maybeAddLastResponseSearch(page)
+	assert.NoError(t, err)
+
+	// Verify each item has its corresponding JSON
+	expectedJSON1 := `{"id": "cus_1", "name": "Customer 1"}`
+	expectedJSON2 := `{"id": "cus_2", "name": "Customer 2"}`
+
+	assert.NotNil(t, item1.lastResponse)
+	assert.JSONEq(t, expectedJSON1, string(item1.lastResponse.RawJSON))
+
+	assert.NotNil(t, item2.lastResponse)
+	assert.JSONEq(t, expectedJSON2, string(item2.lastResponse.RawJSON))
+
+	// Verify other fields are copied from the original response
+	assert.Equal(t, page.LastResponse.Header, item1.lastResponse.Header)
+	assert.Equal(t, page.LastResponse.IdempotencyKey, item1.lastResponse.IdempotencyKey)
+	assert.Equal(t, page.LastResponse.RequestID, item1.lastResponse.RequestID)
+	assert.Equal(t, page.LastResponse.Status, item1.lastResponse.Status)
+	assert.Equal(t, page.LastResponse.StatusCode, item1.lastResponse.StatusCode)
+}
+
+func TestMaybeAddLastResponseSearchMismatchedLengths(t *testing.T) {
+	// Test error when data array length doesn't match page.Data length
+	pageRawJSON := `{
+		"object": "search_result",
+		"data": [
+			{"id": "cus_1"}
+		]
+	}`
+
+	page := &v1SearchPage[*testSearchItemSimple]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON:   []byte(pageRawJSON),
+				RequestID: "req_search_test123",
+			},
+		},
+		Data: []*testSearchItemSimple{{"cus_1"}, {"cus_2"}}, // 2 items but only 1 in JSON data array
+	}
+
+	err := maybeAddLastResponseSearch(page)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "mismatch in data length for requestID req_search_test123")
+}
+
+func TestMaybeAddLastResponseSearchInvalidJSON(t *testing.T) {
+	// Test error when page JSON is invalid
+	pageRawJSON := `{invalid json`
+
+	page := &v1SearchPage[*testSearchItemSimple]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*testSearchItemSimple{{"cus_1"}},
+	}
+
+	err := maybeAddLastResponseSearch(page)
+	assert.Error(t, err)
+}
+
+func TestMaybeAddLastResponseSearchWithNonLastResponseSetter(t *testing.T) {
+	// Test with items that don't implement LastResponseSetter
+	pageRawJSON := `{
+		"object": "search_result",
+		"data": [
+			{"id": "item_1"},
+			{"id": "item_2"}
+		]
+	}`
+
+	// Note: simpleSearchItem does NOT implement LastResponseSetter
+	page := &v1SearchPage[*simpleSearchItem]{
+		APIResource: APIResource{
+			LastResponse: &APIResponse{
+				RawJSON: []byte(pageRawJSON),
+			},
+		},
+		Data: []*simpleSearchItem{{"item_1"}, {"item_2"}},
+	}
+
+	// Should not error even though items don't implement LastResponseSetter
+	err := maybeAddLastResponseSearch(page)
+	assert.NoError(t, err)
+}
+
+func TestMaybeAddLastResponseSearchNilLastResponse(t *testing.T) {
+	// Test when LastResponse is nil - should return nil without error
+	page := &v1SearchPage[*testSearchItemSimple]{
+		APIResource: APIResource{
+			LastResponse: nil, // nil LastResponse
+		},
+		Data: []*testSearchItemSimple{{"cus_1"}},
+	}
+
+	err := maybeAddLastResponseSearch(page)
+	assert.NoError(t, err)
 }
