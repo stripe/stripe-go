@@ -142,6 +142,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataKrCardParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataMobilepayParams struct{}
 
@@ -189,6 +192,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataPayNowParams struct{}
 
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataPaypalParams struct{}
+
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataPaypayParams struct{}
 
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataPixParams struct{}
@@ -307,6 +313,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	KrCard *TestHelpersConfirmationTokenPaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *TestHelpersConfirmationTokenPaymentMethodDataLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *TestHelpersConfirmationTokenPaymentMethodDataMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -329,6 +337,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	PayNow *TestHelpersConfirmationTokenPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *TestHelpersConfirmationTokenPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *TestHelpersConfirmationTokenPaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *TestHelpersConfirmationTokenPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -571,6 +581,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataKrCardParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataMobilepayParams struct{}
 
@@ -618,6 +631,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataPayNowParams struct{}
 
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataPaypalParams struct{}
+
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataPaypayParams struct{}
 
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataPixParams struct{}
@@ -736,6 +752,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	KrCard *TestHelpersConfirmationTokenCreatePaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *TestHelpersConfirmationTokenCreatePaymentMethodDataMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -758,6 +776,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	PayNow *TestHelpersConfirmationTokenCreatePaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *TestHelpersConfirmationTokenCreatePaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *TestHelpersConfirmationTokenCreatePaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *TestHelpersConfirmationTokenCreatePaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.

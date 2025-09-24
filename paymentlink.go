@@ -160,6 +160,7 @@ const (
 	PaymentLinkPaymentMethodTypePayByBank        PaymentLinkPaymentMethodType = "pay_by_bank"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
 	PaymentLinkPaymentMethodTypePaypal           PaymentLinkPaymentMethodType = "paypal"
+	PaymentLinkPaymentMethodTypePaypay           PaymentLinkPaymentMethodType = "paypay"
 	PaymentLinkPaymentMethodTypePix              PaymentLinkPaymentMethodType = "pix"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
 	PaymentLinkPaymentMethodTypeSatispay         PaymentLinkPaymentMethodType = "satispay"
@@ -464,6 +465,8 @@ type PaymentLinkLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1016,6 +1019,8 @@ type PaymentLinkCreateLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

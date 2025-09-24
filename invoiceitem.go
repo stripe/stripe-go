@@ -363,6 +363,18 @@ type InvoiceItemPricing struct {
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 
+// Discount amounts applied when the proration was created.
+type InvoiceItemProrationDetailsDiscountAmount struct {
+	// The amount, in cents (or local equivalent), of the discount.
+	Amount int64 `json:"amount"`
+	// The discount that was applied to get this discount amount.
+	Discount *Discount `json:"discount"`
+}
+type InvoiceItemProrationDetails struct {
+	// Discount amounts applied when the proration was created.
+	DiscountAmounts []*InvoiceItemProrationDetailsDiscountAmount `json:"discount_amounts"`
+}
+
 // Invoice Items represent the component lines of an [invoice](https://stripe.com/docs/api/invoices). When you create an invoice item with an `invoice` field, it is attached to the specified invoice and included as [an invoice line item](https://stripe.com/docs/api/invoices/line_item) within [invoice.lines](https://stripe.com/docs/api/invoices/object#invoice_object-lines).
 //
 // Invoice Items can be created before you are ready to actually send the invoice. This can be particularly useful when combined
@@ -396,6 +408,8 @@ type InvoiceItem struct {
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// The amount after discounts, but before credits and taxes. This field is `null` for `discountable=true` items.
+	NetAmount int64 `json:"net_amount"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The parent that generated this invoice item.
@@ -404,7 +418,8 @@ type InvoiceItem struct {
 	// The pricing information of the invoice item.
 	Pricing *InvoiceItemPricing `json:"pricing"`
 	// Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
-	Proration bool `json:"proration"`
+	Proration        bool                         `json:"proration"`
+	ProrationDetails *InvoiceItemProrationDetails `json:"proration_details"`
 	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
 	Quantity int64 `json:"quantity"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.

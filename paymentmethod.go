@@ -288,6 +288,7 @@ const (
 	PaymentMethodTypeKonbini          PaymentMethodType = "konbini"
 	PaymentMethodTypeKrCard           PaymentMethodType = "kr_card"
 	PaymentMethodTypeLink             PaymentMethodType = "link"
+	PaymentMethodTypeMbWay            PaymentMethodType = "mb_way"
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
 	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
 	PaymentMethodTypeNaverPay         PaymentMethodType = "naver_pay"
@@ -298,6 +299,7 @@ const (
 	PaymentMethodTypePayco            PaymentMethodType = "payco"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
 	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
+	PaymentMethodTypePaypay           PaymentMethodType = "paypay"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
@@ -545,6 +547,9 @@ type PaymentMethodKrCardParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type PaymentMethodLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type PaymentMethodMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type PaymentMethodMobilepayParams struct{}
 
@@ -592,6 +597,9 @@ type PaymentMethodPayNowParams struct{}
 
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodPaypalParams struct{}
+
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type PaymentMethodPaypayParams struct{}
 
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentMethodPixParams struct{}
@@ -717,6 +725,8 @@ type PaymentMethodParams struct {
 	KrCard *PaymentMethodKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *PaymentMethodMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -739,6 +749,8 @@ type PaymentMethodParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -984,6 +996,9 @@ type PaymentMethodCreateKrCardParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type PaymentMethodCreateLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type PaymentMethodCreateMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type PaymentMethodCreateMobilepayParams struct{}
 
@@ -1031,6 +1046,9 @@ type PaymentMethodCreatePayNowParams struct{}
 
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodCreatePaypalParams struct{}
+
+// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+type PaymentMethodCreatePaypayParams struct{}
 
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentMethodCreatePixParams struct{}
@@ -1158,6 +1176,8 @@ type PaymentMethodCreateParams struct {
 	KrCard *PaymentMethodCreateKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodCreateLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *PaymentMethodCreateMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -1182,6 +1202,8 @@ type PaymentMethodCreateParams struct {
 	PayNow *PaymentMethodCreatePayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodCreatePaypalParams `form:"paypal"`
+	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
+	Paypay *PaymentMethodCreatePaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodCreatePixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1268,12 +1290,6 @@ type PaymentMethodUpdateCardParams struct {
 	Networks *PaymentMethodUpdateCardNetworksParams `form:"networks"`
 }
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
-type PaymentMethodUpdateLinkParams struct{}
-
-// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
-type PaymentMethodUpdatePayByBankParams struct{}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUpdateUSBankAccountParams struct {
 	// Bank account holder type.
@@ -1293,12 +1309,8 @@ type PaymentMethodUpdateParams struct {
 	Card *PaymentMethodUpdateCardParams `form:"card"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
-	Link *PaymentMethodUpdateLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
-	PayByBank *PaymentMethodUpdatePayByBankParams `form:"pay_by_bank"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUpdateUSBankAccountParams `form:"us_bank_account"`
 }
@@ -1729,6 +1741,7 @@ type PaymentMethodLink struct {
 	// Deprecated:
 	PersistentToken string `json:"persistent_token"`
 }
+type PaymentMethodMbWay struct{}
 type PaymentMethodMobilepay struct{}
 type PaymentMethodMultibanco struct{}
 type PaymentMethodNaverPay struct {
@@ -1768,6 +1781,7 @@ type PaymentMethodPaypal struct {
 	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
 	PayerID string `json:"payer_id"`
 }
+type PaymentMethodPaypay struct{}
 type PaymentMethodPix struct{}
 type PaymentMethodPromptPay struct{}
 
@@ -1894,7 +1908,8 @@ type PaymentMethod struct {
 	KrCard         *PaymentMethodKrCard         `json:"kr_card"`
 	Link           *PaymentMethodLink           `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	Livemode bool `json:"livemode"`
+	Livemode bool                `json:"livemode"`
+	MbWay    *PaymentMethodMbWay `json:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata      map[string]string           `json:"metadata"`
 	Mobilepay     *PaymentMethodMobilepay     `json:"mobilepay"`
@@ -1909,6 +1924,7 @@ type PaymentMethod struct {
 	Payco     *PaymentMethodPayco     `json:"payco"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
 	Paypal    *PaymentMethodPaypal    `json:"paypal"`
+	Paypay    *PaymentMethodPaypay    `json:"paypay"`
 	Pix       *PaymentMethodPix       `json:"pix"`
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.

@@ -19,7 +19,7 @@ type v1PromotionCodeService struct {
 	Key string
 }
 
-// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
+// A promotion code points to an underlying promotion. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 func (c v1PromotionCodeService) Create(ctx context.Context, params *PromotionCodeCreateParams) (*PromotionCode, error) {
 	if params == nil {
 		params = &PromotionCodeCreateParams{}

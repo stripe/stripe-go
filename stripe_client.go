@@ -20,6 +20,8 @@ type Client struct {
 	V1AppsSecrets *v1AppsSecretService
 	// V1Balance is the service used to invoke /v1/balance APIs.
 	V1Balance *v1BalanceService
+	// V1BalanceSettings is the service used to invoke /v1/balance_settings APIs.
+	V1BalanceSettings *v1BalanceSettingsService
 	// V1BalanceTransactions is the service used to invoke /v1/balance_transactions APIs.
 	V1BalanceTransactions *v1BalanceTransactionService
 	// V1BankAccounts is the service used to invoke /v1/accounts/{account}/external_accounts APIs.
@@ -331,6 +333,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1ApplicationFees = &v1ApplicationFeeService{B: backends.API, Key: key}
 	client.V1AppsSecrets = &v1AppsSecretService{B: backends.API, Key: key}
 	client.V1Balance = &v1BalanceService{B: backends.API, Key: key}
+	client.V1BalanceSettings = &v1BalanceSettingsService{B: backends.API, Key: key}
 	client.V1BalanceTransactions = &v1BalanceTransactionService{B: backends.API, Key: key}
 	client.V1BankAccounts = &v1BankAccountService{B: backends.API, Key: key}
 	client.V1BillingAlerts = &v1BillingAlertService{B: backends.API, Key: key}
