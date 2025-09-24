@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
+// A promotion code points to an underlying promotion. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 func New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	return getC().New(params)
 }
 
-// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
+// A promotion code points to an underlying promotion. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

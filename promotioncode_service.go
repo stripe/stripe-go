@@ -19,7 +19,7 @@ type v1PromotionCodeService struct {
 	Key string
 }
 
-// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
+// A promotion code points to an underlying promotion. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 func (c v1PromotionCodeService) Create(ctx context.Context, params *PromotionCodeCreateParams) (*PromotionCode, error) {
 	if params == nil {
 		params = &PromotionCodeCreateParams{}
@@ -61,13 +61,13 @@ func (c v1PromotionCodeService) List(ctx context.Context, listParams *PromotionC
 		listParams = &PromotionCodeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PromotionCode, ListContainer, error) {
-		list := &PromotionCodeList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PromotionCode], error) {
+		list := &v1Page[*PromotionCode]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/promotion_codes", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

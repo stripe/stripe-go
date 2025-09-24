@@ -2615,6 +2615,7 @@ type ChargePaymentMethodDetailsPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsPaypay struct{}
 type ChargePaymentMethodDetailsPayto struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -2810,6 +2811,7 @@ type ChargePaymentMethodDetails struct {
 	Payco              *ChargePaymentMethodDetailsPayco              `json:"payco"`
 	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow"`
 	Paypal             *ChargePaymentMethodDetailsPaypal             `json:"paypal"`
+	Paypay             *ChargePaymentMethodDetailsPaypay             `json:"paypay"`
 	Payto              *ChargePaymentMethodDetailsPayto              `json:"payto"`
 	Pix                *ChargePaymentMethodDetailsPix                `json:"pix"`
 	PromptPay          *ChargePaymentMethodDetailsPromptPay          `json:"promptpay"`
@@ -2857,8 +2859,7 @@ type ChargeTransferData struct {
 }
 
 // The `Charge` object represents a single attempt to move money into your Stripe account.
-// PaymentIntent confirmation is the most common way to create Charges, but transferring
-// money to a different Stripe account through Connect also creates Charges.
+// PaymentIntent confirmation is the most common way to create Charges, but [Account Debits](https://stripe.com/docs/connect/account-debits) may also create Charges.
 // Some legacy payment flows create Charges directly, which is not recommended for new integrations.
 type Charge struct {
 	APIResource

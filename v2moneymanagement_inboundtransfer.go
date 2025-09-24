@@ -58,7 +58,7 @@ type V2MoneyManagementInboundTransferFromPaymentMethod struct {
 	// The type of object this destination represents. For a us bank account, we expect us_bank_account.
 	Type string `json:"type"`
 	// The destination US bank account identifier. eg "usba_***".
-	USBankAccount string `json:"us_bank_account"`
+	USBankAccount string `json:"us_bank_account,omitempty"`
 }
 
 // A nested object containing information about the origin of the InboundTransfer.
@@ -101,15 +101,15 @@ type V2MoneyManagementInboundTransferTransferHistoryBankDebitSucceeded struct{}
 // A list of history objects, representing changes in the state of the InboundTransfer.
 type V2MoneyManagementInboundTransferTransferHistory struct {
 	// The history entry for a failed InboundTransfer.
-	BankDebitFailed *V2MoneyManagementInboundTransferTransferHistoryBankDebitFailed `json:"bank_debit_failed"`
+	BankDebitFailed *V2MoneyManagementInboundTransferTransferHistoryBankDebitFailed `json:"bank_debit_failed,omitempty"`
 	// The history entry for a processing InboundTransfer.
-	BankDebitProcessing *V2MoneyManagementInboundTransferTransferHistoryBankDebitProcessing `json:"bank_debit_processing"`
+	BankDebitProcessing *V2MoneyManagementInboundTransferTransferHistoryBankDebitProcessing `json:"bank_debit_processing,omitempty"`
 	// The history entry for a queued InboundTransfer.
-	BankDebitQueued *V2MoneyManagementInboundTransferTransferHistoryBankDebitQueued `json:"bank_debit_queued"`
+	BankDebitQueued *V2MoneyManagementInboundTransferTransferHistoryBankDebitQueued `json:"bank_debit_queued,omitempty"`
 	// The history entry for a returned InboundTransfer.
-	BankDebitReturned *V2MoneyManagementInboundTransferTransferHistoryBankDebitReturned `json:"bank_debit_returned"`
+	BankDebitReturned *V2MoneyManagementInboundTransferTransferHistoryBankDebitReturned `json:"bank_debit_returned,omitempty"`
 	// The history entry for a succeeded InboundTransfer.
-	BankDebitSucceeded *V2MoneyManagementInboundTransferTransferHistoryBankDebitSucceeded `json:"bank_debit_succeeded"`
+	BankDebitSucceeded *V2MoneyManagementInboundTransferTransferHistoryBankDebitSucceeded `json:"bank_debit_succeeded,omitempty"`
 	// Creation time of the HistoryEntry in RFC 3339 format and UTC.
 	Created time.Time `json:"created"`
 	// Effective at time of the HistoryEntry in RFC 3339 format and UTC.
@@ -141,7 +141,7 @@ type V2MoneyManagementInboundTransfer struct {
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// A hosted transaction receipt URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
-	ReceiptURL string `json:"receipt_url"`
+	ReceiptURL string `json:"receipt_url,omitempty"`
 	// A nested object containing information about the destination of the InboundTransfer.
 	To *V2MoneyManagementInboundTransferTo `json:"to"`
 	// A list of history objects, representing changes in the state of the InboundTransfer.

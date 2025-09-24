@@ -22,8 +22,9 @@ type V2MoneyManagementPayoutMethodType string
 
 // List of values that V2MoneyManagementPayoutMethodType can take
 const (
-	V2MoneyManagementPayoutMethodTypeBankAccount V2MoneyManagementPayoutMethodType = "bank_account"
-	V2MoneyManagementPayoutMethodTypeCard        V2MoneyManagementPayoutMethodType = "card"
+	V2MoneyManagementPayoutMethodTypeBankAccount  V2MoneyManagementPayoutMethodType = "bank_account"
+	V2MoneyManagementPayoutMethodTypeCard         V2MoneyManagementPayoutMethodType = "card"
+	V2MoneyManagementPayoutMethodTypeCryptoWallet V2MoneyManagementPayoutMethodType = "crypto_wallet"
 )
 
 // Payments status - used when sending OutboundPayments (sending funds to recipients).
@@ -80,7 +81,7 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	// The last 4 digits of the account number.
 	Last4 string `json:"last4"`
 	// The routing number of the bank account, if present.
-	RoutingNumber string `json:"routing_number"`
+	RoutingNumber string `json:"routing_number,omitempty"`
 	// The list of currencies supported by this bank account.
 	SupportedCurrencies []Currency `json:"supported_currencies"`
 }
@@ -105,15 +106,15 @@ type V2MoneyManagementPayoutMethod struct {
 	// A set of available payout speeds for this payout method.
 	AvailablePayoutSpeeds []V2MoneyManagementPayoutMethodAvailablePayoutSpeed `json:"available_payout_speeds"`
 	// The PayoutMethodBankAccount object details.
-	BankAccount *V2MoneyManagementPayoutMethodBankAccount `json:"bank_account"`
+	BankAccount *V2MoneyManagementPayoutMethodBankAccount `json:"bank_account,omitempty"`
 	// The PayoutMethodCard object details.
-	Card *V2MoneyManagementPayoutMethodCard `json:"card"`
+	Card *V2MoneyManagementPayoutMethodCard `json:"card,omitempty"`
 	// Created timestamp.
 	Created time.Time `json:"created"`
 	// ID of the PayoutMethod object.
 	ID string `json:"id"`
 	// ID of the underlying active OutboundSetupIntent object, if any.
-	LatestOutboundSetupIntent string `json:"latest_outbound_setup_intent"`
+	LatestOutboundSetupIntent string `json:"latest_outbound_setup_intent,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.

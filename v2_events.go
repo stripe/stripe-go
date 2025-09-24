@@ -123,15 +123,28 @@ type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUp
 // List of values that V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability can take
 const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesBankAccounts    V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.bank_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesCryptoWallets   V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesEUR                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.eur"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesGBP                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.gbp"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesUSD                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.usd"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesUsdc                V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.usdc"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityInboundTransfersBankAccounts       V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "inbound_transfers.bank_accounts"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsBankAccounts       V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCards              V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.cards"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCryptoWallets      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.financial_accounts"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersBankAccounts      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.bank_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersCryptoWallets     V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
+)
+
+// Open Enum. The use case type of the account link that has been completed.
+type V2CoreAccountLinkReturnedEventDataUseCase string
+
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
+const (
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // Configurations on the Account that was onboarded via the account link.
@@ -143,15 +156,6 @@ const (
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
 	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
-)
-
-// Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkReturnedEventDataUseCase string
-
-// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
-const (
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // V2Event is the interface implemented by V2 Events. To get the underlying Event,
@@ -188,6 +192,20 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 type V1BillingMeterNoMeterFoundEvent struct {
 	V2BaseEvent
 	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
+}
+
+// V2BillingBillSettingUpdatedEvent is the Go struct for the "v2.billing.bill_setting.updated" event.
+// This event occurs when a bill setting is updated.
+type V2BillingBillSettingUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingBillSettingUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                        `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingBillSetting, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingBillSetting object for the event.
+func (e V2BillingBillSettingUpdatedEvent) FetchRelatedObject() (*V2BillingBillSetting, error) {
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
@@ -389,11 +407,11 @@ type V2CoreAccountPersonCreatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -403,11 +421,11 @@ type V2CoreAccountPersonDeletedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -417,11 +435,11 @@ type V2CoreAccountPersonUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
 	RelatedObject      RelatedObject                       `json:"related_object"`
-	fetchRelatedObject func() (*V2CorePerson, error)
+	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CorePerson object for the event.
-func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, error) {
+// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
+func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -1062,6 +1080,12 @@ type V1BillingMeterNoMeterFoundEventData struct {
 	ValidationStart time.Time `json:"validation_start"`
 }
 
+// This event occurs when a bill setting is updated.
+type V2BillingBillSettingUpdatedEventData struct {
+	// Timestamp of when the object was updated.
+	Updated time.Time `json:"updated"`
+}
+
 // Occurs when the status of an Account's customer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData struct {
 	// Open Enum. The capability which had its status updated.
@@ -1146,6 +1170,19 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 	case "v1.billing.meter.no_meter_found":
 		result := &V1BillingMeterNoMeterFoundEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.bill_setting.updated":
+		result := &V2BillingBillSettingUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingBillSetting, error) {
+			v := &V2BillingBillSetting{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
@@ -1313,8 +1350,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -1326,8 +1363,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonDeletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -1339,8 +1376,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreAccountPersonUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CorePerson, error) {
-			v := &V2CorePerson{}
+		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
+			v := &V2CoreAccountPerson{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

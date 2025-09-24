@@ -375,6 +375,17 @@ if ok {
 }
 ```
 
+For `List` and `Search` operations, you can access each resource's `RawJSON` as you iterate
+```go
+for cust, err := range sc.V1Customers.List(context.TODO(), &stripe.CustomerListParams{}) {
+    if err != nil {
+        return err
+    }
+    customerJSON := cust.LastResponse.RawJSON
+    log.Printf("Customer JSON: %s", customerJSON) // {"id":"cus_123",...}
+}
+```
+
 ### Webhook signing
 
 Stripe can optionally sign the webhook events it sends to your endpoint, allowing you to validate that they were not sent by a third-party. You can read more about it [here](https://stripe.com/docs/webhooks/signatures).
@@ -490,7 +501,7 @@ func UseMockedStripeClient(t *testing.T) {
 Stripe has features in the [public preview phase](https://docs.stripe.com/release-phases) that can be accessed via versions of this package that have the `-beta.X` suffix like `82.2.0-beta.2`.
 We would love for you to try these as we incrementally release new features and improve them based on your feedback.
 
-To install, choose the version that includes support for the preview feature you are interested in by reviewing the [releases page](https://github.com/stripe/stripe-go/releases/) and use it in your `go.mod` file:
+To install, pick the latest version with the `beta` suffix by reviewing the [releases page](https://github.com/stripe/stripe-go/releases/) and use it in your `go.mod` file:
 
 ```
 require (
@@ -508,6 +519,9 @@ Some preview features require a name and version to be set in the `Stripe-Versio
 ```go
 stripe.AddBetaVersion("feature_beta", "v3")
 ```
+### Private Preview SDKs
+
+Stripe has features in the [private preview phase](https://docs.stripe.com/release-phases) that can be accessed via versions of this package that have the `-alpha.X` suffix like `82.2.0-alpha.2`. These are invite-only features. Once invited, you can install the private preview SDKs by following the same instructions as for the [public preview SDKs](https://github.com/stripe/stripe-go?tab=readme-ov-file#public-preview-sdks) above and replacing the term `beta` with `alpha`.
 
 ### Custom Request
 

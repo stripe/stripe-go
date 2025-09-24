@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// List of meter events to include in the request.
+// List of meter events to include in the request. Supports up to 100 events per request.
 type V2BillingMeterEventStreamEventParams struct {
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
 	EventName *string `form:"event_name" json:"event_name"`
@@ -30,11 +30,11 @@ type V2BillingMeterEventStreamEventParams struct {
 // Creates meter events. Events are processed asynchronously, including validation. Requires a meter event session for authentication. Supports up to 10,000 requests per second in livemode. For even higher rate-limits, contact sales.
 type V2BillingMeterEventStreamParams struct {
 	Params `form:"*"`
-	// List of meter events to include in the request.
+	// List of meter events to include in the request. Supports up to 100 events per request.
 	Events []*V2BillingMeterEventStreamEventParams `form:"events" json:"events"`
 }
 
-// List of meter events to include in the request.
+// List of meter events to include in the request. Supports up to 100 events per request.
 type V2BillingMeterEventStreamCreateEventParams struct {
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
 	EventName *string `form:"event_name" json:"event_name"`
@@ -56,6 +56,6 @@ type V2BillingMeterEventStreamCreateEventParams struct {
 // Creates meter events. Events are processed asynchronously, including validation. Requires a meter event session for authentication. Supports up to 10,000 requests per second in livemode. For even higher rate-limits, contact sales.
 type V2BillingMeterEventStreamCreateParams struct {
 	Params `form:"*"`
-	// List of meter events to include in the request.
+	// List of meter events to include in the request. Supports up to 100 events per request.
 	Events []*V2BillingMeterEventStreamCreateEventParams `form:"events" json:"events"`
 }
