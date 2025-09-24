@@ -139,6 +139,60 @@ func TestParseUnknownEventNotification(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestParseUnknownEventNotificationWithRelatedObject(t *testing.T) {
+	relatedObjectResp := `{
+		"id": "obj_123",
+		"object": "some.imaginary.obj",
+		"cool": true
+	}`
+
+	// Create mock server that expects a GET to /v1/related_objects/ro_123
+	server := MockServerWithStripeContext(t, http.MethodGet, "/v1/related_objects/ro_123", "ctx_123", nil, relatedObjectResp)
+	defer server.Close()
+
+	// Create client with custom backend pointing to mock server
+	backend := stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
+		URL: stripe.String(server.URL),
+	})
+	client := stripe.NewClient(TestAPIKey, stripe.WithBackends(&stripe.Backends{
+		API:         backend,
+		Connect:     backend,
+		Uploads:     backend,
+		MeterEvents: backend,
+	}))
+
+	payload := []byte(`{
+		"id": "evt_test_webhook",
+		"type": "imaginary",
+		"context": "ctx_123",
+		"related_object": {
+			"id": "ro_123",
+			"type": "related_object",
+			"url": "/v1/related_objects/ro_123"
+		}}`)
+
+	evt, err := stripe.EventNotificationFromJSON(payload, *client)
+	if err != nil {
+		t.Errorf("Failed to parse event notification: %v", err)
+	}
+	notif := evt.(*stripe.V2UnknownEventNotification)
+	assert.IsType(t, &stripe.V2UnknownEventNotification{}, evt)
+	assert.NotNil(t, notif.RelatedObject)
+
+	resp, err := notif.FetchRelatedObject(context.TODO())
+	assert.Nil(t, err)
+	assert.NotNil(t, resp)
+
+	type randomObj struct {
+		Cool bool `json:"cool"`
+	}
+
+	var obj randomObj
+	err = json.Unmarshal(resp.LastResponse.RawJSON, &obj)
+	assert.NoError(t, err)
+	assert.True(t, obj.Cool)
+}
+
 func TestFetchEventHTTPCall(t *testing.T) {
 	// Create mock response for the V2 event retrieve call
 

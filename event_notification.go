@@ -38,10 +38,7 @@ func (en *V2EventNotification) fetchEvent(ctx context.Context) (V2Event, error) 
 	})
 }
 
-// implement getThinEvent
-// interface must have that
-
-// interface to return from parseThinEvent
+// interface to return from ParseEventNotification
 // this is how go's unions basically work?
 type EventNotificationContainer interface {
 	GetEventNotification() *V2EventNotification
@@ -75,8 +72,6 @@ func (en *V2UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*
 	}
 
 	// TODO: usage?
-	// this probably doesn't work for actually accessing the thing? Since we have to know the type
-	// maybe need a lookup map here?
 	obj := &APIResource{}
 
 	err := en.client.backend.Call(http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, obj)
