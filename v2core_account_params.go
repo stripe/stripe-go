@@ -605,7 +605,7 @@ type V2CoreAccountConfigurationRecipientParams struct {
 	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to be requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination.
+	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination. For further details about creating an Outbound Destination, see [Collect recipient's payment details](https://docs.corp.stripe.com/global-payouts-private-preview/quickstart?dashboard-or-api=api#collect-bank-account-details).
 	DefaultOutboundDestination *string `form:"default_outbound_destination" json:"default_outbound_destination,omitempty"`
 }
 
@@ -727,6 +727,16 @@ type V2CoreAccountConfigurationParams struct {
 	Storer *V2CoreAccountConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
+// Account profile information.
+type V2CoreAccountDefaultsProfileParams struct {
+	// The business's publicly-available website.
+	BusinessURL *string `form:"business_url" json:"business_url,omitempty"`
+	// The name which is used by the business.
+	DoingBusinessAs *string `form:"doing_business_as" json:"doing_business_as,omitempty"`
+	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
+}
+
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountDefaultsResponsibilitiesParams struct {
 	// A value indicating the party responsible for collecting fees from this account.
@@ -741,6 +751,8 @@ type V2CoreAccountDefaultsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
 	Locales []*string `form:"locales" json:"locales,omitempty"`
+	// Account profile information.
+	Profile *V2CoreAccountDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
 }
@@ -1043,8 +1055,6 @@ type V2CoreAccountIdentityBusinessDetailsParams struct {
 	AnnualRevenue *V2CoreAccountIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// The name which is used by the business.
-	DoingBusinessAs *string `form:"doing_business_as" json:"doing_business_as,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
@@ -1053,8 +1063,6 @@ type V2CoreAccountIdentityBusinessDetailsParams struct {
 	MonthlyEstimatedRevenue *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue" json:"monthly_estimated_revenue,omitempty"`
 	// The phone number of the Business Entity.
 	Phone *string `form:"phone" json:"phone,omitempty"`
-	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
-	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// The business legal name.
 	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
 	// The business registration address of the business entity in non latin script.
@@ -1063,8 +1071,6 @@ type V2CoreAccountIdentityBusinessDetailsParams struct {
 	ScriptNames *V2CoreAccountIdentityBusinessDetailsScriptNamesParams `form:"script_names" json:"script_names,omitempty"`
 	// The category identifying the legal structure of the business.
 	Structure *string `form:"structure" json:"structure,omitempty"`
-	// The business's publicly available website.
-	URL *string `form:"url" json:"url,omitempty"`
 }
 
 // Additional addresses associated with the individual.
@@ -2081,6 +2087,16 @@ type V2CoreAccountCreateConfigurationParams struct {
 	Storer *V2CoreAccountCreateConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
+// Account profile information.
+type V2CoreAccountCreateDefaultsProfileParams struct {
+	// The business's publicly-available website.
+	BusinessURL *string `form:"business_url" json:"business_url,omitempty"`
+	// The name which is used by the business.
+	DoingBusinessAs *string `form:"doing_business_as" json:"doing_business_as,omitempty"`
+	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
+}
+
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountCreateDefaultsResponsibilitiesParams struct {
 	// A value indicating the party responsible for collecting fees from this account.
@@ -2095,6 +2111,8 @@ type V2CoreAccountCreateDefaultsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
 	Locales []*string `form:"locales" json:"locales,omitempty"`
+	// Account profile information.
+	Profile *V2CoreAccountCreateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountCreateDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
 }
@@ -2397,8 +2415,6 @@ type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
 	AnnualRevenue *V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountCreateIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// The name which is used by the business.
-	DoingBusinessAs *string `form:"doing_business_as" json:"doing_business_as,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
@@ -2407,8 +2423,6 @@ type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
 	MonthlyEstimatedRevenue *V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue" json:"monthly_estimated_revenue,omitempty"`
 	// The phone number of the Business Entity.
 	Phone *string `form:"phone" json:"phone,omitempty"`
-	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
-	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// The business legal name.
 	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
 	// The business registration address of the business entity in non latin script.
@@ -2417,8 +2431,6 @@ type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
 	ScriptNames *V2CoreAccountCreateIdentityBusinessDetailsScriptNamesParams `form:"script_names" json:"script_names,omitempty"`
 	// The category identifying the legal structure of the business.
 	Structure *string `form:"structure" json:"structure,omitempty"`
-	// The business's publicly available website.
-	URL *string `form:"url" json:"url,omitempty"`
 }
 
 // Additional addresses associated with the individual.
@@ -3327,7 +3339,7 @@ type V2CoreAccountUpdateConfigurationRecipientParams struct {
 	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to request on the Recipient Configuration.
 	Capabilities *V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination.
+	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination. For further details about creating an Outbound Destination, see [Collect recipient's payment details](https://docs.corp.stripe.com/global-payouts-private-preview/quickstart?dashboard-or-api=api#collect-bank-account-details).
 	DefaultOutboundDestination *string `form:"default_outbound_destination" json:"default_outbound_destination,omitempty"`
 }
 
@@ -3449,6 +3461,16 @@ type V2CoreAccountUpdateConfigurationParams struct {
 	Storer *V2CoreAccountUpdateConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
+// Account profile information.
+type V2CoreAccountUpdateDefaultsProfileParams struct {
+	// The business's publicly-available website.
+	BusinessURL *string `form:"business_url" json:"business_url,omitempty"`
+	// The name which is used by the business.
+	DoingBusinessAs *string `form:"doing_business_as" json:"doing_business_as,omitempty"`
+	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
+}
+
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountUpdateDefaultsResponsibilitiesParams struct {
 	// A value indicating the party responsible for collecting fees from this account.
@@ -3463,6 +3485,8 @@ type V2CoreAccountUpdateDefaultsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
 	Locales []*string `form:"locales" json:"locales,omitempty"`
+	// Account profile information.
+	Profile *V2CoreAccountUpdateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountUpdateDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
 }
@@ -3765,8 +3789,6 @@ type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
 	AnnualRevenue *V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// The name which is used by the business.
-	DoingBusinessAs *string `form:"doing_business_as" json:"doing_business_as,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
@@ -3775,8 +3797,6 @@ type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
 	MonthlyEstimatedRevenue *V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue" json:"monthly_estimated_revenue,omitempty"`
 	// The phone number of the Business Entity.
 	Phone *string `form:"phone" json:"phone,omitempty"`
-	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
-	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// The business legal name.
 	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
 	// The business registration address of the business entity in non latin script.
@@ -3785,8 +3805,6 @@ type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
 	ScriptNames *V2CoreAccountUpdateIdentityBusinessDetailsScriptNamesParams `form:"script_names" json:"script_names,omitempty"`
 	// The category identifying the legal structure of the business.
 	Structure *string `form:"structure" json:"structure,omitempty"`
-	// The business's publicly available website.
-	URL *string `form:"url" json:"url,omitempty"`
 }
 
 // Additional addresses associated with the individual.

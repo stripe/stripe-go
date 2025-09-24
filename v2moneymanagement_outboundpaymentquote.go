@@ -30,21 +30,23 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeWirePayoutFee        V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "wire_payout_fee"
 )
 
-// The duration the exchange rate lock remains valid from creation time. Allowed value is five_minutes.
+// The duration the exchange rate lock remains valid from creation time. Allowed value is five_minutes or none.
 type V2MoneyManagementOutboundPaymentQuoteFxQuoteLockDuration string
 
 // List of values that V2MoneyManagementOutboundPaymentQuoteFxQuoteLockDuration can take
 const (
 	V2MoneyManagementOutboundPaymentQuoteFxQuoteLockDurationFiveMinutes V2MoneyManagementOutboundPaymentQuoteFxQuoteLockDuration = "five_minutes"
+	V2MoneyManagementOutboundPaymentQuoteFxQuoteLockDurationNone        V2MoneyManagementOutboundPaymentQuoteFxQuoteLockDuration = "none"
 )
 
-// Lock status of the quote. Transitions from active to expired once past the lock_expires_at timestamp. Value can be active or expired.
+// Lock status of the quote. Transitions from active to expired once past the lock_expires_at timestamp. Value can be active, expired or none.
 type V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatus string
 
 // List of values that V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatus can take
 const (
 	V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatusActive  V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatus = "active"
 	V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatusExpired V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatus = "expired"
+	V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatusNone    V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatus = "none"
 )
 
 // Delivery options to be used to send the OutboundPayment.
@@ -77,11 +79,11 @@ type V2MoneyManagementOutboundPaymentQuoteFxQuoteRates struct {
 
 // The underlying FXQuote details for the OutboundPaymentQuote.
 type V2MoneyManagementOutboundPaymentQuoteFxQuote struct {
-	// The duration the exchange rate lock remains valid from creation time. Allowed value is five_minutes.
+	// The duration the exchange rate lock remains valid from creation time. Allowed value is five_minutes or none.
 	LockDuration V2MoneyManagementOutboundPaymentQuoteFxQuoteLockDuration `json:"lock_duration"`
-	// Time at which the rate lock will expire, measured in seconds since the Unix epoch.
-	LockExpiresAt time.Time `json:"lock_expires_at"`
-	// Lock status of the quote. Transitions from active to expired once past the lock_expires_at timestamp. Value can be active or expired.
+	// Time at which the rate lock will expire, measured in seconds since the Unix epoch. Null when rate locking is not supported.
+	LockExpiresAt time.Time `json:"lock_expires_at,omitempty"`
+	// Lock status of the quote. Transitions from active to expired once past the lock_expires_at timestamp. Value can be active, expired or none.
 	LockStatus V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatus `json:"lock_status"`
 	// Key pair: from currency Value: exchange rate going from_currency -> to_currency.
 	Rates map[string]*V2MoneyManagementOutboundPaymentQuoteFxQuoteRates `json:"rates"`

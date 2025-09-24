@@ -330,6 +330,16 @@ type Client struct {
 	V1TreasuryTransactions *v1TreasuryTransactionService
 	// V1WebhookEndpoints is the service used to invoke /v1/webhook_endpoints APIs.
 	V1WebhookEndpoints *v1WebhookEndpointService
+	// V2BillingBillSettings is the service used to invoke /v2/billing/bill_settings APIs.
+	V2BillingBillSettings *v2BillingBillSettingService
+	// V2BillingBillSettingsVersions is the service used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
+	V2BillingBillSettingsVersions *v2BillingBillSettingsVersionService
+	// V2BillingCadences is the service used to invoke /v2/billing/cadences APIs.
+	V2BillingCadences *v2BillingCadenceService
+	// V2BillingCollectionSettings is the service used to invoke /v2/billing/collection_settings APIs.
+	V2BillingCollectionSettings *v2BillingCollectionSettingService
+	// V2BillingCollectionSettingsVersions is the service used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
+	V2BillingCollectionSettingsVersions *v2BillingCollectionSettingsVersionService
 	// V2BillingMeterEventAdjustments is the service used to invoke /v2/billing/meter_event_adjustments APIs.
 	V2BillingMeterEventAdjustments *v2BillingMeterEventAdjustmentService
 	// V2BillingMeterEvents is the service used to invoke /v2/billing/meter_events APIs.
@@ -338,6 +348,8 @@ type Client struct {
 	V2BillingMeterEventSessions *v2BillingMeterEventSessionService
 	// V2BillingMeterEventStreams is the service used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2BillingMeterEventStreamService
+	// V2BillingProfiles is the service used to invoke /v2/billing/profiles APIs.
+	V2BillingProfiles *v2BillingProfileService
 	// V2CoreAccountLinks is the service used to invoke /v2/core/account_links APIs.
 	V2CoreAccountLinks *v2CoreAccountLinkService
 	// V2CoreAccounts is the service used to invoke /v2/core/accounts APIs.
@@ -576,10 +588,16 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TreasuryTransactionEntries = &v1TreasuryTransactionEntryService{B: backends.API, Key: key}
 	client.V1TreasuryTransactions = &v1TreasuryTransactionService{B: backends.API, Key: key}
 	client.V1WebhookEndpoints = &v1WebhookEndpointService{B: backends.API, Key: key}
+	client.V2BillingBillSettings = &v2BillingBillSettingService{B: backends.API, Key: key}
+	client.V2BillingBillSettingsVersions = &v2BillingBillSettingsVersionService{B: backends.API, Key: key}
+	client.V2BillingCadences = &v2BillingCadenceService{B: backends.API, Key: key}
+	client.V2BillingCollectionSettings = &v2BillingCollectionSettingService{B: backends.API, Key: key}
+	client.V2BillingCollectionSettingsVersions = &v2BillingCollectionSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventAdjustments = &v2BillingMeterEventAdjustmentService{B: backends.API, Key: key}
 	client.V2BillingMeterEvents = &v2BillingMeterEventService{B: backends.API, Key: key}
 	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
+	client.V2BillingProfiles = &v2BillingProfileService{B: backends.API, Key: key}
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}

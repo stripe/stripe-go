@@ -1071,6 +1071,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	case "rate_limit":
+		tmp := struct {
+			Error *RateLimitError `json:"error"`
+		}{
+			Error: &RateLimitError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "recipient_not_notifiable":
 		tmp := struct {
 			Error *RecipientNotNotifiableError `json:"error"`

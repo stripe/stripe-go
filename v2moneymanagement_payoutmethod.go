@@ -22,8 +22,9 @@ type V2MoneyManagementPayoutMethodType string
 
 // List of values that V2MoneyManagementPayoutMethodType can take
 const (
-	V2MoneyManagementPayoutMethodTypeBankAccount V2MoneyManagementPayoutMethodType = "bank_account"
-	V2MoneyManagementPayoutMethodTypeCard        V2MoneyManagementPayoutMethodType = "card"
+	V2MoneyManagementPayoutMethodTypeBankAccount  V2MoneyManagementPayoutMethodType = "bank_account"
+	V2MoneyManagementPayoutMethodTypeCard         V2MoneyManagementPayoutMethodType = "card"
+	V2MoneyManagementPayoutMethodTypeCryptoWallet V2MoneyManagementPayoutMethodType = "crypto_wallet"
 )
 
 // Payments status - used when sending OutboundPayments (sending funds to recipients).

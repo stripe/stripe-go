@@ -58,13 +58,14 @@ const (
 	V2MoneyManagementReceivedCreditBalanceTransferTypePayoutV1         V2MoneyManagementReceivedCreditBalanceTransferType = "payout_v1"
 )
 
-// Open Enum. Indicates the type of source via from which external funds originated.
-type V2MoneyManagementReceivedCreditBankTransferPaymentMethodType string
+// Open Enum. Indicates the origin of source from which external funds originated from.
+type V2MoneyManagementReceivedCreditBankTransferOriginType string
 
-// List of values that V2MoneyManagementReceivedCreditBankTransferPaymentMethodType can take
+// List of values that V2MoneyManagementReceivedCreditBankTransferOriginType can take
 const (
-	V2MoneyManagementReceivedCreditBankTransferPaymentMethodTypeGBBankAccount V2MoneyManagementReceivedCreditBankTransferPaymentMethodType = "gb_bank_account"
-	V2MoneyManagementReceivedCreditBankTransferPaymentMethodTypeUSBankAccount V2MoneyManagementReceivedCreditBankTransferPaymentMethodType = "us_bank_account"
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeGBBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "gb_bank_account"
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeSEPABankAccount V2MoneyManagementReceivedCreditBankTransferOriginType = "sepa_bank_account"
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeUSBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "us_bank_account"
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -73,6 +74,14 @@ type V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork string
 // List of values that V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork can take
 const (
 	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
+)
+
+// The money transmission network used to send funds for this ReceivedCredit.
+type V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetworkSEPACreditTransfer V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork = "sepa_credit_transfer"
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -132,7 +141,7 @@ type V2MoneyManagementReceivedCreditBalanceTransfer struct {
 	Type V2MoneyManagementReceivedCreditBalanceTransferType `json:"type"`
 }
 
-// Hash containing the transaction bank details. Present if `payment_method_type` field value is `gb_bank_account`.
+// Hash containing the transaction bank details. Present if `origin_type` field value is `gb_bank_account`.
 type V2MoneyManagementReceivedCreditBankTransferGBBankAccount struct {
 	// The bank name the transfer was received from.
 	AccountHolderName string `json:"account_holder_name,omitempty"`
@@ -146,7 +155,23 @@ type V2MoneyManagementReceivedCreditBankTransferGBBankAccount struct {
 	SortCode string `json:"sort_code,omitempty"`
 }
 
-// Hash containing the transaction bank details. Present if `payment_method_type` field value is `us_bank_account`.
+// Hash containing the transaction bank details. Present if `origin_type` field value is `sepa_bank_account`.
+type V2MoneyManagementReceivedCreditBankTransferSEPABankAccount struct {
+	// The account holder name of the bank account the transfer was received from.
+	AccountHolderName string `json:"account_holder_name,omitempty"`
+	// The bank name the transfer was received from.
+	BankName string `json:"bank_name,omitempty"`
+	// The BIC of the SEPA account.
+	BIC string `json:"bic,omitempty"`
+	// The origination country of the bank transfer.
+	Country string `json:"country,omitempty"`
+	// The IBAN that originated the transfer.
+	IBAN string `json:"iban,omitempty"`
+	// The money transmission network used to send funds for this ReceivedCredit.
+	Network V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork `json:"network"`
+}
+
+// Hash containing the transaction bank details. Present if `origin_type` field value is `us_bank_account`.
 type V2MoneyManagementReceivedCreditBankTransferUSBankAccount struct {
 	// The bank name the transfer was received from.
 	BankName string `json:"bank_name,omitempty"`
@@ -158,17 +183,19 @@ type V2MoneyManagementReceivedCreditBankTransferUSBankAccount struct {
 	RoutingNumber string `json:"routing_number,omitempty"`
 }
 
-// This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `external_credit`.
+// This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `bank_transfer`.
 type V2MoneyManagementReceivedCreditBankTransfer struct {
 	// Financial Address on which funds for ReceivedCredit were received.
 	FinancialAddress string `json:"financial_address"`
-	// Hash containing the transaction bank details. Present if `payment_method_type` field value is `gb_bank_account`.
+	// Hash containing the transaction bank details. Present if `origin_type` field value is `gb_bank_account`.
 	GBBankAccount *V2MoneyManagementReceivedCreditBankTransferGBBankAccount `json:"gb_bank_account,omitempty"`
-	// Open Enum. Indicates the type of source via from which external funds originated.
-	PaymentMethodType V2MoneyManagementReceivedCreditBankTransferPaymentMethodType `json:"payment_method_type"`
+	// Open Enum. Indicates the origin of source from which external funds originated from.
+	OriginType V2MoneyManagementReceivedCreditBankTransferOriginType `json:"origin_type"`
+	// Hash containing the transaction bank details. Present if `origin_type` field value is `sepa_bank_account`.
+	SEPABankAccount *V2MoneyManagementReceivedCreditBankTransferSEPABankAccount `json:"sepa_bank_account,omitempty"`
 	// Freeform string set by originator of the external ReceivedCredit.
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	// Hash containing the transaction bank details. Present if `payment_method_type` field value is `us_bank_account`.
+	// Hash containing the transaction bank details. Present if `origin_type` field value is `us_bank_account`.
 	USBankAccount *V2MoneyManagementReceivedCreditBankTransferUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
@@ -179,7 +206,7 @@ type V2MoneyManagementReceivedCredit struct {
 	Amount Amount `json:"amount"`
 	// This object stores details about the originating Stripe transaction that resulted in the ReceivedCredit. Present if `type` field value is `balance_transfer`.
 	BalanceTransfer *V2MoneyManagementReceivedCreditBalanceTransfer `json:"balance_transfer,omitempty"`
-	// This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `external_credit`.
+	// This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `bank_transfer`.
 	BankTransfer *V2MoneyManagementReceivedCreditBankTransfer `json:"bank_transfer,omitempty"`
 	// Time at which the ReceivedCredit was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.

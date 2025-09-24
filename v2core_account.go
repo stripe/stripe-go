@@ -1849,6 +1849,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ca_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeChBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ch_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCiBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ci_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCryptoWallet  V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "crypto_wallet"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCyBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cy_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDEBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "de_bank_account"
@@ -4014,7 +4015,7 @@ type V2CoreAccountConfigurationRecipientCapabilities struct {
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance `json:"stripe_balance,omitempty"`
 }
 
-// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard.
+// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard or APIs.
 type V2CoreAccountConfigurationRecipientDefaultOutboundDestination struct {
 	// The payout method ID of the default outbound destination.
 	ID string `json:"id"`
@@ -4028,7 +4029,7 @@ type V2CoreAccountConfigurationRecipient struct {
 	Applied bool `json:"applied"`
 	// Capabilities that have been requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilities `json:"capabilities,omitempty"`
-	// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard.
+	// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard or APIs.
 	DefaultOutboundDestination *V2CoreAccountConfigurationRecipientDefaultOutboundDestination `json:"default_outbound_destination,omitempty"`
 }
 
@@ -4246,6 +4247,16 @@ type V2CoreAccountConfiguration struct {
 	Storer *V2CoreAccountConfigurationStorer `json:"storer,omitempty"`
 }
 
+// Account profile information.
+type V2CoreAccountDefaultsProfile struct {
+	// The business's publicly-available website.
+	BusinessURL string `json:"business_url,omitempty"`
+	// The company's legal name.
+	DoingBusinessAs string `json:"doing_business_as,omitempty"`
+	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
+	ProductDescription string `json:"product_description,omitempty"`
+}
+
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountDefaultsResponsibilities struct {
 	// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this Account.
@@ -4260,6 +4271,8 @@ type V2CoreAccountDefaults struct {
 	Currency Currency `json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
 	Locales []string `json:"locales,omitempty"`
+	// Account profile information.
+	Profile *V2CoreAccountDefaultsProfile `json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountDefaultsResponsibilities `json:"responsibilities,omitempty"`
 }
@@ -4560,8 +4573,6 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	AnnualRevenue *V2CoreAccountIdentityBusinessDetailsAnnualRevenue `json:"annual_revenue,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountIdentityBusinessDetailsDocuments `json:"documents,omitempty"`
-	// The company's legal name.
-	DoingBusinessAs string `json:"doing_business_as,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount int64 `json:"estimated_worker_count,omitempty"`
 	// The provided ID numbers of a business entity.
@@ -4570,8 +4581,6 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	MonthlyEstimatedRevenue *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue `json:"monthly_estimated_revenue,omitempty"`
 	// The company's phone number (used for verification).
 	Phone string `json:"phone,omitempty"`
-	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
-	ProductDescription string `json:"product_description,omitempty"`
 	// The business legal name.
 	RegisteredName string `json:"registered_name,omitempty"`
 	// The business registration address of the business entity in non latin script.
@@ -4580,8 +4589,6 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	ScriptNames *V2CoreAccountIdentityBusinessDetailsScriptNames `json:"script_names,omitempty"`
 	// The category identifying the legal structure of the business.
 	Structure V2CoreAccountIdentityBusinessDetailsStructure `json:"structure,omitempty"`
-	// The business's publicly available website.
-	URL string `json:"url,omitempty"`
 }
 
 // Additional addresses associated with the individual.

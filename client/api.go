@@ -173,10 +173,16 @@ import (
 	treasuryreceiveddebit "github.com/stripe/stripe-go/v82/treasury/receiveddebit"
 	treasurytransaction "github.com/stripe/stripe-go/v82/treasury/transaction"
 	treasurytransactionentry "github.com/stripe/stripe-go/v82/treasury/transactionentry"
+	v2billingbillsetting "github.com/stripe/stripe-go/v82/v2/billing/billsetting"
+	v2billingbillsettingsversion "github.com/stripe/stripe-go/v82/v2/billing/billsettings/version"
+	v2billingcadence "github.com/stripe/stripe-go/v82/v2/billing/cadence"
+	v2billingcollectionsetting "github.com/stripe/stripe-go/v82/v2/billing/collectionsetting"
+	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v82/v2/billing/collectionsettings/version"
 	v2billingmeterevent "github.com/stripe/stripe-go/v82/v2/billing/meterevent"
 	v2billingmetereventadjustment "github.com/stripe/stripe-go/v82/v2/billing/metereventadjustment"
 	v2billingmetereventsession "github.com/stripe/stripe-go/v82/v2/billing/metereventsession"
 	v2billingmetereventstream "github.com/stripe/stripe-go/v82/v2/billing/metereventstream"
+	v2billingprofile "github.com/stripe/stripe-go/v82/v2/billing/profile"
 	v2coreaccount "github.com/stripe/stripe-go/v82/v2/core/account"
 	v2coreaccountlink "github.com/stripe/stripe-go/v82/v2/core/accountlink"
 	v2coreaccountsperson "github.com/stripe/stripe-go/v82/v2/core/accounts/person"
@@ -529,6 +535,16 @@ type API struct {
 	TreasuryTransactionEntries *treasurytransactionentry.Client
 	// TreasuryTransactions is the client used to invoke /v1/treasury/transactions APIs.
 	TreasuryTransactions *treasurytransaction.Client
+	// V2BillingBillSettings is the client used to invoke /v2/billing/bill_settings APIs.
+	V2BillingBillSettings *v2billingbillsetting.Client
+	// V2BillingBillSettingsVersions is the client used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
+	V2BillingBillSettingsVersions *v2billingbillsettingsversion.Client
+	// V2BillingCadences is the client used to invoke /v2/billing/cadences APIs.
+	V2BillingCadences *v2billingcadence.Client
+	// V2BillingCollectionSettings is the client used to invoke /v2/billing/collection_settings APIs.
+	V2BillingCollectionSettings *v2billingcollectionsetting.Client
+	// V2BillingCollectionSettingsVersions is the client used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
+	V2BillingCollectionSettingsVersions *v2billingcollectionsettingsversion.Client
 	// V2BillingMeterEventAdjustments is the client used to invoke /v2/billing/meter_event_adjustments APIs.
 	V2BillingMeterEventAdjustments *v2billingmetereventadjustment.Client
 	// V2BillingMeterEvents is the client used to invoke /v2/billing/meter_events APIs.
@@ -537,6 +553,8 @@ type API struct {
 	V2BillingMeterEventSessions *v2billingmetereventsession.Client
 	// V2BillingMeterEventStreams is the client used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2billingmetereventstream.Client
+	// V2BillingProfiles is the client used to invoke /v2/billing/profiles APIs.
+	V2BillingProfiles *v2billingprofile.Client
 	// V2CoreAccountLinks is the client used to invoke /v2/core/account_links APIs.
 	V2CoreAccountLinks *v2coreaccountlink.Client
 	// V2CoreAccounts is the client used to invoke /v2/core/accounts APIs.
@@ -761,10 +779,16 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TreasuryReceivedDebits = &treasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.TreasuryTransactionEntries = &treasurytransactionentry.Client{B: backends.API, Key: key}
 	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
+	a.V2BillingBillSettings = &v2billingbillsetting.Client{B: backends.API, Key: key}
+	a.V2BillingBillSettingsVersions = &v2billingbillsettingsversion.Client{B: backends.API, Key: key}
+	a.V2BillingCadences = &v2billingcadence.Client{B: backends.API, Key: key}
+	a.V2BillingCollectionSettings = &v2billingcollectionsetting.Client{B: backends.API, Key: key}
+	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventAdjustments = &v2billingmetereventadjustment.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEvents = &v2billingmeterevent.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventSessions = &v2billingmetereventsession.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventStreams = &v2billingmetereventstream.Client{BMeterEvents: backends.MeterEvents, Key: key}
+	a.V2BillingProfiles = &v2billingprofile.Client{B: backends.API, Key: key}
 	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
 	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
