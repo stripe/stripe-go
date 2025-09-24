@@ -36,7 +36,7 @@ type V2EventReason struct {
 type V2BaseEvent struct {
 	APIResource
 	// Authentication context needed to fetch the event or related object.
-	Context string `json:"context,omitempty"`
+	Context *StripeContext `json:"context,omitempty"`
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
 	// Unique identifier for the event.

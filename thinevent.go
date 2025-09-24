@@ -20,7 +20,7 @@ type ThinEvent struct {
 	// [Optional] Object containing the reference to API resource relevant to the event
 	RelatedObject *RelatedObject `json:"related_object"`
 	// [Optional] Authentication context needed to fetch the event or related object
-	Context *string `json:"context"`
+	Context *StripeContext `json:"context"`
 	// [Optional] Reason for the event
 	Reason *V2EventReason `json:"reason"`
 }

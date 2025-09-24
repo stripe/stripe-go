@@ -226,6 +226,10 @@ type Params struct {
 	// the request is made.
 	StripeContext *string `form:"-" json:"-"` // Passed as header
 
+	// StripeContextValue contains a StripeContext object for more advanced context handling.
+	// If both StripeContext (string) and StripeContextValue are set, StripeContextValue takes precedence.
+	StripeContextValue *StripeContext `form:"-" json:"-"` // Passed as header
+
 	usage []string `form:"-" json:"-"` // Tracked behaviors
 }
 
@@ -296,6 +300,24 @@ func (p *Params) SetStripeAccount(val string) {
 // SetStripeContext sets a value for the Stripe-Context header.
 func (p *Params) SetStripeContext(val string) {
 	p.StripeContext = &val
+}
+
+// SetStripeContextValue sets a StripeContext object for the Stripe-Context header.
+func (p *Params) SetStripeContextValue(val *StripeContext) {
+	p.StripeContextValue = val
+}
+
+// GetEffectiveStripeContext returns the effective Stripe-Context value as a string.
+// If StripeContextValue is set, it takes precedence over StripeContext.
+// Returns an empty string if neither is set.
+func (p *Params) GetEffectiveStripeContext() string {
+	if p.StripeContextValue != nil {
+		return p.StripeContextValue.String()
+	}
+	if p.StripeContext != nil {
+		return *p.StripeContext
+	}
+	return ""
 }
 
 // ParamsContainer is a general interface for which all parameter structs
