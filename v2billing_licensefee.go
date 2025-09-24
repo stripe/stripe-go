@@ -65,7 +65,7 @@ type V2BillingLicenseFeeTier struct {
 	UnitAmount string `json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
+	UpToDecimal string `json:"up_to_decimal,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf V2BillingLicenseFeeTierUpToInf `json:"up_to_inf,omitempty"`
 }

@@ -332,7 +332,7 @@ type V2BillingCadenceInvoiceDiscountRulePercentOff struct {
 	// The maximum applications configuration for this discount.
 	MaximumApplications *V2BillingCadenceInvoiceDiscountRulePercentOffMaximumApplications `json:"maximum_applications"`
 	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
-	PercentOff float64 `json:"percent_off,string"`
+	PercentOff string `json:"percent_off"`
 }
 
 // The discount rules applied to all invoices for the cadence.

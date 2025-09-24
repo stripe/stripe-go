@@ -156,7 +156,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOff struct {
 	// The maximum number of times this discount can be applied for this Billing Cadence.
 	MaximumApplications *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplications `json:"maximum_applications"`
 	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
-	PercentOff float64 `json:"percent_off,string"`
+	PercentOff string `json:"percent_off"`
 }
 
 // Details for applying a discount rule to future invoices.

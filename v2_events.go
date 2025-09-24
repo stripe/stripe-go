@@ -4787,13 +4787,13 @@ type V2CoreHealthAuthorizationRateDropFiringEventDataImpact struct {
 	// The type of the charge.
 	ChargeType V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeType `json:"charge_type"`
 	// The current authorization rate percentage.
-	CurrentPercentage float64 `json:"current_percentage,string"`
+	CurrentPercentage string `json:"current_percentage"`
 	// Dimensions that describe what subset of payments are impacted.
 	Dimensions []*V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimension `json:"dimensions,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType `json:"payment_method_type"`
 	// The previous authorization rate percentage.
-	PreviousPercentage float64 `json:"previous_percentage,string"`
+	PreviousPercentage string `json:"previous_percentage"`
 }
 
 // Occurs when an authorization rate drop alert is firing.
@@ -4823,13 +4823,13 @@ type V2CoreHealthAuthorizationRateDropResolvedEventDataImpact struct {
 	// The type of the charge.
 	ChargeType V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType `json:"charge_type"`
 	// The current authorization rate percentage.
-	CurrentPercentage float64 `json:"current_percentage,string"`
+	CurrentPercentage string `json:"current_percentage"`
 	// Dimensions that describe what subset of payments are impacted.
 	Dimensions []*V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimension `json:"dimensions,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType `json:"payment_method_type"`
 	// The previous authorization rate percentage.
-	PreviousPercentage float64 `json:"previous_percentage,string"`
+	PreviousPercentage string `json:"previous_percentage"`
 }
 
 // Occurs when an authorization rate drop alert is resolved.

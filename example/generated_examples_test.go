@@ -13502,7 +13502,7 @@ func TestV2BillingIntentPostService(t *testing.T) {
 							MaximumApplications: &stripe.V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams{
 								Type: stripe.String("indefinite"),
 							},
-							PercentOff: stripe.Float64(991934883.3333334),
+							PercentOff: stripe.String("percent_off"),
 						},
 					},
 				},
@@ -13607,7 +13607,7 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 							MaximumApplications: &stripe.V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams{
 								Type: stripe.String("indefinite"),
 							},
-							PercentOff: stripe.Float64(991934883.3333334),
+							PercentOff: stripe.String("percent_off"),
 						},
 					},
 				},
