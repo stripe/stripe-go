@@ -38,6 +38,8 @@ const (
 
 // The custom pricing unit that this rate binds to.
 type V2BillingRateCardRateCustomPricingUnitAmount struct {
+	// The Custom Pricing Unit object.
+	CustomPricingUnitDetails *V2BillingCustomPricingUnit `json:"custom_pricing_unit_details,omitempty"`
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The unit value for the custom pricing unit, as a string.

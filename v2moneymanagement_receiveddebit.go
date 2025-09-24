@@ -39,6 +39,14 @@ const (
 	V2MoneyManagementReceivedDebitTypeExternalDebit V2MoneyManagementReceivedDebitType = "external_debit"
 )
 
+// Open Enum. Indicates the origin type through which this debit was initiated.
+type V2MoneyManagementReceivedDebitBankTransferOriginType string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferOriginType can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferOriginTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferOriginType = "us_bank_account"
+)
+
 // Open Enum. The type of the payment method used to originate the debit.
 type V2MoneyManagementReceivedDebitBankTransferPaymentMethodType string
 
@@ -96,6 +104,8 @@ type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
 type V2MoneyManagementReceivedDebitBankTransfer struct {
 	// The Financial Address that was debited.
 	FinancialAddress string `json:"financial_address"`
+	// Open Enum. Indicates the origin type through which this debit was initiated.
+	OriginType V2MoneyManagementReceivedDebitBankTransferOriginType `json:"origin_type"`
 	// Open Enum. The type of the payment method used to originate the debit.
 	PaymentMethodType V2MoneyManagementReceivedDebitBankTransferPaymentMethodType `json:"payment_method_type"`
 	// The statement descriptor set by the originator of the debit.

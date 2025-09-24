@@ -112,6 +112,7 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsLocal            V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.local"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWire             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCards                        V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCryptoWalletsV2              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "crypto_wallets_v2"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalancePayouts         V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.payouts"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalanceStripeTransfers V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.stripe_transfers"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeTransfers              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe.transfers"
@@ -123,14 +124,18 @@ type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUp
 // List of values that V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability can take
 const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesBankAccounts    V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.bank_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesCryptoWallets   V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesEUR                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.eur"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesGBP                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.gbp"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesUSD                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.usd"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesUsdc                V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.usdc"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityInboundTransfersBankAccounts       V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "inbound_transfers.bank_accounts"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsBankAccounts       V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCards              V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.cards"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCryptoWallets      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.financial_accounts"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersBankAccounts      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.bank_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersCryptoWallets     V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
 )
 
@@ -472,6 +477,45 @@ type V2RawEvent struct {
 	RelatedObject *RelatedObject   `json:"related_object"`
 }
 
+// V1AccountUpdatedEvent is the Go struct for the "v1.account.updated" event.
+// Occurs whenever an account status or property has changed.
+type V1AccountUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Account, error)
+}
+
+// FetchRelatedObject fetches the related Account object for the event.
+func (e V1AccountUpdatedEvent) FetchRelatedObject() (*Account, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ApplicationFeeCreatedEvent is the Go struct for the "v1.application_fee.created" event.
+// Occurs whenever an application fee is created on a charge.
+type V1ApplicationFeeCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ApplicationFee, error)
+}
+
+// FetchRelatedObject fetches the related ApplicationFee object for the event.
+func (e V1ApplicationFeeCreatedEvent) FetchRelatedObject() (*ApplicationFee, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ApplicationFeeRefundedEvent is the Go struct for the "v1.application_fee.refunded" event.
+// Occurs whenever an application fee is refunded, whether from refunding a charge or from [refunding the application fee directly](#fee_refunds). This includes partial refunds.
+type V1ApplicationFeeRefundedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ApplicationFee, error)
+}
+
+// FetchRelatedObject fetches the related ApplicationFee object for the event.
+func (e V1ApplicationFeeRefundedEvent) FetchRelatedObject() (*ApplicationFee, error) {
+	return e.fetchRelatedObject()
+}
+
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
 // Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEvent struct {
@@ -493,11 +537,2444 @@ type V1BillingMeterNoMeterFoundEvent struct {
 	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
 }
 
+// V1BillingPortalConfigurationCreatedEvent is the Go struct for the "v1.billing_portal.configuration.created" event.
+// Occurs whenever a portal configuration is created.
+type V1BillingPortalConfigurationCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingPortalConfiguration, error)
+}
+
+// FetchRelatedObject fetches the related BillingPortalConfiguration object for the event.
+func (e V1BillingPortalConfigurationCreatedEvent) FetchRelatedObject() (*BillingPortalConfiguration, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BillingPortalConfigurationUpdatedEvent is the Go struct for the "v1.billing_portal.configuration.updated" event.
+// Occurs whenever a portal configuration is updated.
+type V1BillingPortalConfigurationUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingPortalConfiguration, error)
+}
+
+// FetchRelatedObject fetches the related BillingPortalConfiguration object for the event.
+func (e V1BillingPortalConfigurationUpdatedEvent) FetchRelatedObject() (*BillingPortalConfiguration, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CapabilityUpdatedEvent is the Go struct for the "v1.capability.updated" event.
+// Occurs whenever a capability has new requirements or a new status.
+type V1CapabilityUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Capability, error)
+}
+
+// FetchRelatedObject fetches the related Capability object for the event.
+func (e V1CapabilityUpdatedEvent) FetchRelatedObject() (*Capability, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeCapturedEvent is the Go struct for the "v1.charge.captured" event.
+// Occurs whenever a previously uncaptured charge is captured.
+type V1ChargeCapturedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Charge, error)
+}
+
+// FetchRelatedObject fetches the related Charge object for the event.
+func (e V1ChargeCapturedEvent) FetchRelatedObject() (*Charge, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeDisputeClosedEvent is the Go struct for the "v1.charge.dispute.closed" event.
+// Occurs when a dispute is closed and the dispute status changes to `lost`, `warning_closed`, or `won`.
+type V1ChargeDisputeClosedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Dispute, error)
+}
+
+// FetchRelatedObject fetches the related Dispute object for the event.
+func (e V1ChargeDisputeClosedEvent) FetchRelatedObject() (*Dispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeDisputeCreatedEvent is the Go struct for the "v1.charge.dispute.created" event.
+// Occurs whenever a customer disputes a charge with their bank.
+type V1ChargeDisputeCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Dispute, error)
+}
+
+// FetchRelatedObject fetches the related Dispute object for the event.
+func (e V1ChargeDisputeCreatedEvent) FetchRelatedObject() (*Dispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeDisputeFundsReinstatedEvent is the Go struct for the "v1.charge.dispute.funds_reinstated" event.
+// Occurs when funds are reinstated to your account after a dispute is closed. This includes [partially refunded payments](https://docs.stripe.com/disputes#disputes-on-partially-refunded-payments).
+type V1ChargeDisputeFundsReinstatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Dispute, error)
+}
+
+// FetchRelatedObject fetches the related Dispute object for the event.
+func (e V1ChargeDisputeFundsReinstatedEvent) FetchRelatedObject() (*Dispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeDisputeFundsWithdrawnEvent is the Go struct for the "v1.charge.dispute.funds_withdrawn" event.
+// Occurs when funds are removed from your account due to a dispute.
+type V1ChargeDisputeFundsWithdrawnEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Dispute, error)
+}
+
+// FetchRelatedObject fetches the related Dispute object for the event.
+func (e V1ChargeDisputeFundsWithdrawnEvent) FetchRelatedObject() (*Dispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeDisputeUpdatedEvent is the Go struct for the "v1.charge.dispute.updated" event.
+// Occurs when the dispute is updated (usually with evidence).
+type V1ChargeDisputeUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Dispute, error)
+}
+
+// FetchRelatedObject fetches the related Dispute object for the event.
+func (e V1ChargeDisputeUpdatedEvent) FetchRelatedObject() (*Dispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeExpiredEvent is the Go struct for the "v1.charge.expired" event.
+// Occurs whenever an uncaptured charge expires.
+type V1ChargeExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Charge, error)
+}
+
+// FetchRelatedObject fetches the related Charge object for the event.
+func (e V1ChargeExpiredEvent) FetchRelatedObject() (*Charge, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeFailedEvent is the Go struct for the "v1.charge.failed" event.
+// Occurs whenever a failed charge attempt occurs.
+type V1ChargeFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Charge, error)
+}
+
+// FetchRelatedObject fetches the related Charge object for the event.
+func (e V1ChargeFailedEvent) FetchRelatedObject() (*Charge, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargePendingEvent is the Go struct for the "v1.charge.pending" event.
+// Occurs whenever a pending charge is created.
+type V1ChargePendingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Charge, error)
+}
+
+// FetchRelatedObject fetches the related Charge object for the event.
+func (e V1ChargePendingEvent) FetchRelatedObject() (*Charge, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeRefundUpdatedEvent is the Go struct for the "v1.charge.refund.updated" event.
+// Occurs whenever a refund is updated on selected payment methods. For updates on all refunds, listen to `refund.updated` instead.
+type V1ChargeRefundUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Refund, error)
+}
+
+// FetchRelatedObject fetches the related Refund object for the event.
+func (e V1ChargeRefundUpdatedEvent) FetchRelatedObject() (*Refund, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeRefundedEvent is the Go struct for the "v1.charge.refunded" event.
+// Occurs whenever a charge is refunded, including partial refunds. Listen to `refund.created` for information about the refund.
+type V1ChargeRefundedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Charge, error)
+}
+
+// FetchRelatedObject fetches the related Charge object for the event.
+func (e V1ChargeRefundedEvent) FetchRelatedObject() (*Charge, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeSucceededEvent is the Go struct for the "v1.charge.succeeded" event.
+// Occurs whenever a charge is successful.
+type V1ChargeSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Charge, error)
+}
+
+// FetchRelatedObject fetches the related Charge object for the event.
+func (e V1ChargeSucceededEvent) FetchRelatedObject() (*Charge, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ChargeUpdatedEvent is the Go struct for the "v1.charge.updated" event.
+// Occurs whenever a charge description or metadata is updated, or upon an asynchronous capture.
+type V1ChargeUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Charge, error)
+}
+
+// FetchRelatedObject fetches the related Charge object for the event.
+func (e V1ChargeUpdatedEvent) FetchRelatedObject() (*Charge, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CheckoutSessionAsyncPaymentFailedEvent is the Go struct for the "v1.checkout.session.async_payment_failed" event.
+// Occurs when a payment intent using a delayed payment method fails.
+type V1CheckoutSessionAsyncPaymentFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*CheckoutSession, error)
+}
+
+// FetchRelatedObject fetches the related CheckoutSession object for the event.
+func (e V1CheckoutSessionAsyncPaymentFailedEvent) FetchRelatedObject() (*CheckoutSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CheckoutSessionAsyncPaymentSucceededEvent is the Go struct for the "v1.checkout.session.async_payment_succeeded" event.
+// Occurs when a payment intent using a delayed payment method finally succeeds.
+type V1CheckoutSessionAsyncPaymentSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*CheckoutSession, error)
+}
+
+// FetchRelatedObject fetches the related CheckoutSession object for the event.
+func (e V1CheckoutSessionAsyncPaymentSucceededEvent) FetchRelatedObject() (*CheckoutSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CheckoutSessionCompletedEvent is the Go struct for the "v1.checkout.session.completed" event.
+// Occurs when a Checkout Session has been successfully completed.
+type V1CheckoutSessionCompletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*CheckoutSession, error)
+}
+
+// FetchRelatedObject fetches the related CheckoutSession object for the event.
+func (e V1CheckoutSessionCompletedEvent) FetchRelatedObject() (*CheckoutSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CheckoutSessionExpiredEvent is the Go struct for the "v1.checkout.session.expired" event.
+// Occurs when a Checkout Session is expired.
+type V1CheckoutSessionExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*CheckoutSession, error)
+}
+
+// FetchRelatedObject fetches the related CheckoutSession object for the event.
+func (e V1CheckoutSessionExpiredEvent) FetchRelatedObject() (*CheckoutSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ClimateOrderCanceledEvent is the Go struct for the "v1.climate.order.canceled" event.
+// Occurs when a Climate order is canceled.
+type V1ClimateOrderCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ClimateOrder, error)
+}
+
+// FetchRelatedObject fetches the related ClimateOrder object for the event.
+func (e V1ClimateOrderCanceledEvent) FetchRelatedObject() (*ClimateOrder, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ClimateOrderCreatedEvent is the Go struct for the "v1.climate.order.created" event.
+// Occurs when a Climate order is created.
+type V1ClimateOrderCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ClimateOrder, error)
+}
+
+// FetchRelatedObject fetches the related ClimateOrder object for the event.
+func (e V1ClimateOrderCreatedEvent) FetchRelatedObject() (*ClimateOrder, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ClimateOrderDelayedEvent is the Go struct for the "v1.climate.order.delayed" event.
+// Occurs when a Climate order is delayed.
+type V1ClimateOrderDelayedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ClimateOrder, error)
+}
+
+// FetchRelatedObject fetches the related ClimateOrder object for the event.
+func (e V1ClimateOrderDelayedEvent) FetchRelatedObject() (*ClimateOrder, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ClimateOrderDeliveredEvent is the Go struct for the "v1.climate.order.delivered" event.
+// Occurs when a Climate order is delivered.
+type V1ClimateOrderDeliveredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ClimateOrder, error)
+}
+
+// FetchRelatedObject fetches the related ClimateOrder object for the event.
+func (e V1ClimateOrderDeliveredEvent) FetchRelatedObject() (*ClimateOrder, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ClimateOrderProductSubstitutedEvent is the Go struct for the "v1.climate.order.product_substituted" event.
+// Occurs when a Climate order's product is substituted for another.
+type V1ClimateOrderProductSubstitutedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ClimateOrder, error)
+}
+
+// FetchRelatedObject fetches the related ClimateOrder object for the event.
+func (e V1ClimateOrderProductSubstitutedEvent) FetchRelatedObject() (*ClimateOrder, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ClimateProductCreatedEvent is the Go struct for the "v1.climate.product.created" event.
+// Occurs when a Climate product is created.
+type V1ClimateProductCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ClimateProduct, error)
+}
+
+// FetchRelatedObject fetches the related ClimateProduct object for the event.
+func (e V1ClimateProductCreatedEvent) FetchRelatedObject() (*ClimateProduct, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ClimateProductPricingUpdatedEvent is the Go struct for the "v1.climate.product.pricing_updated" event.
+// Occurs when a Climate product is updated.
+type V1ClimateProductPricingUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*ClimateProduct, error)
+}
+
+// FetchRelatedObject fetches the related ClimateProduct object for the event.
+func (e V1ClimateProductPricingUpdatedEvent) FetchRelatedObject() (*ClimateProduct, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CouponCreatedEvent is the Go struct for the "v1.coupon.created" event.
+// Occurs whenever a coupon is created.
+type V1CouponCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Coupon, error)
+}
+
+// FetchRelatedObject fetches the related Coupon object for the event.
+func (e V1CouponCreatedEvent) FetchRelatedObject() (*Coupon, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CouponDeletedEvent is the Go struct for the "v1.coupon.deleted" event.
+// Occurs whenever a coupon is deleted.
+type V1CouponDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Coupon, error)
+}
+
+// FetchRelatedObject fetches the related Coupon object for the event.
+func (e V1CouponDeletedEvent) FetchRelatedObject() (*Coupon, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CouponUpdatedEvent is the Go struct for the "v1.coupon.updated" event.
+// Occurs whenever a coupon is updated.
+type V1CouponUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Coupon, error)
+}
+
+// FetchRelatedObject fetches the related Coupon object for the event.
+func (e V1CouponUpdatedEvent) FetchRelatedObject() (*Coupon, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CreditNoteCreatedEvent is the Go struct for the "v1.credit_note.created" event.
+// Occurs whenever a credit note is created.
+type V1CreditNoteCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*CreditNote, error)
+}
+
+// FetchRelatedObject fetches the related CreditNote object for the event.
+func (e V1CreditNoteCreatedEvent) FetchRelatedObject() (*CreditNote, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CreditNoteUpdatedEvent is the Go struct for the "v1.credit_note.updated" event.
+// Occurs whenever a credit note is updated.
+type V1CreditNoteUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*CreditNote, error)
+}
+
+// FetchRelatedObject fetches the related CreditNote object for the event.
+func (e V1CreditNoteUpdatedEvent) FetchRelatedObject() (*CreditNote, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CreditNoteVoidedEvent is the Go struct for the "v1.credit_note.voided" event.
+// Occurs whenever a credit note is voided.
+type V1CreditNoteVoidedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*CreditNote, error)
+}
+
+// FetchRelatedObject fetches the related CreditNote object for the event.
+func (e V1CreditNoteVoidedEvent) FetchRelatedObject() (*CreditNote, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerCreatedEvent is the Go struct for the "v1.customer.created" event.
+// Occurs whenever a new customer is created.
+type V1CustomerCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Customer, error)
+}
+
+// FetchRelatedObject fetches the related Customer object for the event.
+func (e V1CustomerCreatedEvent) FetchRelatedObject() (*Customer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerDeletedEvent is the Go struct for the "v1.customer.deleted" event.
+// Occurs whenever a customer is deleted.
+type V1CustomerDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Customer, error)
+}
+
+// FetchRelatedObject fetches the related Customer object for the event.
+func (e V1CustomerDeletedEvent) FetchRelatedObject() (*Customer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerDiscountCreatedEvent is the Go struct for the "v1.customer.discount.created" event.
+// Occurs whenever a coupon is attached to a customer.
+type V1CustomerDiscountCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Discount, error)
+}
+
+// FetchRelatedObject fetches the related Discount object for the event.
+func (e V1CustomerDiscountCreatedEvent) FetchRelatedObject() (*Discount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerDiscountDeletedEvent is the Go struct for the "v1.customer.discount.deleted" event.
+// Occurs whenever a coupon is removed from a customer.
+type V1CustomerDiscountDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Discount, error)
+}
+
+// FetchRelatedObject fetches the related Discount object for the event.
+func (e V1CustomerDiscountDeletedEvent) FetchRelatedObject() (*Discount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerDiscountUpdatedEvent is the Go struct for the "v1.customer.discount.updated" event.
+// Occurs whenever a customer is switched from one coupon to another.
+type V1CustomerDiscountUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Discount, error)
+}
+
+// FetchRelatedObject fetches the related Discount object for the event.
+func (e V1CustomerDiscountUpdatedEvent) FetchRelatedObject() (*Discount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionCreatedEvent is the Go struct for the "v1.customer.subscription.created" event.
+// Occurs whenever a customer is signed up for a new plan.
+type V1CustomerSubscriptionCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the related Subscription object for the event.
+func (e V1CustomerSubscriptionCreatedEvent) FetchRelatedObject() (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionDeletedEvent is the Go struct for the "v1.customer.subscription.deleted" event.
+// Occurs whenever a customer's subscription ends.
+type V1CustomerSubscriptionDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the related Subscription object for the event.
+func (e V1CustomerSubscriptionDeletedEvent) FetchRelatedObject() (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionPausedEvent is the Go struct for the "v1.customer.subscription.paused" event.
+// Occurs whenever a customer's subscription is paused. Only applies when subscriptions enter `status=paused`, not when [payment collection](https://docs.stripe.com/billing/subscriptions/pause) is paused.
+type V1CustomerSubscriptionPausedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the related Subscription object for the event.
+func (e V1CustomerSubscriptionPausedEvent) FetchRelatedObject() (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionPendingUpdateAppliedEvent is the Go struct for the "v1.customer.subscription.pending_update_applied" event.
+// Occurs whenever a customer's subscription's pending update is applied, and the subscription is updated.
+type V1CustomerSubscriptionPendingUpdateAppliedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the related Subscription object for the event.
+func (e V1CustomerSubscriptionPendingUpdateAppliedEvent) FetchRelatedObject() (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionPendingUpdateExpiredEvent is the Go struct for the "v1.customer.subscription.pending_update_expired" event.
+// Occurs whenever a customer's subscription's pending update expires before the related invoice is paid.
+type V1CustomerSubscriptionPendingUpdateExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the related Subscription object for the event.
+func (e V1CustomerSubscriptionPendingUpdateExpiredEvent) FetchRelatedObject() (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionResumedEvent is the Go struct for the "v1.customer.subscription.resumed" event.
+// Occurs whenever a customer's subscription is no longer paused. Only applies when a `status=paused` subscription is [resumed](https://docs.stripe.com/api/subscriptions/resume), not when [payment collection](https://docs.stripe.com/billing/subscriptions/pause) is resumed.
+type V1CustomerSubscriptionResumedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the related Subscription object for the event.
+func (e V1CustomerSubscriptionResumedEvent) FetchRelatedObject() (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionTrialWillEndEvent is the Go struct for the "v1.customer.subscription.trial_will_end" event.
+// Occurs three days before a subscription's trial period is scheduled to end, or when a trial is ended immediately (using `trial_end=now`).
+type V1CustomerSubscriptionTrialWillEndEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the related Subscription object for the event.
+func (e V1CustomerSubscriptionTrialWillEndEvent) FetchRelatedObject() (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerSubscriptionUpdatedEvent is the Go struct for the "v1.customer.subscription.updated" event.
+// Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
+type V1CustomerSubscriptionUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Subscription, error)
+}
+
+// FetchRelatedObject fetches the related Subscription object for the event.
+func (e V1CustomerSubscriptionUpdatedEvent) FetchRelatedObject() (*Subscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerTaxIDCreatedEvent is the Go struct for the "v1.customer.tax_id.created" event.
+// Occurs whenever a tax ID is created for a customer.
+type V1CustomerTaxIDCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TaxID, error)
+}
+
+// FetchRelatedObject fetches the related TaxID object for the event.
+func (e V1CustomerTaxIDCreatedEvent) FetchRelatedObject() (*TaxID, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerTaxIDDeletedEvent is the Go struct for the "v1.customer.tax_id.deleted" event.
+// Occurs whenever a tax ID is deleted from a customer.
+type V1CustomerTaxIDDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TaxID, error)
+}
+
+// FetchRelatedObject fetches the related TaxID object for the event.
+func (e V1CustomerTaxIDDeletedEvent) FetchRelatedObject() (*TaxID, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerTaxIDUpdatedEvent is the Go struct for the "v1.customer.tax_id.updated" event.
+// Occurs whenever a customer's tax ID is updated.
+type V1CustomerTaxIDUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TaxID, error)
+}
+
+// FetchRelatedObject fetches the related TaxID object for the event.
+func (e V1CustomerTaxIDUpdatedEvent) FetchRelatedObject() (*TaxID, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1CustomerUpdatedEvent is the Go struct for the "v1.customer.updated" event.
+// Occurs whenever any property of a customer changes.
+type V1CustomerUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Customer, error)
+}
+
+// FetchRelatedObject fetches the related Customer object for the event.
+func (e V1CustomerUpdatedEvent) FetchRelatedObject() (*Customer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FileCreatedEvent is the Go struct for the "v1.file.created" event.
+// Occurs whenever a new Stripe-generated file is available for your account.
+type V1FileCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*File, error)
+}
+
+// FetchRelatedObject fetches the related File object for the event.
+func (e V1FileCreatedEvent) FetchRelatedObject() (*File, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountCreatedEvent is the Go struct for the "v1.financial_connections.account.created" event.
+// Occurs when a new Financial Connections account is created.
+type V1FinancialConnectionsAccountCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the related FinancialConnectionsAccount object for the event.
+func (e V1FinancialConnectionsAccountCreatedEvent) FetchRelatedObject() (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountDeactivatedEvent is the Go struct for the "v1.financial_connections.account.deactivated" event.
+// Occurs when a Financial Connections account's status is updated from `active` to `inactive`.
+type V1FinancialConnectionsAccountDeactivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the related FinancialConnectionsAccount object for the event.
+func (e V1FinancialConnectionsAccountDeactivatedEvent) FetchRelatedObject() (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountDisconnectedEvent is the Go struct for the "v1.financial_connections.account.disconnected" event.
+// Occurs when a Financial Connections account is disconnected.
+type V1FinancialConnectionsAccountDisconnectedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the related FinancialConnectionsAccount object for the event.
+func (e V1FinancialConnectionsAccountDisconnectedEvent) FetchRelatedObject() (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountReactivatedEvent is the Go struct for the "v1.financial_connections.account.reactivated" event.
+// Occurs when a Financial Connections account's status is updated from `inactive` to `active`.
+type V1FinancialConnectionsAccountReactivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the related FinancialConnectionsAccount object for the event.
+func (e V1FinancialConnectionsAccountReactivatedEvent) FetchRelatedObject() (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountRefreshedBalanceEvent is the Go struct for the "v1.financial_connections.account.refreshed_balance" event.
+// Occurs when an Account’s `balance_refresh` status transitions from `pending` to either `succeeded` or `failed`.
+type V1FinancialConnectionsAccountRefreshedBalanceEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the related FinancialConnectionsAccount object for the event.
+func (e V1FinancialConnectionsAccountRefreshedBalanceEvent) FetchRelatedObject() (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountRefreshedOwnershipEvent is the Go struct for the "v1.financial_connections.account.refreshed_ownership" event.
+// Occurs when an Account’s `ownership_refresh` status transitions from `pending` to either `succeeded` or `failed`.
+type V1FinancialConnectionsAccountRefreshedOwnershipEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the related FinancialConnectionsAccount object for the event.
+func (e V1FinancialConnectionsAccountRefreshedOwnershipEvent) FetchRelatedObject() (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountRefreshedTransactionsEvent is the Go struct for the "v1.financial_connections.account.refreshed_transactions" event.
+// Occurs when an Account’s `transaction_refresh` status transitions from `pending` to either `succeeded` or `failed`.
+type V1FinancialConnectionsAccountRefreshedTransactionsEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the related FinancialConnectionsAccount object for the event.
+func (e V1FinancialConnectionsAccountRefreshedTransactionsEvent) FetchRelatedObject() (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IdentityVerificationSessionCanceledEvent is the Go struct for the "v1.identity.verification_session.canceled" event.
+// Occurs whenever a VerificationSession is canceled.
+type V1IdentityVerificationSessionCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
+}
+
+// FetchRelatedObject fetches the related IdentityVerificationSession object for the event.
+func (e V1IdentityVerificationSessionCanceledEvent) FetchRelatedObject() (*IdentityVerificationSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IdentityVerificationSessionCreatedEvent is the Go struct for the "v1.identity.verification_session.created" event.
+// Occurs whenever a VerificationSession is created.
+type V1IdentityVerificationSessionCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
+}
+
+// FetchRelatedObject fetches the related IdentityVerificationSession object for the event.
+func (e V1IdentityVerificationSessionCreatedEvent) FetchRelatedObject() (*IdentityVerificationSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IdentityVerificationSessionProcessingEvent is the Go struct for the "v1.identity.verification_session.processing" event.
+// Occurs whenever a VerificationSession transitions to processing.
+type V1IdentityVerificationSessionProcessingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
+}
+
+// FetchRelatedObject fetches the related IdentityVerificationSession object for the event.
+func (e V1IdentityVerificationSessionProcessingEvent) FetchRelatedObject() (*IdentityVerificationSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IdentityVerificationSessionRedactedEvent is the Go struct for the "v1.identity.verification_session.redacted" event.
+// Occurs whenever a VerificationSession is redacted.
+type V1IdentityVerificationSessionRedactedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
+}
+
+// FetchRelatedObject fetches the related IdentityVerificationSession object for the event.
+func (e V1IdentityVerificationSessionRedactedEvent) FetchRelatedObject() (*IdentityVerificationSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IdentityVerificationSessionRequiresInputEvent is the Go struct for the "v1.identity.verification_session.requires_input" event.
+// Occurs whenever a VerificationSession transitions to require user input.
+type V1IdentityVerificationSessionRequiresInputEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
+}
+
+// FetchRelatedObject fetches the related IdentityVerificationSession object for the event.
+func (e V1IdentityVerificationSessionRequiresInputEvent) FetchRelatedObject() (*IdentityVerificationSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IdentityVerificationSessionVerifiedEvent is the Go struct for the "v1.identity.verification_session.verified" event.
+// Occurs whenever a VerificationSession transitions to verified.
+type V1IdentityVerificationSessionVerifiedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IdentityVerificationSession, error)
+}
+
+// FetchRelatedObject fetches the related IdentityVerificationSession object for the event.
+func (e V1IdentityVerificationSessionVerifiedEvent) FetchRelatedObject() (*IdentityVerificationSession, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceCreatedEvent is the Go struct for the "v1.invoice.created" event.
+// Occurs whenever a new invoice is created. To learn how webhooks can be used with this event, and how they can affect it, see [Using Webhooks with Subscriptions](https://docs.stripe.com/subscriptions/webhooks).
+type V1InvoiceCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceCreatedEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceDeletedEvent is the Go struct for the "v1.invoice.deleted" event.
+// Occurs whenever a draft invoice is deleted. Note: This event is not sent for [invoice previews](https://docs.stripe.com/api/invoices/create_preview).
+type V1InvoiceDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceDeletedEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceFinalizationFailedEvent is the Go struct for the "v1.invoice.finalization_failed" event.
+// Occurs whenever a draft invoice cannot be finalized. See the invoice’s [last finalization error](https://docs.stripe.com/api/invoices/object#invoice_object-last_finalization_error) for details.
+type V1InvoiceFinalizationFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceFinalizationFailedEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceFinalizedEvent is the Go struct for the "v1.invoice.finalized" event.
+// Occurs whenever a draft invoice is finalized and updated to be an open invoice.
+type V1InvoiceFinalizedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceFinalizedEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceMarkedUncollectibleEvent is the Go struct for the "v1.invoice.marked_uncollectible" event.
+// Occurs whenever an invoice is marked uncollectible.
+type V1InvoiceMarkedUncollectibleEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceMarkedUncollectibleEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceOverdueEvent is the Go struct for the "v1.invoice.overdue" event.
+// Occurs X number of days after an invoice becomes due&mdash;where X is determined by Automations.
+type V1InvoiceOverdueEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceOverdueEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceOverpaidEvent is the Go struct for the "v1.invoice.overpaid" event.
+// Occurs when an invoice transitions to paid with a non-zero amount_overpaid.
+type V1InvoiceOverpaidEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceOverpaidEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoicePaidEvent is the Go struct for the "v1.invoice.paid" event.
+// Occurs whenever an invoice payment attempt succeeds or an invoice is marked as paid out-of-band.
+type V1InvoicePaidEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoicePaidEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoicePaymentActionRequiredEvent is the Go struct for the "v1.invoice.payment_action_required" event.
+// Occurs whenever an invoice payment attempt requires further user action to complete.
+type V1InvoicePaymentActionRequiredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoicePaymentActionRequiredEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoicePaymentFailedEvent is the Go struct for the "v1.invoice.payment_failed" event.
+// Occurs whenever an invoice payment attempt fails, due to either a declined payment, including soft decline, or to the lack of a stored payment method.
+type V1InvoicePaymentFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoicePaymentFailedEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoicePaymentSucceededEvent is the Go struct for the "v1.invoice.payment_succeeded" event.
+// Occurs whenever an invoice payment attempt succeeds.
+type V1InvoicePaymentSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoicePaymentSucceededEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceSentEvent is the Go struct for the "v1.invoice.sent" event.
+// Occurs whenever an invoice email is sent out.
+type V1InvoiceSentEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceSentEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceUpcomingEvent is the Go struct for the "v1.invoice.upcoming" event.
+// Occurs X number of days before a subscription is scheduled to create an invoice that is automatically charged&mdash;where X is determined by your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). Note: The received `Invoice` object will not have an invoice ID.
+type V1InvoiceUpcomingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceUpcomingEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceUpdatedEvent is the Go struct for the "v1.invoice.updated" event.
+// Occurs whenever an invoice changes (e.g., the invoice amount).
+type V1InvoiceUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceUpdatedEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceVoidedEvent is the Go struct for the "v1.invoice.voided" event.
+// Occurs whenever an invoice is voided.
+type V1InvoiceVoidedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceVoidedEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceWillBeDueEvent is the Go struct for the "v1.invoice.will_be_due" event.
+// Occurs X number of days before an invoice becomes due&mdash;where X is determined by Automations.
+type V1InvoiceWillBeDueEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the related Invoice object for the event.
+func (e V1InvoiceWillBeDueEvent) FetchRelatedObject() (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoicePaymentPaidEvent is the Go struct for the "v1.invoice_payment.paid" event.
+// Occurs when an InvoicePayment is successfully paid.
+type V1InvoicePaymentPaidEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*InvoicePayment, error)
+}
+
+// FetchRelatedObject fetches the related InvoicePayment object for the event.
+func (e V1InvoicePaymentPaidEvent) FetchRelatedObject() (*InvoicePayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceitemCreatedEvent is the Go struct for the "v1.invoiceitem.created" event.
+// Occurs whenever an invoice item is created.
+type V1InvoiceitemCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*InvoiceItem, error)
+}
+
+// FetchRelatedObject fetches the related InvoiceItem object for the event.
+func (e V1InvoiceitemCreatedEvent) FetchRelatedObject() (*InvoiceItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoiceitemDeletedEvent is the Go struct for the "v1.invoiceitem.deleted" event.
+// Occurs whenever an invoice item is deleted.
+type V1InvoiceitemDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*InvoiceItem, error)
+}
+
+// FetchRelatedObject fetches the related InvoiceItem object for the event.
+func (e V1InvoiceitemDeletedEvent) FetchRelatedObject() (*InvoiceItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingAuthorizationCreatedEvent is the Go struct for the "v1.issuing_authorization.created" event.
+// Occurs whenever an authorization is created.
+type V1IssuingAuthorizationCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingAuthorization, error)
+}
+
+// FetchRelatedObject fetches the related IssuingAuthorization object for the event.
+func (e V1IssuingAuthorizationCreatedEvent) FetchRelatedObject() (*IssuingAuthorization, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingAuthorizationRequestEvent is the Go struct for the "v1.issuing_authorization.request" event.
+// Represents a synchronous request for authorization, see [Using your integration to handle authorization requests](https://docs.stripe.com/issuing/purchases/authorizations#authorization-handling).
+type V1IssuingAuthorizationRequestEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingAuthorization, error)
+}
+
+// FetchRelatedObject fetches the related IssuingAuthorization object for the event.
+func (e V1IssuingAuthorizationRequestEvent) FetchRelatedObject() (*IssuingAuthorization, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingAuthorizationUpdatedEvent is the Go struct for the "v1.issuing_authorization.updated" event.
+// Occurs whenever an authorization is updated.
+type V1IssuingAuthorizationUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingAuthorization, error)
+}
+
+// FetchRelatedObject fetches the related IssuingAuthorization object for the event.
+func (e V1IssuingAuthorizationUpdatedEvent) FetchRelatedObject() (*IssuingAuthorization, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingCardCreatedEvent is the Go struct for the "v1.issuing_card.created" event.
+// Occurs whenever a card is created.
+type V1IssuingCardCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingCard, error)
+}
+
+// FetchRelatedObject fetches the related IssuingCard object for the event.
+func (e V1IssuingCardCreatedEvent) FetchRelatedObject() (*IssuingCard, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingCardUpdatedEvent is the Go struct for the "v1.issuing_card.updated" event.
+// Occurs whenever a card is updated.
+type V1IssuingCardUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingCard, error)
+}
+
+// FetchRelatedObject fetches the related IssuingCard object for the event.
+func (e V1IssuingCardUpdatedEvent) FetchRelatedObject() (*IssuingCard, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingCardholderCreatedEvent is the Go struct for the "v1.issuing_cardholder.created" event.
+// Occurs whenever a cardholder is created.
+type V1IssuingCardholderCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingCardholder, error)
+}
+
+// FetchRelatedObject fetches the related IssuingCardholder object for the event.
+func (e V1IssuingCardholderCreatedEvent) FetchRelatedObject() (*IssuingCardholder, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingCardholderUpdatedEvent is the Go struct for the "v1.issuing_cardholder.updated" event.
+// Occurs whenever a cardholder is updated.
+type V1IssuingCardholderUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingCardholder, error)
+}
+
+// FetchRelatedObject fetches the related IssuingCardholder object for the event.
+func (e V1IssuingCardholderUpdatedEvent) FetchRelatedObject() (*IssuingCardholder, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingDisputeClosedEvent is the Go struct for the "v1.issuing_dispute.closed" event.
+// Occurs whenever a dispute is won, lost or expired.
+type V1IssuingDisputeClosedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingDispute, error)
+}
+
+// FetchRelatedObject fetches the related IssuingDispute object for the event.
+func (e V1IssuingDisputeClosedEvent) FetchRelatedObject() (*IssuingDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingDisputeCreatedEvent is the Go struct for the "v1.issuing_dispute.created" event.
+// Occurs whenever a dispute is created.
+type V1IssuingDisputeCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingDispute, error)
+}
+
+// FetchRelatedObject fetches the related IssuingDispute object for the event.
+func (e V1IssuingDisputeCreatedEvent) FetchRelatedObject() (*IssuingDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingDisputeFundsReinstatedEvent is the Go struct for the "v1.issuing_dispute.funds_reinstated" event.
+// Occurs whenever funds are reinstated to your account for an Issuing dispute.
+type V1IssuingDisputeFundsReinstatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingDispute, error)
+}
+
+// FetchRelatedObject fetches the related IssuingDispute object for the event.
+func (e V1IssuingDisputeFundsReinstatedEvent) FetchRelatedObject() (*IssuingDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingDisputeFundsRescindedEvent is the Go struct for the "v1.issuing_dispute.funds_rescinded" event.
+// Occurs whenever funds are deducted from your account for an Issuing dispute.
+type V1IssuingDisputeFundsRescindedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingDispute, error)
+}
+
+// FetchRelatedObject fetches the related IssuingDispute object for the event.
+func (e V1IssuingDisputeFundsRescindedEvent) FetchRelatedObject() (*IssuingDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingDisputeSubmittedEvent is the Go struct for the "v1.issuing_dispute.submitted" event.
+// Occurs whenever a dispute is submitted.
+type V1IssuingDisputeSubmittedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingDispute, error)
+}
+
+// FetchRelatedObject fetches the related IssuingDispute object for the event.
+func (e V1IssuingDisputeSubmittedEvent) FetchRelatedObject() (*IssuingDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingDisputeUpdatedEvent is the Go struct for the "v1.issuing_dispute.updated" event.
+// Occurs whenever a dispute is updated.
+type V1IssuingDisputeUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingDispute, error)
+}
+
+// FetchRelatedObject fetches the related IssuingDispute object for the event.
+func (e V1IssuingDisputeUpdatedEvent) FetchRelatedObject() (*IssuingDispute, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingPersonalizationDesignActivatedEvent is the Go struct for the "v1.issuing_personalization_design.activated" event.
+// Occurs whenever a personalization design is activated following the activation of the physical bundle that belongs to it.
+type V1IssuingPersonalizationDesignActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
+}
+
+// FetchRelatedObject fetches the related IssuingPersonalizationDesign object for the event.
+func (e V1IssuingPersonalizationDesignActivatedEvent) FetchRelatedObject() (*IssuingPersonalizationDesign, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingPersonalizationDesignDeactivatedEvent is the Go struct for the "v1.issuing_personalization_design.deactivated" event.
+// Occurs whenever a personalization design is deactivated following the deactivation of the physical bundle that belongs to it.
+type V1IssuingPersonalizationDesignDeactivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
+}
+
+// FetchRelatedObject fetches the related IssuingPersonalizationDesign object for the event.
+func (e V1IssuingPersonalizationDesignDeactivatedEvent) FetchRelatedObject() (*IssuingPersonalizationDesign, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingPersonalizationDesignRejectedEvent is the Go struct for the "v1.issuing_personalization_design.rejected" event.
+// Occurs whenever a personalization design is rejected by design review.
+type V1IssuingPersonalizationDesignRejectedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
+}
+
+// FetchRelatedObject fetches the related IssuingPersonalizationDesign object for the event.
+func (e V1IssuingPersonalizationDesignRejectedEvent) FetchRelatedObject() (*IssuingPersonalizationDesign, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingPersonalizationDesignUpdatedEvent is the Go struct for the "v1.issuing_personalization_design.updated" event.
+// Occurs whenever a personalization design is updated.
+type V1IssuingPersonalizationDesignUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
+}
+
+// FetchRelatedObject fetches the related IssuingPersonalizationDesign object for the event.
+func (e V1IssuingPersonalizationDesignUpdatedEvent) FetchRelatedObject() (*IssuingPersonalizationDesign, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingTokenCreatedEvent is the Go struct for the "v1.issuing_token.created" event.
+// Occurs whenever an issuing digital wallet token is created.
+type V1IssuingTokenCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingToken, error)
+}
+
+// FetchRelatedObject fetches the related IssuingToken object for the event.
+func (e V1IssuingTokenCreatedEvent) FetchRelatedObject() (*IssuingToken, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingTokenUpdatedEvent is the Go struct for the "v1.issuing_token.updated" event.
+// Occurs whenever an issuing digital wallet token is updated.
+type V1IssuingTokenUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingToken, error)
+}
+
+// FetchRelatedObject fetches the related IssuingToken object for the event.
+func (e V1IssuingTokenUpdatedEvent) FetchRelatedObject() (*IssuingToken, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingTransactionCreatedEvent is the Go struct for the "v1.issuing_transaction.created" event.
+// Occurs whenever an issuing transaction is created.
+type V1IssuingTransactionCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingTransaction, error)
+}
+
+// FetchRelatedObject fetches the related IssuingTransaction object for the event.
+func (e V1IssuingTransactionCreatedEvent) FetchRelatedObject() (*IssuingTransaction, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent is the Go struct for the "v1.issuing_transaction.purchase_details_receipt_updated" event.
+// Occurs whenever an issuing transaction is updated with receipt data.
+type V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingTransaction, error)
+}
+
+// FetchRelatedObject fetches the related IssuingTransaction object for the event.
+func (e V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent) FetchRelatedObject() (*IssuingTransaction, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1IssuingTransactionUpdatedEvent is the Go struct for the "v1.issuing_transaction.updated" event.
+// Occurs whenever an issuing transaction is updated.
+type V1IssuingTransactionUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*IssuingTransaction, error)
+}
+
+// FetchRelatedObject fetches the related IssuingTransaction object for the event.
+func (e V1IssuingTransactionUpdatedEvent) FetchRelatedObject() (*IssuingTransaction, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1MandateUpdatedEvent is the Go struct for the "v1.mandate.updated" event.
+// Occurs whenever a Mandate is updated.
+type V1MandateUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Mandate, error)
+}
+
+// FetchRelatedObject fetches the related Mandate object for the event.
+func (e V1MandateUpdatedEvent) FetchRelatedObject() (*Mandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentIntentAmountCapturableUpdatedEvent is the Go struct for the "v1.payment_intent.amount_capturable_updated" event.
+// Occurs when a PaymentIntent has funds to be captured. Check the `amount_capturable` property on the PaymentIntent to determine the amount that can be captured. You may capture the PaymentIntent with an `amount_to_capture` value up to the specified amount. [Learn more about capturing PaymentIntents.](https://docs.stripe.com/api/payment_intents/capture).
+type V1PaymentIntentAmountCapturableUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentIntent, error)
+}
+
+// FetchRelatedObject fetches the related PaymentIntent object for the event.
+func (e V1PaymentIntentAmountCapturableUpdatedEvent) FetchRelatedObject() (*PaymentIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentIntentCanceledEvent is the Go struct for the "v1.payment_intent.canceled" event.
+// Occurs when a PaymentIntent is canceled.
+type V1PaymentIntentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentIntent, error)
+}
+
+// FetchRelatedObject fetches the related PaymentIntent object for the event.
+func (e V1PaymentIntentCanceledEvent) FetchRelatedObject() (*PaymentIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentIntentCreatedEvent is the Go struct for the "v1.payment_intent.created" event.
+// Occurs when a new PaymentIntent is created.
+type V1PaymentIntentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentIntent, error)
+}
+
+// FetchRelatedObject fetches the related PaymentIntent object for the event.
+func (e V1PaymentIntentCreatedEvent) FetchRelatedObject() (*PaymentIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentIntentPartiallyFundedEvent is the Go struct for the "v1.payment_intent.partially_funded" event.
+// Occurs when funds are applied to a customer_balance PaymentIntent and the 'amount_remaining' changes.
+type V1PaymentIntentPartiallyFundedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentIntent, error)
+}
+
+// FetchRelatedObject fetches the related PaymentIntent object for the event.
+func (e V1PaymentIntentPartiallyFundedEvent) FetchRelatedObject() (*PaymentIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentIntentPaymentFailedEvent is the Go struct for the "v1.payment_intent.payment_failed" event.
+// Occurs when a PaymentIntent has failed the attempt to create a payment method or a payment.
+type V1PaymentIntentPaymentFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentIntent, error)
+}
+
+// FetchRelatedObject fetches the related PaymentIntent object for the event.
+func (e V1PaymentIntentPaymentFailedEvent) FetchRelatedObject() (*PaymentIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentIntentProcessingEvent is the Go struct for the "v1.payment_intent.processing" event.
+// Occurs when a PaymentIntent has started processing.
+type V1PaymentIntentProcessingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentIntent, error)
+}
+
+// FetchRelatedObject fetches the related PaymentIntent object for the event.
+func (e V1PaymentIntentProcessingEvent) FetchRelatedObject() (*PaymentIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentIntentRequiresActionEvent is the Go struct for the "v1.payment_intent.requires_action" event.
+// Occurs when a PaymentIntent transitions to requires_action state.
+type V1PaymentIntentRequiresActionEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentIntent, error)
+}
+
+// FetchRelatedObject fetches the related PaymentIntent object for the event.
+func (e V1PaymentIntentRequiresActionEvent) FetchRelatedObject() (*PaymentIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentIntentSucceededEvent is the Go struct for the "v1.payment_intent.succeeded" event.
+// Occurs when a PaymentIntent has successfully completed payment.
+type V1PaymentIntentSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentIntent, error)
+}
+
+// FetchRelatedObject fetches the related PaymentIntent object for the event.
+func (e V1PaymentIntentSucceededEvent) FetchRelatedObject() (*PaymentIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentLinkCreatedEvent is the Go struct for the "v1.payment_link.created" event.
+// Occurs when a payment link is created.
+type V1PaymentLinkCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentLink, error)
+}
+
+// FetchRelatedObject fetches the related PaymentLink object for the event.
+func (e V1PaymentLinkCreatedEvent) FetchRelatedObject() (*PaymentLink, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentLinkUpdatedEvent is the Go struct for the "v1.payment_link.updated" event.
+// Occurs when a payment link is updated.
+type V1PaymentLinkUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentLink, error)
+}
+
+// FetchRelatedObject fetches the related PaymentLink object for the event.
+func (e V1PaymentLinkUpdatedEvent) FetchRelatedObject() (*PaymentLink, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentMethodAttachedEvent is the Go struct for the "v1.payment_method.attached" event.
+// Occurs whenever a new payment method is attached to a customer.
+type V1PaymentMethodAttachedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentMethod, error)
+}
+
+// FetchRelatedObject fetches the related PaymentMethod object for the event.
+func (e V1PaymentMethodAttachedEvent) FetchRelatedObject() (*PaymentMethod, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentMethodAutomaticallyUpdatedEvent is the Go struct for the "v1.payment_method.automatically_updated" event.
+// Occurs whenever a payment method's details are automatically updated by the network.
+type V1PaymentMethodAutomaticallyUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentMethod, error)
+}
+
+// FetchRelatedObject fetches the related PaymentMethod object for the event.
+func (e V1PaymentMethodAutomaticallyUpdatedEvent) FetchRelatedObject() (*PaymentMethod, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentMethodDetachedEvent is the Go struct for the "v1.payment_method.detached" event.
+// Occurs whenever a payment method is detached from a customer.
+type V1PaymentMethodDetachedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentMethod, error)
+}
+
+// FetchRelatedObject fetches the related PaymentMethod object for the event.
+func (e V1PaymentMethodDetachedEvent) FetchRelatedObject() (*PaymentMethod, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PaymentMethodUpdatedEvent is the Go struct for the "v1.payment_method.updated" event.
+// Occurs whenever a payment method is updated via the [PaymentMethod update API](https://docs.stripe.com/api/payment_methods/update).
+type V1PaymentMethodUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PaymentMethod, error)
+}
+
+// FetchRelatedObject fetches the related PaymentMethod object for the event.
+func (e V1PaymentMethodUpdatedEvent) FetchRelatedObject() (*PaymentMethod, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PayoutCanceledEvent is the Go struct for the "v1.payout.canceled" event.
+// Occurs whenever a payout is canceled.
+type V1PayoutCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Payout, error)
+}
+
+// FetchRelatedObject fetches the related Payout object for the event.
+func (e V1PayoutCanceledEvent) FetchRelatedObject() (*Payout, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PayoutCreatedEvent is the Go struct for the "v1.payout.created" event.
+// Occurs whenever a payout is created.
+type V1PayoutCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Payout, error)
+}
+
+// FetchRelatedObject fetches the related Payout object for the event.
+func (e V1PayoutCreatedEvent) FetchRelatedObject() (*Payout, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PayoutFailedEvent is the Go struct for the "v1.payout.failed" event.
+// Occurs whenever a payout attempt fails.
+type V1PayoutFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Payout, error)
+}
+
+// FetchRelatedObject fetches the related Payout object for the event.
+func (e V1PayoutFailedEvent) FetchRelatedObject() (*Payout, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PayoutPaidEvent is the Go struct for the "v1.payout.paid" event.
+// Occurs whenever a payout is *expected* to be available in the destination account. If the payout fails, a `payout.failed` notification is also sent, at a later time.
+type V1PayoutPaidEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Payout, error)
+}
+
+// FetchRelatedObject fetches the related Payout object for the event.
+func (e V1PayoutPaidEvent) FetchRelatedObject() (*Payout, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PayoutReconciliationCompletedEvent is the Go struct for the "v1.payout.reconciliation_completed" event.
+// Occurs whenever balance transactions paid out in an automatic payout can be queried.
+type V1PayoutReconciliationCompletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Payout, error)
+}
+
+// FetchRelatedObject fetches the related Payout object for the event.
+func (e V1PayoutReconciliationCompletedEvent) FetchRelatedObject() (*Payout, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PayoutUpdatedEvent is the Go struct for the "v1.payout.updated" event.
+// Occurs whenever a payout is updated.
+type V1PayoutUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Payout, error)
+}
+
+// FetchRelatedObject fetches the related Payout object for the event.
+func (e V1PayoutUpdatedEvent) FetchRelatedObject() (*Payout, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PersonCreatedEvent is the Go struct for the "v1.person.created" event.
+// Occurs whenever a person associated with an account is created.
+type V1PersonCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Person, error)
+}
+
+// FetchRelatedObject fetches the related Person object for the event.
+func (e V1PersonCreatedEvent) FetchRelatedObject() (*Person, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PersonDeletedEvent is the Go struct for the "v1.person.deleted" event.
+// Occurs whenever a person associated with an account is deleted.
+type V1PersonDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Person, error)
+}
+
+// FetchRelatedObject fetches the related Person object for the event.
+func (e V1PersonDeletedEvent) FetchRelatedObject() (*Person, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PersonUpdatedEvent is the Go struct for the "v1.person.updated" event.
+// Occurs whenever a person associated with an account is updated.
+type V1PersonUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Person, error)
+}
+
+// FetchRelatedObject fetches the related Person object for the event.
+func (e V1PersonUpdatedEvent) FetchRelatedObject() (*Person, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PlanCreatedEvent is the Go struct for the "v1.plan.created" event.
+// Occurs whenever a plan is created.
+type V1PlanCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Plan, error)
+}
+
+// FetchRelatedObject fetches the related Plan object for the event.
+func (e V1PlanCreatedEvent) FetchRelatedObject() (*Plan, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PlanDeletedEvent is the Go struct for the "v1.plan.deleted" event.
+// Occurs whenever a plan is deleted.
+type V1PlanDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Plan, error)
+}
+
+// FetchRelatedObject fetches the related Plan object for the event.
+func (e V1PlanDeletedEvent) FetchRelatedObject() (*Plan, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PlanUpdatedEvent is the Go struct for the "v1.plan.updated" event.
+// Occurs whenever a plan is updated.
+type V1PlanUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Plan, error)
+}
+
+// FetchRelatedObject fetches the related Plan object for the event.
+func (e V1PlanUpdatedEvent) FetchRelatedObject() (*Plan, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PriceCreatedEvent is the Go struct for the "v1.price.created" event.
+// Occurs whenever a price is created.
+type V1PriceCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Price, error)
+}
+
+// FetchRelatedObject fetches the related Price object for the event.
+func (e V1PriceCreatedEvent) FetchRelatedObject() (*Price, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PriceDeletedEvent is the Go struct for the "v1.price.deleted" event.
+// Occurs whenever a price is deleted.
+type V1PriceDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Price, error)
+}
+
+// FetchRelatedObject fetches the related Price object for the event.
+func (e V1PriceDeletedEvent) FetchRelatedObject() (*Price, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PriceUpdatedEvent is the Go struct for the "v1.price.updated" event.
+// Occurs whenever a price is updated.
+type V1PriceUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Price, error)
+}
+
+// FetchRelatedObject fetches the related Price object for the event.
+func (e V1PriceUpdatedEvent) FetchRelatedObject() (*Price, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ProductCreatedEvent is the Go struct for the "v1.product.created" event.
+// Occurs whenever a product is created.
+type V1ProductCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Product, error)
+}
+
+// FetchRelatedObject fetches the related Product object for the event.
+func (e V1ProductCreatedEvent) FetchRelatedObject() (*Product, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ProductDeletedEvent is the Go struct for the "v1.product.deleted" event.
+// Occurs whenever a product is deleted.
+type V1ProductDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Product, error)
+}
+
+// FetchRelatedObject fetches the related Product object for the event.
+func (e V1ProductDeletedEvent) FetchRelatedObject() (*Product, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ProductUpdatedEvent is the Go struct for the "v1.product.updated" event.
+// Occurs whenever a product is updated.
+type V1ProductUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Product, error)
+}
+
+// FetchRelatedObject fetches the related Product object for the event.
+func (e V1ProductUpdatedEvent) FetchRelatedObject() (*Product, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PromotionCodeCreatedEvent is the Go struct for the "v1.promotion_code.created" event.
+// Occurs whenever a promotion code is created.
+type V1PromotionCodeCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PromotionCode, error)
+}
+
+// FetchRelatedObject fetches the related PromotionCode object for the event.
+func (e V1PromotionCodeCreatedEvent) FetchRelatedObject() (*PromotionCode, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1PromotionCodeUpdatedEvent is the Go struct for the "v1.promotion_code.updated" event.
+// Occurs whenever a promotion code is updated.
+type V1PromotionCodeUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*PromotionCode, error)
+}
+
+// FetchRelatedObject fetches the related PromotionCode object for the event.
+func (e V1PromotionCodeUpdatedEvent) FetchRelatedObject() (*PromotionCode, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1QuoteAcceptedEvent is the Go struct for the "v1.quote.accepted" event.
+// Occurs whenever a quote is accepted.
+type V1QuoteAcceptedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Quote, error)
+}
+
+// FetchRelatedObject fetches the related Quote object for the event.
+func (e V1QuoteAcceptedEvent) FetchRelatedObject() (*Quote, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1QuoteCanceledEvent is the Go struct for the "v1.quote.canceled" event.
+// Occurs whenever a quote is canceled.
+type V1QuoteCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Quote, error)
+}
+
+// FetchRelatedObject fetches the related Quote object for the event.
+func (e V1QuoteCanceledEvent) FetchRelatedObject() (*Quote, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1QuoteCreatedEvent is the Go struct for the "v1.quote.created" event.
+// Occurs whenever a quote is created.
+type V1QuoteCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Quote, error)
+}
+
+// FetchRelatedObject fetches the related Quote object for the event.
+func (e V1QuoteCreatedEvent) FetchRelatedObject() (*Quote, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1QuoteFinalizedEvent is the Go struct for the "v1.quote.finalized" event.
+// Occurs whenever a quote is finalized.
+type V1QuoteFinalizedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Quote, error)
+}
+
+// FetchRelatedObject fetches the related Quote object for the event.
+func (e V1QuoteFinalizedEvent) FetchRelatedObject() (*Quote, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1RadarEarlyFraudWarningCreatedEvent is the Go struct for the "v1.radar.early_fraud_warning.created" event.
+// Occurs whenever an early fraud warning is created.
+type V1RadarEarlyFraudWarningCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*RadarEarlyFraudWarning, error)
+}
+
+// FetchRelatedObject fetches the related RadarEarlyFraudWarning object for the event.
+func (e V1RadarEarlyFraudWarningCreatedEvent) FetchRelatedObject() (*RadarEarlyFraudWarning, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1RadarEarlyFraudWarningUpdatedEvent is the Go struct for the "v1.radar.early_fraud_warning.updated" event.
+// Occurs whenever an early fraud warning is updated.
+type V1RadarEarlyFraudWarningUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*RadarEarlyFraudWarning, error)
+}
+
+// FetchRelatedObject fetches the related RadarEarlyFraudWarning object for the event.
+func (e V1RadarEarlyFraudWarningUpdatedEvent) FetchRelatedObject() (*RadarEarlyFraudWarning, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1RefundCreatedEvent is the Go struct for the "v1.refund.created" event.
+// Occurs whenever a refund is created.
+type V1RefundCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Refund, error)
+}
+
+// FetchRelatedObject fetches the related Refund object for the event.
+func (e V1RefundCreatedEvent) FetchRelatedObject() (*Refund, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1RefundFailedEvent is the Go struct for the "v1.refund.failed" event.
+// Occurs whenever a refund has failed.
+type V1RefundFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Refund, error)
+}
+
+// FetchRelatedObject fetches the related Refund object for the event.
+func (e V1RefundFailedEvent) FetchRelatedObject() (*Refund, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1RefundUpdatedEvent is the Go struct for the "v1.refund.updated" event.
+// Occurs whenever a refund is updated.
+type V1RefundUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Refund, error)
+}
+
+// FetchRelatedObject fetches the related Refund object for the event.
+func (e V1RefundUpdatedEvent) FetchRelatedObject() (*Refund, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ReviewClosedEvent is the Go struct for the "v1.review.closed" event.
+// Occurs whenever a review is closed. The review's `reason` field indicates why: `approved`, `disputed`, `refunded`, `refunded_as_fraud`, or `canceled`.
+type V1ReviewClosedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Review, error)
+}
+
+// FetchRelatedObject fetches the related Review object for the event.
+func (e V1ReviewClosedEvent) FetchRelatedObject() (*Review, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1ReviewOpenedEvent is the Go struct for the "v1.review.opened" event.
+// Occurs whenever a review is opened.
+type V1ReviewOpenedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Review, error)
+}
+
+// FetchRelatedObject fetches the related Review object for the event.
+func (e V1ReviewOpenedEvent) FetchRelatedObject() (*Review, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SetupIntentCanceledEvent is the Go struct for the "v1.setup_intent.canceled" event.
+// Occurs when a SetupIntent is canceled.
+type V1SetupIntentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SetupIntent, error)
+}
+
+// FetchRelatedObject fetches the related SetupIntent object for the event.
+func (e V1SetupIntentCanceledEvent) FetchRelatedObject() (*SetupIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SetupIntentCreatedEvent is the Go struct for the "v1.setup_intent.created" event.
+// Occurs when a new SetupIntent is created.
+type V1SetupIntentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SetupIntent, error)
+}
+
+// FetchRelatedObject fetches the related SetupIntent object for the event.
+func (e V1SetupIntentCreatedEvent) FetchRelatedObject() (*SetupIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SetupIntentRequiresActionEvent is the Go struct for the "v1.setup_intent.requires_action" event.
+// Occurs when a SetupIntent is in requires_action state.
+type V1SetupIntentRequiresActionEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SetupIntent, error)
+}
+
+// FetchRelatedObject fetches the related SetupIntent object for the event.
+func (e V1SetupIntentRequiresActionEvent) FetchRelatedObject() (*SetupIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SetupIntentSetupFailedEvent is the Go struct for the "v1.setup_intent.setup_failed" event.
+// Occurs when a SetupIntent has failed the attempt to setup a payment method.
+type V1SetupIntentSetupFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SetupIntent, error)
+}
+
+// FetchRelatedObject fetches the related SetupIntent object for the event.
+func (e V1SetupIntentSetupFailedEvent) FetchRelatedObject() (*SetupIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SetupIntentSucceededEvent is the Go struct for the "v1.setup_intent.succeeded" event.
+// Occurs when an SetupIntent has successfully setup a payment method.
+type V1SetupIntentSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SetupIntent, error)
+}
+
+// FetchRelatedObject fetches the related SetupIntent object for the event.
+func (e V1SetupIntentSucceededEvent) FetchRelatedObject() (*SetupIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SigmaScheduledQueryRunCreatedEvent is the Go struct for the "v1.sigma.scheduled_query_run.created" event.
+// Occurs whenever a Sigma scheduled query run finishes.
+type V1SigmaScheduledQueryRunCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SigmaScheduledQueryRun, error)
+}
+
+// FetchRelatedObject fetches the related SigmaScheduledQueryRun object for the event.
+func (e V1SigmaScheduledQueryRunCreatedEvent) FetchRelatedObject() (*SigmaScheduledQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SourceCanceledEvent is the Go struct for the "v1.source.canceled" event.
+// Occurs whenever a source is canceled.
+type V1SourceCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Source, error)
+}
+
+// FetchRelatedObject fetches the related Source object for the event.
+func (e V1SourceCanceledEvent) FetchRelatedObject() (*Source, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SourceChargeableEvent is the Go struct for the "v1.source.chargeable" event.
+// Occurs whenever a source transitions to chargeable.
+type V1SourceChargeableEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Source, error)
+}
+
+// FetchRelatedObject fetches the related Source object for the event.
+func (e V1SourceChargeableEvent) FetchRelatedObject() (*Source, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SourceFailedEvent is the Go struct for the "v1.source.failed" event.
+// Occurs whenever a source fails.
+type V1SourceFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Source, error)
+}
+
+// FetchRelatedObject fetches the related Source object for the event.
+func (e V1SourceFailedEvent) FetchRelatedObject() (*Source, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SourceRefundAttributesRequiredEvent is the Go struct for the "v1.source.refund_attributes_required" event.
+// Occurs whenever the refund attributes are required on a receiver source to process a refund or a mispayment.
+type V1SourceRefundAttributesRequiredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Source, error)
+}
+
+// FetchRelatedObject fetches the related Source object for the event.
+func (e V1SourceRefundAttributesRequiredEvent) FetchRelatedObject() (*Source, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionScheduleAbortedEvent is the Go struct for the "v1.subscription_schedule.aborted" event.
+// Occurs whenever a subscription schedule is canceled due to the underlying subscription being canceled because of delinquency.
+type V1SubscriptionScheduleAbortedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the related SubscriptionSchedule object for the event.
+func (e V1SubscriptionScheduleAbortedEvent) FetchRelatedObject() (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionScheduleCanceledEvent is the Go struct for the "v1.subscription_schedule.canceled" event.
+// Occurs whenever a subscription schedule is canceled.
+type V1SubscriptionScheduleCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the related SubscriptionSchedule object for the event.
+func (e V1SubscriptionScheduleCanceledEvent) FetchRelatedObject() (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionScheduleCompletedEvent is the Go struct for the "v1.subscription_schedule.completed" event.
+// Occurs whenever a new subscription schedule is completed.
+type V1SubscriptionScheduleCompletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the related SubscriptionSchedule object for the event.
+func (e V1SubscriptionScheduleCompletedEvent) FetchRelatedObject() (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionScheduleCreatedEvent is the Go struct for the "v1.subscription_schedule.created" event.
+// Occurs whenever a new subscription schedule is created.
+type V1SubscriptionScheduleCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the related SubscriptionSchedule object for the event.
+func (e V1SubscriptionScheduleCreatedEvent) FetchRelatedObject() (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionScheduleExpiringEvent is the Go struct for the "v1.subscription_schedule.expiring" event.
+// Occurs 7 days before a subscription schedule will expire.
+type V1SubscriptionScheduleExpiringEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the related SubscriptionSchedule object for the event.
+func (e V1SubscriptionScheduleExpiringEvent) FetchRelatedObject() (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionScheduleReleasedEvent is the Go struct for the "v1.subscription_schedule.released" event.
+// Occurs whenever a new subscription schedule is released.
+type V1SubscriptionScheduleReleasedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the related SubscriptionSchedule object for the event.
+func (e V1SubscriptionScheduleReleasedEvent) FetchRelatedObject() (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1SubscriptionScheduleUpdatedEvent is the Go struct for the "v1.subscription_schedule.updated" event.
+// Occurs whenever a subscription schedule is updated.
+type V1SubscriptionScheduleUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*SubscriptionSchedule, error)
+}
+
+// FetchRelatedObject fetches the related SubscriptionSchedule object for the event.
+func (e V1SubscriptionScheduleUpdatedEvent) FetchRelatedObject() (*SubscriptionSchedule, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TaxRateCreatedEvent is the Go struct for the "v1.tax_rate.created" event.
+// Occurs whenever a new tax rate is created.
+type V1TaxRateCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TaxRate, error)
+}
+
+// FetchRelatedObject fetches the related TaxRate object for the event.
+func (e V1TaxRateCreatedEvent) FetchRelatedObject() (*TaxRate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TaxRateUpdatedEvent is the Go struct for the "v1.tax_rate.updated" event.
+// Occurs whenever a tax rate is updated.
+type V1TaxRateUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TaxRate, error)
+}
+
+// FetchRelatedObject fetches the related TaxRate object for the event.
+func (e V1TaxRateUpdatedEvent) FetchRelatedObject() (*TaxRate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TerminalReaderActionFailedEvent is the Go struct for the "v1.terminal.reader.action_failed" event.
+// Occurs whenever an action sent to a Terminal reader failed.
+type V1TerminalReaderActionFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TerminalReader, error)
+}
+
+// FetchRelatedObject fetches the related TerminalReader object for the event.
+func (e V1TerminalReaderActionFailedEvent) FetchRelatedObject() (*TerminalReader, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TerminalReaderActionSucceededEvent is the Go struct for the "v1.terminal.reader.action_succeeded" event.
+// Occurs whenever an action sent to a Terminal reader was successful.
+type V1TerminalReaderActionSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TerminalReader, error)
+}
+
+// FetchRelatedObject fetches the related TerminalReader object for the event.
+func (e V1TerminalReaderActionSucceededEvent) FetchRelatedObject() (*TerminalReader, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TerminalReaderActionUpdatedEvent is the Go struct for the "v1.terminal.reader.action_updated" event.
+// Occurs whenever an action sent to a Terminal reader is updated.
+type V1TerminalReaderActionUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TerminalReader, error)
+}
+
+// FetchRelatedObject fetches the related TerminalReader object for the event.
+func (e V1TerminalReaderActionUpdatedEvent) FetchRelatedObject() (*TerminalReader, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TestHelpersTestClockAdvancingEvent is the Go struct for the "v1.test_helpers.test_clock.advancing" event.
+// Occurs whenever a test clock starts advancing.
+type V1TestHelpersTestClockAdvancingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
+}
+
+// FetchRelatedObject fetches the related TestHelpersTestClock object for the event.
+func (e V1TestHelpersTestClockAdvancingEvent) FetchRelatedObject() (*TestHelpersTestClock, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TestHelpersTestClockCreatedEvent is the Go struct for the "v1.test_helpers.test_clock.created" event.
+// Occurs whenever a test clock is created.
+type V1TestHelpersTestClockCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
+}
+
+// FetchRelatedObject fetches the related TestHelpersTestClock object for the event.
+func (e V1TestHelpersTestClockCreatedEvent) FetchRelatedObject() (*TestHelpersTestClock, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TestHelpersTestClockDeletedEvent is the Go struct for the "v1.test_helpers.test_clock.deleted" event.
+// Occurs whenever a test clock is deleted.
+type V1TestHelpersTestClockDeletedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
+}
+
+// FetchRelatedObject fetches the related TestHelpersTestClock object for the event.
+func (e V1TestHelpersTestClockDeletedEvent) FetchRelatedObject() (*TestHelpersTestClock, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TestHelpersTestClockInternalFailureEvent is the Go struct for the "v1.test_helpers.test_clock.internal_failure" event.
+// Occurs whenever a test clock fails to advance its frozen time.
+type V1TestHelpersTestClockInternalFailureEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
+}
+
+// FetchRelatedObject fetches the related TestHelpersTestClock object for the event.
+func (e V1TestHelpersTestClockInternalFailureEvent) FetchRelatedObject() (*TestHelpersTestClock, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TestHelpersTestClockReadyEvent is the Go struct for the "v1.test_helpers.test_clock.ready" event.
+// Occurs whenever a test clock transitions to a ready status.
+type V1TestHelpersTestClockReadyEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*TestHelpersTestClock, error)
+}
+
+// FetchRelatedObject fetches the related TestHelpersTestClock object for the event.
+func (e V1TestHelpersTestClockReadyEvent) FetchRelatedObject() (*TestHelpersTestClock, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TopupCanceledEvent is the Go struct for the "v1.topup.canceled" event.
+// Occurs whenever a top-up is canceled.
+type V1TopupCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Topup, error)
+}
+
+// FetchRelatedObject fetches the related Topup object for the event.
+func (e V1TopupCanceledEvent) FetchRelatedObject() (*Topup, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TopupCreatedEvent is the Go struct for the "v1.topup.created" event.
+// Occurs whenever a top-up is created.
+type V1TopupCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Topup, error)
+}
+
+// FetchRelatedObject fetches the related Topup object for the event.
+func (e V1TopupCreatedEvent) FetchRelatedObject() (*Topup, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TopupFailedEvent is the Go struct for the "v1.topup.failed" event.
+// Occurs whenever a top-up fails.
+type V1TopupFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Topup, error)
+}
+
+// FetchRelatedObject fetches the related Topup object for the event.
+func (e V1TopupFailedEvent) FetchRelatedObject() (*Topup, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TopupReversedEvent is the Go struct for the "v1.topup.reversed" event.
+// Occurs whenever a top-up is reversed.
+type V1TopupReversedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Topup, error)
+}
+
+// FetchRelatedObject fetches the related Topup object for the event.
+func (e V1TopupReversedEvent) FetchRelatedObject() (*Topup, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TopupSucceededEvent is the Go struct for the "v1.topup.succeeded" event.
+// Occurs whenever a top-up succeeds.
+type V1TopupSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Topup, error)
+}
+
+// FetchRelatedObject fetches the related Topup object for the event.
+func (e V1TopupSucceededEvent) FetchRelatedObject() (*Topup, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TransferCreatedEvent is the Go struct for the "v1.transfer.created" event.
+// Occurs whenever a transfer is created.
+type V1TransferCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Transfer, error)
+}
+
+// FetchRelatedObject fetches the related Transfer object for the event.
+func (e V1TransferCreatedEvent) FetchRelatedObject() (*Transfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TransferReversedEvent is the Go struct for the "v1.transfer.reversed" event.
+// Occurs whenever a transfer is reversed, including partial reversals.
+type V1TransferReversedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Transfer, error)
+}
+
+// FetchRelatedObject fetches the related Transfer object for the event.
+func (e V1TransferReversedEvent) FetchRelatedObject() (*Transfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1TransferUpdatedEvent is the Go struct for the "v1.transfer.updated" event.
+// Occurs whenever a transfer's description or metadata is updated.
+type V1TransferUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Transfer, error)
+}
+
+// FetchRelatedObject fetches the related Transfer object for the event.
+func (e V1TransferUpdatedEvent) FetchRelatedObject() (*Transfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingBillSettingUpdatedEvent is the Go struct for the "v2.billing.bill_setting.updated" event.
+// This event occurs when a bill setting is updated.
+type V2BillingBillSettingUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingBillSettingUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                        `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingBillSetting, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingBillSetting object for the event.
+func (e V2BillingBillSettingUpdatedEvent) FetchRelatedObject() (*V2BillingBillSetting, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2BillingCadenceBilledEvent is the Go struct for the "v2.billing.cadence.billed" event.
 // Occurs when a billing Cadence generates an invoice.
 type V2BillingCadenceBilledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	Data               V2BillingCadenceBilledEventData `json:"data"`
+	RelatedObject      RelatedObject                   `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingCadence, error)
 }
 
@@ -530,19 +3007,6 @@ type V2BillingCadenceCreatedEvent struct {
 
 // FetchRelatedObject fetches the related V2BillingCadence object for the event.
 func (e V2BillingCadenceCreatedEvent) FetchRelatedObject() (*V2BillingCadence, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2BillingCadenceErroredEvent is the Go struct for the "v2.billing.cadence.errored" event.
-// Occurs when a billing Cadence encounters an error during a tick.
-type V2BillingCadenceErroredEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2BillingCadence, error)
-}
-
-// FetchRelatedObject fetches the related V2BillingCadence object for the event.
-func (e V2BillingCadenceErroredEvent) FetchRelatedObject() (*V2BillingCadence, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -1230,6 +3694,71 @@ func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CoreAccountPer
 	return e.fetchRelatedObject()
 }
 
+// V2CoreClaimableSandboxClaimedEvent is the Go struct for the "v2.core.claimable_sandbox.claimed" event.
+// Occurs when a claimable sandbox is claimed.
+type V2CoreClaimableSandboxClaimedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxClaimedEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxCreatedEvent is the Go struct for the "v2.core.claimable_sandbox.created" event.
+// Occurs when a claimable sandbox is created.
+type V2CoreClaimableSandboxCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxCreatedEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxExpiredEvent is the Go struct for the "v2.core.claimable_sandbox.expired" event.
+// Occurs when a claimable sandbox expires.
+type V2CoreClaimableSandboxExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxExpiredEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxExpiringEvent is the Go struct for the "v2.core.claimable_sandbox.expiring" event.
+// Occurs when a claimable sandbox is expiring in 7 days.
+type V2CoreClaimableSandboxExpiringEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxExpiringEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent is the Go struct for the "v2.core.claimable_sandbox.sandbox_details_owner_account_updated" event.
+// Occurs when a claimable sandbox is activated by the user with the intention to go live and your Stripe app is installed on the live account.
+type V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreClaimableSandbox object for the event.
+func (e V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent) FetchRelatedObject() (*V2CoreClaimableSandbox, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
 // A ping event used to test the connection to an EventDestination.
 type V2CoreEventDestinationPingEvent struct {
@@ -1297,6 +3826,20 @@ type V2CoreHealthEventGenerationFailureResolvedEvent struct {
 type V2CoreHealthFraudRateIncreasedEvent struct {
 	V2BaseEvent
 	Data V2CoreHealthFraudRateIncreasedEventData `json:"data"`
+}
+
+// V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent is the Go struct for the "v2.core.health.issuing_authorization_request_errors.firing" event.
+// Occurs when an issuing authorization request errors alert is firing.
+type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventData `json:"data"`
+}
+
+// V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent is the Go struct for the "v2.core.health.issuing_authorization_request_errors.resolved" event.
+// Occurs when an issuing authorization request errors alert is resolved.
+type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventData `json:"data"`
 }
 
 // V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent is the Go struct for the "v2.core.health.issuing_authorization_request_timeout.firing" event.
@@ -1786,6 +4329,32 @@ func (e V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject() (*V2Mon
 	return e.fetchRelatedObject()
 }
 
+// V2MoneyManagementRecipientVerificationCreatedEvent is the Go struct for the "v2.money_management.recipient_verification.created" event.
+// Occurs when a RecipientVerification is created.
+type V2MoneyManagementRecipientVerificationCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementRecipientVerification, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementRecipientVerification object for the event.
+func (e V2MoneyManagementRecipientVerificationCreatedEvent) FetchRelatedObject() (*V2MoneyManagementRecipientVerification, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementRecipientVerificationUpdatedEvent is the Go struct for the "v2.money_management.recipient_verification.updated" event.
+// Occurs when a RecipientVerification is updated.
+type V2MoneyManagementRecipientVerificationUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementRecipientVerification, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementRecipientVerification object for the event.
+func (e V2MoneyManagementRecipientVerificationUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementRecipientVerification, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2MoneyManagementTransactionCreatedEvent is the Go struct for the "v2.money_management.transaction.created" event.
 // Occurs when a Transaction is created.
 type V2MoneyManagementTransactionCreatedEvent struct {
@@ -1979,6 +4548,18 @@ type V1BillingMeterNoMeterFoundEventData struct {
 	ValidationStart time.Time `json:"validation_start"`
 }
 
+// This event occurs when a bill setting is updated.
+type V2BillingBillSettingUpdatedEventData struct {
+	// Timestamp of when the object was updated.
+	Updated time.Time `json:"updated"`
+}
+
+// Occurs when a billing Cadence generates an invoice.
+type V2BillingCadenceBilledEventData struct {
+	// The IDs of the invoices that were generated by the tick for this Cadence.
+	Invoices []string `json:"invoices"`
+}
+
 // Occurs when a billing Cadence is created.
 type V2BillingCadenceCreatedEventData struct {
 	// Timestamp of when the object was created.
@@ -2129,8 +4710,6 @@ type V2CoreHealthAPIErrorResolvedEventDataImpact struct {
 
 // Occurs when an API error alert is resolved.
 type V2CoreHealthAPIErrorResolvedEventData struct {
-	// The alert ID.
-	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -2183,8 +4762,6 @@ type V2CoreHealthAPILatencyResolvedEventDataImpact struct {
 
 // Occurs when an API latency alert is resolved.
 type V2CoreHealthAPILatencyResolvedEventData struct {
-	// The alert ID.
-	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -2257,8 +4834,6 @@ type V2CoreHealthAuthorizationRateDropResolvedEventDataImpact struct {
 
 // Occurs when an authorization rate drop alert is resolved.
 type V2CoreHealthAuthorizationRateDropResolvedEventData struct {
-	// The alert ID.
-	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -2326,6 +4901,56 @@ type V2CoreHealthFraudRateIncreasedEventData struct {
 }
 
 // The user impact.
+type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpact struct {
+	// Estimated aggregated amount for the approved requests.
+	ApprovedAmount Amount `json:"approved_amount,omitempty"`
+	// The number of approved requests which are impacted.
+	ApprovedImpactedRequests int64 `json:"approved_impacted_requests,omitempty"`
+	// Estimated aggregated amount for the declined requests.
+	DeclinedAmount Amount `json:"declined_amount,omitempty"`
+	// The number of declined requests which are impacted.
+	DeclinedImpactedRequests int64 `json:"declined_impacted_requests,omitempty"`
+}
+
+// Occurs when an issuing authorization request errors alert is firing.
+type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventData struct {
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpact struct {
+	// Estimated aggregated amount for the approved requests.
+	ApprovedAmount Amount `json:"approved_amount,omitempty"`
+	// The number of approved requests which are impacted.
+	ApprovedImpactedRequests int64 `json:"approved_impacted_requests,omitempty"`
+	// Estimated aggregated amount for the declined requests.
+	DeclinedAmount Amount `json:"declined_amount,omitempty"`
+	// The number of declined requests which are impacted.
+	DeclinedImpactedRequests int64 `json:"declined_impacted_requests,omitempty"`
+}
+
+// Occurs when an issuing authorization request errors alert is resolved.
+type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventData struct {
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpact struct {
 	// Estimated aggregated amount for the approved requests.
 	ApprovedAmount Amount `json:"approved_amount,omitempty"`
@@ -2365,8 +4990,6 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpact struc
 
 // Occurs when an issuing authorization request timeout alert is resolved.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventData struct {
-	// The alert ID.
-	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -2415,8 +5038,6 @@ type V2CoreHealthPaymentMethodErrorResolvedEventDataImpact struct {
 
 // Occurs when a payment method error alert is resolved.
 type V2CoreHealthPaymentMethodErrorResolvedEventData struct {
-	// The alert ID.
-	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -2465,8 +5086,6 @@ type V2CoreHealthTrafficVolumeDropResolvedEventDataImpact struct {
 
 // Occurs when a traffic volume drop alert is resolved.
 type V2CoreHealthTrafficVolumeDropResolvedEventData struct {
-	// The alert ID.
-	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -2507,8 +5126,6 @@ type V2CoreHealthWebhookLatencyResolvedEventDataImpact struct {
 
 // Occurs when a webhook latency alert is resolved.
 type V2CoreHealthWebhookLatencyResolvedEventData struct {
-	// The alert ID.
-	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -2537,6 +5154,36 @@ type V2MoneyManagementReceivedCreditAvailableEventData struct {
 // If the event type is not known, it returns the raw event.
 func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, error) {
 	switch event.Type {
+	case "v1.account.updated":
+		result := &V1AccountUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Account, error) {
+			v := &Account{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.application_fee.created":
+		result := &V1ApplicationFeeCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ApplicationFee, error) {
+			v := &ApplicationFee{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.application_fee.refunded":
+		result := &V1ApplicationFeeRefundedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ApplicationFee, error) {
+			v := &ApplicationFee{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v1.billing.meter.error_report_triggered":
 		result := &V1BillingMeterErrorReportTriggeredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -2557,6 +5204,1879 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return nil, err
 		}
 		return result, nil
+	case "v1.billing_portal.configuration.created":
+		result := &V1BillingPortalConfigurationCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingPortalConfiguration, error) {
+			v := &BillingPortalConfiguration{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.billing_portal.configuration.updated":
+		result := &V1BillingPortalConfigurationUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingPortalConfiguration, error) {
+			v := &BillingPortalConfiguration{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.capability.updated":
+		result := &V1CapabilityUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Capability, error) {
+			v := &Capability{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.captured":
+		result := &V1ChargeCapturedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Charge, error) {
+			v := &Charge{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.dispute.closed":
+		result := &V1ChargeDisputeClosedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Dispute, error) {
+			v := &Dispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.dispute.created":
+		result := &V1ChargeDisputeCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Dispute, error) {
+			v := &Dispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.dispute.funds_reinstated":
+		result := &V1ChargeDisputeFundsReinstatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Dispute, error) {
+			v := &Dispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.dispute.funds_withdrawn":
+		result := &V1ChargeDisputeFundsWithdrawnEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Dispute, error) {
+			v := &Dispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.dispute.updated":
+		result := &V1ChargeDisputeUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Dispute, error) {
+			v := &Dispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.expired":
+		result := &V1ChargeExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Charge, error) {
+			v := &Charge{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.failed":
+		result := &V1ChargeFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Charge, error) {
+			v := &Charge{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.pending":
+		result := &V1ChargePendingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Charge, error) {
+			v := &Charge{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.refund.updated":
+		result := &V1ChargeRefundUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Refund, error) {
+			v := &Refund{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.refunded":
+		result := &V1ChargeRefundedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Charge, error) {
+			v := &Charge{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.succeeded":
+		result := &V1ChargeSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Charge, error) {
+			v := &Charge{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.charge.updated":
+		result := &V1ChargeUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Charge, error) {
+			v := &Charge{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.checkout.session.async_payment_failed":
+		result := &V1CheckoutSessionAsyncPaymentFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*CheckoutSession, error) {
+			v := &CheckoutSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.checkout.session.async_payment_succeeded":
+		result := &V1CheckoutSessionAsyncPaymentSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*CheckoutSession, error) {
+			v := &CheckoutSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.checkout.session.completed":
+		result := &V1CheckoutSessionCompletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*CheckoutSession, error) {
+			v := &CheckoutSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.checkout.session.expired":
+		result := &V1CheckoutSessionExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*CheckoutSession, error) {
+			v := &CheckoutSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.climate.order.canceled":
+		result := &V1ClimateOrderCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
+			v := &ClimateOrder{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.climate.order.created":
+		result := &V1ClimateOrderCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
+			v := &ClimateOrder{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.climate.order.delayed":
+		result := &V1ClimateOrderDelayedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
+			v := &ClimateOrder{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.climate.order.delivered":
+		result := &V1ClimateOrderDeliveredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
+			v := &ClimateOrder{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.climate.order.product_substituted":
+		result := &V1ClimateOrderProductSubstitutedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ClimateOrder, error) {
+			v := &ClimateOrder{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.climate.product.created":
+		result := &V1ClimateProductCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ClimateProduct, error) {
+			v := &ClimateProduct{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.climate.product.pricing_updated":
+		result := &V1ClimateProductPricingUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*ClimateProduct, error) {
+			v := &ClimateProduct{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.coupon.created":
+		result := &V1CouponCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Coupon, error) {
+			v := &Coupon{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.coupon.deleted":
+		result := &V1CouponDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Coupon, error) {
+			v := &Coupon{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.coupon.updated":
+		result := &V1CouponUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Coupon, error) {
+			v := &Coupon{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.credit_note.created":
+		result := &V1CreditNoteCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*CreditNote, error) {
+			v := &CreditNote{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.credit_note.updated":
+		result := &V1CreditNoteUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*CreditNote, error) {
+			v := &CreditNote{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.credit_note.voided":
+		result := &V1CreditNoteVoidedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*CreditNote, error) {
+			v := &CreditNote{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.created":
+		result := &V1CustomerCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Customer, error) {
+			v := &Customer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.deleted":
+		result := &V1CustomerDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Customer, error) {
+			v := &Customer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.discount.created":
+		result := &V1CustomerDiscountCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Discount, error) {
+			v := &Discount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.discount.deleted":
+		result := &V1CustomerDiscountDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Discount, error) {
+			v := &Discount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.discount.updated":
+		result := &V1CustomerDiscountUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Discount, error) {
+			v := &Discount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.created":
+		result := &V1CustomerSubscriptionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.deleted":
+		result := &V1CustomerSubscriptionDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.paused":
+		result := &V1CustomerSubscriptionPausedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.pending_update_applied":
+		result := &V1CustomerSubscriptionPendingUpdateAppliedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.pending_update_expired":
+		result := &V1CustomerSubscriptionPendingUpdateExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.resumed":
+		result := &V1CustomerSubscriptionResumedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.trial_will_end":
+		result := &V1CustomerSubscriptionTrialWillEndEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.subscription.updated":
+		result := &V1CustomerSubscriptionUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Subscription, error) {
+			v := &Subscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.tax_id.created":
+		result := &V1CustomerTaxIDCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TaxID, error) {
+			v := &TaxID{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.tax_id.deleted":
+		result := &V1CustomerTaxIDDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TaxID, error) {
+			v := &TaxID{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.tax_id.updated":
+		result := &V1CustomerTaxIDUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TaxID, error) {
+			v := &TaxID{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.customer.updated":
+		result := &V1CustomerUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Customer, error) {
+			v := &Customer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.file.created":
+		result := &V1FileCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*File, error) {
+			v := &File{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.created":
+		result := &V1FinancialConnectionsAccountCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.deactivated":
+		result := &V1FinancialConnectionsAccountDeactivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.disconnected":
+		result := &V1FinancialConnectionsAccountDisconnectedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.reactivated":
+		result := &V1FinancialConnectionsAccountReactivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.refreshed_balance":
+		result := &V1FinancialConnectionsAccountRefreshedBalanceEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.refreshed_ownership":
+		result := &V1FinancialConnectionsAccountRefreshedOwnershipEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.refreshed_transactions":
+		result := &V1FinancialConnectionsAccountRefreshedTransactionsEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.identity.verification_session.canceled":
+		result := &V1IdentityVerificationSessionCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
+			v := &IdentityVerificationSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.identity.verification_session.created":
+		result := &V1IdentityVerificationSessionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
+			v := &IdentityVerificationSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.identity.verification_session.processing":
+		result := &V1IdentityVerificationSessionProcessingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
+			v := &IdentityVerificationSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.identity.verification_session.redacted":
+		result := &V1IdentityVerificationSessionRedactedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
+			v := &IdentityVerificationSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.identity.verification_session.requires_input":
+		result := &V1IdentityVerificationSessionRequiresInputEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
+			v := &IdentityVerificationSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.identity.verification_session.verified":
+		result := &V1IdentityVerificationSessionVerifiedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IdentityVerificationSession, error) {
+			v := &IdentityVerificationSession{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.created":
+		result := &V1InvoiceCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.deleted":
+		result := &V1InvoiceDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.finalization_failed":
+		result := &V1InvoiceFinalizationFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.finalized":
+		result := &V1InvoiceFinalizedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.marked_uncollectible":
+		result := &V1InvoiceMarkedUncollectibleEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.overdue":
+		result := &V1InvoiceOverdueEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.overpaid":
+		result := &V1InvoiceOverpaidEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.paid":
+		result := &V1InvoicePaidEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.payment_action_required":
+		result := &V1InvoicePaymentActionRequiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.payment_failed":
+		result := &V1InvoicePaymentFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.payment_succeeded":
+		result := &V1InvoicePaymentSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.sent":
+		result := &V1InvoiceSentEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.upcoming":
+		result := &V1InvoiceUpcomingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.updated":
+		result := &V1InvoiceUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.voided":
+		result := &V1InvoiceVoidedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.will_be_due":
+		result := &V1InvoiceWillBeDueEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice_payment.paid":
+		result := &V1InvoicePaymentPaidEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*InvoicePayment, error) {
+			v := &InvoicePayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoiceitem.created":
+		result := &V1InvoiceitemCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*InvoiceItem, error) {
+			v := &InvoiceItem{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoiceitem.deleted":
+		result := &V1InvoiceitemDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*InvoiceItem, error) {
+			v := &InvoiceItem{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_authorization.created":
+		result := &V1IssuingAuthorizationCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
+			v := &IssuingAuthorization{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_authorization.request":
+		result := &V1IssuingAuthorizationRequestEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
+			v := &IssuingAuthorization{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_authorization.updated":
+		result := &V1IssuingAuthorizationUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingAuthorization, error) {
+			v := &IssuingAuthorization{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_card.created":
+		result := &V1IssuingCardCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingCard, error) {
+			v := &IssuingCard{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_card.updated":
+		result := &V1IssuingCardUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingCard, error) {
+			v := &IssuingCard{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_cardholder.created":
+		result := &V1IssuingCardholderCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingCardholder, error) {
+			v := &IssuingCardholder{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_cardholder.updated":
+		result := &V1IssuingCardholderUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingCardholder, error) {
+			v := &IssuingCardholder{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_dispute.closed":
+		result := &V1IssuingDisputeClosedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
+			v := &IssuingDispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_dispute.created":
+		result := &V1IssuingDisputeCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
+			v := &IssuingDispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_dispute.funds_reinstated":
+		result := &V1IssuingDisputeFundsReinstatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
+			v := &IssuingDispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_dispute.funds_rescinded":
+		result := &V1IssuingDisputeFundsRescindedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
+			v := &IssuingDispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_dispute.submitted":
+		result := &V1IssuingDisputeSubmittedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
+			v := &IssuingDispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_dispute.updated":
+		result := &V1IssuingDisputeUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingDispute, error) {
+			v := &IssuingDispute{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_personalization_design.activated":
+		result := &V1IssuingPersonalizationDesignActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
+			v := &IssuingPersonalizationDesign{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_personalization_design.deactivated":
+		result := &V1IssuingPersonalizationDesignDeactivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
+			v := &IssuingPersonalizationDesign{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_personalization_design.rejected":
+		result := &V1IssuingPersonalizationDesignRejectedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
+			v := &IssuingPersonalizationDesign{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_personalization_design.updated":
+		result := &V1IssuingPersonalizationDesignUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingPersonalizationDesign, error) {
+			v := &IssuingPersonalizationDesign{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_token.created":
+		result := &V1IssuingTokenCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingToken, error) {
+			v := &IssuingToken{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_token.updated":
+		result := &V1IssuingTokenUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingToken, error) {
+			v := &IssuingToken{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_transaction.created":
+		result := &V1IssuingTransactionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
+			v := &IssuingTransaction{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_transaction.purchase_details_receipt_updated":
+		result := &V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
+			v := &IssuingTransaction{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.issuing_transaction.updated":
+		result := &V1IssuingTransactionUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*IssuingTransaction, error) {
+			v := &IssuingTransaction{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.mandate.updated":
+		result := &V1MandateUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Mandate, error) {
+			v := &Mandate{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_intent.amount_capturable_updated":
+		result := &V1PaymentIntentAmountCapturableUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
+			v := &PaymentIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_intent.canceled":
+		result := &V1PaymentIntentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
+			v := &PaymentIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_intent.created":
+		result := &V1PaymentIntentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
+			v := &PaymentIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_intent.partially_funded":
+		result := &V1PaymentIntentPartiallyFundedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
+			v := &PaymentIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_intent.payment_failed":
+		result := &V1PaymentIntentPaymentFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
+			v := &PaymentIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_intent.processing":
+		result := &V1PaymentIntentProcessingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
+			v := &PaymentIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_intent.requires_action":
+		result := &V1PaymentIntentRequiresActionEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
+			v := &PaymentIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_intent.succeeded":
+		result := &V1PaymentIntentSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentIntent, error) {
+			v := &PaymentIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_link.created":
+		result := &V1PaymentLinkCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentLink, error) {
+			v := &PaymentLink{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_link.updated":
+		result := &V1PaymentLinkUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentLink, error) {
+			v := &PaymentLink{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_method.attached":
+		result := &V1PaymentMethodAttachedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentMethod, error) {
+			v := &PaymentMethod{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_method.automatically_updated":
+		result := &V1PaymentMethodAutomaticallyUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentMethod, error) {
+			v := &PaymentMethod{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_method.detached":
+		result := &V1PaymentMethodDetachedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentMethod, error) {
+			v := &PaymentMethod{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payment_method.updated":
+		result := &V1PaymentMethodUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PaymentMethod, error) {
+			v := &PaymentMethod{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payout.canceled":
+		result := &V1PayoutCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Payout, error) {
+			v := &Payout{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payout.created":
+		result := &V1PayoutCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Payout, error) {
+			v := &Payout{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payout.failed":
+		result := &V1PayoutFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Payout, error) {
+			v := &Payout{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payout.paid":
+		result := &V1PayoutPaidEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Payout, error) {
+			v := &Payout{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payout.reconciliation_completed":
+		result := &V1PayoutReconciliationCompletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Payout, error) {
+			v := &Payout{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.payout.updated":
+		result := &V1PayoutUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Payout, error) {
+			v := &Payout{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.person.created":
+		result := &V1PersonCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Person, error) {
+			v := &Person{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.person.deleted":
+		result := &V1PersonDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Person, error) {
+			v := &Person{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.person.updated":
+		result := &V1PersonUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Person, error) {
+			v := &Person{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.plan.created":
+		result := &V1PlanCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Plan, error) {
+			v := &Plan{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.plan.deleted":
+		result := &V1PlanDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Plan, error) {
+			v := &Plan{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.plan.updated":
+		result := &V1PlanUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Plan, error) {
+			v := &Plan{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.price.created":
+		result := &V1PriceCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Price, error) {
+			v := &Price{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.price.deleted":
+		result := &V1PriceDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Price, error) {
+			v := &Price{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.price.updated":
+		result := &V1PriceUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Price, error) {
+			v := &Price{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.product.created":
+		result := &V1ProductCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Product, error) {
+			v := &Product{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.product.deleted":
+		result := &V1ProductDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Product, error) {
+			v := &Product{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.product.updated":
+		result := &V1ProductUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Product, error) {
+			v := &Product{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.promotion_code.created":
+		result := &V1PromotionCodeCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PromotionCode, error) {
+			v := &PromotionCode{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.promotion_code.updated":
+		result := &V1PromotionCodeUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*PromotionCode, error) {
+			v := &PromotionCode{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.quote.accepted":
+		result := &V1QuoteAcceptedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Quote, error) {
+			v := &Quote{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.quote.canceled":
+		result := &V1QuoteCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Quote, error) {
+			v := &Quote{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.quote.created":
+		result := &V1QuoteCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Quote, error) {
+			v := &Quote{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.quote.finalized":
+		result := &V1QuoteFinalizedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Quote, error) {
+			v := &Quote{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.radar.early_fraud_warning.created":
+		result := &V1RadarEarlyFraudWarningCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*RadarEarlyFraudWarning, error) {
+			v := &RadarEarlyFraudWarning{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.radar.early_fraud_warning.updated":
+		result := &V1RadarEarlyFraudWarningUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*RadarEarlyFraudWarning, error) {
+			v := &RadarEarlyFraudWarning{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.refund.created":
+		result := &V1RefundCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Refund, error) {
+			v := &Refund{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.refund.failed":
+		result := &V1RefundFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Refund, error) {
+			v := &Refund{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.refund.updated":
+		result := &V1RefundUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Refund, error) {
+			v := &Refund{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.review.closed":
+		result := &V1ReviewClosedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Review, error) {
+			v := &Review{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.review.opened":
+		result := &V1ReviewOpenedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Review, error) {
+			v := &Review{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.setup_intent.canceled":
+		result := &V1SetupIntentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
+			v := &SetupIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.setup_intent.created":
+		result := &V1SetupIntentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
+			v := &SetupIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.setup_intent.requires_action":
+		result := &V1SetupIntentRequiresActionEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
+			v := &SetupIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.setup_intent.setup_failed":
+		result := &V1SetupIntentSetupFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
+			v := &SetupIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.setup_intent.succeeded":
+		result := &V1SetupIntentSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SetupIntent, error) {
+			v := &SetupIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.sigma.scheduled_query_run.created":
+		result := &V1SigmaScheduledQueryRunCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SigmaScheduledQueryRun, error) {
+			v := &SigmaScheduledQueryRun{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.source.canceled":
+		result := &V1SourceCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Source, error) {
+			v := &Source{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.source.chargeable":
+		result := &V1SourceChargeableEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Source, error) {
+			v := &Source{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.source.failed":
+		result := &V1SourceFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Source, error) {
+			v := &Source{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.source.refund_attributes_required":
+		result := &V1SourceRefundAttributesRequiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Source, error) {
+			v := &Source{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.aborted":
+		result := &V1SubscriptionScheduleAbortedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.canceled":
+		result := &V1SubscriptionScheduleCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.completed":
+		result := &V1SubscriptionScheduleCompletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.created":
+		result := &V1SubscriptionScheduleCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.expiring":
+		result := &V1SubscriptionScheduleExpiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.released":
+		result := &V1SubscriptionScheduleReleasedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.subscription_schedule.updated":
+		result := &V1SubscriptionScheduleUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*SubscriptionSchedule, error) {
+			v := &SubscriptionSchedule{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.tax_rate.created":
+		result := &V1TaxRateCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TaxRate, error) {
+			v := &TaxRate{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.tax_rate.updated":
+		result := &V1TaxRateUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TaxRate, error) {
+			v := &TaxRate{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.terminal.reader.action_failed":
+		result := &V1TerminalReaderActionFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TerminalReader, error) {
+			v := &TerminalReader{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.terminal.reader.action_succeeded":
+		result := &V1TerminalReaderActionSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TerminalReader, error) {
+			v := &TerminalReader{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.terminal.reader.action_updated":
+		result := &V1TerminalReaderActionUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TerminalReader, error) {
+			v := &TerminalReader{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.test_helpers.test_clock.advancing":
+		result := &V1TestHelpersTestClockAdvancingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
+			v := &TestHelpersTestClock{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.test_helpers.test_clock.created":
+		result := &V1TestHelpersTestClockCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
+			v := &TestHelpersTestClock{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.test_helpers.test_clock.deleted":
+		result := &V1TestHelpersTestClockDeletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
+			v := &TestHelpersTestClock{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.test_helpers.test_clock.internal_failure":
+		result := &V1TestHelpersTestClockInternalFailureEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
+			v := &TestHelpersTestClock{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.test_helpers.test_clock.ready":
+		result := &V1TestHelpersTestClockReadyEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*TestHelpersTestClock, error) {
+			v := &TestHelpersTestClock{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.topup.canceled":
+		result := &V1TopupCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Topup, error) {
+			v := &Topup{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.topup.created":
+		result := &V1TopupCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Topup, error) {
+			v := &Topup{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.topup.failed":
+		result := &V1TopupFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Topup, error) {
+			v := &Topup{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.topup.reversed":
+		result := &V1TopupReversedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Topup, error) {
+			v := &Topup{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.topup.succeeded":
+		result := &V1TopupSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Topup, error) {
+			v := &Topup{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.transfer.created":
+		result := &V1TransferCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Transfer, error) {
+			v := &Transfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.transfer.reversed":
+		result := &V1TransferReversedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Transfer, error) {
+			v := &Transfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.transfer.updated":
+		result := &V1TransferUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Transfer, error) {
+			v := &Transfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.bill_setting.updated":
+		result := &V2BillingBillSettingUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingBillSetting, error) {
+			v := &V2BillingBillSetting{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.billing.cadence.billed":
 		result := &V2BillingCadenceBilledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -2565,6 +7085,9 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2BillingCadence{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
 		}
 		return result, nil
 	case "v2.billing.cadence.canceled":
@@ -2588,16 +7111,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
-		}
-		return result, nil
-	case "v2.billing.cadence.errored":
-		result := &V2BillingCadenceErroredEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
-			v := &V2BillingCadence{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
 		}
 		return result, nil
 	case "v2.billing.license_fee.created":
@@ -3159,6 +7672,56 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.claimable_sandbox.claimed":
+		result := &V2CoreClaimableSandboxClaimedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.created":
+		result := &V2CoreClaimableSandboxCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.expired":
+		result := &V2CoreClaimableSandboxExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.expiring":
+		result := &V2CoreClaimableSandboxExpiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.claimable_sandbox.sandbox_details_owner_account_updated":
+		result := &V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreClaimableSandbox, error) {
+			v := &V2CoreClaimableSandbox{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.core.event_destination.ping":
 		result := &V2CoreEventDestinationPingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -3220,6 +7783,20 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		return result, nil
 	case "v2.core.health.fraud_rate.increased":
 		result := &V2CoreHealthFraudRateIncreasedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.issuing_authorization_request_errors.firing":
+		result := &V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.issuing_authorization_request_errors.resolved":
+		result := &V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
@@ -3613,6 +8190,26 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.recipient_verification.created":
+		result := &V2MoneyManagementRecipientVerificationCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementRecipientVerification, error) {
+			v := &V2MoneyManagementRecipientVerification{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.recipient_verification.updated":
+		result := &V2MoneyManagementRecipientVerificationUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementRecipientVerification, error) {
+			v := &V2MoneyManagementRecipientVerification{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

@@ -1764,6 +1764,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatus string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatus can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusActive      V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatus = "active"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusPending     V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatus = "pending"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusRestricted  V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatus = "restricted"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusUnsupported V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolutionContactStripe V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus string
 
 // List of values that V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus can take
@@ -1849,6 +1884,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ca_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeChBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ch_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCiBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ci_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCryptoWallet  V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "crypto_wallet"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCyBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cy_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDEBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "de_bank_account"
@@ -2678,6 +2714,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCardPayments                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "card_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCartesBancairesPayments            V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "cartes_bancaires_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCashAppPayments                    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "cashapp_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCrypto                             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "crypto"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityFinancialAddressesBankAccounts     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "financial_addresses.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityFPXPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "fpx_payments"
@@ -3961,6 +3998,24 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCards struct {
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetailResolution `json:"resolution"`
+}
+
+// Capability that enable OutboundPayments to a crypto wallet linked to this Account.
+type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWallets struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode `json:"code"`
@@ -4010,11 +4065,13 @@ type V2CoreAccountConfigurationRecipientCapabilities struct {
 	BankAccounts *V2CoreAccountConfigurationRecipientCapabilitiesBankAccounts `json:"bank_accounts,omitempty"`
 	// Capability that enable OutboundPayments to a debit card linked to this Account.
 	Cards *V2CoreAccountConfigurationRecipientCapabilitiesCards `json:"cards,omitempty"`
+	// Capability that enable OutboundPayments to a crypto wallet linked to this Account.
+	CryptoWallets *V2CoreAccountConfigurationRecipientCapabilitiesCryptoWallets `json:"crypto_wallets,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance `json:"stripe_balance,omitempty"`
 }
 
-// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard.
+// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard or APIs.
 type V2CoreAccountConfigurationRecipientDefaultOutboundDestination struct {
 	// The payout method ID of the default outbound destination.
 	ID string `json:"id"`
@@ -4028,7 +4085,7 @@ type V2CoreAccountConfigurationRecipient struct {
 	Applied bool `json:"applied"`
 	// Capabilities that have been requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilities `json:"capabilities,omitempty"`
-	// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard.
+	// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard or APIs.
 	DefaultOutboundDestination *V2CoreAccountConfigurationRecipientDefaultOutboundDestination `json:"default_outbound_destination,omitempty"`
 }
 
@@ -4246,6 +4303,16 @@ type V2CoreAccountConfiguration struct {
 	Storer *V2CoreAccountConfigurationStorer `json:"storer,omitempty"`
 }
 
+// Account profile information.
+type V2CoreAccountDefaultsProfile struct {
+	// The business's publicly-available website.
+	BusinessURL string `json:"business_url,omitempty"`
+	// The company's legal name.
+	DoingBusinessAs string `json:"doing_business_as,omitempty"`
+	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
+	ProductDescription string `json:"product_description,omitempty"`
+}
+
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountDefaultsResponsibilities struct {
 	// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this Account.
@@ -4260,6 +4327,8 @@ type V2CoreAccountDefaults struct {
 	Currency Currency `json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
 	Locales []string `json:"locales,omitempty"`
+	// Account profile information.
+	Profile *V2CoreAccountDefaultsProfile `json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountDefaultsResponsibilities `json:"responsibilities,omitempty"`
 }
@@ -4560,8 +4629,6 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	AnnualRevenue *V2CoreAccountIdentityBusinessDetailsAnnualRevenue `json:"annual_revenue,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountIdentityBusinessDetailsDocuments `json:"documents,omitempty"`
-	// The company's legal name.
-	DoingBusinessAs string `json:"doing_business_as,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount int64 `json:"estimated_worker_count,omitempty"`
 	// The provided ID numbers of a business entity.
@@ -4570,8 +4637,6 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	MonthlyEstimatedRevenue *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue `json:"monthly_estimated_revenue,omitempty"`
 	// The company's phone number (used for verification).
 	Phone string `json:"phone,omitempty"`
-	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
-	ProductDescription string `json:"product_description,omitempty"`
 	// The business legal name.
 	RegisteredName string `json:"registered_name,omitempty"`
 	// The business registration address of the business entity in non latin script.
@@ -4580,8 +4645,6 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	ScriptNames *V2CoreAccountIdentityBusinessDetailsScriptNames `json:"script_names,omitempty"`
 	// The category identifying the legal structure of the business.
 	Structure V2CoreAccountIdentityBusinessDetailsStructure `json:"structure,omitempty"`
-	// The business's publicly available website.
-	URL string `json:"url,omitempty"`
 }
 
 // Additional addresses associated with the individual.

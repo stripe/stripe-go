@@ -220,11 +220,13 @@ import (
 	v2moneymanagementpayoutmethodsbankaccountspec "github.com/stripe/stripe-go/v82/v2/moneymanagement/payoutmethodsbankaccountspec"
 	v2moneymanagementreceivedcredit "github.com/stripe/stripe-go/v82/v2/moneymanagement/receivedcredit"
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v82/v2/moneymanagement/receiveddebit"
+	v2moneymanagementrecipientverification "github.com/stripe/stripe-go/v82/v2/moneymanagement/recipientverification"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v82/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v82/v2/moneymanagement/transactionentry"
 	v2paymentsoffsessionpayment "github.com/stripe/stripe-go/v82/v2/payments/offsessionpayment"
 	v2taxautomaticrule "github.com/stripe/stripe-go/v82/v2/tax/automaticrule"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v82/v2/testhelpers/financialaddress"
+	v2testhelpersmoneymanagement "github.com/stripe/stripe-go/v82/v2/testhelpers/moneymanagement"
 	"github.com/stripe/stripe-go/v82/webhookendpoint"
 )
 
@@ -648,6 +650,8 @@ type API struct {
 	V2MoneyManagementReceivedCredits *v2moneymanagementreceivedcredit.Client
 	// V2MoneyManagementReceivedDebits is the client used to invoke /v2/money_management/received_debits APIs.
 	V2MoneyManagementReceivedDebits *v2moneymanagementreceiveddebit.Client
+	// V2MoneyManagementRecipientVerifications is the client used to invoke /v2/money_management/recipient_verifications APIs.
+	V2MoneyManagementRecipientVerifications *v2moneymanagementrecipientverification.Client
 	// V2MoneyManagementTransactionEntries is the client used to invoke /v2/money_management/transaction_entries APIs.
 	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
 	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
@@ -658,6 +662,8 @@ type API struct {
 	V2TaxAutomaticRules *v2taxautomaticrule.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
+	// V2TestHelpersMoneyManagements is the client used to invoke moneymanagement related APIs.
+	V2TestHelpersMoneyManagements *v2testhelpersmoneymanagement.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -883,11 +889,13 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2moneymanagementpayoutmethodsbankaccountspec.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedCredits = &v2moneymanagementreceivedcredit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementRecipientVerifications = &v2moneymanagementrecipientverification.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
 	a.V2PaymentsOffSessionPayments = &v2paymentsoffsessionpayment.Client{B: backends.API, Key: key}
 	a.V2TaxAutomaticRules = &v2taxautomaticrule.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
+	a.V2TestHelpersMoneyManagements = &v2testhelpersmoneymanagement.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 

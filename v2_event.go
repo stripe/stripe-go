@@ -54,6 +54,8 @@ type V2BaseEvent struct {
 	Reason *V2EventReason `json:"reason,omitempty"`
 	// The type of the event.
 	Type string `json:"type"`
+	// For interop events, this is the snapshot event ID.
+	V1EventID string `json:"v1_event_id,omitempty"`
 }
 
 func (e *V2BaseEvent) getBaseEvent() *V2BaseEvent {

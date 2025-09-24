@@ -198,6 +198,8 @@ type V2MoneyManagementOutboundPayment struct {
 	ReceiptURL string `json:"receipt_url,omitempty"`
 	// Details about the OutboundPayment notification settings for recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotification `json:"recipient_notification"`
+	// The recipient verification id for this OutboundPayment. Only required for countries with regulatory mandates to verify recipient names before OutboundPayment creation.
+	RecipientVerification string `json:"recipient_verification,omitempty"`
 	// The description that appears on the receiving end for an OutboundPayment (for example, bank statement for external bank transfer). It will default to `STRIPE` if not set on the account settings.
 	StatementDescriptor string `json:"statement_descriptor"`
 	// Closed Enum. Current status of the OutboundPayment: `processing`, `failed`, `posted`, `returned`, `canceled`.

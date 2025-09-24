@@ -39,6 +39,16 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataCardParams struct {
 	Number *string `form:"number" json:"number,omitempty"`
 }
 
+// The type specific details of the crypto wallet payout method.
+type V2MoneyManagementOutboundSetupIntentPayoutMethodDataCryptoWalletParams struct {
+	// Crypto wallet address.
+	Address *string `form:"address" json:"address"`
+	// Optional field, required if network supports memos (only "stellar" currently).
+	Memo *string `form:"memo" json:"memo,omitempty"`
+	// Which rail we should use to make an Outbound money movement to this wallet.
+	Network *string `form:"network" json:"network"`
+}
+
 // If no payout_method provided, used to create the underlying credential that is set up for outbound money movement.
 // If a payout_method provided, used to update data on the credential linked to this setup intent.
 type V2MoneyManagementOutboundSetupIntentPayoutMethodDataParams struct {
@@ -46,6 +56,8 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataParams struct {
 	BankAccount *V2MoneyManagementOutboundSetupIntentPayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.
 	Card *V2MoneyManagementOutboundSetupIntentPayoutMethodDataCardParams `form:"card" json:"card,omitempty"`
+	// The type specific details of the crypto wallet payout method.
+	CryptoWallet *V2MoneyManagementOutboundSetupIntentPayoutMethodDataCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// Closed Enum. The type of payout method to be created/updated.
 	Type *string `form:"type" json:"type"`
 }
@@ -95,6 +107,16 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCardParams struct
 	Number *string `form:"number" json:"number"`
 }
 
+// The type specific details of the crypto wallet payout method.
+type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCryptoWalletParams struct {
+	// Crypto wallet address.
+	Address *string `form:"address" json:"address"`
+	// Optional field, required if network supports memos (only "stellar" currently).
+	Memo *string `form:"memo" json:"memo,omitempty"`
+	// Which rail we should use to make an Outbound money movement to this wallet.
+	Network *string `form:"network" json:"network"`
+}
+
 // If no payout_method provided, used to create the underlying credential that is set up for outbound money movement.
 // If a payout_method provided, used to update data on the credential linked to this setup intent.
 type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataParams struct {
@@ -102,6 +124,8 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataParams struct {
 	BankAccount *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.
 	Card *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCardParams `form:"card" json:"card,omitempty"`
+	// The type specific details of the crypto wallet payout method.
+	CryptoWallet *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// Closed Enum. The type of payout method to be created.
 	Type *string `form:"type" json:"type"`
 }

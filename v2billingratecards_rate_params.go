@@ -59,9 +59,6 @@ type V2BillingRateCardsRateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Metered Item that this rate binds to.
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
-	// The ID of the price object to take price information from. The price must have the same interval as the rate card.
-	// Updates to the Price will not be reflected in the Rate Card or its rates.
-	Price *string `form:"price" json:"price,omitempty"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.
@@ -125,9 +122,6 @@ type V2BillingRateCardsRateCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Metered Item that this rate binds to.
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
-	// The ID of the price object to take price information from. The price must have the same interval as the rate card.
-	// Updates to the Price will not be reflected in the Rate Card or its rates.
-	Price *string `form:"price" json:"price,omitempty"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.

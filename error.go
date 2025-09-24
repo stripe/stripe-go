@@ -41,6 +41,7 @@ const (
 	ErrorTypeNonZeroBalance          ErrorType = "non_zero_balance"
 	ErrorTypeNotCancelable           ErrorType = "not_cancelable"
 	ErrorTypeQuotaExceeded           ErrorType = "quota_exceeded"
+	ErrorTypeRateLimit               ErrorType = "rate_limit"
 	ErrorTypeRecipientNotNotifiable  ErrorType = "recipient_not_notifiable"
 	ErrorTypeTemporarySessionExpired ErrorType = "temporary_session_expired"
 )
@@ -763,6 +764,33 @@ func (e *QuotaExceededError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *QuotaExceededError) canRetry() bool {
+	return false
+}
+
+// RateLimitError is the Go struct corresponding to the error type "rate_limit."
+// Information about the error that occurred
+type RateLimitError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *RateLimitError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *RateLimitError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *RateLimitError) canRetry() bool {
 	return false
 }
 

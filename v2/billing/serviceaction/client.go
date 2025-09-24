@@ -45,3 +45,15 @@ func (c Client) Get(id string, params *stripe.V2BillingServiceActionParams) (*st
 	err := c.B.Call(http.MethodGet, path, c.Key, params, serviceaction)
 	return serviceaction, err
 }
+
+// Update a ServiceAction object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Update(id string, params *stripe.V2BillingServiceActionParams) (*stripe.V2BillingServiceAction, error) {
+	path := stripe.FormatURLPath("/v2/billing/service_actions/%s", id)
+	serviceaction := &stripe.V2BillingServiceAction{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, serviceaction)
+	return serviceaction, err
+}

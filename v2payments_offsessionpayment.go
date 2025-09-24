@@ -22,8 +22,9 @@ type V2PaymentsOffSessionPaymentFailureReason string
 
 // List of values that V2PaymentsOffSessionPaymentFailureReason can take
 const (
-	V2PaymentsOffSessionPaymentFailureReasonRejectedByPartner V2PaymentsOffSessionPaymentFailureReason = "rejected_by_partner"
-	V2PaymentsOffSessionPaymentFailureReasonRetriesExhausted  V2PaymentsOffSessionPaymentFailureReason = "retries_exhausted"
+	V2PaymentsOffSessionPaymentFailureReasonAuthorizationExpired V2PaymentsOffSessionPaymentFailureReason = "authorization_expired"
+	V2PaymentsOffSessionPaymentFailureReasonRejectedByPartner    V2PaymentsOffSessionPaymentFailureReason = "rejected_by_partner"
+	V2PaymentsOffSessionPaymentFailureReasonRetriesExhausted     V2PaymentsOffSessionPaymentFailureReason = "retries_exhausted"
 )
 
 // Indicates the strategy for how you want Stripe to retry the payment.
@@ -31,8 +32,10 @@ type V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy string
 
 // List of values that V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy can take
 const (
-	V2PaymentsOffSessionPaymentRetryDetailsRetryStrategyNone  V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy = "none"
-	V2PaymentsOffSessionPaymentRetryDetailsRetryStrategySmart V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy = "smart"
+	V2PaymentsOffSessionPaymentRetryDetailsRetryStrategyHeuristic V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy = "heuristic"
+	V2PaymentsOffSessionPaymentRetryDetailsRetryStrategyNone      V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy = "none"
+	V2PaymentsOffSessionPaymentRetryDetailsRetryStrategyScheduled V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy = "scheduled"
+	V2PaymentsOffSessionPaymentRetryDetailsRetryStrategySmart     V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy = "smart"
 )
 
 // Status of this OffSessionPayment, one of `pending`, `pending_retry`, `processing`,
@@ -50,10 +53,68 @@ const (
 	V2PaymentsOffSessionPaymentStatusSucceeded       V2PaymentsOffSessionPaymentStatus = "succeeded"
 )
 
+// Contains information about the tax on the item.
+type V2PaymentsOffSessionPaymentAmountDetailsLineItemTax struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount int64 `json:"total_tax_amount,omitempty"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type V2PaymentsOffSessionPaymentAmountDetailsLineItem struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount int64 `json:"discount_amount,omitempty"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode string `json:"product_code,omitempty"`
+	// Name of the product. At most 100 characters long.
+	ProductName string `json:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity int64 `json:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *V2PaymentsOffSessionPaymentAmountDetailsLineItemTax `json:"tax,omitempty"`
+	// Cost of the product. Non-negative integer.
+	UnitCost int64 `json:"unit_cost"`
+}
+
+// Contains information about the shipping portion of the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsShipping struct {
+	// Portion of the amount that is for shipping.
+	Amount int64 `json:"amount,omitempty"`
+	// The postal code that represents the shipping source.
+	FromPostalCode string `json:"from_postal_code,omitempty"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode string `json:"to_postal_code,omitempty"`
+}
+
+// Contains information about the tax portion of the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsTax struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount int64 `json:"total_tax_amount,omitempty"`
+}
+
+// Provides industry-specific information about the amount.
+type V2PaymentsOffSessionPaymentAmountDetails struct {
+	// The amount the total transaction was discounted for.
+	DiscountAmount int64 `json:"discount_amount,omitempty"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*V2PaymentsOffSessionPaymentAmountDetailsLineItem `json:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *V2PaymentsOffSessionPaymentAmountDetailsShipping `json:"shipping,omitempty"`
+	// Contains information about the tax portion of the amount.
+	Tax *V2PaymentsOffSessionPaymentAmountDetailsTax `json:"tax,omitempty"`
+}
+
+// Details about the payments orchestration configuration.
+type V2PaymentsOffSessionPaymentPaymentsOrchestration struct {
+	// True when you want to enable payments orchestration for this off-session payment. False otherwise.
+	Enabled bool `json:"enabled"`
+}
+
 // Details about the OffSessionPayment retries.
 type V2PaymentsOffSessionPaymentRetryDetails struct {
 	// Number of authorization attempts so far.
 	Attempts int64 `json:"attempts"`
+	// The pre-configured retry policy to use for the payment.
+	RetryPolicy string `json:"retry_policy,omitempty"`
 	// Indicates the strategy for how you want Stripe to retry the payment.
 	RetryStrategy V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy `json:"retry_strategy"`
 }
@@ -76,6 +137,8 @@ type V2PaymentsOffSessionPaymentTransferData struct {
 // OffSessionPayment resource.
 type V2PaymentsOffSessionPayment struct {
 	APIResource
+	// Provides industry-specific information about the amount.
+	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
 	// The “presentment amount” to be collected from the customer.
 	AmountRequested Amount `json:"amount_requested"`
 	// The frequency of the underlying payment.
@@ -89,7 +152,7 @@ type V2PaymentsOffSessionPayment struct {
 	Customer string `json:"customer"`
 	// The reason why the OffSessionPayment failed.
 	FailureReason V2PaymentsOffSessionPaymentFailureReason `json:"failure_reason,omitempty"`
-	// Unique identifier for the object..
+	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The payment error encountered in the previous attempt to authorize the payment.
 	LastAuthorizationAttemptError string `json:"last_authorization_attempt_error,omitempty"`
@@ -110,6 +173,8 @@ type V2PaymentsOffSessionPayment struct {
 	PaymentMethod string `json:"payment_method"`
 	// Payment record associated with the OffSessionPayment.
 	PaymentRecord string `json:"payment_record,omitempty"`
+	// Details about the payments orchestration configuration.
+	PaymentsOrchestration *V2PaymentsOffSessionPaymentPaymentsOrchestration `json:"payments_orchestration"`
 	// Details about the OffSessionPayment retries.
 	RetryDetails *V2PaymentsOffSessionPaymentRetryDetails `json:"retry_details"`
 	// Text that appears on the customer's statement as the statement descriptor for a
