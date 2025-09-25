@@ -94,7 +94,6 @@ const (
 	PaymentIntentExcludedPaymentMethodTypePayco            PaymentIntentExcludedPaymentMethodType = "payco"
 	PaymentIntentExcludedPaymentMethodTypePayNow           PaymentIntentExcludedPaymentMethodType = "paynow"
 	PaymentIntentExcludedPaymentMethodTypePaypal           PaymentIntentExcludedPaymentMethodType = "paypal"
-	PaymentIntentExcludedPaymentMethodTypePaypay           PaymentIntentExcludedPaymentMethodType = "paypay"
 	PaymentIntentExcludedPaymentMethodTypePix              PaymentIntentExcludedPaymentMethodType = "pix"
 	PaymentIntentExcludedPaymentMethodTypePromptPay        PaymentIntentExcludedPaymentMethodType = "promptpay"
 	PaymentIntentExcludedPaymentMethodTypeRevolutPay       PaymentIntentExcludedPaymentMethodType = "revolut_pay"
@@ -1409,8 +1408,6 @@ type PaymentIntentPaymentMethodDataParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -2287,16 +2284,6 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
-type PaymentIntentPaymentMethodOptionsPaypayParams struct {
-	// Controls when the funds are captured from the customer's account.
-	//
-	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
-	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
-}
-
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
@@ -2607,8 +2594,6 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	PayNow *PaymentIntentPaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *PaymentIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
-	Paypay *PaymentIntentPaymentMethodOptionsPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 	Pix *PaymentIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
@@ -3193,8 +3178,6 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -4071,16 +4054,6 @@ type PaymentIntentCreatePaymentMethodOptionsPaypalParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
-type PaymentIntentCreatePaymentMethodOptionsPaypayParams struct {
-	// Controls when the funds are captured from the customer's account.
-	//
-	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
-	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
-}
-
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
@@ -4391,8 +4364,6 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	PayNow *PaymentIntentCreatePaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *PaymentIntentCreatePaymentMethodOptionsPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
-	Paypay *PaymentIntentCreatePaymentMethodOptionsPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 	Pix *PaymentIntentCreatePaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
@@ -4680,8 +4651,6 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -5558,16 +5527,6 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypalParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
-type PaymentIntentUpdatePaymentMethodOptionsPaypayParams struct {
-	// Controls when the funds are captured from the customer's account.
-	//
-	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
-	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
-}
-
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
@@ -5878,8 +5837,6 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	PayNow *PaymentIntentUpdatePaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *PaymentIntentUpdatePaymentMethodOptionsPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
-	Paypay *PaymentIntentUpdatePaymentMethodOptionsPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 	Pix *PaymentIntentUpdatePaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
@@ -6893,7 +6850,6 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage `json:"setup_future_usage"`
 }
-type PaymentIntentPaymentMethodOptionsPaypay struct{}
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// Determines if the amount includes the IOF tax.
 	AmountIncludesIof PaymentIntentPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
@@ -7092,7 +7048,6 @@ type PaymentIntentPaymentMethodOptions struct {
 	Payco            *PaymentIntentPaymentMethodOptionsPayco            `json:"payco"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
 	Paypal           *PaymentIntentPaymentMethodOptionsPaypal           `json:"paypal"`
-	Paypay           *PaymentIntentPaymentMethodOptionsPaypay           `json:"paypay"`
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`

@@ -380,7 +380,6 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypePayco            ConfirmationTokenPaymentMethodPreviewType = "payco"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
-	ConfirmationTokenPaymentMethodPreviewTypePaypay           ConfirmationTokenPaymentMethodPreviewType = "paypay"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
@@ -988,7 +987,6 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
 	PayerID string `json:"payer_id"`
 }
-type ConfirmationTokenPaymentMethodPreviewPaypay struct{}
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
@@ -1110,7 +1108,6 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Payco           *ConfirmationTokenPaymentMethodPreviewPayco           `json:"payco"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
 	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal"`
-	Paypay          *ConfirmationTokenPaymentMethodPreviewPaypay          `json:"paypay"`
 	Pix             *ConfirmationTokenPaymentMethodPreviewPix             `json:"pix"`
 	PromptPay       *ConfirmationTokenPaymentMethodPreviewPromptPay       `json:"promptpay"`
 	RevolutPay      *ConfirmationTokenPaymentMethodPreviewRevolutPay      `json:"revolut_pay"`

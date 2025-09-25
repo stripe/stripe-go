@@ -489,9 +489,6 @@ type SetupIntentPaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentPaymentMethodDataPaypalParams struct{}
 
-// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-type SetupIntentPaymentMethodDataPaypayParams struct{}
-
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentPaymentMethodDataPixParams struct{}
 
@@ -634,8 +631,6 @@ type SetupIntentPaymentMethodDataParams struct {
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentPaymentMethodDataPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *SetupIntentPaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1238,9 +1233,6 @@ type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentConfirmPaymentMethodDataPaypalParams struct{}
 
-// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-type SetupIntentConfirmPaymentMethodDataPaypayParams struct{}
-
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentConfirmPaymentMethodDataPixParams struct{}
 
@@ -1383,8 +1375,6 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentConfirmPaymentMethodDataPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *SetupIntentConfirmPaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentConfirmPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1709,9 +1699,6 @@ type SetupIntentCreatePaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentCreatePaymentMethodDataPaypalParams struct{}
 
-// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-type SetupIntentCreatePaymentMethodDataPaypayParams struct{}
-
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentCreatePaymentMethodDataPixParams struct{}
 
@@ -1854,8 +1841,6 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	PayNow *SetupIntentCreatePaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentCreatePaymentMethodDataPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *SetupIntentCreatePaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentCreatePaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -2458,9 +2443,6 @@ type SetupIntentUpdatePaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentUpdatePaymentMethodDataPaypalParams struct{}
 
-// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-type SetupIntentUpdatePaymentMethodDataPaypayParams struct{}
-
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentUpdatePaymentMethodDataPixParams struct{}
 
@@ -2603,8 +2585,6 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	PayNow *SetupIntentUpdatePaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentUpdatePaymentMethodDataPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *SetupIntentUpdatePaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentUpdatePaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.

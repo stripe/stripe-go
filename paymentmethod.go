@@ -299,7 +299,6 @@ const (
 	PaymentMethodTypePayco            PaymentMethodType = "payco"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
 	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
-	PaymentMethodTypePaypay           PaymentMethodType = "paypay"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
@@ -598,9 +597,6 @@ type PaymentMethodPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodPaypalParams struct{}
 
-// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-type PaymentMethodPaypayParams struct{}
-
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentMethodPixParams struct{}
 
@@ -749,8 +745,6 @@ type PaymentMethodParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *PaymentMethodPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1047,9 +1041,6 @@ type PaymentMethodCreatePayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodCreatePaypalParams struct{}
 
-// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-type PaymentMethodCreatePaypayParams struct{}
-
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentMethodCreatePixParams struct{}
 
@@ -1202,8 +1193,6 @@ type PaymentMethodCreateParams struct {
 	PayNow *PaymentMethodCreatePayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodCreatePaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *PaymentMethodCreatePaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodCreatePixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1781,7 +1770,6 @@ type PaymentMethodPaypal struct {
 	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
 	PayerID string `json:"payer_id"`
 }
-type PaymentMethodPaypay struct{}
 type PaymentMethodPix struct{}
 type PaymentMethodPromptPay struct{}
 
@@ -1924,7 +1912,6 @@ type PaymentMethod struct {
 	Payco     *PaymentMethodPayco     `json:"payco"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
 	Paypal    *PaymentMethodPaypal    `json:"paypal"`
-	Paypay    *PaymentMethodPaypay    `json:"paypay"`
 	Pix       *PaymentMethodPix       `json:"pix"`
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
