@@ -106,8 +106,9 @@ type InvoiceParentType string
 
 // List of values that InvoiceParentType can take
 const (
-	InvoiceParentTypeQuoteDetails        InvoiceParentType = "quote_details"
-	InvoiceParentTypeSubscriptionDetails InvoiceParentType = "subscription_details"
+	InvoiceParentTypeBillingCadenceDetails InvoiceParentType = "billing_cadence_details"
+	InvoiceParentTypeQuoteDetails          InvoiceParentType = "quote_details"
+	InvoiceParentTypeSubscriptionDetails   InvoiceParentType = "subscription_details"
 )
 
 // Transaction type of the mandate.
@@ -2525,6 +2526,8 @@ type InvoiceCreatePreviewParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceCreatePreviewAutomaticTaxParams `form:"automatic_tax"`
+	// The identifier of the billing cadence for which you'd like to retrieve the upcoming invoice.Cannot be provided when `subscription`, `schedule`, `subscription_details` or `schedule_details` are provided.
+	BillingCadence *string `form:"billing_cadence"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency"`
 	// The identifier of the customer whose upcoming invoice you'd like to retrieve. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
@@ -3559,6 +3562,12 @@ type InvoiceIssuer struct {
 	Type InvoiceIssuerType `json:"type"`
 }
 
+// Details about the billing cadence that generated this invoice
+type InvoiceParentBillingCadenceDetails struct {
+	// The billing cadence that generated this invoice
+	BillingCadence string `json:"billing_cadence"`
+}
+
 // Details about the quote that generated this invoice
 type InvoiceParentQuoteDetails struct {
 	// The quote that generated this invoice
@@ -3588,6 +3597,8 @@ type InvoiceParentSubscriptionDetails struct {
 
 // The parent that generated this invoice
 type InvoiceParent struct {
+	// Details about the billing cadence that generated this invoice
+	BillingCadenceDetails *InvoiceParentBillingCadenceDetails `json:"billing_cadence_details"`
 	// Details about the quote that generated this invoice
 	QuoteDetails *InvoiceParentQuoteDetails `json:"quote_details"`
 	// Details about the subscription that generated this invoice
