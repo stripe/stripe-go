@@ -1,12 +1,8 @@
-//
-//
-// File generated from our OpenAPI spec
-//
-//
-
 package stripe
 
+// V2Events: The beginning of the section generated from our OpenAPI spec
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"time"
@@ -173,6 +169,11 @@ type V2RawEvent struct {
 	RelatedObject *RelatedObject   `json:"related_object"`
 }
 
+// Used for everything internal to the EventNotifications
+type eventNotificationParams struct {
+	Params `form:"*"`
+}
+
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
 // Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEvent struct {
@@ -182,9 +183,38 @@ type V1BillingMeterErrorReportTriggeredEvent struct {
 	fetchRelatedObject func() (*BillingMeter, error)
 }
 
-// FetchRelatedObject fetches the related BillingMeter object for the event.
-func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingMeter, error) {
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
 	return e.fetchRelatedObject()
+}
+
+// V1BillingMeterErrorReportTriggeredEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.error_report_triggered"
+// Occurs when a Meter has invalid async usage events.
+type V1BillingMeterErrorReportTriggeredEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
+func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingMeterErrorReportTriggeredEvent), nil
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	relatedObj := &BillingMeter{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
@@ -192,6 +222,24 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 type V1BillingMeterNoMeterFoundEvent struct {
 	V2BaseEvent
 	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
+}
+
+// V1BillingMeterNoMeterFoundEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.no_meter_found"
+// Occurs when a Meter's id is missing or invalid in async usage events.
+type V1BillingMeterNoMeterFoundEventNotification struct{ V2EventNotification }
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V1BillingMeterNoMeterFoundEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
+func (en *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingMeterNoMeterFoundEvent), nil
 }
 
 // V2BillingBillSettingUpdatedEvent is the Go struct for the "v2.billing.bill_setting.updated" event.
@@ -203,9 +251,38 @@ type V2BillingBillSettingUpdatedEvent struct {
 	fetchRelatedObject func() (*V2BillingBillSetting, error)
 }
 
-// FetchRelatedObject fetches the related V2BillingBillSetting object for the event.
-func (e V2BillingBillSettingUpdatedEvent) FetchRelatedObject() (*V2BillingBillSetting, error) {
+// FetchRelatedObject fetches the V2BillingBillSetting related to the event.
+func (e *V2BillingBillSettingUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingBillSetting, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2BillingBillSettingUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.bill_setting.updated"
+// This event occurs when a bill setting is updated.
+type V2BillingBillSettingUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2BillingBillSettingUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2BillingBillSettingUpdatedEvent that created this Notification
+func (en *V2BillingBillSettingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingBillSettingUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingBillSettingUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingBillSetting related to the event.
+func (en *V2BillingBillSettingUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingBillSetting, error) {
+	relatedObj := &V2BillingBillSetting{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
@@ -216,9 +293,38 @@ type V2CoreAccountClosedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountClosedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountClosedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountClosedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.closed"
+// This event occurs when an account is closed.
+type V2CoreAccountClosedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountClosedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountClosedEvent that created this Notification
+func (en *V2CoreAccountClosedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountClosedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountClosedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountClosedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountCreatedEvent is the Go struct for the "v2.core.account.created" event.
@@ -229,9 +335,38 @@ type V2CoreAccountCreatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountCreatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.created"
+// Occurs when an Account is created.
+type V2CoreAccountCreatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountCreatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountCreatedEvent that created this Notification
+func (en *V2CoreAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountCreatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountUpdatedEvent is the Go struct for the "v2.core.account.updated" event.
@@ -242,9 +377,38 @@ type V2CoreAccountUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.updated"
+// Occurs when an Account is updated.
+type V2CoreAccountUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountUpdatedEvent that created this Notification
+func (en *V2CoreAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
@@ -256,9 +420,38 @@ type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent str
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.customer].capability_status_updated"
+// Occurs when the status of an Account's customer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingConfigurationCustomerUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].updated" event.
@@ -269,9 +462,38 @@ type V2CoreAccountIncludingConfigurationCustomerUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.customer].updated"
+// Occurs when an Account's customer configuration is updated.
+type V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationCustomerUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].capability_status_updated" event.
@@ -283,9 +505,38 @@ type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent str
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.merchant].capability_status_updated"
+// Occurs when the status of an Account's merchant configuration capability is updated.
+type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingConfigurationMerchantUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].updated" event.
@@ -296,9 +547,38 @@ type V2CoreAccountIncludingConfigurationMerchantUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.merchant].updated"
+// Occurs when an Account's merchant configuration is updated.
+type V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationMerchantUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].capability_status_updated" event.
@@ -310,9 +590,38 @@ type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent st
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.recipient].capability_status_updated"
+// Occurs when the status of an Account's recipient configuration capability is updated.
+type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingConfigurationRecipientUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].updated" event.
@@ -323,9 +632,38 @@ type V2CoreAccountIncludingConfigurationRecipientUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.recipient].updated"
+// Occurs when a Recipient's configuration is updated.
+type V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationRecipientUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].capability_status_updated" event.
@@ -337,9 +675,38 @@ type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent struc
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.storer].capability_status_updated"
+// Occurs when the status of an Account's storer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingConfigurationStorerUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].updated" event.
@@ -350,9 +717,38 @@ type V2CoreAccountIncludingConfigurationStorerUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.storer].updated"
+// Occurs when a Storer's configuration is updated.
+type V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationStorerUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
@@ -363,9 +759,38 @@ type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingDefaultsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[defaults].updated"
+// This event occurs when account defaults are created or updated.
+type V2CoreAccountIncludingDefaultsUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingDefaultsUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingDefaultsUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingDefaultsUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingDefaultsUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
@@ -376,9 +801,38 @@ type V2CoreAccountIncludingIdentityUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingIdentityUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[identity].updated"
+// Occurs when an Identity is updated.
+type V2CoreAccountIncludingIdentityUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingIdentityUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingIdentityUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingIdentityUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingIdentityUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountIncludingRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
@@ -389,9 +843,38 @@ type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccount object for the event.
-func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingRequirementsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[requirements].updated"
+// Occurs when an Account's requirements are updated.
+type V2CoreAccountIncludingRequirementsUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountIncludingRequirementsUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingRequirementsUpdatedEvent that created this Notification
+func (en *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingRequirementsUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingRequirementsUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (en *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	relatedObj := &V2CoreAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountLinkReturnedEvent is the Go struct for the "v2.core.account_link.returned" event.
@@ -399,6 +882,24 @@ func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V
 type V2CoreAccountLinkReturnedEvent struct {
 	V2BaseEvent
 	Data V2CoreAccountLinkReturnedEventData `json:"data"`
+}
+
+// V2CoreAccountLinkReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_link.returned"
+// Occurs when the generated AccountLink is completed.
+type V2CoreAccountLinkReturnedEventNotification struct{ V2EventNotification }
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountLinkReturnedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountLinkReturnedEvent that created this Notification
+func (en *V2CoreAccountLinkReturnedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountLinkReturnedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountLinkReturnedEvent), nil
 }
 
 // V2CoreAccountPersonCreatedEvent is the Go struct for the "v2.core.account_person.created" event.
@@ -410,9 +911,38 @@ type V2CoreAccountPersonCreatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
-func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
+// FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
+func (e *V2CoreAccountPersonCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountPersonCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.created"
+// Occurs when a Person is created.
+type V2CoreAccountPersonCreatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountPersonCreatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountPersonCreatedEvent that created this Notification
+func (en *V2CoreAccountPersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonCreatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountPersonCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
+func (en *V2CoreAccountPersonCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+	relatedObj := &V2CoreAccountPerson{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountPersonDeletedEvent is the Go struct for the "v2.core.account_person.deleted" event.
@@ -424,9 +954,38 @@ type V2CoreAccountPersonDeletedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
-func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
+// FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
+func (e *V2CoreAccountPersonDeletedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountPersonDeletedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.deleted"
+// Occurs when a Person is deleted.
+type V2CoreAccountPersonDeletedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountPersonDeletedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountPersonDeletedEvent that created this Notification
+func (en *V2CoreAccountPersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonDeletedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountPersonDeletedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
+func (en *V2CoreAccountPersonDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+	relatedObj := &V2CoreAccountPerson{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountPersonUpdatedEvent is the Go struct for the "v2.core.account_person.updated" event.
@@ -438,9 +997,38 @@ type V2CoreAccountPersonUpdatedEvent struct {
 	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
-// FetchRelatedObject fetches the related V2CoreAccountPerson object for the event.
-func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CoreAccountPerson, error) {
+// FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
+func (e *V2CoreAccountPersonUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountPersonUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.updated"
+// Occurs when a Person is updated.
+type V2CoreAccountPersonUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreAccountPersonUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountPersonUpdatedEvent that created this Notification
+func (en *V2CoreAccountPersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountPersonUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
+func (en *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+	relatedObj := &V2CoreAccountPerson{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
@@ -451,9 +1039,38 @@ type V2CoreEventDestinationPingEvent struct {
 	fetchRelatedObject func() (*V2EventDestination, error)
 }
 
-// FetchRelatedObject fetches the related V2EventDestination object for the event.
-func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
+// FetchRelatedObject fetches the V2EventDestination related to the event.
+func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2CoreEventDestinationPingEventNotification is the webhook payload you'll get when handling an event with type "v2.core.event_destination.ping"
+// A ping event used to test the connection to an EventDestination.
+type V2CoreEventDestinationPingEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2CoreEventDestinationPingEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
+func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreEventDestinationPingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2EventDestination related to the event.
+func (en *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+	relatedObj := &V2EventDestination{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
@@ -464,9 +1081,38 @@ type V2MoneyManagementAdjustmentCreatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementAdjustment, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementAdjustment object for the event.
-func (e V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject() (*V2MoneyManagementAdjustment, error) {
+// FetchRelatedObject fetches the V2MoneyManagementAdjustment related to the event.
+func (e *V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementAdjustment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementAdjustmentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.adjustment.created"
+// Occurs when an Adjustment is created.
+type V2MoneyManagementAdjustmentCreatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementAdjustmentCreatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementAdjustmentCreatedEvent that created this Notification
+func (en *V2MoneyManagementAdjustmentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementAdjustmentCreatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementAdjustmentCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementAdjustment related to the event.
+func (en *V2MoneyManagementAdjustmentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementAdjustment, error) {
+	relatedObj := &V2MoneyManagementAdjustment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementFinancialAccountCreatedEvent is the Go struct for the "v2.money_management.financial_account.created" event.
@@ -477,9 +1123,38 @@ type V2MoneyManagementFinancialAccountCreatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementFinancialAccount object for the event.
-func (e V2MoneyManagementFinancialAccountCreatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAccount, error) {
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (e *V2MoneyManagementFinancialAccountCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account.created"
+// Occurs when a FinancialAccount is created.
+type V2MoneyManagementFinancialAccountCreatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementFinancialAccountCreatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAccountCreatedEvent that created this Notification
+func (en *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountCreatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAccountCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (en *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	relatedObj := &V2MoneyManagementFinancialAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementFinancialAccountUpdatedEvent is the Go struct for the "v2.money_management.financial_account.updated" event.
@@ -490,9 +1165,38 @@ type V2MoneyManagementFinancialAccountUpdatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementFinancialAccount object for the event.
-func (e V2MoneyManagementFinancialAccountUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAccount, error) {
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (e *V2MoneyManagementFinancialAccountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account.updated"
+// Occurs when a FinancialAccount is updated.
+type V2MoneyManagementFinancialAccountUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementFinancialAccountUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAccountUpdatedEvent that created this Notification
+func (en *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAccountUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
+func (en *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	relatedObj := &V2MoneyManagementFinancialAccount{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementFinancialAddressActivatedEvent is the Go struct for the "v2.money_management.financial_address.activated" event.
@@ -503,9 +1207,38 @@ type V2MoneyManagementFinancialAddressActivatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementFinancialAddress object for the event.
-func (e V2MoneyManagementFinancialAddressActivatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAddress, error) {
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAddress related to the event.
+func (e *V2MoneyManagementFinancialAddressActivatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAddressActivatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_address.activated"
+// Occurs when a FinancialAddress is activated and is ready to receive funds.
+type V2MoneyManagementFinancialAddressActivatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementFinancialAddressActivatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAddressActivatedEvent that created this Notification
+func (en *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressActivatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAddressActivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAddress related to the event.
+func (en *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
+	relatedObj := &V2MoneyManagementFinancialAddress{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementFinancialAddressFailedEvent is the Go struct for the "v2.money_management.financial_address.failed" event.
@@ -516,9 +1249,38 @@ type V2MoneyManagementFinancialAddressFailedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementFinancialAddress object for the event.
-func (e V2MoneyManagementFinancialAddressFailedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAddress, error) {
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAddress related to the event.
+func (e *V2MoneyManagementFinancialAddressFailedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAddressFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_address.failed"
+// Occurs when a FinancialAddress fails to activate and can not receive funds.
+type V2MoneyManagementFinancialAddressFailedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementFinancialAddressFailedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAddressFailedEvent that created this Notification
+func (en *V2MoneyManagementFinancialAddressFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressFailedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAddressFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAddress related to the event.
+func (en *V2MoneyManagementFinancialAddressFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
+	relatedObj := &V2MoneyManagementFinancialAddress{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementInboundTransferAvailableEvent is the Go struct for the "v2.money_management.inbound_transfer.available" event.
@@ -530,9 +1292,38 @@ type V2MoneyManagementInboundTransferAvailableEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferAvailableEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (e *V2MoneyManagementInboundTransferAvailableEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferAvailableEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.available"
+// Occurs when an InboundTransfer's funds are made available.
+type V2MoneyManagementInboundTransferAvailableEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementInboundTransferAvailableEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundTransferAvailableEvent that created this Notification
+func (en *V2MoneyManagementInboundTransferAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferAvailableEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundTransferAvailableEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (en *V2MoneyManagementInboundTransferAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	relatedObj := &V2MoneyManagementInboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementInboundTransferBankDebitFailedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_failed" event.
@@ -543,9 +1334,38 @@ type V2MoneyManagementInboundTransferBankDebitFailedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitFailedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (e *V2MoneyManagementInboundTransferBankDebitFailedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_failed"
+// Occurs when an InboundTransfer fails.
+type V2MoneyManagementInboundTransferBankDebitFailedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitFailedEvent that created this Notification
+func (en *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitFailedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundTransferBankDebitFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (en *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	relatedObj := &V2MoneyManagementInboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementInboundTransferBankDebitProcessingEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_processing" event.
@@ -556,9 +1376,38 @@ type V2MoneyManagementInboundTransferBankDebitProcessingEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitProcessingEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (e *V2MoneyManagementInboundTransferBankDebitProcessingEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitProcessingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_processing"
+// Occurs when an InboundTransfer starts processing.
+type V2MoneyManagementInboundTransferBankDebitProcessingEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitProcessingEvent that created this Notification
+func (en *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitProcessingEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundTransferBankDebitProcessingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (en *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	relatedObj := &V2MoneyManagementInboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementInboundTransferBankDebitQueuedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_queued" event.
@@ -569,9 +1418,38 @@ type V2MoneyManagementInboundTransferBankDebitQueuedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitQueuedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (e *V2MoneyManagementInboundTransferBankDebitQueuedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitQueuedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_queued"
+// Occurs when an InboundTransfer is queued.
+type V2MoneyManagementInboundTransferBankDebitQueuedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitQueuedEvent that created this Notification
+func (en *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitQueuedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundTransferBankDebitQueuedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (en *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	relatedObj := &V2MoneyManagementInboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementInboundTransferBankDebitReturnedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_returned" event.
@@ -582,9 +1460,38 @@ type V2MoneyManagementInboundTransferBankDebitReturnedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitReturnedEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (e *V2MoneyManagementInboundTransferBankDebitReturnedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_returned"
+// Occurs when an InboundTransfer is returned.
+type V2MoneyManagementInboundTransferBankDebitReturnedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitReturnedEvent that created this Notification
+func (en *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitReturnedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundTransferBankDebitReturnedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (en *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	relatedObj := &V2MoneyManagementInboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementInboundTransferBankDebitSucceededEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_succeeded" event.
@@ -595,9 +1502,38 @@ type V2MoneyManagementInboundTransferBankDebitSucceededEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementInboundTransfer object for the event.
-func (e V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedObject() (*V2MoneyManagementInboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (e *V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementInboundTransferBankDebitSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_succeeded"
+// Occurs when an InboundTransfer succeeds.
+type V2MoneyManagementInboundTransferBankDebitSucceededEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitSucceededEvent that created this Notification
+func (en *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitSucceededEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementInboundTransferBankDebitSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
+func (en *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	relatedObj := &V2MoneyManagementInboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundPaymentCanceledEvent is the Go struct for the "v2.money_management.outbound_payment.canceled" event.
@@ -608,9 +1544,38 @@ type V2MoneyManagementOutboundPaymentCanceledEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentCanceledEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (e *V2MoneyManagementOutboundPaymentCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.canceled"
+// Occurs when an OutboundPayment transitions into the canceled state.
+type V2MoneyManagementOutboundPaymentCanceledEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundPaymentCanceledEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundPaymentCanceledEvent that created this Notification
+func (en *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCanceledEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundPaymentCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (en *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	relatedObj := &V2MoneyManagementOutboundPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundPaymentCreatedEvent is the Go struct for the "v2.money_management.outbound_payment.created" event.
@@ -621,9 +1586,38 @@ type V2MoneyManagementOutboundPaymentCreatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentCreatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (e *V2MoneyManagementOutboundPaymentCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.created"
+// Occurs when an OutboundPayment is created.
+type V2MoneyManagementOutboundPaymentCreatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundPaymentCreatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundPaymentCreatedEvent that created this Notification
+func (en *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCreatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundPaymentCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (en *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	relatedObj := &V2MoneyManagementOutboundPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundPaymentFailedEvent is the Go struct for the "v2.money_management.outbound_payment.failed" event.
@@ -634,9 +1628,38 @@ type V2MoneyManagementOutboundPaymentFailedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentFailedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (e *V2MoneyManagementOutboundPaymentFailedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.failed"
+// Occurs when an OutboundPayment transitions into the failed state.
+type V2MoneyManagementOutboundPaymentFailedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundPaymentFailedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundPaymentFailedEvent that created this Notification
+func (en *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentFailedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundPaymentFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (en *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	relatedObj := &V2MoneyManagementOutboundPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundPaymentPostedEvent is the Go struct for the "v2.money_management.outbound_payment.posted" event.
@@ -647,9 +1670,38 @@ type V2MoneyManagementOutboundPaymentPostedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentPostedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (e *V2MoneyManagementOutboundPaymentPostedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentPostedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.posted"
+// Occurs when an OutboundPayment transitions into the posted state.
+type V2MoneyManagementOutboundPaymentPostedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundPaymentPostedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundPaymentPostedEvent that created this Notification
+func (en *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentPostedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundPaymentPostedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (en *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	relatedObj := &V2MoneyManagementOutboundPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundPaymentReturnedEvent is the Go struct for the "v2.money_management.outbound_payment.returned" event.
@@ -660,9 +1712,38 @@ type V2MoneyManagementOutboundPaymentReturnedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (e *V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.returned"
+// Occurs when an OutboundPayment transitions into the returned state.
+type V2MoneyManagementOutboundPaymentReturnedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundPaymentReturnedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundPaymentReturnedEvent that created this Notification
+func (en *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentReturnedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundPaymentReturnedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (en *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	relatedObj := &V2MoneyManagementOutboundPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundPaymentUpdatedEvent is the Go struct for the "v2.money_management.outbound_payment.updated" event.
@@ -673,9 +1754,38 @@ type V2MoneyManagementOutboundPaymentUpdatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
-func (e V2MoneyManagementOutboundPaymentUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (e *V2MoneyManagementOutboundPaymentUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.updated"
+// Occurs when an OutboundPayment is updated.
+type V2MoneyManagementOutboundPaymentUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundPaymentUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundPaymentUpdatedEvent that created this Notification
+func (en *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundPaymentUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (en *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	relatedObj := &V2MoneyManagementOutboundPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundTransferCanceledEvent is the Go struct for the "v2.money_management.outbound_transfer.canceled" event.
@@ -686,9 +1796,38 @@ type V2MoneyManagementOutboundTransferCanceledEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferCanceledEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (e *V2MoneyManagementOutboundTransferCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.canceled"
+// Occurs when an OutboundTransfer transitions into the canceled state.
+type V2MoneyManagementOutboundTransferCanceledEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundTransferCanceledEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundTransferCanceledEvent that created this Notification
+func (en *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCanceledEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundTransferCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (en *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	relatedObj := &V2MoneyManagementOutboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundTransferCreatedEvent is the Go struct for the "v2.money_management.outbound_transfer.created" event.
@@ -699,9 +1838,38 @@ type V2MoneyManagementOutboundTransferCreatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferCreatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (e *V2MoneyManagementOutboundTransferCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.created"
+// Occurs when an OutboundTransfer is created.
+type V2MoneyManagementOutboundTransferCreatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundTransferCreatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundTransferCreatedEvent that created this Notification
+func (en *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCreatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundTransferCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (en *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	relatedObj := &V2MoneyManagementOutboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundTransferFailedEvent is the Go struct for the "v2.money_management.outbound_transfer.failed" event.
@@ -712,9 +1880,38 @@ type V2MoneyManagementOutboundTransferFailedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferFailedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (e *V2MoneyManagementOutboundTransferFailedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.failed"
+// Occurs when an OutboundTransfer transitions into the failed state.
+type V2MoneyManagementOutboundTransferFailedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundTransferFailedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundTransferFailedEvent that created this Notification
+func (en *V2MoneyManagementOutboundTransferFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferFailedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundTransferFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (en *V2MoneyManagementOutboundTransferFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	relatedObj := &V2MoneyManagementOutboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundTransferPostedEvent is the Go struct for the "v2.money_management.outbound_transfer.posted" event.
@@ -725,9 +1922,38 @@ type V2MoneyManagementOutboundTransferPostedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferPostedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (e *V2MoneyManagementOutboundTransferPostedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferPostedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.posted"
+// Occurs when an OutboundTransfer transitions into the posted state.
+type V2MoneyManagementOutboundTransferPostedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundTransferPostedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundTransferPostedEvent that created this Notification
+func (en *V2MoneyManagementOutboundTransferPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferPostedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundTransferPostedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (en *V2MoneyManagementOutboundTransferPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	relatedObj := &V2MoneyManagementOutboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundTransferReturnedEvent is the Go struct for the "v2.money_management.outbound_transfer.returned" event.
@@ -738,9 +1964,38 @@ type V2MoneyManagementOutboundTransferReturnedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferReturnedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (e *V2MoneyManagementOutboundTransferReturnedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.returned"
+// Occurs when an OutboundTransfer transitions into the returned state.
+type V2MoneyManagementOutboundTransferReturnedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundTransferReturnedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundTransferReturnedEvent that created this Notification
+func (en *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferReturnedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundTransferReturnedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (en *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	relatedObj := &V2MoneyManagementOutboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementOutboundTransferUpdatedEvent is the Go struct for the "v2.money_management.outbound_transfer.updated" event.
@@ -751,9 +2006,38 @@ type V2MoneyManagementOutboundTransferUpdatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
-func (e V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (e *V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.updated"
+// Event that is emitted every time an Outbound Transfer is updated.
+type V2MoneyManagementOutboundTransferUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementOutboundTransferUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundTransferUpdatedEvent that created this Notification
+func (en *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundTransferUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (en *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	relatedObj := &V2MoneyManagementOutboundTransfer{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementPayoutMethodUpdatedEvent is the Go struct for the "v2.money_management.payout_method.updated" event.
@@ -764,9 +2048,38 @@ type V2MoneyManagementPayoutMethodUpdatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementPayoutMethod, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementPayoutMethod object for the event.
-func (e V2MoneyManagementPayoutMethodUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementPayoutMethod, error) {
+// FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
+func (e *V2MoneyManagementPayoutMethodUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutMethodUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_method.updated"
+// Occurs when a PayoutMethod is updated.
+type V2MoneyManagementPayoutMethodUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementPayoutMethodUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutMethodUpdatedEvent that created this Notification
+func (en *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutMethodUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
+func (en *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+	relatedObj := &V2MoneyManagementPayoutMethod{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedCreditAvailableEvent is the Go struct for the "v2.money_management.received_credit.available" event.
@@ -778,9 +2091,38 @@ type V2MoneyManagementReceivedCreditAvailableEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedCredit object for the event.
-func (e V2MoneyManagementReceivedCreditAvailableEvent) FetchRelatedObject() (*V2MoneyManagementReceivedCredit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
+func (e *V2MoneyManagementReceivedCreditAvailableEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedCreditAvailableEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_credit.available"
+// Occurs when a ReceivedCredit's funds are received and are available in your balance.
+type V2MoneyManagementReceivedCreditAvailableEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedCreditAvailableEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedCreditAvailableEvent that created this Notification
+func (en *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditAvailableEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedCreditAvailableEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
+func (en *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+	relatedObj := &V2MoneyManagementReceivedCredit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedCreditFailedEvent is the Go struct for the "v2.money_management.received_credit.failed" event.
@@ -791,9 +2133,38 @@ type V2MoneyManagementReceivedCreditFailedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedCredit object for the event.
-func (e V2MoneyManagementReceivedCreditFailedEvent) FetchRelatedObject() (*V2MoneyManagementReceivedCredit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
+func (e *V2MoneyManagementReceivedCreditFailedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedCreditFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_credit.failed"
+// Occurs when a ReceivedCredit is attempted to your balance and fails. See the status_details for more information.
+type V2MoneyManagementReceivedCreditFailedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedCreditFailedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedCreditFailedEvent that created this Notification
+func (en *V2MoneyManagementReceivedCreditFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditFailedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedCreditFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
+func (en *V2MoneyManagementReceivedCreditFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+	relatedObj := &V2MoneyManagementReceivedCredit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedCreditReturnedEvent is the Go struct for the "v2.money_management.received_credit.returned" event.
@@ -804,9 +2175,38 @@ type V2MoneyManagementReceivedCreditReturnedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedCredit object for the event.
-func (e V2MoneyManagementReceivedCreditReturnedEvent) FetchRelatedObject() (*V2MoneyManagementReceivedCredit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
+func (e *V2MoneyManagementReceivedCreditReturnedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedCreditReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_credit.returned"
+// Occurs when a ReceivedCredit is reversed, returned to the originator, and deducted from your balance.
+type V2MoneyManagementReceivedCreditReturnedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedCreditReturnedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedCreditReturnedEvent that created this Notification
+func (en *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditReturnedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedCreditReturnedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
+func (en *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+	relatedObj := &V2MoneyManagementReceivedCredit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedCreditSucceededEvent is the Go struct for the "v2.money_management.received_credit.succeeded" event.
@@ -817,9 +2217,38 @@ type V2MoneyManagementReceivedCreditSucceededEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedCredit object for the event.
-func (e V2MoneyManagementReceivedCreditSucceededEvent) FetchRelatedObject() (*V2MoneyManagementReceivedCredit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
+func (e *V2MoneyManagementReceivedCreditSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedCreditSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_credit.succeeded"
+// Occurs when a ReceivedCredit succeeds.
+type V2MoneyManagementReceivedCreditSucceededEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedCreditSucceededEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedCreditSucceededEvent that created this Notification
+func (en *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditSucceededEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedCreditSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
+func (en *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+	relatedObj := &V2MoneyManagementReceivedCredit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedDebitCanceledEvent is the Go struct for the "v2.money_management.received_debit.canceled" event.
@@ -830,9 +2259,38 @@ type V2MoneyManagementReceivedDebitCanceledEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedDebit object for the event.
-func (e V2MoneyManagementReceivedDebitCanceledEvent) FetchRelatedObject() (*V2MoneyManagementReceivedDebit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (e *V2MoneyManagementReceivedDebitCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.canceled"
+// Occurs when a ReceivedDebit is canceled.
+type V2MoneyManagementReceivedDebitCanceledEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedDebitCanceledEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitCanceledEvent that created this Notification
+func (en *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitCanceledEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (en *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	relatedObj := &V2MoneyManagementReceivedDebit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedDebitFailedEvent is the Go struct for the "v2.money_management.received_debit.failed" event.
@@ -843,9 +2301,38 @@ type V2MoneyManagementReceivedDebitFailedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedDebit object for the event.
-func (e V2MoneyManagementReceivedDebitFailedEvent) FetchRelatedObject() (*V2MoneyManagementReceivedDebit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (e *V2MoneyManagementReceivedDebitFailedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.failed"
+// Occurs when a ReceivedDebit fails.
+type V2MoneyManagementReceivedDebitFailedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedDebitFailedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitFailedEvent that created this Notification
+func (en *V2MoneyManagementReceivedDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitFailedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (en *V2MoneyManagementReceivedDebitFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	relatedObj := &V2MoneyManagementReceivedDebit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedDebitPendingEvent is the Go struct for the "v2.money_management.received_debit.pending" event.
@@ -856,9 +2343,38 @@ type V2MoneyManagementReceivedDebitPendingEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedDebit object for the event.
-func (e V2MoneyManagementReceivedDebitPendingEvent) FetchRelatedObject() (*V2MoneyManagementReceivedDebit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (e *V2MoneyManagementReceivedDebitPendingEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitPendingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.pending"
+// Occurs when a ReceivedDebit is set to pending.
+type V2MoneyManagementReceivedDebitPendingEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedDebitPendingEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitPendingEvent that created this Notification
+func (en *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitPendingEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitPendingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (en *V2MoneyManagementReceivedDebitPendingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	relatedObj := &V2MoneyManagementReceivedDebit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedDebitSucceededEvent is the Go struct for the "v2.money_management.received_debit.succeeded" event.
@@ -869,9 +2385,38 @@ type V2MoneyManagementReceivedDebitSucceededEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedDebit object for the event.
-func (e V2MoneyManagementReceivedDebitSucceededEvent) FetchRelatedObject() (*V2MoneyManagementReceivedDebit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (e *V2MoneyManagementReceivedDebitSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.succeeded"
+// Occurs when a ReceivedDebit succeeds.
+type V2MoneyManagementReceivedDebitSucceededEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedDebitSucceededEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitSucceededEvent that created this Notification
+func (en *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitSucceededEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (en *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	relatedObj := &V2MoneyManagementReceivedDebit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementReceivedDebitUpdatedEvent is the Go struct for the "v2.money_management.received_debit.updated" event.
@@ -882,9 +2427,38 @@ type V2MoneyManagementReceivedDebitUpdatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementReceivedDebit object for the event.
-func (e V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementReceivedDebit, error) {
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (e *V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.updated"
+// Occurs when a ReceivedDebit is updated.
+type V2MoneyManagementReceivedDebitUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementReceivedDebitUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitUpdatedEvent that created this Notification
+func (en *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (en *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	relatedObj := &V2MoneyManagementReceivedDebit{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementTransactionCreatedEvent is the Go struct for the "v2.money_management.transaction.created" event.
@@ -895,9 +2469,38 @@ type V2MoneyManagementTransactionCreatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementTransaction object for the event.
-func (e V2MoneyManagementTransactionCreatedEvent) FetchRelatedObject() (*V2MoneyManagementTransaction, error) {
+// FetchRelatedObject fetches the V2MoneyManagementTransaction related to the event.
+func (e *V2MoneyManagementTransactionCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementTransactionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.transaction.created"
+// Occurs when a Transaction is created.
+type V2MoneyManagementTransactionCreatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementTransactionCreatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementTransactionCreatedEvent that created this Notification
+func (en *V2MoneyManagementTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionCreatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementTransactionCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementTransaction related to the event.
+func (en *V2MoneyManagementTransactionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
+	relatedObj := &V2MoneyManagementTransaction{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementTransactionUpdatedEvent is the Go struct for the "v2.money_management.transaction.updated" event.
@@ -908,9 +2511,38 @@ type V2MoneyManagementTransactionUpdatedEvent struct {
 	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
 }
 
-// FetchRelatedObject fetches the related V2MoneyManagementTransaction object for the event.
-func (e V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementTransaction, error) {
+// FetchRelatedObject fetches the V2MoneyManagementTransaction related to the event.
+func (e *V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementTransactionUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.transaction.updated"
+// Occurs when a Transaction is updated.
+type V2MoneyManagementTransactionUpdatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2MoneyManagementTransactionUpdatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2MoneyManagementTransactionUpdatedEvent that created this Notification
+func (en *V2MoneyManagementTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionUpdatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementTransactionUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementTransaction related to the event.
+func (en *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
+	relatedObj := &V2MoneyManagementTransaction{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
@@ -921,9 +2553,38 @@ type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.authorization_attempt_failed"
+// Sent after a failed authorization if there are still retries available on the OffSessionPayment.
+type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent that created this Notification
+func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
@@ -935,9 +2596,39 @@ type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.authorization_attempt_started"
+// Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
+// retry or an initial authorization.
+type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent that created this Notification
+func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2PaymentsOffSessionPaymentCanceledEvent is the Go struct for the "v2.payments.off_session_payment.canceled" event.
@@ -948,9 +2639,38 @@ type V2PaymentsOffSessionPaymentCanceledEvent struct {
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.canceled"
+// Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
+type V2PaymentsOffSessionPaymentCanceledEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2PaymentsOffSessionPaymentCanceledEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentCanceledEvent that created this Notification
+func (en *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCanceledEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (en *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2PaymentsOffSessionPaymentCreatedEvent is the Go struct for the "v2.payments.off_session_payment.created" event.
@@ -961,9 +2681,38 @@ type V2PaymentsOffSessionPaymentCreatedEvent struct {
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.created"
+// Sent immediately following a user's call to the Off-Session Payments create endpoint.
+type V2PaymentsOffSessionPaymentCreatedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2PaymentsOffSessionPaymentCreatedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentCreatedEvent that created this Notification
+func (en *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCreatedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (en *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2PaymentsOffSessionPaymentFailedEvent is the Go struct for the "v2.payments.off_session_payment.failed" event.
@@ -974,9 +2723,38 @@ type V2PaymentsOffSessionPaymentFailedEvent struct {
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.failed"
+// Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
+type V2PaymentsOffSessionPaymentFailedEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2PaymentsOffSessionPaymentFailedEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentFailedEvent that created this Notification
+func (en *V2PaymentsOffSessionPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentFailedEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (en *V2PaymentsOffSessionPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // V2PaymentsOffSessionPaymentSucceededEvent is the Go struct for the "v2.payments.off_session_payment.succeeded" event.
@@ -987,9 +2765,38 @@ type V2PaymentsOffSessionPaymentSucceededEvent struct {
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
 	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.succeeded"
+// Sent immediately after a successful authorization.
+type V2PaymentsOffSessionPaymentSucceededEventNotification struct {
+	V2EventNotification
+	RelatedObject RelatedObject `json:"related_object"`
+}
+
+// GetEventNotification ensures we conform to `EventNotificationContainer`.
+func (en *V2PaymentsOffSessionPaymentSucceededEventNotification) GetEventNotification() *V2EventNotification {
+	return &en.V2EventNotification
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentSucceededEvent that created this Notification
+func (en *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentSucceededEvent, error) {
+	evt, err := en.V2EventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (en *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := en.client.backend.Call(
+		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	return relatedObj, err
 }
 
 // The request causes the error.
@@ -1814,4 +3621,472 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 	default:
 		return event, nil
 	}
+}
+
+// V2Events: The end of the section generated from our OpenAPI spec
+
+// EventNotificationFromJSON is a helper for constructing an Event Notification. Doesn't perform signature validation,
+// so you should use [Client.ParseEventNotification] instead for initial handling.
+// This is useful in unit tests and working with EventNotifications that you've already validated the authenticity of.
+func EventNotificationFromJSON(payload []byte, client Client) (EventNotificationContainer, error) {
+	// we can pull the type out to base our matching on
+	var result = &struct {
+		Type string `json:"type"`
+	}{}
+	if err := json.Unmarshal(payload, result); err != nil {
+		return nil, err
+	}
+
+	// V2EventNotificationTypes: The beginning of the section generated from our OpenAPI spec
+	switch result.Type {
+	case "v1.billing.meter.error_report_triggered":
+		evt := V1BillingMeterErrorReportTriggeredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.billing.meter.no_meter_found":
+		evt := V1BillingMeterNoMeterFoundEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.bill_setting.updated":
+		evt := V2BillingBillSettingUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account.closed":
+		evt := V2CoreAccountClosedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account.created":
+		evt := V2CoreAccountCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account.updated":
+		evt := V2CoreAccountUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.customer].capability_status_updated":
+		evt := V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.customer].updated":
+		evt := V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.merchant].capability_status_updated":
+		evt := V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.merchant].updated":
+		evt := V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.recipient].capability_status_updated":
+		evt := V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.recipient].updated":
+		evt := V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.storer].capability_status_updated":
+		evt := V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.storer].updated":
+		evt := V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[defaults].updated":
+		evt := V2CoreAccountIncludingDefaultsUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[identity].updated":
+		evt := V2CoreAccountIncludingIdentityUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[requirements].updated":
+		evt := V2CoreAccountIncludingRequirementsUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account_link.returned":
+		evt := V2CoreAccountLinkReturnedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account_person.created":
+		evt := V2CoreAccountPersonCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account_person.deleted":
+		evt := V2CoreAccountPersonDeletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account_person.updated":
+		evt := V2CoreAccountPersonUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.event_destination.ping":
+		evt := V2CoreEventDestinationPingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.adjustment.created":
+		evt := V2MoneyManagementAdjustmentCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_account.created":
+		evt := V2MoneyManagementFinancialAccountCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_account.updated":
+		evt := V2MoneyManagementFinancialAccountUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_address.activated":
+		evt := V2MoneyManagementFinancialAddressActivatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_address.failed":
+		evt := V2MoneyManagementFinancialAddressFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_transfer.available":
+		evt := V2MoneyManagementInboundTransferAvailableEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_transfer.bank_debit_failed":
+		evt := V2MoneyManagementInboundTransferBankDebitFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_transfer.bank_debit_processing":
+		evt := V2MoneyManagementInboundTransferBankDebitProcessingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_transfer.bank_debit_queued":
+		evt := V2MoneyManagementInboundTransferBankDebitQueuedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_transfer.bank_debit_returned":
+		evt := V2MoneyManagementInboundTransferBankDebitReturnedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.inbound_transfer.bank_debit_succeeded":
+		evt := V2MoneyManagementInboundTransferBankDebitSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_payment.canceled":
+		evt := V2MoneyManagementOutboundPaymentCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_payment.created":
+		evt := V2MoneyManagementOutboundPaymentCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_payment.failed":
+		evt := V2MoneyManagementOutboundPaymentFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_payment.posted":
+		evt := V2MoneyManagementOutboundPaymentPostedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_payment.returned":
+		evt := V2MoneyManagementOutboundPaymentReturnedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_payment.updated":
+		evt := V2MoneyManagementOutboundPaymentUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_transfer.canceled":
+		evt := V2MoneyManagementOutboundTransferCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_transfer.created":
+		evt := V2MoneyManagementOutboundTransferCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_transfer.failed":
+		evt := V2MoneyManagementOutboundTransferFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_transfer.posted":
+		evt := V2MoneyManagementOutboundTransferPostedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_transfer.returned":
+		evt := V2MoneyManagementOutboundTransferReturnedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_transfer.updated":
+		evt := V2MoneyManagementOutboundTransferUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.payout_method.updated":
+		evt := V2MoneyManagementPayoutMethodUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_credit.available":
+		evt := V2MoneyManagementReceivedCreditAvailableEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_credit.failed":
+		evt := V2MoneyManagementReceivedCreditFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_credit.returned":
+		evt := V2MoneyManagementReceivedCreditReturnedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_credit.succeeded":
+		evt := V2MoneyManagementReceivedCreditSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit.canceled":
+		evt := V2MoneyManagementReceivedDebitCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit.failed":
+		evt := V2MoneyManagementReceivedDebitFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit.pending":
+		evt := V2MoneyManagementReceivedDebitPendingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit.succeeded":
+		evt := V2MoneyManagementReceivedDebitSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit.updated":
+		evt := V2MoneyManagementReceivedDebitUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.transaction.created":
+		evt := V2MoneyManagementTransactionCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.transaction.updated":
+		evt := V2MoneyManagementTransactionUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.authorization_attempt_failed":
+		evt := V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.authorization_attempt_started":
+		evt := V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.canceled":
+		evt := V2PaymentsOffSessionPaymentCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.created":
+		evt := V2PaymentsOffSessionPaymentCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.failed":
+		evt := V2PaymentsOffSessionPaymentFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.succeeded":
+		evt := V2PaymentsOffSessionPaymentSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	default:
+		evt := V2UnknownEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	}
+	// V2EventNotificationTypes: The end of the section generated from our OpenAPI spec
 }
