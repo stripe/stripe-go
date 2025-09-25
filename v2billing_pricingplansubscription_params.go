@@ -34,9 +34,40 @@ type V2BillingPricingPlanSubscriptionListParams struct {
 // Retrieve a Pricing Plan Subscription object.
 type V2BillingPricingPlanSubscriptionParams struct {
 	Params `form:"*"`
+	// When set to true, the `servicing_status_transition.will_cancel_at` field will be cleared.
+	ClearCancelAt *bool `form:"clear_cancel_at" json:"clear_cancel_at,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingPricingPlanSubscriptionParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Retrieve a Pricing Plan Subscription object.
 type V2BillingPricingPlanSubscriptionRetrieveParams struct {
 	Params `form:"*"`
+}
+
+// Update a Pricing Plan Subscription object.
+type V2BillingPricingPlanSubscriptionUpdateParams struct {
+	Params `form:"*"`
+	// When set to true, the `servicing_status_transition.will_cancel_at` field will be cleared.
+	ClearCancelAt *bool `form:"clear_cancel_at" json:"clear_cancel_at,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingPricingPlanSubscriptionUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }

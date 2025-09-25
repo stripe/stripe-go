@@ -73,6 +73,8 @@ type V2MoneyManagementOutboundTransferParams struct {
 	From *V2MoneyManagementOutboundTransferFromParams `form:"from" json:"from,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The recipient verification id for this OutboundTransfer. Only required for countries with regulatory mandates to verify recipient names before OutboundTransfer creation.
+	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
 	// To which payout method to send the OutboundTransfer.
 	To *V2MoneyManagementOutboundTransferToParams `form:"to" json:"to,omitempty"`
 }
@@ -132,6 +134,8 @@ type V2MoneyManagementOutboundTransferCreateParams struct {
 	From *V2MoneyManagementOutboundTransferCreateFromParams `form:"from" json:"from"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The recipient verification id for this OutboundTransfer. Only required for countries with regulatory mandates to verify recipient names before OutboundTransfer creation.
+	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
 	// To which payout method to send the OutboundTransfer.
 	To *V2MoneyManagementOutboundTransferCreateToParams `form:"to" json:"to"`
 }

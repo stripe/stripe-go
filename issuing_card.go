@@ -245,6 +245,10 @@ type IssuingCardParams struct {
 	Currency *string `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The desired expiration month (1-12) for this card if [specifying a custom expiration date](https://docs.stripe.com/issuing/cards/virtual/issue-cards?testing-method=with-code#exp-dates).
+	ExpMonth *int64 `form:"exp_month"`
+	// The desired 4-digit expiration year for this card if [specifying a custom expiration date](https://docs.stripe.com/issuing/cards/virtual/issue-cards?testing-method=with-code#exp-dates).
+	ExpYear *int64 `form:"exp_year"`
 	// The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
 	FinancialAccount *string `form:"financial_account"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -357,6 +361,10 @@ type IssuingCardCreateParams struct {
 	Currency *string `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The desired expiration month (1-12) for this card if [specifying a custom expiration date](https://docs.stripe.com/issuing/cards/virtual/issue-cards?testing-method=with-code#exp-dates).
+	ExpMonth *int64 `form:"exp_month"`
+	// The desired 4-digit expiration year for this card if [specifying a custom expiration date](https://docs.stripe.com/issuing/cards/virtual/issue-cards?testing-method=with-code#exp-dates).
+	ExpYear *int64 `form:"exp_year"`
 	// The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
 	FinancialAccount *string `form:"financial_account"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -635,6 +643,8 @@ type IssuingCard struct {
 	ReplacementFor *IssuingCard `json:"replacement_for"`
 	// The reason why the previous card needed to be replaced.
 	ReplacementReason IssuingCardReplacementReason `json:"replacement_reason"`
+	// Text separate from cardholder name, printed on the card.
+	SecondLine string `json:"second_line"`
 	// Where and how the card will be shipped.
 	Shipping         *IssuingCardShipping         `json:"shipping"`
 	SpendingControls *IssuingCardSpendingControls `json:"spending_controls"`

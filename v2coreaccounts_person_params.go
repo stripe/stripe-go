@@ -10,8 +10,7 @@ import "time"
 
 // Returns a list of Persons associated with an Account.
 type V2CoreAccountsPersonListParams struct {
-	Params `form:"*"`
-	// Account the Persons are associated with.
+	Params    `form:"*"`
 	AccountID *string `form:"-" json:"-"` // Included in URL
 	// The upper limit on the number of accounts returned by the List Account request.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
@@ -261,8 +260,7 @@ type V2CoreAccountsPersonScriptNamesParams struct {
 
 // Create a Person associated with an Account.
 type V2CoreAccountsPersonParams struct {
-	Params `form:"*"`
-	// Account the Person should be associated with.
+	Params    `form:"*"`
 	AccountID *string `form:"-" json:"-"` // Included in URL
 	// Additional addresses associated with the person.
 	AdditionalAddresses []*V2CoreAccountsPersonAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
@@ -555,8 +553,7 @@ type V2CoreAccountsPersonCreateScriptNamesParams struct {
 
 // Create a Person associated with an Account.
 type V2CoreAccountsPersonCreateParams struct {
-	Params `form:"*"`
-	// Account the Person should be associated with.
+	Params    `form:"*"`
 	AccountID *string `form:"-" json:"-"` // Included in URL
 	// Additional addresses associated with the person.
 	AdditionalAddresses []*V2CoreAccountsPersonCreateAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
@@ -607,15 +604,13 @@ func (p *V2CoreAccountsPersonCreateParams) AddMetadata(key string, value string)
 
 // Delete a Person associated with an Account.
 type V2CoreAccountsPersonDeleteParams struct {
-	Params `form:"*"`
-	// The Account the Person is associated with.
+	Params    `form:"*"`
 	AccountID *string `form:"-" json:"-"` // Included in URL
 }
 
 // Retrieves a Person associated with an Account.
 type V2CoreAccountsPersonRetrieveParams struct {
-	Params `form:"*"`
-	// The Account the Person is associated with.
+	Params    `form:"*"`
 	AccountID *string `form:"-" json:"-"` // Included in URL
 }
 
@@ -863,8 +858,7 @@ type V2CoreAccountsPersonUpdateScriptNamesParams struct {
 
 // Updates a Person associated with an Account.
 type V2CoreAccountsPersonUpdateParams struct {
-	Params `form:"*"`
-	// The Account the Person is associated with.
+	Params    `form:"*"`
 	AccountID *string `form:"-" json:"-"` // Included in URL
 	// Additional addresses associated with the person.
 	AdditionalAddresses []*V2CoreAccountsPersonUpdateAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`

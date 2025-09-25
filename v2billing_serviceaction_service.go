@@ -40,3 +40,15 @@ func (c v2BillingServiceActionService) Retrieve(ctx context.Context, id string, 
 	err := c.B.Call(http.MethodGet, path, c.Key, params, serviceaction)
 	return serviceaction, err
 }
+
+// Update a ServiceAction object.
+func (c v2BillingServiceActionService) Update(ctx context.Context, id string, params *V2BillingServiceActionUpdateParams) (*V2BillingServiceAction, error) {
+	if params == nil {
+		params = &V2BillingServiceActionUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/billing/service_actions/%s", id)
+	serviceaction := &V2BillingServiceAction{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, serviceaction)
+	return serviceaction, err
+}

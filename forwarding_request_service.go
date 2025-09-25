@@ -49,13 +49,13 @@ func (c v1ForwardingRequestService) List(ctx context.Context, listParams *Forwar
 		listParams = &ForwardingRequestListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ForwardingRequest, ListContainer, error) {
-		list := &ForwardingRequestList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ForwardingRequest], error) {
+		list := &v1Page[*ForwardingRequest]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/forwarding/requests", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

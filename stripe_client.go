@@ -1,9 +1,5 @@
 package stripe
 
-import (
-	"encoding/json"
-)
-
 // Client is the Stripe client. It contains all the different services available.
 type Client struct {
 	// stripeClientStruct: The beginning of the section generated from our OpenAPI spec
@@ -34,6 +30,8 @@ type Client struct {
 	V1BankAccounts *v1BankAccountService
 	// V1BillingAlerts is the service used to invoke /v1/billing/alerts APIs.
 	V1BillingAlerts *v1BillingAlertService
+	// V1BillingAnalyticsMeterUsage is the service used to invoke /v1/billing/analytics/meter_usage APIs.
+	V1BillingAnalyticsMeterUsage *v1BillingAnalyticsMeterUsageService
 	// V1BillingCreditBalanceSummary is the service used to invoke /v1/billing/credit_balance_summary APIs.
 	V1BillingCreditBalanceSummary *v1BillingCreditBalanceSummaryService
 	// V1BillingCreditBalanceTransactions is the service used to invoke /v1/billing/credit_balance_transactions APIs.
@@ -48,8 +46,6 @@ type Client struct {
 	V1BillingMeterEventSummaries *v1BillingMeterEventSummaryService
 	// V1BillingMeters is the service used to invoke /v1/billing/meters APIs.
 	V1BillingMeters *v1BillingMeterService
-	// V1BillingMeterUsage is the service used to invoke /v1/billing/analytics/meter_usage APIs.
-	V1BillingMeterUsage *v1BillingMeterUsageService
 	// V1BillingPortalConfigurations is the service used to invoke /v1/billing_portal/configurations APIs.
 	V1BillingPortalConfigurations *v1BillingPortalConfigurationService
 	// V1BillingPortalSessions is the service used to invoke /v1/billing_portal/sessions APIs.
@@ -424,21 +420,24 @@ type Client struct {
 	V2MoneyManagementReceivedCredits *v2MoneyManagementReceivedCreditService
 	// V2MoneyManagementReceivedDebits is the service used to invoke /v2/money_management/received_debits APIs.
 	V2MoneyManagementReceivedDebits *v2MoneyManagementReceivedDebitService
+	// V2MoneyManagementRecipientVerifications is the service used to invoke /v2/money_management/recipient_verifications APIs.
+	V2MoneyManagementRecipientVerifications *v2MoneyManagementRecipientVerificationService
 	// V2MoneyManagementTransactionEntries is the service used to invoke /v2/money_management/transaction_entries APIs.
 	V2MoneyManagementTransactionEntries *v2MoneyManagementTransactionEntryService
 	// V2MoneyManagementTransactions is the service used to invoke /v2/money_management/transactions APIs.
 	V2MoneyManagementTransactions *v2MoneyManagementTransactionService
 	// V2PaymentsOffSessionPayments is the service used to invoke /v2/payments/off_session_payments APIs.
 	V2PaymentsOffSessionPayments *v2PaymentsOffSessionPaymentService
-	// V2ReportingReportRuns is the service used to invoke /v2/reporting/report_runs APIs.
-	V2ReportingReportRuns *v2ReportingReportRunService
-	// V2ReportingReports is the service used to invoke report related APIs.
-	V2ReportingReports *v2ReportingReportService
 	// V2TaxAutomaticRules is the service used to invoke /v2/tax/automatic_rules APIs.
 	V2TaxAutomaticRules *v2TaxAutomaticRuleService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
+	// V2TestHelpersMoneyManagements is the service used to invoke moneymanagement related APIs.
+	V2TestHelpersMoneyManagements *v2TestHelpersMoneyManagementService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
+
+	backend Backend
+	key     string
 }
 
 // NewClient creates a new Stripe [Client] with the given API key.
@@ -467,6 +466,9 @@ func initClient(client *Client, cfg clientConfig) {
 	}
 	backends := cfg.backends
 	key := cfg.key
+	// enough information on the Client to make API calls
+	client.backend = backends.API
+	client.key = key
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
 	client.OAuth = &oauthService{B: backends.Connect, Key: key}
@@ -482,6 +484,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BalanceTransactions = &v1BalanceTransactionService{B: backends.API, Key: key}
 	client.V1BankAccounts = &v1BankAccountService{B: backends.API, Key: key}
 	client.V1BillingAlerts = &v1BillingAlertService{B: backends.API, Key: key}
+	client.V1BillingAnalyticsMeterUsage = &v1BillingAnalyticsMeterUsageService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceSummary = &v1BillingCreditBalanceSummaryService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceTransactions = &v1BillingCreditBalanceTransactionService{B: backends.API, Key: key}
 	client.V1BillingCreditGrants = &v1BillingCreditGrantService{B: backends.API, Key: key}
@@ -489,7 +492,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BillingMeterEvents = &v1BillingMeterEventService{B: backends.API, Key: key}
 	client.V1BillingMeterEventSummaries = &v1BillingMeterEventSummaryService{B: backends.API, Key: key}
 	client.V1BillingMeters = &v1BillingMeterService{B: backends.API, Key: key}
-	client.V1BillingMeterUsage = &v1BillingMeterUsageService{B: backends.API, Key: key}
 	client.V1BillingPortalConfigurations = &v1BillingPortalConfigurationService{B: backends.API, Key: key}
 	client.V1BillingPortalSessions = &v1BillingPortalSessionService{B: backends.API, Key: key}
 	client.V1Capabilities = &v1CapabilityService{B: backends.API, Key: key}
@@ -677,13 +679,13 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2MoneyManagementPayoutMethodsBankAccountSpecService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedCredits = &v2MoneyManagementReceivedCreditService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedDebits = &v2MoneyManagementReceivedDebitService{B: backends.API, Key: key}
+	client.V2MoneyManagementRecipientVerifications = &v2MoneyManagementRecipientVerificationService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
-	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
-	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
 	client.V2TaxAutomaticRules = &v2TaxAutomaticRuleService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
+	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }
 
@@ -705,17 +707,14 @@ func WithBackends(backends *Backends) ClientOption {
 	}
 }
 
-// ParseThinEvent parses a Stripe event from the payload and verifies its signature.
-// It returns a ThinEvent object and an error if the parsing or verification fails.
-func (c *Client) ParseThinEvent(payload []byte, header string, secret string, opts ...WebhookOption) (*ThinEvent, error) {
+// ParseEventNotification parses a Stripe event from the payload and verifies its signature.
+// It returns a union of all possible event notification types that implement EventNotificationContainer.
+func (c *Client) ParseEventNotification(payload []byte, header string, secret string, opts ...WebhookOption) (EventNotificationContainer, error) {
 	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
 	}
-	var event ThinEvent
-	if err := json.Unmarshal(payload, &event); err != nil {
-		return nil, err
-	}
-	return &event, nil
+
+	return EventNotificationFromJSON(payload, *c)
 }
 
 // ConstructEvent initializes an Event object from a JSON webhook payload, validating
