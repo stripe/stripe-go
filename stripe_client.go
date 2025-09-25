@@ -1,9 +1,5 @@
 package stripe
 
-import (
-	"encoding/json"
-)
-
 // Client is the Stripe client. It contains all the different services available.
 type Client struct {
 	// stripeClientStruct: The beginning of the section generated from our OpenAPI spec
@@ -397,6 +393,9 @@ type Client struct {
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
+
+	backend Backend
+	key     string
 }
 
 // NewClient creates a new Stripe [Client] with the given API key.
@@ -425,6 +424,9 @@ func initClient(client *Client, cfg clientConfig) {
 	}
 	backends := cfg.backends
 	key := cfg.key
+	// enough information on the Client to make API calls
+	client.backend = backends.API
+	client.key = key
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
 	client.OAuth = &oauthService{B: backends.Connect, Key: key}
@@ -642,17 +644,14 @@ func WithBackends(backends *Backends) ClientOption {
 	}
 }
 
-// ParseThinEvent parses a Stripe event from the payload and verifies its signature.
-// It returns a ThinEvent object and an error if the parsing or verification fails.
-func (c *Client) ParseThinEvent(payload []byte, header string, secret string, opts ...WebhookOption) (*ThinEvent, error) {
+// ParseEventNotification parses a Stripe event from the payload and verifies its signature.
+// It returns a union of all possible event notification types that implement EventNotificationContainer.
+func (c *Client) ParseEventNotification(payload []byte, header string, secret string, opts ...WebhookOption) (EventNotificationContainer, error) {
 	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
 	}
-	var event ThinEvent
-	if err := json.Unmarshal(payload, &event); err != nil {
-		return nil, err
-	}
-	return &event, nil
+
+	return EventNotificationFromJSON(payload, *c)
 }
 
 // ConstructEvent initializes an Event object from a JSON webhook payload, validating
