@@ -193,9 +193,6 @@ type TestHelpersConfirmationTokenPaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataPaypalParams struct{}
 
-// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-type TestHelpersConfirmationTokenPaymentMethodDataPaypayParams struct{}
-
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataPixParams struct{}
 
@@ -337,8 +334,6 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	PayNow *TestHelpersConfirmationTokenPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *TestHelpersConfirmationTokenPaymentMethodDataPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *TestHelpersConfirmationTokenPaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *TestHelpersConfirmationTokenPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -632,9 +627,6 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataPaypalParams struct{}
 
-// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-type TestHelpersConfirmationTokenCreatePaymentMethodDataPaypayParams struct{}
-
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataPixParams struct{}
 
@@ -776,8 +768,6 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	PayNow *TestHelpersConfirmationTokenCreatePaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *TestHelpersConfirmationTokenCreatePaymentMethodDataPaypalParams `form:"paypal"`
-	// If this is a `paypay` PaymentMethod, this hash contains details about the PayPay payment method.
-	Paypay *TestHelpersConfirmationTokenCreatePaymentMethodDataPaypayParams `form:"paypay"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *TestHelpersConfirmationTokenCreatePaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
