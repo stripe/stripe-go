@@ -238,8 +238,9 @@ type QuotePreviewInvoiceParentType string
 
 // List of values that QuotePreviewInvoiceParentType can take
 const (
-	QuotePreviewInvoiceParentTypeQuoteDetails        QuotePreviewInvoiceParentType = "quote_details"
-	QuotePreviewInvoiceParentTypeSubscriptionDetails QuotePreviewInvoiceParentType = "subscription_details"
+	QuotePreviewInvoiceParentTypeBillingCadenceDetails QuotePreviewInvoiceParentType = "billing_cadence_details"
+	QuotePreviewInvoiceParentTypeQuoteDetails          QuotePreviewInvoiceParentType = "quote_details"
+	QuotePreviewInvoiceParentTypeSubscriptionDetails   QuotePreviewInvoiceParentType = "subscription_details"
 )
 
 // Transaction type of the mandate.
@@ -606,6 +607,12 @@ type QuotePreviewInvoiceIssuer struct {
 	Type QuotePreviewInvoiceIssuerType `json:"type"`
 }
 
+// Details about the billing cadence that generated this invoice
+type QuotePreviewInvoiceParentBillingCadenceDetails struct {
+	// The billing cadence that generated this invoice
+	BillingCadence string `json:"billing_cadence"`
+}
+
 // Details about the quote that generated this invoice
 type QuotePreviewInvoiceParentQuoteDetails struct {
 	// The quote that generated this invoice
@@ -635,6 +642,8 @@ type QuotePreviewInvoiceParentSubscriptionDetails struct {
 
 // The parent that generated this invoice
 type QuotePreviewInvoiceParent struct {
+	// Details about the billing cadence that generated this invoice
+	BillingCadenceDetails *QuotePreviewInvoiceParentBillingCadenceDetails `json:"billing_cadence_details"`
 	// Details about the quote that generated this invoice
 	QuoteDetails *QuotePreviewInvoiceParentQuoteDetails `json:"quote_details"`
 	// Details about the subscription that generated this invoice
