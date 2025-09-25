@@ -2142,132 +2142,6 @@ func (en *V1CustomerDeletedEventNotification) FetchRelatedObject(ctx context.Con
 	return relatedObj, err
 }
 
-// V1CustomerDiscountCreatedEvent is the Go struct for the "v1.customer.discount.created" event.
-// Occurs whenever a coupon is attached to a customer.
-type V1CustomerDiscountCreatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Discount, error)
-}
-
-// FetchRelatedObject fetches the Discount related to the event.
-func (e *V1CustomerDiscountCreatedEvent) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerDiscountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.discount.created"
-// Occurs whenever a coupon is attached to a customer.
-type V1CustomerDiscountCreatedEventNotification struct {
-	V2EventNotification
-	RelatedObject RelatedObject `json:"related_object"`
-}
-
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerDiscountCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
-// FetchEvent retrieves the V1CustomerDiscountCreatedEvent that created this Notification
-func (en *V1CustomerDiscountCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDiscountCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerDiscountCreatedEvent), nil
-}
-
-// FetchRelatedObject fetches the Discount related to the event.
-func (en *V1CustomerDiscountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	relatedObj := &Discount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerDiscountDeletedEvent is the Go struct for the "v1.customer.discount.deleted" event.
-// Occurs whenever a coupon is removed from a customer.
-type V1CustomerDiscountDeletedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Discount, error)
-}
-
-// FetchRelatedObject fetches the Discount related to the event.
-func (e *V1CustomerDiscountDeletedEvent) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerDiscountDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.discount.deleted"
-// Occurs whenever a coupon is removed from a customer.
-type V1CustomerDiscountDeletedEventNotification struct {
-	V2EventNotification
-	RelatedObject RelatedObject `json:"related_object"`
-}
-
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerDiscountDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
-// FetchEvent retrieves the V1CustomerDiscountDeletedEvent that created this Notification
-func (en *V1CustomerDiscountDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDiscountDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerDiscountDeletedEvent), nil
-}
-
-// FetchRelatedObject fetches the Discount related to the event.
-func (en *V1CustomerDiscountDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	relatedObj := &Discount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
-	return relatedObj, err
-}
-
-// V1CustomerDiscountUpdatedEvent is the Go struct for the "v1.customer.discount.updated" event.
-// Occurs whenever a customer is switched from one coupon to another.
-type V1CustomerDiscountUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*Discount, error)
-}
-
-// FetchRelatedObject fetches the Discount related to the event.
-func (e *V1CustomerDiscountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V1CustomerDiscountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.discount.updated"
-// Occurs whenever a customer is switched from one coupon to another.
-type V1CustomerDiscountUpdatedEventNotification struct {
-	V2EventNotification
-	RelatedObject RelatedObject `json:"related_object"`
-}
-
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerDiscountUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
-// FetchEvent retrieves the V1CustomerDiscountUpdatedEvent that created this Notification
-func (en *V1CustomerDiscountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDiscountUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V1CustomerDiscountUpdatedEvent), nil
-}
-
-// FetchRelatedObject fetches the Discount related to the event.
-func (en *V1CustomerDiscountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Discount, error) {
-	relatedObj := &Discount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
-	return relatedObj, err
-}
-
 // V1CustomerSubscriptionCreatedEvent is the Go struct for the "v1.customer.subscription.created" event.
 // Occurs whenever a customer is signed up for a new plan.
 type V1CustomerSubscriptionCreatedEvent struct {
@@ -14472,36 +14346,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return v, err
 		}
 		return result, nil
-	case "v1.customer.discount.created":
-		result := &V1CustomerDiscountCreatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Discount, error) {
-			v := &Discount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.discount.deleted":
-		result := &V1CustomerDiscountDeletedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Discount, error) {
-			v := &Discount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
-	case "v1.customer.discount.updated":
-		result := &V1CustomerDiscountUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*Discount, error) {
-			v := &Discount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
 	case "v1.customer.subscription.created":
 		result := &V1CustomerSubscriptionCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -17508,27 +17352,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.customer.deleted":
 		evt := V1CustomerDeletedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.discount.created":
-		evt := V1CustomerDiscountCreatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.discount.deleted":
-		evt := V1CustomerDiscountDeletedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v1.customer.discount.updated":
-		evt := V1CustomerDiscountUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
