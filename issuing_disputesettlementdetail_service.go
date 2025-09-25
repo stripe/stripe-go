@@ -37,13 +37,13 @@ func (c v1IssuingDisputeSettlementDetailService) List(ctx context.Context, listP
 		listParams = &IssuingDisputeSettlementDetailListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingDisputeSettlementDetail, ListContainer, error) {
-		list := &IssuingDisputeSettlementDetailList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingDisputeSettlementDetail], error) {
+		list := &v1Page[*IssuingDisputeSettlementDetail]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/dispute_settlement_details", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

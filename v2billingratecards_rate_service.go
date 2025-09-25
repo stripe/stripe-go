@@ -45,16 +45,16 @@ func (c v2BillingRateCardsRateService) Retrieve(ctx context.Context, id string, 
 }
 
 // Remove an existing Rate from a Rate Card. This will create a new Rate Card Version without that Rate.
-func (c v2BillingRateCardsRateService) Delete(ctx context.Context, id string, params *V2BillingRateCardsRateDeleteParams) (*V2BillingRateCardRate, error) {
+func (c v2BillingRateCardsRateService) Delete(ctx context.Context, id string, params *V2BillingRateCardsRateDeleteParams) (*V2DeletedObject, error) {
 	if params == nil {
 		params = &V2BillingRateCardsRateDeleteParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v2/billing/rate_cards/%s/rates/%s", StringValue(params.RateCardID), id)
-	ratecardrate := &V2BillingRateCardRate{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, ratecardrate)
-	return ratecardrate, err
+	deletedObj := &V2DeletedObject{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
+	return deletedObj, err
 }
 
 // List all Rates associated with a Rate Card for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.

@@ -28,13 +28,13 @@ func (c v1QuotePreviewSubscriptionScheduleService) List(ctx context.Context, lis
 	path := FormatURLPath(
 		"/v1/quotes/%s/preview_subscription_schedules", StringValue(
 			listParams.Quote))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*QuotePreviewSubscriptionSchedule, ListContainer, error) {
-		list := &QuotePreviewSubscriptionScheduleList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*QuotePreviewSubscriptionSchedule], error) {
+		list := &v1Page[*QuotePreviewSubscriptionSchedule]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

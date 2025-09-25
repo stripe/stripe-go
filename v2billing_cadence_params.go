@@ -6,7 +6,7 @@
 
 package stripe
 
-// If provided, only cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock`.
+// If provided, only cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock` and `lookup_keys`.
 type V2BillingCadenceListPayerParams struct {
 	// The ID of the Customer object. If provided, only cadences that specifically reference the provided customer ID will be returned.
 	Customer *string `form:"customer" json:"customer,omitempty"`
@@ -21,7 +21,10 @@ type V2BillingCadenceListParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
-	// If provided, only cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock`.
+	// Only return the cadences with these lookup_keys, if any exist. You can specify up to 10 lookup_keys.
+	// Mutually exclusive with `test_clock` and `payer`.
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
+	// If provided, only cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock` and `lookup_keys`.
 	Payer *V2BillingCadenceListPayerParams `form:"payer" json:"payer,omitempty"`
 	// If provided, only cadences that specifically reference the provided test clock ID (via the
 	// customer's test clock) will be returned.
@@ -168,13 +171,8 @@ type V2BillingCadenceBillingCycleParams struct {
 
 // The payer determines the entity financially responsible for the bill.
 type V2BillingCadencePayerParams struct {
-	// The ID of the Billing Profile object which determines how a bill will be paid. If provided, the created cadence will be
-	// associated with the provided Billing Profile. If not provided, a new Billing Profile will be created and associated with the cadence.
+	// The ID of the Billing Profile object which determines how a bill will be paid.
 	BillingProfile *string `form:"billing_profile" json:"billing_profile,omitempty"`
-	// The ID of the Customer object.
-	Customer *string `form:"customer" json:"customer,omitempty"`
-	// A string identifying the type of the payer. Currently the only supported value is `customer`.
-	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
@@ -222,6 +220,8 @@ type V2BillingCadenceParams struct {
 	BillingCycle *V2BillingCadenceBillingCycleParams `form:"billing_cycle" json:"billing_cycle,omitempty"`
 	// Additional resource to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
+	// A lookup key used to retrieve cadences dynamically from a static string. Maximum length of 200 characters.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
@@ -385,13 +385,8 @@ type V2BillingCadenceCreateBillingCycleParams struct {
 
 // The payer determines the entity financially responsible for the bill.
 type V2BillingCadenceCreatePayerParams struct {
-	// The ID of the Billing Profile object which determines how a bill will be paid. If provided, the created cadence will be
-	// associated with the provided Billing Profile. If not provided, a new Billing Profile will be created and associated with the cadence.
-	BillingProfile *string `form:"billing_profile" json:"billing_profile,omitempty"`
-	// The ID of the Customer object.
-	Customer *string `form:"customer" json:"customer,omitempty"`
-	// A string identifying the type of the payer. Currently the only supported value is `customer`.
-	Type *string `form:"type" json:"type,omitempty"`
+	// The ID of the Billing Profile object which determines how a bill will be paid.
+	BillingProfile *string `form:"billing_profile" json:"billing_profile"`
 }
 
 // Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
@@ -435,6 +430,8 @@ type V2BillingCadenceCreateParams struct {
 	BillingCycle *V2BillingCadenceCreateBillingCycleParams `form:"billing_cycle" json:"billing_cycle"`
 	// Additional resource to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
+	// A lookup key used to retrieve cadences dynamically from a static string. Maximum length of 200 characters.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
@@ -500,6 +497,8 @@ type V2BillingCadenceUpdateParams struct {
 	Params `form:"*"`
 	// Additional resource to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
+	// A lookup key used to retrieve cadences dynamically from a static string. Maximum length of 200 characters.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.

@@ -88,6 +88,8 @@ type V2MoneyManagementOutboundPaymentParams struct {
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
+	// The recipient verification id for this OutboundPayment. Only required for countries with regulatory mandates to verify recipient names before OutboundPayment creation.
+	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
 	// To which payout method to send the OutboundPayment.
 	To *V2MoneyManagementOutboundPaymentToParams `form:"to" json:"to,omitempty"`
 }
@@ -160,6 +162,8 @@ type V2MoneyManagementOutboundPaymentCreateParams struct {
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
+	// The recipient verification id for this OutboundPayment. Only required for countries with regulatory mandates to verify recipient names before OutboundPayment creation.
+	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
 	// To which payout method to send the OutboundPayment.
 	To *V2MoneyManagementOutboundPaymentCreateToParams `form:"to" json:"to"`
 }

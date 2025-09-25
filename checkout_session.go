@@ -36,6 +36,34 @@ const (
 	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
 )
 
+// The border style for the Checkout Session. Must be one of `rounded`, `rectangular`, or `pill`.
+type CheckoutSessionBrandingSettingsBorderStyle string
+
+// List of values that CheckoutSessionBrandingSettingsBorderStyle can take
+const (
+	CheckoutSessionBrandingSettingsBorderStylePill        CheckoutSessionBrandingSettingsBorderStyle = "pill"
+	CheckoutSessionBrandingSettingsBorderStyleRectangular CheckoutSessionBrandingSettingsBorderStyle = "rectangular"
+	CheckoutSessionBrandingSettingsBorderStyleRounded     CheckoutSessionBrandingSettingsBorderStyle = "rounded"
+)
+
+// The type of image for the icon. Must be one of `file` or `url`.
+type CheckoutSessionBrandingSettingsIconType string
+
+// List of values that CheckoutSessionBrandingSettingsIconType can take
+const (
+	CheckoutSessionBrandingSettingsIconTypeFile CheckoutSessionBrandingSettingsIconType = "file"
+	CheckoutSessionBrandingSettingsIconTypeURL  CheckoutSessionBrandingSettingsIconType = "url"
+)
+
+// The type of image for the logo. Must be one of `file` or `url`.
+type CheckoutSessionBrandingSettingsLogoType string
+
+// List of values that CheckoutSessionBrandingSettingsLogoType can take
+const (
+	CheckoutSessionBrandingSettingsLogoTypeFile CheckoutSessionBrandingSettingsLogoType = "file"
+	CheckoutSessionBrandingSettingsLogoTypeURL  CheckoutSessionBrandingSettingsLogoType = "url"
+)
+
 // The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 type CheckoutSessionCollectedInformationTaxIDType string
 
@@ -449,6 +477,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsAffirmCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsAffirmCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsAffirmCaptureMethodManual CheckoutSessionPaymentMethodOptionsAffirmCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -461,6 +497,14 @@ type CheckoutSessionPaymentMethodOptionsAffirmSetupFutureUsage string
 // List of values that CheckoutSessionPaymentMethodOptionsAffirmSetupFutureUsage can take
 const (
 	CheckoutSessionPaymentMethodOptionsAffirmSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsAffirmSetupFutureUsage = "none"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsAfterpayClearpayCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsAfterpayClearpayCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsAfterpayClearpayCaptureMethodManual CheckoutSessionPaymentMethodOptionsAfterpayClearpayCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -489,6 +533,22 @@ type CheckoutSessionPaymentMethodOptionsAlipaySetupFutureUsage string
 // List of values that CheckoutSessionPaymentMethodOptionsAlipaySetupFutureUsage can take
 const (
 	CheckoutSessionPaymentMethodOptionsAlipaySetupFutureUsageNone CheckoutSessionPaymentMethodOptionsAlipaySetupFutureUsage = "none"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsAlmaCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsAlmaCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsAlmaCaptureMethodManual CheckoutSessionPaymentMethodOptionsAlmaCaptureMethod = "manual"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsAmazonPayCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsAmazonPayCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsAmazonPayCaptureMethodManual CheckoutSessionPaymentMethodOptionsAmazonPayCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -550,6 +610,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsage = "none"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsBillieCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsBillieCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsBillieCaptureMethodManual CheckoutSessionPaymentMethodOptionsBillieCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -564,6 +632,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsage = "none"
 	CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsage = "off_session"
 	CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsage = "on_session"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsCardCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardCaptureMethodManual CheckoutSessionPaymentMethodOptionsCardCaptureMethod = "manual"
 )
 
 // Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -646,6 +722,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsCardSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsCardSetupFutureUsage = "none"
 	CheckoutSessionPaymentMethodOptionsCardSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsCardSetupFutureUsage = "off_session"
 	CheckoutSessionPaymentMethodOptionsCardSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsCardSetupFutureUsage = "on_session"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsCashAppCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCashAppCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsCashAppCaptureMethodManual CheckoutSessionPaymentMethodOptionsCashAppCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -805,6 +889,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsKakaoPaySetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsKakaoPaySetupFutureUsage = "off_session"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsKlarnaCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsKlarnaCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsKlarnaCaptureMethodManual CheckoutSessionPaymentMethodOptionsKlarnaCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -858,6 +950,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsKrCardSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsKrCardSetupFutureUsage = "off_session"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsLinkCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsLinkCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsLinkCaptureMethodManual CheckoutSessionPaymentMethodOptionsLinkCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -871,6 +971,14 @@ type CheckoutSessionPaymentMethodOptionsLinkSetupFutureUsage string
 const (
 	CheckoutSessionPaymentMethodOptionsLinkSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsLinkSetupFutureUsage = "none"
 	CheckoutSessionPaymentMethodOptionsLinkSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsLinkSetupFutureUsage = "off_session"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsMobilepayCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsMobilepayCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsMobilepayCaptureMethodManual CheckoutSessionPaymentMethodOptionsMobilepayCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1108,6 +1216,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "off_session"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsRevolutPayCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsRevolutPayCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsRevolutPayCaptureMethodManual CheckoutSessionPaymentMethodOptionsRevolutPayCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1129,6 +1245,14 @@ type CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod string
 // List of values that CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod can take
 const (
 	CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethodManual CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod = "manual"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsSatispayCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsSatispayCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsSatispayCaptureMethodManual CheckoutSessionPaymentMethodOptionsSatispayCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1488,6 +1612,44 @@ type CheckoutSessionAutomaticTaxParams struct {
 	Liability *CheckoutSessionAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsIconParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the icon. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsLogoParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the logo. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+type CheckoutSessionBrandingSettingsParams struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor *string `form:"background_color"`
+	// The border style for the Checkout Session.
+	BorderStyle *string `form:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor *string `form:"button_color"`
+	// A string to override the business name shown on the Checkout Session.
+	DisplayName *string `form:"display_name"`
+	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily *string `form:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionBrandingSettingsIconParams `form:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionBrandingSettingsLogoParams `form:"logo"`
+}
+
 // Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
 type CheckoutSessionConsentCollectionPaymentMethodReuseAgreementParams struct {
 	// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's
@@ -1734,6 +1896,8 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1802,6 +1966,34 @@ func (p *CheckoutSessionLineItemParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Controls settings applied for collecting the customer's business name on the session.
+type CheckoutSessionNameCollectionBusinessParams struct {
+	// Enable business name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide a business name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name on the session.
+type CheckoutSessionNameCollectionIndividualParams struct {
+	// Enable individual name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls name collection settings for the session.
+//
+// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+//
+// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+type CheckoutSessionNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name on the session.
+	Business *CheckoutSessionNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name on the session.
+	Individual *CheckoutSessionNameCollectionIndividualParams `form:"individual"`
 }
 
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
@@ -1947,6 +2139,8 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 
 // contains details about the Affirm payment method options.
 type CheckoutSessionPaymentMethodOptionsAffirmParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1959,6 +2153,8 @@ type CheckoutSessionPaymentMethodOptionsAffirmParams struct {
 
 // contains details about the Afterpay Clearpay payment method options.
 type CheckoutSessionPaymentMethodOptionsAfterpayClearpayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1981,8 +2177,16 @@ type CheckoutSessionPaymentMethodOptionsAlipayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Alma payment method options.
+type CheckoutSessionPaymentMethodOptionsAlmaParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // contains details about the AmazonPay payment method options.
 type CheckoutSessionPaymentMethodOptionsAmazonPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2041,6 +2245,12 @@ type CheckoutSessionPaymentMethodOptionsBancontactParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Billie payment method options.
+type CheckoutSessionPaymentMethodOptionsBillieParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // contains details about the Boleto payment method options.
 type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto invoice will expire on Wednesday at 23:59 America/Sao_Paulo time.
@@ -2070,6 +2280,8 @@ type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
 
 // contains details about the Card payment method options.
 type CheckoutSessionPaymentMethodOptionsCardParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Installment options for card payments
 	Installments *CheckoutSessionPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -2102,6 +2314,8 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 
 // contains details about the Cashapp Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsCashAppParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2136,6 +2350,18 @@ type CheckoutSessionPaymentMethodOptionsCustomerBalanceParams struct {
 	BankTransfer *CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
 	FundingType *string `form:"funding_type"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// contains details about the DemoPay payment method options.
+type CheckoutSessionPaymentMethodOptionsDemoPayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2244,6 +2470,8 @@ type CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionParams struct {
 
 // contains details about the Klarna payment method options.
 type CheckoutSessionPaymentMethodOptionsKlarnaParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2286,6 +2514,8 @@ type CheckoutSessionPaymentMethodOptionsKrCardParams struct {
 
 // contains details about the Link payment method options.
 type CheckoutSessionPaymentMethodOptionsLinkParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2298,6 +2528,8 @@ type CheckoutSessionPaymentMethodOptionsLinkParams struct {
 
 // contains details about the Mobilepay payment method options.
 type CheckoutSessionPaymentMethodOptionsMobilepayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2481,6 +2713,8 @@ type CheckoutSessionPaymentMethodOptionsPixParams struct {
 
 // contains details about the RevolutPay payment method options.
 type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2493,6 +2727,12 @@ type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
 
 // contains details about the Samsung Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsSamsungPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
+
+// contains details about the Satispay payment method options.
+type CheckoutSessionPaymentMethodOptionsSatispayParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
 }
@@ -2589,6 +2829,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	AfterpayClearpay *CheckoutSessionPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// contains details about the Alipay payment method options.
 	Alipay *CheckoutSessionPaymentMethodOptionsAlipayParams `form:"alipay"`
+	// contains details about the Alma payment method options.
+	Alma *CheckoutSessionPaymentMethodOptionsAlmaParams `form:"alma"`
 	// contains details about the AmazonPay payment method options.
 	AmazonPay *CheckoutSessionPaymentMethodOptionsAmazonPayParams `form:"amazon_pay"`
 	// contains details about the AU Becs Debit payment method options.
@@ -2597,6 +2839,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	BACSDebit *CheckoutSessionPaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// contains details about the Bancontact payment method options.
 	Bancontact *CheckoutSessionPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// contains details about the Billie payment method options.
+	Billie *CheckoutSessionPaymentMethodOptionsBillieParams `form:"billie"`
 	// contains details about the Boleto payment method options.
 	Boleto *CheckoutSessionPaymentMethodOptionsBoletoParams `form:"boleto"`
 	// contains details about the Card payment method options.
@@ -2605,6 +2849,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	CashApp *CheckoutSessionPaymentMethodOptionsCashAppParams `form:"cashapp"`
 	// contains details about the Customer Balance payment method options.
 	CustomerBalance *CheckoutSessionPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// contains details about the DemoPay payment method options.
+	DemoPay *CheckoutSessionPaymentMethodOptionsDemoPayParams `form:"demo_pay"`
 	// contains details about the EPS payment method options.
 	EPS *CheckoutSessionPaymentMethodOptionsEPSParams `form:"eps"`
 	// contains details about the FPX payment method options.
@@ -2651,6 +2897,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	RevolutPay *CheckoutSessionPaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// contains details about the Samsung Pay payment method options.
 	SamsungPay *CheckoutSessionPaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
+	// contains details about the Satispay payment method options.
+	Satispay *CheckoutSessionPaymentMethodOptionsSatispayParams `form:"satispay"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
@@ -2827,9 +3075,17 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// Configure behavior for flexible billing mode.
+type CheckoutSessionSubscriptionDataBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type CheckoutSessionSubscriptionDataBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *CheckoutSessionSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -2986,6 +3242,8 @@ type CheckoutSessionParams struct {
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
+	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+	BrandingSettings *CheckoutSessionBrandingSettingsParams `form:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
 	CancelURL     *string                              `form:"cancel_url"`
 	CheckoutItems []*CheckoutSessionCheckoutItemParams `form:"checkout_items"`
@@ -3037,6 +3295,8 @@ type CheckoutSessionParams struct {
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
@@ -3055,6 +3315,12 @@ type CheckoutSessionParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
+	// Controls name collection settings for the session.
+	//
+	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+	//
+	// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+	NameCollection *CheckoutSessionNameCollectionParams `form:"name_collection"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//
 	// There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -3229,6 +3495,44 @@ type CheckoutSessionCreateAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *CheckoutSessionCreateAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionCreateBrandingSettingsIconParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the icon. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionCreateBrandingSettingsLogoParams struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
+	File *string `form:"file"`
+	// The type of image for the logo. Must be one of `file` or `url`.
+	Type *string `form:"type"`
+	// The URL of the image. Required if `type` is `url` and disallowed otherwise.
+	URL *string `form:"url"`
+}
+
+// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+type CheckoutSessionCreateBrandingSettingsParams struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor *string `form:"background_color"`
+	// The border style for the Checkout Session.
+	BorderStyle *string `form:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor *string `form:"button_color"`
+	// A string to override the business name shown on the Checkout Session.
+	DisplayName *string `form:"display_name"`
+	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily *string `form:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionCreateBrandingSettingsIconParams `form:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionCreateBrandingSettingsLogoParams `form:"logo"`
 }
 
 // Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
@@ -3477,6 +3781,8 @@ type CheckoutSessionCreateLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -3543,6 +3849,34 @@ func (p *CheckoutSessionCreateLineItemParams) AddMetadata(key string, value stri
 	}
 
 	p.Metadata[key] = value
+}
+
+// Controls settings applied for collecting the customer's business name on the session.
+type CheckoutSessionCreateNameCollectionBusinessParams struct {
+	// Enable business name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide a business name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name on the session.
+type CheckoutSessionCreateNameCollectionIndividualParams struct {
+	// Enable individual name collection on the Checkout Session. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their name before completing the Checkout Session. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls name collection settings for the session.
+//
+// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+//
+// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+type CheckoutSessionCreateNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name on the session.
+	Business *CheckoutSessionCreateNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name on the session.
+	Individual *CheckoutSessionCreateNameCollectionIndividualParams `form:"individual"`
 }
 
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
@@ -3688,6 +4022,8 @@ type CheckoutSessionCreatePaymentMethodOptionsACSSDebitParams struct {
 
 // contains details about the Affirm payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsAffirmParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3700,6 +4036,8 @@ type CheckoutSessionCreatePaymentMethodOptionsAffirmParams struct {
 
 // contains details about the Afterpay Clearpay payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsAfterpayClearpayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3722,8 +4060,16 @@ type CheckoutSessionCreatePaymentMethodOptionsAlipayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Alma payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsAlmaParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // contains details about the AmazonPay payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsAmazonPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3782,6 +4128,12 @@ type CheckoutSessionCreatePaymentMethodOptionsBancontactParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Billie payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsBillieParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // contains details about the Boleto payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsBoletoParams struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto invoice will expire on Wednesday at 23:59 America/Sao_Paulo time.
@@ -3811,6 +4163,8 @@ type CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams struct {
 
 // contains details about the Card payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsCardParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Installment options for card payments
 	Installments *CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -3843,6 +4197,8 @@ type CheckoutSessionCreatePaymentMethodOptionsCardParams struct {
 
 // contains details about the Cashapp Pay payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsCashAppParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3877,6 +4233,18 @@ type CheckoutSessionCreatePaymentMethodOptionsCustomerBalanceParams struct {
 	BankTransfer *CheckoutSessionCreatePaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
 	FundingType *string `form:"funding_type"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// contains details about the DemoPay payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsDemoPayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3985,6 +4353,8 @@ type CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionParams struct {
 
 // contains details about the Klarna payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsKlarnaParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4027,6 +4397,8 @@ type CheckoutSessionCreatePaymentMethodOptionsKrCardParams struct {
 
 // contains details about the Link payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsLinkParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4039,6 +4411,8 @@ type CheckoutSessionCreatePaymentMethodOptionsLinkParams struct {
 
 // contains details about the Mobilepay payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsMobilepayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4222,6 +4596,8 @@ type CheckoutSessionCreatePaymentMethodOptionsPixParams struct {
 
 // contains details about the RevolutPay payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsRevolutPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4234,6 +4610,12 @@ type CheckoutSessionCreatePaymentMethodOptionsRevolutPayParams struct {
 
 // contains details about the Samsung Pay payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsSamsungPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
+
+// contains details about the Satispay payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsSatispayParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
 }
@@ -4330,6 +4712,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	AfterpayClearpay *CheckoutSessionCreatePaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// contains details about the Alipay payment method options.
 	Alipay *CheckoutSessionCreatePaymentMethodOptionsAlipayParams `form:"alipay"`
+	// contains details about the Alma payment method options.
+	Alma *CheckoutSessionCreatePaymentMethodOptionsAlmaParams `form:"alma"`
 	// contains details about the AmazonPay payment method options.
 	AmazonPay *CheckoutSessionCreatePaymentMethodOptionsAmazonPayParams `form:"amazon_pay"`
 	// contains details about the AU Becs Debit payment method options.
@@ -4338,6 +4722,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	BACSDebit *CheckoutSessionCreatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// contains details about the Bancontact payment method options.
 	Bancontact *CheckoutSessionCreatePaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// contains details about the Billie payment method options.
+	Billie *CheckoutSessionCreatePaymentMethodOptionsBillieParams `form:"billie"`
 	// contains details about the Boleto payment method options.
 	Boleto *CheckoutSessionCreatePaymentMethodOptionsBoletoParams `form:"boleto"`
 	// contains details about the Card payment method options.
@@ -4346,6 +4732,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	CashApp *CheckoutSessionCreatePaymentMethodOptionsCashAppParams `form:"cashapp"`
 	// contains details about the Customer Balance payment method options.
 	CustomerBalance *CheckoutSessionCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// contains details about the DemoPay payment method options.
+	DemoPay *CheckoutSessionCreatePaymentMethodOptionsDemoPayParams `form:"demo_pay"`
 	// contains details about the EPS payment method options.
 	EPS *CheckoutSessionCreatePaymentMethodOptionsEPSParams `form:"eps"`
 	// contains details about the FPX payment method options.
@@ -4392,6 +4780,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	RevolutPay *CheckoutSessionCreatePaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// contains details about the Samsung Pay payment method options.
 	SamsungPay *CheckoutSessionCreatePaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
+	// contains details about the Satispay payment method options.
+	Satispay *CheckoutSessionCreatePaymentMethodOptionsSatispayParams `form:"satispay"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
@@ -4568,9 +4958,17 @@ type CheckoutSessionCreateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionCreateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// Configure behavior for flexible billing mode.
+type CheckoutSessionCreateSubscriptionDataBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts"`
+}
+
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type CheckoutSessionCreateSubscriptionDataBillingModeParams struct {
-	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
+	// Configure behavior for flexible billing mode.
+	Flexible *CheckoutSessionCreateSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type"`
 }
 
@@ -4727,6 +5125,8 @@ type CheckoutSessionCreateParams struct {
 	AutomaticTax *CheckoutSessionCreateAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
+	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+	BrandingSettings *CheckoutSessionCreateBrandingSettingsParams `form:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
 	CancelURL     *string                                    `form:"cancel_url"`
 	CheckoutItems []*CheckoutSessionCreateCheckoutItemParams `form:"checkout_items"`
@@ -4776,6 +5176,8 @@ type CheckoutSessionCreateParams struct {
 	CustomText *CheckoutSessionCreateCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionCreateDiscountParams `form:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
@@ -4794,6 +5196,12 @@ type CheckoutSessionCreateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
 	Mode *string `form:"mode"`
+	// Controls name collection settings for the session.
+	//
+	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
+	//
+	// If a [Customer](https://stripe.com/docs/api/customers) is created or provided, the names can be saved to the Customer object as well.
+	NameCollection *CheckoutSessionCreateNameCollectionParams `form:"name_collection"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
 	//
 	// There is a maximum of 10 optional items allowed on a Checkout Session, and the existing limits on the number of line items allowed on a Checkout Session apply to the combined number of line items and optional items.
@@ -4901,6 +5309,20 @@ func (p *CheckoutSessionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type CheckoutSessionUpdateAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
+type CheckoutSessionUpdateAutomaticTaxParams struct {
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *CheckoutSessionUpdateAutomaticTaxLiabilityParams `form:"liability"`
+}
+
 // The shipping details to apply to this Session.
 type CheckoutSessionUpdateCollectedInformationShippingDetailsParams struct {
 	// The address of the customer
@@ -4948,6 +5370,26 @@ type CheckoutSessionUpdateDiscountParams struct {
 	CouponData *CheckoutSessionUpdateDiscountCouponDataParams `form:"coupon_data"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionUpdateInvoiceCreationInvoiceDataIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Parameters passed when creating invoices for payment-mode Checkout Sessions.
+type CheckoutSessionUpdateInvoiceCreationInvoiceDataParams struct {
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionUpdateInvoiceCreationInvoiceDataIssuerParams `form:"issuer"`
+}
+
+// Generate a post-purchase Invoice for one-time payments.
+type CheckoutSessionUpdateInvoiceCreationParams struct {
+	// Parameters passed when creating invoices for payment-mode Checkout Sessions.
+	InvoiceData *CheckoutSessionUpdateInvoiceCreationInvoiceDataParams `form:"invoice_data"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 type CheckoutSessionUpdateLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any positive integer. Setting to false will remove any previously specified constraints on quantity.
@@ -4970,6 +5412,8 @@ type CheckoutSessionUpdateLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -5123,8 +5567,24 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionUpdateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionUpdateSubscriptionDataInvoiceSettingsIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// All invoices will be billed using the specified settings.
+type CheckoutSessionUpdateSubscriptionDataInvoiceSettingsParams struct {
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionUpdateSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionUpdateSubscriptionDataParams struct {
+	// All invoices will be billed using the specified settings.
+	InvoiceSettings *CheckoutSessionUpdateSubscriptionDataInvoiceSettingsParams `form:"invoice_settings"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
@@ -5136,12 +5596,16 @@ type CheckoutSessionUpdateSubscriptionDataParams struct {
 // Related guide: [Dynamically update Checkout](https://docs.stripe.com/payments/checkout/dynamic-updates)
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
+	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
+	AutomaticTax *CheckoutSessionUpdateAutomaticTaxParams `form:"automatic_tax"`
 	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
 	CollectedInformation *CheckoutSessionUpdateCollectedInformationParams `form:"collected_information"`
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Generate a post-purchase Invoice for one-time payments.
+	InvoiceCreation *CheckoutSessionUpdateInvoiceCreationParams `form:"invoice_creation"`
 	// A list of items the customer is purchasing.
 	//
 	// When updating line items, you must retransmit the entire array of line items.
@@ -5222,6 +5686,42 @@ type CheckoutSessionAutomaticTax struct {
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
 }
 
+// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsIcon struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
+	File string `json:"file"`
+	// The type of image for the icon. Must be one of `file` or `url`.
+	Type CheckoutSessionBrandingSettingsIconType `json:"type"`
+	// The URL of the image. Present when `type` is `url`.
+	URL string `json:"url"`
+}
+
+// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+type CheckoutSessionBrandingSettingsLogo struct {
+	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
+	File string `json:"file"`
+	// The type of image for the logo. Must be one of `file` or `url`.
+	Type CheckoutSessionBrandingSettingsLogoType `json:"type"`
+	// The URL of the image. Present when `type` is `url`.
+	URL string `json:"url"`
+}
+type CheckoutSessionBrandingSettings struct {
+	// A hex color value starting with `#` representing the background color for the Checkout Session.
+	BackgroundColor string `json:"background_color"`
+	// The border style for the Checkout Session. Must be one of `rounded`, `rectangular`, or `pill`.
+	BorderStyle CheckoutSessionBrandingSettingsBorderStyle `json:"border_style"`
+	// A hex color value starting with `#` representing the button color for the Checkout Session.
+	ButtonColor string `json:"button_color"`
+	// The display name shown on the Checkout Session.
+	DisplayName string `json:"display_name"`
+	// The font family for the Checkout Session. Must be one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
+	FontFamily string `json:"font_family"`
+	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	Icon *CheckoutSessionBrandingSettingsIcon `json:"icon"`
+	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	Logo *CheckoutSessionBrandingSettingsLogo `json:"logo"`
+}
+
 // Shipping information for this Checkout Session.
 type CheckoutSessionCollectedInformationShippingDetails struct {
 	Address *Address `json:"address"`
@@ -5243,6 +5743,8 @@ type CheckoutSessionCollectedInformation struct {
 	BusinessName string `json:"business_name"`
 	// Customer's email for this Checkout Session
 	Email string `json:"email"`
+	// Customer's individual name for this Checkout Session
+	IndividualName string `json:"individual_name"`
 	// Customer's phone number for this Checkout Session
 	Phone string `json:"phone"`
 	// Shipping information for this Checkout Session.
@@ -5394,9 +5896,13 @@ type CheckoutSessionCustomerDetailsTaxID struct {
 type CheckoutSessionCustomerDetails struct {
 	// The customer's address after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 	Address *Address `json:"address"`
+	// The customer's business name after a completed Checkout Session.
+	BusinessName string `json:"business_name"`
 	// The email associated with the Customer, if one exists, on the Checkout Session after a completed Checkout Session or at time of session expiry.
 	// Otherwise, if the customer has consented to promotional content, this value is the most recent valid email provided by the customer on the Checkout form.
 	Email string `json:"email"`
+	// The customer's individual name after a completed Checkout Session.
+	IndividualName string `json:"individual_name"`
 	// The customer's name after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022.
 	Name string `json:"name"`
 	// The customer's phone number after a completed Checkout Session.
@@ -5461,6 +5967,22 @@ type CheckoutSessionInvoiceCreation struct {
 	Enabled     bool                                       `json:"enabled"`
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
 }
+type CheckoutSessionNameCollectionBusiness struct {
+	// Indicates whether business name collection is enabled for the session
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type CheckoutSessionNameCollectionIndividual struct {
+	// Indicates whether individual name collection is enabled for the session
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before completing the Checkout Session. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type CheckoutSessionNameCollection struct {
+	Business   *CheckoutSessionNameCollectionBusiness   `json:"business"`
+	Individual *CheckoutSessionNameCollectionIndividual `json:"individual"`
+}
 type CheckoutSessionOptionalItemAdjustableQuantity struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer.
 	Enabled bool `json:"enabled"`
@@ -5513,6 +6035,8 @@ type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type CheckoutSessionPaymentMethodOptionsAffirm struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsAffirmCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5523,6 +6047,8 @@ type CheckoutSessionPaymentMethodOptionsAffirm struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsAffirmSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsAfterpayClearpay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsAfterpayClearpayCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5542,7 +6068,13 @@ type CheckoutSessionPaymentMethodOptionsAlipay struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsAlipaySetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsAlma struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsAlmaCaptureMethod `json:"capture_method"`
+}
 type CheckoutSessionPaymentMethodOptionsAmazonPay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsAmazonPayCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5591,6 +6123,10 @@ type CheckoutSessionPaymentMethodOptionsBancontact struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsBillie struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsBillieCaptureMethod `json:"capture_method"`
+}
 type CheckoutSessionPaymentMethodOptionsBoleto struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -5612,7 +6148,9 @@ type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
 	BrandsBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked"`
 }
 type CheckoutSessionPaymentMethodOptionsCard struct {
-	Installments *CheckoutSessionPaymentMethodOptionsCardInstallments `json:"installments"`
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsCardCaptureMethod `json:"capture_method"`
+	Installments  *CheckoutSessionPaymentMethodOptionsCardInstallments `json:"installments"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
 	RequestDecrementalAuthorization CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorization `json:"request_decremental_authorization"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -5640,6 +6178,8 @@ type CheckoutSessionPaymentMethodOptionsCard struct {
 	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji"`
 }
 type CheckoutSessionPaymentMethodOptionsCashApp struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsCashAppCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5738,6 +6278,8 @@ type CheckoutSessionPaymentMethodOptionsKakaoPay struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsKakaoPaySetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsKlarna struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsKlarnaCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5772,6 +6314,8 @@ type CheckoutSessionPaymentMethodOptionsKrCard struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsKrCardSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsLink struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsLinkCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5782,6 +6326,8 @@ type CheckoutSessionPaymentMethodOptionsLink struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsLinkSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsMobilepay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsMobilepayCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5928,6 +6474,8 @@ type CheckoutSessionPaymentMethodOptionsPix struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsRevolutPay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsRevolutPayCaptureMethod `json:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5940,6 +6488,10 @@ type CheckoutSessionPaymentMethodOptionsRevolutPay struct {
 type CheckoutSessionPaymentMethodOptionsSamsungPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod `json:"capture_method"`
+}
+type CheckoutSessionPaymentMethodOptionsSatispay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsSatispayCaptureMethod `json:"capture_method"`
 }
 type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -6014,10 +6566,12 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Affirm           *CheckoutSessionPaymentMethodOptionsAffirm           `json:"affirm"`
 	AfterpayClearpay *CheckoutSessionPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *CheckoutSessionPaymentMethodOptionsAlipay           `json:"alipay"`
+	Alma             *CheckoutSessionPaymentMethodOptionsAlma             `json:"alma"`
 	AmazonPay        *CheckoutSessionPaymentMethodOptionsAmazonPay        `json:"amazon_pay"`
 	AUBECSDebit      *CheckoutSessionPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *CheckoutSessionPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`
 	Bancontact       *CheckoutSessionPaymentMethodOptionsBancontact       `json:"bancontact"`
+	Billie           *CheckoutSessionPaymentMethodOptionsBillie           `json:"billie"`
 	Boleto           *CheckoutSessionPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *CheckoutSessionPaymentMethodOptionsCard             `json:"card"`
 	CashApp          *CheckoutSessionPaymentMethodOptionsCashApp          `json:"cashapp"`
@@ -6044,6 +6598,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Pix              *CheckoutSessionPaymentMethodOptionsPix              `json:"pix"`
 	RevolutPay       *CheckoutSessionPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SamsungPay       *CheckoutSessionPaymentMethodOptionsSamsungPay       `json:"samsung_pay"`
+	Satispay         *CheckoutSessionPaymentMethodOptionsSatispay         `json:"satispay"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish"`
@@ -6262,6 +6817,7 @@ type CheckoutSession struct {
 	AutomaticTax *CheckoutSessionAutomaticTax `json:"automatic_tax"`
 	// Describes whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
+	BrandingSettings         *CheckoutSessionBrandingSettings        `json:"branding_settings"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website.
 	CancelURL     string                         `json:"cancel_url"`
 	CheckoutItems []*CheckoutSessionCheckoutItem `json:"checkout_items"`
@@ -6307,6 +6863,8 @@ type CheckoutSession struct {
 	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionDiscount `json:"discounts"`
+	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	ExcludedPaymentMethodTypes []string `json:"excluded_payment_method_types"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
@@ -6324,7 +6882,8 @@ type CheckoutSession struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The mode of the Checkout Session.
-	Mode CheckoutSessionMode `json:"mode"`
+	Mode           CheckoutSessionMode            `json:"mode"`
+	NameCollection *CheckoutSessionNameCollection `json:"name_collection"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The optional items presented to the customer at checkout.

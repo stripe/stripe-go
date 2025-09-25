@@ -55,13 +55,13 @@ func (c Client) Get(id string, params *stripe.V2BillingRateCardsRateParams) (*st
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Del(id string, params *stripe.V2BillingRateCardsRateParams) (*stripe.V2BillingRateCardRate, error) {
+func (c Client) Del(id string, params *stripe.V2BillingRateCardsRateParams) (*stripe.V2DeletedObject, error) {
 	path := stripe.FormatURLPath(
 		"/v2/billing/rate_cards/%s/rates/%s", stripe.StringValue(
 			params.RateCardID), id)
-	ratecardrate := &stripe.V2BillingRateCardRate{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, ratecardrate)
-	return ratecardrate, err
+	deletedObj := &stripe.V2DeletedObject{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
+	return deletedObj, err
 }
 
 // List all Rates associated with a Rate Card for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.

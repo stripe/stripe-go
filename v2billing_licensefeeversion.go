@@ -39,15 +39,15 @@ const (
 // Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
 type V2BillingLicenseFeeVersionTier struct {
 	// Price for the entire tier, represented as a decimal string in minor currency units with at most 12 decimal places.
-	FlatAmount string `json:"flat_amount"`
+	FlatAmount string `json:"flat_amount,omitempty"`
 	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units with at
 	// most 12 decimal places.
-	UnitAmount string `json:"unit_amount"`
+	UnitAmount string `json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal string `json:"up_to_decimal"`
+	UpToDecimal string `json:"up_to_decimal,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
-	UpToInf V2BillingLicenseFeeVersionTierUpToInf `json:"up_to_inf"`
+	UpToInf V2BillingLicenseFeeVersionTierUpToInf `json:"up_to_inf,omitempty"`
 }
 
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
@@ -72,12 +72,12 @@ type V2BillingLicenseFeeVersion struct {
 	// Defines whether the tiering price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.
-	TieringMode V2BillingLicenseFeeVersionTieringMode `json:"tiering_mode"`
+	TieringMode V2BillingLicenseFeeVersionTieringMode `json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
 	Tiers []*V2BillingLicenseFeeVersionTier `json:"tiers"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed.
-	TransformQuantity *V2BillingLicenseFeeVersionTransformQuantity `json:"transform_quantity"`
+	TransformQuantity *V2BillingLicenseFeeVersionTransformQuantity `json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal
 	// places. Cannot be set if `tiers` is provided.
-	UnitAmount string `json:"unit_amount"`
+	UnitAmount string `json:"unit_amount,omitempty"`
 }

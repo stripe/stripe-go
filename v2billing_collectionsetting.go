@@ -156,50 +156,50 @@ type V2BillingCollectionSettingEmailDeliveryPaymentDue struct {
 // Email delivery settings.
 type V2BillingCollectionSettingEmailDelivery struct {
 	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
-	PaymentDue *V2BillingCollectionSettingEmailDeliveryPaymentDue `json:"payment_due"`
+	PaymentDue *V2BillingCollectionSettingEmailDeliveryPaymentDue `json:"payment_due,omitempty"`
 }
 
 // Additional fields for Mandate creation.
 type V2BillingCollectionSettingPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
-	TransactionType V2BillingCollectionSettingPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
+	TransactionType V2BillingCollectionSettingPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type,omitempty"`
 }
 
 // This sub-hash contains details about the Canadian pre-authorized debit payment method options.
 type V2BillingCollectionSettingPaymentMethodOptionsACSSDebit struct {
 	// Additional fields for Mandate creation.
-	MandateOptions *V2BillingCollectionSettingPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
+	MandateOptions *V2BillingCollectionSettingPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options,omitempty"`
 	// Verification method.
-	VerificationMethod V2BillingCollectionSettingPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
+	VerificationMethod V2BillingCollectionSettingPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 
 // This sub-hash contains details about the Bancontact payment method.
 type V2BillingCollectionSettingPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage V2BillingCollectionSettingPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
+	PreferredLanguage V2BillingCollectionSettingPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language,omitempty"`
 }
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type V2BillingCollectionSettingPaymentMethodOptionsCardMandateOptions struct {
 	// Amount to be charged for future payments.
-	Amount int64 `json:"amount"`
+	Amount int64 `json:"amount,omitempty"`
 	// The AmountType for the mandate. One of `fixed` or `maximum`.
-	AmountType V2BillingCollectionSettingPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type"`
+	AmountType V2BillingCollectionSettingPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type,omitempty"`
 	// A description of the mandate that is meant to be displayed to the customer.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 }
 
 // This sub-hash contains details about the Card payment method options.
 type V2BillingCollectionSettingPaymentMethodOptionsCard struct {
 	// Configuration options for setting up an eMandate for cards issued in India.
-	MandateOptions *V2BillingCollectionSettingPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
+	MandateOptions *V2BillingCollectionSettingPaymentMethodOptionsCardMandateOptions `json:"mandate_options,omitempty"`
 	// Selected network to process the payment on. Depends on the available networks of the card.
-	Network string `json:"network"`
+	Network string `json:"network,omitempty"`
 	// An advanced option 3D Secure. We strongly recommend that you rely on our SCA Engine to automatically prompt your customers
 	// for authentication based on risk level and [other requirements](https://docs.corp.stripe.com/strong-customer-authentication).
 	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option.
 	// Read our guide on [manually requesting 3D Secure](https://docs.corp.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-	RequestThreeDSecure V2BillingCollectionSettingPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+	RequestThreeDSecure V2BillingCollectionSettingPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure,omitempty"`
 }
 
 // Configuration for `eu_bank_transfer` funding type. Required if `type` is `eu_bank_transfer`.
@@ -211,17 +211,17 @@ type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceBankTransferEU
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceBankTransfer struct {
 	// Configuration for `eu_bank_transfer` funding type. Required if `type` is `eu_bank_transfer`.
-	EUBankTransfer *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
+	EUBankTransfer *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer,omitempty"`
 	// The bank transfer type that can be used for funding.
-	Type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
+	Type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type,omitempty"`
 }
 
 // This sub-hash contains details about the Bank transfer payment method options.
 type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalance struct {
 	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-	BankTransfer *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer"`
+	BankTransfer *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Currently the only supported value is `bank_transfer`.
-	FundingType V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
+	FundingType V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type,omitempty"`
 }
 
 // This sub-hash contains details about the Konbini payment method options.
@@ -239,7 +239,7 @@ type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnect
 // Additional fields for Financial Connections Session creation.
 type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// Provide filters for the linked accounts that the customer can select for the payment method.
-	Filters *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters"`
+	Filters *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters,omitempty"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included.
 	Permissions []V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
 	// List of data features that you would like to retrieve upon account creation.
@@ -257,19 +257,19 @@ type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccount struct {
 // Payment Method specific configuration stored on the object.
 type V2BillingCollectionSettingPaymentMethodOptions struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options.
-	ACSSDebit *V2BillingCollectionSettingPaymentMethodOptionsACSSDebit `json:"acss_debit"`
+	ACSSDebit *V2BillingCollectionSettingPaymentMethodOptionsACSSDebit `json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method.
-	Bancontact *V2BillingCollectionSettingPaymentMethodOptionsBancontact `json:"bancontact"`
+	Bancontact *V2BillingCollectionSettingPaymentMethodOptionsBancontact `json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Card payment method options.
-	Card *V2BillingCollectionSettingPaymentMethodOptionsCard `json:"card"`
+	Card *V2BillingCollectionSettingPaymentMethodOptionsCard `json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options.
-	CustomerBalance *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
+	CustomerBalance *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalance `json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini *V2BillingCollectionSettingPaymentMethodOptionsKonbini `json:"konbini"`
+	Konbini *V2BillingCollectionSettingPaymentMethodOptionsKonbini `json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit *V2BillingCollectionSettingPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
+	SEPADebit *V2BillingCollectionSettingPaymentMethodOptionsSEPADebit `json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
-	USBankAccount *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
+	USBankAccount *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
 // Settings that configure and manage the behavior of collecting payments.
@@ -279,13 +279,13 @@ type V2BillingCollectionSetting struct {
 	// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
 	// Stripe will email your payer profile an invoice with payment instructions.
 	// Defaults to automatic.
-	CollectionMethod V2BillingCollectionSettingCollectionMethod `json:"collection_method"`
+	CollectionMethod V2BillingCollectionSettingCollectionMethod `json:"collection_method,omitempty"`
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
 	// An optional field for adding a display name for the CollectionSetting object.
-	DisplayName string `json:"display_name"`
+	DisplayName string `json:"display_name,omitempty"`
 	// Email delivery settings.
-	EmailDelivery *V2BillingCollectionSettingEmailDelivery `json:"email_delivery"`
+	EmailDelivery *V2BillingCollectionSettingEmailDelivery `json:"email_delivery,omitempty"`
 	// The ID of the CollectionSetting.
 	ID string `json:"id"`
 	// The latest version of the current settings object. This will be
@@ -298,11 +298,11 @@ type V2BillingCollectionSetting struct {
 	LiveVersion string `json:"live_version"`
 	// A lookup key used to retrieve settings dynamically from a static string.
 	// This may be up to 200 characters.
-	LookupKey string `json:"lookup_key"`
+	LookupKey string `json:"lookup_key,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The ID of the PaymentMethodConfiguration object, which controls which payment methods are displayed to your customers.
-	PaymentMethodConfiguration string `json:"payment_method_configuration"`
+	PaymentMethodConfiguration string `json:"payment_method_configuration,omitempty"`
 	// Payment Method specific configuration stored on the object.
-	PaymentMethodOptions *V2BillingCollectionSettingPaymentMethodOptions `json:"payment_method_options"`
+	PaymentMethodOptions *V2BillingCollectionSettingPaymentMethodOptions `json:"payment_method_options,omitempty"`
 }

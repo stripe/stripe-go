@@ -75,8 +75,44 @@ func (p *BillingAlertListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+type BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams struct {
+	// The billable item ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
+
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+type BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams struct {
+	// The price ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
+
+// Specify the scope of this applicability config.
+type BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams struct {
+	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+	BillableItems []*BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams `form:"billable_items"`
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+	Prices []*BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams `form:"prices"`
+	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
+	PriceType *string `form:"price_type"`
+}
+
+// The applicability configuration for this credit grants filter.
+type BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams struct {
+	// Specify the scope of this applicability config.
+	Scope *BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams `form:"scope"`
+}
+
+// The credit grants for which to configure the credit balance alert.
+type BillingAlertCreditBalanceThresholdFilterCreditGrantsParams struct {
+	// The applicability configuration for this credit grants filter.
+	ApplicabilityConfig *BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams `form:"applicability_config"`
+}
+
 // The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
 type BillingAlertCreditBalanceThresholdFilterParams struct {
+	// The credit grants for which to configure the credit balance alert.
+	CreditGrants *BillingAlertCreditBalanceThresholdFilterCreditGrantsParams `form:"credit_grants"`
 	// Limit the scope to this credit balance alert only to this customer.
 	Customer *string `form:"customer"`
 	// What type of filter is being applied to this credit balance alert.
@@ -133,7 +169,7 @@ type BillingAlertUsageThresholdParams struct {
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *string `form:"meter"`
-	// Whether the alert should only fire only once, or once per billing cycle.
+	// Defines how the alert will behave.
 	Recurrence *string `form:"recurrence"`
 }
 
@@ -193,8 +229,44 @@ func (p *BillingAlertDeactivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams struct {
+	// The billable item ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
+
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams struct {
+	// The price ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
+
+// Specify the scope of this applicability config.
+type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams struct {
+	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+	BillableItems []*BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams `form:"billable_items"`
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+	Prices []*BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams `form:"prices"`
+	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
+	PriceType *string `form:"price_type"`
+}
+
+// The applicability configuration for this credit grants filter.
+type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams struct {
+	// Specify the scope of this applicability config.
+	Scope *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams `form:"scope"`
+}
+
+// The credit grants for which to configure the credit balance alert.
+type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsParams struct {
+	// The applicability configuration for this credit grants filter.
+	ApplicabilityConfig *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams `form:"applicability_config"`
+}
+
 // The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
 type BillingAlertCreateCreditBalanceThresholdFilterParams struct {
+	// The credit grants for which to configure the credit balance alert.
+	CreditGrants *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsParams `form:"credit_grants"`
 	// Limit the scope to this credit balance alert only to this customer.
 	Customer *string `form:"customer"`
 	// What type of filter is being applied to this credit balance alert.
@@ -251,7 +323,7 @@ type BillingAlertCreateUsageThresholdParams struct {
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *string `form:"meter"`
-	// Whether the alert should only fire only once, or once per billing cycle.
+	// Defines how the alert will behave.
 	Recurrence *string `form:"recurrence"`
 }
 
