@@ -299,8 +299,9 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 
 // V2Events: The end of the section generated from our OpenAPI spec
 
-// EventNotificationFromJSON turns a JSON payload into the corresponding EventNotification, if possible.
-// WARN: Not meant for production use! It doesn't do any signature validation. It's useful as a test util though.
+// EventNotificationFromJSON is a helper for constructing an Event Notification. Doesn't perform signature validation,
+// so you should use [Client.ParseEventNotification] instead for initial handling.
+// This is useful in unit tests and working with EventNotifications that you've already validated the authenticity of.
 func EventNotificationFromJSON(payload []byte, client Client) (EventNotificationContainer, error) {
 	// we can pull the type out to base our matching on
 	var result = &struct {
