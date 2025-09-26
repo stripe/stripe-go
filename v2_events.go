@@ -1,5 +1,6 @@
 package stripe
 
+// most of this file is codegen, but not quite all of it.
 // V2Events: The beginning of the section generated from our OpenAPI spec
 import (
 	"context"
@@ -81,14 +82,9 @@ type V1BillingMeterErrorReportTriggeredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
-func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -96,10 +92,12 @@ func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx co
 }
 
 // FetchRelatedObject fetches the BillingMeter related to the event.
-func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextObject(n.Context)
 	relatedObj := &BillingMeter{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -114,14 +112,9 @@ type V1BillingMeterNoMeterFoundEvent struct {
 // Occurs when a Meter's id is missing or invalid in async usage events.
 type V1BillingMeterNoMeterFoundEventNotification struct{ V2EventNotification }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1BillingMeterNoMeterFoundEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
-func (en *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -148,14 +141,9 @@ type V2CoreEventDestinationPingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreEventDestinationPingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
-func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -163,10 +151,12 @@ func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the V2EventDestination related to the event.
-func (en *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextObject(n.Context)
 	relatedObj := &V2EventDestination{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
