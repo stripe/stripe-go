@@ -1,5 +1,6 @@
 package stripe
 
+// most of this file is codegen, but not quite all of it.
 // V2Events: The beginning of the section generated from our OpenAPI spec
 import (
 	"context"
@@ -498,14 +499,9 @@ type V1AccountUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1AccountUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1AccountUpdatedEvent that created this Notification
-func (en *V1AccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1AccountUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1AccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1AccountUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -513,10 +509,12 @@ func (en *V1AccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Account related to the event.
-func (en *V1AccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Account, error) {
+func (n *V1AccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Account, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Account{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -540,14 +538,9 @@ type V1ApplicationFeeCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ApplicationFeeCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ApplicationFeeCreatedEvent that created this Notification
-func (en *V1ApplicationFeeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ApplicationFeeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -555,10 +548,12 @@ func (en *V1ApplicationFeeCreatedEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the ApplicationFee related to the event.
-func (en *V1ApplicationFeeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*ApplicationFee, error) {
+func (n *V1ApplicationFeeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*ApplicationFee, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ApplicationFee{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -582,14 +577,9 @@ type V1ApplicationFeeRefundedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ApplicationFeeRefundedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ApplicationFeeRefundedEvent that created this Notification
-func (en *V1ApplicationFeeRefundedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeRefundedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ApplicationFeeRefundedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeRefundedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -597,10 +587,12 @@ func (en *V1ApplicationFeeRefundedEventNotification) FetchEvent(ctx context.Cont
 }
 
 // FetchRelatedObject fetches the ApplicationFee related to the event.
-func (en *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx context.Context) (*ApplicationFee, error) {
+func (n *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx context.Context) (*ApplicationFee, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ApplicationFee{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -625,14 +617,9 @@ type V1BillingMeterErrorReportTriggeredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1BillingMeterErrorReportTriggeredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
-func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -640,10 +627,12 @@ func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx co
 }
 
 // FetchRelatedObject fetches the BillingMeter related to the event.
-func (en *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &BillingMeter{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -658,14 +647,9 @@ type V1BillingMeterNoMeterFoundEvent struct {
 // Occurs when a Meter's id is missing or invalid in async usage events.
 type V1BillingMeterNoMeterFoundEventNotification struct{ V2EventNotification }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1BillingMeterNoMeterFoundEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
-func (en *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -692,14 +676,9 @@ type V1BillingPortalConfigurationCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1BillingPortalConfigurationCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1BillingPortalConfigurationCreatedEvent that created this Notification
-func (en *V1BillingPortalConfigurationCreatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalConfigurationCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1BillingPortalConfigurationCreatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalConfigurationCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -707,10 +686,12 @@ func (en *V1BillingPortalConfigurationCreatedEventNotification) FetchEvent(ctx c
 }
 
 // FetchRelatedObject fetches the BillingPortalConfiguration related to the event.
-func (en *V1BillingPortalConfigurationCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingPortalConfiguration, error) {
+func (n *V1BillingPortalConfigurationCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingPortalConfiguration, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &BillingPortalConfiguration{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -734,14 +715,9 @@ type V1BillingPortalConfigurationUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1BillingPortalConfigurationUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1BillingPortalConfigurationUpdatedEvent that created this Notification
-func (en *V1BillingPortalConfigurationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalConfigurationUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1BillingPortalConfigurationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalConfigurationUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -749,10 +725,12 @@ func (en *V1BillingPortalConfigurationUpdatedEventNotification) FetchEvent(ctx c
 }
 
 // FetchRelatedObject fetches the BillingPortalConfiguration related to the event.
-func (en *V1BillingPortalConfigurationUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingPortalConfiguration, error) {
+func (n *V1BillingPortalConfigurationUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingPortalConfiguration, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &BillingPortalConfiguration{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -776,14 +754,9 @@ type V1CapabilityUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CapabilityUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CapabilityUpdatedEvent that created this Notification
-func (en *V1CapabilityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CapabilityUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CapabilityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CapabilityUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -791,10 +764,12 @@ func (en *V1CapabilityUpdatedEventNotification) FetchEvent(ctx context.Context) 
 }
 
 // FetchRelatedObject fetches the Capability related to the event.
-func (en *V1CapabilityUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Capability, error) {
+func (n *V1CapabilityUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Capability, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Capability{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -818,14 +793,9 @@ type V1ChargeCapturedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeCapturedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeCapturedEvent that created this Notification
-func (en *V1ChargeCapturedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeCapturedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeCapturedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeCapturedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -833,10 +803,12 @@ func (en *V1ChargeCapturedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
-func (en *V1ChargeCapturedEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+func (n *V1ChargeCapturedEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Charge{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -860,14 +832,9 @@ type V1ChargeDisputeClosedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeDisputeClosedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeDisputeClosedEvent that created this Notification
-func (en *V1ChargeDisputeClosedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeClosedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeDisputeClosedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeClosedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -875,10 +842,12 @@ func (en *V1ChargeDisputeClosedEventNotification) FetchEvent(ctx context.Context
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
-func (en *V1ChargeDisputeClosedEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+func (n *V1ChargeDisputeClosedEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Dispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -902,14 +871,9 @@ type V1ChargeDisputeCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeDisputeCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeDisputeCreatedEvent that created this Notification
-func (en *V1ChargeDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -917,10 +881,12 @@ func (en *V1ChargeDisputeCreatedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
-func (en *V1ChargeDisputeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+func (n *V1ChargeDisputeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Dispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -944,14 +910,9 @@ type V1ChargeDisputeFundsReinstatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeDisputeFundsReinstatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeDisputeFundsReinstatedEvent that created this Notification
-func (en *V1ChargeDisputeFundsReinstatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeFundsReinstatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeDisputeFundsReinstatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeFundsReinstatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -959,10 +920,12 @@ func (en *V1ChargeDisputeFundsReinstatedEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
-func (en *V1ChargeDisputeFundsReinstatedEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+func (n *V1ChargeDisputeFundsReinstatedEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Dispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -986,14 +949,9 @@ type V1ChargeDisputeFundsWithdrawnEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeDisputeFundsWithdrawnEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeDisputeFundsWithdrawnEvent that created this Notification
-func (en *V1ChargeDisputeFundsWithdrawnEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeFundsWithdrawnEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeDisputeFundsWithdrawnEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeFundsWithdrawnEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1001,10 +959,12 @@ func (en *V1ChargeDisputeFundsWithdrawnEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
-func (en *V1ChargeDisputeFundsWithdrawnEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+func (n *V1ChargeDisputeFundsWithdrawnEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Dispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1028,14 +988,9 @@ type V1ChargeDisputeUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeDisputeUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeDisputeUpdatedEvent that created this Notification
-func (en *V1ChargeDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1043,10 +998,12 @@ func (en *V1ChargeDisputeUpdatedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the Dispute related to the event.
-func (en *V1ChargeDisputeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+func (n *V1ChargeDisputeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Dispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Dispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1070,14 +1027,9 @@ type V1ChargeExpiredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeExpiredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeExpiredEvent that created this Notification
-func (en *V1ChargeExpiredEventNotification) FetchEvent(ctx context.Context) (*V1ChargeExpiredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeExpiredEventNotification) FetchEvent(ctx context.Context) (*V1ChargeExpiredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1085,10 +1037,12 @@ func (en *V1ChargeExpiredEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
-func (en *V1ChargeExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+func (n *V1ChargeExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Charge{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1112,14 +1066,9 @@ type V1ChargeFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeFailedEvent that created this Notification
-func (en *V1ChargeFailedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeFailedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1127,10 +1076,12 @@ func (en *V1ChargeFailedEventNotification) FetchEvent(ctx context.Context) (*V1C
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
-func (en *V1ChargeFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+func (n *V1ChargeFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Charge{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1154,14 +1105,9 @@ type V1ChargePendingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargePendingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargePendingEvent that created this Notification
-func (en *V1ChargePendingEventNotification) FetchEvent(ctx context.Context) (*V1ChargePendingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargePendingEventNotification) FetchEvent(ctx context.Context) (*V1ChargePendingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1169,10 +1115,12 @@ func (en *V1ChargePendingEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
-func (en *V1ChargePendingEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+func (n *V1ChargePendingEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Charge{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1196,14 +1144,9 @@ type V1ChargeRefundUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeRefundUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeRefundUpdatedEvent that created this Notification
-func (en *V1ChargeRefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeRefundUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeRefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeRefundUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1211,10 +1154,12 @@ func (en *V1ChargeRefundUpdatedEventNotification) FetchEvent(ctx context.Context
 }
 
 // FetchRelatedObject fetches the Refund related to the event.
-func (en *V1ChargeRefundUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Refund, error) {
+func (n *V1ChargeRefundUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Refund, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Refund{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1238,14 +1183,9 @@ type V1ChargeRefundedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeRefundedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeRefundedEvent that created this Notification
-func (en *V1ChargeRefundedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeRefundedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeRefundedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeRefundedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1253,10 +1193,12 @@ func (en *V1ChargeRefundedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
-func (en *V1ChargeRefundedEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+func (n *V1ChargeRefundedEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Charge{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1280,14 +1222,9 @@ type V1ChargeSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeSucceededEvent that created this Notification
-func (en *V1ChargeSucceededEventNotification) FetchEvent(ctx context.Context) (*V1ChargeSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeSucceededEventNotification) FetchEvent(ctx context.Context) (*V1ChargeSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1295,10 +1232,12 @@ func (en *V1ChargeSucceededEventNotification) FetchEvent(ctx context.Context) (*
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
-func (en *V1ChargeSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+func (n *V1ChargeSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Charge{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1322,14 +1261,9 @@ type V1ChargeUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ChargeUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ChargeUpdatedEvent that created this Notification
-func (en *V1ChargeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ChargeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1337,10 +1271,12 @@ func (en *V1ChargeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Charge related to the event.
-func (en *V1ChargeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+func (n *V1ChargeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Charge, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Charge{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1364,14 +1300,9 @@ type V1CheckoutSessionAsyncPaymentFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CheckoutSessionAsyncPaymentFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CheckoutSessionAsyncPaymentFailedEvent that created this Notification
-func (en *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionAsyncPaymentFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionAsyncPaymentFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1379,10 +1310,12 @@ func (en *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchEvent(ctx c
 }
 
 // FetchRelatedObject fetches the CheckoutSession related to the event.
-func (en *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
+func (n *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &CheckoutSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1406,14 +1339,9 @@ type V1CheckoutSessionAsyncPaymentSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CheckoutSessionAsyncPaymentSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CheckoutSessionAsyncPaymentSucceededEvent that created this Notification
-func (en *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionAsyncPaymentSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionAsyncPaymentSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1421,10 +1349,12 @@ func (en *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchEvent(ct
 }
 
 // FetchRelatedObject fetches the CheckoutSession related to the event.
-func (en *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
+func (n *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &CheckoutSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1448,14 +1378,9 @@ type V1CheckoutSessionCompletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CheckoutSessionCompletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CheckoutSessionCompletedEvent that created this Notification
-func (en *V1CheckoutSessionCompletedEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionCompletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CheckoutSessionCompletedEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionCompletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1463,10 +1388,12 @@ func (en *V1CheckoutSessionCompletedEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the CheckoutSession related to the event.
-func (en *V1CheckoutSessionCompletedEventNotification) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
+func (n *V1CheckoutSessionCompletedEventNotification) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &CheckoutSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1490,14 +1417,9 @@ type V1CheckoutSessionExpiredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CheckoutSessionExpiredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CheckoutSessionExpiredEvent that created this Notification
-func (en *V1CheckoutSessionExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionExpiredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CheckoutSessionExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionExpiredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1505,10 +1427,12 @@ func (en *V1CheckoutSessionExpiredEventNotification) FetchEvent(ctx context.Cont
 }
 
 // FetchRelatedObject fetches the CheckoutSession related to the event.
-func (en *V1CheckoutSessionExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
+func (n *V1CheckoutSessionExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*CheckoutSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &CheckoutSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1532,14 +1456,9 @@ type V1ClimateOrderCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ClimateOrderCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ClimateOrderCanceledEvent that created this Notification
-func (en *V1ClimateOrderCanceledEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ClimateOrderCanceledEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1547,10 +1466,12 @@ func (en *V1ClimateOrderCanceledEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
-func (en *V1ClimateOrderCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+func (n *V1ClimateOrderCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ClimateOrder{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1574,14 +1495,9 @@ type V1ClimateOrderCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ClimateOrderCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ClimateOrderCreatedEvent that created this Notification
-func (en *V1ClimateOrderCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ClimateOrderCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1589,10 +1505,12 @@ func (en *V1ClimateOrderCreatedEventNotification) FetchEvent(ctx context.Context
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
-func (en *V1ClimateOrderCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+func (n *V1ClimateOrderCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ClimateOrder{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1616,14 +1534,9 @@ type V1ClimateOrderDelayedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ClimateOrderDelayedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ClimateOrderDelayedEvent that created this Notification
-func (en *V1ClimateOrderDelayedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderDelayedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ClimateOrderDelayedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderDelayedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1631,10 +1544,12 @@ func (en *V1ClimateOrderDelayedEventNotification) FetchEvent(ctx context.Context
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
-func (en *V1ClimateOrderDelayedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+func (n *V1ClimateOrderDelayedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ClimateOrder{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1658,14 +1573,9 @@ type V1ClimateOrderDeliveredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ClimateOrderDeliveredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ClimateOrderDeliveredEvent that created this Notification
-func (en *V1ClimateOrderDeliveredEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderDeliveredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ClimateOrderDeliveredEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderDeliveredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1673,10 +1583,12 @@ func (en *V1ClimateOrderDeliveredEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
-func (en *V1ClimateOrderDeliveredEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+func (n *V1ClimateOrderDeliveredEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ClimateOrder{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1700,14 +1612,9 @@ type V1ClimateOrderProductSubstitutedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ClimateOrderProductSubstitutedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ClimateOrderProductSubstitutedEvent that created this Notification
-func (en *V1ClimateOrderProductSubstitutedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderProductSubstitutedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ClimateOrderProductSubstitutedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderProductSubstitutedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1715,10 +1622,12 @@ func (en *V1ClimateOrderProductSubstitutedEventNotification) FetchEvent(ctx cont
 }
 
 // FetchRelatedObject fetches the ClimateOrder related to the event.
-func (en *V1ClimateOrderProductSubstitutedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+func (n *V1ClimateOrderProductSubstitutedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateOrder, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ClimateOrder{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1742,14 +1651,9 @@ type V1ClimateProductCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ClimateProductCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ClimateProductCreatedEvent that created this Notification
-func (en *V1ClimateProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateProductCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ClimateProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateProductCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1757,10 +1661,12 @@ func (en *V1ClimateProductCreatedEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the ClimateProduct related to the event.
-func (en *V1ClimateProductCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateProduct, error) {
+func (n *V1ClimateProductCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateProduct, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ClimateProduct{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1784,14 +1690,9 @@ type V1ClimateProductPricingUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ClimateProductPricingUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ClimateProductPricingUpdatedEvent that created this Notification
-func (en *V1ClimateProductPricingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateProductPricingUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ClimateProductPricingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateProductPricingUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1799,10 +1700,12 @@ func (en *V1ClimateProductPricingUpdatedEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the ClimateProduct related to the event.
-func (en *V1ClimateProductPricingUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateProduct, error) {
+func (n *V1ClimateProductPricingUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*ClimateProduct, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &ClimateProduct{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1826,14 +1729,9 @@ type V1CouponCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CouponCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CouponCreatedEvent that created this Notification
-func (en *V1CouponCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CouponCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CouponCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CouponCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1841,10 +1739,12 @@ func (en *V1CouponCreatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Coupon related to the event.
-func (en *V1CouponCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
+func (n *V1CouponCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Coupon{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1868,14 +1768,9 @@ type V1CouponDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CouponDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CouponDeletedEvent that created this Notification
-func (en *V1CouponDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CouponDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CouponDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CouponDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1883,10 +1778,12 @@ func (en *V1CouponDeletedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Coupon related to the event.
-func (en *V1CouponDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
+func (n *V1CouponDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Coupon{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1910,14 +1807,9 @@ type V1CouponUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CouponUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CouponUpdatedEvent that created this Notification
-func (en *V1CouponUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CouponUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CouponUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CouponUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1925,10 +1817,12 @@ func (en *V1CouponUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Coupon related to the event.
-func (en *V1CouponUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
+func (n *V1CouponUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Coupon, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Coupon{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1952,14 +1846,9 @@ type V1CreditNoteCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CreditNoteCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CreditNoteCreatedEvent that created this Notification
-func (en *V1CreditNoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CreditNoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1967,10 +1856,12 @@ func (en *V1CreditNoteCreatedEventNotification) FetchEvent(ctx context.Context) 
 }
 
 // FetchRelatedObject fetches the CreditNote related to the event.
-func (en *V1CreditNoteCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
+func (n *V1CreditNoteCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &CreditNote{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -1994,14 +1885,9 @@ type V1CreditNoteUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CreditNoteUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CreditNoteUpdatedEvent that created this Notification
-func (en *V1CreditNoteUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CreditNoteUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2009,10 +1895,12 @@ func (en *V1CreditNoteUpdatedEventNotification) FetchEvent(ctx context.Context) 
 }
 
 // FetchRelatedObject fetches the CreditNote related to the event.
-func (en *V1CreditNoteUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
+func (n *V1CreditNoteUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &CreditNote{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2036,14 +1924,9 @@ type V1CreditNoteVoidedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CreditNoteVoidedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CreditNoteVoidedEvent that created this Notification
-func (en *V1CreditNoteVoidedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteVoidedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CreditNoteVoidedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteVoidedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2051,10 +1934,12 @@ func (en *V1CreditNoteVoidedEventNotification) FetchEvent(ctx context.Context) (
 }
 
 // FetchRelatedObject fetches the CreditNote related to the event.
-func (en *V1CreditNoteVoidedEventNotification) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
+func (n *V1CreditNoteVoidedEventNotification) FetchRelatedObject(ctx context.Context) (*CreditNote, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &CreditNote{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2078,14 +1963,9 @@ type V1CustomerCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerCreatedEvent that created this Notification
-func (en *V1CustomerCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2093,10 +1973,12 @@ func (en *V1CustomerCreatedEventNotification) FetchEvent(ctx context.Context) (*
 }
 
 // FetchRelatedObject fetches the Customer related to the event.
-func (en *V1CustomerCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+func (n *V1CustomerCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Customer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2120,14 +2002,9 @@ type V1CustomerDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerDeletedEvent that created this Notification
-func (en *V1CustomerDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2135,10 +2012,12 @@ func (en *V1CustomerDeletedEventNotification) FetchEvent(ctx context.Context) (*
 }
 
 // FetchRelatedObject fetches the Customer related to the event.
-func (en *V1CustomerDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+func (n *V1CustomerDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Customer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2162,14 +2041,9 @@ type V1CustomerSubscriptionCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerSubscriptionCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerSubscriptionCreatedEvent that created this Notification
-func (en *V1CustomerSubscriptionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerSubscriptionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2177,10 +2051,12 @@ func (en *V1CustomerSubscriptionCreatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
-func (en *V1CustomerSubscriptionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+func (n *V1CustomerSubscriptionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Subscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2204,14 +2080,9 @@ type V1CustomerSubscriptionDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerSubscriptionDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerSubscriptionDeletedEvent that created this Notification
-func (en *V1CustomerSubscriptionDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerSubscriptionDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2219,10 +2090,12 @@ func (en *V1CustomerSubscriptionDeletedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
-func (en *V1CustomerSubscriptionDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+func (n *V1CustomerSubscriptionDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Subscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2246,14 +2119,9 @@ type V1CustomerSubscriptionPausedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerSubscriptionPausedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerSubscriptionPausedEvent that created this Notification
-func (en *V1CustomerSubscriptionPausedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPausedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerSubscriptionPausedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPausedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2261,10 +2129,12 @@ func (en *V1CustomerSubscriptionPausedEventNotification) FetchEvent(ctx context.
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
-func (en *V1CustomerSubscriptionPausedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+func (n *V1CustomerSubscriptionPausedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Subscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2288,14 +2158,9 @@ type V1CustomerSubscriptionPendingUpdateAppliedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerSubscriptionPendingUpdateAppliedEvent that created this Notification
-func (en *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPendingUpdateAppliedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPendingUpdateAppliedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2303,10 +2168,12 @@ func (en *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchEven
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
-func (en *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+func (n *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Subscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2330,14 +2197,9 @@ type V1CustomerSubscriptionPendingUpdateExpiredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerSubscriptionPendingUpdateExpiredEvent that created this Notification
-func (en *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPendingUpdateExpiredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPendingUpdateExpiredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2345,10 +2207,12 @@ func (en *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchEven
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
-func (en *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+func (n *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Subscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2372,14 +2236,9 @@ type V1CustomerSubscriptionResumedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerSubscriptionResumedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerSubscriptionResumedEvent that created this Notification
-func (en *V1CustomerSubscriptionResumedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionResumedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerSubscriptionResumedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionResumedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2387,10 +2246,12 @@ func (en *V1CustomerSubscriptionResumedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
-func (en *V1CustomerSubscriptionResumedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+func (n *V1CustomerSubscriptionResumedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Subscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2414,14 +2275,9 @@ type V1CustomerSubscriptionTrialWillEndEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerSubscriptionTrialWillEndEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerSubscriptionTrialWillEndEvent that created this Notification
-func (en *V1CustomerSubscriptionTrialWillEndEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionTrialWillEndEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionTrialWillEndEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2429,10 +2285,12 @@ func (en *V1CustomerSubscriptionTrialWillEndEventNotification) FetchEvent(ctx co
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
-func (en *V1CustomerSubscriptionTrialWillEndEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Subscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2456,14 +2314,9 @@ type V1CustomerSubscriptionUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerSubscriptionUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerSubscriptionUpdatedEvent that created this Notification
-func (en *V1CustomerSubscriptionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerSubscriptionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2471,10 +2324,12 @@ func (en *V1CustomerSubscriptionUpdatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the Subscription related to the event.
-func (en *V1CustomerSubscriptionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+func (n *V1CustomerSubscriptionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Subscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Subscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2498,14 +2353,9 @@ type V1CustomerTaxIDCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerTaxIDCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerTaxIDCreatedEvent that created this Notification
-func (en *V1CustomerTaxIDCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerTaxIDCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2513,10 +2363,12 @@ func (en *V1CustomerTaxIDCreatedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the TaxID related to the event.
-func (en *V1CustomerTaxIDCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
+func (n *V1CustomerTaxIDCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TaxID{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2540,14 +2392,9 @@ type V1CustomerTaxIDDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerTaxIDDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerTaxIDDeletedEvent that created this Notification
-func (en *V1CustomerTaxIDDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerTaxIDDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2555,10 +2402,12 @@ func (en *V1CustomerTaxIDDeletedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the TaxID related to the event.
-func (en *V1CustomerTaxIDDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
+func (n *V1CustomerTaxIDDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TaxID{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2582,14 +2431,9 @@ type V1CustomerTaxIDUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerTaxIDUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerTaxIDUpdatedEvent that created this Notification
-func (en *V1CustomerTaxIDUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerTaxIDUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2597,10 +2441,12 @@ func (en *V1CustomerTaxIDUpdatedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the TaxID related to the event.
-func (en *V1CustomerTaxIDUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
+func (n *V1CustomerTaxIDUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxID, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TaxID{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2624,14 +2470,9 @@ type V1CustomerUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1CustomerUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1CustomerUpdatedEvent that created this Notification
-func (en *V1CustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1CustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2639,10 +2480,12 @@ func (en *V1CustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*
 }
 
 // FetchRelatedObject fetches the Customer related to the event.
-func (en *V1CustomerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+func (n *V1CustomerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Customer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Customer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2666,14 +2509,9 @@ type V1FileCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1FileCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1FileCreatedEvent that created this Notification
-func (en *V1FileCreatedEventNotification) FetchEvent(ctx context.Context) (*V1FileCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1FileCreatedEventNotification) FetchEvent(ctx context.Context) (*V1FileCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2681,10 +2519,12 @@ func (en *V1FileCreatedEventNotification) FetchEvent(ctx context.Context) (*V1Fi
 }
 
 // FetchRelatedObject fetches the File related to the event.
-func (en *V1FileCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*File, error) {
+func (n *V1FileCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*File, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &File{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2708,14 +2548,9 @@ type V1FinancialConnectionsAccountCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1FinancialConnectionsAccountCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1FinancialConnectionsAccountCreatedEvent that created this Notification
-func (en *V1FinancialConnectionsAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1FinancialConnectionsAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2723,10 +2558,12 @@ func (en *V1FinancialConnectionsAccountCreatedEventNotification) FetchEvent(ctx 
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (en *V1FinancialConnectionsAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+func (n *V1FinancialConnectionsAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &FinancialConnectionsAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2750,14 +2587,9 @@ type V1FinancialConnectionsAccountDeactivatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1FinancialConnectionsAccountDeactivatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1FinancialConnectionsAccountDeactivatedEvent that created this Notification
-func (en *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountDeactivatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountDeactivatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2765,10 +2597,12 @@ func (en *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (en *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+func (n *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &FinancialConnectionsAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2792,14 +2626,9 @@ type V1FinancialConnectionsAccountDisconnectedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1FinancialConnectionsAccountDisconnectedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1FinancialConnectionsAccountDisconnectedEvent that created this Notification
-func (en *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountDisconnectedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountDisconnectedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2807,10 +2636,12 @@ func (en *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchEvent
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (en *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &FinancialConnectionsAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2834,14 +2665,9 @@ type V1FinancialConnectionsAccountReactivatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1FinancialConnectionsAccountReactivatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1FinancialConnectionsAccountReactivatedEvent that created this Notification
-func (en *V1FinancialConnectionsAccountReactivatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountReactivatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1FinancialConnectionsAccountReactivatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountReactivatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2849,10 +2675,12 @@ func (en *V1FinancialConnectionsAccountReactivatedEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (en *V1FinancialConnectionsAccountReactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+func (n *V1FinancialConnectionsAccountReactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &FinancialConnectionsAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2876,14 +2704,9 @@ type V1FinancialConnectionsAccountRefreshedBalanceEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedBalanceEvent that created this Notification
-func (en *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedBalanceEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedBalanceEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2891,10 +2714,12 @@ func (en *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchE
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (en *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+func (n *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &FinancialConnectionsAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2918,14 +2743,9 @@ type V1FinancialConnectionsAccountRefreshedOwnershipEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedOwnershipEvent that created this Notification
-func (en *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedOwnershipEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedOwnershipEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2933,10 +2753,12 @@ func (en *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) Fetc
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (en *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+func (n *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &FinancialConnectionsAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -2960,14 +2782,9 @@ type V1FinancialConnectionsAccountRefreshedTransactionsEventNotification struct 
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedTransactionsEvent that created this Notification
-func (en *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedTransactionsEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedTransactionsEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2975,10 +2792,12 @@ func (en *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) F
 }
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
-func (en *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &FinancialConnectionsAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3002,14 +2821,9 @@ type V1IdentityVerificationSessionCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IdentityVerificationSessionCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IdentityVerificationSessionCanceledEvent that created this Notification
-func (en *V1IdentityVerificationSessionCanceledEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IdentityVerificationSessionCanceledEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3017,10 +2831,12 @@ func (en *V1IdentityVerificationSessionCanceledEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
-func (en *V1IdentityVerificationSessionCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+func (n *V1IdentityVerificationSessionCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IdentityVerificationSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3044,14 +2860,9 @@ type V1IdentityVerificationSessionCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IdentityVerificationSessionCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IdentityVerificationSessionCreatedEvent that created this Notification
-func (en *V1IdentityVerificationSessionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IdentityVerificationSessionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3059,10 +2870,12 @@ func (en *V1IdentityVerificationSessionCreatedEventNotification) FetchEvent(ctx 
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
-func (en *V1IdentityVerificationSessionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+func (n *V1IdentityVerificationSessionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IdentityVerificationSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3086,14 +2899,9 @@ type V1IdentityVerificationSessionProcessingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IdentityVerificationSessionProcessingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IdentityVerificationSessionProcessingEvent that created this Notification
-func (en *V1IdentityVerificationSessionProcessingEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionProcessingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IdentityVerificationSessionProcessingEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionProcessingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3101,10 +2909,12 @@ func (en *V1IdentityVerificationSessionProcessingEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
-func (en *V1IdentityVerificationSessionProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+func (n *V1IdentityVerificationSessionProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IdentityVerificationSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3128,14 +2938,9 @@ type V1IdentityVerificationSessionRedactedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IdentityVerificationSessionRedactedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IdentityVerificationSessionRedactedEvent that created this Notification
-func (en *V1IdentityVerificationSessionRedactedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionRedactedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IdentityVerificationSessionRedactedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionRedactedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3143,10 +2948,12 @@ func (en *V1IdentityVerificationSessionRedactedEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
-func (en *V1IdentityVerificationSessionRedactedEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+func (n *V1IdentityVerificationSessionRedactedEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IdentityVerificationSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3170,14 +2977,9 @@ type V1IdentityVerificationSessionRequiresInputEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IdentityVerificationSessionRequiresInputEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IdentityVerificationSessionRequiresInputEvent that created this Notification
-func (en *V1IdentityVerificationSessionRequiresInputEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionRequiresInputEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IdentityVerificationSessionRequiresInputEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionRequiresInputEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3185,10 +2987,12 @@ func (en *V1IdentityVerificationSessionRequiresInputEventNotification) FetchEven
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
-func (en *V1IdentityVerificationSessionRequiresInputEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+func (n *V1IdentityVerificationSessionRequiresInputEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IdentityVerificationSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3212,14 +3016,9 @@ type V1IdentityVerificationSessionVerifiedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IdentityVerificationSessionVerifiedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IdentityVerificationSessionVerifiedEvent that created this Notification
-func (en *V1IdentityVerificationSessionVerifiedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionVerifiedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IdentityVerificationSessionVerifiedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionVerifiedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3227,10 +3026,12 @@ func (en *V1IdentityVerificationSessionVerifiedEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the IdentityVerificationSession related to the event.
-func (en *V1IdentityVerificationSessionVerifiedEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+func (n *V1IdentityVerificationSessionVerifiedEventNotification) FetchRelatedObject(ctx context.Context) (*IdentityVerificationSession, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IdentityVerificationSession{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3254,14 +3055,9 @@ type V1InvoiceCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceCreatedEvent that created this Notification
-func (en *V1InvoiceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3269,10 +3065,12 @@ func (en *V1InvoiceCreatedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3296,14 +3094,9 @@ type V1InvoiceDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceDeletedEvent that created this Notification
-func (en *V1InvoiceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3311,10 +3104,12 @@ func (en *V1InvoiceDeletedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3338,14 +3133,9 @@ type V1InvoiceFinalizationFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceFinalizationFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceFinalizationFailedEvent that created this Notification
-func (en *V1InvoiceFinalizationFailedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceFinalizationFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceFinalizationFailedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceFinalizationFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3353,10 +3143,12 @@ func (en *V1InvoiceFinalizationFailedEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceFinalizationFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceFinalizationFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3380,14 +3172,9 @@ type V1InvoiceFinalizedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceFinalizedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceFinalizedEvent that created this Notification
-func (en *V1InvoiceFinalizedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceFinalizedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceFinalizedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceFinalizedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3395,10 +3182,12 @@ func (en *V1InvoiceFinalizedEventNotification) FetchEvent(ctx context.Context) (
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceFinalizedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceFinalizedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3422,14 +3211,9 @@ type V1InvoiceMarkedUncollectibleEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceMarkedUncollectibleEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceMarkedUncollectibleEvent that created this Notification
-func (en *V1InvoiceMarkedUncollectibleEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceMarkedUncollectibleEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceMarkedUncollectibleEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceMarkedUncollectibleEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3437,10 +3221,12 @@ func (en *V1InvoiceMarkedUncollectibleEventNotification) FetchEvent(ctx context.
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceMarkedUncollectibleEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceMarkedUncollectibleEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3464,14 +3250,9 @@ type V1InvoiceOverdueEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceOverdueEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceOverdueEvent that created this Notification
-func (en *V1InvoiceOverdueEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceOverdueEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceOverdueEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceOverdueEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3479,10 +3260,12 @@ func (en *V1InvoiceOverdueEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceOverdueEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceOverdueEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3506,14 +3289,9 @@ type V1InvoiceOverpaidEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceOverpaidEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceOverpaidEvent that created this Notification
-func (en *V1InvoiceOverpaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceOverpaidEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceOverpaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceOverpaidEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3521,10 +3299,12 @@ func (en *V1InvoiceOverpaidEventNotification) FetchEvent(ctx context.Context) (*
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceOverpaidEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceOverpaidEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3548,14 +3328,9 @@ type V1InvoicePaidEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoicePaidEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoicePaidEvent that created this Notification
-func (en *V1InvoicePaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaidEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoicePaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaidEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3563,10 +3338,12 @@ func (en *V1InvoicePaidEventNotification) FetchEvent(ctx context.Context) (*V1In
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoicePaidEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoicePaidEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3590,14 +3367,9 @@ type V1InvoicePaymentActionRequiredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoicePaymentActionRequiredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoicePaymentActionRequiredEvent that created this Notification
-func (en *V1InvoicePaymentActionRequiredEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentActionRequiredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoicePaymentActionRequiredEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentActionRequiredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3605,10 +3377,12 @@ func (en *V1InvoicePaymentActionRequiredEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoicePaymentActionRequiredEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoicePaymentActionRequiredEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3632,14 +3406,9 @@ type V1InvoicePaymentFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoicePaymentFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoicePaymentFailedEvent that created this Notification
-func (en *V1InvoicePaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoicePaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3647,10 +3416,12 @@ func (en *V1InvoicePaymentFailedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoicePaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoicePaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3674,14 +3445,9 @@ type V1InvoicePaymentSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoicePaymentSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoicePaymentSucceededEvent that created this Notification
-func (en *V1InvoicePaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoicePaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3689,10 +3455,12 @@ func (en *V1InvoicePaymentSucceededEventNotification) FetchEvent(ctx context.Con
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoicePaymentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoicePaymentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3716,14 +3484,9 @@ type V1InvoiceSentEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceSentEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceSentEvent that created this Notification
-func (en *V1InvoiceSentEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceSentEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceSentEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceSentEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3731,10 +3494,12 @@ func (en *V1InvoiceSentEventNotification) FetchEvent(ctx context.Context) (*V1In
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceSentEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceSentEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3758,14 +3523,9 @@ type V1InvoiceUpcomingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceUpcomingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceUpcomingEvent that created this Notification
-func (en *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpcomingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpcomingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3773,10 +3533,12 @@ func (en *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceUpcomingEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceUpcomingEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3800,14 +3562,9 @@ type V1InvoiceUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceUpdatedEvent that created this Notification
-func (en *V1InvoiceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3815,10 +3572,12 @@ func (en *V1InvoiceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3842,14 +3601,9 @@ type V1InvoiceVoidedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceVoidedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceVoidedEvent that created this Notification
-func (en *V1InvoiceVoidedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceVoidedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceVoidedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceVoidedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3857,10 +3611,12 @@ func (en *V1InvoiceVoidedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceVoidedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceVoidedEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3884,14 +3640,9 @@ type V1InvoiceWillBeDueEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceWillBeDueEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceWillBeDueEvent that created this Notification
-func (en *V1InvoiceWillBeDueEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceWillBeDueEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceWillBeDueEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceWillBeDueEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3899,10 +3650,12 @@ func (en *V1InvoiceWillBeDueEventNotification) FetchEvent(ctx context.Context) (
 }
 
 // FetchRelatedObject fetches the Invoice related to the event.
-func (en *V1InvoiceWillBeDueEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+func (n *V1InvoiceWillBeDueEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Invoice{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3926,14 +3679,9 @@ type V1InvoicePaymentPaidEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoicePaymentPaidEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoicePaymentPaidEvent that created this Notification
-func (en *V1InvoicePaymentPaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentPaidEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoicePaymentPaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentPaidEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3941,10 +3689,12 @@ func (en *V1InvoicePaymentPaidEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the InvoicePayment related to the event.
-func (en *V1InvoicePaymentPaidEventNotification) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
+func (n *V1InvoicePaymentPaidEventNotification) FetchRelatedObject(ctx context.Context) (*InvoicePayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &InvoicePayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -3968,14 +3718,9 @@ type V1InvoiceitemCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceitemCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceitemCreatedEvent that created this Notification
-func (en *V1InvoiceitemCreatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceitemCreatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3983,10 +3728,12 @@ func (en *V1InvoiceitemCreatedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the InvoiceItem related to the event.
-func (en *V1InvoiceitemCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+func (n *V1InvoiceitemCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &InvoiceItem{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4010,14 +3757,9 @@ type V1InvoiceitemDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1InvoiceitemDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1InvoiceitemDeletedEvent that created this Notification
-func (en *V1InvoiceitemDeletedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1InvoiceitemDeletedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4025,10 +3767,12 @@ func (en *V1InvoiceitemDeletedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the InvoiceItem related to the event.
-func (en *V1InvoiceitemDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+func (n *V1InvoiceitemDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*InvoiceItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &InvoiceItem{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4052,14 +3796,9 @@ type V1IssuingAuthorizationCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingAuthorizationCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingAuthorizationCreatedEvent that created this Notification
-func (en *V1IssuingAuthorizationCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingAuthorizationCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4067,10 +3806,12 @@ func (en *V1IssuingAuthorizationCreatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the IssuingAuthorization related to the event.
-func (en *V1IssuingAuthorizationCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
+func (n *V1IssuingAuthorizationCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingAuthorization{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4094,14 +3835,9 @@ type V1IssuingAuthorizationRequestEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingAuthorizationRequestEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingAuthorizationRequestEvent that created this Notification
-func (en *V1IssuingAuthorizationRequestEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationRequestEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingAuthorizationRequestEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationRequestEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4109,10 +3845,12 @@ func (en *V1IssuingAuthorizationRequestEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the IssuingAuthorization related to the event.
-func (en *V1IssuingAuthorizationRequestEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
+func (n *V1IssuingAuthorizationRequestEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingAuthorization{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4136,14 +3874,9 @@ type V1IssuingAuthorizationUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingAuthorizationUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingAuthorizationUpdatedEvent that created this Notification
-func (en *V1IssuingAuthorizationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingAuthorizationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4151,10 +3884,12 @@ func (en *V1IssuingAuthorizationUpdatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the IssuingAuthorization related to the event.
-func (en *V1IssuingAuthorizationUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
+func (n *V1IssuingAuthorizationUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingAuthorization, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingAuthorization{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4178,14 +3913,9 @@ type V1IssuingCardCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingCardCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingCardCreatedEvent that created this Notification
-func (en *V1IssuingCardCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingCardCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4193,10 +3923,12 @@ func (en *V1IssuingCardCreatedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the IssuingCard related to the event.
-func (en *V1IssuingCardCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingCard, error) {
+func (n *V1IssuingCardCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingCard, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingCard{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4220,14 +3952,9 @@ type V1IssuingCardUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingCardUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingCardUpdatedEvent that created this Notification
-func (en *V1IssuingCardUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingCardUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4235,10 +3962,12 @@ func (en *V1IssuingCardUpdatedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the IssuingCard related to the event.
-func (en *V1IssuingCardUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingCard, error) {
+func (n *V1IssuingCardUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingCard, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingCard{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4262,14 +3991,9 @@ type V1IssuingCardholderCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingCardholderCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingCardholderCreatedEvent that created this Notification
-func (en *V1IssuingCardholderCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardholderCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingCardholderCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardholderCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4277,10 +4001,12 @@ func (en *V1IssuingCardholderCreatedEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the IssuingCardholder related to the event.
-func (en *V1IssuingCardholderCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingCardholder, error) {
+func (n *V1IssuingCardholderCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingCardholder, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingCardholder{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4304,14 +4030,9 @@ type V1IssuingCardholderUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingCardholderUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingCardholderUpdatedEvent that created this Notification
-func (en *V1IssuingCardholderUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardholderUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingCardholderUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardholderUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4319,10 +4040,12 @@ func (en *V1IssuingCardholderUpdatedEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the IssuingCardholder related to the event.
-func (en *V1IssuingCardholderUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingCardholder, error) {
+func (n *V1IssuingCardholderUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingCardholder, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingCardholder{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4346,14 +4069,9 @@ type V1IssuingDisputeClosedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingDisputeClosedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingDisputeClosedEvent that created this Notification
-func (en *V1IssuingDisputeClosedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeClosedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingDisputeClosedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeClosedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4361,10 +4079,12 @@ func (en *V1IssuingDisputeClosedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
-func (en *V1IssuingDisputeClosedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+func (n *V1IssuingDisputeClosedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingDispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4388,14 +4108,9 @@ type V1IssuingDisputeCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingDisputeCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingDisputeCreatedEvent that created this Notification
-func (en *V1IssuingDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4403,10 +4118,12 @@ func (en *V1IssuingDisputeCreatedEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
-func (en *V1IssuingDisputeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+func (n *V1IssuingDisputeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingDispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4430,14 +4147,9 @@ type V1IssuingDisputeFundsReinstatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingDisputeFundsReinstatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingDisputeFundsReinstatedEvent that created this Notification
-func (en *V1IssuingDisputeFundsReinstatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeFundsReinstatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingDisputeFundsReinstatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeFundsReinstatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4445,10 +4157,12 @@ func (en *V1IssuingDisputeFundsReinstatedEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
-func (en *V1IssuingDisputeFundsReinstatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+func (n *V1IssuingDisputeFundsReinstatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingDispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4472,14 +4186,9 @@ type V1IssuingDisputeFundsRescindedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingDisputeFundsRescindedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingDisputeFundsRescindedEvent that created this Notification
-func (en *V1IssuingDisputeFundsRescindedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeFundsRescindedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingDisputeFundsRescindedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeFundsRescindedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4487,10 +4196,12 @@ func (en *V1IssuingDisputeFundsRescindedEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
-func (en *V1IssuingDisputeFundsRescindedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+func (n *V1IssuingDisputeFundsRescindedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingDispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4514,14 +4225,9 @@ type V1IssuingDisputeSubmittedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingDisputeSubmittedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingDisputeSubmittedEvent that created this Notification
-func (en *V1IssuingDisputeSubmittedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeSubmittedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingDisputeSubmittedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeSubmittedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4529,10 +4235,12 @@ func (en *V1IssuingDisputeSubmittedEventNotification) FetchEvent(ctx context.Con
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
-func (en *V1IssuingDisputeSubmittedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+func (n *V1IssuingDisputeSubmittedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingDispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4556,14 +4264,9 @@ type V1IssuingDisputeUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingDisputeUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingDisputeUpdatedEvent that created this Notification
-func (en *V1IssuingDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4571,10 +4274,12 @@ func (en *V1IssuingDisputeUpdatedEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the IssuingDispute related to the event.
-func (en *V1IssuingDisputeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+func (n *V1IssuingDisputeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingDispute, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingDispute{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4598,14 +4303,9 @@ type V1IssuingPersonalizationDesignActivatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingPersonalizationDesignActivatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingPersonalizationDesignActivatedEvent that created this Notification
-func (en *V1IssuingPersonalizationDesignActivatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignActivatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingPersonalizationDesignActivatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignActivatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4613,10 +4313,12 @@ func (en *V1IssuingPersonalizationDesignActivatedEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the IssuingPersonalizationDesign related to the event.
-func (en *V1IssuingPersonalizationDesignActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+func (n *V1IssuingPersonalizationDesignActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingPersonalizationDesign{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4640,14 +4342,9 @@ type V1IssuingPersonalizationDesignDeactivatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingPersonalizationDesignDeactivatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingPersonalizationDesignDeactivatedEvent that created this Notification
-func (en *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignDeactivatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignDeactivatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4655,10 +4352,12 @@ func (en *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchEvent
 }
 
 // FetchRelatedObject fetches the IssuingPersonalizationDesign related to the event.
-func (en *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+func (n *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingPersonalizationDesign{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4682,14 +4381,9 @@ type V1IssuingPersonalizationDesignRejectedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingPersonalizationDesignRejectedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingPersonalizationDesignRejectedEvent that created this Notification
-func (en *V1IssuingPersonalizationDesignRejectedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignRejectedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingPersonalizationDesignRejectedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignRejectedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4697,10 +4391,12 @@ func (en *V1IssuingPersonalizationDesignRejectedEventNotification) FetchEvent(ct
 }
 
 // FetchRelatedObject fetches the IssuingPersonalizationDesign related to the event.
-func (en *V1IssuingPersonalizationDesignRejectedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+func (n *V1IssuingPersonalizationDesignRejectedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingPersonalizationDesign{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4724,14 +4420,9 @@ type V1IssuingPersonalizationDesignUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingPersonalizationDesignUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingPersonalizationDesignUpdatedEvent that created this Notification
-func (en *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4739,10 +4430,12 @@ func (en *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the IssuingPersonalizationDesign related to the event.
-func (en *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+func (n *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingPersonalizationDesign, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingPersonalizationDesign{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4766,14 +4459,9 @@ type V1IssuingTokenCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingTokenCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingTokenCreatedEvent that created this Notification
-func (en *V1IssuingTokenCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTokenCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingTokenCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTokenCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4781,10 +4469,12 @@ func (en *V1IssuingTokenCreatedEventNotification) FetchEvent(ctx context.Context
 }
 
 // FetchRelatedObject fetches the IssuingToken related to the event.
-func (en *V1IssuingTokenCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingToken, error) {
+func (n *V1IssuingTokenCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingToken, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingToken{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4808,14 +4498,9 @@ type V1IssuingTokenUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingTokenUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingTokenUpdatedEvent that created this Notification
-func (en *V1IssuingTokenUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTokenUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingTokenUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTokenUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4823,10 +4508,12 @@ func (en *V1IssuingTokenUpdatedEventNotification) FetchEvent(ctx context.Context
 }
 
 // FetchRelatedObject fetches the IssuingToken related to the event.
-func (en *V1IssuingTokenUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingToken, error) {
+func (n *V1IssuingTokenUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingToken, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingToken{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4850,14 +4537,9 @@ type V1IssuingTransactionCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingTransactionCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingTransactionCreatedEvent that created this Notification
-func (en *V1IssuingTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4865,10 +4547,12 @@ func (en *V1IssuingTransactionCreatedEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the IssuingTransaction related to the event.
-func (en *V1IssuingTransactionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
+func (n *V1IssuingTransactionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingTransaction{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4892,14 +4576,9 @@ type V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent that created this Notification
-func (en *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4907,10 +4586,12 @@ func (en *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) Fe
 }
 
 // FetchRelatedObject fetches the IssuingTransaction related to the event.
-func (en *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
+func (n *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingTransaction{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4934,14 +4615,9 @@ type V1IssuingTransactionUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1IssuingTransactionUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1IssuingTransactionUpdatedEvent that created this Notification
-func (en *V1IssuingTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1IssuingTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4949,10 +4625,12 @@ func (en *V1IssuingTransactionUpdatedEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the IssuingTransaction related to the event.
-func (en *V1IssuingTransactionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
+func (n *V1IssuingTransactionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*IssuingTransaction, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &IssuingTransaction{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -4976,14 +4654,9 @@ type V1MandateUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1MandateUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1MandateUpdatedEvent that created this Notification
-func (en *V1MandateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1MandateUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1MandateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1MandateUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4991,10 +4664,12 @@ func (en *V1MandateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Mandate related to the event.
-func (en *V1MandateUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Mandate, error) {
+func (n *V1MandateUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Mandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Mandate{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5018,14 +4693,9 @@ type V1PaymentIntentAmountCapturableUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentIntentAmountCapturableUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentIntentAmountCapturableUpdatedEvent that created this Notification
-func (en *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentAmountCapturableUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentAmountCapturableUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5033,10 +4703,12 @@ func (en *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchEvent(ct
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
-func (en *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+func (n *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5060,14 +4732,9 @@ type V1PaymentIntentCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentIntentCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentIntentCanceledEvent that created this Notification
-func (en *V1PaymentIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5075,10 +4742,12 @@ func (en *V1PaymentIntentCanceledEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
-func (en *V1PaymentIntentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+func (n *V1PaymentIntentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5102,14 +4771,9 @@ type V1PaymentIntentCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentIntentCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentIntentCreatedEvent that created this Notification
-func (en *V1PaymentIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5117,10 +4781,12 @@ func (en *V1PaymentIntentCreatedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
-func (en *V1PaymentIntentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+func (n *V1PaymentIntentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5144,14 +4810,9 @@ type V1PaymentIntentPartiallyFundedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentIntentPartiallyFundedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentIntentPartiallyFundedEvent that created this Notification
-func (en *V1PaymentIntentPartiallyFundedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentPartiallyFundedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentIntentPartiallyFundedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentPartiallyFundedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5159,10 +4820,12 @@ func (en *V1PaymentIntentPartiallyFundedEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
-func (en *V1PaymentIntentPartiallyFundedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+func (n *V1PaymentIntentPartiallyFundedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5186,14 +4849,9 @@ type V1PaymentIntentPaymentFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentIntentPaymentFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentIntentPaymentFailedEvent that created this Notification
-func (en *V1PaymentIntentPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentPaymentFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentIntentPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentPaymentFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5201,10 +4859,12 @@ func (en *V1PaymentIntentPaymentFailedEventNotification) FetchEvent(ctx context.
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
-func (en *V1PaymentIntentPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+func (n *V1PaymentIntentPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5228,14 +4888,9 @@ type V1PaymentIntentProcessingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentIntentProcessingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentIntentProcessingEvent that created this Notification
-func (en *V1PaymentIntentProcessingEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentProcessingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentIntentProcessingEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentProcessingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5243,10 +4898,12 @@ func (en *V1PaymentIntentProcessingEventNotification) FetchEvent(ctx context.Con
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
-func (en *V1PaymentIntentProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+func (n *V1PaymentIntentProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5270,14 +4927,9 @@ type V1PaymentIntentRequiresActionEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentIntentRequiresActionEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentIntentRequiresActionEvent that created this Notification
-func (en *V1PaymentIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentRequiresActionEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentRequiresActionEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5285,10 +4937,12 @@ func (en *V1PaymentIntentRequiresActionEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
-func (en *V1PaymentIntentRequiresActionEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+func (n *V1PaymentIntentRequiresActionEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5312,14 +4966,9 @@ type V1PaymentIntentSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentIntentSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentIntentSucceededEvent that created this Notification
-func (en *V1PaymentIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5327,10 +4976,12 @@ func (en *V1PaymentIntentSucceededEventNotification) FetchEvent(ctx context.Cont
 }
 
 // FetchRelatedObject fetches the PaymentIntent related to the event.
-func (en *V1PaymentIntentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+func (n *V1PaymentIntentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5354,14 +5005,9 @@ type V1PaymentLinkCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentLinkCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentLinkCreatedEvent that created this Notification
-func (en *V1PaymentLinkCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentLinkCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentLinkCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentLinkCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5369,10 +5015,12 @@ func (en *V1PaymentLinkCreatedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the PaymentLink related to the event.
-func (en *V1PaymentLinkCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentLink, error) {
+func (n *V1PaymentLinkCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentLink, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentLink{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5396,14 +5044,9 @@ type V1PaymentLinkUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentLinkUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentLinkUpdatedEvent that created this Notification
-func (en *V1PaymentLinkUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentLinkUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentLinkUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentLinkUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5411,10 +5054,12 @@ func (en *V1PaymentLinkUpdatedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the PaymentLink related to the event.
-func (en *V1PaymentLinkUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentLink, error) {
+func (n *V1PaymentLinkUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentLink, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentLink{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5438,14 +5083,9 @@ type V1PaymentMethodAttachedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentMethodAttachedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentMethodAttachedEvent that created this Notification
-func (en *V1PaymentMethodAttachedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodAttachedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentMethodAttachedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodAttachedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5453,10 +5093,12 @@ func (en *V1PaymentMethodAttachedEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the PaymentMethod related to the event.
-func (en *V1PaymentMethodAttachedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
+func (n *V1PaymentMethodAttachedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentMethod{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5480,14 +5122,9 @@ type V1PaymentMethodAutomaticallyUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentMethodAutomaticallyUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentMethodAutomaticallyUpdatedEvent that created this Notification
-func (en *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodAutomaticallyUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodAutomaticallyUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5495,10 +5132,12 @@ func (en *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchEvent(ctx c
 }
 
 // FetchRelatedObject fetches the PaymentMethod related to the event.
-func (en *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
+func (n *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentMethod{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5522,14 +5161,9 @@ type V1PaymentMethodDetachedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentMethodDetachedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentMethodDetachedEvent that created this Notification
-func (en *V1PaymentMethodDetachedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodDetachedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentMethodDetachedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodDetachedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5537,10 +5171,12 @@ func (en *V1PaymentMethodDetachedEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the PaymentMethod related to the event.
-func (en *V1PaymentMethodDetachedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
+func (n *V1PaymentMethodDetachedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentMethod{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5564,14 +5200,9 @@ type V1PaymentMethodUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PaymentMethodUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PaymentMethodUpdatedEvent that created this Notification
-func (en *V1PaymentMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PaymentMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5579,10 +5210,12 @@ func (en *V1PaymentMethodUpdatedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the PaymentMethod related to the event.
-func (en *V1PaymentMethodUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
+func (n *V1PaymentMethodUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PaymentMethod, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PaymentMethod{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5606,14 +5239,9 @@ type V1PayoutCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PayoutCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PayoutCanceledEvent that created this Notification
-func (en *V1PayoutCanceledEventNotification) FetchEvent(ctx context.Context) (*V1PayoutCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PayoutCanceledEventNotification) FetchEvent(ctx context.Context) (*V1PayoutCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5621,10 +5249,12 @@ func (en *V1PayoutCanceledEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
-func (en *V1PayoutCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+func (n *V1PayoutCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Payout{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5648,14 +5278,9 @@ type V1PayoutCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PayoutCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PayoutCreatedEvent that created this Notification
-func (en *V1PayoutCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PayoutCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5663,10 +5288,12 @@ func (en *V1PayoutCreatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
-func (en *V1PayoutCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+func (n *V1PayoutCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Payout{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5690,14 +5317,9 @@ type V1PayoutFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PayoutFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PayoutFailedEvent that created this Notification
-func (en *V1PayoutFailedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PayoutFailedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5705,10 +5327,12 @@ func (en *V1PayoutFailedEventNotification) FetchEvent(ctx context.Context) (*V1P
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
-func (en *V1PayoutFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+func (n *V1PayoutFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Payout{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5732,14 +5356,9 @@ type V1PayoutPaidEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PayoutPaidEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PayoutPaidEvent that created this Notification
-func (en *V1PayoutPaidEventNotification) FetchEvent(ctx context.Context) (*V1PayoutPaidEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PayoutPaidEventNotification) FetchEvent(ctx context.Context) (*V1PayoutPaidEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5747,10 +5366,12 @@ func (en *V1PayoutPaidEventNotification) FetchEvent(ctx context.Context) (*V1Pay
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
-func (en *V1PayoutPaidEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+func (n *V1PayoutPaidEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Payout{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5774,14 +5395,9 @@ type V1PayoutReconciliationCompletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PayoutReconciliationCompletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PayoutReconciliationCompletedEvent that created this Notification
-func (en *V1PayoutReconciliationCompletedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutReconciliationCompletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PayoutReconciliationCompletedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutReconciliationCompletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5789,10 +5405,12 @@ func (en *V1PayoutReconciliationCompletedEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
-func (en *V1PayoutReconciliationCompletedEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+func (n *V1PayoutReconciliationCompletedEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Payout{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5816,14 +5434,9 @@ type V1PayoutUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PayoutUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PayoutUpdatedEvent that created this Notification
-func (en *V1PayoutUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PayoutUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5831,10 +5444,12 @@ func (en *V1PayoutUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Payout related to the event.
-func (en *V1PayoutUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+func (n *V1PayoutUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Payout, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Payout{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5858,14 +5473,9 @@ type V1PersonCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PersonCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PersonCreatedEvent that created this Notification
-func (en *V1PersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PersonCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PersonCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5873,10 +5483,12 @@ func (en *V1PersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Person related to the event.
-func (en *V1PersonCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Person, error) {
+func (n *V1PersonCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Person, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Person{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5900,14 +5512,9 @@ type V1PersonDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PersonDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PersonDeletedEvent that created this Notification
-func (en *V1PersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PersonDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PersonDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5915,10 +5522,12 @@ func (en *V1PersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Person related to the event.
-func (en *V1PersonDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Person, error) {
+func (n *V1PersonDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Person, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Person{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5942,14 +5551,9 @@ type V1PersonUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PersonUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PersonUpdatedEvent that created this Notification
-func (en *V1PersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PersonUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PersonUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5957,10 +5561,12 @@ func (en *V1PersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Person related to the event.
-func (en *V1PersonUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Person, error) {
+func (n *V1PersonUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Person, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Person{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -5984,14 +5590,9 @@ type V1PlanCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PlanCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PlanCreatedEvent that created this Notification
-func (en *V1PlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PlanCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PlanCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5999,10 +5600,12 @@ func (en *V1PlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V1Pl
 }
 
 // FetchRelatedObject fetches the Plan related to the event.
-func (en *V1PlanCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Plan, error) {
+func (n *V1PlanCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Plan, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Plan{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6026,14 +5629,9 @@ type V1PlanDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PlanDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PlanDeletedEvent that created this Notification
-func (en *V1PlanDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PlanDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PlanDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PlanDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6041,10 +5639,12 @@ func (en *V1PlanDeletedEventNotification) FetchEvent(ctx context.Context) (*V1Pl
 }
 
 // FetchRelatedObject fetches the Plan related to the event.
-func (en *V1PlanDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Plan, error) {
+func (n *V1PlanDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Plan, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Plan{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6068,14 +5668,9 @@ type V1PlanUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PlanUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PlanUpdatedEvent that created this Notification
-func (en *V1PlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PlanUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PlanUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6083,10 +5678,12 @@ func (en *V1PlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1Pl
 }
 
 // FetchRelatedObject fetches the Plan related to the event.
-func (en *V1PlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Plan, error) {
+func (n *V1PlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Plan, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Plan{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6110,14 +5707,9 @@ type V1PriceCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PriceCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PriceCreatedEvent that created this Notification
-func (en *V1PriceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PriceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6125,10 +5717,12 @@ func (en *V1PriceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1P
 }
 
 // FetchRelatedObject fetches the Price related to the event.
-func (en *V1PriceCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+func (n *V1PriceCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Price{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6152,14 +5746,9 @@ type V1PriceDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PriceDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PriceDeletedEvent that created this Notification
-func (en *V1PriceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PriceDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PriceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PriceDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6167,10 +5756,12 @@ func (en *V1PriceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1P
 }
 
 // FetchRelatedObject fetches the Price related to the event.
-func (en *V1PriceDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+func (n *V1PriceDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Price{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6194,14 +5785,9 @@ type V1PriceUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PriceUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PriceUpdatedEvent that created this Notification
-func (en *V1PriceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PriceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6209,10 +5795,12 @@ func (en *V1PriceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1P
 }
 
 // FetchRelatedObject fetches the Price related to the event.
-func (en *V1PriceUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+func (n *V1PriceUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Price, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Price{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6236,14 +5824,9 @@ type V1ProductCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ProductCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ProductCreatedEvent that created this Notification
-func (en *V1ProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6251,10 +5834,12 @@ func (en *V1ProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Product related to the event.
-func (en *V1ProductCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+func (n *V1ProductCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Product{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6278,14 +5863,9 @@ type V1ProductDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ProductDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ProductDeletedEvent that created this Notification
-func (en *V1ProductDeletedEventNotification) FetchEvent(ctx context.Context) (*V1ProductDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ProductDeletedEventNotification) FetchEvent(ctx context.Context) (*V1ProductDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6293,10 +5873,12 @@ func (en *V1ProductDeletedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Product related to the event.
-func (en *V1ProductDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+func (n *V1ProductDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Product{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6320,14 +5902,9 @@ type V1ProductUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ProductUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ProductUpdatedEvent that created this Notification
-func (en *V1ProductUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ProductUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6335,10 +5912,12 @@ func (en *V1ProductUpdatedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Product related to the event.
-func (en *V1ProductUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+func (n *V1ProductUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Product, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Product{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6362,14 +5941,9 @@ type V1PromotionCodeCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PromotionCodeCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PromotionCodeCreatedEvent that created this Notification
-func (en *V1PromotionCodeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PromotionCodeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6377,10 +5951,12 @@ func (en *V1PromotionCodeCreatedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the PromotionCode related to the event.
-func (en *V1PromotionCodeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
+func (n *V1PromotionCodeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PromotionCode{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6404,14 +5980,9 @@ type V1PromotionCodeUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1PromotionCodeUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1PromotionCodeUpdatedEvent that created this Notification
-func (en *V1PromotionCodeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1PromotionCodeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6419,10 +5990,12 @@ func (en *V1PromotionCodeUpdatedEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the PromotionCode related to the event.
-func (en *V1PromotionCodeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
+func (n *V1PromotionCodeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*PromotionCode, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &PromotionCode{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6446,14 +6019,9 @@ type V1QuoteAcceptedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1QuoteAcceptedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1QuoteAcceptedEvent that created this Notification
-func (en *V1QuoteAcceptedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteAcceptedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1QuoteAcceptedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteAcceptedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6461,10 +6029,12 @@ func (en *V1QuoteAcceptedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Quote related to the event.
-func (en *V1QuoteAcceptedEventNotification) FetchRelatedObject(ctx context.Context) (*Quote, error) {
+func (n *V1QuoteAcceptedEventNotification) FetchRelatedObject(ctx context.Context) (*Quote, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Quote{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6488,14 +6058,9 @@ type V1QuoteCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1QuoteCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1QuoteCanceledEvent that created this Notification
-func (en *V1QuoteCanceledEventNotification) FetchEvent(ctx context.Context) (*V1QuoteCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1QuoteCanceledEventNotification) FetchEvent(ctx context.Context) (*V1QuoteCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6503,10 +6068,12 @@ func (en *V1QuoteCanceledEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Quote related to the event.
-func (en *V1QuoteCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*Quote, error) {
+func (n *V1QuoteCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*Quote, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Quote{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6530,14 +6097,9 @@ type V1QuoteCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1QuoteCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1QuoteCreatedEvent that created this Notification
-func (en *V1QuoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1QuoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6545,10 +6107,12 @@ func (en *V1QuoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1Q
 }
 
 // FetchRelatedObject fetches the Quote related to the event.
-func (en *V1QuoteCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Quote, error) {
+func (n *V1QuoteCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Quote, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Quote{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6572,14 +6136,9 @@ type V1QuoteFinalizedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1QuoteFinalizedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1QuoteFinalizedEvent that created this Notification
-func (en *V1QuoteFinalizedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteFinalizedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1QuoteFinalizedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteFinalizedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6587,10 +6146,12 @@ func (en *V1QuoteFinalizedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Quote related to the event.
-func (en *V1QuoteFinalizedEventNotification) FetchRelatedObject(ctx context.Context) (*Quote, error) {
+func (n *V1QuoteFinalizedEventNotification) FetchRelatedObject(ctx context.Context) (*Quote, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Quote{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6614,14 +6175,9 @@ type V1RadarEarlyFraudWarningCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1RadarEarlyFraudWarningCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1RadarEarlyFraudWarningCreatedEvent that created this Notification
-func (en *V1RadarEarlyFraudWarningCreatedEventNotification) FetchEvent(ctx context.Context) (*V1RadarEarlyFraudWarningCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1RadarEarlyFraudWarningCreatedEventNotification) FetchEvent(ctx context.Context) (*V1RadarEarlyFraudWarningCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6629,10 +6185,12 @@ func (en *V1RadarEarlyFraudWarningCreatedEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the RadarEarlyFraudWarning related to the event.
-func (en *V1RadarEarlyFraudWarningCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*RadarEarlyFraudWarning, error) {
+func (n *V1RadarEarlyFraudWarningCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*RadarEarlyFraudWarning, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &RadarEarlyFraudWarning{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6656,14 +6214,9 @@ type V1RadarEarlyFraudWarningUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1RadarEarlyFraudWarningUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1RadarEarlyFraudWarningUpdatedEvent that created this Notification
-func (en *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1RadarEarlyFraudWarningUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1RadarEarlyFraudWarningUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6671,10 +6224,12 @@ func (en *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the RadarEarlyFraudWarning related to the event.
-func (en *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*RadarEarlyFraudWarning, error) {
+func (n *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*RadarEarlyFraudWarning, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &RadarEarlyFraudWarning{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6698,14 +6253,9 @@ type V1RefundCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1RefundCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1RefundCreatedEvent that created this Notification
-func (en *V1RefundCreatedEventNotification) FetchEvent(ctx context.Context) (*V1RefundCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1RefundCreatedEventNotification) FetchEvent(ctx context.Context) (*V1RefundCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6713,10 +6263,12 @@ func (en *V1RefundCreatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Refund related to the event.
-func (en *V1RefundCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Refund, error) {
+func (n *V1RefundCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Refund, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Refund{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6740,14 +6292,9 @@ type V1RefundFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1RefundFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1RefundFailedEvent that created this Notification
-func (en *V1RefundFailedEventNotification) FetchEvent(ctx context.Context) (*V1RefundFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1RefundFailedEventNotification) FetchEvent(ctx context.Context) (*V1RefundFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6755,10 +6302,12 @@ func (en *V1RefundFailedEventNotification) FetchEvent(ctx context.Context) (*V1R
 }
 
 // FetchRelatedObject fetches the Refund related to the event.
-func (en *V1RefundFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Refund, error) {
+func (n *V1RefundFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Refund, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Refund{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6782,14 +6331,9 @@ type V1RefundUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1RefundUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1RefundUpdatedEvent that created this Notification
-func (en *V1RefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1RefundUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1RefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1RefundUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6797,10 +6341,12 @@ func (en *V1RefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Refund related to the event.
-func (en *V1RefundUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Refund, error) {
+func (n *V1RefundUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Refund, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Refund{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6824,14 +6370,9 @@ type V1ReviewClosedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ReviewClosedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ReviewClosedEvent that created this Notification
-func (en *V1ReviewClosedEventNotification) FetchEvent(ctx context.Context) (*V1ReviewClosedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ReviewClosedEventNotification) FetchEvent(ctx context.Context) (*V1ReviewClosedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6839,10 +6380,12 @@ func (en *V1ReviewClosedEventNotification) FetchEvent(ctx context.Context) (*V1R
 }
 
 // FetchRelatedObject fetches the Review related to the event.
-func (en *V1ReviewClosedEventNotification) FetchRelatedObject(ctx context.Context) (*Review, error) {
+func (n *V1ReviewClosedEventNotification) FetchRelatedObject(ctx context.Context) (*Review, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Review{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6866,14 +6409,9 @@ type V1ReviewOpenedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1ReviewOpenedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1ReviewOpenedEvent that created this Notification
-func (en *V1ReviewOpenedEventNotification) FetchEvent(ctx context.Context) (*V1ReviewOpenedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1ReviewOpenedEventNotification) FetchEvent(ctx context.Context) (*V1ReviewOpenedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6881,10 +6419,12 @@ func (en *V1ReviewOpenedEventNotification) FetchEvent(ctx context.Context) (*V1R
 }
 
 // FetchRelatedObject fetches the Review related to the event.
-func (en *V1ReviewOpenedEventNotification) FetchRelatedObject(ctx context.Context) (*Review, error) {
+func (n *V1ReviewOpenedEventNotification) FetchRelatedObject(ctx context.Context) (*Review, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Review{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6908,14 +6448,9 @@ type V1SetupIntentCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SetupIntentCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SetupIntentCanceledEvent that created this Notification
-func (en *V1SetupIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SetupIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6923,10 +6458,12 @@ func (en *V1SetupIntentCanceledEventNotification) FetchEvent(ctx context.Context
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
-func (en *V1SetupIntentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+func (n *V1SetupIntentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SetupIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6950,14 +6487,9 @@ type V1SetupIntentCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SetupIntentCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SetupIntentCreatedEvent that created this Notification
-func (en *V1SetupIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SetupIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6965,10 +6497,12 @@ func (en *V1SetupIntentCreatedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
-func (en *V1SetupIntentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+func (n *V1SetupIntentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SetupIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -6992,14 +6526,9 @@ type V1SetupIntentRequiresActionEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SetupIntentRequiresActionEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SetupIntentRequiresActionEvent that created this Notification
-func (en *V1SetupIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentRequiresActionEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SetupIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentRequiresActionEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7007,10 +6536,12 @@ func (en *V1SetupIntentRequiresActionEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
-func (en *V1SetupIntentRequiresActionEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+func (n *V1SetupIntentRequiresActionEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SetupIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7034,14 +6565,9 @@ type V1SetupIntentSetupFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SetupIntentSetupFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SetupIntentSetupFailedEvent that created this Notification
-func (en *V1SetupIntentSetupFailedEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentSetupFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SetupIntentSetupFailedEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentSetupFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7049,10 +6575,12 @@ func (en *V1SetupIntentSetupFailedEventNotification) FetchEvent(ctx context.Cont
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
-func (en *V1SetupIntentSetupFailedEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+func (n *V1SetupIntentSetupFailedEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SetupIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7076,14 +6604,9 @@ type V1SetupIntentSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SetupIntentSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SetupIntentSucceededEvent that created this Notification
-func (en *V1SetupIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SetupIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7091,10 +6614,12 @@ func (en *V1SetupIntentSucceededEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the SetupIntent related to the event.
-func (en *V1SetupIntentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+func (n *V1SetupIntentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*SetupIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SetupIntent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7118,14 +6643,9 @@ type V1SigmaScheduledQueryRunCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SigmaScheduledQueryRunCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SigmaScheduledQueryRunCreatedEvent that created this Notification
-func (en *V1SigmaScheduledQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SigmaScheduledQueryRunCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SigmaScheduledQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SigmaScheduledQueryRunCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7133,10 +6653,12 @@ func (en *V1SigmaScheduledQueryRunCreatedEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the SigmaScheduledQueryRun related to the event.
-func (en *V1SigmaScheduledQueryRunCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*SigmaScheduledQueryRun, error) {
+func (n *V1SigmaScheduledQueryRunCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*SigmaScheduledQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SigmaScheduledQueryRun{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7160,14 +6682,9 @@ type V1SourceCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SourceCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SourceCanceledEvent that created this Notification
-func (en *V1SourceCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SourceCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SourceCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SourceCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7175,10 +6692,12 @@ func (en *V1SourceCanceledEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Source related to the event.
-func (en *V1SourceCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*Source, error) {
+func (n *V1SourceCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*Source, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Source{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7202,14 +6721,9 @@ type V1SourceChargeableEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SourceChargeableEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SourceChargeableEvent that created this Notification
-func (en *V1SourceChargeableEventNotification) FetchEvent(ctx context.Context) (*V1SourceChargeableEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SourceChargeableEventNotification) FetchEvent(ctx context.Context) (*V1SourceChargeableEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7217,10 +6731,12 @@ func (en *V1SourceChargeableEventNotification) FetchEvent(ctx context.Context) (
 }
 
 // FetchRelatedObject fetches the Source related to the event.
-func (en *V1SourceChargeableEventNotification) FetchRelatedObject(ctx context.Context) (*Source, error) {
+func (n *V1SourceChargeableEventNotification) FetchRelatedObject(ctx context.Context) (*Source, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Source{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7244,14 +6760,9 @@ type V1SourceFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SourceFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SourceFailedEvent that created this Notification
-func (en *V1SourceFailedEventNotification) FetchEvent(ctx context.Context) (*V1SourceFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SourceFailedEventNotification) FetchEvent(ctx context.Context) (*V1SourceFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7259,10 +6770,12 @@ func (en *V1SourceFailedEventNotification) FetchEvent(ctx context.Context) (*V1S
 }
 
 // FetchRelatedObject fetches the Source related to the event.
-func (en *V1SourceFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Source, error) {
+func (n *V1SourceFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Source, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Source{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7286,14 +6799,9 @@ type V1SourceRefundAttributesRequiredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SourceRefundAttributesRequiredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SourceRefundAttributesRequiredEvent that created this Notification
-func (en *V1SourceRefundAttributesRequiredEventNotification) FetchEvent(ctx context.Context) (*V1SourceRefundAttributesRequiredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SourceRefundAttributesRequiredEventNotification) FetchEvent(ctx context.Context) (*V1SourceRefundAttributesRequiredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7301,10 +6809,12 @@ func (en *V1SourceRefundAttributesRequiredEventNotification) FetchEvent(ctx cont
 }
 
 // FetchRelatedObject fetches the Source related to the event.
-func (en *V1SourceRefundAttributesRequiredEventNotification) FetchRelatedObject(ctx context.Context) (*Source, error) {
+func (n *V1SourceRefundAttributesRequiredEventNotification) FetchRelatedObject(ctx context.Context) (*Source, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Source{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7328,14 +6838,9 @@ type V1SubscriptionScheduleAbortedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SubscriptionScheduleAbortedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SubscriptionScheduleAbortedEvent that created this Notification
-func (en *V1SubscriptionScheduleAbortedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleAbortedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SubscriptionScheduleAbortedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleAbortedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7343,10 +6848,12 @@ func (en *V1SubscriptionScheduleAbortedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (en *V1SubscriptionScheduleAbortedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+func (n *V1SubscriptionScheduleAbortedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SubscriptionSchedule{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7370,14 +6877,9 @@ type V1SubscriptionScheduleCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SubscriptionScheduleCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SubscriptionScheduleCanceledEvent that created this Notification
-func (en *V1SubscriptionScheduleCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SubscriptionScheduleCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7385,10 +6887,12 @@ func (en *V1SubscriptionScheduleCanceledEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (en *V1SubscriptionScheduleCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+func (n *V1SubscriptionScheduleCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SubscriptionSchedule{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7412,14 +6916,9 @@ type V1SubscriptionScheduleCompletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SubscriptionScheduleCompletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SubscriptionScheduleCompletedEvent that created this Notification
-func (en *V1SubscriptionScheduleCompletedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCompletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SubscriptionScheduleCompletedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCompletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7427,10 +6926,12 @@ func (en *V1SubscriptionScheduleCompletedEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (en *V1SubscriptionScheduleCompletedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+func (n *V1SubscriptionScheduleCompletedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SubscriptionSchedule{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7454,14 +6955,9 @@ type V1SubscriptionScheduleCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SubscriptionScheduleCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SubscriptionScheduleCreatedEvent that created this Notification
-func (en *V1SubscriptionScheduleCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SubscriptionScheduleCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7469,10 +6965,12 @@ func (en *V1SubscriptionScheduleCreatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (en *V1SubscriptionScheduleCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+func (n *V1SubscriptionScheduleCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SubscriptionSchedule{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7496,14 +6994,9 @@ type V1SubscriptionScheduleExpiringEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SubscriptionScheduleExpiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SubscriptionScheduleExpiringEvent that created this Notification
-func (en *V1SubscriptionScheduleExpiringEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleExpiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SubscriptionScheduleExpiringEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleExpiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7511,10 +7004,12 @@ func (en *V1SubscriptionScheduleExpiringEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (en *V1SubscriptionScheduleExpiringEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+func (n *V1SubscriptionScheduleExpiringEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SubscriptionSchedule{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7538,14 +7033,9 @@ type V1SubscriptionScheduleReleasedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SubscriptionScheduleReleasedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SubscriptionScheduleReleasedEvent that created this Notification
-func (en *V1SubscriptionScheduleReleasedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleReleasedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SubscriptionScheduleReleasedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleReleasedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7553,10 +7043,12 @@ func (en *V1SubscriptionScheduleReleasedEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (en *V1SubscriptionScheduleReleasedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+func (n *V1SubscriptionScheduleReleasedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SubscriptionSchedule{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7580,14 +7072,9 @@ type V1SubscriptionScheduleUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1SubscriptionScheduleUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1SubscriptionScheduleUpdatedEvent that created this Notification
-func (en *V1SubscriptionScheduleUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7595,10 +7082,12 @@ func (en *V1SubscriptionScheduleUpdatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the SubscriptionSchedule related to the event.
-func (en *V1SubscriptionScheduleUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*SubscriptionSchedule, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &SubscriptionSchedule{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7622,14 +7111,9 @@ type V1TaxRateCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TaxRateCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TaxRateCreatedEvent that created this Notification
-func (en *V1TaxRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxRateCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TaxRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxRateCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7637,10 +7121,12 @@ func (en *V1TaxRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the TaxRate related to the event.
-func (en *V1TaxRateCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxRate, error) {
+func (n *V1TaxRateCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxRate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TaxRate{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7664,14 +7150,9 @@ type V1TaxRateUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TaxRateUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TaxRateUpdatedEvent that created this Notification
-func (en *V1TaxRateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxRateUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TaxRateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxRateUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7679,10 +7160,12 @@ func (en *V1TaxRateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the TaxRate related to the event.
-func (en *V1TaxRateUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxRate, error) {
+func (n *V1TaxRateUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*TaxRate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TaxRate{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7706,14 +7189,9 @@ type V1TerminalReaderActionFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TerminalReaderActionFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TerminalReaderActionFailedEvent that created this Notification
-func (en *V1TerminalReaderActionFailedEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TerminalReaderActionFailedEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7721,10 +7199,12 @@ func (en *V1TerminalReaderActionFailedEventNotification) FetchEvent(ctx context.
 }
 
 // FetchRelatedObject fetches the TerminalReader related to the event.
-func (en *V1TerminalReaderActionFailedEventNotification) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
+func (n *V1TerminalReaderActionFailedEventNotification) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TerminalReader{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7748,14 +7228,9 @@ type V1TerminalReaderActionSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TerminalReaderActionSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TerminalReaderActionSucceededEvent that created this Notification
-func (en *V1TerminalReaderActionSucceededEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TerminalReaderActionSucceededEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7763,10 +7238,12 @@ func (en *V1TerminalReaderActionSucceededEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the TerminalReader related to the event.
-func (en *V1TerminalReaderActionSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
+func (n *V1TerminalReaderActionSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TerminalReader{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7790,14 +7267,9 @@ type V1TerminalReaderActionUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TerminalReaderActionUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TerminalReaderActionUpdatedEvent that created this Notification
-func (en *V1TerminalReaderActionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TerminalReaderActionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7805,10 +7277,12 @@ func (en *V1TerminalReaderActionUpdatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the TerminalReader related to the event.
-func (en *V1TerminalReaderActionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
+func (n *V1TerminalReaderActionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*TerminalReader, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TerminalReader{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7832,14 +7306,9 @@ type V1TestHelpersTestClockAdvancingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TestHelpersTestClockAdvancingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TestHelpersTestClockAdvancingEvent that created this Notification
-func (en *V1TestHelpersTestClockAdvancingEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockAdvancingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TestHelpersTestClockAdvancingEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockAdvancingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7847,10 +7316,12 @@ func (en *V1TestHelpersTestClockAdvancingEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
-func (en *V1TestHelpersTestClockAdvancingEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+func (n *V1TestHelpersTestClockAdvancingEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TestHelpersTestClock{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7874,14 +7345,9 @@ type V1TestHelpersTestClockCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TestHelpersTestClockCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TestHelpersTestClockCreatedEvent that created this Notification
-func (en *V1TestHelpersTestClockCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TestHelpersTestClockCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7889,10 +7355,12 @@ func (en *V1TestHelpersTestClockCreatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
-func (en *V1TestHelpersTestClockCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+func (n *V1TestHelpersTestClockCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TestHelpersTestClock{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7916,14 +7384,9 @@ type V1TestHelpersTestClockDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TestHelpersTestClockDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TestHelpersTestClockDeletedEvent that created this Notification
-func (en *V1TestHelpersTestClockDeletedEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TestHelpersTestClockDeletedEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7931,10 +7394,12 @@ func (en *V1TestHelpersTestClockDeletedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
-func (en *V1TestHelpersTestClockDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+func (n *V1TestHelpersTestClockDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TestHelpersTestClock{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -7958,14 +7423,9 @@ type V1TestHelpersTestClockInternalFailureEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TestHelpersTestClockInternalFailureEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TestHelpersTestClockInternalFailureEvent that created this Notification
-func (en *V1TestHelpersTestClockInternalFailureEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockInternalFailureEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TestHelpersTestClockInternalFailureEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockInternalFailureEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7973,10 +7433,12 @@ func (en *V1TestHelpersTestClockInternalFailureEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
-func (en *V1TestHelpersTestClockInternalFailureEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+func (n *V1TestHelpersTestClockInternalFailureEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TestHelpersTestClock{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8000,14 +7462,9 @@ type V1TestHelpersTestClockReadyEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TestHelpersTestClockReadyEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TestHelpersTestClockReadyEvent that created this Notification
-func (en *V1TestHelpersTestClockReadyEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockReadyEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TestHelpersTestClockReadyEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockReadyEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8015,10 +7472,12 @@ func (en *V1TestHelpersTestClockReadyEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the TestHelpersTestClock related to the event.
-func (en *V1TestHelpersTestClockReadyEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+func (n *V1TestHelpersTestClockReadyEventNotification) FetchRelatedObject(ctx context.Context) (*TestHelpersTestClock, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &TestHelpersTestClock{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8042,14 +7501,9 @@ type V1TopupCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TopupCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TopupCanceledEvent that created this Notification
-func (en *V1TopupCanceledEventNotification) FetchEvent(ctx context.Context) (*V1TopupCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TopupCanceledEventNotification) FetchEvent(ctx context.Context) (*V1TopupCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8057,10 +7511,12 @@ func (en *V1TopupCanceledEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
-func (en *V1TopupCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+func (n *V1TopupCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Topup{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8084,14 +7540,9 @@ type V1TopupCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TopupCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TopupCreatedEvent that created this Notification
-func (en *V1TopupCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TopupCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TopupCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TopupCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8099,10 +7550,12 @@ func (en *V1TopupCreatedEventNotification) FetchEvent(ctx context.Context) (*V1T
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
-func (en *V1TopupCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+func (n *V1TopupCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Topup{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8126,14 +7579,9 @@ type V1TopupFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TopupFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TopupFailedEvent that created this Notification
-func (en *V1TopupFailedEventNotification) FetchEvent(ctx context.Context) (*V1TopupFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TopupFailedEventNotification) FetchEvent(ctx context.Context) (*V1TopupFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8141,10 +7589,12 @@ func (en *V1TopupFailedEventNotification) FetchEvent(ctx context.Context) (*V1To
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
-func (en *V1TopupFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+func (n *V1TopupFailedEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Topup{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8168,14 +7618,9 @@ type V1TopupReversedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TopupReversedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TopupReversedEvent that created this Notification
-func (en *V1TopupReversedEventNotification) FetchEvent(ctx context.Context) (*V1TopupReversedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TopupReversedEventNotification) FetchEvent(ctx context.Context) (*V1TopupReversedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8183,10 +7628,12 @@ func (en *V1TopupReversedEventNotification) FetchEvent(ctx context.Context) (*V1
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
-func (en *V1TopupReversedEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+func (n *V1TopupReversedEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Topup{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8210,14 +7657,9 @@ type V1TopupSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TopupSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TopupSucceededEvent that created this Notification
-func (en *V1TopupSucceededEventNotification) FetchEvent(ctx context.Context) (*V1TopupSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TopupSucceededEventNotification) FetchEvent(ctx context.Context) (*V1TopupSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8225,10 +7667,12 @@ func (en *V1TopupSucceededEventNotification) FetchEvent(ctx context.Context) (*V
 }
 
 // FetchRelatedObject fetches the Topup related to the event.
-func (en *V1TopupSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+func (n *V1TopupSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*Topup, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Topup{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8252,14 +7696,9 @@ type V1TransferCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TransferCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TransferCreatedEvent that created this Notification
-func (en *V1TransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TransferCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TransferCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8267,10 +7706,12 @@ func (en *V1TransferCreatedEventNotification) FetchEvent(ctx context.Context) (*
 }
 
 // FetchRelatedObject fetches the Transfer related to the event.
-func (en *V1TransferCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
+func (n *V1TransferCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Transfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8294,14 +7735,9 @@ type V1TransferReversedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TransferReversedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TransferReversedEvent that created this Notification
-func (en *V1TransferReversedEventNotification) FetchEvent(ctx context.Context) (*V1TransferReversedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TransferReversedEventNotification) FetchEvent(ctx context.Context) (*V1TransferReversedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8309,10 +7745,12 @@ func (en *V1TransferReversedEventNotification) FetchEvent(ctx context.Context) (
 }
 
 // FetchRelatedObject fetches the Transfer related to the event.
-func (en *V1TransferReversedEventNotification) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
+func (n *V1TransferReversedEventNotification) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Transfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8336,14 +7774,9 @@ type V1TransferUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V1TransferUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V1TransferUpdatedEvent that created this Notification
-func (en *V1TransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TransferUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V1TransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TransferUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8351,10 +7784,12 @@ func (en *V1TransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*
 }
 
 // FetchRelatedObject fetches the Transfer related to the event.
-func (en *V1TransferUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
+func (n *V1TransferUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*Transfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &Transfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8379,14 +7814,9 @@ type V2BillingBillSettingUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingBillSettingUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingBillSettingUpdatedEvent that created this Notification
-func (en *V2BillingBillSettingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingBillSettingUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingBillSettingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingBillSettingUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8394,10 +7824,12 @@ func (en *V2BillingBillSettingUpdatedEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the V2BillingBillSetting related to the event.
-func (en *V2BillingBillSettingUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingBillSetting, error) {
+func (n *V2BillingBillSettingUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingBillSetting, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingBillSetting{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8422,14 +7854,9 @@ type V2BillingCadenceBilledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingCadenceBilledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingCadenceBilledEvent that created this Notification
-func (en *V2BillingCadenceBilledEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceBilledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingCadenceBilledEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceBilledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8437,10 +7864,12 @@ func (en *V2BillingCadenceBilledEventNotification) FetchEvent(ctx context.Contex
 }
 
 // FetchRelatedObject fetches the V2BillingCadence related to the event.
-func (en *V2BillingCadenceBilledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingCadence, error) {
+func (n *V2BillingCadenceBilledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingCadence, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingCadence{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8464,14 +7893,9 @@ type V2BillingCadenceCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingCadenceCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingCadenceCanceledEvent that created this Notification
-func (en *V2BillingCadenceCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingCadenceCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8479,10 +7903,12 @@ func (en *V2BillingCadenceCanceledEventNotification) FetchEvent(ctx context.Cont
 }
 
 // FetchRelatedObject fetches the V2BillingCadence related to the event.
-func (en *V2BillingCadenceCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingCadence, error) {
+func (n *V2BillingCadenceCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingCadence, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingCadence{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8507,14 +7933,9 @@ type V2BillingCadenceCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingCadenceCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingCadenceCreatedEvent that created this Notification
-func (en *V2BillingCadenceCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingCadenceCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8522,10 +7943,12 @@ func (en *V2BillingCadenceCreatedEventNotification) FetchEvent(ctx context.Conte
 }
 
 // FetchRelatedObject fetches the V2BillingCadence related to the event.
-func (en *V2BillingCadenceCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingCadence, error) {
+func (n *V2BillingCadenceCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingCadence, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingCadence{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8549,14 +7972,9 @@ type V2BillingLicenseFeeCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingLicenseFeeCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingLicenseFeeCreatedEvent that created this Notification
-func (en *V2BillingLicenseFeeCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingLicenseFeeCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8564,10 +7982,12 @@ func (en *V2BillingLicenseFeeCreatedEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the V2BillingLicenseFee related to the event.
-func (en *V2BillingLicenseFeeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicenseFee, error) {
+func (n *V2BillingLicenseFeeCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicenseFee, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingLicenseFee{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8591,14 +8011,9 @@ type V2BillingLicenseFeeUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingLicenseFeeUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingLicenseFeeUpdatedEvent that created this Notification
-func (en *V2BillingLicenseFeeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingLicenseFeeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8606,10 +8021,12 @@ func (en *V2BillingLicenseFeeUpdatedEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the V2BillingLicenseFee related to the event.
-func (en *V2BillingLicenseFeeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicenseFee, error) {
+func (n *V2BillingLicenseFeeUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicenseFee, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingLicenseFee{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8634,14 +8051,9 @@ type V2BillingLicenseFeeVersionCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingLicenseFeeVersionCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingLicenseFeeVersionCreatedEvent that created this Notification
-func (en *V2BillingLicenseFeeVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeVersionCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingLicenseFeeVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeVersionCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8649,10 +8061,12 @@ func (en *V2BillingLicenseFeeVersionCreatedEventNotification) FetchEvent(ctx con
 }
 
 // FetchRelatedObject fetches the V2BillingLicenseFeeVersion related to the event.
-func (en *V2BillingLicenseFeeVersionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicenseFeeVersion, error) {
+func (n *V2BillingLicenseFeeVersionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicenseFeeVersion, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingLicenseFeeVersion{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8676,14 +8090,9 @@ type V2BillingLicensedItemCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingLicensedItemCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingLicensedItemCreatedEvent that created this Notification
-func (en *V2BillingLicensedItemCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicensedItemCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingLicensedItemCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicensedItemCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8691,10 +8100,12 @@ func (en *V2BillingLicensedItemCreatedEventNotification) FetchEvent(ctx context.
 }
 
 // FetchRelatedObject fetches the V2BillingLicensedItem related to the event.
-func (en *V2BillingLicensedItemCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicensedItem, error) {
+func (n *V2BillingLicensedItemCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicensedItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingLicensedItem{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8718,14 +8129,9 @@ type V2BillingLicensedItemUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingLicensedItemUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingLicensedItemUpdatedEvent that created this Notification
-func (en *V2BillingLicensedItemUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicensedItemUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingLicensedItemUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicensedItemUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8733,10 +8139,12 @@ func (en *V2BillingLicensedItemUpdatedEventNotification) FetchEvent(ctx context.
 }
 
 // FetchRelatedObject fetches the V2BillingLicensedItem related to the event.
-func (en *V2BillingLicensedItemUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicensedItem, error) {
+func (n *V2BillingLicensedItemUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingLicensedItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingLicensedItem{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8760,14 +8168,9 @@ type V2BillingMeteredItemCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingMeteredItemCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingMeteredItemCreatedEvent that created this Notification
-func (en *V2BillingMeteredItemCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingMeteredItemCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingMeteredItemCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingMeteredItemCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8775,10 +8178,12 @@ func (en *V2BillingMeteredItemCreatedEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the V2BillingMeteredItem related to the event.
-func (en *V2BillingMeteredItemCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingMeteredItem, error) {
+func (n *V2BillingMeteredItemCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingMeteredItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingMeteredItem{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8802,14 +8207,9 @@ type V2BillingMeteredItemUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingMeteredItemUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingMeteredItemUpdatedEvent that created this Notification
-func (en *V2BillingMeteredItemUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingMeteredItemUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingMeteredItemUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingMeteredItemUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8817,10 +8217,12 @@ func (en *V2BillingMeteredItemUpdatedEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the V2BillingMeteredItem related to the event.
-func (en *V2BillingMeteredItemUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingMeteredItem, error) {
+func (n *V2BillingMeteredItemUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingMeteredItem, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingMeteredItem{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8844,14 +8246,9 @@ type V2BillingPricingPlanCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanCreatedEvent that created this Notification
-func (en *V2BillingPricingPlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8859,10 +8256,12 @@ func (en *V2BillingPricingPlanCreatedEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlan related to the event.
-func (en *V2BillingPricingPlanCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlan, error) {
+func (n *V2BillingPricingPlanCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlan, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlan{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8886,14 +8285,9 @@ type V2BillingPricingPlanUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanUpdatedEvent that created this Notification
-func (en *V2BillingPricingPlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8901,10 +8295,12 @@ func (en *V2BillingPricingPlanUpdatedEventNotification) FetchEvent(ctx context.C
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlan related to the event.
-func (en *V2BillingPricingPlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlan, error) {
+func (n *V2BillingPricingPlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlan, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlan{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8929,14 +8325,9 @@ type V2BillingPricingPlanComponentCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanComponentCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanComponentCreatedEvent that created this Notification
-func (en *V2BillingPricingPlanComponentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanComponentCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanComponentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanComponentCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8944,10 +8335,12 @@ func (en *V2BillingPricingPlanComponentCreatedEventNotification) FetchEvent(ctx 
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanComponent related to the event.
-func (en *V2BillingPricingPlanComponentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanComponent, error) {
+func (n *V2BillingPricingPlanComponentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanComponent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanComponent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -8972,14 +8365,9 @@ type V2BillingPricingPlanComponentUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanComponentUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanComponentUpdatedEvent that created this Notification
-func (en *V2BillingPricingPlanComponentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanComponentUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanComponentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanComponentUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8987,10 +8375,12 @@ func (en *V2BillingPricingPlanComponentUpdatedEventNotification) FetchEvent(ctx 
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanComponent related to the event.
-func (en *V2BillingPricingPlanComponentUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanComponent, error) {
+func (n *V2BillingPricingPlanComponentUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanComponent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanComponent{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9014,14 +8404,9 @@ type V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotifi
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent that created this Notification
-func (en *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9029,10 +8414,12 @@ func (en *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventN
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanSubscription related to the event.
-func (en *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+func (n *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9056,14 +8443,9 @@ type V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionCurrentEvent that created this Notification
-func (en *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionCurrentEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionCurrentEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9071,10 +8453,12 @@ func (en *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) Fe
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanSubscription related to the event.
-func (en *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+func (n *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9098,14 +8482,9 @@ type V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionPastDueEvent that created this Notification
-func (en *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionPastDueEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionPastDueEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9113,10 +8492,12 @@ func (en *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) Fe
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanSubscription related to the event.
-func (en *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+func (n *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9140,14 +8521,9 @@ type V2BillingPricingPlanSubscriptionCollectionPausedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionPausedEvent that created this Notification
-func (en *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionPausedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionPausedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9155,10 +8531,12 @@ func (en *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) Fet
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanSubscription related to the event.
-func (en *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+func (n *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9182,14 +8560,9 @@ type V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionUnpaidEvent that created this Notification
-func (en *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionUnpaidEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionUnpaidEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9197,10 +8570,12 @@ func (en *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) Fet
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanSubscription related to the event.
-func (en *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+func (n *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9224,14 +8599,9 @@ type V2BillingPricingPlanSubscriptionServicingActivatedEventNotification struct 
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingActivatedEvent that created this Notification
-func (en *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingActivatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingActivatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9239,10 +8609,12 @@ func (en *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) F
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanSubscription related to the event.
-func (en *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+func (n *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9266,14 +8638,9 @@ type V2BillingPricingPlanSubscriptionServicingCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingCanceledEvent that created this Notification
-func (en *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9281,10 +8648,12 @@ func (en *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) Fe
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanSubscription related to the event.
-func (en *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+func (n *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9308,14 +8677,9 @@ type V2BillingPricingPlanSubscriptionServicingPausedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingPausedEvent that created this Notification
-func (en *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingPausedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingPausedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9323,10 +8687,12 @@ func (en *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) Fetc
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanSubscription related to the event.
-func (en *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+func (n *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9351,14 +8717,9 @@ type V2BillingPricingPlanVersionCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingPricingPlanVersionCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingPricingPlanVersionCreatedEvent that created this Notification
-func (en *V2BillingPricingPlanVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanVersionCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingPricingPlanVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanVersionCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9366,10 +8727,12 @@ func (en *V2BillingPricingPlanVersionCreatedEventNotification) FetchEvent(ctx co
 }
 
 // FetchRelatedObject fetches the V2BillingPricingPlanVersion related to the event.
-func (en *V2BillingPricingPlanVersionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanVersion, error) {
+func (n *V2BillingPricingPlanVersionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingPricingPlanVersion, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingPricingPlanVersion{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9394,14 +8757,9 @@ type V2BillingRateCardCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardCreatedEvent that created this Notification
-func (en *V2BillingRateCardCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9409,10 +8767,12 @@ func (en *V2BillingRateCardCreatedEventNotification) FetchEvent(ctx context.Cont
 }
 
 // FetchRelatedObject fetches the V2BillingRateCard related to the event.
-func (en *V2BillingRateCardCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCard, error) {
+func (n *V2BillingRateCardCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCard, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCard{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9436,14 +8796,9 @@ type V2BillingRateCardUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardUpdatedEvent that created this Notification
-func (en *V2BillingRateCardUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9451,10 +8806,12 @@ func (en *V2BillingRateCardUpdatedEventNotification) FetchEvent(ctx context.Cont
 }
 
 // FetchRelatedObject fetches the V2BillingRateCard related to the event.
-func (en *V2BillingRateCardUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCard, error) {
+func (n *V2BillingRateCardUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCard, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCard{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9479,14 +8836,9 @@ type V2BillingRateCardRateCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardRateCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardRateCreatedEvent that created this Notification
-func (en *V2BillingRateCardRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardRateCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardRateCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9494,10 +8846,12 @@ func (en *V2BillingRateCardRateCreatedEventNotification) FetchEvent(ctx context.
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardRate related to the event.
-func (en *V2BillingRateCardRateCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardRate, error) {
+func (n *V2BillingRateCardRateCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardRate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardRate{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9521,14 +8875,9 @@ type V2BillingRateCardSubscriptionActivatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionActivatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionActivatedEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionActivatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionActivatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9536,10 +8885,12 @@ func (en *V2BillingRateCardSubscriptionActivatedEventNotification) FetchEvent(ct
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9563,14 +8914,9 @@ type V2BillingRateCardSubscriptionCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCanceledEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9578,10 +8924,12 @@ func (en *V2BillingRateCardSubscriptionCanceledEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9605,14 +8953,9 @@ type V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotificat
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9620,10 +8963,12 @@ func (en *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNoti
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9647,14 +8992,9 @@ type V2BillingRateCardSubscriptionCollectionCurrentEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionCurrentEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionCurrentEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionCurrentEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9662,10 +9002,12 @@ func (en *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) Fetch
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9689,14 +9031,9 @@ type V2BillingRateCardSubscriptionCollectionPastDueEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionPastDueEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionPastDueEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionPastDueEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9704,10 +9041,12 @@ func (en *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) Fetch
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9731,14 +9070,9 @@ type V2BillingRateCardSubscriptionCollectionPausedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionCollectionPausedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionPausedEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionPausedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionPausedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9746,10 +9080,12 @@ func (en *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchE
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9773,14 +9109,9 @@ type V2BillingRateCardSubscriptionCollectionUnpaidEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionUnpaidEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionUnpaidEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionUnpaidEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9788,10 +9119,12 @@ func (en *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchE
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9815,14 +9148,9 @@ type V2BillingRateCardSubscriptionServicingActivatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionServicingActivatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingActivatedEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionServicingActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingActivatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionServicingActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingActivatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9830,10 +9158,12 @@ func (en *V2BillingRateCardSubscriptionServicingActivatedEventNotification) Fetc
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionServicingActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionServicingActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9857,14 +9187,9 @@ type V2BillingRateCardSubscriptionServicingCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionServicingCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingCanceledEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionServicingCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionServicingCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9872,10 +9197,12 @@ func (en *V2BillingRateCardSubscriptionServicingCanceledEventNotification) Fetch
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionServicingCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionServicingCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9899,14 +9226,9 @@ type V2BillingRateCardSubscriptionServicingPausedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardSubscriptionServicingPausedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingPausedEvent that created this Notification
-func (en *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingPausedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingPausedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9914,10 +9236,12 @@ func (en *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchEv
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardSubscription related to the event.
-func (en *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+func (n *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardSubscription, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardSubscription{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9942,14 +9266,9 @@ type V2BillingRateCardVersionCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2BillingRateCardVersionCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2BillingRateCardVersionCreatedEvent that created this Notification
-func (en *V2BillingRateCardVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardVersionCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2BillingRateCardVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardVersionCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9957,10 +9276,12 @@ func (en *V2BillingRateCardVersionCreatedEventNotification) FetchEvent(ctx conte
 }
 
 // FetchRelatedObject fetches the V2BillingRateCardVersion related to the event.
-func (en *V2BillingRateCardVersionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardVersion, error) {
+func (n *V2BillingRateCardVersionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardVersion, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCardVersion{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -9984,14 +9305,9 @@ type V2CoreAccountClosedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountClosedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountClosedEvent that created this Notification
-func (en *V2CoreAccountClosedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountClosedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountClosedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountClosedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9999,10 +9315,12 @@ func (en *V2CoreAccountClosedEventNotification) FetchEvent(ctx context.Context) 
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountClosedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountClosedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10026,14 +9344,9 @@ type V2CoreAccountCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountCreatedEvent that created this Notification
-func (en *V2CoreAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10041,10 +9354,12 @@ func (en *V2CoreAccountCreatedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10068,14 +9383,9 @@ type V2CoreAccountUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountUpdatedEvent that created this Notification
-func (en *V2CoreAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10083,10 +9393,12 @@ func (en *V2CoreAccountUpdatedEventNotification) FetchEvent(ctx context.Context)
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10111,14 +9423,9 @@ type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNoti
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10126,10 +9433,12 @@ func (en *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEven
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10153,14 +9462,9 @@ type V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification struct 
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10168,10 +9472,12 @@ func (en *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) F
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10196,14 +9502,9 @@ type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNoti
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10211,10 +9512,12 @@ func (en *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEven
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10238,14 +9541,9 @@ type V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification struct 
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10253,10 +9551,12 @@ func (en *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) F
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10281,14 +9581,9 @@ type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNot
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10296,10 +9591,12 @@ func (en *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEve
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10323,14 +9620,9 @@ type V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification struct
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10338,10 +9630,12 @@ func (en *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) 
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10366,14 +9660,9 @@ type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotifi
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10381,10 +9670,12 @@ func (en *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventN
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10408,14 +9699,9 @@ type V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10423,10 +9709,12 @@ func (en *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) Fet
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10450,14 +9738,9 @@ type V2CoreAccountIncludingDefaultsUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingDefaultsUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingDefaultsUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingDefaultsUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingDefaultsUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10465,10 +9748,12 @@ func (en *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10492,14 +9777,9 @@ type V2CoreAccountIncludingIdentityUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingIdentityUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingIdentityUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingIdentityUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingIdentityUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10507,10 +9787,12 @@ func (en *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10534,14 +9816,9 @@ type V2CoreAccountIncludingRequirementsUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountIncludingRequirementsUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountIncludingRequirementsUpdatedEvent that created this Notification
-func (en *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingRequirementsUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingRequirementsUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10549,10 +9826,12 @@ func (en *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchEvent
 }
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (en *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+func (n *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10567,14 +9846,9 @@ type V2CoreAccountLinkReturnedEvent struct {
 // Occurs when the generated AccountLink is completed.
 type V2CoreAccountLinkReturnedEventNotification struct{ V2EventNotification }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountLinkReturnedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountLinkReturnedEvent that created this Notification
-func (en *V2CoreAccountLinkReturnedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountLinkReturnedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountLinkReturnedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountLinkReturnedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10602,14 +9876,9 @@ type V2CoreAccountPersonCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountPersonCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountPersonCreatedEvent that created this Notification
-func (en *V2CoreAccountPersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountPersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10617,10 +9886,12 @@ func (en *V2CoreAccountPersonCreatedEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
-func (en *V2CoreAccountPersonCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+func (n *V2CoreAccountPersonCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccountPerson{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10645,14 +9916,9 @@ type V2CoreAccountPersonDeletedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountPersonDeletedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountPersonDeletedEvent that created this Notification
-func (en *V2CoreAccountPersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonDeletedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountPersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonDeletedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10660,10 +9926,12 @@ func (en *V2CoreAccountPersonDeletedEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
-func (en *V2CoreAccountPersonDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+func (n *V2CoreAccountPersonDeletedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccountPerson{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10688,14 +9956,9 @@ type V2CoreAccountPersonUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreAccountPersonUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreAccountPersonUpdatedEvent that created this Notification
-func (en *V2CoreAccountPersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreAccountPersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10703,10 +9966,12 @@ func (en *V2CoreAccountPersonUpdatedEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the V2CoreAccountPerson related to the event.
-func (en *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+func (n *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccountPerson, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccountPerson{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10730,14 +9995,9 @@ type V2CoreClaimableSandboxClaimedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreClaimableSandboxClaimedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreClaimableSandboxClaimedEvent that created this Notification
-func (en *V2CoreClaimableSandboxClaimedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxClaimedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreClaimableSandboxClaimedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxClaimedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10745,10 +10005,12 @@ func (en *V2CoreClaimableSandboxClaimedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
-func (en *V2CoreClaimableSandboxClaimedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+func (n *V2CoreClaimableSandboxClaimedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreClaimableSandbox{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10772,14 +10034,9 @@ type V2CoreClaimableSandboxCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreClaimableSandboxCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreClaimableSandboxCreatedEvent that created this Notification
-func (en *V2CoreClaimableSandboxCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreClaimableSandboxCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10787,10 +10044,12 @@ func (en *V2CoreClaimableSandboxCreatedEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
-func (en *V2CoreClaimableSandboxCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+func (n *V2CoreClaimableSandboxCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreClaimableSandbox{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10814,14 +10073,9 @@ type V2CoreClaimableSandboxExpiredEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreClaimableSandboxExpiredEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreClaimableSandboxExpiredEvent that created this Notification
-func (en *V2CoreClaimableSandboxExpiredEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiredEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreClaimableSandboxExpiredEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiredEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10829,10 +10083,12 @@ func (en *V2CoreClaimableSandboxExpiredEventNotification) FetchEvent(ctx context
 }
 
 // FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
-func (en *V2CoreClaimableSandboxExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+func (n *V2CoreClaimableSandboxExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreClaimableSandbox{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10856,14 +10112,9 @@ type V2CoreClaimableSandboxExpiringEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreClaimableSandboxExpiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreClaimableSandboxExpiringEvent that created this Notification
-func (en *V2CoreClaimableSandboxExpiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreClaimableSandboxExpiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10871,10 +10122,12 @@ func (en *V2CoreClaimableSandboxExpiringEventNotification) FetchEvent(ctx contex
 }
 
 // FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
-func (en *V2CoreClaimableSandboxExpiringEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+func (n *V2CoreClaimableSandboxExpiringEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreClaimableSandbox{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10898,14 +10151,9 @@ type V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification st
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent that created this Notification
-func (en *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10913,10 +10161,12 @@ func (en *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotificati
 }
 
 // FetchRelatedObject fetches the V2CoreClaimableSandbox related to the event.
-func (en *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+func (n *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreClaimableSandbox, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreClaimableSandbox{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10940,14 +10190,9 @@ type V2CoreEventDestinationPingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreEventDestinationPingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
-func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10955,10 +10200,12 @@ func (en *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Co
 }
 
 // FetchRelatedObject fetches the V2EventDestination related to the event.
-func (en *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2EventDestination{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -10973,14 +10220,9 @@ type V2CoreHealthAPIErrorFiringEvent struct {
 // Occurs when an API error alert is firing.
 type V2CoreHealthAPIErrorFiringEventNotification struct{ V2EventNotification }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthAPIErrorFiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthAPIErrorFiringEvent that created this Notification
-func (en *V2CoreHealthAPIErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPIErrorFiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthAPIErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPIErrorFiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10998,14 +10240,9 @@ type V2CoreHealthAPIErrorResolvedEvent struct {
 // Occurs when an API error alert is resolved.
 type V2CoreHealthAPIErrorResolvedEventNotification struct{ V2EventNotification }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthAPIErrorResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthAPIErrorResolvedEvent that created this Notification
-func (en *V2CoreHealthAPIErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPIErrorResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthAPIErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPIErrorResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11023,14 +10260,9 @@ type V2CoreHealthAPILatencyFiringEvent struct {
 // Occurs when an API latency alert is firing.
 type V2CoreHealthAPILatencyFiringEventNotification struct{ V2EventNotification }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthAPILatencyFiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthAPILatencyFiringEvent that created this Notification
-func (en *V2CoreHealthAPILatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPILatencyFiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthAPILatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPILatencyFiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11050,14 +10282,9 @@ type V2CoreHealthAPILatencyResolvedEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthAPILatencyResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthAPILatencyResolvedEvent that created this Notification
-func (en *V2CoreHealthAPILatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPILatencyResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthAPILatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPILatencyResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11077,14 +10304,9 @@ type V2CoreHealthAuthorizationRateDropFiringEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthAuthorizationRateDropFiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthAuthorizationRateDropFiringEvent that created this Notification
-func (en *V2CoreHealthAuthorizationRateDropFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAuthorizationRateDropFiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthAuthorizationRateDropFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAuthorizationRateDropFiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11104,14 +10326,9 @@ type V2CoreHealthAuthorizationRateDropResolvedEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthAuthorizationRateDropResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthAuthorizationRateDropResolvedEvent that created this Notification
-func (en *V2CoreHealthAuthorizationRateDropResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAuthorizationRateDropResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthAuthorizationRateDropResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAuthorizationRateDropResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11131,14 +10348,9 @@ type V2CoreHealthEventGenerationFailureResolvedEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthEventGenerationFailureResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthEventGenerationFailureResolvedEvent that created this Notification
-func (en *V2CoreHealthEventGenerationFailureResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthEventGenerationFailureResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthEventGenerationFailureResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthEventGenerationFailureResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11158,14 +10370,9 @@ type V2CoreHealthFraudRateIncreasedEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthFraudRateIncreasedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthFraudRateIncreasedEvent that created this Notification
-func (en *V2CoreHealthFraudRateIncreasedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthFraudRateIncreasedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthFraudRateIncreasedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthFraudRateIncreasedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11185,14 +10392,9 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification struct
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent that created this Notification
-func (en *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11212,14 +10414,9 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification stru
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent that created this Notification
-func (en *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11239,14 +10436,9 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification struc
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent that created this Notification
-func (en *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11266,14 +10458,9 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification str
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent that created this Notification
-func (en *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11293,14 +10480,9 @@ type V2CoreHealthPaymentMethodErrorFiringEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthPaymentMethodErrorFiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthPaymentMethodErrorFiringEvent that created this Notification
-func (en *V2CoreHealthPaymentMethodErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthPaymentMethodErrorFiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthPaymentMethodErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthPaymentMethodErrorFiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11320,14 +10502,9 @@ type V2CoreHealthPaymentMethodErrorResolvedEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthPaymentMethodErrorResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthPaymentMethodErrorResolvedEvent that created this Notification
-func (en *V2CoreHealthPaymentMethodErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthPaymentMethodErrorResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthPaymentMethodErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthPaymentMethodErrorResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11347,14 +10524,9 @@ type V2CoreHealthTrafficVolumeDropFiringEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthTrafficVolumeDropFiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthTrafficVolumeDropFiringEvent that created this Notification
-func (en *V2CoreHealthTrafficVolumeDropFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthTrafficVolumeDropFiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthTrafficVolumeDropFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthTrafficVolumeDropFiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11374,14 +10546,9 @@ type V2CoreHealthTrafficVolumeDropResolvedEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthTrafficVolumeDropResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthTrafficVolumeDropResolvedEvent that created this Notification
-func (en *V2CoreHealthTrafficVolumeDropResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthTrafficVolumeDropResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthTrafficVolumeDropResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthTrafficVolumeDropResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11401,14 +10568,9 @@ type V2CoreHealthWebhookLatencyFiringEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthWebhookLatencyFiringEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthWebhookLatencyFiringEvent that created this Notification
-func (en *V2CoreHealthWebhookLatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthWebhookLatencyFiringEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthWebhookLatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthWebhookLatencyFiringEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11428,14 +10590,9 @@ type V2CoreHealthWebhookLatencyResolvedEventNotification struct {
 	V2EventNotification
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2CoreHealthWebhookLatencyResolvedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2CoreHealthWebhookLatencyResolvedEvent that created this Notification
-func (en *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthWebhookLatencyResolvedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthWebhookLatencyResolvedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11462,14 +10619,9 @@ type V2MoneyManagementAdjustmentCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementAdjustmentCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementAdjustmentCreatedEvent that created this Notification
-func (en *V2MoneyManagementAdjustmentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementAdjustmentCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementAdjustmentCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11477,10 +10629,12 @@ func (en *V2MoneyManagementAdjustmentCreatedEventNotification) FetchEvent(ctx co
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementAdjustment related to the event.
-func (en *V2MoneyManagementAdjustmentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementAdjustment, error) {
+func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementAdjustment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementAdjustment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11504,14 +10658,9 @@ type V2MoneyManagementFinancialAccountCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementFinancialAccountCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountCreatedEvent that created this Notification
-func (en *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11519,10 +10668,12 @@ func (en *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
-func (en *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementFinancialAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11546,14 +10697,9 @@ type V2MoneyManagementFinancialAccountUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementFinancialAccountUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountUpdatedEvent that created this Notification
-func (en *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11561,10 +10707,12 @@ func (en *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementFinancialAccount related to the event.
-func (en *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementFinancialAccount{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11588,14 +10736,9 @@ type V2MoneyManagementFinancialAddressActivatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementFinancialAddressActivatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressActivatedEvent that created this Notification
-func (en *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressActivatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressActivatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11603,10 +10746,12 @@ func (en *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchEven
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementFinancialAddress related to the event.
-func (en *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
+func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementFinancialAddress{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11630,14 +10775,9 @@ type V2MoneyManagementFinancialAddressFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementFinancialAddressFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressFailedEvent that created this Notification
-func (en *V2MoneyManagementFinancialAddressFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11645,10 +10785,12 @@ func (en *V2MoneyManagementFinancialAddressFailedEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementFinancialAddress related to the event.
-func (en *V2MoneyManagementFinancialAddressFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
+func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementFinancialAddress{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11673,14 +10815,9 @@ type V2MoneyManagementInboundTransferAvailableEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementInboundTransferAvailableEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementInboundTransferAvailableEvent that created this Notification
-func (en *V2MoneyManagementInboundTransferAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferAvailableEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferAvailableEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11688,10 +10825,12 @@ func (en *V2MoneyManagementInboundTransferAvailableEventNotification) FetchEvent
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
-func (en *V2MoneyManagementInboundTransferAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11715,14 +10854,9 @@ type V2MoneyManagementInboundTransferBankDebitFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitFailedEvent that created this Notification
-func (en *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11730,10 +10864,12 @@ func (en *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) Fetc
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
-func (en *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11757,14 +10893,9 @@ type V2MoneyManagementInboundTransferBankDebitProcessingEventNotification struct
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitProcessingEvent that created this Notification
-func (en *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitProcessingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitProcessingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11772,10 +10903,12 @@ func (en *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) 
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
-func (en *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11799,14 +10932,9 @@ type V2MoneyManagementInboundTransferBankDebitQueuedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitQueuedEvent that created this Notification
-func (en *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitQueuedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitQueuedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11814,10 +10942,12 @@ func (en *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) Fetc
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
-func (en *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11841,14 +10971,9 @@ type V2MoneyManagementInboundTransferBankDebitReturnedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitReturnedEvent that created this Notification
-func (en *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitReturnedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitReturnedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11856,10 +10981,12 @@ func (en *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) Fe
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
-func (en *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11883,14 +11010,9 @@ type V2MoneyManagementInboundTransferBankDebitSucceededEventNotification struct 
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitSucceededEvent that created this Notification
-func (en *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11898,10 +11020,12 @@ func (en *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) F
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementInboundTransfer related to the event.
-func (en *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11925,14 +11049,9 @@ type V2MoneyManagementOutboundPaymentCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundPaymentCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCanceledEvent that created this Notification
-func (en *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11940,10 +11059,12 @@ func (en *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
-func (en *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -11967,14 +11088,9 @@ type V2MoneyManagementOutboundPaymentCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundPaymentCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCreatedEvent that created this Notification
-func (en *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11982,10 +11098,12 @@ func (en *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
-func (en *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12009,14 +11127,9 @@ type V2MoneyManagementOutboundPaymentFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundPaymentFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentFailedEvent that created this Notification
-func (en *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12024,10 +11137,12 @@ func (en *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchEvent(ct
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
-func (en *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12051,14 +11166,9 @@ type V2MoneyManagementOutboundPaymentPostedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundPaymentPostedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentPostedEvent that created this Notification
-func (en *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentPostedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentPostedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12066,10 +11176,12 @@ func (en *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchEvent(ct
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
-func (en *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12093,14 +11205,9 @@ type V2MoneyManagementOutboundPaymentReturnedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundPaymentReturnedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentReturnedEvent that created this Notification
-func (en *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentReturnedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentReturnedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12108,10 +11215,12 @@ func (en *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
-func (en *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12135,14 +11244,9 @@ type V2MoneyManagementOutboundPaymentUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundPaymentUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentUpdatedEvent that created this Notification
-func (en *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12150,10 +11254,12 @@ func (en *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
-func (en *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12177,14 +11283,9 @@ type V2MoneyManagementOutboundTransferCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundTransferCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCanceledEvent that created this Notification
-func (en *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12192,10 +11293,12 @@ func (en *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchEvent
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
-func (en *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12219,14 +11322,9 @@ type V2MoneyManagementOutboundTransferCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundTransferCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCreatedEvent that created this Notification
-func (en *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12234,10 +11332,12 @@ func (en *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
-func (en *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12261,14 +11361,9 @@ type V2MoneyManagementOutboundTransferFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundTransferFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferFailedEvent that created this Notification
-func (en *V2MoneyManagementOutboundTransferFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12276,10 +11371,12 @@ func (en *V2MoneyManagementOutboundTransferFailedEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
-func (en *V2MoneyManagementOutboundTransferFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12303,14 +11400,9 @@ type V2MoneyManagementOutboundTransferPostedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundTransferPostedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferPostedEvent that created this Notification
-func (en *V2MoneyManagementOutboundTransferPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferPostedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferPostedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12318,10 +11410,12 @@ func (en *V2MoneyManagementOutboundTransferPostedEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
-func (en *V2MoneyManagementOutboundTransferPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12345,14 +11439,9 @@ type V2MoneyManagementOutboundTransferReturnedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundTransferReturnedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferReturnedEvent that created this Notification
-func (en *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferReturnedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferReturnedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12360,10 +11449,12 @@ func (en *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
-func (en *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12387,14 +11478,9 @@ type V2MoneyManagementOutboundTransferUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementOutboundTransferUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferUpdatedEvent that created this Notification
-func (en *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12402,10 +11488,12 @@ func (en *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
-func (en *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12429,14 +11517,9 @@ type V2MoneyManagementPayoutMethodUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementPayoutMethodUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementPayoutMethodUpdatedEvent that created this Notification
-func (en *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12444,10 +11527,12 @@ func (en *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchEvent(ctx 
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
-func (en *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementPayoutMethod{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12472,14 +11557,9 @@ type V2MoneyManagementReceivedCreditAvailableEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedCreditAvailableEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditAvailableEvent that created this Notification
-func (en *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditAvailableEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditAvailableEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12487,10 +11567,12 @@ func (en *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
-func (en *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedCredit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12514,14 +11596,9 @@ type V2MoneyManagementReceivedCreditFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedCreditFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditFailedEvent that created this Notification
-func (en *V2MoneyManagementReceivedCreditFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12529,10 +11606,12 @@ func (en *V2MoneyManagementReceivedCreditFailedEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
-func (en *V2MoneyManagementReceivedCreditFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedCredit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12556,14 +11635,9 @@ type V2MoneyManagementReceivedCreditReturnedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedCreditReturnedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditReturnedEvent that created this Notification
-func (en *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditReturnedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditReturnedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12571,10 +11645,12 @@ func (en *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
-func (en *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedCredit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12598,14 +11674,9 @@ type V2MoneyManagementReceivedCreditSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedCreditSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditSucceededEvent that created this Notification
-func (en *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12613,10 +11684,12 @@ func (en *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchEvent(
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedCredit related to the event.
-func (en *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedCredit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12640,14 +11713,9 @@ type V2MoneyManagementReceivedDebitCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedDebitCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitCanceledEvent that created this Notification
-func (en *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12655,10 +11723,12 @@ func (en *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchEvent(ct
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
-func (en *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12682,14 +11752,9 @@ type V2MoneyManagementReceivedDebitFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedDebitFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitFailedEvent that created this Notification
-func (en *V2MoneyManagementReceivedDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12697,10 +11762,12 @@ func (en *V2MoneyManagementReceivedDebitFailedEventNotification) FetchEvent(ctx 
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
-func (en *V2MoneyManagementReceivedDebitFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12724,14 +11791,9 @@ type V2MoneyManagementReceivedDebitPendingEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedDebitPendingEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitPendingEvent that created this Notification
-func (en *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitPendingEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitPendingEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12739,10 +11801,12 @@ func (en *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
-func (en *V2MoneyManagementReceivedDebitPendingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12766,14 +11830,9 @@ type V2MoneyManagementReceivedDebitSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedDebitSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitSucceededEvent that created this Notification
-func (en *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12781,10 +11840,12 @@ func (en *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchEvent(c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
-func (en *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12808,14 +11869,9 @@ type V2MoneyManagementReceivedDebitUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementReceivedDebitUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitUpdatedEvent that created this Notification
-func (en *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12823,10 +11879,12 @@ func (en *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchEvent(ctx
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
-func (en *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12850,14 +11908,9 @@ type V2MoneyManagementRecipientVerificationCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementRecipientVerificationCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementRecipientVerificationCreatedEvent that created this Notification
-func (en *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRecipientVerificationCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRecipientVerificationCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12865,10 +11918,12 @@ func (en *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchE
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementRecipientVerification related to the event.
-func (en *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementRecipientVerification, error) {
+func (n *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementRecipientVerification, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementRecipientVerification{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12892,14 +11947,9 @@ type V2MoneyManagementRecipientVerificationUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementRecipientVerificationUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementRecipientVerificationUpdatedEvent that created this Notification
-func (en *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRecipientVerificationUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRecipientVerificationUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12907,10 +11957,12 @@ func (en *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchE
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementRecipientVerification related to the event.
-func (en *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementRecipientVerification, error) {
+func (n *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementRecipientVerification, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementRecipientVerification{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12934,14 +11986,9 @@ type V2MoneyManagementTransactionCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementTransactionCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementTransactionCreatedEvent that created this Notification
-func (en *V2MoneyManagementTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12949,10 +11996,12 @@ func (en *V2MoneyManagementTransactionCreatedEventNotification) FetchEvent(ctx c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementTransaction related to the event.
-func (en *V2MoneyManagementTransactionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
+func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementTransaction{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -12976,14 +12025,9 @@ type V2MoneyManagementTransactionUpdatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2MoneyManagementTransactionUpdatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2MoneyManagementTransactionUpdatedEvent that created this Notification
-func (en *V2MoneyManagementTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionUpdatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionUpdatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12991,10 +12035,12 @@ func (en *V2MoneyManagementTransactionUpdatedEventNotification) FetchEvent(ctx c
 }
 
 // FetchRelatedObject fetches the V2MoneyManagementTransaction related to the event.
-func (en *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
+func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementTransaction{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -13018,14 +12064,9 @@ type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification stru
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent that created this Notification
-func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13033,10 +12074,12 @@ func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification
 }
 
 // FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -13062,14 +12105,9 @@ type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification str
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent that created this Notification
-func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13077,10 +12115,12 @@ func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotificatio
 }
 
 // FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (en *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -13104,14 +12144,9 @@ type V2PaymentsOffSessionPaymentCanceledEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2PaymentsOffSessionPaymentCanceledEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentCanceledEvent that created this Notification
-func (en *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCanceledEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCanceledEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13119,10 +12154,12 @@ func (en *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchEvent(ctx c
 }
 
 // FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (en *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+func (n *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -13146,14 +12183,9 @@ type V2PaymentsOffSessionPaymentCreatedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2PaymentsOffSessionPaymentCreatedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentCreatedEvent that created this Notification
-func (en *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCreatedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCreatedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13161,10 +12193,12 @@ func (en *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchEvent(ctx co
 }
 
 // FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (en *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+func (n *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -13188,14 +12222,9 @@ type V2PaymentsOffSessionPaymentFailedEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2PaymentsOffSessionPaymentFailedEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentFailedEvent that created this Notification
-func (en *V2PaymentsOffSessionPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentFailedEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2PaymentsOffSessionPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentFailedEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13203,10 +12232,12 @@ func (en *V2PaymentsOffSessionPaymentFailedEventNotification) FetchEvent(ctx con
 }
 
 // FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (en *V2PaymentsOffSessionPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+func (n *V2PaymentsOffSessionPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
@@ -13230,14 +12261,9 @@ type V2PaymentsOffSessionPaymentSucceededEventNotification struct {
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
-// GetEventNotification ensures we conform to `EventNotificationContainer`.
-func (en *V2PaymentsOffSessionPaymentSucceededEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentSucceededEvent that created this Notification
-func (en *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentSucceededEvent, error) {
-	evt, err := en.V2EventNotification.fetchEvent(ctx)
+func (n *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentSucceededEvent, error) {
+	evt, err := n.V2EventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13245,10 +12271,12 @@ func (en *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchEvent(ctx 
 }
 
 // FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
-func (en *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+func (n *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2PaymentsOffSessionPayment{}
-	err := en.client.backend.Call(
-		http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, relatedObj)
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
 
