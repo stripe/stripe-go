@@ -11,17 +11,16 @@ func TestNewStripeContext(t *testing.T) {
 	{
 		ctx := NewStripeContext(nil)
 		assert.NotNil(t, ctx)
-		assert.True(t, ctx.IsEmpty())
-		assert.Equal(t, 0, ctx.Size())
-		assert.Equal(t, "", *ctx.String())
+		assert.Len(t, ctx.Segments, 0)
+		assert.Equal(t, "", *ctx.StringPtr())
 	}
 
 	// Test with empty segments
 	{
 		ctx := NewStripeContext([]string{})
 		assert.NotNil(t, ctx)
-		assert.True(t, ctx.IsEmpty())
-		assert.Equal(t, 0, ctx.Size())
+		assert.Len(t, ctx.Segments, 0)
+		assert.Equal(t, "", *ctx.StringPtr())
 	}
 
 	// Test with segments
@@ -29,10 +28,8 @@ func TestNewStripeContext(t *testing.T) {
 		segments := []string{"workspace", "account", "customer"}
 		ctx := NewStripeContext(segments)
 		assert.NotNil(t, ctx)
-		assert.False(t, ctx.IsEmpty())
-		assert.Equal(t, 3, ctx.Size())
-		assert.Equal(t, "workspace/account/customer", *ctx.String())
-		assert.Equal(t, segments, ctx.Segments())
+		assert.Equal(t, "workspace/account/customer", *ctx.StringPtr())
+		assert.Equal(t, segments, ctx.Segments)
 	}
 
 	// Test immutability - modifying original slice doesn't affect context
@@ -40,7 +37,7 @@ func TestNewStripeContext(t *testing.T) {
 		segments := []string{"a", "b"}
 		ctx := NewStripeContext(segments)
 		segments[0] = "modified"
-		assert.Equal(t, "a", ctx.Segments()[0])
+		assert.Equal(t, "a", ctx.Segments[0])
 	}
 }
 
@@ -54,24 +51,24 @@ func TestParseStripeContext(t *testing.T) {
 	// Test single segment
 	{
 		ctx := ParseStripeContext("workspace")
-		assert.Equal(t, 1, ctx.Size())
-		assert.Equal(t, "workspace", *ctx.String())
-		assert.Equal(t, []string{"workspace"}, ctx.Segments())
+		assert.Equal(t, 1, len(ctx.Segments))
+		assert.Equal(t, "workspace", *ctx.StringPtr())
+		assert.Equal(t, []string{"workspace"}, ctx.Segments)
 	}
 
 	// Test multiple segments
 	{
 		ctx := ParseStripeContext("workspace/account/customer")
-		assert.Equal(t, 3, ctx.Size())
-		assert.Equal(t, "workspace/account/customer", *ctx.String())
-		assert.Equal(t, []string{"workspace", "account", "customer"}, ctx.Segments())
+		assert.Equal(t, 3, len(ctx.Segments))
+		assert.Equal(t, "workspace/account/customer", *ctx.StringPtr())
+		assert.Equal(t, []string{"workspace", "account", "customer"}, ctx.Segments)
 	}
 
 	// Test empty segments in string
 	{
 		ctx := ParseStripeContext("a//b")
-		assert.Equal(t, 3, ctx.Size())
-		assert.Equal(t, []string{"a", "", "b"}, ctx.Segments())
+		assert.Equal(t, 3, len(ctx.Segments))
+		assert.Equal(t, []string{"a", "", "b"}, ctx.Segments)
 	}
 }
 
@@ -82,11 +79,11 @@ func TestStripeContext_Push(t *testing.T) {
 		newCtx, err := ctx.Push("segment")
 		assert.NoError(t, err)
 		assert.NotNil(t, newCtx)
-		assert.Equal(t, 1, newCtx.Size())
-		assert.Equal(t, "segment", *newCtx.String())
+		assert.Equal(t, 1, len(newCtx.Segments))
+		assert.Equal(t, "segment", *newCtx.StringPtr())
 
 		// Original context unchanged
-		assert.True(t, ctx.IsEmpty())
+		assert.Equal(t, 0, len(ctx.Segments))
 		assert.NotEqual(t, ctx, newCtx)
 	}
 
@@ -95,12 +92,12 @@ func TestStripeContext_Push(t *testing.T) {
 		ctx := NewStripeContext([]string{"a", "b"})
 		newCtx, err := ctx.Push("c")
 		assert.NoError(t, err)
-		assert.Equal(t, 3, newCtx.Size())
-		assert.Equal(t, "a/b/c", *newCtx.String())
+		assert.Len(t, newCtx.Segments, 3)
+		assert.Equal(t, "a/b/c", *newCtx.StringPtr())
 
 		// Original context unchanged
-		assert.Equal(t, 2, ctx.Size())
-		assert.Equal(t, "a/b", *ctx.String())
+		assert.Equal(t, 2, len(ctx.Segments))
+		assert.Equal(t, "a/b", *ctx.StringPtr())
 	}
 
 	// Test push with whitespace
@@ -108,7 +105,7 @@ func TestStripeContext_Push(t *testing.T) {
 		ctx := NewStripeContext(nil)
 		newCtx, err := ctx.Push("  segment  ")
 		assert.NoError(t, err)
-		assert.Equal(t, "segment", *newCtx.String())
+		assert.Equal(t, "segment", *newCtx.StringPtr())
 	}
 
 	// Test push empty segment
@@ -146,11 +143,11 @@ func TestStripeContext_Pop(t *testing.T) {
 		ctx := NewStripeContext([]string{"single"})
 		newCtx, err := ctx.Pop()
 		assert.NoError(t, err)
-		assert.True(t, newCtx.IsEmpty())
+		assert.Equal(t, 0, len(newCtx.Segments))
 
 		// Original unchanged
-		assert.Equal(t, 1, ctx.Size())
-		assert.Equal(t, "single", *ctx.String())
+		assert.Equal(t, 1, len(ctx.Segments))
+		assert.Equal(t, "single", *ctx.StringPtr())
 	}
 
 	// Test pop multiple segments
@@ -158,12 +155,12 @@ func TestStripeContext_Pop(t *testing.T) {
 		ctx := NewStripeContext([]string{"a", "b", "c"})
 		newCtx, err := ctx.Pop()
 		assert.NoError(t, err)
-		assert.Equal(t, 2, newCtx.Size())
-		assert.Equal(t, "a/b", *newCtx.String())
+		assert.Equal(t, 2, len(newCtx.Segments))
+		assert.Equal(t, "a/b", *newCtx.StringPtr())
 
 		// Original unchanged
-		assert.Equal(t, 3, ctx.Size())
-		assert.Equal(t, "a/b/c", *ctx.String())
+		assert.Equal(t, 3, len(ctx.Segments))
+		assert.Equal(t, "a/b/c", *ctx.StringPtr())
 	}
 }
 
@@ -171,45 +168,20 @@ func TestStripeContext_String(t *testing.T) {
 	// Test empty context
 	{
 		ctx := NewStripeContext(nil)
-		assert.Equal(t, "", *ctx.String())
+		assert.Equal(t, "", *ctx.StringPtr())
 	}
 
 	// Test single segment
 	{
 		ctx := NewStripeContext([]string{"workspace"})
-		assert.Equal(t, "workspace", *ctx.String())
+		assert.Equal(t, "workspace", *ctx.StringPtr())
 	}
 
 	// Test multiple segments
 	{
 		ctx := NewStripeContext([]string{"a", "b", "c"})
-		assert.Equal(t, "a/b/c", *ctx.String())
+		assert.Equal(t, "a/b/c", *ctx.StringPtr())
 	}
-}
-
-func TestStripeContext_Segments(t *testing.T) {
-	segments := []string{"a", "b", "c"}
-	ctx := NewStripeContext(segments)
-
-	// Returns copy
-	returned := ctx.Segments()
-	assert.Equal(t, segments, returned)
-
-	// Modifying returned slice doesn't affect original
-	returned[0] = "modified"
-	assert.Equal(t, "a", ctx.Segments()[0])
-}
-
-func TestStripeContext_Clone(t *testing.T) {
-	ctx := NewStripeContext([]string{"a", "b", "c"})
-	clone := ctx.Clone()
-
-	assert.True(t, ctx != clone) // Different instances (check pointers)
-
-	// Modifying clone doesn't affect original
-	newClone, _ := clone.Push("d")
-	assert.Equal(t, 3, ctx.Size())
-	assert.Equal(t, 4, newClone.Size())
 }
 
 func TestStripeContext_Immutability(t *testing.T) {
@@ -219,14 +191,14 @@ func TestStripeContext_Immutability(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Original remains unchanged
-	assert.Equal(t, 2, original.Size())
-	assert.Equal(t, "a/b", *original.String())
+	assert.Len(t, original.Segments, 2)
+	assert.Equal(t, "a/b", *original.StringPtr())
 
 	// New instances created
-	assert.Equal(t, 3, pushed.Size())
-	assert.Equal(t, "a/b/c", *pushed.String())
-	assert.Equal(t, 1, popped.Size())
-	assert.Equal(t, "a", *popped.String())
+	assert.Len(t, pushed.Segments, 3)
+	assert.Equal(t, "a/b/c", *pushed.StringPtr())
+	assert.Len(t, popped.Segments, 1)
+	assert.Equal(t, "a", *popped.StringPtr())
 
 	// All different instances (check pointers)
 	assert.True(t, original != pushed)
@@ -242,9 +214,9 @@ func TestStripeContext_UsagePattern(t *testing.T) {
 	grandchild, err := child.Push("customer_789")
 	assert.NoError(t, err)
 
-	assert.Equal(t, "workspace_123", *baseContext.String())
-	assert.Equal(t, "workspace_123/account_456", *child.String())
-	assert.Equal(t, "workspace_123/account_456/customer_789", *grandchild.String())
+	assert.Equal(t, "workspace_123", *baseContext.StringPtr())
+	assert.Equal(t, "workspace_123/account_456", *child.StringPtr())
+	assert.Equal(t, "workspace_123/account_456/customer_789", *grandchild.StringPtr())
 
 	// Go back up the hierarchy
 	backToChild, err := grandchild.Pop()
@@ -252,8 +224,8 @@ func TestStripeContext_UsagePattern(t *testing.T) {
 	backToBase, err := backToChild.Pop()
 	assert.NoError(t, err)
 
-	assert.Equal(t, "workspace_123/account_456", *backToChild.String())
-	assert.Equal(t, "workspace_123", *backToBase.String())
+	assert.Equal(t, "workspace_123/account_456", *backToChild.StringPtr())
+	assert.Equal(t, "workspace_123", *backToBase.StringPtr())
 }
 
 func TestParams_SetStripeContextObject(t *testing.T) {
@@ -261,14 +233,14 @@ func TestParams_SetStripeContextObject(t *testing.T) {
 
 	// Test with nil context
 	{
-		params.SetStripeContextObject(nil)
+		params.SetStripeContextFrom(nil)
 		assert.Nil(t, params.StripeContext)
 	}
 
 	// Test with valid context
 	{
 		ctx := NewStripeContext([]string{"workspace", "account"})
-		params.SetStripeContextObject(ctx)
+		params.SetStripeContextFrom(ctx)
 		assert.NotNil(t, params.StripeContext)
 		assert.Equal(t, "workspace/account", *params.StripeContext)
 	}
@@ -276,7 +248,7 @@ func TestParams_SetStripeContextObject(t *testing.T) {
 	// Test with empty context
 	{
 		ctx := NewStripeContext(nil)
-		params.SetStripeContextObject(ctx)
+		params.SetStripeContextFrom(ctx)
 		assert.NotNil(t, params.StripeContext)
 		assert.Equal(t, "", *params.StripeContext)
 	}

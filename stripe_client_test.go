@@ -69,7 +69,7 @@ func TestDecodeV2EventNotificationContextVariants(t *testing.T) {
 				assert.Nil(t, notif.Context)
 			} else {
 				assert.NotNil(t, notif.Context)
-				assert.Equal(t, tc.expectedStr, *notif.Context.String())
+				assert.Equal(t, tc.expectedStr, *notif.Context.StringPtr())
 			}
 		})
 	}

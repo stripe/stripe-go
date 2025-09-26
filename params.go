@@ -298,10 +298,10 @@ func (p *Params) SetStripeContext(val string) {
 	p.StripeContext = &val
 }
 
-// SetStripeContextObject sets a value for the Stripe-Context header using a StripeContext object.
-func (p *Params) SetStripeContextObject(val *StripeContext) {
+// SetStripeContextFrom sets a value for the Stripe-Context header using a StripeContext object.
+func (p *Params) SetStripeContextFrom(val *Context) {
 	if val != nil {
-		p.StripeContext = val.String()
+		p.StripeContext = val.StringPtr()
 	}
 }
 

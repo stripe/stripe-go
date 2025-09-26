@@ -22,7 +22,7 @@ type V2EventNotification struct {
 	// Time at which the event was created
 	Created time.Time `json:"created"`
 	// [Optional] Authentication context needed to fetch the event or related object
-	Context *StripeContext `json:"context"`
+	Context *Context `json:"context"`
 	// [Optional] Reason for the event
 	Reason *V2EventReason `json:"reason"`
 
@@ -36,7 +36,7 @@ func (n *V2EventNotification) GetEventNotification() *V2EventNotification {
 func (n *V2EventNotification) fetchEvent(ctx context.Context) (V2Event, error) {
 	// TODO: usage?
 	params := &V2CoreEventRetrieveParams{}
-	params.SetStripeContextObject(n.Context)
+	params.SetStripeContextFrom(n.Context)
 
 	return n.client.V2CoreEvents.Retrieve(ctx, n.ID, params)
 }
@@ -72,8 +72,8 @@ func (n *V2UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*A
 
 	// TODO: usage?
 	obj := &APIResource{}
-	params := &eventNotificationParams{}
-	params.SetStripeContextObject(n.Context)
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 
 	err := n.client.backend.Call(http.MethodGet, n.RelatedObject.URL, n.client.key, params, obj)
 	return obj, err

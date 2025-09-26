@@ -94,7 +94,7 @@ func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx con
 // FetchRelatedObject fetches the BillingMeter related to the event.
 func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextObject(n.Context)
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &BillingMeter{}
 	err := n.client.backend.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -153,7 +153,7 @@ func (n *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Con
 // FetchRelatedObject fetches the V2EventDestination related to the event.
 func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextObject(n.Context)
+	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2EventDestination{}
 	err := n.client.backend.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)

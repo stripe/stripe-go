@@ -1736,7 +1736,7 @@ func TestStripeContextWhenSetWithV1(t *testing.T) {
 }
 
 func TestStripeContextWhenSet(t *testing.T) {
-	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: ParseStripeContext("ctx").StringPtr()}).(*BackendImplementation)
 	req, err := c.NewRequest("", "/v2/foo", "", "", nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "ctx", req.Header.Get("Stripe-Context"))
@@ -1788,7 +1788,7 @@ func TestStripeContextPrecedence(t *testing.T) {
 	{
 		c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
 		ctx := NewStripeContext(nil)
-		req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: ctx.String()})
+		req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: ctx.StringPtr()})
 		assert.NoError(t, err)
 		assert.Empty(t, req.Header.Get("Stripe-Context"))
 	}
