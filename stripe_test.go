@@ -1736,7 +1736,7 @@ func TestStripeContextWhenSetWithV1(t *testing.T) {
 }
 
 func TestStripeContextWhenSet(t *testing.T) {
-	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: ParseStripeContext("ctx").StringPtr()}).(*BackendImplementation)
 	req, err := c.NewRequest("", "/v2/foo", "", "", nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "ctx", req.Header.Get("Stripe-Context"))
@@ -1747,6 +1747,51 @@ func TestStripeContextWhenSetInParams(t *testing.T) {
 	req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: String("requestCtx")})
 	assert.NoError(t, err)
 	assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
+}
+
+func TestStripeContextPrecedence(t *testing.T) {
+	// Test precedence: BackendConfig.StripeContext vs Params.StripeContext
+
+	// Case 1: Only BackendConfig.StripeContext is set
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+		req, err := c.NewRequest("", "/v2/foo", "", "", nil)
+		assert.NoError(t, err)
+		assert.Equal(t, "ctx", req.Header.Get("Stripe-Context"))
+	}
+
+	// Case 2: Only Params.StripeContext is set
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{}).(*BackendImplementation)
+		req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: String("requestCtx")})
+		assert.NoError(t, err)
+		assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
+	}
+
+	// Case 3: Neither is set
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{}).(*BackendImplementation)
+		req, err := c.NewRequest("", "/v2/foo", "", "", nil)
+		assert.NoError(t, err)
+		assert.Empty(t, req.Header.Get("Stripe-Context"))
+	}
+
+	// Case 4: Both are set, Params.StripeContext should take precedence
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+		req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: String("requestCtx")})
+		assert.NoError(t, err)
+		assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
+	}
+
+	// Case 5: Setting an empty StripeContext on the request should overwrite and clear the header
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+		ctx := NewStripeContext(nil)
+		req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: ctx.StringPtr()})
+		assert.NoError(t, err)
+		assert.Empty(t, req.Header.Get("Stripe-Context"))
+	}
 }
 
 func TestHandleV2ErrorWhenKnownError(t *testing.T) {
