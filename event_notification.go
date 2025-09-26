@@ -24,7 +24,7 @@ type V2EventNotification struct {
 	// [Optional] Authentication context needed to fetch the event or related object
 	Context *Context `json:"context"`
 	// [Optional] Reason for the event
-	Reason *V2EventReason `json:"reason"`
+	Reason *V2CoreEventReason `json:"reason"`
 
 	client Client
 }
@@ -33,7 +33,7 @@ func (n *V2EventNotification) GetEventNotification() *V2EventNotification {
 	return n
 }
 
-func (n *V2EventNotification) fetchEvent(ctx context.Context) (V2Event, error) {
+func (n *V2EventNotification) fetchEvent(ctx context.Context) (V2CoreEvent, error) {
 	// TODO: usage?
 	params := &V2CoreEventRetrieveParams{}
 	params.SetStripeContextFrom(n.Context)
@@ -60,7 +60,7 @@ type V2UnknownEventNotification struct {
 	RelatedObject *RelatedObject `json:"related_object"`
 }
 
-func (n *V2UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
+func (n *V2UnknownEventNotification) FetchEvent(ctx context.Context) (V2CoreEvent, error) {
 	return n.fetchEvent(ctx)
 }
 

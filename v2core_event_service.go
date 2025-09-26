@@ -18,13 +18,13 @@ type v2CoreEventService struct {
 }
 
 // Retrieves the details of an event.
-func (c v2CoreEventService) Retrieve(ctx context.Context, id string, params *V2CoreEventRetrieveParams) (V2Event, error) {
+func (c v2CoreEventService) Retrieve(ctx context.Context, id string, params *V2CoreEventRetrieveParams) (V2CoreEvent, error) {
 	if params == nil {
 		params = &V2CoreEventRetrieveParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v2/core/events/%s", id)
-	raw := &V2RawEvent{}
+	raw := &V2CoreRawEvent{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, raw)
 	if err != nil {
 		return nil, err
@@ -33,18 +33,18 @@ func (c v2CoreEventService) Retrieve(ctx context.Context, id string, params *V2C
 }
 
 // List events, going back up to 30 days.
-func (c v2CoreEventService) List(ctx context.Context, listParams *V2CoreEventListParams) Seq2[V2Event, error] {
+func (c v2CoreEventService) List(ctx context.Context, listParams *V2CoreEventListParams) Seq2[V2CoreEvent, error] {
 	if listParams == nil {
 		listParams = &V2CoreEventListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/core/events", listParams, func(path string, p ParamsContainer) (*V2Page[V2Event], error) {
-		raw := &V2Page[V2RawEvent]{}
+	return NewV2List("/v2/core/events", listParams, func(path string, p ParamsContainer) (*V2Page[V2CoreEvent], error) {
+		raw := &V2Page[V2CoreRawEvent]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, raw)
-		page := &V2Page[V2Event]{}
+		page := &V2Page[V2CoreEvent]{}
 		page.LastResponse = raw.LastResponse
 		page.NextPageURL = raw.NextPageURL
-		page.Data = make([]V2Event, len(raw.Data))
+		page.Data = make([]V2CoreEvent, len(raw.Data))
 		for i := range raw.Data {
 			page.Data[i], err = ConvertRawEvent(&raw.Data[i], c.B, c.Key)
 			if err != nil {
