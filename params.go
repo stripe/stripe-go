@@ -98,7 +98,7 @@ func (l *ListMeta) GetListMeta() *ListMeta {
 // ListParams is the structure that contains the common properties
 // of any *ListParams structure.
 type ListParams struct {
-	// Context used for request. It may carry deadlines, cancelation signals,
+	// Context used for request. It may carry deadlines, cancellation signals,
 	// and other request-scoped values across API boundaries and between
 	// processes.
 	//
@@ -193,7 +193,7 @@ func (m APIMode) contentType() string {
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
-	// Context used for request. It may carry deadlines, cancelation signals,
+	// Context used for request. It may carry deadlines, cancellation signals,
 	// and other request-scoped values across API boundaries and between
 	// processes.
 	//
@@ -298,6 +298,13 @@ func (p *Params) SetStripeContext(val string) {
 	p.StripeContext = &val
 }
 
+// SetStripeContextFrom sets a value for the Stripe-Context header using a StripeContext object.
+func (p *Params) SetStripeContextFrom(val *Context) {
+	if val != nil {
+		p.StripeContext = val.StringPtr()
+	}
+}
+
 // ParamsContainer is a general interface for which all parameter structs
 // should comply. They achieve this by embedding a Params struct and inheriting
 // its implementation of this interface.
@@ -321,11 +328,11 @@ type RangeQueryParams struct {
 	// to this timestamp.
 	GreaterThanOrEqual int64 `form:"gte"`
 
-	// LesserThan specifies that values should be lesser than this timetamp.
+	// LesserThan specifies that values should be lesser than this timestamp.
 	LesserThan int64 `form:"lt"`
 
 	// LesserThanOrEqual specifies that values should be lesser than or
-	// equalthis timetamp.
+	// equal to this timestamp.
 	LesserThanOrEqual int64 `form:"lte"`
 }
 

@@ -22,20 +22,23 @@ type V2EventNotification struct {
 	// Time at which the event was created
 	Created time.Time `json:"created"`
 	// [Optional] Authentication context needed to fetch the event or related object
-	Context *string `json:"context"`
+	Context *Context `json:"context"`
 	// [Optional] Reason for the event
 	Reason *V2EventReason `json:"reason"`
 
 	client Client
 }
 
-func (en *V2EventNotification) fetchEvent(ctx context.Context) (V2Event, error) {
+func (n *V2EventNotification) GetEventNotification() *V2EventNotification {
+	return n
+}
+
+func (n *V2EventNotification) fetchEvent(ctx context.Context) (V2Event, error) {
 	// TODO: usage?
-	return en.client.V2CoreEvents.Retrieve(ctx, en.ID, &V2CoreEventRetrieveParams{
-		Params{
-			StripeContext: en.Context,
-		},
-	})
+	params := &V2CoreEventRetrieveParams{}
+	params.SetStripeContextFrom(n.Context)
+
+	return n.client.V2CoreEvents.Retrieve(ctx, n.ID, params)
 }
 
 // interface to return from ParseEventNotification
@@ -57,23 +60,21 @@ type V2UnknownEventNotification struct {
 	RelatedObject *RelatedObject `json:"related_object"`
 }
 
-func (en *V2UnknownEventNotification) GetEventNotification() *V2EventNotification {
-	return &en.V2EventNotification
-}
-
-func (en *V2UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
-	return en.fetchEvent(ctx)
+func (n *V2UnknownEventNotification) FetchEvent(ctx context.Context) (V2Event, error) {
+	return n.fetchEvent(ctx)
 }
 
 // FetchRelatedObject tries to fetch the related object, if one exists. Returns nil if the struct doesn't have a RelatedObject property
-func (en *V2UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*APIResource, error) {
-	if en.RelatedObject == nil {
+func (n *V2UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*APIResource, error) {
+	if n.RelatedObject == nil {
 		return nil, nil
 	}
 
 	// TODO: usage?
 	obj := &APIResource{}
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
 
-	err := en.client.backend.Call(http.MethodGet, en.RelatedObject.URL, en.client.key, &eventNotificationParams{Params: Params{Context: ctx, StripeContext: en.Context}}, obj)
+	err := n.client.backend.Call(http.MethodGet, n.RelatedObject.URL, n.client.key, params, obj)
 	return obj, err
 }
