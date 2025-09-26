@@ -13223,7 +13223,8 @@ func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreEventDestinations.Ping("id_123", params)
+	result, err := sc.V2CoreEventDestinations.Ping(
+		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
