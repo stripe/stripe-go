@@ -18,37 +18,37 @@ type v2CoreEventDestinationService struct {
 }
 
 // Create a new event destination.
-func (c v2CoreEventDestinationService) Create(ctx context.Context, params *V2CoreEventDestinationCreateParams) (*V2EventDestination, error) {
+func (c v2CoreEventDestinationService) Create(ctx context.Context, params *V2CoreEventDestinationCreateParams) (*V2CoreEventDestination, error) {
 	if params == nil {
 		params = &V2CoreEventDestinationCreateParams{}
 	}
 	params.Context = ctx
-	eventdestination := &V2EventDestination{}
+	eventdestination := &V2CoreEventDestination{}
 	err := c.B.Call(
 		http.MethodPost, "/v2/core/event_destinations", c.Key, params, eventdestination)
 	return eventdestination, err
 }
 
 // Retrieves the details of an event destination.
-func (c v2CoreEventDestinationService) Retrieve(ctx context.Context, id string, params *V2CoreEventDestinationRetrieveParams) (*V2EventDestination, error) {
+func (c v2CoreEventDestinationService) Retrieve(ctx context.Context, id string, params *V2CoreEventDestinationRetrieveParams) (*V2CoreEventDestination, error) {
 	if params == nil {
 		params = &V2CoreEventDestinationRetrieveParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v2/core/event_destinations/%s", id)
-	eventdestination := &V2EventDestination{}
+	eventdestination := &V2CoreEventDestination{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, eventdestination)
 	return eventdestination, err
 }
 
 // Update the details of an event destination.
-func (c v2CoreEventDestinationService) Update(ctx context.Context, id string, params *V2CoreEventDestinationUpdateParams) (*V2EventDestination, error) {
+func (c v2CoreEventDestinationService) Update(ctx context.Context, id string, params *V2CoreEventDestinationUpdateParams) (*V2CoreEventDestination, error) {
 	if params == nil {
 		params = &V2CoreEventDestinationUpdateParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v2/core/event_destinations/%s", id)
-	eventdestination := &V2EventDestination{}
+	eventdestination := &V2CoreEventDestination{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, eventdestination)
 	return eventdestination, err
 }
@@ -66,33 +66,37 @@ func (c v2CoreEventDestinationService) Delete(ctx context.Context, id string, pa
 }
 
 // Disable an event destination.
-func (c v2CoreEventDestinationService) Disable(ctx context.Context, id string, params *V2CoreEventDestinationDisableParams) (*V2EventDestination, error) {
+func (c v2CoreEventDestinationService) Disable(ctx context.Context, id string, params *V2CoreEventDestinationDisableParams) (*V2CoreEventDestination, error) {
 	if params == nil {
 		params = &V2CoreEventDestinationDisableParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v2/core/event_destinations/%s/disable", id)
-	eventdestination := &V2EventDestination{}
+	eventdestination := &V2CoreEventDestination{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, eventdestination)
 	return eventdestination, err
 }
 
 // Enable an event destination.
-func (c v2CoreEventDestinationService) Enable(ctx context.Context, id string, params *V2CoreEventDestinationEnableParams) (*V2EventDestination, error) {
+func (c v2CoreEventDestinationService) Enable(ctx context.Context, id string, params *V2CoreEventDestinationEnableParams) (*V2CoreEventDestination, error) {
 	if params == nil {
 		params = &V2CoreEventDestinationEnableParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v2/core/event_destinations/%s/enable", id)
-	eventdestination := &V2EventDestination{}
+	eventdestination := &V2CoreEventDestination{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, eventdestination)
 	return eventdestination, err
 }
 
 // Send a `ping` event to an event destination.
-func (c v2CoreEventDestinationService) Ping(id string, params *V2CoreEventDestinationPingParams) (V2Event, error) {
+func (c v2CoreEventDestinationService) Ping(ctx context.Context, id string, params *V2CoreEventDestinationPingParams) (V2CoreEvent, error) {
+	if params == nil {
+		params = &V2CoreEventDestinationPingParams{}
+	}
+	params.Context = ctx
 	path := FormatURLPath("/v2/core/event_destinations/%s/ping", id)
-	raw := &V2RawEvent{}
+	raw := &V2CoreRawEvent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, raw)
 	if err != nil {
 		return nil, err
@@ -101,13 +105,13 @@ func (c v2CoreEventDestinationService) Ping(id string, params *V2CoreEventDestin
 }
 
 // Lists all event destinations.
-func (c v2CoreEventDestinationService) List(ctx context.Context, listParams *V2CoreEventDestinationListParams) Seq2[*V2EventDestination, error] {
+func (c v2CoreEventDestinationService) List(ctx context.Context, listParams *V2CoreEventDestinationListParams) Seq2[*V2CoreEventDestination, error] {
 	if listParams == nil {
 		listParams = &V2CoreEventDestinationListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/core/event_destinations", listParams, func(path string, p ParamsContainer) (*V2Page[*V2EventDestination], error) {
-		page := &V2Page[*V2EventDestination]{}
+	return NewV2List("/v2/core/event_destinations", listParams, func(path string, p ParamsContainer) (*V2Page[*V2CoreEventDestination], error) {
+		page := &V2Page[*V2CoreEventDestination]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()
