@@ -466,32 +466,14 @@ type BankAccountUpdateParams struct {
 	AccountHolderType *string `form:"account_holder_type"`
 	// The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.
 	AccountType *string `form:"account_type"`
-	// City/District/Suburb/Town/Village.
-	AddressCity *string `form:"address_city"`
-	// Billing address country, if provided when creating card.
-	AddressCountry *string `form:"address_country"`
-	// Address line 1 (Street address/PO Box/Company name).
-	AddressLine1 *string `form:"address_line1"`
-	// Address line 2 (Apartment/Suite/Unit/Building).
-	AddressLine2 *string `form:"address_line2"`
-	// State/County/Province/Region.
-	AddressState *string `form:"address_state"`
-	// ZIP or postal code.
-	AddressZip *string `form:"address_zip"`
 	// When set to true, this becomes the default external account for its currency.
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *BankAccountUpdateDocumentsParams `form:"documents"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Two digit number representing the card's expiration month.
-	ExpMonth *string `form:"exp_month"`
-	// Four digit number representing the card's expiration year.
-	ExpYear *string `form:"exp_year"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// Cardholder name.
-	Name *string `form:"name"`
 }
 
 // AddExpand appends a new field to expand.

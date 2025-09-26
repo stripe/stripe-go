@@ -17,6 +17,24 @@ const (
 	V2PaymentsOffSessionPaymentCadenceUnscheduled V2PaymentsOffSessionPaymentCadence = "unscheduled"
 )
 
+// The method to use to capture the payment.
+type V2PaymentsOffSessionPaymentCaptureCaptureMethod string
+
+// List of values that V2PaymentsOffSessionPaymentCaptureCaptureMethod can take
+const (
+	V2PaymentsOffSessionPaymentCaptureCaptureMethodAutomatic V2PaymentsOffSessionPaymentCaptureCaptureMethod = "automatic"
+	V2PaymentsOffSessionPaymentCaptureCaptureMethodManual    V2PaymentsOffSessionPaymentCaptureCaptureMethod = "manual"
+)
+
+// Whether the OffSessionPayment should be captured automatically or manually.
+type V2PaymentsOffSessionPaymentCaptureMethod string
+
+// List of values that V2PaymentsOffSessionPaymentCaptureMethod can take
+const (
+	V2PaymentsOffSessionPaymentCaptureMethodAutomatic V2PaymentsOffSessionPaymentCaptureMethod = "automatic"
+	V2PaymentsOffSessionPaymentCaptureMethodManual    V2PaymentsOffSessionPaymentCaptureMethod = "manual"
+)
+
 // The reason why the OffSessionPayment failed.
 type V2PaymentsOffSessionPaymentFailureReason string
 
@@ -103,6 +121,14 @@ type V2PaymentsOffSessionPaymentAmountDetails struct {
 	Tax *V2PaymentsOffSessionPaymentAmountDetailsTax `json:"tax,omitempty"`
 }
 
+// Details about the capture configuration for the OffSessionPayment.
+type V2PaymentsOffSessionPaymentCapture struct {
+	// The timestamp when this payment is no longer eligible to be captured.
+	CaptureBefore time.Time `json:"capture_before,omitempty"`
+	// The method to use to capture the payment.
+	CaptureMethod V2PaymentsOffSessionPaymentCaptureCaptureMethod `json:"capture_method"`
+}
+
 // Details about the payments orchestration configuration.
 type V2PaymentsOffSessionPaymentPaymentsOrchestration struct {
 	// True when you want to enable payments orchestration for this off-session payment. False otherwise.
@@ -137,12 +163,18 @@ type V2PaymentsOffSessionPaymentTransferData struct {
 // OffSessionPayment resource.
 type V2PaymentsOffSessionPayment struct {
 	APIResource
+	// The amount available to be captured.
+	AmountCapturable Amount `json:"amount_capturable,omitempty"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
 	// The “presentment amount” to be collected from the customer.
 	AmountRequested Amount `json:"amount_requested"`
 	// The frequency of the underlying payment.
 	Cadence V2PaymentsOffSessionPaymentCadence `json:"cadence"`
+	// Details about the capture configuration for the OffSessionPayment.
+	Capture *V2PaymentsOffSessionPaymentCapture `json:"capture,omitempty"`
+	// Whether the OffSessionPayment should be captured automatically or manually.
+	CaptureMethod V2PaymentsOffSessionPaymentCaptureMethod `json:"capture_method,omitempty"`
 	// ID of the owning compartment.
 	CompartmentID string `json:"compartment_id"`
 	// Creation time of the OffSessionPayment. Represented as a RFC 3339 date & time UTC

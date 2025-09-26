@@ -329,10 +329,6 @@ type CardUpdateParams struct {
 	Params   `form:"*"`
 	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
-	// The name of the person or business that owns the bank account.
-	AccountHolderName *string `form:"account_holder_name"`
-	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
 	// City/District/Suburb/Town/Village.
 	AddressCity *string `form:"address_city"`
 	// Billing address country, if provided when creating card.
@@ -345,10 +341,6 @@ type CardUpdateParams struct {
 	AddressState *string `form:"address_state"`
 	// ZIP or postal code.
 	AddressZip *string `form:"address_zip"`
-	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
-	Currency *string `form:"currency"`
-	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
-	CVC *string `form:"cvc"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Specifies which fields in the response should be expanded.
@@ -361,9 +353,6 @@ type CardUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
-	// The card number, as a string without any separators.
-	Number *string                `form:"number"`
-	Owner  *CardUpdateOwnerParams `form:"owner"`
 }
 
 // AddExpand appends a new field to expand.

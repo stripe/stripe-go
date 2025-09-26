@@ -53,6 +53,18 @@ func (c v2PaymentsOffSessionPaymentService) Cancel(ctx context.Context, id strin
 	return offsessionpayment, err
 }
 
+// Captures an OffSessionPayment that has previously been created.
+func (c v2PaymentsOffSessionPaymentService) Capture(ctx context.Context, id string, params *V2PaymentsOffSessionPaymentCaptureParams) (*V2PaymentsOffSessionPayment, error) {
+	if params == nil {
+		params = &V2PaymentsOffSessionPaymentCaptureParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/payments/off_session_payments/%s/capture", id)
+	offsessionpayment := &V2PaymentsOffSessionPayment{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, offsessionpayment)
+	return offsessionpayment, err
+}
+
 // Returns a list of OffSessionPayments matching a filter.
 func (c v2PaymentsOffSessionPaymentService) List(ctx context.Context, listParams *V2PaymentsOffSessionPaymentListParams) Seq2[*V2PaymentsOffSessionPayment, error] {
 	if listParams == nil {
