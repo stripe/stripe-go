@@ -2634,8 +2634,8 @@ func TestCustomersSourcesGet4Client(t *testing.T) {
 
 func TestCustomersSourcesPost(t *testing.T) {
 	params := &stripe.CardParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := card.Update("card_123", params)
 	assert.NotNil(t, result)
@@ -2645,8 +2645,8 @@ func TestCustomersSourcesPost(t *testing.T) {
 func TestCustomersSourcesPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CardParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := sc.Cards.Update("card_123", params)
 	assert.NotNil(t, result)
@@ -2656,8 +2656,8 @@ func TestCustomersSourcesPostService(t *testing.T) {
 func TestCustomersSourcesPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardUpdateParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := sc.V1Cards.Update(context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
