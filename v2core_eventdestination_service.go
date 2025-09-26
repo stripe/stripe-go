@@ -90,7 +90,11 @@ func (c v2CoreEventDestinationService) Enable(ctx context.Context, id string, pa
 }
 
 // Send a `ping` event to an event destination.
-func (c v2CoreEventDestinationService) Ping(id string, params *V2CoreEventDestinationPingParams) (V2Event, error) {
+func (c v2CoreEventDestinationService) Ping(ctx context.Context, id string, params *V2CoreEventDestinationPingParams) (V2Event, error) {
+	if params == nil {
+		params = &V2CoreEventDestinationPingParams{}
+	}
+	params.Context = ctx
 	path := FormatURLPath("/v2/core/event_destinations/%s/ping", id)
 	raw := &V2RawEvent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, raw)
