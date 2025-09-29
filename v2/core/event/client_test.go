@@ -50,8 +50,8 @@ func TestEventAll(t *testing.T) {
 	timeNow := time.Now()
 	params := &stripe.V2CoreEventListParams{}
 	testServer, sc := mock.Server(t, string(http.MethodGet), "/v2/core/events", params, func(p *stripe.V2CoreEventListParams) []byte {
-		data, err := json.Marshal(stripe.V2Page[stripe.V2Event]{
-			Data: []stripe.V2Event{
+		data, err := json.Marshal(stripe.V2Page[stripe.V2CoreEvent]{
+			Data: []stripe.V2CoreEvent{
 				&stripe.V1BillingMeterErrorReportTriggeredEvent{
 					V2BaseEvent: stripe.V2BaseEvent{
 						Created: timeNow,
@@ -92,7 +92,7 @@ func TestEventAll(t *testing.T) {
 	})
 	defer testServer.Close()
 	cnt := 1
-	sc.V2CoreEvents.All(params)(func(event stripe.V2Event, err error) bool {
+	sc.V2CoreEvents.All(params)(func(event stripe.V2CoreEvent, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, event)
 		if cnt == 1 {

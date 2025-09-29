@@ -22,11 +22,11 @@ func TestEventDestinationNew(t *testing.T) {
 		Name:          stripe.String("My Event Destination"),
 		Description:   stripe.String("This is my event destination, I like it a lot"),
 		EnabledEvents: stripe.StringSlice([]string{"v1.billing.meter.error_report_triggered"}),
-		Type:          stripe.String(string(stripe.V2EventDestinationTypeWebhookEndpoint)),
+		Type:          stripe.String(string(stripe.V2CoreEventDestinationTypeWebhookEndpoint)),
 		WebhookEndpoint: &stripe.V2CoreEventDestinationWebhookEndpointParams{
 			URL: stripe.String("https://example.com/my/webhook/endpoint"),
 		},
-		EventPayload: stripe.String(string(stripe.V2EventDestinationEventPayloadThin)),
+		EventPayload: stripe.String(string(stripe.V2CoreEventDestinationEventPayloadThin)),
 		Include:      stripe.StringSlice([]string{"webhook_endpoint.url"}),
 	}
 	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations", params, func(p *stripe.V2CoreEventDestinationParams) []byte {
@@ -34,17 +34,17 @@ func TestEventDestinationNew(t *testing.T) {
 		for _, event := range params.EnabledEvents {
 			enabledEvents = append(enabledEvents, *event)
 		}
-		data, err := json.Marshal(stripe.V2EventDestination{
+		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   *params.Description,
 			EnabledEvents: enabledEvents,
-			EventPayload:  stripe.V2EventDestinationEventPayload(*params.EventPayload),
-			EventsFrom:    []stripe.V2EventDestinationEventsFrom{stripe.V2EventDestinationEventsFromSelf},
+			EventPayload:  stripe.V2CoreEventDestinationEventPayload(*params.EventPayload),
+			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
 			Name:          *params.Name,
-			Status:        stripe.V2EventDestinationStatusEnabled,
-			Type:          stripe.V2EventDestinationType(*params.Type),
+			Status:        stripe.V2CoreEventDestinationStatusEnabled,
+			Type:          stripe.V2CoreEventDestinationType(*params.Type),
 			Updated:       timeNow,
-			WebhookEndpoint: &stripe.V2EventDestinationWebhookEndpoint{
+			WebhookEndpoint: &stripe.V2CoreEventDestinationWebhookEndpoint{
 				URL: *params.WebhookEndpoint.URL,
 			},
 		})
@@ -60,13 +60,13 @@ func TestEventDestinationNew(t *testing.T) {
 	for i, event := range dest.EnabledEvents {
 		assert.Equal(t, event, *params.EnabledEvents[i])
 	}
-	assert.Equal(t, dest.Type, stripe.V2EventDestinationType(*params.Type))
+	assert.Equal(t, dest.Type, stripe.V2CoreEventDestinationType(*params.Type))
 	assert.Equal(t, dest.WebhookEndpoint.URL, *params.WebhookEndpoint.URL)
-	assert.Equal(t, dest.EventPayload, stripe.V2EventDestinationEventPayload(*params.EventPayload))
-	assert.Equal(t, dest.Status, stripe.V2EventDestinationStatusEnabled)
+	assert.Equal(t, dest.EventPayload, stripe.V2CoreEventDestinationEventPayload(*params.EventPayload))
+	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusEnabled)
 	assert.True(t, dest.Created.Equal(timeNow))
 	assert.True(t, dest.Updated.Equal(timeNow))
-	assert.Equal(t, dest.EventsFrom, []stripe.V2EventDestinationEventsFrom{stripe.V2EventDestinationEventsFromSelf})
+	assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
 }
 
 func TestEventDestinationGet(t *testing.T) {
@@ -75,15 +75,15 @@ func TestEventDestinationGet(t *testing.T) {
 		Include: stripe.StringSlice([]string{"webhook_endpoint.url"}),
 	}
 	testServer, sc := mock.Server(t, string(http.MethodGet), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
-		data, err := json.Marshal(stripe.V2EventDestination{
+		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   "This is my event destination, I like it a lot",
 			EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-			EventPayload:  stripe.V2EventDestinationEventPayloadThin,
-			EventsFrom:    []stripe.V2EventDestinationEventsFrom{stripe.V2EventDestinationEventsFromSelf},
+			EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
+			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
 			Name:          "My Event Destination",
-			Status:        stripe.V2EventDestinationStatusEnabled,
-			Type:          stripe.V2EventDestinationTypeWebhookEndpoint,
+			Status:        stripe.V2CoreEventDestinationStatusEnabled,
+			Type:          stripe.V2CoreEventDestinationTypeWebhookEndpoint,
 			Updated:       timeNow,
 			ID:            "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
@@ -99,12 +99,12 @@ func TestEventDestinationGet(t *testing.T) {
 	assert.Equal(t, dest.Name, "My Event Destination")
 	assert.Equal(t, dest.Description, "This is my event destination, I like it a lot")
 	assert.Equal(t, dest.EnabledEvents, []string{"v1.billing.meter.error_report_triggered"})
-	assert.Equal(t, dest.Type, stripe.V2EventDestinationTypeWebhookEndpoint)
-	assert.Equal(t, dest.EventPayload, stripe.V2EventDestinationEventPayloadThin)
-	assert.Equal(t, dest.Status, stripe.V2EventDestinationStatusEnabled)
+	assert.Equal(t, dest.Type, stripe.V2CoreEventDestinationTypeWebhookEndpoint)
+	assert.Equal(t, dest.EventPayload, stripe.V2CoreEventDestinationEventPayloadThin)
+	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusEnabled)
 	assert.True(t, dest.Created.Equal(timeNow))
 	assert.True(t, dest.Updated.Equal(timeNow))
-	assert.Equal(t, dest.EventsFrom, []stripe.V2EventDestinationEventsFrom{stripe.V2EventDestinationEventsFromSelf})
+	assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
 }
 
@@ -114,15 +114,15 @@ func TestEventDestinationUpdate(t *testing.T) {
 		Description: stripe.String("Better description"),
 	}
 	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", &params, func(p *stripe.V2CoreEventDestinationParams) []byte {
-		data, err := json.Marshal(stripe.V2EventDestination{
+		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   "Better description",
 			EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-			EventPayload:  stripe.V2EventDestinationEventPayloadThin,
-			EventsFrom:    []stripe.V2EventDestinationEventsFrom{stripe.V2EventDestinationEventsFromSelf},
+			EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
+			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
 			Name:          "My Event Destination",
-			Status:        stripe.V2EventDestinationStatusEnabled,
-			Type:          stripe.V2EventDestinationTypeWebhookEndpoint,
+			Status:        stripe.V2CoreEventDestinationStatusEnabled,
+			Type:          stripe.V2CoreEventDestinationTypeWebhookEndpoint,
 			Updated:       timeNow,
 			ID:            "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
@@ -136,18 +136,18 @@ func TestEventDestinationUpdate(t *testing.T) {
 	assert.Equal(t, dest.Name, "My Event Destination")
 	assert.Equal(t, dest.Description, *params.Description)
 	assert.Equal(t, dest.EnabledEvents, []string{"v1.billing.meter.error_report_triggered"})
-	assert.Equal(t, dest.Type, stripe.V2EventDestinationTypeWebhookEndpoint)
-	assert.Equal(t, dest.EventPayload, stripe.V2EventDestinationEventPayloadThin)
-	assert.Equal(t, dest.Status, stripe.V2EventDestinationStatusEnabled)
+	assert.Equal(t, dest.Type, stripe.V2CoreEventDestinationTypeWebhookEndpoint)
+	assert.Equal(t, dest.EventPayload, stripe.V2CoreEventDestinationEventPayloadThin)
+	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusEnabled)
 	assert.True(t, dest.Created.Equal(timeNow))
 	assert.True(t, dest.Updated.Equal(timeNow))
-	assert.Equal(t, dest.EventsFrom, []stripe.V2EventDestinationEventsFrom{stripe.V2EventDestinationEventsFromSelf})
+	assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
 }
 
 func TestEventDestinationDel(t *testing.T) {
 	testServer, sc := mock.Server(t, string(http.MethodDelete), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
-		data, err := json.Marshal(stripe.V2EventDestination{
+		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			ID: "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
 		assert.NoError(t, err)
@@ -162,15 +162,15 @@ func TestEventDestinationDel(t *testing.T) {
 func TestEventDestinationDisable(t *testing.T) {
 	timeNow := time.Now()
 	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6/disable", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
-		data, err := json.Marshal(stripe.V2EventDestination{
+		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   "This is my event destination, I like it a lot",
 			EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-			EventPayload:  stripe.V2EventDestinationEventPayloadThin,
-			EventsFrom:    []stripe.V2EventDestinationEventsFrom{stripe.V2EventDestinationEventsFromSelf},
+			EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
+			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
 			Name:          "My Event Destination",
-			Status:        stripe.V2EventDestinationStatusDisabled,
-			Type:          stripe.V2EventDestinationTypeWebhookEndpoint,
+			Status:        stripe.V2CoreEventDestinationStatusDisabled,
+			Type:          stripe.V2CoreEventDestinationTypeWebhookEndpoint,
 			Updated:       timeNow,
 			ID:            "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
@@ -181,21 +181,21 @@ func TestEventDestinationDisable(t *testing.T) {
 	dest, err := sc.V2CoreEventDestinations.Disable("ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil)
 	assert.Nil(t, err)
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
-	assert.Equal(t, dest.Status, stripe.V2EventDestinationStatusDisabled)
+	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusDisabled)
 }
 
 func TestEventDestinationEnable(t *testing.T) {
 	timeNow := time.Now()
 	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6/enable", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
-		data, err := json.Marshal(stripe.V2EventDestination{
+		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   "This is my event destination, I like it a lot",
 			EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-			EventPayload:  stripe.V2EventDestinationEventPayloadThin,
-			EventsFrom:    []stripe.V2EventDestinationEventsFrom{stripe.V2EventDestinationEventsFromSelf},
+			EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
+			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
 			Name:          "My Event Destination",
-			Status:        stripe.V2EventDestinationStatusEnabled,
-			Type:          stripe.V2EventDestinationTypeWebhookEndpoint,
+			Status:        stripe.V2CoreEventDestinationStatusEnabled,
+			Type:          stripe.V2CoreEventDestinationTypeWebhookEndpoint,
 			Updated:       timeNow,
 			ID:            "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
@@ -206,13 +206,13 @@ func TestEventDestinationEnable(t *testing.T) {
 	dest, err := sc.V2CoreEventDestinations.Enable("ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil)
 	assert.Nil(t, err)
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
-	assert.Equal(t, dest.Status, stripe.V2EventDestinationStatusEnabled)
+	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusEnabled)
 }
 
 func TestEventDestinationPing(t *testing.T) {
 	timeNow := time.Now()
 	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92/ping", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
-		data, err := json.Marshal(stripe.V2RawEvent{
+		data, err := json.Marshal(stripe.V2CoreRawEvent{
 			V2BaseEvent: stripe.V2BaseEvent{
 				ID:      "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92",
 				Created: timeNow,
@@ -241,24 +241,24 @@ func TestEventDestinationPing(t *testing.T) {
 func TestEventDestinationList_SinglePage(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationListParams{}
 	testServer, sc := mock.Server(t, string(http.MethodGet), "/v2/core/event_destinations", params, func(p *stripe.V2CoreEventDestinationListParams) []byte {
-		data, err := json.Marshal(stripe.V2Page[stripe.V2EventDestination]{
-			Data: []stripe.V2EventDestination{
+		data, err := json.Marshal(stripe.V2Page[stripe.V2CoreEventDestination]{
+			Data: []stripe.V2CoreEventDestination{
 				{
 					Description:   "Event destination 1",
 					EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-					EventPayload:  stripe.V2EventDestinationEventPayloadThin,
+					EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
 					ID:            "ed_test_1",
 				},
 				{
 					Description:   "Event destination 2",
 					EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-					EventPayload:  stripe.V2EventDestinationEventPayloadThin,
+					EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
 					ID:            "ed_test_2",
 				},
 				{
 					Description:   "Event destination 3",
 					EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-					EventPayload:  stripe.V2EventDestinationEventPayloadThin,
+					EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
 					ID:            "ed_test_3",
 				},
 			},
@@ -268,12 +268,12 @@ func TestEventDestinationList_SinglePage(t *testing.T) {
 	})
 	defer testServer.Close()
 	cnt := 1
-	sc.V2CoreEventDestinations.All(params)(func(dest *stripe.V2EventDestination, err error) bool {
+	sc.V2CoreEventDestinations.All(params)(func(dest *stripe.V2CoreEventDestination, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, dest)
 		assert.Equal(t, dest.Description, fmt.Sprintf("Event destination %d", cnt))
 		assert.Equal(t, dest.EnabledEvents, []string{"v1.billing.meter.error_report_triggered"})
-		assert.Equal(t, dest.EventPayload, stripe.V2EventDestinationEventPayloadThin)
+		assert.Equal(t, dest.EventPayload, stripe.V2CoreEventDestinationEventPayloadThin)
 		assert.Equal(t, dest.ID, fmt.Sprintf("ed_test_%d", cnt))
 		cnt++
 		return true
@@ -294,24 +294,24 @@ func TestEventDestinationList_MultiplePages(t *testing.T) {
 		var err error
 		switch page {
 		case "", "page_1":
-			data, err = json.Marshal(stripe.V2Page[stripe.V2EventDestination]{
+			data, err = json.Marshal(stripe.V2Page[stripe.V2CoreEventDestination]{
 				NextPageURL: fmt.Sprintf("/v2/core/event_destinations?limit=1&page=page_%d", cnt),
-				Data: []stripe.V2EventDestination{
+				Data: []stripe.V2CoreEventDestination{
 					{
 						Description:   fmt.Sprintf("Event destination %d", cnt),
 						EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-						EventPayload:  stripe.V2EventDestinationEventPayloadThin,
+						EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
 						ID:            fmt.Sprintf("ed_test_%d", cnt),
 					},
 				},
 			})
 		case "page_2":
-			data, err = json.Marshal(stripe.V2Page[stripe.V2EventDestination]{
-				Data: []stripe.V2EventDestination{
+			data, err = json.Marshal(stripe.V2Page[stripe.V2CoreEventDestination]{
+				Data: []stripe.V2CoreEventDestination{
 					{
 						Description:   fmt.Sprintf("Event destination %d", cnt),
 						EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
-						EventPayload:  stripe.V2EventDestinationEventPayloadThin,
+						EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
 						ID:            fmt.Sprintf("ed_test_%d", cnt),
 					},
 				},
@@ -331,12 +331,12 @@ func TestEventDestinationList_MultiplePages(t *testing.T) {
 	)
 	sc := client.New(TestAPIKey, backends)
 
-	sc.V2CoreEventDestinations.All(params)(func(dest *stripe.V2EventDestination, err error) bool {
+	sc.V2CoreEventDestinations.All(params)(func(dest *stripe.V2CoreEventDestination, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, dest)
 		assert.Equal(t, dest.Description, fmt.Sprintf("Event destination %d", cnt))
 		assert.Equal(t, dest.EnabledEvents, []string{"v1.billing.meter.error_report_triggered"})
-		assert.Equal(t, dest.EventPayload, stripe.V2EventDestinationEventPayloadThin)
+		assert.Equal(t, dest.EventPayload, stripe.V2CoreEventDestinationEventPayloadThin)
 		assert.Equal(t, dest.ID, fmt.Sprintf("ed_test_%d", cnt))
 		cnt++
 		return true
