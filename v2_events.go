@@ -110,7 +110,9 @@ type V1BillingMeterNoMeterFoundEvent struct {
 
 // V1BillingMeterNoMeterFoundEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.no_meter_found"
 // Occurs when a Meter's id is missing or invalid in async usage events.
-type V1BillingMeterNoMeterFoundEventNotification struct{ V2CoreEventNotification }
+type V1BillingMeterNoMeterFoundEventNotification struct {
+	V2CoreEventNotification
+}
 
 // FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
 func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
