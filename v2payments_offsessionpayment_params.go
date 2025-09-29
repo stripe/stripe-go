@@ -6,8 +6,6 @@
 
 package stripe
 
-import "time"
-
 // Returns a list of OffSessionPayments matching a filter.
 type V2PaymentsOffSessionPaymentListParams struct {
 	Params `form:"*"`
@@ -65,18 +63,38 @@ type V2PaymentsOffSessionPaymentAmountDetailsParams struct {
 	Tax *V2PaymentsOffSessionPaymentAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// This hash contains details about the customer acceptance of the Mandate.
-type V2PaymentsOffSessionPaymentMandateDataCustomerAcceptanceParams struct {
-	// The time at which the customer accepted the Mandate.
-	AcceptedAt *time.Time `form:"accepted_at" json:"accepted_at,omitempty"`
-	// The type of customer acceptance information included with the Mandate.
-	Type *string `form:"type" json:"type"`
+// Details about the capture configuration for the OffSessionPayment.
+type V2PaymentsOffSessionPaymentCaptureParams struct {
+	Params `form:"*"`
+	// The amount to capture.
+	AmountToCapture *int64 `form:"amount_to_capture" json:"amount_to_capture,omitempty"`
+	// The method to use to capture the payment.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Set of [key-value pairs](https://docs.corp.stripe.com/api/metadata) that you can
+	// attach to an object. This can be useful for storing additional information about
+	// the object in a structured format. Learn more about
+	// [storing information in metadata](https://docs.corp.stripe.com/payments/payment-intents#storing-information-in-metadata).
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Text that appears on the customer's statement as the statement descriptor for a
+	// non-card charge. This value overrides the account's default statement descriptor.
+	// For information about requirements, including the 22-character limit, see the
+	// [Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
+	// Provides information about a card charge. Concatenated to the account's
+	// [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static)
+	// to form the complete statement descriptor that appears on the customer's statement.
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
+	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.corp.stripe.com/payments/connected-accounts).
+	TransferData *V2PaymentsOffSessionPaymentCaptureTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 }
 
-// This hash contains details about the Mandate to create.
-type V2PaymentsOffSessionPaymentMandateDataParams struct {
-	// This hash contains details about the customer acceptance of the Mandate.
-	CustomerAcceptance *V2PaymentsOffSessionPaymentMandateDataCustomerAcceptanceParams `form:"customer_acceptance" json:"customer_acceptance"`
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2PaymentsOffSessionPaymentCaptureParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Payment method options for the card payment type.
@@ -134,10 +152,12 @@ type V2PaymentsOffSessionPaymentParams struct {
 	AmountDetails *V2PaymentsOffSessionPaymentAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
+	// Details about the capture configuration for the OffSessionPayment.
+	Capture *V2PaymentsOffSessionPaymentCaptureParams `form:"capture" json:"capture,omitempty"`
+	// Whether the OffSessionPayment should be captured automatically or manually.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer *string `form:"customer" json:"customer,omitempty"`
-	// This hash contains details about the Mandate to create.
-	MandateData *V2PaymentsOffSessionPaymentMandateDataParams `form:"mandate_data" json:"mandate_data,omitempty"`
 	// Set of [key-value pairs](https://docs.corp.stripe.com/api/metadata) that you can
 	// attach to an object. This can be useful for storing additional information about
 	// the object in a structured format. Learn more about
@@ -180,6 +200,21 @@ func (p *V2PaymentsOffSessionPaymentParams) AddMetadata(key string, value string
 // Cancel an OffSessionPayment that has previously been created.
 type V2PaymentsOffSessionPaymentCancelParams struct {
 	Params `form:"*"`
+}
+
+// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.corp.stripe.com/payments/connected-accounts).
+type V2PaymentsOffSessionPaymentCaptureTransferDataParams struct {
+	// The amount transferred to the destination account. This transfer will occur
+	// automatically after the payment succeeds. If no amount is specified, by default
+	// the entire payment amount is transferred to the destination account. The amount
+	// must be less than or equal to the
+	// [amount_requested](https://docs.corp.stripe.com/api/v2/off-session-payments/object?api-version=2025-05-28.preview#v2_off_session_payment_object-amount_requested),
+	// and must be a positive integer representing how much to transfer in the smallest
+	// currency unit (e.g., 100 cents to charge $1.00).
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// The account (if any) that the payment is attributed to for tax reporting, and
+	// where funds from the payment are transferred to after payment success.
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // Contains information about the tax on the item.
@@ -232,18 +267,10 @@ type V2PaymentsOffSessionPaymentCreateAmountDetailsParams struct {
 	Tax *V2PaymentsOffSessionPaymentCreateAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// This hash contains details about the customer acceptance of the Mandate.
-type V2PaymentsOffSessionPaymentCreateMandateDataCustomerAcceptanceParams struct {
-	// The time at which the customer accepted the Mandate.
-	AcceptedAt *time.Time `form:"accepted_at" json:"accepted_at,omitempty"`
-	// The type of customer acceptance information included with the Mandate.
-	Type *string `form:"type" json:"type"`
-}
-
-// This hash contains details about the Mandate to create.
-type V2PaymentsOffSessionPaymentCreateMandateDataParams struct {
-	// This hash contains details about the customer acceptance of the Mandate.
-	CustomerAcceptance *V2PaymentsOffSessionPaymentCreateMandateDataCustomerAcceptanceParams `form:"customer_acceptance" json:"customer_acceptance"`
+// Details about the capture configuration for the OffSessionPayment.
+type V2PaymentsOffSessionPaymentCreateCaptureParams struct {
+	// The method to use to capture the payment.
+	CaptureMethod *string `form:"capture_method" json:"capture_method"`
 }
 
 // Payment method options for the card payment type.
@@ -301,10 +328,12 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	AmountDetails *V2PaymentsOffSessionPaymentCreateAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence"`
+	// Details about the capture configuration for the OffSessionPayment.
+	Capture *V2PaymentsOffSessionPaymentCreateCaptureParams `form:"capture" json:"capture,omitempty"`
+	// Whether the OffSessionPayment should be captured automatically or manually.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer *string `form:"customer" json:"customer"`
-	// This hash contains details about the Mandate to create.
-	MandateData *V2PaymentsOffSessionPaymentCreateMandateDataParams `form:"mandate_data" json:"mandate_data,omitempty"`
 	// Set of [key-value pairs](https://docs.corp.stripe.com/api/metadata) that you can
 	// attach to an object. This can be useful for storing additional information about
 	// the object in a structured format. Learn more about

@@ -2634,8 +2634,8 @@ func TestCustomersSourcesGet4Client(t *testing.T) {
 
 func TestCustomersSourcesPost(t *testing.T) {
 	params := &stripe.CardParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := card.Update("card_123", params)
 	assert.NotNil(t, result)
@@ -2645,8 +2645,8 @@ func TestCustomersSourcesPost(t *testing.T) {
 func TestCustomersSourcesPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CardParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := sc.Cards.Update("card_123", params)
 	assert.NotNil(t, result)
@@ -2656,8 +2656,8 @@ func TestCustomersSourcesPostService(t *testing.T) {
 func TestCustomersSourcesPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardUpdateParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := sc.V1Cards.Update(context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
@@ -16166,7 +16166,8 @@ func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreEventDestinations.Ping("id_123", params)
+	result, err := sc.V2CoreEventDestinations.Ping(
+		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -17763,6 +17764,39 @@ func TestV2PaymentsOffSessionPaymentPost2Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2PaymentsOffSessionPayments.Cancel(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsOffSessionPaymentPost3Service(t *testing.T) {
+	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{
+		AmountToCapture: stripe.Int64(1374310455),
+	}
+	params.AddMetadata("key", "metadata")
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"compartment_id\":\"compartment_id\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"object\":\"v2.payments.off_session_payment\",\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"pending\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsOffSessionPayments.Capture("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
+	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{
+		AmountToCapture: stripe.Int64(1374310455),
+	}
+	params.AddMetadata("key", "metadata")
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"compartment_id\":\"compartment_id\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"object\":\"v2.payments.off_session_payment\",\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"pending\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsOffSessionPayments.Capture(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
