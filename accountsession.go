@@ -66,17 +66,6 @@ type AccountSessionComponentsAppViewportParams struct {
 	Features *AccountSessionComponentsAppViewportFeaturesParams `form:"features"`
 }
 
-// An empty list, because this embedded component has no features.
-type AccountSessionComponentsBalanceReportFeaturesParams struct{}
-
-// Configuration for the [balance report](https://docs.stripe.com/connect/supported-embedded-components/financial-reports#balance-report) embedded component.
-type AccountSessionComponentsBalanceReportParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
-	Features *AccountSessionComponentsBalanceReportFeaturesParams `form:"features"`
-}
-
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsBalancesFeaturesParams struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
@@ -375,17 +364,6 @@ type AccountSessionComponentsPayoutDetailsParams struct {
 	Features *AccountSessionComponentsPayoutDetailsFeaturesParams `form:"features"`
 }
 
-// An empty list, because this embedded component has no features.
-type AccountSessionComponentsPayoutReconciliationReportFeaturesParams struct{}
-
-// Configuration for the [payout reconciliation report](https://docs.stripe.com/connect/supported-embedded-components/financial-reports#payout-reconciliation-report) embedded component.
-type AccountSessionComponentsPayoutReconciliationReportParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
-	Features *AccountSessionComponentsPayoutReconciliationReportFeaturesParams `form:"features"`
-}
-
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsPayoutsFeaturesParams struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
@@ -495,8 +473,6 @@ type AccountSessionComponentsParams struct {
 	AppInstall *AccountSessionComponentsAppInstallParams `form:"app_install"`
 	// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
 	AppViewport *AccountSessionComponentsAppViewportParams `form:"app_viewport"`
-	// Configuration for the [balance report](https://docs.stripe.com/connect/supported-embedded-components/financial-reports#balance-report) embedded component.
-	BalanceReport *AccountSessionComponentsBalanceReportParams `form:"balance_report"`
 	// Configuration for the [balances](https://docs.stripe.com/connect/supported-embedded-components/balances/) embedded component.
 	Balances *AccountSessionComponentsBalancesParams `form:"balances"`
 	// Configuration for the [Capital financing](https://docs.stripe.com/connect/supported-embedded-components/capital-financing/) embedded component.
@@ -535,8 +511,6 @@ type AccountSessionComponentsParams struct {
 	Payments *AccountSessionComponentsPaymentsParams `form:"payments"`
 	// Configuration for the [payout details](https://docs.stripe.com/connect/supported-embedded-components/payout-details/) embedded component.
 	PayoutDetails *AccountSessionComponentsPayoutDetailsParams `form:"payout_details"`
-	// Configuration for the [payout reconciliation report](https://docs.stripe.com/connect/supported-embedded-components/financial-reports#payout-reconciliation-report) embedded component.
-	PayoutReconciliationReport *AccountSessionComponentsPayoutReconciliationReportParams `form:"payout_reconciliation_report"`
 	// Configuration for the [payouts](https://docs.stripe.com/connect/supported-embedded-components/payouts/) embedded component.
 	Payouts *AccountSessionComponentsPayoutsParams `form:"payouts"`
 	// Configuration for the [payouts list](https://docs.stripe.com/connect/supported-embedded-components/payouts-list/) embedded component.
@@ -629,17 +603,6 @@ type AccountSessionCreateComponentsAppViewportParams struct {
 	Enabled *bool `form:"enabled"`
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionCreateComponentsAppViewportFeaturesParams `form:"features"`
-}
-
-// An empty list, because this embedded component has no features.
-type AccountSessionCreateComponentsBalanceReportFeaturesParams struct{}
-
-// Configuration for the [balance report](https://docs.stripe.com/connect/supported-embedded-components/financial-reports#balance-report) embedded component.
-type AccountSessionCreateComponentsBalanceReportParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
-	Features *AccountSessionCreateComponentsBalanceReportFeaturesParams `form:"features"`
 }
 
 // The list of features enabled in the embedded component.
@@ -940,17 +903,6 @@ type AccountSessionCreateComponentsPayoutDetailsParams struct {
 	Features *AccountSessionCreateComponentsPayoutDetailsFeaturesParams `form:"features"`
 }
 
-// An empty list, because this embedded component has no features.
-type AccountSessionCreateComponentsPayoutReconciliationReportFeaturesParams struct{}
-
-// Configuration for the [payout reconciliation report](https://docs.stripe.com/connect/supported-embedded-components/financial-reports#payout-reconciliation-report) embedded component.
-type AccountSessionCreateComponentsPayoutReconciliationReportParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
-	Features *AccountSessionCreateComponentsPayoutReconciliationReportFeaturesParams `form:"features"`
-}
-
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPayoutsFeaturesParams struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
@@ -1060,8 +1012,6 @@ type AccountSessionCreateComponentsParams struct {
 	AppInstall *AccountSessionCreateComponentsAppInstallParams `form:"app_install"`
 	// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
 	AppViewport *AccountSessionCreateComponentsAppViewportParams `form:"app_viewport"`
-	// Configuration for the [balance report](https://docs.stripe.com/connect/supported-embedded-components/financial-reports#balance-report) embedded component.
-	BalanceReport *AccountSessionCreateComponentsBalanceReportParams `form:"balance_report"`
 	// Configuration for the [balances](https://docs.stripe.com/connect/supported-embedded-components/balances/) embedded component.
 	Balances *AccountSessionCreateComponentsBalancesParams `form:"balances"`
 	// Configuration for the [Capital financing](https://docs.stripe.com/connect/supported-embedded-components/capital-financing/) embedded component.
@@ -1100,8 +1050,6 @@ type AccountSessionCreateComponentsParams struct {
 	Payments *AccountSessionCreateComponentsPaymentsParams `form:"payments"`
 	// Configuration for the [payout details](https://docs.stripe.com/connect/supported-embedded-components/payout-details/) embedded component.
 	PayoutDetails *AccountSessionCreateComponentsPayoutDetailsParams `form:"payout_details"`
-	// Configuration for the [payout reconciliation report](https://docs.stripe.com/connect/supported-embedded-components/financial-reports#payout-reconciliation-report) embedded component.
-	PayoutReconciliationReport *AccountSessionCreateComponentsPayoutReconciliationReportParams `form:"payout_reconciliation_report"`
 	// Configuration for the [payouts](https://docs.stripe.com/connect/supported-embedded-components/payouts/) embedded component.
 	Payouts *AccountSessionCreateComponentsPayoutsParams `form:"payouts"`
 	// Configuration for the [payouts list](https://docs.stripe.com/connect/supported-embedded-components/payouts-list/) embedded component.
@@ -1157,12 +1105,6 @@ type AccountSessionComponentsAccountOnboarding struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                               `json:"enabled"`
 	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
-}
-type AccountSessionComponentsBalanceReportFeatures struct{}
-type AccountSessionComponentsBalanceReport struct {
-	// Whether the embedded component is enabled.
-	Enabled  bool                                           `json:"enabled"`
-	Features *AccountSessionComponentsBalanceReportFeatures `json:"features"`
 }
 type AccountSessionComponentsBalancesFeatures struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
@@ -1349,12 +1291,6 @@ type AccountSessionComponentsPayoutDetails struct {
 	Enabled  bool                                           `json:"enabled"`
 	Features *AccountSessionComponentsPayoutDetailsFeatures `json:"features"`
 }
-type AccountSessionComponentsPayoutReconciliationReportFeatures struct{}
-type AccountSessionComponentsPayoutReconciliationReport struct {
-	// Whether the embedded component is enabled.
-	Enabled  bool                                                        `json:"enabled"`
-	Features *AccountSessionComponentsPayoutReconciliationReportFeatures `json:"features"`
-}
 type AccountSessionComponentsPayoutsFeatures struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
@@ -1393,7 +1329,6 @@ type AccountSessionComponentsTaxSettings struct {
 type AccountSessionComponents struct {
 	AccountManagement            *AccountSessionComponentsAccountManagement            `json:"account_management"`
 	AccountOnboarding            *AccountSessionComponentsAccountOnboarding            `json:"account_onboarding"`
-	BalanceReport                *AccountSessionComponentsBalanceReport                `json:"balance_report"`
 	Balances                     *AccountSessionComponentsBalances                     `json:"balances"`
 	CapitalFinancing             *AccountSessionComponentsCapitalFinancing             `json:"capital_financing"`
 	CapitalFinancingApplication  *AccountSessionComponentsCapitalFinancingApplication  `json:"capital_financing_application"`
@@ -1410,7 +1345,6 @@ type AccountSessionComponents struct {
 	PaymentDisputes              *AccountSessionComponentsPaymentDisputes              `json:"payment_disputes"`
 	Payments                     *AccountSessionComponentsPayments                     `json:"payments"`
 	PayoutDetails                *AccountSessionComponentsPayoutDetails                `json:"payout_details"`
-	PayoutReconciliationReport   *AccountSessionComponentsPayoutReconciliationReport   `json:"payout_reconciliation_report"`
 	Payouts                      *AccountSessionComponentsPayouts                      `json:"payouts"`
 	PayoutsList                  *AccountSessionComponentsPayoutsList                  `json:"payouts_list"`
 	TaxRegistrations             *AccountSessionComponentsTaxRegistrations             `json:"tax_registrations"`
