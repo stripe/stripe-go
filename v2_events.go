@@ -41,16 +41,16 @@ const (
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
 )
 
-// V2Event is the interface implemented by V2 Events. To get the underlying Event,
+// V2CoreEvent is the interface implemented by V2 Events. To get the underlying Event,
 // use a type switch or type assertion to one of the concrete event types.
-type V2Event interface {
+type V2CoreEvent interface {
 	getBaseEvent() *V2BaseEvent
 }
 
-// V2RawEvent is the raw event type for V2 events. It is used to unmarshal the
+// V2CoreRawEvent is the raw event type for V2 events. It is used to unmarshal the
 // event data into a generic structure, and can also be used a default event
 // type when the event type is not known.
-type V2RawEvent struct {
+type V2CoreRawEvent struct {
 	V2BaseEvent
 	Data          *json.RawMessage `json:"data"`
 	RelatedObject *RelatedObject   `json:"related_object"`
@@ -78,13 +78,13 @@ func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject(ctx context
 // V1BillingMeterErrorReportTriggeredEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.error_report_triggered"
 // Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
 func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -110,11 +110,13 @@ type V1BillingMeterNoMeterFoundEvent struct {
 
 // V1BillingMeterNoMeterFoundEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.no_meter_found"
 // Occurs when a Meter's id is missing or invalid in async usage events.
-type V1BillingMeterNoMeterFoundEventNotification struct{ V2EventNotification }
+type V1BillingMeterNoMeterFoundEventNotification struct {
+	V2CoreEventNotification
+}
 
 // FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
 func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -126,35 +128,35 @@ func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Con
 type V2CoreEventDestinationPingEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2EventDestination, error)
+	fetchRelatedObject func() (*V2CoreEventDestination, error)
 }
 
-// FetchRelatedObject fetches the V2EventDestination related to the event.
-func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+// FetchRelatedObject fetches the V2CoreEventDestination related to the event.
+func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context) (*V2CoreEventDestination, error) {
 	return e.fetchRelatedObject()
 }
 
 // V2CoreEventDestinationPingEventNotification is the webhook payload you'll get when handling an event with type "v2.core.event_destination.ping"
 // A ping event used to test the connection to an EventDestination.
 type V2CoreEventDestinationPingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
 func (n *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return evt.(*V2CoreEventDestinationPingEvent), nil
 }
 
-// FetchRelatedObject fetches the V2EventDestination related to the event.
-func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+// FetchRelatedObject fetches the V2CoreEventDestination related to the event.
+func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreEventDestination, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
-	relatedObj := &V2EventDestination{}
+	relatedObj := &V2CoreEventDestination{}
 	err := n.client.backend.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -250,7 +252,7 @@ type V1BillingMeterNoMeterFoundEventData struct {
 
 // ConvertRawEvent converts a raw event to a concrete event type.
 // If the event type is not known, it returns the raw event.
-func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, error) {
+func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2CoreEvent, error) {
 	switch event.Type {
 	case "v1.billing.meter.error_report_triggered":
 		result := &V1BillingMeterErrorReportTriggeredEvent{}
@@ -276,8 +278,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreEventDestinationPingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2EventDestination, error) {
-			v := &V2EventDestination{}
+		result.fetchRelatedObject = func() (*V2CoreEventDestination, error) {
+			v := &V2CoreEventDestination{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -325,7 +327,7 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		evt.client = client
 		return &evt, nil
 	default:
-		evt := V2UnknownEventNotification{}
+		evt := UnknownEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
