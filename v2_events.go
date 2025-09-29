@@ -459,16 +459,16 @@ const (
 	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeZip                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "zip"
 )
 
-// V2Event is the interface implemented by V2 Events. To get the underlying Event,
+// V2CoreEvent is the interface implemented by V2 Events. To get the underlying Event,
 // use a type switch or type assertion to one of the concrete event types.
-type V2Event interface {
+type V2CoreEvent interface {
 	getBaseEvent() *V2BaseEvent
 }
 
-// V2RawEvent is the raw event type for V2 events. It is used to unmarshal the
+// V2CoreRawEvent is the raw event type for V2 events. It is used to unmarshal the
 // event data into a generic structure, and can also be used a default event
 // type when the event type is not known.
-type V2RawEvent struct {
+type V2CoreRawEvent struct {
 	V2BaseEvent
 	Data          *json.RawMessage `json:"data"`
 	RelatedObject *RelatedObject   `json:"related_object"`
@@ -495,13 +495,13 @@ func (e *V1AccountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Accoun
 // V1AccountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.account.updated"
 // Occurs whenever an account status or property has changed.
 type V1AccountUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1AccountUpdatedEvent that created this Notification
 func (n *V1AccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1AccountUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -534,13 +534,13 @@ func (e *V1ApplicationFeeCreatedEvent) FetchRelatedObject(ctx context.Context) (
 // V1ApplicationFeeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.application_fee.created"
 // Occurs whenever an application fee is created on a charge.
 type V1ApplicationFeeCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ApplicationFeeCreatedEvent that created this Notification
 func (n *V1ApplicationFeeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -573,13 +573,13 @@ func (e *V1ApplicationFeeRefundedEvent) FetchRelatedObject(ctx context.Context) 
 // V1ApplicationFeeRefundedEventNotification is the webhook payload you'll get when handling an event with type "v1.application_fee.refunded"
 // Occurs whenever an application fee is refunded, whether from refunding a charge or from [refunding the application fee directly](#fee_refunds). This includes partial refunds.
 type V1ApplicationFeeRefundedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ApplicationFeeRefundedEvent that created this Notification
 func (n *V1ApplicationFeeRefundedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeRefundedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -613,13 +613,13 @@ func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject(ctx context
 // V1BillingMeterErrorReportTriggeredEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.error_report_triggered"
 // Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
 func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -645,11 +645,13 @@ type V1BillingMeterNoMeterFoundEvent struct {
 
 // V1BillingMeterNoMeterFoundEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.no_meter_found"
 // Occurs when a Meter's id is missing or invalid in async usage events.
-type V1BillingMeterNoMeterFoundEventNotification struct{ V2EventNotification }
+type V1BillingMeterNoMeterFoundEventNotification struct {
+	V2CoreEventNotification
+}
 
 // FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
 func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -672,13 +674,13 @@ func (e *V1BillingPortalConfigurationCreatedEvent) FetchRelatedObject(ctx contex
 // V1BillingPortalConfigurationCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing_portal.configuration.created"
 // Occurs whenever a portal configuration is created.
 type V1BillingPortalConfigurationCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BillingPortalConfigurationCreatedEvent that created this Notification
 func (n *V1BillingPortalConfigurationCreatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalConfigurationCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -711,13 +713,13 @@ func (e *V1BillingPortalConfigurationUpdatedEvent) FetchRelatedObject(ctx contex
 // V1BillingPortalConfigurationUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing_portal.configuration.updated"
 // Occurs whenever a portal configuration is updated.
 type V1BillingPortalConfigurationUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BillingPortalConfigurationUpdatedEvent that created this Notification
 func (n *V1BillingPortalConfigurationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalConfigurationUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -750,13 +752,13 @@ func (e *V1CapabilityUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Cap
 // V1CapabilityUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.capability.updated"
 // Occurs whenever a capability has new requirements or a new status.
 type V1CapabilityUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CapabilityUpdatedEvent that created this Notification
 func (n *V1CapabilityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CapabilityUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -789,13 +791,13 @@ func (e *V1ChargeCapturedEvent) FetchRelatedObject(ctx context.Context) (*Charge
 // V1ChargeCapturedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.captured"
 // Occurs whenever a previously uncaptured charge is captured.
 type V1ChargeCapturedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeCapturedEvent that created this Notification
 func (n *V1ChargeCapturedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeCapturedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -828,13 +830,13 @@ func (e *V1ChargeDisputeClosedEvent) FetchRelatedObject(ctx context.Context) (*D
 // V1ChargeDisputeClosedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.closed"
 // Occurs when a dispute is closed and the dispute status changes to `lost`, `warning_closed`, or `won`.
 type V1ChargeDisputeClosedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeClosedEvent that created this Notification
 func (n *V1ChargeDisputeClosedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeClosedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -867,13 +869,13 @@ func (e *V1ChargeDisputeCreatedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1ChargeDisputeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.created"
 // Occurs whenever a customer disputes a charge with their bank.
 type V1ChargeDisputeCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeCreatedEvent that created this Notification
 func (n *V1ChargeDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -906,13 +908,13 @@ func (e *V1ChargeDisputeFundsReinstatedEvent) FetchRelatedObject(ctx context.Con
 // V1ChargeDisputeFundsReinstatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.funds_reinstated"
 // Occurs when funds are reinstated to your account after a dispute is closed. This includes [partially refunded payments](https://docs.stripe.com/disputes#disputes-on-partially-refunded-payments).
 type V1ChargeDisputeFundsReinstatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeFundsReinstatedEvent that created this Notification
 func (n *V1ChargeDisputeFundsReinstatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeFundsReinstatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -945,13 +947,13 @@ func (e *V1ChargeDisputeFundsWithdrawnEvent) FetchRelatedObject(ctx context.Cont
 // V1ChargeDisputeFundsWithdrawnEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.funds_withdrawn"
 // Occurs when funds are removed from your account due to a dispute.
 type V1ChargeDisputeFundsWithdrawnEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeFundsWithdrawnEvent that created this Notification
 func (n *V1ChargeDisputeFundsWithdrawnEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeFundsWithdrawnEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -984,13 +986,13 @@ func (e *V1ChargeDisputeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1ChargeDisputeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.dispute.updated"
 // Occurs when the dispute is updated (usually with evidence).
 type V1ChargeDisputeUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeUpdatedEvent that created this Notification
 func (n *V1ChargeDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1023,13 +1025,13 @@ func (e *V1ChargeExpiredEvent) FetchRelatedObject(ctx context.Context) (*Charge,
 // V1ChargeExpiredEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.expired"
 // Occurs whenever an uncaptured charge expires.
 type V1ChargeExpiredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeExpiredEvent that created this Notification
 func (n *V1ChargeExpiredEventNotification) FetchEvent(ctx context.Context) (*V1ChargeExpiredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1062,13 +1064,13 @@ func (e *V1ChargeFailedEvent) FetchRelatedObject(ctx context.Context) (*Charge, 
 // V1ChargeFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.failed"
 // Occurs whenever a failed charge attempt occurs.
 type V1ChargeFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeFailedEvent that created this Notification
 func (n *V1ChargeFailedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1101,13 +1103,13 @@ func (e *V1ChargePendingEvent) FetchRelatedObject(ctx context.Context) (*Charge,
 // V1ChargePendingEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.pending"
 // Occurs whenever a pending charge is created.
 type V1ChargePendingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargePendingEvent that created this Notification
 func (n *V1ChargePendingEventNotification) FetchEvent(ctx context.Context) (*V1ChargePendingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1140,13 +1142,13 @@ func (e *V1ChargeRefundUpdatedEvent) FetchRelatedObject(ctx context.Context) (*R
 // V1ChargeRefundUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.refund.updated"
 // Occurs whenever a refund is updated on selected payment methods. For updates on all refunds, listen to `refund.updated` instead.
 type V1ChargeRefundUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeRefundUpdatedEvent that created this Notification
 func (n *V1ChargeRefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeRefundUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1179,13 +1181,13 @@ func (e *V1ChargeRefundedEvent) FetchRelatedObject(ctx context.Context) (*Charge
 // V1ChargeRefundedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.refunded"
 // Occurs whenever a charge is refunded, including partial refunds. Listen to `refund.created` for information about the refund.
 type V1ChargeRefundedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeRefundedEvent that created this Notification
 func (n *V1ChargeRefundedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeRefundedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1218,13 +1220,13 @@ func (e *V1ChargeSucceededEvent) FetchRelatedObject(ctx context.Context) (*Charg
 // V1ChargeSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.succeeded"
 // Occurs whenever a charge is successful.
 type V1ChargeSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeSucceededEvent that created this Notification
 func (n *V1ChargeSucceededEventNotification) FetchEvent(ctx context.Context) (*V1ChargeSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1257,13 +1259,13 @@ func (e *V1ChargeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Charge,
 // V1ChargeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.charge.updated"
 // Occurs whenever a charge description or metadata is updated, or upon an asynchronous capture.
 type V1ChargeUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeUpdatedEvent that created this Notification
 func (n *V1ChargeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1296,13 +1298,13 @@ func (e *V1CheckoutSessionAsyncPaymentFailedEvent) FetchRelatedObject(ctx contex
 // V1CheckoutSessionAsyncPaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.checkout.session.async_payment_failed"
 // Occurs when a payment intent using a delayed payment method fails.
 type V1CheckoutSessionAsyncPaymentFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CheckoutSessionAsyncPaymentFailedEvent that created this Notification
 func (n *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionAsyncPaymentFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1335,13 +1337,13 @@ func (e *V1CheckoutSessionAsyncPaymentSucceededEvent) FetchRelatedObject(ctx con
 // V1CheckoutSessionAsyncPaymentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.checkout.session.async_payment_succeeded"
 // Occurs when a payment intent using a delayed payment method finally succeeds.
 type V1CheckoutSessionAsyncPaymentSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CheckoutSessionAsyncPaymentSucceededEvent that created this Notification
 func (n *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionAsyncPaymentSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1374,13 +1376,13 @@ func (e *V1CheckoutSessionCompletedEvent) FetchRelatedObject(ctx context.Context
 // V1CheckoutSessionCompletedEventNotification is the webhook payload you'll get when handling an event with type "v1.checkout.session.completed"
 // Occurs when a Checkout Session has been successfully completed.
 type V1CheckoutSessionCompletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CheckoutSessionCompletedEvent that created this Notification
 func (n *V1CheckoutSessionCompletedEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionCompletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1413,13 +1415,13 @@ func (e *V1CheckoutSessionExpiredEvent) FetchRelatedObject(ctx context.Context) 
 // V1CheckoutSessionExpiredEventNotification is the webhook payload you'll get when handling an event with type "v1.checkout.session.expired"
 // Occurs when a Checkout Session is expired.
 type V1CheckoutSessionExpiredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CheckoutSessionExpiredEvent that created this Notification
 func (n *V1CheckoutSessionExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionExpiredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1452,13 +1454,13 @@ func (e *V1ClimateOrderCanceledEvent) FetchRelatedObject(ctx context.Context) (*
 // V1ClimateOrderCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.canceled"
 // Occurs when a Climate order is canceled.
 type V1ClimateOrderCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderCanceledEvent that created this Notification
 func (n *V1ClimateOrderCanceledEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1491,13 +1493,13 @@ func (e *V1ClimateOrderCreatedEvent) FetchRelatedObject(ctx context.Context) (*C
 // V1ClimateOrderCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.created"
 // Occurs when a Climate order is created.
 type V1ClimateOrderCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderCreatedEvent that created this Notification
 func (n *V1ClimateOrderCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1530,13 +1532,13 @@ func (e *V1ClimateOrderDelayedEvent) FetchRelatedObject(ctx context.Context) (*C
 // V1ClimateOrderDelayedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.delayed"
 // Occurs when a Climate order is delayed.
 type V1ClimateOrderDelayedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderDelayedEvent that created this Notification
 func (n *V1ClimateOrderDelayedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderDelayedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1569,13 +1571,13 @@ func (e *V1ClimateOrderDeliveredEvent) FetchRelatedObject(ctx context.Context) (
 // V1ClimateOrderDeliveredEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.delivered"
 // Occurs when a Climate order is delivered.
 type V1ClimateOrderDeliveredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderDeliveredEvent that created this Notification
 func (n *V1ClimateOrderDeliveredEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderDeliveredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1608,13 +1610,13 @@ func (e *V1ClimateOrderProductSubstitutedEvent) FetchRelatedObject(ctx context.C
 // V1ClimateOrderProductSubstitutedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.order.product_substituted"
 // Occurs when a Climate order's product is substituted for another.
 type V1ClimateOrderProductSubstitutedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderProductSubstitutedEvent that created this Notification
 func (n *V1ClimateOrderProductSubstitutedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderProductSubstitutedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1647,13 +1649,13 @@ func (e *V1ClimateProductCreatedEvent) FetchRelatedObject(ctx context.Context) (
 // V1ClimateProductCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.product.created"
 // Occurs when a Climate product is created.
 type V1ClimateProductCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateProductCreatedEvent that created this Notification
 func (n *V1ClimateProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateProductCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1686,13 +1688,13 @@ func (e *V1ClimateProductPricingUpdatedEvent) FetchRelatedObject(ctx context.Con
 // V1ClimateProductPricingUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.climate.product.pricing_updated"
 // Occurs when a Climate product is updated.
 type V1ClimateProductPricingUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateProductPricingUpdatedEvent that created this Notification
 func (n *V1ClimateProductPricingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateProductPricingUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1725,13 +1727,13 @@ func (e *V1CouponCreatedEvent) FetchRelatedObject(ctx context.Context) (*Coupon,
 // V1CouponCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.coupon.created"
 // Occurs whenever a coupon is created.
 type V1CouponCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CouponCreatedEvent that created this Notification
 func (n *V1CouponCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CouponCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1764,13 +1766,13 @@ func (e *V1CouponDeletedEvent) FetchRelatedObject(ctx context.Context) (*Coupon,
 // V1CouponDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.coupon.deleted"
 // Occurs whenever a coupon is deleted.
 type V1CouponDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CouponDeletedEvent that created this Notification
 func (n *V1CouponDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CouponDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1803,13 +1805,13 @@ func (e *V1CouponUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Coupon,
 // V1CouponUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.coupon.updated"
 // Occurs whenever a coupon is updated.
 type V1CouponUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CouponUpdatedEvent that created this Notification
 func (n *V1CouponUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CouponUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1842,13 +1844,13 @@ func (e *V1CreditNoteCreatedEvent) FetchRelatedObject(ctx context.Context) (*Cre
 // V1CreditNoteCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.credit_note.created"
 // Occurs whenever a credit note is created.
 type V1CreditNoteCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CreditNoteCreatedEvent that created this Notification
 func (n *V1CreditNoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1881,13 +1883,13 @@ func (e *V1CreditNoteUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Cre
 // V1CreditNoteUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.credit_note.updated"
 // Occurs whenever a credit note is updated.
 type V1CreditNoteUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CreditNoteUpdatedEvent that created this Notification
 func (n *V1CreditNoteUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1920,13 +1922,13 @@ func (e *V1CreditNoteVoidedEvent) FetchRelatedObject(ctx context.Context) (*Cred
 // V1CreditNoteVoidedEventNotification is the webhook payload you'll get when handling an event with type "v1.credit_note.voided"
 // Occurs whenever a credit note is voided.
 type V1CreditNoteVoidedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CreditNoteVoidedEvent that created this Notification
 func (n *V1CreditNoteVoidedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteVoidedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1959,13 +1961,13 @@ func (e *V1CustomerCreatedEvent) FetchRelatedObject(ctx context.Context) (*Custo
 // V1CustomerCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.created"
 // Occurs whenever a new customer is created.
 type V1CustomerCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerCreatedEvent that created this Notification
 func (n *V1CustomerCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1998,13 +2000,13 @@ func (e *V1CustomerDeletedEvent) FetchRelatedObject(ctx context.Context) (*Custo
 // V1CustomerDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.deleted"
 // Occurs whenever a customer is deleted.
 type V1CustomerDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerDeletedEvent that created this Notification
 func (n *V1CustomerDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2037,13 +2039,13 @@ func (e *V1CustomerSubscriptionCreatedEvent) FetchRelatedObject(ctx context.Cont
 // V1CustomerSubscriptionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.created"
 // Occurs whenever a customer is signed up for a new plan.
 type V1CustomerSubscriptionCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionCreatedEvent that created this Notification
 func (n *V1CustomerSubscriptionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2076,13 +2078,13 @@ func (e *V1CustomerSubscriptionDeletedEvent) FetchRelatedObject(ctx context.Cont
 // V1CustomerSubscriptionDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.deleted"
 // Occurs whenever a customer's subscription ends.
 type V1CustomerSubscriptionDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionDeletedEvent that created this Notification
 func (n *V1CustomerSubscriptionDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2115,13 +2117,13 @@ func (e *V1CustomerSubscriptionPausedEvent) FetchRelatedObject(ctx context.Conte
 // V1CustomerSubscriptionPausedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.paused"
 // Occurs whenever a customer's subscription is paused. Only applies when subscriptions enter `status=paused`, not when [payment collection](https://docs.stripe.com/billing/subscriptions/pause) is paused.
 type V1CustomerSubscriptionPausedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionPausedEvent that created this Notification
 func (n *V1CustomerSubscriptionPausedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPausedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2154,13 +2156,13 @@ func (e *V1CustomerSubscriptionPendingUpdateAppliedEvent) FetchRelatedObject(ctx
 // V1CustomerSubscriptionPendingUpdateAppliedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.pending_update_applied"
 // Occurs whenever a customer's subscription's pending update is applied, and the subscription is updated.
 type V1CustomerSubscriptionPendingUpdateAppliedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionPendingUpdateAppliedEvent that created this Notification
 func (n *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPendingUpdateAppliedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2193,13 +2195,13 @@ func (e *V1CustomerSubscriptionPendingUpdateExpiredEvent) FetchRelatedObject(ctx
 // V1CustomerSubscriptionPendingUpdateExpiredEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.pending_update_expired"
 // Occurs whenever a customer's subscription's pending update expires before the related invoice is paid.
 type V1CustomerSubscriptionPendingUpdateExpiredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionPendingUpdateExpiredEvent that created this Notification
 func (n *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPendingUpdateExpiredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2232,13 +2234,13 @@ func (e *V1CustomerSubscriptionResumedEvent) FetchRelatedObject(ctx context.Cont
 // V1CustomerSubscriptionResumedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.resumed"
 // Occurs whenever a customer's subscription is no longer paused. Only applies when a `status=paused` subscription is [resumed](https://docs.stripe.com/api/subscriptions/resume), not when [payment collection](https://docs.stripe.com/billing/subscriptions/pause) is resumed.
 type V1CustomerSubscriptionResumedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionResumedEvent that created this Notification
 func (n *V1CustomerSubscriptionResumedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionResumedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2271,13 +2273,13 @@ func (e *V1CustomerSubscriptionTrialWillEndEvent) FetchRelatedObject(ctx context
 // V1CustomerSubscriptionTrialWillEndEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.trial_will_end"
 // Occurs three days before a subscription's trial period is scheduled to end, or when a trial is ended immediately (using `trial_end=now`).
 type V1CustomerSubscriptionTrialWillEndEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionTrialWillEndEvent that created this Notification
 func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionTrialWillEndEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2310,13 +2312,13 @@ func (e *V1CustomerSubscriptionUpdatedEvent) FetchRelatedObject(ctx context.Cont
 // V1CustomerSubscriptionUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.updated"
 // Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
 type V1CustomerSubscriptionUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionUpdatedEvent that created this Notification
 func (n *V1CustomerSubscriptionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2349,13 +2351,13 @@ func (e *V1CustomerTaxIDCreatedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1CustomerTaxIDCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.tax_id.created"
 // Occurs whenever a tax ID is created for a customer.
 type V1CustomerTaxIDCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerTaxIDCreatedEvent that created this Notification
 func (n *V1CustomerTaxIDCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2388,13 +2390,13 @@ func (e *V1CustomerTaxIDDeletedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1CustomerTaxIDDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.tax_id.deleted"
 // Occurs whenever a tax ID is deleted from a customer.
 type V1CustomerTaxIDDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerTaxIDDeletedEvent that created this Notification
 func (n *V1CustomerTaxIDDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2427,13 +2429,13 @@ func (e *V1CustomerTaxIDUpdatedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1CustomerTaxIDUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.tax_id.updated"
 // Occurs whenever a customer's tax ID is updated.
 type V1CustomerTaxIDUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerTaxIDUpdatedEvent that created this Notification
 func (n *V1CustomerTaxIDUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2466,13 +2468,13 @@ func (e *V1CustomerUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Custo
 // V1CustomerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.updated"
 // Occurs whenever any property of a customer changes.
 type V1CustomerUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerUpdatedEvent that created this Notification
 func (n *V1CustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2505,13 +2507,13 @@ func (e *V1FileCreatedEvent) FetchRelatedObject(ctx context.Context) (*File, err
 // V1FileCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.file.created"
 // Occurs whenever a new Stripe-generated file is available for your account.
 type V1FileCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FileCreatedEvent that created this Notification
 func (n *V1FileCreatedEventNotification) FetchEvent(ctx context.Context) (*V1FileCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2544,13 +2546,13 @@ func (e *V1FinancialConnectionsAccountCreatedEvent) FetchRelatedObject(ctx conte
 // V1FinancialConnectionsAccountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.created"
 // Occurs when a new Financial Connections account is created.
 type V1FinancialConnectionsAccountCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountCreatedEvent that created this Notification
 func (n *V1FinancialConnectionsAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2583,13 +2585,13 @@ func (e *V1FinancialConnectionsAccountDeactivatedEvent) FetchRelatedObject(ctx c
 // V1FinancialConnectionsAccountDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.deactivated"
 // Occurs when a Financial Connections account's status is updated from `active` to `inactive`.
 type V1FinancialConnectionsAccountDeactivatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountDeactivatedEvent that created this Notification
 func (n *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountDeactivatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2622,13 +2624,13 @@ func (e *V1FinancialConnectionsAccountDisconnectedEvent) FetchRelatedObject(ctx 
 // V1FinancialConnectionsAccountDisconnectedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.disconnected"
 // Occurs when a Financial Connections account is disconnected.
 type V1FinancialConnectionsAccountDisconnectedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountDisconnectedEvent that created this Notification
 func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountDisconnectedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2661,13 +2663,13 @@ func (e *V1FinancialConnectionsAccountReactivatedEvent) FetchRelatedObject(ctx c
 // V1FinancialConnectionsAccountReactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.reactivated"
 // Occurs when a Financial Connections account's status is updated from `inactive` to `active`.
 type V1FinancialConnectionsAccountReactivatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountReactivatedEvent that created this Notification
 func (n *V1FinancialConnectionsAccountReactivatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountReactivatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2700,13 +2702,13 @@ func (e *V1FinancialConnectionsAccountRefreshedBalanceEvent) FetchRelatedObject(
 // V1FinancialConnectionsAccountRefreshedBalanceEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.refreshed_balance"
 // Occurs when an Account’s `balance_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedBalanceEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedBalanceEvent that created this Notification
 func (n *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedBalanceEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2739,13 +2741,13 @@ func (e *V1FinancialConnectionsAccountRefreshedOwnershipEvent) FetchRelatedObjec
 // V1FinancialConnectionsAccountRefreshedOwnershipEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.refreshed_ownership"
 // Occurs when an Account’s `ownership_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedOwnershipEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedOwnershipEvent that created this Notification
 func (n *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedOwnershipEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2778,13 +2780,13 @@ func (e *V1FinancialConnectionsAccountRefreshedTransactionsEvent) FetchRelatedOb
 // V1FinancialConnectionsAccountRefreshedTransactionsEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.refreshed_transactions"
 // Occurs when an Account’s `transaction_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedTransactionsEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedTransactionsEvent that created this Notification
 func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedTransactionsEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2817,13 +2819,13 @@ func (e *V1IdentityVerificationSessionCanceledEvent) FetchRelatedObject(ctx cont
 // V1IdentityVerificationSessionCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.canceled"
 // Occurs whenever a VerificationSession is canceled.
 type V1IdentityVerificationSessionCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionCanceledEvent that created this Notification
 func (n *V1IdentityVerificationSessionCanceledEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2856,13 +2858,13 @@ func (e *V1IdentityVerificationSessionCreatedEvent) FetchRelatedObject(ctx conte
 // V1IdentityVerificationSessionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.created"
 // Occurs whenever a VerificationSession is created.
 type V1IdentityVerificationSessionCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionCreatedEvent that created this Notification
 func (n *V1IdentityVerificationSessionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2895,13 +2897,13 @@ func (e *V1IdentityVerificationSessionProcessingEvent) FetchRelatedObject(ctx co
 // V1IdentityVerificationSessionProcessingEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.processing"
 // Occurs whenever a VerificationSession transitions to processing.
 type V1IdentityVerificationSessionProcessingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionProcessingEvent that created this Notification
 func (n *V1IdentityVerificationSessionProcessingEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionProcessingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2934,13 +2936,13 @@ func (e *V1IdentityVerificationSessionRedactedEvent) FetchRelatedObject(ctx cont
 // V1IdentityVerificationSessionRedactedEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.redacted"
 // Occurs whenever a VerificationSession is redacted.
 type V1IdentityVerificationSessionRedactedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionRedactedEvent that created this Notification
 func (n *V1IdentityVerificationSessionRedactedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionRedactedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2973,13 +2975,13 @@ func (e *V1IdentityVerificationSessionRequiresInputEvent) FetchRelatedObject(ctx
 // V1IdentityVerificationSessionRequiresInputEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.requires_input"
 // Occurs whenever a VerificationSession transitions to require user input.
 type V1IdentityVerificationSessionRequiresInputEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionRequiresInputEvent that created this Notification
 func (n *V1IdentityVerificationSessionRequiresInputEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionRequiresInputEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3012,13 +3014,13 @@ func (e *V1IdentityVerificationSessionVerifiedEvent) FetchRelatedObject(ctx cont
 // V1IdentityVerificationSessionVerifiedEventNotification is the webhook payload you'll get when handling an event with type "v1.identity.verification_session.verified"
 // Occurs whenever a VerificationSession transitions to verified.
 type V1IdentityVerificationSessionVerifiedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionVerifiedEvent that created this Notification
 func (n *V1IdentityVerificationSessionVerifiedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionVerifiedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3051,13 +3053,13 @@ func (e *V1InvoiceCreatedEvent) FetchRelatedObject(ctx context.Context) (*Invoic
 // V1InvoiceCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.created"
 // Occurs whenever a new invoice is created. To learn how webhooks can be used with this event, and how they can affect it, see [Using Webhooks with Subscriptions](https://docs.stripe.com/subscriptions/webhooks).
 type V1InvoiceCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceCreatedEvent that created this Notification
 func (n *V1InvoiceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3090,13 +3092,13 @@ func (e *V1InvoiceDeletedEvent) FetchRelatedObject(ctx context.Context) (*Invoic
 // V1InvoiceDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.deleted"
 // Occurs whenever a draft invoice is deleted. Note: This event is not sent for [invoice previews](https://docs.stripe.com/api/invoices/create_preview).
 type V1InvoiceDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceDeletedEvent that created this Notification
 func (n *V1InvoiceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3129,13 +3131,13 @@ func (e *V1InvoiceFinalizationFailedEvent) FetchRelatedObject(ctx context.Contex
 // V1InvoiceFinalizationFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.finalization_failed"
 // Occurs whenever a draft invoice cannot be finalized. See the invoice’s [last finalization error](https://docs.stripe.com/api/invoices/object#invoice_object-last_finalization_error) for details.
 type V1InvoiceFinalizationFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceFinalizationFailedEvent that created this Notification
 func (n *V1InvoiceFinalizationFailedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceFinalizationFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3168,13 +3170,13 @@ func (e *V1InvoiceFinalizedEvent) FetchRelatedObject(ctx context.Context) (*Invo
 // V1InvoiceFinalizedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.finalized"
 // Occurs whenever a draft invoice is finalized and updated to be an open invoice.
 type V1InvoiceFinalizedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceFinalizedEvent that created this Notification
 func (n *V1InvoiceFinalizedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceFinalizedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3207,13 +3209,13 @@ func (e *V1InvoiceMarkedUncollectibleEvent) FetchRelatedObject(ctx context.Conte
 // V1InvoiceMarkedUncollectibleEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.marked_uncollectible"
 // Occurs whenever an invoice is marked uncollectible.
 type V1InvoiceMarkedUncollectibleEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceMarkedUncollectibleEvent that created this Notification
 func (n *V1InvoiceMarkedUncollectibleEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceMarkedUncollectibleEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3246,13 +3248,13 @@ func (e *V1InvoiceOverdueEvent) FetchRelatedObject(ctx context.Context) (*Invoic
 // V1InvoiceOverdueEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.overdue"
 // Occurs X number of days after an invoice becomes due&mdash;where X is determined by Automations.
 type V1InvoiceOverdueEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceOverdueEvent that created this Notification
 func (n *V1InvoiceOverdueEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceOverdueEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3285,13 +3287,13 @@ func (e *V1InvoiceOverpaidEvent) FetchRelatedObject(ctx context.Context) (*Invoi
 // V1InvoiceOverpaidEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.overpaid"
 // Occurs when an invoice transitions to paid with a non-zero amount_overpaid.
 type V1InvoiceOverpaidEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceOverpaidEvent that created this Notification
 func (n *V1InvoiceOverpaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceOverpaidEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3324,13 +3326,13 @@ func (e *V1InvoicePaidEvent) FetchRelatedObject(ctx context.Context) (*Invoice, 
 // V1InvoicePaidEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.paid"
 // Occurs whenever an invoice payment attempt succeeds or an invoice is marked as paid out-of-band.
 type V1InvoicePaidEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaidEvent that created this Notification
 func (n *V1InvoicePaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaidEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3363,13 +3365,13 @@ func (e *V1InvoicePaymentActionRequiredEvent) FetchRelatedObject(ctx context.Con
 // V1InvoicePaymentActionRequiredEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.payment_action_required"
 // Occurs whenever an invoice payment attempt requires further user action to complete.
 type V1InvoicePaymentActionRequiredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaymentActionRequiredEvent that created this Notification
 func (n *V1InvoicePaymentActionRequiredEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentActionRequiredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3402,13 +3404,13 @@ func (e *V1InvoicePaymentFailedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1InvoicePaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.payment_failed"
 // Occurs whenever an invoice payment attempt fails, due to either a declined payment, including soft decline, or to the lack of a stored payment method.
 type V1InvoicePaymentFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaymentFailedEvent that created this Notification
 func (n *V1InvoicePaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3441,13 +3443,13 @@ func (e *V1InvoicePaymentSucceededEvent) FetchRelatedObject(ctx context.Context)
 // V1InvoicePaymentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.payment_succeeded"
 // Occurs whenever an invoice payment attempt succeeds.
 type V1InvoicePaymentSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaymentSucceededEvent that created this Notification
 func (n *V1InvoicePaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3480,13 +3482,13 @@ func (e *V1InvoiceSentEvent) FetchRelatedObject(ctx context.Context) (*Invoice, 
 // V1InvoiceSentEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.sent"
 // Occurs whenever an invoice email is sent out.
 type V1InvoiceSentEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceSentEvent that created this Notification
 func (n *V1InvoiceSentEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceSentEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3519,13 +3521,13 @@ func (e *V1InvoiceUpcomingEvent) FetchRelatedObject(ctx context.Context) (*Invoi
 // V1InvoiceUpcomingEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.upcoming"
 // Occurs X number of days before a subscription is scheduled to create an invoice that is automatically charged&mdash;where X is determined by your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). Note: The received `Invoice` object will not have an invoice ID.
 type V1InvoiceUpcomingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceUpcomingEvent that created this Notification
 func (n *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpcomingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3558,13 +3560,13 @@ func (e *V1InvoiceUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Invoic
 // V1InvoiceUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.updated"
 // Occurs whenever an invoice changes (e.g., the invoice amount).
 type V1InvoiceUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceUpdatedEvent that created this Notification
 func (n *V1InvoiceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3597,13 +3599,13 @@ func (e *V1InvoiceVoidedEvent) FetchRelatedObject(ctx context.Context) (*Invoice
 // V1InvoiceVoidedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.voided"
 // Occurs whenever an invoice is voided.
 type V1InvoiceVoidedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceVoidedEvent that created this Notification
 func (n *V1InvoiceVoidedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceVoidedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3636,13 +3638,13 @@ func (e *V1InvoiceWillBeDueEvent) FetchRelatedObject(ctx context.Context) (*Invo
 // V1InvoiceWillBeDueEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.will_be_due"
 // Occurs X number of days before an invoice becomes due&mdash;where X is determined by Automations.
 type V1InvoiceWillBeDueEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceWillBeDueEvent that created this Notification
 func (n *V1InvoiceWillBeDueEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceWillBeDueEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3675,13 +3677,13 @@ func (e *V1InvoicePaymentPaidEvent) FetchRelatedObject(ctx context.Context) (*In
 // V1InvoicePaymentPaidEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice_payment.paid"
 // Occurs when an InvoicePayment is successfully paid.
 type V1InvoicePaymentPaidEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaymentPaidEvent that created this Notification
 func (n *V1InvoicePaymentPaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentPaidEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3714,13 +3716,13 @@ func (e *V1InvoiceitemCreatedEvent) FetchRelatedObject(ctx context.Context) (*In
 // V1InvoiceitemCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.created"
 // Occurs whenever an invoice item is created.
 type V1InvoiceitemCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceitemCreatedEvent that created this Notification
 func (n *V1InvoiceitemCreatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3753,13 +3755,13 @@ func (e *V1InvoiceitemDeletedEvent) FetchRelatedObject(ctx context.Context) (*In
 // V1InvoiceitemDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.invoiceitem.deleted"
 // Occurs whenever an invoice item is deleted.
 type V1InvoiceitemDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceitemDeletedEvent that created this Notification
 func (n *V1InvoiceitemDeletedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3792,13 +3794,13 @@ func (e *V1IssuingAuthorizationCreatedEvent) FetchRelatedObject(ctx context.Cont
 // V1IssuingAuthorizationCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.created"
 // Occurs whenever an authorization is created.
 type V1IssuingAuthorizationCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingAuthorizationCreatedEvent that created this Notification
 func (n *V1IssuingAuthorizationCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3831,13 +3833,13 @@ func (e *V1IssuingAuthorizationRequestEvent) FetchRelatedObject(ctx context.Cont
 // V1IssuingAuthorizationRequestEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.request"
 // Represents a synchronous request for authorization, see [Using your integration to handle authorization requests](https://docs.stripe.com/issuing/purchases/authorizations#authorization-handling).
 type V1IssuingAuthorizationRequestEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingAuthorizationRequestEvent that created this Notification
 func (n *V1IssuingAuthorizationRequestEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationRequestEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3870,13 +3872,13 @@ func (e *V1IssuingAuthorizationUpdatedEvent) FetchRelatedObject(ctx context.Cont
 // V1IssuingAuthorizationUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_authorization.updated"
 // Occurs whenever an authorization is updated.
 type V1IssuingAuthorizationUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingAuthorizationUpdatedEvent that created this Notification
 func (n *V1IssuingAuthorizationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3909,13 +3911,13 @@ func (e *V1IssuingCardCreatedEvent) FetchRelatedObject(ctx context.Context) (*Is
 // V1IssuingCardCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_card.created"
 // Occurs whenever a card is created.
 type V1IssuingCardCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingCardCreatedEvent that created this Notification
 func (n *V1IssuingCardCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3948,13 +3950,13 @@ func (e *V1IssuingCardUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Is
 // V1IssuingCardUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_card.updated"
 // Occurs whenever a card is updated.
 type V1IssuingCardUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingCardUpdatedEvent that created this Notification
 func (n *V1IssuingCardUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3987,13 +3989,13 @@ func (e *V1IssuingCardholderCreatedEvent) FetchRelatedObject(ctx context.Context
 // V1IssuingCardholderCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_cardholder.created"
 // Occurs whenever a cardholder is created.
 type V1IssuingCardholderCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingCardholderCreatedEvent that created this Notification
 func (n *V1IssuingCardholderCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardholderCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4026,13 +4028,13 @@ func (e *V1IssuingCardholderUpdatedEvent) FetchRelatedObject(ctx context.Context
 // V1IssuingCardholderUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_cardholder.updated"
 // Occurs whenever a cardholder is updated.
 type V1IssuingCardholderUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingCardholderUpdatedEvent that created this Notification
 func (n *V1IssuingCardholderUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardholderUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4065,13 +4067,13 @@ func (e *V1IssuingDisputeClosedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1IssuingDisputeClosedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.closed"
 // Occurs whenever a dispute is won, lost or expired.
 type V1IssuingDisputeClosedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeClosedEvent that created this Notification
 func (n *V1IssuingDisputeClosedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeClosedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4104,13 +4106,13 @@ func (e *V1IssuingDisputeCreatedEvent) FetchRelatedObject(ctx context.Context) (
 // V1IssuingDisputeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.created"
 // Occurs whenever a dispute is created.
 type V1IssuingDisputeCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeCreatedEvent that created this Notification
 func (n *V1IssuingDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4143,13 +4145,13 @@ func (e *V1IssuingDisputeFundsReinstatedEvent) FetchRelatedObject(ctx context.Co
 // V1IssuingDisputeFundsReinstatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.funds_reinstated"
 // Occurs whenever funds are reinstated to your account for an Issuing dispute.
 type V1IssuingDisputeFundsReinstatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeFundsReinstatedEvent that created this Notification
 func (n *V1IssuingDisputeFundsReinstatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeFundsReinstatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4182,13 +4184,13 @@ func (e *V1IssuingDisputeFundsRescindedEvent) FetchRelatedObject(ctx context.Con
 // V1IssuingDisputeFundsRescindedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.funds_rescinded"
 // Occurs whenever funds are deducted from your account for an Issuing dispute.
 type V1IssuingDisputeFundsRescindedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeFundsRescindedEvent that created this Notification
 func (n *V1IssuingDisputeFundsRescindedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeFundsRescindedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4221,13 +4223,13 @@ func (e *V1IssuingDisputeSubmittedEvent) FetchRelatedObject(ctx context.Context)
 // V1IssuingDisputeSubmittedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.submitted"
 // Occurs whenever a dispute is submitted.
 type V1IssuingDisputeSubmittedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeSubmittedEvent that created this Notification
 func (n *V1IssuingDisputeSubmittedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeSubmittedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4260,13 +4262,13 @@ func (e *V1IssuingDisputeUpdatedEvent) FetchRelatedObject(ctx context.Context) (
 // V1IssuingDisputeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_dispute.updated"
 // Occurs whenever a dispute is updated.
 type V1IssuingDisputeUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeUpdatedEvent that created this Notification
 func (n *V1IssuingDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4299,13 +4301,13 @@ func (e *V1IssuingPersonalizationDesignActivatedEvent) FetchRelatedObject(ctx co
 // V1IssuingPersonalizationDesignActivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_personalization_design.activated"
 // Occurs whenever a personalization design is activated following the activation of the physical bundle that belongs to it.
 type V1IssuingPersonalizationDesignActivatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignActivatedEvent that created this Notification
 func (n *V1IssuingPersonalizationDesignActivatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignActivatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4338,13 +4340,13 @@ func (e *V1IssuingPersonalizationDesignDeactivatedEvent) FetchRelatedObject(ctx 
 // V1IssuingPersonalizationDesignDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_personalization_design.deactivated"
 // Occurs whenever a personalization design is deactivated following the deactivation of the physical bundle that belongs to it.
 type V1IssuingPersonalizationDesignDeactivatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignDeactivatedEvent that created this Notification
 func (n *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignDeactivatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4377,13 +4379,13 @@ func (e *V1IssuingPersonalizationDesignRejectedEvent) FetchRelatedObject(ctx con
 // V1IssuingPersonalizationDesignRejectedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_personalization_design.rejected"
 // Occurs whenever a personalization design is rejected by design review.
 type V1IssuingPersonalizationDesignRejectedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignRejectedEvent that created this Notification
 func (n *V1IssuingPersonalizationDesignRejectedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignRejectedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4416,13 +4418,13 @@ func (e *V1IssuingPersonalizationDesignUpdatedEvent) FetchRelatedObject(ctx cont
 // V1IssuingPersonalizationDesignUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_personalization_design.updated"
 // Occurs whenever a personalization design is updated.
 type V1IssuingPersonalizationDesignUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignUpdatedEvent that created this Notification
 func (n *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4455,13 +4457,13 @@ func (e *V1IssuingTokenCreatedEvent) FetchRelatedObject(ctx context.Context) (*I
 // V1IssuingTokenCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_token.created"
 // Occurs whenever an issuing digital wallet token is created.
 type V1IssuingTokenCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTokenCreatedEvent that created this Notification
 func (n *V1IssuingTokenCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTokenCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4494,13 +4496,13 @@ func (e *V1IssuingTokenUpdatedEvent) FetchRelatedObject(ctx context.Context) (*I
 // V1IssuingTokenUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_token.updated"
 // Occurs whenever an issuing digital wallet token is updated.
 type V1IssuingTokenUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTokenUpdatedEvent that created this Notification
 func (n *V1IssuingTokenUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTokenUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4533,13 +4535,13 @@ func (e *V1IssuingTransactionCreatedEvent) FetchRelatedObject(ctx context.Contex
 // V1IssuingTransactionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_transaction.created"
 // Occurs whenever an issuing transaction is created.
 type V1IssuingTransactionCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTransactionCreatedEvent that created this Notification
 func (n *V1IssuingTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4572,13 +4574,13 @@ func (e *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent) FetchRelatedObj
 // V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_transaction.purchase_details_receipt_updated"
 // Occurs whenever an issuing transaction is updated with receipt data.
 type V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent that created this Notification
 func (n *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4611,13 +4613,13 @@ func (e *V1IssuingTransactionUpdatedEvent) FetchRelatedObject(ctx context.Contex
 // V1IssuingTransactionUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.issuing_transaction.updated"
 // Occurs whenever an issuing transaction is updated.
 type V1IssuingTransactionUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTransactionUpdatedEvent that created this Notification
 func (n *V1IssuingTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4650,13 +4652,13 @@ func (e *V1MandateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Mandat
 // V1MandateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.mandate.updated"
 // Occurs whenever a Mandate is updated.
 type V1MandateUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1MandateUpdatedEvent that created this Notification
 func (n *V1MandateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1MandateUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4689,13 +4691,13 @@ func (e *V1PaymentIntentAmountCapturableUpdatedEvent) FetchRelatedObject(ctx con
 // V1PaymentIntentAmountCapturableUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.amount_capturable_updated"
 // Occurs when a PaymentIntent has funds to be captured. Check the `amount_capturable` property on the PaymentIntent to determine the amount that can be captured. You may capture the PaymentIntent with an `amount_to_capture` value up to the specified amount. [Learn more about capturing PaymentIntents.](https://docs.stripe.com/api/payment_intents/capture).
 type V1PaymentIntentAmountCapturableUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentAmountCapturableUpdatedEvent that created this Notification
 func (n *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentAmountCapturableUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4728,13 +4730,13 @@ func (e *V1PaymentIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (
 // V1PaymentIntentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.canceled"
 // Occurs when a PaymentIntent is canceled.
 type V1PaymentIntentCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentCanceledEvent that created this Notification
 func (n *V1PaymentIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4767,13 +4769,13 @@ func (e *V1PaymentIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1PaymentIntentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.created"
 // Occurs when a new PaymentIntent is created.
 type V1PaymentIntentCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentCreatedEvent that created this Notification
 func (n *V1PaymentIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4806,13 +4808,13 @@ func (e *V1PaymentIntentPartiallyFundedEvent) FetchRelatedObject(ctx context.Con
 // V1PaymentIntentPartiallyFundedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.partially_funded"
 // Occurs when funds are applied to a customer_balance PaymentIntent and the 'amount_remaining' changes.
 type V1PaymentIntentPartiallyFundedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentPartiallyFundedEvent that created this Notification
 func (n *V1PaymentIntentPartiallyFundedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentPartiallyFundedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4845,13 +4847,13 @@ func (e *V1PaymentIntentPaymentFailedEvent) FetchRelatedObject(ctx context.Conte
 // V1PaymentIntentPaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.payment_failed"
 // Occurs when a PaymentIntent has failed the attempt to create a payment method or a payment.
 type V1PaymentIntentPaymentFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentPaymentFailedEvent that created this Notification
 func (n *V1PaymentIntentPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentPaymentFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4884,13 +4886,13 @@ func (e *V1PaymentIntentProcessingEvent) FetchRelatedObject(ctx context.Context)
 // V1PaymentIntentProcessingEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.processing"
 // Occurs when a PaymentIntent has started processing.
 type V1PaymentIntentProcessingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentProcessingEvent that created this Notification
 func (n *V1PaymentIntentProcessingEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentProcessingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4923,13 +4925,13 @@ func (e *V1PaymentIntentRequiresActionEvent) FetchRelatedObject(ctx context.Cont
 // V1PaymentIntentRequiresActionEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.requires_action"
 // Occurs when a PaymentIntent transitions to requires_action state.
 type V1PaymentIntentRequiresActionEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentRequiresActionEvent that created this Notification
 func (n *V1PaymentIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentRequiresActionEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4962,13 +4964,13 @@ func (e *V1PaymentIntentSucceededEvent) FetchRelatedObject(ctx context.Context) 
 // V1PaymentIntentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_intent.succeeded"
 // Occurs when a PaymentIntent has successfully completed payment.
 type V1PaymentIntentSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentSucceededEvent that created this Notification
 func (n *V1PaymentIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5001,13 +5003,13 @@ func (e *V1PaymentLinkCreatedEvent) FetchRelatedObject(ctx context.Context) (*Pa
 // V1PaymentLinkCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_link.created"
 // Occurs when a payment link is created.
 type V1PaymentLinkCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentLinkCreatedEvent that created this Notification
 func (n *V1PaymentLinkCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentLinkCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5040,13 +5042,13 @@ func (e *V1PaymentLinkUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Pa
 // V1PaymentLinkUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_link.updated"
 // Occurs when a payment link is updated.
 type V1PaymentLinkUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentLinkUpdatedEvent that created this Notification
 func (n *V1PaymentLinkUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentLinkUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5079,13 +5081,13 @@ func (e *V1PaymentMethodAttachedEvent) FetchRelatedObject(ctx context.Context) (
 // V1PaymentMethodAttachedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_method.attached"
 // Occurs whenever a new payment method is attached to a customer.
 type V1PaymentMethodAttachedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentMethodAttachedEvent that created this Notification
 func (n *V1PaymentMethodAttachedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodAttachedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5118,13 +5120,13 @@ func (e *V1PaymentMethodAutomaticallyUpdatedEvent) FetchRelatedObject(ctx contex
 // V1PaymentMethodAutomaticallyUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_method.automatically_updated"
 // Occurs whenever a payment method's details are automatically updated by the network.
 type V1PaymentMethodAutomaticallyUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentMethodAutomaticallyUpdatedEvent that created this Notification
 func (n *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodAutomaticallyUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5157,13 +5159,13 @@ func (e *V1PaymentMethodDetachedEvent) FetchRelatedObject(ctx context.Context) (
 // V1PaymentMethodDetachedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_method.detached"
 // Occurs whenever a payment method is detached from a customer.
 type V1PaymentMethodDetachedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentMethodDetachedEvent that created this Notification
 func (n *V1PaymentMethodDetachedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodDetachedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5196,13 +5198,13 @@ func (e *V1PaymentMethodUpdatedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1PaymentMethodUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payment_method.updated"
 // Occurs whenever a payment method is updated via the [PaymentMethod update API](https://docs.stripe.com/api/payment_methods/update).
 type V1PaymentMethodUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentMethodUpdatedEvent that created this Notification
 func (n *V1PaymentMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5235,13 +5237,13 @@ func (e *V1PayoutCanceledEvent) FetchRelatedObject(ctx context.Context) (*Payout
 // V1PayoutCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.canceled"
 // Occurs whenever a payout is canceled.
 type V1PayoutCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutCanceledEvent that created this Notification
 func (n *V1PayoutCanceledEventNotification) FetchEvent(ctx context.Context) (*V1PayoutCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5274,13 +5276,13 @@ func (e *V1PayoutCreatedEvent) FetchRelatedObject(ctx context.Context) (*Payout,
 // V1PayoutCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.created"
 // Occurs whenever a payout is created.
 type V1PayoutCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutCreatedEvent that created this Notification
 func (n *V1PayoutCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5313,13 +5315,13 @@ func (e *V1PayoutFailedEvent) FetchRelatedObject(ctx context.Context) (*Payout, 
 // V1PayoutFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.failed"
 // Occurs whenever a payout attempt fails.
 type V1PayoutFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutFailedEvent that created this Notification
 func (n *V1PayoutFailedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5352,13 +5354,13 @@ func (e *V1PayoutPaidEvent) FetchRelatedObject(ctx context.Context) (*Payout, er
 // V1PayoutPaidEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.paid"
 // Occurs whenever a payout is *expected* to be available in the destination account. If the payout fails, a `payout.failed` notification is also sent, at a later time.
 type V1PayoutPaidEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutPaidEvent that created this Notification
 func (n *V1PayoutPaidEventNotification) FetchEvent(ctx context.Context) (*V1PayoutPaidEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5391,13 +5393,13 @@ func (e *V1PayoutReconciliationCompletedEvent) FetchRelatedObject(ctx context.Co
 // V1PayoutReconciliationCompletedEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.reconciliation_completed"
 // Occurs whenever balance transactions paid out in an automatic payout can be queried.
 type V1PayoutReconciliationCompletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutReconciliationCompletedEvent that created this Notification
 func (n *V1PayoutReconciliationCompletedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutReconciliationCompletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5430,13 +5432,13 @@ func (e *V1PayoutUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Payout,
 // V1PayoutUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.payout.updated"
 // Occurs whenever a payout is updated.
 type V1PayoutUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutUpdatedEvent that created this Notification
 func (n *V1PayoutUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5469,13 +5471,13 @@ func (e *V1PersonCreatedEvent) FetchRelatedObject(ctx context.Context) (*Person,
 // V1PersonCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.person.created"
 // Occurs whenever a person associated with an account is created.
 type V1PersonCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PersonCreatedEvent that created this Notification
 func (n *V1PersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PersonCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5508,13 +5510,13 @@ func (e *V1PersonDeletedEvent) FetchRelatedObject(ctx context.Context) (*Person,
 // V1PersonDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.person.deleted"
 // Occurs whenever a person associated with an account is deleted.
 type V1PersonDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PersonDeletedEvent that created this Notification
 func (n *V1PersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PersonDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5547,13 +5549,13 @@ func (e *V1PersonUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Person,
 // V1PersonUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.person.updated"
 // Occurs whenever a person associated with an account is updated.
 type V1PersonUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PersonUpdatedEvent that created this Notification
 func (n *V1PersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PersonUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5586,13 +5588,13 @@ func (e *V1PlanCreatedEvent) FetchRelatedObject(ctx context.Context) (*Plan, err
 // V1PlanCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.plan.created"
 // Occurs whenever a plan is created.
 type V1PlanCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PlanCreatedEvent that created this Notification
 func (n *V1PlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PlanCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5625,13 +5627,13 @@ func (e *V1PlanDeletedEvent) FetchRelatedObject(ctx context.Context) (*Plan, err
 // V1PlanDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.plan.deleted"
 // Occurs whenever a plan is deleted.
 type V1PlanDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PlanDeletedEvent that created this Notification
 func (n *V1PlanDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PlanDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5664,13 +5666,13 @@ func (e *V1PlanUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Plan, err
 // V1PlanUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.plan.updated"
 // Occurs whenever a plan is updated.
 type V1PlanUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PlanUpdatedEvent that created this Notification
 func (n *V1PlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PlanUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5703,13 +5705,13 @@ func (e *V1PriceCreatedEvent) FetchRelatedObject(ctx context.Context) (*Price, e
 // V1PriceCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.created"
 // Occurs whenever a price is created.
 type V1PriceCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PriceCreatedEvent that created this Notification
 func (n *V1PriceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5742,13 +5744,13 @@ func (e *V1PriceDeletedEvent) FetchRelatedObject(ctx context.Context) (*Price, e
 // V1PriceDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.deleted"
 // Occurs whenever a price is deleted.
 type V1PriceDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PriceDeletedEvent that created this Notification
 func (n *V1PriceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PriceDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5781,13 +5783,13 @@ func (e *V1PriceUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Price, e
 // V1PriceUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.price.updated"
 // Occurs whenever a price is updated.
 type V1PriceUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PriceUpdatedEvent that created this Notification
 func (n *V1PriceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5820,13 +5822,13 @@ func (e *V1ProductCreatedEvent) FetchRelatedObject(ctx context.Context) (*Produc
 // V1ProductCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.created"
 // Occurs whenever a product is created.
 type V1ProductCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ProductCreatedEvent that created this Notification
 func (n *V1ProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5859,13 +5861,13 @@ func (e *V1ProductDeletedEvent) FetchRelatedObject(ctx context.Context) (*Produc
 // V1ProductDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.deleted"
 // Occurs whenever a product is deleted.
 type V1ProductDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ProductDeletedEvent that created this Notification
 func (n *V1ProductDeletedEventNotification) FetchEvent(ctx context.Context) (*V1ProductDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5898,13 +5900,13 @@ func (e *V1ProductUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Produc
 // V1ProductUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.product.updated"
 // Occurs whenever a product is updated.
 type V1ProductUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ProductUpdatedEvent that created this Notification
 func (n *V1ProductUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5937,13 +5939,13 @@ func (e *V1PromotionCodeCreatedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1PromotionCodeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.promotion_code.created"
 // Occurs whenever a promotion code is created.
 type V1PromotionCodeCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PromotionCodeCreatedEvent that created this Notification
 func (n *V1PromotionCodeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5976,13 +5978,13 @@ func (e *V1PromotionCodeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*
 // V1PromotionCodeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.promotion_code.updated"
 // Occurs whenever a promotion code is updated.
 type V1PromotionCodeUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PromotionCodeUpdatedEvent that created this Notification
 func (n *V1PromotionCodeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6015,13 +6017,13 @@ func (e *V1QuoteAcceptedEvent) FetchRelatedObject(ctx context.Context) (*Quote, 
 // V1QuoteAcceptedEventNotification is the webhook payload you'll get when handling an event with type "v1.quote.accepted"
 // Occurs whenever a quote is accepted.
 type V1QuoteAcceptedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1QuoteAcceptedEvent that created this Notification
 func (n *V1QuoteAcceptedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteAcceptedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6054,13 +6056,13 @@ func (e *V1QuoteCanceledEvent) FetchRelatedObject(ctx context.Context) (*Quote, 
 // V1QuoteCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.quote.canceled"
 // Occurs whenever a quote is canceled.
 type V1QuoteCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1QuoteCanceledEvent that created this Notification
 func (n *V1QuoteCanceledEventNotification) FetchEvent(ctx context.Context) (*V1QuoteCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6093,13 +6095,13 @@ func (e *V1QuoteCreatedEvent) FetchRelatedObject(ctx context.Context) (*Quote, e
 // V1QuoteCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.quote.created"
 // Occurs whenever a quote is created.
 type V1QuoteCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1QuoteCreatedEvent that created this Notification
 func (n *V1QuoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6132,13 +6134,13 @@ func (e *V1QuoteFinalizedEvent) FetchRelatedObject(ctx context.Context) (*Quote,
 // V1QuoteFinalizedEventNotification is the webhook payload you'll get when handling an event with type "v1.quote.finalized"
 // Occurs whenever a quote is finalized.
 type V1QuoteFinalizedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1QuoteFinalizedEvent that created this Notification
 func (n *V1QuoteFinalizedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteFinalizedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6171,13 +6173,13 @@ func (e *V1RadarEarlyFraudWarningCreatedEvent) FetchRelatedObject(ctx context.Co
 // V1RadarEarlyFraudWarningCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.radar.early_fraud_warning.created"
 // Occurs whenever an early fraud warning is created.
 type V1RadarEarlyFraudWarningCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RadarEarlyFraudWarningCreatedEvent that created this Notification
 func (n *V1RadarEarlyFraudWarningCreatedEventNotification) FetchEvent(ctx context.Context) (*V1RadarEarlyFraudWarningCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6210,13 +6212,13 @@ func (e *V1RadarEarlyFraudWarningUpdatedEvent) FetchRelatedObject(ctx context.Co
 // V1RadarEarlyFraudWarningUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.radar.early_fraud_warning.updated"
 // Occurs whenever an early fraud warning is updated.
 type V1RadarEarlyFraudWarningUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RadarEarlyFraudWarningUpdatedEvent that created this Notification
 func (n *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1RadarEarlyFraudWarningUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6249,13 +6251,13 @@ func (e *V1RefundCreatedEvent) FetchRelatedObject(ctx context.Context) (*Refund,
 // V1RefundCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.refund.created"
 // Occurs whenever a refund is created.
 type V1RefundCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RefundCreatedEvent that created this Notification
 func (n *V1RefundCreatedEventNotification) FetchEvent(ctx context.Context) (*V1RefundCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6288,13 +6290,13 @@ func (e *V1RefundFailedEvent) FetchRelatedObject(ctx context.Context) (*Refund, 
 // V1RefundFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.refund.failed"
 // Occurs whenever a refund has failed.
 type V1RefundFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RefundFailedEvent that created this Notification
 func (n *V1RefundFailedEventNotification) FetchEvent(ctx context.Context) (*V1RefundFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6327,13 +6329,13 @@ func (e *V1RefundUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Refund,
 // V1RefundUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.refund.updated"
 // Occurs whenever a refund is updated.
 type V1RefundUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RefundUpdatedEvent that created this Notification
 func (n *V1RefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1RefundUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6366,13 +6368,13 @@ func (e *V1ReviewClosedEvent) FetchRelatedObject(ctx context.Context) (*Review, 
 // V1ReviewClosedEventNotification is the webhook payload you'll get when handling an event with type "v1.review.closed"
 // Occurs whenever a review is closed. The review's `reason` field indicates why: `approved`, `disputed`, `refunded`, `refunded_as_fraud`, or `canceled`.
 type V1ReviewClosedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ReviewClosedEvent that created this Notification
 func (n *V1ReviewClosedEventNotification) FetchEvent(ctx context.Context) (*V1ReviewClosedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6405,13 +6407,13 @@ func (e *V1ReviewOpenedEvent) FetchRelatedObject(ctx context.Context) (*Review, 
 // V1ReviewOpenedEventNotification is the webhook payload you'll get when handling an event with type "v1.review.opened"
 // Occurs whenever a review is opened.
 type V1ReviewOpenedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ReviewOpenedEvent that created this Notification
 func (n *V1ReviewOpenedEventNotification) FetchEvent(ctx context.Context) (*V1ReviewOpenedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6444,13 +6446,13 @@ func (e *V1SetupIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (*S
 // V1SetupIntentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.canceled"
 // Occurs when a SetupIntent is canceled.
 type V1SetupIntentCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentCanceledEvent that created this Notification
 func (n *V1SetupIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6483,13 +6485,13 @@ func (e *V1SetupIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*Se
 // V1SetupIntentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.created"
 // Occurs when a new SetupIntent is created.
 type V1SetupIntentCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentCreatedEvent that created this Notification
 func (n *V1SetupIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6522,13 +6524,13 @@ func (e *V1SetupIntentRequiresActionEvent) FetchRelatedObject(ctx context.Contex
 // V1SetupIntentRequiresActionEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.requires_action"
 // Occurs when a SetupIntent is in requires_action state.
 type V1SetupIntentRequiresActionEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentRequiresActionEvent that created this Notification
 func (n *V1SetupIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentRequiresActionEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6561,13 +6563,13 @@ func (e *V1SetupIntentSetupFailedEvent) FetchRelatedObject(ctx context.Context) 
 // V1SetupIntentSetupFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.setup_failed"
 // Occurs when a SetupIntent has failed the attempt to setup a payment method.
 type V1SetupIntentSetupFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentSetupFailedEvent that created this Notification
 func (n *V1SetupIntentSetupFailedEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentSetupFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6600,13 +6602,13 @@ func (e *V1SetupIntentSucceededEvent) FetchRelatedObject(ctx context.Context) (*
 // V1SetupIntentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.setup_intent.succeeded"
 // Occurs when an SetupIntent has successfully setup a payment method.
 type V1SetupIntentSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentSucceededEvent that created this Notification
 func (n *V1SetupIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6639,13 +6641,13 @@ func (e *V1SigmaScheduledQueryRunCreatedEvent) FetchRelatedObject(ctx context.Co
 // V1SigmaScheduledQueryRunCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.sigma.scheduled_query_run.created"
 // Occurs whenever a Sigma scheduled query run finishes.
 type V1SigmaScheduledQueryRunCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SigmaScheduledQueryRunCreatedEvent that created this Notification
 func (n *V1SigmaScheduledQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SigmaScheduledQueryRunCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6678,13 +6680,13 @@ func (e *V1SourceCanceledEvent) FetchRelatedObject(ctx context.Context) (*Source
 // V1SourceCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.source.canceled"
 // Occurs whenever a source is canceled.
 type V1SourceCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SourceCanceledEvent that created this Notification
 func (n *V1SourceCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SourceCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6717,13 +6719,13 @@ func (e *V1SourceChargeableEvent) FetchRelatedObject(ctx context.Context) (*Sour
 // V1SourceChargeableEventNotification is the webhook payload you'll get when handling an event with type "v1.source.chargeable"
 // Occurs whenever a source transitions to chargeable.
 type V1SourceChargeableEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SourceChargeableEvent that created this Notification
 func (n *V1SourceChargeableEventNotification) FetchEvent(ctx context.Context) (*V1SourceChargeableEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6756,13 +6758,13 @@ func (e *V1SourceFailedEvent) FetchRelatedObject(ctx context.Context) (*Source, 
 // V1SourceFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.source.failed"
 // Occurs whenever a source fails.
 type V1SourceFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SourceFailedEvent that created this Notification
 func (n *V1SourceFailedEventNotification) FetchEvent(ctx context.Context) (*V1SourceFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6795,13 +6797,13 @@ func (e *V1SourceRefundAttributesRequiredEvent) FetchRelatedObject(ctx context.C
 // V1SourceRefundAttributesRequiredEventNotification is the webhook payload you'll get when handling an event with type "v1.source.refund_attributes_required"
 // Occurs whenever the refund attributes are required on a receiver source to process a refund or a mispayment.
 type V1SourceRefundAttributesRequiredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SourceRefundAttributesRequiredEvent that created this Notification
 func (n *V1SourceRefundAttributesRequiredEventNotification) FetchEvent(ctx context.Context) (*V1SourceRefundAttributesRequiredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6834,13 +6836,13 @@ func (e *V1SubscriptionScheduleAbortedEvent) FetchRelatedObject(ctx context.Cont
 // V1SubscriptionScheduleAbortedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.aborted"
 // Occurs whenever a subscription schedule is canceled due to the underlying subscription being canceled because of delinquency.
 type V1SubscriptionScheduleAbortedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleAbortedEvent that created this Notification
 func (n *V1SubscriptionScheduleAbortedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleAbortedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6873,13 +6875,13 @@ func (e *V1SubscriptionScheduleCanceledEvent) FetchRelatedObject(ctx context.Con
 // V1SubscriptionScheduleCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.canceled"
 // Occurs whenever a subscription schedule is canceled.
 type V1SubscriptionScheduleCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleCanceledEvent that created this Notification
 func (n *V1SubscriptionScheduleCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6912,13 +6914,13 @@ func (e *V1SubscriptionScheduleCompletedEvent) FetchRelatedObject(ctx context.Co
 // V1SubscriptionScheduleCompletedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.completed"
 // Occurs whenever a new subscription schedule is completed.
 type V1SubscriptionScheduleCompletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleCompletedEvent that created this Notification
 func (n *V1SubscriptionScheduleCompletedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCompletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6951,13 +6953,13 @@ func (e *V1SubscriptionScheduleCreatedEvent) FetchRelatedObject(ctx context.Cont
 // V1SubscriptionScheduleCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.created"
 // Occurs whenever a new subscription schedule is created.
 type V1SubscriptionScheduleCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleCreatedEvent that created this Notification
 func (n *V1SubscriptionScheduleCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6990,13 +6992,13 @@ func (e *V1SubscriptionScheduleExpiringEvent) FetchRelatedObject(ctx context.Con
 // V1SubscriptionScheduleExpiringEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.expiring"
 // Occurs 7 days before a subscription schedule will expire.
 type V1SubscriptionScheduleExpiringEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleExpiringEvent that created this Notification
 func (n *V1SubscriptionScheduleExpiringEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleExpiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7029,13 +7031,13 @@ func (e *V1SubscriptionScheduleReleasedEvent) FetchRelatedObject(ctx context.Con
 // V1SubscriptionScheduleReleasedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.released"
 // Occurs whenever a new subscription schedule is released.
 type V1SubscriptionScheduleReleasedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleReleasedEvent that created this Notification
 func (n *V1SubscriptionScheduleReleasedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleReleasedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7068,13 +7070,13 @@ func (e *V1SubscriptionScheduleUpdatedEvent) FetchRelatedObject(ctx context.Cont
 // V1SubscriptionScheduleUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.subscription_schedule.updated"
 // Occurs whenever a subscription schedule is updated.
 type V1SubscriptionScheduleUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleUpdatedEvent that created this Notification
 func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7107,13 +7109,13 @@ func (e *V1TaxRateCreatedEvent) FetchRelatedObject(ctx context.Context) (*TaxRat
 // V1TaxRateCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.tax_rate.created"
 // Occurs whenever a new tax rate is created.
 type V1TaxRateCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TaxRateCreatedEvent that created this Notification
 func (n *V1TaxRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxRateCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7146,13 +7148,13 @@ func (e *V1TaxRateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*TaxRat
 // V1TaxRateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.tax_rate.updated"
 // Occurs whenever a tax rate is updated.
 type V1TaxRateUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TaxRateUpdatedEvent that created this Notification
 func (n *V1TaxRateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxRateUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7185,13 +7187,13 @@ func (e *V1TerminalReaderActionFailedEvent) FetchRelatedObject(ctx context.Conte
 // V1TerminalReaderActionFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.terminal.reader.action_failed"
 // Occurs whenever an action sent to a Terminal reader failed.
 type V1TerminalReaderActionFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TerminalReaderActionFailedEvent that created this Notification
 func (n *V1TerminalReaderActionFailedEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7224,13 +7226,13 @@ func (e *V1TerminalReaderActionSucceededEvent) FetchRelatedObject(ctx context.Co
 // V1TerminalReaderActionSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.terminal.reader.action_succeeded"
 // Occurs whenever an action sent to a Terminal reader was successful.
 type V1TerminalReaderActionSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TerminalReaderActionSucceededEvent that created this Notification
 func (n *V1TerminalReaderActionSucceededEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7263,13 +7265,13 @@ func (e *V1TerminalReaderActionUpdatedEvent) FetchRelatedObject(ctx context.Cont
 // V1TerminalReaderActionUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.terminal.reader.action_updated"
 // Occurs whenever an action sent to a Terminal reader is updated.
 type V1TerminalReaderActionUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TerminalReaderActionUpdatedEvent that created this Notification
 func (n *V1TerminalReaderActionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7302,13 +7304,13 @@ func (e *V1TestHelpersTestClockAdvancingEvent) FetchRelatedObject(ctx context.Co
 // V1TestHelpersTestClockAdvancingEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.advancing"
 // Occurs whenever a test clock starts advancing.
 type V1TestHelpersTestClockAdvancingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockAdvancingEvent that created this Notification
 func (n *V1TestHelpersTestClockAdvancingEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockAdvancingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7341,13 +7343,13 @@ func (e *V1TestHelpersTestClockCreatedEvent) FetchRelatedObject(ctx context.Cont
 // V1TestHelpersTestClockCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.created"
 // Occurs whenever a test clock is created.
 type V1TestHelpersTestClockCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockCreatedEvent that created this Notification
 func (n *V1TestHelpersTestClockCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7380,13 +7382,13 @@ func (e *V1TestHelpersTestClockDeletedEvent) FetchRelatedObject(ctx context.Cont
 // V1TestHelpersTestClockDeletedEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.deleted"
 // Occurs whenever a test clock is deleted.
 type V1TestHelpersTestClockDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockDeletedEvent that created this Notification
 func (n *V1TestHelpersTestClockDeletedEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7419,13 +7421,13 @@ func (e *V1TestHelpersTestClockInternalFailureEvent) FetchRelatedObject(ctx cont
 // V1TestHelpersTestClockInternalFailureEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.internal_failure"
 // Occurs whenever a test clock fails to advance its frozen time.
 type V1TestHelpersTestClockInternalFailureEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockInternalFailureEvent that created this Notification
 func (n *V1TestHelpersTestClockInternalFailureEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockInternalFailureEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7458,13 +7460,13 @@ func (e *V1TestHelpersTestClockReadyEvent) FetchRelatedObject(ctx context.Contex
 // V1TestHelpersTestClockReadyEventNotification is the webhook payload you'll get when handling an event with type "v1.test_helpers.test_clock.ready"
 // Occurs whenever a test clock transitions to a ready status.
 type V1TestHelpersTestClockReadyEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockReadyEvent that created this Notification
 func (n *V1TestHelpersTestClockReadyEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockReadyEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7497,13 +7499,13 @@ func (e *V1TopupCanceledEvent) FetchRelatedObject(ctx context.Context) (*Topup, 
 // V1TopupCanceledEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.canceled"
 // Occurs whenever a top-up is canceled.
 type V1TopupCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupCanceledEvent that created this Notification
 func (n *V1TopupCanceledEventNotification) FetchEvent(ctx context.Context) (*V1TopupCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7536,13 +7538,13 @@ func (e *V1TopupCreatedEvent) FetchRelatedObject(ctx context.Context) (*Topup, e
 // V1TopupCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.created"
 // Occurs whenever a top-up is created.
 type V1TopupCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupCreatedEvent that created this Notification
 func (n *V1TopupCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TopupCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7575,13 +7577,13 @@ func (e *V1TopupFailedEvent) FetchRelatedObject(ctx context.Context) (*Topup, er
 // V1TopupFailedEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.failed"
 // Occurs whenever a top-up fails.
 type V1TopupFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupFailedEvent that created this Notification
 func (n *V1TopupFailedEventNotification) FetchEvent(ctx context.Context) (*V1TopupFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7614,13 +7616,13 @@ func (e *V1TopupReversedEvent) FetchRelatedObject(ctx context.Context) (*Topup, 
 // V1TopupReversedEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.reversed"
 // Occurs whenever a top-up is reversed.
 type V1TopupReversedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupReversedEvent that created this Notification
 func (n *V1TopupReversedEventNotification) FetchEvent(ctx context.Context) (*V1TopupReversedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7653,13 +7655,13 @@ func (e *V1TopupSucceededEvent) FetchRelatedObject(ctx context.Context) (*Topup,
 // V1TopupSucceededEventNotification is the webhook payload you'll get when handling an event with type "v1.topup.succeeded"
 // Occurs whenever a top-up succeeds.
 type V1TopupSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupSucceededEvent that created this Notification
 func (n *V1TopupSucceededEventNotification) FetchEvent(ctx context.Context) (*V1TopupSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7692,13 +7694,13 @@ func (e *V1TransferCreatedEvent) FetchRelatedObject(ctx context.Context) (*Trans
 // V1TransferCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.transfer.created"
 // Occurs whenever a transfer is created.
 type V1TransferCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TransferCreatedEvent that created this Notification
 func (n *V1TransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TransferCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7731,13 +7733,13 @@ func (e *V1TransferReversedEvent) FetchRelatedObject(ctx context.Context) (*Tran
 // V1TransferReversedEventNotification is the webhook payload you'll get when handling an event with type "v1.transfer.reversed"
 // Occurs whenever a transfer is reversed, including partial reversals.
 type V1TransferReversedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TransferReversedEvent that created this Notification
 func (n *V1TransferReversedEventNotification) FetchEvent(ctx context.Context) (*V1TransferReversedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7770,13 +7772,13 @@ func (e *V1TransferUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Trans
 // V1TransferUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.transfer.updated"
 // Occurs whenever a transfer's description or metadata is updated.
 type V1TransferUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TransferUpdatedEvent that created this Notification
 func (n *V1TransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TransferUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7810,13 +7812,13 @@ func (e *V2BillingBillSettingUpdatedEvent) FetchRelatedObject(ctx context.Contex
 // V2BillingBillSettingUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.bill_setting.updated"
 // This event occurs when a bill setting is updated.
 type V2BillingBillSettingUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingBillSettingUpdatedEvent that created this Notification
 func (n *V2BillingBillSettingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingBillSettingUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7850,13 +7852,13 @@ func (e *V2BillingCadenceBilledEvent) FetchRelatedObject(ctx context.Context) (*
 // V2BillingCadenceBilledEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.cadence.billed"
 // Occurs when a billing Cadence generates an invoice.
 type V2BillingCadenceBilledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingCadenceBilledEvent that created this Notification
 func (n *V2BillingCadenceBilledEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceBilledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7889,13 +7891,13 @@ func (e *V2BillingCadenceCanceledEvent) FetchRelatedObject(ctx context.Context) 
 // V2BillingCadenceCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.cadence.canceled"
 // Occurs when a billing Cadence is canceled.
 type V2BillingCadenceCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingCadenceCanceledEvent that created this Notification
 func (n *V2BillingCadenceCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7929,13 +7931,13 @@ func (e *V2BillingCadenceCreatedEvent) FetchRelatedObject(ctx context.Context) (
 // V2BillingCadenceCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.cadence.created"
 // Occurs when a billing Cadence is created.
 type V2BillingCadenceCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingCadenceCreatedEvent that created this Notification
 func (n *V2BillingCadenceCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7968,13 +7970,13 @@ func (e *V2BillingLicenseFeeCreatedEvent) FetchRelatedObject(ctx context.Context
 // V2BillingLicenseFeeCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.license_fee.created"
 // Occurs when a LicenseFee is created.
 type V2BillingLicenseFeeCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicenseFeeCreatedEvent that created this Notification
 func (n *V2BillingLicenseFeeCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8007,13 +8009,13 @@ func (e *V2BillingLicenseFeeUpdatedEvent) FetchRelatedObject(ctx context.Context
 // V2BillingLicenseFeeUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.license_fee.updated"
 // Occurs when a LicenseFee is updated.
 type V2BillingLicenseFeeUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicenseFeeUpdatedEvent that created this Notification
 func (n *V2BillingLicenseFeeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8047,13 +8049,13 @@ func (e *V2BillingLicenseFeeVersionCreatedEvent) FetchRelatedObject(ctx context.
 // V2BillingLicenseFeeVersionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.license_fee_version.created"
 // Occurs when a LicenseFeeVersion is created.
 type V2BillingLicenseFeeVersionCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicenseFeeVersionCreatedEvent that created this Notification
 func (n *V2BillingLicenseFeeVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeVersionCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8086,13 +8088,13 @@ func (e *V2BillingLicensedItemCreatedEvent) FetchRelatedObject(ctx context.Conte
 // V2BillingLicensedItemCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.licensed_item.created"
 // Occurs when a LicensedItem is created.
 type V2BillingLicensedItemCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicensedItemCreatedEvent that created this Notification
 func (n *V2BillingLicensedItemCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicensedItemCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8125,13 +8127,13 @@ func (e *V2BillingLicensedItemUpdatedEvent) FetchRelatedObject(ctx context.Conte
 // V2BillingLicensedItemUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.licensed_item.updated"
 // Occurs when a LicensedItem is updated.
 type V2BillingLicensedItemUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicensedItemUpdatedEvent that created this Notification
 func (n *V2BillingLicensedItemUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicensedItemUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8164,13 +8166,13 @@ func (e *V2BillingMeteredItemCreatedEvent) FetchRelatedObject(ctx context.Contex
 // V2BillingMeteredItemCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.metered_item.created"
 // Occurs when a MeteredItem is created.
 type V2BillingMeteredItemCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingMeteredItemCreatedEvent that created this Notification
 func (n *V2BillingMeteredItemCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingMeteredItemCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8203,13 +8205,13 @@ func (e *V2BillingMeteredItemUpdatedEvent) FetchRelatedObject(ctx context.Contex
 // V2BillingMeteredItemUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.metered_item.updated"
 // Occurs when a MeteredItem is updated.
 type V2BillingMeteredItemUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingMeteredItemUpdatedEvent that created this Notification
 func (n *V2BillingMeteredItemUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingMeteredItemUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8242,13 +8244,13 @@ func (e *V2BillingPricingPlanCreatedEvent) FetchRelatedObject(ctx context.Contex
 // V2BillingPricingPlanCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan.created"
 // Occurs when a PricingPlan is created.
 type V2BillingPricingPlanCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanCreatedEvent that created this Notification
 func (n *V2BillingPricingPlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8281,13 +8283,13 @@ func (e *V2BillingPricingPlanUpdatedEvent) FetchRelatedObject(ctx context.Contex
 // V2BillingPricingPlanUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan.updated"
 // Occurs when a PricingPlan is updated.
 type V2BillingPricingPlanUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanUpdatedEvent that created this Notification
 func (n *V2BillingPricingPlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8321,13 +8323,13 @@ func (e *V2BillingPricingPlanComponentCreatedEvent) FetchRelatedObject(ctx conte
 // V2BillingPricingPlanComponentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_component.created"
 // Occurs when a PricingPlanComponent is created.
 type V2BillingPricingPlanComponentCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanComponentCreatedEvent that created this Notification
 func (n *V2BillingPricingPlanComponentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanComponentCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8361,13 +8363,13 @@ func (e *V2BillingPricingPlanComponentUpdatedEvent) FetchRelatedObject(ctx conte
 // V2BillingPricingPlanComponentUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_component.updated"
 // Occurs when a PricingPlanComponent is updated.
 type V2BillingPricingPlanComponentUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanComponentUpdatedEvent that created this Notification
 func (n *V2BillingPricingPlanComponentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanComponentUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8400,13 +8402,13 @@ func (e *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent) 
 // V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_subscription.collection_awaiting_customer_action"
 // Occurs when a PricingPlanSubscription's collection is awaiting customer action.
 type V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8439,13 +8441,13 @@ func (e *V2BillingPricingPlanSubscriptionCollectionCurrentEvent) FetchRelatedObj
 // V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_subscription.collection_current"
 // Occurs when a PricingPlanSubscription's collection is current.
 type V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionCurrentEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionCurrentEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8478,13 +8480,13 @@ func (e *V2BillingPricingPlanSubscriptionCollectionPastDueEvent) FetchRelatedObj
 // V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_subscription.collection_past_due"
 // Occurs when a PricingPlanSubscription's collection is past due.
 type V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionPastDueEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionPastDueEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8517,13 +8519,13 @@ func (e *V2BillingPricingPlanSubscriptionCollectionPausedEvent) FetchRelatedObje
 // V2BillingPricingPlanSubscriptionCollectionPausedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_subscription.collection_paused"
 // Occurs when a PricingPlanSubscription's collection is paused.
 type V2BillingPricingPlanSubscriptionCollectionPausedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionPausedEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionPausedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8556,13 +8558,13 @@ func (e *V2BillingPricingPlanSubscriptionCollectionUnpaidEvent) FetchRelatedObje
 // V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_subscription.collection_unpaid"
 // Occurs when a PricingPlanSubscription's collection is unpaid.
 type V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionUnpaidEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionUnpaidEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8595,13 +8597,13 @@ func (e *V2BillingPricingPlanSubscriptionServicingActivatedEvent) FetchRelatedOb
 // V2BillingPricingPlanSubscriptionServicingActivatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_subscription.servicing_activated"
 // Occurs when PricingPlanSubscription servicing is activated.
 type V2BillingPricingPlanSubscriptionServicingActivatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingActivatedEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingActivatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8634,13 +8636,13 @@ func (e *V2BillingPricingPlanSubscriptionServicingCanceledEvent) FetchRelatedObj
 // V2BillingPricingPlanSubscriptionServicingCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_subscription.servicing_canceled"
 // Occurs when PricingPlanSubscription servicing is canceled.
 type V2BillingPricingPlanSubscriptionServicingCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingCanceledEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8673,13 +8675,13 @@ func (e *V2BillingPricingPlanSubscriptionServicingPausedEvent) FetchRelatedObjec
 // V2BillingPricingPlanSubscriptionServicingPausedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_subscription.servicing_paused"
 // Occurs when PricingPlanSubscription servicing is paused.
 type V2BillingPricingPlanSubscriptionServicingPausedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingPausedEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingPausedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8713,13 +8715,13 @@ func (e *V2BillingPricingPlanVersionCreatedEvent) FetchRelatedObject(ctx context
 // V2BillingPricingPlanVersionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.pricing_plan_version.created"
 // Occurs when a PricingPlanVersion is created.
 type V2BillingPricingPlanVersionCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanVersionCreatedEvent that created this Notification
 func (n *V2BillingPricingPlanVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanVersionCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8753,13 +8755,13 @@ func (e *V2BillingRateCardCreatedEvent) FetchRelatedObject(ctx context.Context) 
 // V2BillingRateCardCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card.created"
 // Occurs when a RateCard is created.
 type V2BillingRateCardCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardCreatedEvent that created this Notification
 func (n *V2BillingRateCardCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8792,13 +8794,13 @@ func (e *V2BillingRateCardUpdatedEvent) FetchRelatedObject(ctx context.Context) 
 // V2BillingRateCardUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card.updated"
 // Occurs when a RateCard is updated.
 type V2BillingRateCardUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardUpdatedEvent that created this Notification
 func (n *V2BillingRateCardUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8832,13 +8834,13 @@ func (e *V2BillingRateCardRateCreatedEvent) FetchRelatedObject(ctx context.Conte
 // V2BillingRateCardRateCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_rate.created"
 // Occurs when a RateCardRate is created.
 type V2BillingRateCardRateCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardRateCreatedEvent that created this Notification
 func (n *V2BillingRateCardRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardRateCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8871,13 +8873,13 @@ func (e *V2BillingRateCardSubscriptionActivatedEvent) FetchRelatedObject(ctx con
 // V2BillingRateCardSubscriptionActivatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.activated"
 // Occurs when a RateCardSubscription is activated.
 type V2BillingRateCardSubscriptionActivatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionActivatedEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionActivatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8910,13 +8912,13 @@ func (e *V2BillingRateCardSubscriptionCanceledEvent) FetchRelatedObject(ctx cont
 // V2BillingRateCardSubscriptionCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.canceled"
 // Occurs when a RateCardSubscription is canceled.
 type V2BillingRateCardSubscriptionCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCanceledEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8949,13 +8951,13 @@ func (e *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent) Fet
 // V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.collection_awaiting_customer_action"
 // Occurs when a RateCardSubscription's collection is awaiting customer action.
 type V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8988,13 +8990,13 @@ func (e *V2BillingRateCardSubscriptionCollectionCurrentEvent) FetchRelatedObject
 // V2BillingRateCardSubscriptionCollectionCurrentEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.collection_current"
 // Occurs when a RateCardSubscription's collection is current.
 type V2BillingRateCardSubscriptionCollectionCurrentEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionCurrentEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionCurrentEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9027,13 +9029,13 @@ func (e *V2BillingRateCardSubscriptionCollectionPastDueEvent) FetchRelatedObject
 // V2BillingRateCardSubscriptionCollectionPastDueEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.collection_past_due"
 // Occurs when a RateCardSubscription's collection is past due.
 type V2BillingRateCardSubscriptionCollectionPastDueEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionPastDueEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionPastDueEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9066,13 +9068,13 @@ func (e *V2BillingRateCardSubscriptionCollectionPausedEvent) FetchRelatedObject(
 // V2BillingRateCardSubscriptionCollectionPausedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.collection_paused"
 // Occurs when a RateCardSubscription's collection is paused.
 type V2BillingRateCardSubscriptionCollectionPausedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionPausedEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionPausedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9105,13 +9107,13 @@ func (e *V2BillingRateCardSubscriptionCollectionUnpaidEvent) FetchRelatedObject(
 // V2BillingRateCardSubscriptionCollectionUnpaidEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.collection_unpaid"
 // Occurs when a RateCardSubscription's collection is unpaid.
 type V2BillingRateCardSubscriptionCollectionUnpaidEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionUnpaidEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionUnpaidEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9144,13 +9146,13 @@ func (e *V2BillingRateCardSubscriptionServicingActivatedEvent) FetchRelatedObjec
 // V2BillingRateCardSubscriptionServicingActivatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.servicing_activated"
 // Occurs when RateCardSubscription servicing is activated.
 type V2BillingRateCardSubscriptionServicingActivatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingActivatedEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionServicingActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingActivatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9183,13 +9185,13 @@ func (e *V2BillingRateCardSubscriptionServicingCanceledEvent) FetchRelatedObject
 // V2BillingRateCardSubscriptionServicingCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.servicing_canceled"
 // Occurs when RateCardSubscription servicing is canceled.
 type V2BillingRateCardSubscriptionServicingCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingCanceledEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionServicingCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9222,13 +9224,13 @@ func (e *V2BillingRateCardSubscriptionServicingPausedEvent) FetchRelatedObject(c
 // V2BillingRateCardSubscriptionServicingPausedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_subscription.servicing_paused"
 // Occurs when RateCardSubscription servicing is paused.
 type V2BillingRateCardSubscriptionServicingPausedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingPausedEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingPausedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9262,13 +9264,13 @@ func (e *V2BillingRateCardVersionCreatedEvent) FetchRelatedObject(ctx context.Co
 // V2BillingRateCardVersionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_version.created"
 // Occurs when a RateCardVersion is created.
 type V2BillingRateCardVersionCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardVersionCreatedEvent that created this Notification
 func (n *V2BillingRateCardVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardVersionCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9301,13 +9303,13 @@ func (e *V2CoreAccountClosedEvent) FetchRelatedObject(ctx context.Context) (*V2C
 // V2CoreAccountClosedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.closed"
 // This event occurs when an account is closed.
 type V2CoreAccountClosedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountClosedEvent that created this Notification
 func (n *V2CoreAccountClosedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountClosedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9340,13 +9342,13 @@ func (e *V2CoreAccountCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2
 // V2CoreAccountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.created"
 // Occurs when an Account is created.
 type V2CoreAccountCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountCreatedEvent that created this Notification
 func (n *V2CoreAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9379,13 +9381,13 @@ func (e *V2CoreAccountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2
 // V2CoreAccountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account.updated"
 // Occurs when an Account is updated.
 type V2CoreAccountUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountUpdatedEvent that created this Notification
 func (n *V2CoreAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9419,13 +9421,13 @@ func (e *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent
 // V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.customer].capability_status_updated"
 // Occurs when the status of an Account's customer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9458,13 +9460,13 @@ func (e *V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedOb
 // V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.customer].updated"
 // Occurs when an Account's customer configuration is updated.
 type V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9498,13 +9500,13 @@ func (e *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent
 // V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.merchant].capability_status_updated"
 // Occurs when the status of an Account's merchant configuration capability is updated.
 type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9537,13 +9539,13 @@ func (e *V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedOb
 // V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.merchant].updated"
 // Occurs when an Account's merchant configuration is updated.
 type V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9577,13 +9579,13 @@ func (e *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEven
 // V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.recipient].capability_status_updated"
 // Occurs when the status of an Account's recipient configuration capability is updated.
 type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9616,13 +9618,13 @@ func (e *V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedO
 // V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.recipient].updated"
 // Occurs when a Recipient's configuration is updated.
 type V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9656,13 +9658,13 @@ func (e *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent) 
 // V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.storer].capability_status_updated"
 // Occurs when the status of an Account's storer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9695,13 +9697,13 @@ func (e *V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObje
 // V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.storer].updated"
 // Occurs when a Storer's configuration is updated.
 type V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9734,13 +9736,13 @@ func (e *V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject(ctx cont
 // V2CoreAccountIncludingDefaultsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[defaults].updated"
 // This event occurs when account defaults are created or updated.
 type V2CoreAccountIncludingDefaultsUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingDefaultsUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingDefaultsUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9773,13 +9775,13 @@ func (e *V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject(ctx cont
 // V2CoreAccountIncludingIdentityUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[identity].updated"
 // Occurs when an Identity is updated.
 type V2CoreAccountIncludingIdentityUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingIdentityUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingIdentityUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9812,13 +9814,13 @@ func (e *V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject(ctx 
 // V2CoreAccountIncludingRequirementsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[requirements].updated"
 // Occurs when an Account's requirements are updated.
 type V2CoreAccountIncludingRequirementsUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingRequirementsUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingRequirementsUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9844,11 +9846,13 @@ type V2CoreAccountLinkReturnedEvent struct {
 
 // V2CoreAccountLinkReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_link.returned"
 // Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkReturnedEventNotification struct{ V2EventNotification }
+type V2CoreAccountLinkReturnedEventNotification struct {
+	V2CoreEventNotification
+}
 
 // FetchEvent retrieves the V2CoreAccountLinkReturnedEvent that created this Notification
 func (n *V2CoreAccountLinkReturnedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountLinkReturnedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9872,13 +9876,13 @@ func (e *V2CoreAccountPersonCreatedEvent) FetchRelatedObject(ctx context.Context
 // V2CoreAccountPersonCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.created"
 // Occurs when a Person is created.
 type V2CoreAccountPersonCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountPersonCreatedEvent that created this Notification
 func (n *V2CoreAccountPersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9912,13 +9916,13 @@ func (e *V2CoreAccountPersonDeletedEvent) FetchRelatedObject(ctx context.Context
 // V2CoreAccountPersonDeletedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.deleted"
 // Occurs when a Person is deleted.
 type V2CoreAccountPersonDeletedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountPersonDeletedEvent that created this Notification
 func (n *V2CoreAccountPersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonDeletedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9952,13 +9956,13 @@ func (e *V2CoreAccountPersonUpdatedEvent) FetchRelatedObject(ctx context.Context
 // V2CoreAccountPersonUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_person.updated"
 // Occurs when a Person is updated.
 type V2CoreAccountPersonUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountPersonUpdatedEvent that created this Notification
 func (n *V2CoreAccountPersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9991,13 +9995,13 @@ func (e *V2CoreClaimableSandboxClaimedEvent) FetchRelatedObject(ctx context.Cont
 // V2CoreClaimableSandboxClaimedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.claimed"
 // Occurs when a claimable sandbox is claimed.
 type V2CoreClaimableSandboxClaimedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxClaimedEvent that created this Notification
 func (n *V2CoreClaimableSandboxClaimedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxClaimedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10030,13 +10034,13 @@ func (e *V2CoreClaimableSandboxCreatedEvent) FetchRelatedObject(ctx context.Cont
 // V2CoreClaimableSandboxCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.created"
 // Occurs when a claimable sandbox is created.
 type V2CoreClaimableSandboxCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxCreatedEvent that created this Notification
 func (n *V2CoreClaimableSandboxCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10069,13 +10073,13 @@ func (e *V2CoreClaimableSandboxExpiredEvent) FetchRelatedObject(ctx context.Cont
 // V2CoreClaimableSandboxExpiredEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.expired"
 // Occurs when a claimable sandbox expires.
 type V2CoreClaimableSandboxExpiredEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxExpiredEvent that created this Notification
 func (n *V2CoreClaimableSandboxExpiredEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiredEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10108,13 +10112,13 @@ func (e *V2CoreClaimableSandboxExpiringEvent) FetchRelatedObject(ctx context.Con
 // V2CoreClaimableSandboxExpiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.expiring"
 // Occurs when a claimable sandbox is expiring in 7 days.
 type V2CoreClaimableSandboxExpiringEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxExpiringEvent that created this Notification
 func (n *V2CoreClaimableSandboxExpiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10147,13 +10151,13 @@ func (e *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent) FetchRela
 // V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.claimable_sandbox.sandbox_details_owner_account_updated"
 // Occurs when a claimable sandbox is activated by the user with the intention to go live and your Stripe app is installed on the live account.
 type V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent that created this Notification
 func (n *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10175,35 +10179,35 @@ func (n *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotificatio
 type V2CoreEventDestinationPingEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2EventDestination, error)
+	fetchRelatedObject func() (*V2CoreEventDestination, error)
 }
 
-// FetchRelatedObject fetches the V2EventDestination related to the event.
-func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+// FetchRelatedObject fetches the V2CoreEventDestination related to the event.
+func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context) (*V2CoreEventDestination, error) {
 	return e.fetchRelatedObject()
 }
 
 // V2CoreEventDestinationPingEventNotification is the webhook payload you'll get when handling an event with type "v2.core.event_destination.ping"
 // A ping event used to test the connection to an EventDestination.
 type V2CoreEventDestinationPingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
 func (n *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return evt.(*V2CoreEventDestinationPingEvent), nil
 }
 
-// FetchRelatedObject fetches the V2EventDestination related to the event.
-func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2EventDestination, error) {
+// FetchRelatedObject fetches the V2CoreEventDestination related to the event.
+func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreEventDestination, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
-	relatedObj := &V2EventDestination{}
+	relatedObj := &V2CoreEventDestination{}
 	err := n.client.backend.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -10218,11 +10222,13 @@ type V2CoreHealthAPIErrorFiringEvent struct {
 
 // V2CoreHealthAPIErrorFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.api_error.firing"
 // Occurs when an API error alert is firing.
-type V2CoreHealthAPIErrorFiringEventNotification struct{ V2EventNotification }
+type V2CoreHealthAPIErrorFiringEventNotification struct {
+	V2CoreEventNotification
+}
 
 // FetchEvent retrieves the V2CoreHealthAPIErrorFiringEvent that created this Notification
 func (n *V2CoreHealthAPIErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPIErrorFiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10238,11 +10244,13 @@ type V2CoreHealthAPIErrorResolvedEvent struct {
 
 // V2CoreHealthAPIErrorResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.api_error.resolved"
 // Occurs when an API error alert is resolved.
-type V2CoreHealthAPIErrorResolvedEventNotification struct{ V2EventNotification }
+type V2CoreHealthAPIErrorResolvedEventNotification struct {
+	V2CoreEventNotification
+}
 
 // FetchEvent retrieves the V2CoreHealthAPIErrorResolvedEvent that created this Notification
 func (n *V2CoreHealthAPIErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPIErrorResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10258,11 +10266,13 @@ type V2CoreHealthAPILatencyFiringEvent struct {
 
 // V2CoreHealthAPILatencyFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.api_latency.firing"
 // Occurs when an API latency alert is firing.
-type V2CoreHealthAPILatencyFiringEventNotification struct{ V2EventNotification }
+type V2CoreHealthAPILatencyFiringEventNotification struct {
+	V2CoreEventNotification
+}
 
 // FetchEvent retrieves the V2CoreHealthAPILatencyFiringEvent that created this Notification
 func (n *V2CoreHealthAPILatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPILatencyFiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10279,12 +10289,12 @@ type V2CoreHealthAPILatencyResolvedEvent struct {
 // V2CoreHealthAPILatencyResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.api_latency.resolved"
 // Occurs when an API latency alert is resolved.
 type V2CoreHealthAPILatencyResolvedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthAPILatencyResolvedEvent that created this Notification
 func (n *V2CoreHealthAPILatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPILatencyResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10301,12 +10311,12 @@ type V2CoreHealthAuthorizationRateDropFiringEvent struct {
 // V2CoreHealthAuthorizationRateDropFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.authorization_rate_drop.firing"
 // Occurs when an authorization rate drop alert is firing.
 type V2CoreHealthAuthorizationRateDropFiringEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthAuthorizationRateDropFiringEvent that created this Notification
 func (n *V2CoreHealthAuthorizationRateDropFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAuthorizationRateDropFiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10323,12 +10333,12 @@ type V2CoreHealthAuthorizationRateDropResolvedEvent struct {
 // V2CoreHealthAuthorizationRateDropResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.authorization_rate_drop.resolved"
 // Occurs when an authorization rate drop alert is resolved.
 type V2CoreHealthAuthorizationRateDropResolvedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthAuthorizationRateDropResolvedEvent that created this Notification
 func (n *V2CoreHealthAuthorizationRateDropResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAuthorizationRateDropResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10345,12 +10355,12 @@ type V2CoreHealthEventGenerationFailureResolvedEvent struct {
 // V2CoreHealthEventGenerationFailureResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.event_generation_failure.resolved"
 // Occurs when an event generation failure alert is resolved.
 type V2CoreHealthEventGenerationFailureResolvedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthEventGenerationFailureResolvedEvent that created this Notification
 func (n *V2CoreHealthEventGenerationFailureResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthEventGenerationFailureResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10367,12 +10377,12 @@ type V2CoreHealthFraudRateIncreasedEvent struct {
 // V2CoreHealthFraudRateIncreasedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.fraud_rate.increased"
 // Occurs when the fraud rate has increased.
 type V2CoreHealthFraudRateIncreasedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthFraudRateIncreasedEvent that created this Notification
 func (n *V2CoreHealthFraudRateIncreasedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthFraudRateIncreasedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10389,12 +10399,12 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent struct {
 // V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.issuing_authorization_request_errors.firing"
 // Occurs when an issuing authorization request errors alert is firing.
 type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent that created this Notification
 func (n *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10411,12 +10421,12 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent struct {
 // V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.issuing_authorization_request_errors.resolved"
 // Occurs when an issuing authorization request errors alert is resolved.
 type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent that created this Notification
 func (n *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10433,12 +10443,12 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent struct {
 // V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.issuing_authorization_request_timeout.firing"
 // Occurs when an issuing authorization request timeout alert is firing.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent that created this Notification
 func (n *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10455,12 +10465,12 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent struct {
 // V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.issuing_authorization_request_timeout.resolved"
 // Occurs when an issuing authorization request timeout alert is resolved.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent that created this Notification
 func (n *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10477,12 +10487,12 @@ type V2CoreHealthPaymentMethodErrorFiringEvent struct {
 // V2CoreHealthPaymentMethodErrorFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.payment_method_error.firing"
 // Occurs when a payment method error alert is firing.
 type V2CoreHealthPaymentMethodErrorFiringEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthPaymentMethodErrorFiringEvent that created this Notification
 func (n *V2CoreHealthPaymentMethodErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthPaymentMethodErrorFiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10499,12 +10509,12 @@ type V2CoreHealthPaymentMethodErrorResolvedEvent struct {
 // V2CoreHealthPaymentMethodErrorResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.payment_method_error.resolved"
 // Occurs when a payment method error alert is resolved.
 type V2CoreHealthPaymentMethodErrorResolvedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthPaymentMethodErrorResolvedEvent that created this Notification
 func (n *V2CoreHealthPaymentMethodErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthPaymentMethodErrorResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10521,12 +10531,12 @@ type V2CoreHealthTrafficVolumeDropFiringEvent struct {
 // V2CoreHealthTrafficVolumeDropFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.traffic_volume_drop.firing"
 // Occurs when a traffic volume drop alert is firing.
 type V2CoreHealthTrafficVolumeDropFiringEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthTrafficVolumeDropFiringEvent that created this Notification
 func (n *V2CoreHealthTrafficVolumeDropFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthTrafficVolumeDropFiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10543,12 +10553,12 @@ type V2CoreHealthTrafficVolumeDropResolvedEvent struct {
 // V2CoreHealthTrafficVolumeDropResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.traffic_volume_drop.resolved"
 // Occurs when a traffic volume drop alert is resolved.
 type V2CoreHealthTrafficVolumeDropResolvedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthTrafficVolumeDropResolvedEvent that created this Notification
 func (n *V2CoreHealthTrafficVolumeDropResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthTrafficVolumeDropResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10565,12 +10575,12 @@ type V2CoreHealthWebhookLatencyFiringEvent struct {
 // V2CoreHealthWebhookLatencyFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.webhook_latency.firing"
 // Occurs when a webhook latency alert is firing.
 type V2CoreHealthWebhookLatencyFiringEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthWebhookLatencyFiringEvent that created this Notification
 func (n *V2CoreHealthWebhookLatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthWebhookLatencyFiringEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10587,12 +10597,12 @@ type V2CoreHealthWebhookLatencyResolvedEvent struct {
 // V2CoreHealthWebhookLatencyResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.webhook_latency.resolved"
 // Occurs when a webhook latency alert is resolved.
 type V2CoreHealthWebhookLatencyResolvedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 }
 
 // FetchEvent retrieves the V2CoreHealthWebhookLatencyResolvedEvent that created this Notification
 func (n *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthWebhookLatencyResolvedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10615,13 +10625,13 @@ func (e *V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject(ctx context
 // V2MoneyManagementAdjustmentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.adjustment.created"
 // Occurs when an Adjustment is created.
 type V2MoneyManagementAdjustmentCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementAdjustmentCreatedEvent that created this Notification
 func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementAdjustmentCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10654,13 +10664,13 @@ func (e *V2MoneyManagementFinancialAccountCreatedEvent) FetchRelatedObject(ctx c
 // V2MoneyManagementFinancialAccountCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account.created"
 // Occurs when a FinancialAccount is created.
 type V2MoneyManagementFinancialAccountCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountCreatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10693,13 +10703,13 @@ func (e *V2MoneyManagementFinancialAccountUpdatedEvent) FetchRelatedObject(ctx c
 // V2MoneyManagementFinancialAccountUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account.updated"
 // Occurs when a FinancialAccount is updated.
 type V2MoneyManagementFinancialAccountUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountUpdatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10732,13 +10742,13 @@ func (e *V2MoneyManagementFinancialAddressActivatedEvent) FetchRelatedObject(ctx
 // V2MoneyManagementFinancialAddressActivatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_address.activated"
 // Occurs when a FinancialAddress is activated and is ready to receive funds.
 type V2MoneyManagementFinancialAddressActivatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressActivatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressActivatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10771,13 +10781,13 @@ func (e *V2MoneyManagementFinancialAddressFailedEvent) FetchRelatedObject(ctx co
 // V2MoneyManagementFinancialAddressFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_address.failed"
 // Occurs when a FinancialAddress fails to activate and can not receive funds.
 type V2MoneyManagementFinancialAddressFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressFailedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10811,13 +10821,13 @@ func (e *V2MoneyManagementInboundTransferAvailableEvent) FetchRelatedObject(ctx 
 // V2MoneyManagementInboundTransferAvailableEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.available"
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferAvailableEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferAvailableEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10850,13 +10860,13 @@ func (e *V2MoneyManagementInboundTransferBankDebitFailedEvent) FetchRelatedObjec
 // V2MoneyManagementInboundTransferBankDebitFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_failed"
 // Occurs when an InboundTransfer fails.
 type V2MoneyManagementInboundTransferBankDebitFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitFailedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10889,13 +10899,13 @@ func (e *V2MoneyManagementInboundTransferBankDebitProcessingEvent) FetchRelatedO
 // V2MoneyManagementInboundTransferBankDebitProcessingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_processing"
 // Occurs when an InboundTransfer starts processing.
 type V2MoneyManagementInboundTransferBankDebitProcessingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitProcessingEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitProcessingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10928,13 +10938,13 @@ func (e *V2MoneyManagementInboundTransferBankDebitQueuedEvent) FetchRelatedObjec
 // V2MoneyManagementInboundTransferBankDebitQueuedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_queued"
 // Occurs when an InboundTransfer is queued.
 type V2MoneyManagementInboundTransferBankDebitQueuedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitQueuedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitQueuedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10967,13 +10977,13 @@ func (e *V2MoneyManagementInboundTransferBankDebitReturnedEvent) FetchRelatedObj
 // V2MoneyManagementInboundTransferBankDebitReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_returned"
 // Occurs when an InboundTransfer is returned.
 type V2MoneyManagementInboundTransferBankDebitReturnedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitReturnedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitReturnedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11006,13 +11016,13 @@ func (e *V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedOb
 // V2MoneyManagementInboundTransferBankDebitSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.inbound_transfer.bank_debit_succeeded"
 // Occurs when an InboundTransfer succeeds.
 type V2MoneyManagementInboundTransferBankDebitSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitSucceededEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11045,13 +11055,13 @@ func (e *V2MoneyManagementOutboundPaymentCanceledEvent) FetchRelatedObject(ctx c
 // V2MoneyManagementOutboundPaymentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.canceled"
 // Occurs when an OutboundPayment transitions into the canceled state.
 type V2MoneyManagementOutboundPaymentCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCanceledEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11084,13 +11094,13 @@ func (e *V2MoneyManagementOutboundPaymentCreatedEvent) FetchRelatedObject(ctx co
 // V2MoneyManagementOutboundPaymentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.created"
 // Occurs when an OutboundPayment is created.
 type V2MoneyManagementOutboundPaymentCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCreatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11123,13 +11133,13 @@ func (e *V2MoneyManagementOutboundPaymentFailedEvent) FetchRelatedObject(ctx con
 // V2MoneyManagementOutboundPaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.failed"
 // Occurs when an OutboundPayment transitions into the failed state.
 type V2MoneyManagementOutboundPaymentFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentFailedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11162,13 +11172,13 @@ func (e *V2MoneyManagementOutboundPaymentPostedEvent) FetchRelatedObject(ctx con
 // V2MoneyManagementOutboundPaymentPostedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.posted"
 // Occurs when an OutboundPayment transitions into the posted state.
 type V2MoneyManagementOutboundPaymentPostedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentPostedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentPostedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11201,13 +11211,13 @@ func (e *V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject(ctx c
 // V2MoneyManagementOutboundPaymentReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.returned"
 // Occurs when an OutboundPayment transitions into the returned state.
 type V2MoneyManagementOutboundPaymentReturnedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentReturnedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentReturnedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11240,13 +11250,13 @@ func (e *V2MoneyManagementOutboundPaymentUpdatedEvent) FetchRelatedObject(ctx co
 // V2MoneyManagementOutboundPaymentUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.updated"
 // Occurs when an OutboundPayment is updated.
 type V2MoneyManagementOutboundPaymentUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentUpdatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11279,13 +11289,13 @@ func (e *V2MoneyManagementOutboundTransferCanceledEvent) FetchRelatedObject(ctx 
 // V2MoneyManagementOutboundTransferCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.canceled"
 // Occurs when an OutboundTransfer transitions into the canceled state.
 type V2MoneyManagementOutboundTransferCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCanceledEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11318,13 +11328,13 @@ func (e *V2MoneyManagementOutboundTransferCreatedEvent) FetchRelatedObject(ctx c
 // V2MoneyManagementOutboundTransferCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.created"
 // Occurs when an OutboundTransfer is created.
 type V2MoneyManagementOutboundTransferCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCreatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11357,13 +11367,13 @@ func (e *V2MoneyManagementOutboundTransferFailedEvent) FetchRelatedObject(ctx co
 // V2MoneyManagementOutboundTransferFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.failed"
 // Occurs when an OutboundTransfer transitions into the failed state.
 type V2MoneyManagementOutboundTransferFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferFailedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11396,13 +11406,13 @@ func (e *V2MoneyManagementOutboundTransferPostedEvent) FetchRelatedObject(ctx co
 // V2MoneyManagementOutboundTransferPostedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.posted"
 // Occurs when an OutboundTransfer transitions into the posted state.
 type V2MoneyManagementOutboundTransferPostedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferPostedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferPostedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11435,13 +11445,13 @@ func (e *V2MoneyManagementOutboundTransferReturnedEvent) FetchRelatedObject(ctx 
 // V2MoneyManagementOutboundTransferReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.returned"
 // Occurs when an OutboundTransfer transitions into the returned state.
 type V2MoneyManagementOutboundTransferReturnedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferReturnedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferReturnedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11474,13 +11484,13 @@ func (e *V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject(ctx c
 // V2MoneyManagementOutboundTransferUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.updated"
 // Event that is emitted every time an Outbound Transfer is updated.
 type V2MoneyManagementOutboundTransferUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferUpdatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11513,13 +11523,13 @@ func (e *V2MoneyManagementPayoutMethodUpdatedEvent) FetchRelatedObject(ctx conte
 // V2MoneyManagementPayoutMethodUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_method.updated"
 // Occurs when a PayoutMethod is updated.
 type V2MoneyManagementPayoutMethodUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementPayoutMethodUpdatedEvent that created this Notification
 func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11553,13 +11563,13 @@ func (e *V2MoneyManagementReceivedCreditAvailableEvent) FetchRelatedObject(ctx c
 // V2MoneyManagementReceivedCreditAvailableEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_credit.available"
 // Occurs when a ReceivedCredit's funds are received and are available in your balance.
 type V2MoneyManagementReceivedCreditAvailableEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditAvailableEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditAvailableEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11592,13 +11602,13 @@ func (e *V2MoneyManagementReceivedCreditFailedEvent) FetchRelatedObject(ctx cont
 // V2MoneyManagementReceivedCreditFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_credit.failed"
 // Occurs when a ReceivedCredit is attempted to your balance and fails. See the status_details for more information.
 type V2MoneyManagementReceivedCreditFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditFailedEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11631,13 +11641,13 @@ func (e *V2MoneyManagementReceivedCreditReturnedEvent) FetchRelatedObject(ctx co
 // V2MoneyManagementReceivedCreditReturnedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_credit.returned"
 // Occurs when a ReceivedCredit is reversed, returned to the originator, and deducted from your balance.
 type V2MoneyManagementReceivedCreditReturnedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditReturnedEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditReturnedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11670,13 +11680,13 @@ func (e *V2MoneyManagementReceivedCreditSucceededEvent) FetchRelatedObject(ctx c
 // V2MoneyManagementReceivedCreditSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_credit.succeeded"
 // Occurs when a ReceivedCredit succeeds.
 type V2MoneyManagementReceivedCreditSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditSucceededEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11709,13 +11719,13 @@ func (e *V2MoneyManagementReceivedDebitCanceledEvent) FetchRelatedObject(ctx con
 // V2MoneyManagementReceivedDebitCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.canceled"
 // Occurs when a ReceivedDebit is canceled.
 type V2MoneyManagementReceivedDebitCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitCanceledEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11748,13 +11758,13 @@ func (e *V2MoneyManagementReceivedDebitFailedEvent) FetchRelatedObject(ctx conte
 // V2MoneyManagementReceivedDebitFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.failed"
 // Occurs when a ReceivedDebit fails.
 type V2MoneyManagementReceivedDebitFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitFailedEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11787,13 +11797,13 @@ func (e *V2MoneyManagementReceivedDebitPendingEvent) FetchRelatedObject(ctx cont
 // V2MoneyManagementReceivedDebitPendingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.pending"
 // Occurs when a ReceivedDebit is set to pending.
 type V2MoneyManagementReceivedDebitPendingEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitPendingEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitPendingEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11826,13 +11836,13 @@ func (e *V2MoneyManagementReceivedDebitSucceededEvent) FetchRelatedObject(ctx co
 // V2MoneyManagementReceivedDebitSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.succeeded"
 // Occurs when a ReceivedDebit succeeds.
 type V2MoneyManagementReceivedDebitSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitSucceededEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11865,13 +11875,13 @@ func (e *V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject(ctx cont
 // V2MoneyManagementReceivedDebitUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.updated"
 // Occurs when a ReceivedDebit is updated.
 type V2MoneyManagementReceivedDebitUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitUpdatedEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11904,13 +11914,13 @@ func (e *V2MoneyManagementRecipientVerificationCreatedEvent) FetchRelatedObject(
 // V2MoneyManagementRecipientVerificationCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.recipient_verification.created"
 // Occurs when a RecipientVerification is created.
 type V2MoneyManagementRecipientVerificationCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementRecipientVerificationCreatedEvent that created this Notification
 func (n *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRecipientVerificationCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11943,13 +11953,13 @@ func (e *V2MoneyManagementRecipientVerificationUpdatedEvent) FetchRelatedObject(
 // V2MoneyManagementRecipientVerificationUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.recipient_verification.updated"
 // Occurs when a RecipientVerification is updated.
 type V2MoneyManagementRecipientVerificationUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementRecipientVerificationUpdatedEvent that created this Notification
 func (n *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRecipientVerificationUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11982,13 +11992,13 @@ func (e *V2MoneyManagementTransactionCreatedEvent) FetchRelatedObject(ctx contex
 // V2MoneyManagementTransactionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.transaction.created"
 // Occurs when a Transaction is created.
 type V2MoneyManagementTransactionCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementTransactionCreatedEvent that created this Notification
 func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12021,13 +12031,13 @@ func (e *V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject(ctx contex
 // V2MoneyManagementTransactionUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.transaction.updated"
 // Occurs when a Transaction is updated.
 type V2MoneyManagementTransactionUpdatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementTransactionUpdatedEvent that created this Notification
 func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionUpdatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12060,13 +12070,13 @@ func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelate
 // V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.authorization_attempt_failed"
 // Sent after a failed authorization if there are still retries available on the OffSessionPayment.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12101,13 +12111,13 @@ func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelat
 // Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
 // retry or an initial authorization.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12140,13 +12150,13 @@ func (e *V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject(ctx contex
 // V2PaymentsOffSessionPaymentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.canceled"
 // Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
 type V2PaymentsOffSessionPaymentCanceledEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentCanceledEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCanceledEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12179,13 +12189,13 @@ func (e *V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject(ctx context
 // V2PaymentsOffSessionPaymentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.created"
 // Sent immediately following a user's call to the Off-Session Payments create endpoint.
 type V2PaymentsOffSessionPaymentCreatedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentCreatedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCreatedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12218,13 +12228,13 @@ func (e *V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject(ctx context.
 // V2PaymentsOffSessionPaymentFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.failed"
 // Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
 type V2PaymentsOffSessionPaymentFailedEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentFailedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentFailedEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12257,13 +12267,13 @@ func (e *V2PaymentsOffSessionPaymentRequiresCaptureEvent) FetchRelatedObject(ctx
 // V2PaymentsOffSessionPaymentRequiresCaptureEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.requires_capture"
 // Off-Session payment requires capture event definition.
 type V2PaymentsOffSessionPaymentRequiresCaptureEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentRequiresCaptureEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentRequiresCaptureEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12296,13 +12306,13 @@ func (e *V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject(ctx conte
 // V2PaymentsOffSessionPaymentSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.succeeded"
 // Sent immediately after a successful authorization.
 type V2PaymentsOffSessionPaymentSucceededEventNotification struct {
-	V2EventNotification
+	V2CoreEventNotification
 	RelatedObject RelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentSucceededEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentSucceededEvent, error) {
-	evt, err := n.V2EventNotification.fetchEvent(ctx)
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13011,7 +13021,7 @@ type V2MoneyManagementReceivedCreditAvailableEventData struct {
 
 // ConvertRawEvent converts a raw event to a concrete event type.
 // If the event type is not known, it returns the raw event.
-func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, error) {
+func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2CoreEvent, error) {
 	switch event.Type {
 	case "v1.account.updated":
 		result := &V1AccountUpdatedEvent{}
@@ -15555,8 +15565,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result := &V2CoreEventDestinationPingEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2EventDestination, error) {
-			v := &V2EventDestination{}
+		result.fetchRelatedObject = func() (*V2CoreEventDestination, error) {
+			v := &V2CoreEventDestination{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -18339,7 +18349,7 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		evt.client = client
 		return &evt, nil
 	default:
-		evt := V2UnknownEventNotification{}
+		evt := UnknownEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
