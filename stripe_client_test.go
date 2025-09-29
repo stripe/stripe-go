@@ -24,9 +24,60 @@ func TestNewClientWithNilBackend(t *testing.T) {
 	assert.NotNil(t, client)
 }
 
+func TestDecodeV2EventNotificationContextVariants(t *testing.T) {
+	type testCase struct {
+		name               string
+		input              string
+		contextShouldBeNil bool
+		expectedStr        string
+	}
+
+	tests := []testCase{
+		{
+			name:               "Null context",
+			input:              `{"context":null}`,
+			contextShouldBeNil: true,
+			expectedStr:        "",
+		},
+		{
+			name:               "Missing context",
+			input:              `{}`,
+			contextShouldBeNil: true,
+			expectedStr:        "",
+		},
+		{
+			name:               "Single word context",
+			input:              `{"context":"acct_123"}`,
+			contextShouldBeNil: false,
+			expectedStr:        "acct_123",
+		},
+		{
+			name:               "Delimited context",
+			input:              `{"context":"a/b/c"}`,
+			contextShouldBeNil: false,
+			expectedStr:        "a/b/c",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			var notif stripe.V2CoreEventNotification
+			err := json.Unmarshal([]byte(tc.input), &notif)
+			assert.NoError(t, err)
+
+			if tc.contextShouldBeNil {
+				assert.Nil(t, notif.Context)
+			} else {
+				assert.NotNil(t, notif.Context)
+				assert.Equal(t, tc.expectedStr, *notif.Context.StringPtr())
+			}
+		})
+	}
+}
+
 func TestParseEventNotification(t *testing.T) {
 	eventNotification := &stripe.V1BillingMeterErrorReportTriggeredEventNotification{
-		V2EventNotification: stripe.V2EventNotification{
+		V2CoreEventNotification: stripe.V2CoreEventNotification{
 			ID:       "evt_123",
 			Object:   "event",
 			Type:     "v1.billing.meter.error_report_triggered",
@@ -71,8 +122,8 @@ func TestParseEventNotification(t *testing.T) {
 }
 
 func TestParseEventNotificationNoTolerance(t *testing.T) {
-	unknownEvent := &stripe.V2UnknownEventNotification{
-		V2EventNotification: stripe.V2EventNotification{
+	unknownEvent := &stripe.UnknownEventNotification{
+		V2CoreEventNotification: stripe.V2CoreEventNotification{
 			ID:       "evt_123",
 			Object:   "event",
 			Type:     "charge.succeeded",
@@ -131,8 +182,8 @@ func TestParseUnknownEventNotification(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed to parse event notification: %v", err)
 	}
-	notif := evt.(*stripe.V2UnknownEventNotification)
-	assert.IsType(t, &stripe.V2UnknownEventNotification{}, evt)
+	notif := evt.(*stripe.UnknownEventNotification)
+	assert.IsType(t, &stripe.UnknownEventNotification{}, evt)
 
 	// just returns nill
 	_, err = notif.FetchRelatedObject(context.TODO())
@@ -175,8 +226,8 @@ func TestParseUnknownEventNotificationWithRelatedObject(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed to parse event notification: %v", err)
 	}
-	notif := evt.(*stripe.V2UnknownEventNotification)
-	assert.IsType(t, &stripe.V2UnknownEventNotification{}, evt)
+	notif := evt.(*stripe.UnknownEventNotification)
+	assert.IsType(t, &stripe.UnknownEventNotification{}, evt)
 	assert.NotNil(t, notif.RelatedObject)
 
 	resp, err := notif.FetchRelatedObject(context.TODO())
@@ -311,6 +362,7 @@ func TestFetchRelatedObject(t *testing.T) {
 	assert.NoError(t, err)
 
 	eventNotification, ok := eventNotificationContainer.(*stripe.V1BillingMeterErrorReportTriggeredEventNotification)
+	assert.Nil(t, eventNotification.Context)
 	assert.True(t, ok)
 	assert.NotNil(t, eventNotification)
 	assert.NotNil(t, eventNotification.RelatedObject)
@@ -376,7 +428,7 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	eventNotificationContainer, err := client.ParseEventNotification(p.Payload, p.Header, p.Secret)
 	assert.NoError(t, err)
 
-	eventNotification, ok := eventNotificationContainer.(*stripe.V2UnknownEventNotification)
+	eventNotification, ok := eventNotificationContainer.(*stripe.UnknownEventNotification)
 	assert.True(t, ok)
 	assert.NotNil(t, eventNotification)
 	assert.NotNil(t, eventNotification.RelatedObject)
