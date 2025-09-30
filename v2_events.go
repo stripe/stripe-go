@@ -470,8 +470,8 @@ type V2CoreEvent interface {
 // type when the event type is not known.
 type V2CoreRawEvent struct {
 	V2BaseEvent
-	Data          *json.RawMessage          `json:"data"`
-	RelatedObject *V2CoreEventRelatedObject `json:"related_object"`
+	Data          *json.RawMessage `json:"data"`
+	RelatedObject *RelatedObject   `json:"related_object"`
 }
 
 // Used for everything internal to the EventNotifications
@@ -483,7 +483,7 @@ type eventNotificationParams struct {
 // Occurs whenever an account status or property has changed.
 type V1AccountUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Account, error)
 }
 
@@ -496,7 +496,7 @@ func (e *V1AccountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Accoun
 // Occurs whenever an account status or property has changed.
 type V1AccountUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1AccountUpdatedEvent that created this Notification
@@ -522,7 +522,7 @@ func (n *V1AccountUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever an application fee is created on a charge.
 type V1ApplicationFeeCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ApplicationFee, error)
 }
 
@@ -535,7 +535,7 @@ func (e *V1ApplicationFeeCreatedEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs whenever an application fee is created on a charge.
 type V1ApplicationFeeCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ApplicationFeeCreatedEvent that created this Notification
@@ -561,7 +561,7 @@ func (n *V1ApplicationFeeCreatedEventNotification) FetchRelatedObject(ctx contex
 // Occurs whenever an application fee is refunded, whether from refunding a charge or from [refunding the application fee directly](#fee_refunds). This includes partial refunds.
 type V1ApplicationFeeRefundedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ApplicationFee, error)
 }
 
@@ -574,7 +574,7 @@ func (e *V1ApplicationFeeRefundedEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs whenever an application fee is refunded, whether from refunding a charge or from [refunding the application fee directly](#fee_refunds). This includes partial refunds.
 type V1ApplicationFeeRefundedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ApplicationFeeRefundedEvent that created this Notification
@@ -662,7 +662,7 @@ func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Con
 // Occurs whenever a portal configuration is created.
 type V1BillingPortalConfigurationCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*BillingPortalConfiguration, error)
 }
 
@@ -675,7 +675,7 @@ func (e *V1BillingPortalConfigurationCreatedEvent) FetchRelatedObject(ctx contex
 // Occurs whenever a portal configuration is created.
 type V1BillingPortalConfigurationCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BillingPortalConfigurationCreatedEvent that created this Notification
@@ -701,7 +701,7 @@ func (n *V1BillingPortalConfigurationCreatedEventNotification) FetchRelatedObjec
 // Occurs whenever a portal configuration is updated.
 type V1BillingPortalConfigurationUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*BillingPortalConfiguration, error)
 }
 
@@ -714,7 +714,7 @@ func (e *V1BillingPortalConfigurationUpdatedEvent) FetchRelatedObject(ctx contex
 // Occurs whenever a portal configuration is updated.
 type V1BillingPortalConfigurationUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BillingPortalConfigurationUpdatedEvent that created this Notification
@@ -740,7 +740,7 @@ func (n *V1BillingPortalConfigurationUpdatedEventNotification) FetchRelatedObjec
 // Occurs whenever a capability has new requirements or a new status.
 type V1CapabilityUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Capability, error)
 }
 
@@ -753,7 +753,7 @@ func (e *V1CapabilityUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Cap
 // Occurs whenever a capability has new requirements or a new status.
 type V1CapabilityUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CapabilityUpdatedEvent that created this Notification
@@ -779,7 +779,7 @@ func (n *V1CapabilityUpdatedEventNotification) FetchRelatedObject(ctx context.Co
 // Occurs whenever a previously uncaptured charge is captured.
 type V1ChargeCapturedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Charge, error)
 }
 
@@ -792,7 +792,7 @@ func (e *V1ChargeCapturedEvent) FetchRelatedObject(ctx context.Context) (*Charge
 // Occurs whenever a previously uncaptured charge is captured.
 type V1ChargeCapturedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeCapturedEvent that created this Notification
@@ -818,7 +818,7 @@ func (n *V1ChargeCapturedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs when a dispute is closed and the dispute status changes to `lost`, `warning_closed`, or `won`.
 type V1ChargeDisputeClosedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Dispute, error)
 }
 
@@ -831,7 +831,7 @@ func (e *V1ChargeDisputeClosedEvent) FetchRelatedObject(ctx context.Context) (*D
 // Occurs when a dispute is closed and the dispute status changes to `lost`, `warning_closed`, or `won`.
 type V1ChargeDisputeClosedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeClosedEvent that created this Notification
@@ -857,7 +857,7 @@ func (n *V1ChargeDisputeClosedEventNotification) FetchRelatedObject(ctx context.
 // Occurs whenever a customer disputes a charge with their bank.
 type V1ChargeDisputeCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Dispute, error)
 }
 
@@ -870,7 +870,7 @@ func (e *V1ChargeDisputeCreatedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever a customer disputes a charge with their bank.
 type V1ChargeDisputeCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeCreatedEvent that created this Notification
@@ -896,7 +896,7 @@ func (n *V1ChargeDisputeCreatedEventNotification) FetchRelatedObject(ctx context
 // Occurs when funds are reinstated to your account after a dispute is closed. This includes [partially refunded payments](https://docs.stripe.com/disputes#disputes-on-partially-refunded-payments).
 type V1ChargeDisputeFundsReinstatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Dispute, error)
 }
 
@@ -909,7 +909,7 @@ func (e *V1ChargeDisputeFundsReinstatedEvent) FetchRelatedObject(ctx context.Con
 // Occurs when funds are reinstated to your account after a dispute is closed. This includes [partially refunded payments](https://docs.stripe.com/disputes#disputes-on-partially-refunded-payments).
 type V1ChargeDisputeFundsReinstatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeFundsReinstatedEvent that created this Notification
@@ -935,7 +935,7 @@ func (n *V1ChargeDisputeFundsReinstatedEventNotification) FetchRelatedObject(ctx
 // Occurs when funds are removed from your account due to a dispute.
 type V1ChargeDisputeFundsWithdrawnEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Dispute, error)
 }
 
@@ -948,7 +948,7 @@ func (e *V1ChargeDisputeFundsWithdrawnEvent) FetchRelatedObject(ctx context.Cont
 // Occurs when funds are removed from your account due to a dispute.
 type V1ChargeDisputeFundsWithdrawnEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeFundsWithdrawnEvent that created this Notification
@@ -974,7 +974,7 @@ func (n *V1ChargeDisputeFundsWithdrawnEventNotification) FetchRelatedObject(ctx 
 // Occurs when the dispute is updated (usually with evidence).
 type V1ChargeDisputeUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Dispute, error)
 }
 
@@ -987,7 +987,7 @@ func (e *V1ChargeDisputeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs when the dispute is updated (usually with evidence).
 type V1ChargeDisputeUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeDisputeUpdatedEvent that created this Notification
@@ -1013,7 +1013,7 @@ func (n *V1ChargeDisputeUpdatedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever an uncaptured charge expires.
 type V1ChargeExpiredEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Charge, error)
 }
 
@@ -1026,7 +1026,7 @@ func (e *V1ChargeExpiredEvent) FetchRelatedObject(ctx context.Context) (*Charge,
 // Occurs whenever an uncaptured charge expires.
 type V1ChargeExpiredEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeExpiredEvent that created this Notification
@@ -1052,7 +1052,7 @@ func (n *V1ChargeExpiredEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a failed charge attempt occurs.
 type V1ChargeFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Charge, error)
 }
 
@@ -1065,7 +1065,7 @@ func (e *V1ChargeFailedEvent) FetchRelatedObject(ctx context.Context) (*Charge, 
 // Occurs whenever a failed charge attempt occurs.
 type V1ChargeFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeFailedEvent that created this Notification
@@ -1091,7 +1091,7 @@ func (n *V1ChargeFailedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a pending charge is created.
 type V1ChargePendingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Charge, error)
 }
 
@@ -1104,7 +1104,7 @@ func (e *V1ChargePendingEvent) FetchRelatedObject(ctx context.Context) (*Charge,
 // Occurs whenever a pending charge is created.
 type V1ChargePendingEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargePendingEvent that created this Notification
@@ -1130,7 +1130,7 @@ func (n *V1ChargePendingEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a refund is updated on selected payment methods. For updates on all refunds, listen to `refund.updated` instead.
 type V1ChargeRefundUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Refund, error)
 }
 
@@ -1143,7 +1143,7 @@ func (e *V1ChargeRefundUpdatedEvent) FetchRelatedObject(ctx context.Context) (*R
 // Occurs whenever a refund is updated on selected payment methods. For updates on all refunds, listen to `refund.updated` instead.
 type V1ChargeRefundUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeRefundUpdatedEvent that created this Notification
@@ -1169,7 +1169,7 @@ func (n *V1ChargeRefundUpdatedEventNotification) FetchRelatedObject(ctx context.
 // Occurs whenever a charge is refunded, including partial refunds. Listen to `refund.created` for information about the refund.
 type V1ChargeRefundedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Charge, error)
 }
 
@@ -1182,7 +1182,7 @@ func (e *V1ChargeRefundedEvent) FetchRelatedObject(ctx context.Context) (*Charge
 // Occurs whenever a charge is refunded, including partial refunds. Listen to `refund.created` for information about the refund.
 type V1ChargeRefundedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeRefundedEvent that created this Notification
@@ -1208,7 +1208,7 @@ func (n *V1ChargeRefundedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a charge is successful.
 type V1ChargeSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Charge, error)
 }
 
@@ -1221,7 +1221,7 @@ func (e *V1ChargeSucceededEvent) FetchRelatedObject(ctx context.Context) (*Charg
 // Occurs whenever a charge is successful.
 type V1ChargeSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeSucceededEvent that created this Notification
@@ -1247,7 +1247,7 @@ func (n *V1ChargeSucceededEventNotification) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a charge description or metadata is updated, or upon an asynchronous capture.
 type V1ChargeUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Charge, error)
 }
 
@@ -1260,7 +1260,7 @@ func (e *V1ChargeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Charge,
 // Occurs whenever a charge description or metadata is updated, or upon an asynchronous capture.
 type V1ChargeUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ChargeUpdatedEvent that created this Notification
@@ -1286,7 +1286,7 @@ func (n *V1ChargeUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs when a payment intent using a delayed payment method fails.
 type V1CheckoutSessionAsyncPaymentFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*CheckoutSession, error)
 }
 
@@ -1299,7 +1299,7 @@ func (e *V1CheckoutSessionAsyncPaymentFailedEvent) FetchRelatedObject(ctx contex
 // Occurs when a payment intent using a delayed payment method fails.
 type V1CheckoutSessionAsyncPaymentFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CheckoutSessionAsyncPaymentFailedEvent that created this Notification
@@ -1325,7 +1325,7 @@ func (n *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchRelatedObjec
 // Occurs when a payment intent using a delayed payment method finally succeeds.
 type V1CheckoutSessionAsyncPaymentSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*CheckoutSession, error)
 }
 
@@ -1338,7 +1338,7 @@ func (e *V1CheckoutSessionAsyncPaymentSucceededEvent) FetchRelatedObject(ctx con
 // Occurs when a payment intent using a delayed payment method finally succeeds.
 type V1CheckoutSessionAsyncPaymentSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CheckoutSessionAsyncPaymentSucceededEvent that created this Notification
@@ -1364,7 +1364,7 @@ func (n *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchRelatedOb
 // Occurs when a Checkout Session has been successfully completed.
 type V1CheckoutSessionCompletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*CheckoutSession, error)
 }
 
@@ -1377,7 +1377,7 @@ func (e *V1CheckoutSessionCompletedEvent) FetchRelatedObject(ctx context.Context
 // Occurs when a Checkout Session has been successfully completed.
 type V1CheckoutSessionCompletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CheckoutSessionCompletedEvent that created this Notification
@@ -1403,7 +1403,7 @@ func (n *V1CheckoutSessionCompletedEventNotification) FetchRelatedObject(ctx con
 // Occurs when a Checkout Session is expired.
 type V1CheckoutSessionExpiredEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*CheckoutSession, error)
 }
 
@@ -1416,7 +1416,7 @@ func (e *V1CheckoutSessionExpiredEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs when a Checkout Session is expired.
 type V1CheckoutSessionExpiredEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CheckoutSessionExpiredEvent that created this Notification
@@ -1442,7 +1442,7 @@ func (n *V1CheckoutSessionExpiredEventNotification) FetchRelatedObject(ctx conte
 // Occurs when a Climate order is canceled.
 type V1ClimateOrderCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
@@ -1455,7 +1455,7 @@ func (e *V1ClimateOrderCanceledEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs when a Climate order is canceled.
 type V1ClimateOrderCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderCanceledEvent that created this Notification
@@ -1481,7 +1481,7 @@ func (n *V1ClimateOrderCanceledEventNotification) FetchRelatedObject(ctx context
 // Occurs when a Climate order is created.
 type V1ClimateOrderCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
@@ -1494,7 +1494,7 @@ func (e *V1ClimateOrderCreatedEvent) FetchRelatedObject(ctx context.Context) (*C
 // Occurs when a Climate order is created.
 type V1ClimateOrderCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderCreatedEvent that created this Notification
@@ -1520,7 +1520,7 @@ func (n *V1ClimateOrderCreatedEventNotification) FetchRelatedObject(ctx context.
 // Occurs when a Climate order is delayed.
 type V1ClimateOrderDelayedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
@@ -1533,7 +1533,7 @@ func (e *V1ClimateOrderDelayedEvent) FetchRelatedObject(ctx context.Context) (*C
 // Occurs when a Climate order is delayed.
 type V1ClimateOrderDelayedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderDelayedEvent that created this Notification
@@ -1559,7 +1559,7 @@ func (n *V1ClimateOrderDelayedEventNotification) FetchRelatedObject(ctx context.
 // Occurs when a Climate order is delivered.
 type V1ClimateOrderDeliveredEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
@@ -1572,7 +1572,7 @@ func (e *V1ClimateOrderDeliveredEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs when a Climate order is delivered.
 type V1ClimateOrderDeliveredEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderDeliveredEvent that created this Notification
@@ -1598,7 +1598,7 @@ func (n *V1ClimateOrderDeliveredEventNotification) FetchRelatedObject(ctx contex
 // Occurs when a Climate order's product is substituted for another.
 type V1ClimateOrderProductSubstitutedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ClimateOrder, error)
 }
 
@@ -1611,7 +1611,7 @@ func (e *V1ClimateOrderProductSubstitutedEvent) FetchRelatedObject(ctx context.C
 // Occurs when a Climate order's product is substituted for another.
 type V1ClimateOrderProductSubstitutedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateOrderProductSubstitutedEvent that created this Notification
@@ -1637,7 +1637,7 @@ func (n *V1ClimateOrderProductSubstitutedEventNotification) FetchRelatedObject(c
 // Occurs when a Climate product is created.
 type V1ClimateProductCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ClimateProduct, error)
 }
 
@@ -1650,7 +1650,7 @@ func (e *V1ClimateProductCreatedEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs when a Climate product is created.
 type V1ClimateProductCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateProductCreatedEvent that created this Notification
@@ -1676,7 +1676,7 @@ func (n *V1ClimateProductCreatedEventNotification) FetchRelatedObject(ctx contex
 // Occurs when a Climate product is updated.
 type V1ClimateProductPricingUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*ClimateProduct, error)
 }
 
@@ -1689,7 +1689,7 @@ func (e *V1ClimateProductPricingUpdatedEvent) FetchRelatedObject(ctx context.Con
 // Occurs when a Climate product is updated.
 type V1ClimateProductPricingUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ClimateProductPricingUpdatedEvent that created this Notification
@@ -1715,7 +1715,7 @@ func (n *V1ClimateProductPricingUpdatedEventNotification) FetchRelatedObject(ctx
 // Occurs whenever a coupon is created.
 type V1CouponCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Coupon, error)
 }
 
@@ -1728,7 +1728,7 @@ func (e *V1CouponCreatedEvent) FetchRelatedObject(ctx context.Context) (*Coupon,
 // Occurs whenever a coupon is created.
 type V1CouponCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CouponCreatedEvent that created this Notification
@@ -1754,7 +1754,7 @@ func (n *V1CouponCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a coupon is deleted.
 type V1CouponDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Coupon, error)
 }
 
@@ -1767,7 +1767,7 @@ func (e *V1CouponDeletedEvent) FetchRelatedObject(ctx context.Context) (*Coupon,
 // Occurs whenever a coupon is deleted.
 type V1CouponDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CouponDeletedEvent that created this Notification
@@ -1793,7 +1793,7 @@ func (n *V1CouponDeletedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a coupon is updated.
 type V1CouponUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Coupon, error)
 }
 
@@ -1806,7 +1806,7 @@ func (e *V1CouponUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Coupon,
 // Occurs whenever a coupon is updated.
 type V1CouponUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CouponUpdatedEvent that created this Notification
@@ -1832,7 +1832,7 @@ func (n *V1CouponUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a credit note is created.
 type V1CreditNoteCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*CreditNote, error)
 }
 
@@ -1845,7 +1845,7 @@ func (e *V1CreditNoteCreatedEvent) FetchRelatedObject(ctx context.Context) (*Cre
 // Occurs whenever a credit note is created.
 type V1CreditNoteCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CreditNoteCreatedEvent that created this Notification
@@ -1871,7 +1871,7 @@ func (n *V1CreditNoteCreatedEventNotification) FetchRelatedObject(ctx context.Co
 // Occurs whenever a credit note is updated.
 type V1CreditNoteUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*CreditNote, error)
 }
 
@@ -1884,7 +1884,7 @@ func (e *V1CreditNoteUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Cre
 // Occurs whenever a credit note is updated.
 type V1CreditNoteUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CreditNoteUpdatedEvent that created this Notification
@@ -1910,7 +1910,7 @@ func (n *V1CreditNoteUpdatedEventNotification) FetchRelatedObject(ctx context.Co
 // Occurs whenever a credit note is voided.
 type V1CreditNoteVoidedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*CreditNote, error)
 }
 
@@ -1923,7 +1923,7 @@ func (e *V1CreditNoteVoidedEvent) FetchRelatedObject(ctx context.Context) (*Cred
 // Occurs whenever a credit note is voided.
 type V1CreditNoteVoidedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CreditNoteVoidedEvent that created this Notification
@@ -1949,7 +1949,7 @@ func (n *V1CreditNoteVoidedEventNotification) FetchRelatedObject(ctx context.Con
 // Occurs whenever a new customer is created.
 type V1CustomerCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Customer, error)
 }
 
@@ -1962,7 +1962,7 @@ func (e *V1CustomerCreatedEvent) FetchRelatedObject(ctx context.Context) (*Custo
 // Occurs whenever a new customer is created.
 type V1CustomerCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerCreatedEvent that created this Notification
@@ -1988,7 +1988,7 @@ func (n *V1CustomerCreatedEventNotification) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a customer is deleted.
 type V1CustomerDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Customer, error)
 }
 
@@ -2001,7 +2001,7 @@ func (e *V1CustomerDeletedEvent) FetchRelatedObject(ctx context.Context) (*Custo
 // Occurs whenever a customer is deleted.
 type V1CustomerDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerDeletedEvent that created this Notification
@@ -2027,7 +2027,7 @@ func (n *V1CustomerDeletedEventNotification) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a customer is signed up for a new plan.
 type V1CustomerSubscriptionCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Subscription, error)
 }
 
@@ -2040,7 +2040,7 @@ func (e *V1CustomerSubscriptionCreatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a customer is signed up for a new plan.
 type V1CustomerSubscriptionCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionCreatedEvent that created this Notification
@@ -2066,7 +2066,7 @@ func (n *V1CustomerSubscriptionCreatedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a customer's subscription ends.
 type V1CustomerSubscriptionDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Subscription, error)
 }
 
@@ -2079,7 +2079,7 @@ func (e *V1CustomerSubscriptionDeletedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a customer's subscription ends.
 type V1CustomerSubscriptionDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionDeletedEvent that created this Notification
@@ -2105,7 +2105,7 @@ func (n *V1CustomerSubscriptionDeletedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a customer's subscription is paused. Only applies when subscriptions enter `status=paused`, not when [payment collection](https://docs.stripe.com/billing/subscriptions/pause) is paused.
 type V1CustomerSubscriptionPausedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Subscription, error)
 }
 
@@ -2118,7 +2118,7 @@ func (e *V1CustomerSubscriptionPausedEvent) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a customer's subscription is paused. Only applies when subscriptions enter `status=paused`, not when [payment collection](https://docs.stripe.com/billing/subscriptions/pause) is paused.
 type V1CustomerSubscriptionPausedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionPausedEvent that created this Notification
@@ -2144,7 +2144,7 @@ func (n *V1CustomerSubscriptionPausedEventNotification) FetchRelatedObject(ctx c
 // Occurs whenever a customer's subscription's pending update is applied, and the subscription is updated.
 type V1CustomerSubscriptionPendingUpdateAppliedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Subscription, error)
 }
 
@@ -2157,7 +2157,7 @@ func (e *V1CustomerSubscriptionPendingUpdateAppliedEvent) FetchRelatedObject(ctx
 // Occurs whenever a customer's subscription's pending update is applied, and the subscription is updated.
 type V1CustomerSubscriptionPendingUpdateAppliedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionPendingUpdateAppliedEvent that created this Notification
@@ -2183,7 +2183,7 @@ func (n *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchRelat
 // Occurs whenever a customer's subscription's pending update expires before the related invoice is paid.
 type V1CustomerSubscriptionPendingUpdateExpiredEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Subscription, error)
 }
 
@@ -2196,7 +2196,7 @@ func (e *V1CustomerSubscriptionPendingUpdateExpiredEvent) FetchRelatedObject(ctx
 // Occurs whenever a customer's subscription's pending update expires before the related invoice is paid.
 type V1CustomerSubscriptionPendingUpdateExpiredEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionPendingUpdateExpiredEvent that created this Notification
@@ -2222,7 +2222,7 @@ func (n *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchRelat
 // Occurs whenever a customer's subscription is no longer paused. Only applies when a `status=paused` subscription is [resumed](https://docs.stripe.com/api/subscriptions/resume), not when [payment collection](https://docs.stripe.com/billing/subscriptions/pause) is resumed.
 type V1CustomerSubscriptionResumedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Subscription, error)
 }
 
@@ -2235,7 +2235,7 @@ func (e *V1CustomerSubscriptionResumedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a customer's subscription is no longer paused. Only applies when a `status=paused` subscription is [resumed](https://docs.stripe.com/api/subscriptions/resume), not when [payment collection](https://docs.stripe.com/billing/subscriptions/pause) is resumed.
 type V1CustomerSubscriptionResumedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionResumedEvent that created this Notification
@@ -2261,7 +2261,7 @@ func (n *V1CustomerSubscriptionResumedEventNotification) FetchRelatedObject(ctx 
 // Occurs three days before a subscription's trial period is scheduled to end, or when a trial is ended immediately (using `trial_end=now`).
 type V1CustomerSubscriptionTrialWillEndEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Subscription, error)
 }
 
@@ -2274,7 +2274,7 @@ func (e *V1CustomerSubscriptionTrialWillEndEvent) FetchRelatedObject(ctx context
 // Occurs three days before a subscription's trial period is scheduled to end, or when a trial is ended immediately (using `trial_end=now`).
 type V1CustomerSubscriptionTrialWillEndEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionTrialWillEndEvent that created this Notification
@@ -2300,7 +2300,7 @@ func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchRelatedObject
 // Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
 type V1CustomerSubscriptionUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Subscription, error)
 }
 
@@ -2313,7 +2313,7 @@ func (e *V1CustomerSubscriptionUpdatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
 type V1CustomerSubscriptionUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerSubscriptionUpdatedEvent that created this Notification
@@ -2339,7 +2339,7 @@ func (n *V1CustomerSubscriptionUpdatedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a tax ID is created for a customer.
 type V1CustomerTaxIDCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TaxID, error)
 }
 
@@ -2352,7 +2352,7 @@ func (e *V1CustomerTaxIDCreatedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever a tax ID is created for a customer.
 type V1CustomerTaxIDCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerTaxIDCreatedEvent that created this Notification
@@ -2378,7 +2378,7 @@ func (n *V1CustomerTaxIDCreatedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever a tax ID is deleted from a customer.
 type V1CustomerTaxIDDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TaxID, error)
 }
 
@@ -2391,7 +2391,7 @@ func (e *V1CustomerTaxIDDeletedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever a tax ID is deleted from a customer.
 type V1CustomerTaxIDDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerTaxIDDeletedEvent that created this Notification
@@ -2417,7 +2417,7 @@ func (n *V1CustomerTaxIDDeletedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever a customer's tax ID is updated.
 type V1CustomerTaxIDUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TaxID, error)
 }
 
@@ -2430,7 +2430,7 @@ func (e *V1CustomerTaxIDUpdatedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever a customer's tax ID is updated.
 type V1CustomerTaxIDUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerTaxIDUpdatedEvent that created this Notification
@@ -2456,7 +2456,7 @@ func (n *V1CustomerTaxIDUpdatedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever any property of a customer changes.
 type V1CustomerUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Customer, error)
 }
 
@@ -2469,7 +2469,7 @@ func (e *V1CustomerUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Custo
 // Occurs whenever any property of a customer changes.
 type V1CustomerUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1CustomerUpdatedEvent that created this Notification
@@ -2495,7 +2495,7 @@ func (n *V1CustomerUpdatedEventNotification) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a new Stripe-generated file is available for your account.
 type V1FileCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*File, error)
 }
 
@@ -2508,7 +2508,7 @@ func (e *V1FileCreatedEvent) FetchRelatedObject(ctx context.Context) (*File, err
 // Occurs whenever a new Stripe-generated file is available for your account.
 type V1FileCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FileCreatedEvent that created this Notification
@@ -2534,7 +2534,7 @@ func (n *V1FileCreatedEventNotification) FetchRelatedObject(ctx context.Context)
 // Occurs when a new Financial Connections account is created.
 type V1FinancialConnectionsAccountCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
@@ -2547,7 +2547,7 @@ func (e *V1FinancialConnectionsAccountCreatedEvent) FetchRelatedObject(ctx conte
 // Occurs when a new Financial Connections account is created.
 type V1FinancialConnectionsAccountCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountCreatedEvent that created this Notification
@@ -2573,7 +2573,7 @@ func (n *V1FinancialConnectionsAccountCreatedEventNotification) FetchRelatedObje
 // Occurs when a Financial Connections account's status is updated from `active` to `inactive`.
 type V1FinancialConnectionsAccountDeactivatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
@@ -2586,7 +2586,7 @@ func (e *V1FinancialConnectionsAccountDeactivatedEvent) FetchRelatedObject(ctx c
 // Occurs when a Financial Connections account's status is updated from `active` to `inactive`.
 type V1FinancialConnectionsAccountDeactivatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountDeactivatedEvent that created this Notification
@@ -2612,7 +2612,7 @@ func (n *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchRelated
 // Occurs when a Financial Connections account is disconnected.
 type V1FinancialConnectionsAccountDisconnectedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
@@ -2625,7 +2625,7 @@ func (e *V1FinancialConnectionsAccountDisconnectedEvent) FetchRelatedObject(ctx 
 // Occurs when a Financial Connections account is disconnected.
 type V1FinancialConnectionsAccountDisconnectedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountDisconnectedEvent that created this Notification
@@ -2651,7 +2651,7 @@ func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchRelate
 // Occurs when a Financial Connections account's status is updated from `inactive` to `active`.
 type V1FinancialConnectionsAccountReactivatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
@@ -2664,7 +2664,7 @@ func (e *V1FinancialConnectionsAccountReactivatedEvent) FetchRelatedObject(ctx c
 // Occurs when a Financial Connections account's status is updated from `inactive` to `active`.
 type V1FinancialConnectionsAccountReactivatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountReactivatedEvent that created this Notification
@@ -2690,7 +2690,7 @@ func (n *V1FinancialConnectionsAccountReactivatedEventNotification) FetchRelated
 // Occurs when an Account’s `balance_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedBalanceEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
@@ -2703,7 +2703,7 @@ func (e *V1FinancialConnectionsAccountRefreshedBalanceEvent) FetchRelatedObject(
 // Occurs when an Account’s `balance_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedBalanceEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedBalanceEvent that created this Notification
@@ -2729,7 +2729,7 @@ func (n *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchRe
 // Occurs when an Account’s `ownership_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedOwnershipEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
@@ -2742,7 +2742,7 @@ func (e *V1FinancialConnectionsAccountRefreshedOwnershipEvent) FetchRelatedObjec
 // Occurs when an Account’s `ownership_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedOwnershipEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedOwnershipEvent that created this Notification
@@ -2768,7 +2768,7 @@ func (n *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) Fetch
 // Occurs when an Account’s `transaction_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedTransactionsEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
 }
 
@@ -2781,7 +2781,7 @@ func (e *V1FinancialConnectionsAccountRefreshedTransactionsEvent) FetchRelatedOb
 // Occurs when an Account’s `transaction_refresh` status transitions from `pending` to either `succeeded` or `failed`.
 type V1FinancialConnectionsAccountRefreshedTransactionsEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedTransactionsEvent that created this Notification
@@ -2807,7 +2807,7 @@ func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) Fe
 // Occurs whenever a VerificationSession is canceled.
 type V1IdentityVerificationSessionCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
@@ -2820,7 +2820,7 @@ func (e *V1IdentityVerificationSessionCanceledEvent) FetchRelatedObject(ctx cont
 // Occurs whenever a VerificationSession is canceled.
 type V1IdentityVerificationSessionCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionCanceledEvent that created this Notification
@@ -2846,7 +2846,7 @@ func (n *V1IdentityVerificationSessionCanceledEventNotification) FetchRelatedObj
 // Occurs whenever a VerificationSession is created.
 type V1IdentityVerificationSessionCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
@@ -2859,7 +2859,7 @@ func (e *V1IdentityVerificationSessionCreatedEvent) FetchRelatedObject(ctx conte
 // Occurs whenever a VerificationSession is created.
 type V1IdentityVerificationSessionCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionCreatedEvent that created this Notification
@@ -2885,7 +2885,7 @@ func (n *V1IdentityVerificationSessionCreatedEventNotification) FetchRelatedObje
 // Occurs whenever a VerificationSession transitions to processing.
 type V1IdentityVerificationSessionProcessingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
@@ -2898,7 +2898,7 @@ func (e *V1IdentityVerificationSessionProcessingEvent) FetchRelatedObject(ctx co
 // Occurs whenever a VerificationSession transitions to processing.
 type V1IdentityVerificationSessionProcessingEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionProcessingEvent that created this Notification
@@ -2924,7 +2924,7 @@ func (n *V1IdentityVerificationSessionProcessingEventNotification) FetchRelatedO
 // Occurs whenever a VerificationSession is redacted.
 type V1IdentityVerificationSessionRedactedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
@@ -2937,7 +2937,7 @@ func (e *V1IdentityVerificationSessionRedactedEvent) FetchRelatedObject(ctx cont
 // Occurs whenever a VerificationSession is redacted.
 type V1IdentityVerificationSessionRedactedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionRedactedEvent that created this Notification
@@ -2963,7 +2963,7 @@ func (n *V1IdentityVerificationSessionRedactedEventNotification) FetchRelatedObj
 // Occurs whenever a VerificationSession transitions to require user input.
 type V1IdentityVerificationSessionRequiresInputEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
@@ -2976,7 +2976,7 @@ func (e *V1IdentityVerificationSessionRequiresInputEvent) FetchRelatedObject(ctx
 // Occurs whenever a VerificationSession transitions to require user input.
 type V1IdentityVerificationSessionRequiresInputEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionRequiresInputEvent that created this Notification
@@ -3002,7 +3002,7 @@ func (n *V1IdentityVerificationSessionRequiresInputEventNotification) FetchRelat
 // Occurs whenever a VerificationSession transitions to verified.
 type V1IdentityVerificationSessionVerifiedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IdentityVerificationSession, error)
 }
 
@@ -3015,7 +3015,7 @@ func (e *V1IdentityVerificationSessionVerifiedEvent) FetchRelatedObject(ctx cont
 // Occurs whenever a VerificationSession transitions to verified.
 type V1IdentityVerificationSessionVerifiedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IdentityVerificationSessionVerifiedEvent that created this Notification
@@ -3041,7 +3041,7 @@ func (n *V1IdentityVerificationSessionVerifiedEventNotification) FetchRelatedObj
 // Occurs whenever a new invoice is created. To learn how webhooks can be used with this event, and how they can affect it, see [Using Webhooks with Subscriptions](https://docs.stripe.com/subscriptions/webhooks).
 type V1InvoiceCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3054,7 +3054,7 @@ func (e *V1InvoiceCreatedEvent) FetchRelatedObject(ctx context.Context) (*Invoic
 // Occurs whenever a new invoice is created. To learn how webhooks can be used with this event, and how they can affect it, see [Using Webhooks with Subscriptions](https://docs.stripe.com/subscriptions/webhooks).
 type V1InvoiceCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceCreatedEvent that created this Notification
@@ -3080,7 +3080,7 @@ func (n *V1InvoiceCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a draft invoice is deleted. Note: This event is not sent for [invoice previews](https://docs.stripe.com/api/invoices/create_preview).
 type V1InvoiceDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3093,7 +3093,7 @@ func (e *V1InvoiceDeletedEvent) FetchRelatedObject(ctx context.Context) (*Invoic
 // Occurs whenever a draft invoice is deleted. Note: This event is not sent for [invoice previews](https://docs.stripe.com/api/invoices/create_preview).
 type V1InvoiceDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceDeletedEvent that created this Notification
@@ -3119,7 +3119,7 @@ func (n *V1InvoiceDeletedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a draft invoice cannot be finalized. See the invoice’s [last finalization error](https://docs.stripe.com/api/invoices/object#invoice_object-last_finalization_error) for details.
 type V1InvoiceFinalizationFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3132,7 +3132,7 @@ func (e *V1InvoiceFinalizationFailedEvent) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a draft invoice cannot be finalized. See the invoice’s [last finalization error](https://docs.stripe.com/api/invoices/object#invoice_object-last_finalization_error) for details.
 type V1InvoiceFinalizationFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceFinalizationFailedEvent that created this Notification
@@ -3158,7 +3158,7 @@ func (n *V1InvoiceFinalizationFailedEventNotification) FetchRelatedObject(ctx co
 // Occurs whenever a draft invoice is finalized and updated to be an open invoice.
 type V1InvoiceFinalizedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3171,7 +3171,7 @@ func (e *V1InvoiceFinalizedEvent) FetchRelatedObject(ctx context.Context) (*Invo
 // Occurs whenever a draft invoice is finalized and updated to be an open invoice.
 type V1InvoiceFinalizedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceFinalizedEvent that created this Notification
@@ -3197,7 +3197,7 @@ func (n *V1InvoiceFinalizedEventNotification) FetchRelatedObject(ctx context.Con
 // Occurs whenever an invoice is marked uncollectible.
 type V1InvoiceMarkedUncollectibleEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3210,7 +3210,7 @@ func (e *V1InvoiceMarkedUncollectibleEvent) FetchRelatedObject(ctx context.Conte
 // Occurs whenever an invoice is marked uncollectible.
 type V1InvoiceMarkedUncollectibleEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceMarkedUncollectibleEvent that created this Notification
@@ -3236,7 +3236,7 @@ func (n *V1InvoiceMarkedUncollectibleEventNotification) FetchRelatedObject(ctx c
 // Occurs X number of days after an invoice becomes due&mdash;where X is determined by Automations.
 type V1InvoiceOverdueEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3249,7 +3249,7 @@ func (e *V1InvoiceOverdueEvent) FetchRelatedObject(ctx context.Context) (*Invoic
 // Occurs X number of days after an invoice becomes due&mdash;where X is determined by Automations.
 type V1InvoiceOverdueEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceOverdueEvent that created this Notification
@@ -3275,7 +3275,7 @@ func (n *V1InvoiceOverdueEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs when an invoice transitions to paid with a non-zero amount_overpaid.
 type V1InvoiceOverpaidEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3288,7 +3288,7 @@ func (e *V1InvoiceOverpaidEvent) FetchRelatedObject(ctx context.Context) (*Invoi
 // Occurs when an invoice transitions to paid with a non-zero amount_overpaid.
 type V1InvoiceOverpaidEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceOverpaidEvent that created this Notification
@@ -3314,7 +3314,7 @@ func (n *V1InvoiceOverpaidEventNotification) FetchRelatedObject(ctx context.Cont
 // Occurs whenever an invoice payment attempt succeeds or an invoice is marked as paid out-of-band.
 type V1InvoicePaidEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3327,7 +3327,7 @@ func (e *V1InvoicePaidEvent) FetchRelatedObject(ctx context.Context) (*Invoice, 
 // Occurs whenever an invoice payment attempt succeeds or an invoice is marked as paid out-of-band.
 type V1InvoicePaidEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaidEvent that created this Notification
@@ -3353,7 +3353,7 @@ func (n *V1InvoicePaidEventNotification) FetchRelatedObject(ctx context.Context)
 // Occurs whenever an invoice payment attempt requires further user action to complete.
 type V1InvoicePaymentActionRequiredEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3366,7 +3366,7 @@ func (e *V1InvoicePaymentActionRequiredEvent) FetchRelatedObject(ctx context.Con
 // Occurs whenever an invoice payment attempt requires further user action to complete.
 type V1InvoicePaymentActionRequiredEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaymentActionRequiredEvent that created this Notification
@@ -3392,7 +3392,7 @@ func (n *V1InvoicePaymentActionRequiredEventNotification) FetchRelatedObject(ctx
 // Occurs whenever an invoice payment attempt fails, due to either a declined payment, including soft decline, or to the lack of a stored payment method.
 type V1InvoicePaymentFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3405,7 +3405,7 @@ func (e *V1InvoicePaymentFailedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever an invoice payment attempt fails, due to either a declined payment, including soft decline, or to the lack of a stored payment method.
 type V1InvoicePaymentFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaymentFailedEvent that created this Notification
@@ -3431,7 +3431,7 @@ func (n *V1InvoicePaymentFailedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever an invoice payment attempt succeeds.
 type V1InvoicePaymentSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3444,7 +3444,7 @@ func (e *V1InvoicePaymentSucceededEvent) FetchRelatedObject(ctx context.Context)
 // Occurs whenever an invoice payment attempt succeeds.
 type V1InvoicePaymentSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaymentSucceededEvent that created this Notification
@@ -3470,7 +3470,7 @@ func (n *V1InvoicePaymentSucceededEventNotification) FetchRelatedObject(ctx cont
 // Occurs whenever an invoice email is sent out.
 type V1InvoiceSentEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3483,7 +3483,7 @@ func (e *V1InvoiceSentEvent) FetchRelatedObject(ctx context.Context) (*Invoice, 
 // Occurs whenever an invoice email is sent out.
 type V1InvoiceSentEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceSentEvent that created this Notification
@@ -3509,7 +3509,7 @@ func (n *V1InvoiceSentEventNotification) FetchRelatedObject(ctx context.Context)
 // Occurs X number of days before a subscription is scheduled to create an invoice that is automatically charged&mdash;where X is determined by your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). Note: The received `Invoice` object will not have an invoice ID.
 type V1InvoiceUpcomingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3522,7 +3522,7 @@ func (e *V1InvoiceUpcomingEvent) FetchRelatedObject(ctx context.Context) (*Invoi
 // Occurs X number of days before a subscription is scheduled to create an invoice that is automatically charged&mdash;where X is determined by your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). Note: The received `Invoice` object will not have an invoice ID.
 type V1InvoiceUpcomingEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceUpcomingEvent that created this Notification
@@ -3548,7 +3548,7 @@ func (n *V1InvoiceUpcomingEventNotification) FetchRelatedObject(ctx context.Cont
 // Occurs whenever an invoice changes (e.g., the invoice amount).
 type V1InvoiceUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3561,7 +3561,7 @@ func (e *V1InvoiceUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Invoic
 // Occurs whenever an invoice changes (e.g., the invoice amount).
 type V1InvoiceUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceUpdatedEvent that created this Notification
@@ -3587,7 +3587,7 @@ func (n *V1InvoiceUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever an invoice is voided.
 type V1InvoiceVoidedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3600,7 +3600,7 @@ func (e *V1InvoiceVoidedEvent) FetchRelatedObject(ctx context.Context) (*Invoice
 // Occurs whenever an invoice is voided.
 type V1InvoiceVoidedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceVoidedEvent that created this Notification
@@ -3626,7 +3626,7 @@ func (n *V1InvoiceVoidedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs X number of days before an invoice becomes due&mdash;where X is determined by Automations.
 type V1InvoiceWillBeDueEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Invoice, error)
 }
 
@@ -3639,7 +3639,7 @@ func (e *V1InvoiceWillBeDueEvent) FetchRelatedObject(ctx context.Context) (*Invo
 // Occurs X number of days before an invoice becomes due&mdash;where X is determined by Automations.
 type V1InvoiceWillBeDueEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceWillBeDueEvent that created this Notification
@@ -3665,7 +3665,7 @@ func (n *V1InvoiceWillBeDueEventNotification) FetchRelatedObject(ctx context.Con
 // Occurs when an InvoicePayment is successfully paid.
 type V1InvoicePaymentPaidEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*InvoicePayment, error)
 }
 
@@ -3678,7 +3678,7 @@ func (e *V1InvoicePaymentPaidEvent) FetchRelatedObject(ctx context.Context) (*In
 // Occurs when an InvoicePayment is successfully paid.
 type V1InvoicePaymentPaidEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoicePaymentPaidEvent that created this Notification
@@ -3704,7 +3704,7 @@ func (n *V1InvoicePaymentPaidEventNotification) FetchRelatedObject(ctx context.C
 // Occurs whenever an invoice item is created.
 type V1InvoiceitemCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*InvoiceItem, error)
 }
 
@@ -3717,7 +3717,7 @@ func (e *V1InvoiceitemCreatedEvent) FetchRelatedObject(ctx context.Context) (*In
 // Occurs whenever an invoice item is created.
 type V1InvoiceitemCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceitemCreatedEvent that created this Notification
@@ -3743,7 +3743,7 @@ func (n *V1InvoiceitemCreatedEventNotification) FetchRelatedObject(ctx context.C
 // Occurs whenever an invoice item is deleted.
 type V1InvoiceitemDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*InvoiceItem, error)
 }
 
@@ -3756,7 +3756,7 @@ func (e *V1InvoiceitemDeletedEvent) FetchRelatedObject(ctx context.Context) (*In
 // Occurs whenever an invoice item is deleted.
 type V1InvoiceitemDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1InvoiceitemDeletedEvent that created this Notification
@@ -3782,7 +3782,7 @@ func (n *V1InvoiceitemDeletedEventNotification) FetchRelatedObject(ctx context.C
 // Occurs whenever an authorization is created.
 type V1IssuingAuthorizationCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingAuthorization, error)
 }
 
@@ -3795,7 +3795,7 @@ func (e *V1IssuingAuthorizationCreatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever an authorization is created.
 type V1IssuingAuthorizationCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingAuthorizationCreatedEvent that created this Notification
@@ -3821,7 +3821,7 @@ func (n *V1IssuingAuthorizationCreatedEventNotification) FetchRelatedObject(ctx 
 // Represents a synchronous request for authorization, see [Using your integration to handle authorization requests](https://docs.stripe.com/issuing/purchases/authorizations#authorization-handling).
 type V1IssuingAuthorizationRequestEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingAuthorization, error)
 }
 
@@ -3834,7 +3834,7 @@ func (e *V1IssuingAuthorizationRequestEvent) FetchRelatedObject(ctx context.Cont
 // Represents a synchronous request for authorization, see [Using your integration to handle authorization requests](https://docs.stripe.com/issuing/purchases/authorizations#authorization-handling).
 type V1IssuingAuthorizationRequestEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingAuthorizationRequestEvent that created this Notification
@@ -3860,7 +3860,7 @@ func (n *V1IssuingAuthorizationRequestEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever an authorization is updated.
 type V1IssuingAuthorizationUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingAuthorization, error)
 }
 
@@ -3873,7 +3873,7 @@ func (e *V1IssuingAuthorizationUpdatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever an authorization is updated.
 type V1IssuingAuthorizationUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingAuthorizationUpdatedEvent that created this Notification
@@ -3899,7 +3899,7 @@ func (n *V1IssuingAuthorizationUpdatedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a card is created.
 type V1IssuingCardCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingCard, error)
 }
 
@@ -3912,7 +3912,7 @@ func (e *V1IssuingCardCreatedEvent) FetchRelatedObject(ctx context.Context) (*Is
 // Occurs whenever a card is created.
 type V1IssuingCardCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingCardCreatedEvent that created this Notification
@@ -3938,7 +3938,7 @@ func (n *V1IssuingCardCreatedEventNotification) FetchRelatedObject(ctx context.C
 // Occurs whenever a card is updated.
 type V1IssuingCardUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingCard, error)
 }
 
@@ -3951,7 +3951,7 @@ func (e *V1IssuingCardUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Is
 // Occurs whenever a card is updated.
 type V1IssuingCardUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingCardUpdatedEvent that created this Notification
@@ -3977,7 +3977,7 @@ func (n *V1IssuingCardUpdatedEventNotification) FetchRelatedObject(ctx context.C
 // Occurs whenever a cardholder is created.
 type V1IssuingCardholderCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingCardholder, error)
 }
 
@@ -3990,7 +3990,7 @@ func (e *V1IssuingCardholderCreatedEvent) FetchRelatedObject(ctx context.Context
 // Occurs whenever a cardholder is created.
 type V1IssuingCardholderCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingCardholderCreatedEvent that created this Notification
@@ -4016,7 +4016,7 @@ func (n *V1IssuingCardholderCreatedEventNotification) FetchRelatedObject(ctx con
 // Occurs whenever a cardholder is updated.
 type V1IssuingCardholderUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingCardholder, error)
 }
 
@@ -4029,7 +4029,7 @@ func (e *V1IssuingCardholderUpdatedEvent) FetchRelatedObject(ctx context.Context
 // Occurs whenever a cardholder is updated.
 type V1IssuingCardholderUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingCardholderUpdatedEvent that created this Notification
@@ -4055,7 +4055,7 @@ func (n *V1IssuingCardholderUpdatedEventNotification) FetchRelatedObject(ctx con
 // Occurs whenever a dispute is won, lost or expired.
 type V1IssuingDisputeClosedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
@@ -4068,7 +4068,7 @@ func (e *V1IssuingDisputeClosedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever a dispute is won, lost or expired.
 type V1IssuingDisputeClosedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeClosedEvent that created this Notification
@@ -4094,7 +4094,7 @@ func (n *V1IssuingDisputeClosedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever a dispute is created.
 type V1IssuingDisputeCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
@@ -4107,7 +4107,7 @@ func (e *V1IssuingDisputeCreatedEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs whenever a dispute is created.
 type V1IssuingDisputeCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeCreatedEvent that created this Notification
@@ -4133,7 +4133,7 @@ func (n *V1IssuingDisputeCreatedEventNotification) FetchRelatedObject(ctx contex
 // Occurs whenever funds are reinstated to your account for an Issuing dispute.
 type V1IssuingDisputeFundsReinstatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
@@ -4146,7 +4146,7 @@ func (e *V1IssuingDisputeFundsReinstatedEvent) FetchRelatedObject(ctx context.Co
 // Occurs whenever funds are reinstated to your account for an Issuing dispute.
 type V1IssuingDisputeFundsReinstatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeFundsReinstatedEvent that created this Notification
@@ -4172,7 +4172,7 @@ func (n *V1IssuingDisputeFundsReinstatedEventNotification) FetchRelatedObject(ct
 // Occurs whenever funds are deducted from your account for an Issuing dispute.
 type V1IssuingDisputeFundsRescindedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
@@ -4185,7 +4185,7 @@ func (e *V1IssuingDisputeFundsRescindedEvent) FetchRelatedObject(ctx context.Con
 // Occurs whenever funds are deducted from your account for an Issuing dispute.
 type V1IssuingDisputeFundsRescindedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeFundsRescindedEvent that created this Notification
@@ -4211,7 +4211,7 @@ func (n *V1IssuingDisputeFundsRescindedEventNotification) FetchRelatedObject(ctx
 // Occurs whenever a dispute is submitted.
 type V1IssuingDisputeSubmittedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
@@ -4224,7 +4224,7 @@ func (e *V1IssuingDisputeSubmittedEvent) FetchRelatedObject(ctx context.Context)
 // Occurs whenever a dispute is submitted.
 type V1IssuingDisputeSubmittedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeSubmittedEvent that created this Notification
@@ -4250,7 +4250,7 @@ func (n *V1IssuingDisputeSubmittedEventNotification) FetchRelatedObject(ctx cont
 // Occurs whenever a dispute is updated.
 type V1IssuingDisputeUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingDispute, error)
 }
 
@@ -4263,7 +4263,7 @@ func (e *V1IssuingDisputeUpdatedEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs whenever a dispute is updated.
 type V1IssuingDisputeUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingDisputeUpdatedEvent that created this Notification
@@ -4289,7 +4289,7 @@ func (n *V1IssuingDisputeUpdatedEventNotification) FetchRelatedObject(ctx contex
 // Occurs whenever a personalization design is activated following the activation of the physical bundle that belongs to it.
 type V1IssuingPersonalizationDesignActivatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
 }
 
@@ -4302,7 +4302,7 @@ func (e *V1IssuingPersonalizationDesignActivatedEvent) FetchRelatedObject(ctx co
 // Occurs whenever a personalization design is activated following the activation of the physical bundle that belongs to it.
 type V1IssuingPersonalizationDesignActivatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignActivatedEvent that created this Notification
@@ -4328,7 +4328,7 @@ func (n *V1IssuingPersonalizationDesignActivatedEventNotification) FetchRelatedO
 // Occurs whenever a personalization design is deactivated following the deactivation of the physical bundle that belongs to it.
 type V1IssuingPersonalizationDesignDeactivatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
 }
 
@@ -4341,7 +4341,7 @@ func (e *V1IssuingPersonalizationDesignDeactivatedEvent) FetchRelatedObject(ctx 
 // Occurs whenever a personalization design is deactivated following the deactivation of the physical bundle that belongs to it.
 type V1IssuingPersonalizationDesignDeactivatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignDeactivatedEvent that created this Notification
@@ -4367,7 +4367,7 @@ func (n *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchRelate
 // Occurs whenever a personalization design is rejected by design review.
 type V1IssuingPersonalizationDesignRejectedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
 }
 
@@ -4380,7 +4380,7 @@ func (e *V1IssuingPersonalizationDesignRejectedEvent) FetchRelatedObject(ctx con
 // Occurs whenever a personalization design is rejected by design review.
 type V1IssuingPersonalizationDesignRejectedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignRejectedEvent that created this Notification
@@ -4406,7 +4406,7 @@ func (n *V1IssuingPersonalizationDesignRejectedEventNotification) FetchRelatedOb
 // Occurs whenever a personalization design is updated.
 type V1IssuingPersonalizationDesignUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingPersonalizationDesign, error)
 }
 
@@ -4419,7 +4419,7 @@ func (e *V1IssuingPersonalizationDesignUpdatedEvent) FetchRelatedObject(ctx cont
 // Occurs whenever a personalization design is updated.
 type V1IssuingPersonalizationDesignUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignUpdatedEvent that created this Notification
@@ -4445,7 +4445,7 @@ func (n *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchRelatedObj
 // Occurs whenever an issuing digital wallet token is created.
 type V1IssuingTokenCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingToken, error)
 }
 
@@ -4458,7 +4458,7 @@ func (e *V1IssuingTokenCreatedEvent) FetchRelatedObject(ctx context.Context) (*I
 // Occurs whenever an issuing digital wallet token is created.
 type V1IssuingTokenCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTokenCreatedEvent that created this Notification
@@ -4484,7 +4484,7 @@ func (n *V1IssuingTokenCreatedEventNotification) FetchRelatedObject(ctx context.
 // Occurs whenever an issuing digital wallet token is updated.
 type V1IssuingTokenUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingToken, error)
 }
 
@@ -4497,7 +4497,7 @@ func (e *V1IssuingTokenUpdatedEvent) FetchRelatedObject(ctx context.Context) (*I
 // Occurs whenever an issuing digital wallet token is updated.
 type V1IssuingTokenUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTokenUpdatedEvent that created this Notification
@@ -4523,7 +4523,7 @@ func (n *V1IssuingTokenUpdatedEventNotification) FetchRelatedObject(ctx context.
 // Occurs whenever an issuing transaction is created.
 type V1IssuingTransactionCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingTransaction, error)
 }
 
@@ -4536,7 +4536,7 @@ func (e *V1IssuingTransactionCreatedEvent) FetchRelatedObject(ctx context.Contex
 // Occurs whenever an issuing transaction is created.
 type V1IssuingTransactionCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTransactionCreatedEvent that created this Notification
@@ -4562,7 +4562,7 @@ func (n *V1IssuingTransactionCreatedEventNotification) FetchRelatedObject(ctx co
 // Occurs whenever an issuing transaction is updated with receipt data.
 type V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingTransaction, error)
 }
 
@@ -4575,7 +4575,7 @@ func (e *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent) FetchRelatedObj
 // Occurs whenever an issuing transaction is updated with receipt data.
 type V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent that created this Notification
@@ -4601,7 +4601,7 @@ func (n *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) Fet
 // Occurs whenever an issuing transaction is updated.
 type V1IssuingTransactionUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*IssuingTransaction, error)
 }
 
@@ -4614,7 +4614,7 @@ func (e *V1IssuingTransactionUpdatedEvent) FetchRelatedObject(ctx context.Contex
 // Occurs whenever an issuing transaction is updated.
 type V1IssuingTransactionUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1IssuingTransactionUpdatedEvent that created this Notification
@@ -4640,7 +4640,7 @@ func (n *V1IssuingTransactionUpdatedEventNotification) FetchRelatedObject(ctx co
 // Occurs whenever a Mandate is updated.
 type V1MandateUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Mandate, error)
 }
 
@@ -4653,7 +4653,7 @@ func (e *V1MandateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Mandat
 // Occurs whenever a Mandate is updated.
 type V1MandateUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1MandateUpdatedEvent that created this Notification
@@ -4679,7 +4679,7 @@ func (n *V1MandateUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs when a PaymentIntent has funds to be captured. Check the `amount_capturable` property on the PaymentIntent to determine the amount that can be captured. You may capture the PaymentIntent with an `amount_to_capture` value up to the specified amount. [Learn more about capturing PaymentIntents.](https://docs.stripe.com/api/payment_intents/capture).
 type V1PaymentIntentAmountCapturableUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
@@ -4692,7 +4692,7 @@ func (e *V1PaymentIntentAmountCapturableUpdatedEvent) FetchRelatedObject(ctx con
 // Occurs when a PaymentIntent has funds to be captured. Check the `amount_capturable` property on the PaymentIntent to determine the amount that can be captured. You may capture the PaymentIntent with an `amount_to_capture` value up to the specified amount. [Learn more about capturing PaymentIntents.](https://docs.stripe.com/api/payment_intents/capture).
 type V1PaymentIntentAmountCapturableUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentAmountCapturableUpdatedEvent that created this Notification
@@ -4718,7 +4718,7 @@ func (n *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchRelatedOb
 // Occurs when a PaymentIntent is canceled.
 type V1PaymentIntentCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
@@ -4731,7 +4731,7 @@ func (e *V1PaymentIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs when a PaymentIntent is canceled.
 type V1PaymentIntentCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentCanceledEvent that created this Notification
@@ -4757,7 +4757,7 @@ func (n *V1PaymentIntentCanceledEventNotification) FetchRelatedObject(ctx contex
 // Occurs when a new PaymentIntent is created.
 type V1PaymentIntentCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
@@ -4770,7 +4770,7 @@ func (e *V1PaymentIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs when a new PaymentIntent is created.
 type V1PaymentIntentCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentCreatedEvent that created this Notification
@@ -4796,7 +4796,7 @@ func (n *V1PaymentIntentCreatedEventNotification) FetchRelatedObject(ctx context
 // Occurs when funds are applied to a customer_balance PaymentIntent and the 'amount_remaining' changes.
 type V1PaymentIntentPartiallyFundedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
@@ -4809,7 +4809,7 @@ func (e *V1PaymentIntentPartiallyFundedEvent) FetchRelatedObject(ctx context.Con
 // Occurs when funds are applied to a customer_balance PaymentIntent and the 'amount_remaining' changes.
 type V1PaymentIntentPartiallyFundedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentPartiallyFundedEvent that created this Notification
@@ -4835,7 +4835,7 @@ func (n *V1PaymentIntentPartiallyFundedEventNotification) FetchRelatedObject(ctx
 // Occurs when a PaymentIntent has failed the attempt to create a payment method or a payment.
 type V1PaymentIntentPaymentFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
@@ -4848,7 +4848,7 @@ func (e *V1PaymentIntentPaymentFailedEvent) FetchRelatedObject(ctx context.Conte
 // Occurs when a PaymentIntent has failed the attempt to create a payment method or a payment.
 type V1PaymentIntentPaymentFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentPaymentFailedEvent that created this Notification
@@ -4874,7 +4874,7 @@ func (n *V1PaymentIntentPaymentFailedEventNotification) FetchRelatedObject(ctx c
 // Occurs when a PaymentIntent has started processing.
 type V1PaymentIntentProcessingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
@@ -4887,7 +4887,7 @@ func (e *V1PaymentIntentProcessingEvent) FetchRelatedObject(ctx context.Context)
 // Occurs when a PaymentIntent has started processing.
 type V1PaymentIntentProcessingEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentProcessingEvent that created this Notification
@@ -4913,7 +4913,7 @@ func (n *V1PaymentIntentProcessingEventNotification) FetchRelatedObject(ctx cont
 // Occurs when a PaymentIntent transitions to requires_action state.
 type V1PaymentIntentRequiresActionEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
@@ -4926,7 +4926,7 @@ func (e *V1PaymentIntentRequiresActionEvent) FetchRelatedObject(ctx context.Cont
 // Occurs when a PaymentIntent transitions to requires_action state.
 type V1PaymentIntentRequiresActionEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentRequiresActionEvent that created this Notification
@@ -4952,7 +4952,7 @@ func (n *V1PaymentIntentRequiresActionEventNotification) FetchRelatedObject(ctx 
 // Occurs when a PaymentIntent has successfully completed payment.
 type V1PaymentIntentSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentIntent, error)
 }
 
@@ -4965,7 +4965,7 @@ func (e *V1PaymentIntentSucceededEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs when a PaymentIntent has successfully completed payment.
 type V1PaymentIntentSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentIntentSucceededEvent that created this Notification
@@ -4991,7 +4991,7 @@ func (n *V1PaymentIntentSucceededEventNotification) FetchRelatedObject(ctx conte
 // Occurs when a payment link is created.
 type V1PaymentLinkCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentLink, error)
 }
 
@@ -5004,7 +5004,7 @@ func (e *V1PaymentLinkCreatedEvent) FetchRelatedObject(ctx context.Context) (*Pa
 // Occurs when a payment link is created.
 type V1PaymentLinkCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentLinkCreatedEvent that created this Notification
@@ -5030,7 +5030,7 @@ func (n *V1PaymentLinkCreatedEventNotification) FetchRelatedObject(ctx context.C
 // Occurs when a payment link is updated.
 type V1PaymentLinkUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentLink, error)
 }
 
@@ -5043,7 +5043,7 @@ func (e *V1PaymentLinkUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Pa
 // Occurs when a payment link is updated.
 type V1PaymentLinkUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentLinkUpdatedEvent that created this Notification
@@ -5069,7 +5069,7 @@ func (n *V1PaymentLinkUpdatedEventNotification) FetchRelatedObject(ctx context.C
 // Occurs whenever a new payment method is attached to a customer.
 type V1PaymentMethodAttachedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentMethod, error)
 }
 
@@ -5082,7 +5082,7 @@ func (e *V1PaymentMethodAttachedEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs whenever a new payment method is attached to a customer.
 type V1PaymentMethodAttachedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentMethodAttachedEvent that created this Notification
@@ -5108,7 +5108,7 @@ func (n *V1PaymentMethodAttachedEventNotification) FetchRelatedObject(ctx contex
 // Occurs whenever a payment method's details are automatically updated by the network.
 type V1PaymentMethodAutomaticallyUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentMethod, error)
 }
 
@@ -5121,7 +5121,7 @@ func (e *V1PaymentMethodAutomaticallyUpdatedEvent) FetchRelatedObject(ctx contex
 // Occurs whenever a payment method's details are automatically updated by the network.
 type V1PaymentMethodAutomaticallyUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentMethodAutomaticallyUpdatedEvent that created this Notification
@@ -5147,7 +5147,7 @@ func (n *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchRelatedObjec
 // Occurs whenever a payment method is detached from a customer.
 type V1PaymentMethodDetachedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentMethod, error)
 }
 
@@ -5160,7 +5160,7 @@ func (e *V1PaymentMethodDetachedEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs whenever a payment method is detached from a customer.
 type V1PaymentMethodDetachedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentMethodDetachedEvent that created this Notification
@@ -5186,7 +5186,7 @@ func (n *V1PaymentMethodDetachedEventNotification) FetchRelatedObject(ctx contex
 // Occurs whenever a payment method is updated via the [PaymentMethod update API](https://docs.stripe.com/api/payment_methods/update).
 type V1PaymentMethodUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PaymentMethod, error)
 }
 
@@ -5199,7 +5199,7 @@ func (e *V1PaymentMethodUpdatedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever a payment method is updated via the [PaymentMethod update API](https://docs.stripe.com/api/payment_methods/update).
 type V1PaymentMethodUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PaymentMethodUpdatedEvent that created this Notification
@@ -5225,7 +5225,7 @@ func (n *V1PaymentMethodUpdatedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever a payout is canceled.
 type V1PayoutCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Payout, error)
 }
 
@@ -5238,7 +5238,7 @@ func (e *V1PayoutCanceledEvent) FetchRelatedObject(ctx context.Context) (*Payout
 // Occurs whenever a payout is canceled.
 type V1PayoutCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutCanceledEvent that created this Notification
@@ -5264,7 +5264,7 @@ func (n *V1PayoutCanceledEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a payout is created.
 type V1PayoutCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Payout, error)
 }
 
@@ -5277,7 +5277,7 @@ func (e *V1PayoutCreatedEvent) FetchRelatedObject(ctx context.Context) (*Payout,
 // Occurs whenever a payout is created.
 type V1PayoutCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutCreatedEvent that created this Notification
@@ -5303,7 +5303,7 @@ func (n *V1PayoutCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a payout attempt fails.
 type V1PayoutFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Payout, error)
 }
 
@@ -5316,7 +5316,7 @@ func (e *V1PayoutFailedEvent) FetchRelatedObject(ctx context.Context) (*Payout, 
 // Occurs whenever a payout attempt fails.
 type V1PayoutFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutFailedEvent that created this Notification
@@ -5342,7 +5342,7 @@ func (n *V1PayoutFailedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a payout is *expected* to be available in the destination account. If the payout fails, a `payout.failed` notification is also sent, at a later time.
 type V1PayoutPaidEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Payout, error)
 }
 
@@ -5355,7 +5355,7 @@ func (e *V1PayoutPaidEvent) FetchRelatedObject(ctx context.Context) (*Payout, er
 // Occurs whenever a payout is *expected* to be available in the destination account. If the payout fails, a `payout.failed` notification is also sent, at a later time.
 type V1PayoutPaidEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutPaidEvent that created this Notification
@@ -5381,7 +5381,7 @@ func (n *V1PayoutPaidEventNotification) FetchRelatedObject(ctx context.Context) 
 // Occurs whenever balance transactions paid out in an automatic payout can be queried.
 type V1PayoutReconciliationCompletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Payout, error)
 }
 
@@ -5394,7 +5394,7 @@ func (e *V1PayoutReconciliationCompletedEvent) FetchRelatedObject(ctx context.Co
 // Occurs whenever balance transactions paid out in an automatic payout can be queried.
 type V1PayoutReconciliationCompletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutReconciliationCompletedEvent that created this Notification
@@ -5420,7 +5420,7 @@ func (n *V1PayoutReconciliationCompletedEventNotification) FetchRelatedObject(ct
 // Occurs whenever a payout is updated.
 type V1PayoutUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Payout, error)
 }
 
@@ -5433,7 +5433,7 @@ func (e *V1PayoutUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Payout,
 // Occurs whenever a payout is updated.
 type V1PayoutUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PayoutUpdatedEvent that created this Notification
@@ -5459,7 +5459,7 @@ func (n *V1PayoutUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a person associated with an account is created.
 type V1PersonCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Person, error)
 }
 
@@ -5472,7 +5472,7 @@ func (e *V1PersonCreatedEvent) FetchRelatedObject(ctx context.Context) (*Person,
 // Occurs whenever a person associated with an account is created.
 type V1PersonCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PersonCreatedEvent that created this Notification
@@ -5498,7 +5498,7 @@ func (n *V1PersonCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a person associated with an account is deleted.
 type V1PersonDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Person, error)
 }
 
@@ -5511,7 +5511,7 @@ func (e *V1PersonDeletedEvent) FetchRelatedObject(ctx context.Context) (*Person,
 // Occurs whenever a person associated with an account is deleted.
 type V1PersonDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PersonDeletedEvent that created this Notification
@@ -5537,7 +5537,7 @@ func (n *V1PersonDeletedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a person associated with an account is updated.
 type V1PersonUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Person, error)
 }
 
@@ -5550,7 +5550,7 @@ func (e *V1PersonUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Person,
 // Occurs whenever a person associated with an account is updated.
 type V1PersonUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PersonUpdatedEvent that created this Notification
@@ -5576,7 +5576,7 @@ func (n *V1PersonUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a plan is created.
 type V1PlanCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Plan, error)
 }
 
@@ -5589,7 +5589,7 @@ func (e *V1PlanCreatedEvent) FetchRelatedObject(ctx context.Context) (*Plan, err
 // Occurs whenever a plan is created.
 type V1PlanCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PlanCreatedEvent that created this Notification
@@ -5615,7 +5615,7 @@ func (n *V1PlanCreatedEventNotification) FetchRelatedObject(ctx context.Context)
 // Occurs whenever a plan is deleted.
 type V1PlanDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Plan, error)
 }
 
@@ -5628,7 +5628,7 @@ func (e *V1PlanDeletedEvent) FetchRelatedObject(ctx context.Context) (*Plan, err
 // Occurs whenever a plan is deleted.
 type V1PlanDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PlanDeletedEvent that created this Notification
@@ -5654,7 +5654,7 @@ func (n *V1PlanDeletedEventNotification) FetchRelatedObject(ctx context.Context)
 // Occurs whenever a plan is updated.
 type V1PlanUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Plan, error)
 }
 
@@ -5667,7 +5667,7 @@ func (e *V1PlanUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Plan, err
 // Occurs whenever a plan is updated.
 type V1PlanUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PlanUpdatedEvent that created this Notification
@@ -5693,7 +5693,7 @@ func (n *V1PlanUpdatedEventNotification) FetchRelatedObject(ctx context.Context)
 // Occurs whenever a price is created.
 type V1PriceCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Price, error)
 }
 
@@ -5706,7 +5706,7 @@ func (e *V1PriceCreatedEvent) FetchRelatedObject(ctx context.Context) (*Price, e
 // Occurs whenever a price is created.
 type V1PriceCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PriceCreatedEvent that created this Notification
@@ -5732,7 +5732,7 @@ func (n *V1PriceCreatedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a price is deleted.
 type V1PriceDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Price, error)
 }
 
@@ -5745,7 +5745,7 @@ func (e *V1PriceDeletedEvent) FetchRelatedObject(ctx context.Context) (*Price, e
 // Occurs whenever a price is deleted.
 type V1PriceDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PriceDeletedEvent that created this Notification
@@ -5771,7 +5771,7 @@ func (n *V1PriceDeletedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a price is updated.
 type V1PriceUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Price, error)
 }
 
@@ -5784,7 +5784,7 @@ func (e *V1PriceUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Price, e
 // Occurs whenever a price is updated.
 type V1PriceUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PriceUpdatedEvent that created this Notification
@@ -5810,7 +5810,7 @@ func (n *V1PriceUpdatedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a product is created.
 type V1ProductCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Product, error)
 }
 
@@ -5823,7 +5823,7 @@ func (e *V1ProductCreatedEvent) FetchRelatedObject(ctx context.Context) (*Produc
 // Occurs whenever a product is created.
 type V1ProductCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ProductCreatedEvent that created this Notification
@@ -5849,7 +5849,7 @@ func (n *V1ProductCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a product is deleted.
 type V1ProductDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Product, error)
 }
 
@@ -5862,7 +5862,7 @@ func (e *V1ProductDeletedEvent) FetchRelatedObject(ctx context.Context) (*Produc
 // Occurs whenever a product is deleted.
 type V1ProductDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ProductDeletedEvent that created this Notification
@@ -5888,7 +5888,7 @@ func (n *V1ProductDeletedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a product is updated.
 type V1ProductUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Product, error)
 }
 
@@ -5901,7 +5901,7 @@ func (e *V1ProductUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Produc
 // Occurs whenever a product is updated.
 type V1ProductUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ProductUpdatedEvent that created this Notification
@@ -5927,7 +5927,7 @@ func (n *V1ProductUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a promotion code is created.
 type V1PromotionCodeCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PromotionCode, error)
 }
 
@@ -5940,7 +5940,7 @@ func (e *V1PromotionCodeCreatedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever a promotion code is created.
 type V1PromotionCodeCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PromotionCodeCreatedEvent that created this Notification
@@ -5966,7 +5966,7 @@ func (n *V1PromotionCodeCreatedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever a promotion code is updated.
 type V1PromotionCodeUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*PromotionCode, error)
 }
 
@@ -5979,7 +5979,7 @@ func (e *V1PromotionCodeUpdatedEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs whenever a promotion code is updated.
 type V1PromotionCodeUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1PromotionCodeUpdatedEvent that created this Notification
@@ -6005,7 +6005,7 @@ func (n *V1PromotionCodeUpdatedEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever a quote is accepted.
 type V1QuoteAcceptedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Quote, error)
 }
 
@@ -6018,7 +6018,7 @@ func (e *V1QuoteAcceptedEvent) FetchRelatedObject(ctx context.Context) (*Quote, 
 // Occurs whenever a quote is accepted.
 type V1QuoteAcceptedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1QuoteAcceptedEvent that created this Notification
@@ -6044,7 +6044,7 @@ func (n *V1QuoteAcceptedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a quote is canceled.
 type V1QuoteCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Quote, error)
 }
 
@@ -6057,7 +6057,7 @@ func (e *V1QuoteCanceledEvent) FetchRelatedObject(ctx context.Context) (*Quote, 
 // Occurs whenever a quote is canceled.
 type V1QuoteCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1QuoteCanceledEvent that created this Notification
@@ -6083,7 +6083,7 @@ func (n *V1QuoteCanceledEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a quote is created.
 type V1QuoteCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Quote, error)
 }
 
@@ -6096,7 +6096,7 @@ func (e *V1QuoteCreatedEvent) FetchRelatedObject(ctx context.Context) (*Quote, e
 // Occurs whenever a quote is created.
 type V1QuoteCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1QuoteCreatedEvent that created this Notification
@@ -6122,7 +6122,7 @@ func (n *V1QuoteCreatedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a quote is finalized.
 type V1QuoteFinalizedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Quote, error)
 }
 
@@ -6135,7 +6135,7 @@ func (e *V1QuoteFinalizedEvent) FetchRelatedObject(ctx context.Context) (*Quote,
 // Occurs whenever a quote is finalized.
 type V1QuoteFinalizedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1QuoteFinalizedEvent that created this Notification
@@ -6161,7 +6161,7 @@ func (n *V1QuoteFinalizedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever an early fraud warning is created.
 type V1RadarEarlyFraudWarningCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*RadarEarlyFraudWarning, error)
 }
 
@@ -6174,7 +6174,7 @@ func (e *V1RadarEarlyFraudWarningCreatedEvent) FetchRelatedObject(ctx context.Co
 // Occurs whenever an early fraud warning is created.
 type V1RadarEarlyFraudWarningCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RadarEarlyFraudWarningCreatedEvent that created this Notification
@@ -6200,7 +6200,7 @@ func (n *V1RadarEarlyFraudWarningCreatedEventNotification) FetchRelatedObject(ct
 // Occurs whenever an early fraud warning is updated.
 type V1RadarEarlyFraudWarningUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*RadarEarlyFraudWarning, error)
 }
 
@@ -6213,7 +6213,7 @@ func (e *V1RadarEarlyFraudWarningUpdatedEvent) FetchRelatedObject(ctx context.Co
 // Occurs whenever an early fraud warning is updated.
 type V1RadarEarlyFraudWarningUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RadarEarlyFraudWarningUpdatedEvent that created this Notification
@@ -6239,7 +6239,7 @@ func (n *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchRelatedObject(ct
 // Occurs whenever a refund is created.
 type V1RefundCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Refund, error)
 }
 
@@ -6252,7 +6252,7 @@ func (e *V1RefundCreatedEvent) FetchRelatedObject(ctx context.Context) (*Refund,
 // Occurs whenever a refund is created.
 type V1RefundCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RefundCreatedEvent that created this Notification
@@ -6278,7 +6278,7 @@ func (n *V1RefundCreatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a refund has failed.
 type V1RefundFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Refund, error)
 }
 
@@ -6291,7 +6291,7 @@ func (e *V1RefundFailedEvent) FetchRelatedObject(ctx context.Context) (*Refund, 
 // Occurs whenever a refund has failed.
 type V1RefundFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RefundFailedEvent that created this Notification
@@ -6317,7 +6317,7 @@ func (n *V1RefundFailedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a refund is updated.
 type V1RefundUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Refund, error)
 }
 
@@ -6330,7 +6330,7 @@ func (e *V1RefundUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Refund,
 // Occurs whenever a refund is updated.
 type V1RefundUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1RefundUpdatedEvent that created this Notification
@@ -6356,7 +6356,7 @@ func (n *V1RefundUpdatedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a review is closed. The review's `reason` field indicates why: `approved`, `disputed`, `refunded`, `refunded_as_fraud`, or `canceled`.
 type V1ReviewClosedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Review, error)
 }
 
@@ -6369,7 +6369,7 @@ func (e *V1ReviewClosedEvent) FetchRelatedObject(ctx context.Context) (*Review, 
 // Occurs whenever a review is closed. The review's `reason` field indicates why: `approved`, `disputed`, `refunded`, `refunded_as_fraud`, or `canceled`.
 type V1ReviewClosedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ReviewClosedEvent that created this Notification
@@ -6395,7 +6395,7 @@ func (n *V1ReviewClosedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a review is opened.
 type V1ReviewOpenedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Review, error)
 }
 
@@ -6408,7 +6408,7 @@ func (e *V1ReviewOpenedEvent) FetchRelatedObject(ctx context.Context) (*Review, 
 // Occurs whenever a review is opened.
 type V1ReviewOpenedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1ReviewOpenedEvent that created this Notification
@@ -6434,7 +6434,7 @@ func (n *V1ReviewOpenedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs when a SetupIntent is canceled.
 type V1SetupIntentCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SetupIntent, error)
 }
 
@@ -6447,7 +6447,7 @@ func (e *V1SetupIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (*S
 // Occurs when a SetupIntent is canceled.
 type V1SetupIntentCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentCanceledEvent that created this Notification
@@ -6473,7 +6473,7 @@ func (n *V1SetupIntentCanceledEventNotification) FetchRelatedObject(ctx context.
 // Occurs when a new SetupIntent is created.
 type V1SetupIntentCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SetupIntent, error)
 }
 
@@ -6486,7 +6486,7 @@ func (e *V1SetupIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*Se
 // Occurs when a new SetupIntent is created.
 type V1SetupIntentCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentCreatedEvent that created this Notification
@@ -6512,7 +6512,7 @@ func (n *V1SetupIntentCreatedEventNotification) FetchRelatedObject(ctx context.C
 // Occurs when a SetupIntent is in requires_action state.
 type V1SetupIntentRequiresActionEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SetupIntent, error)
 }
 
@@ -6525,7 +6525,7 @@ func (e *V1SetupIntentRequiresActionEvent) FetchRelatedObject(ctx context.Contex
 // Occurs when a SetupIntent is in requires_action state.
 type V1SetupIntentRequiresActionEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentRequiresActionEvent that created this Notification
@@ -6551,7 +6551,7 @@ func (n *V1SetupIntentRequiresActionEventNotification) FetchRelatedObject(ctx co
 // Occurs when a SetupIntent has failed the attempt to setup a payment method.
 type V1SetupIntentSetupFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SetupIntent, error)
 }
 
@@ -6564,7 +6564,7 @@ func (e *V1SetupIntentSetupFailedEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs when a SetupIntent has failed the attempt to setup a payment method.
 type V1SetupIntentSetupFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentSetupFailedEvent that created this Notification
@@ -6590,7 +6590,7 @@ func (n *V1SetupIntentSetupFailedEventNotification) FetchRelatedObject(ctx conte
 // Occurs when an SetupIntent has successfully setup a payment method.
 type V1SetupIntentSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SetupIntent, error)
 }
 
@@ -6603,7 +6603,7 @@ func (e *V1SetupIntentSucceededEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs when an SetupIntent has successfully setup a payment method.
 type V1SetupIntentSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SetupIntentSucceededEvent that created this Notification
@@ -6629,7 +6629,7 @@ func (n *V1SetupIntentSucceededEventNotification) FetchRelatedObject(ctx context
 // Occurs whenever a Sigma scheduled query run finishes.
 type V1SigmaScheduledQueryRunCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SigmaScheduledQueryRun, error)
 }
 
@@ -6642,7 +6642,7 @@ func (e *V1SigmaScheduledQueryRunCreatedEvent) FetchRelatedObject(ctx context.Co
 // Occurs whenever a Sigma scheduled query run finishes.
 type V1SigmaScheduledQueryRunCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SigmaScheduledQueryRunCreatedEvent that created this Notification
@@ -6668,7 +6668,7 @@ func (n *V1SigmaScheduledQueryRunCreatedEventNotification) FetchRelatedObject(ct
 // Occurs whenever a source is canceled.
 type V1SourceCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Source, error)
 }
 
@@ -6681,7 +6681,7 @@ func (e *V1SourceCanceledEvent) FetchRelatedObject(ctx context.Context) (*Source
 // Occurs whenever a source is canceled.
 type V1SourceCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SourceCanceledEvent that created this Notification
@@ -6707,7 +6707,7 @@ func (n *V1SourceCanceledEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a source transitions to chargeable.
 type V1SourceChargeableEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Source, error)
 }
 
@@ -6720,7 +6720,7 @@ func (e *V1SourceChargeableEvent) FetchRelatedObject(ctx context.Context) (*Sour
 // Occurs whenever a source transitions to chargeable.
 type V1SourceChargeableEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SourceChargeableEvent that created this Notification
@@ -6746,7 +6746,7 @@ func (n *V1SourceChargeableEventNotification) FetchRelatedObject(ctx context.Con
 // Occurs whenever a source fails.
 type V1SourceFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Source, error)
 }
 
@@ -6759,7 +6759,7 @@ func (e *V1SourceFailedEvent) FetchRelatedObject(ctx context.Context) (*Source, 
 // Occurs whenever a source fails.
 type V1SourceFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SourceFailedEvent that created this Notification
@@ -6785,7 +6785,7 @@ func (n *V1SourceFailedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever the refund attributes are required on a receiver source to process a refund or a mispayment.
 type V1SourceRefundAttributesRequiredEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Source, error)
 }
 
@@ -6798,7 +6798,7 @@ func (e *V1SourceRefundAttributesRequiredEvent) FetchRelatedObject(ctx context.C
 // Occurs whenever the refund attributes are required on a receiver source to process a refund or a mispayment.
 type V1SourceRefundAttributesRequiredEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SourceRefundAttributesRequiredEvent that created this Notification
@@ -6824,7 +6824,7 @@ func (n *V1SourceRefundAttributesRequiredEventNotification) FetchRelatedObject(c
 // Occurs whenever a subscription schedule is canceled due to the underlying subscription being canceled because of delinquency.
 type V1SubscriptionScheduleAbortedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
@@ -6837,7 +6837,7 @@ func (e *V1SubscriptionScheduleAbortedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a subscription schedule is canceled due to the underlying subscription being canceled because of delinquency.
 type V1SubscriptionScheduleAbortedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleAbortedEvent that created this Notification
@@ -6863,7 +6863,7 @@ func (n *V1SubscriptionScheduleAbortedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a subscription schedule is canceled.
 type V1SubscriptionScheduleCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
@@ -6876,7 +6876,7 @@ func (e *V1SubscriptionScheduleCanceledEvent) FetchRelatedObject(ctx context.Con
 // Occurs whenever a subscription schedule is canceled.
 type V1SubscriptionScheduleCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleCanceledEvent that created this Notification
@@ -6902,7 +6902,7 @@ func (n *V1SubscriptionScheduleCanceledEventNotification) FetchRelatedObject(ctx
 // Occurs whenever a new subscription schedule is completed.
 type V1SubscriptionScheduleCompletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
@@ -6915,7 +6915,7 @@ func (e *V1SubscriptionScheduleCompletedEvent) FetchRelatedObject(ctx context.Co
 // Occurs whenever a new subscription schedule is completed.
 type V1SubscriptionScheduleCompletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleCompletedEvent that created this Notification
@@ -6941,7 +6941,7 @@ func (n *V1SubscriptionScheduleCompletedEventNotification) FetchRelatedObject(ct
 // Occurs whenever a new subscription schedule is created.
 type V1SubscriptionScheduleCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
@@ -6954,7 +6954,7 @@ func (e *V1SubscriptionScheduleCreatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a new subscription schedule is created.
 type V1SubscriptionScheduleCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleCreatedEvent that created this Notification
@@ -6980,7 +6980,7 @@ func (n *V1SubscriptionScheduleCreatedEventNotification) FetchRelatedObject(ctx 
 // Occurs 7 days before a subscription schedule will expire.
 type V1SubscriptionScheduleExpiringEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
@@ -6993,7 +6993,7 @@ func (e *V1SubscriptionScheduleExpiringEvent) FetchRelatedObject(ctx context.Con
 // Occurs 7 days before a subscription schedule will expire.
 type V1SubscriptionScheduleExpiringEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleExpiringEvent that created this Notification
@@ -7019,7 +7019,7 @@ func (n *V1SubscriptionScheduleExpiringEventNotification) FetchRelatedObject(ctx
 // Occurs whenever a new subscription schedule is released.
 type V1SubscriptionScheduleReleasedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
@@ -7032,7 +7032,7 @@ func (e *V1SubscriptionScheduleReleasedEvent) FetchRelatedObject(ctx context.Con
 // Occurs whenever a new subscription schedule is released.
 type V1SubscriptionScheduleReleasedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleReleasedEvent that created this Notification
@@ -7058,7 +7058,7 @@ func (n *V1SubscriptionScheduleReleasedEventNotification) FetchRelatedObject(ctx
 // Occurs whenever a subscription schedule is updated.
 type V1SubscriptionScheduleUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*SubscriptionSchedule, error)
 }
 
@@ -7071,7 +7071,7 @@ func (e *V1SubscriptionScheduleUpdatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a subscription schedule is updated.
 type V1SubscriptionScheduleUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1SubscriptionScheduleUpdatedEvent that created this Notification
@@ -7097,7 +7097,7 @@ func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a new tax rate is created.
 type V1TaxRateCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TaxRate, error)
 }
 
@@ -7110,7 +7110,7 @@ func (e *V1TaxRateCreatedEvent) FetchRelatedObject(ctx context.Context) (*TaxRat
 // Occurs whenever a new tax rate is created.
 type V1TaxRateCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TaxRateCreatedEvent that created this Notification
@@ -7136,7 +7136,7 @@ func (n *V1TaxRateCreatedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a tax rate is updated.
 type V1TaxRateUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TaxRate, error)
 }
 
@@ -7149,7 +7149,7 @@ func (e *V1TaxRateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*TaxRat
 // Occurs whenever a tax rate is updated.
 type V1TaxRateUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TaxRateUpdatedEvent that created this Notification
@@ -7175,7 +7175,7 @@ func (n *V1TaxRateUpdatedEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever an action sent to a Terminal reader failed.
 type V1TerminalReaderActionFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TerminalReader, error)
 }
 
@@ -7188,7 +7188,7 @@ func (e *V1TerminalReaderActionFailedEvent) FetchRelatedObject(ctx context.Conte
 // Occurs whenever an action sent to a Terminal reader failed.
 type V1TerminalReaderActionFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TerminalReaderActionFailedEvent that created this Notification
@@ -7214,7 +7214,7 @@ func (n *V1TerminalReaderActionFailedEventNotification) FetchRelatedObject(ctx c
 // Occurs whenever an action sent to a Terminal reader was successful.
 type V1TerminalReaderActionSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TerminalReader, error)
 }
 
@@ -7227,7 +7227,7 @@ func (e *V1TerminalReaderActionSucceededEvent) FetchRelatedObject(ctx context.Co
 // Occurs whenever an action sent to a Terminal reader was successful.
 type V1TerminalReaderActionSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TerminalReaderActionSucceededEvent that created this Notification
@@ -7253,7 +7253,7 @@ func (n *V1TerminalReaderActionSucceededEventNotification) FetchRelatedObject(ct
 // Occurs whenever an action sent to a Terminal reader is updated.
 type V1TerminalReaderActionUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TerminalReader, error)
 }
 
@@ -7266,7 +7266,7 @@ func (e *V1TerminalReaderActionUpdatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever an action sent to a Terminal reader is updated.
 type V1TerminalReaderActionUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TerminalReaderActionUpdatedEvent that created this Notification
@@ -7292,7 +7292,7 @@ func (n *V1TerminalReaderActionUpdatedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a test clock starts advancing.
 type V1TestHelpersTestClockAdvancingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
@@ -7305,7 +7305,7 @@ func (e *V1TestHelpersTestClockAdvancingEvent) FetchRelatedObject(ctx context.Co
 // Occurs whenever a test clock starts advancing.
 type V1TestHelpersTestClockAdvancingEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockAdvancingEvent that created this Notification
@@ -7331,7 +7331,7 @@ func (n *V1TestHelpersTestClockAdvancingEventNotification) FetchRelatedObject(ct
 // Occurs whenever a test clock is created.
 type V1TestHelpersTestClockCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
@@ -7344,7 +7344,7 @@ func (e *V1TestHelpersTestClockCreatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a test clock is created.
 type V1TestHelpersTestClockCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockCreatedEvent that created this Notification
@@ -7370,7 +7370,7 @@ func (n *V1TestHelpersTestClockCreatedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a test clock is deleted.
 type V1TestHelpersTestClockDeletedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
@@ -7383,7 +7383,7 @@ func (e *V1TestHelpersTestClockDeletedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a test clock is deleted.
 type V1TestHelpersTestClockDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockDeletedEvent that created this Notification
@@ -7409,7 +7409,7 @@ func (n *V1TestHelpersTestClockDeletedEventNotification) FetchRelatedObject(ctx 
 // Occurs whenever a test clock fails to advance its frozen time.
 type V1TestHelpersTestClockInternalFailureEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
@@ -7422,7 +7422,7 @@ func (e *V1TestHelpersTestClockInternalFailureEvent) FetchRelatedObject(ctx cont
 // Occurs whenever a test clock fails to advance its frozen time.
 type V1TestHelpersTestClockInternalFailureEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockInternalFailureEvent that created this Notification
@@ -7448,7 +7448,7 @@ func (n *V1TestHelpersTestClockInternalFailureEventNotification) FetchRelatedObj
 // Occurs whenever a test clock transitions to a ready status.
 type V1TestHelpersTestClockReadyEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*TestHelpersTestClock, error)
 }
 
@@ -7461,7 +7461,7 @@ func (e *V1TestHelpersTestClockReadyEvent) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a test clock transitions to a ready status.
 type V1TestHelpersTestClockReadyEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TestHelpersTestClockReadyEvent that created this Notification
@@ -7487,7 +7487,7 @@ func (n *V1TestHelpersTestClockReadyEventNotification) FetchRelatedObject(ctx co
 // Occurs whenever a top-up is canceled.
 type V1TopupCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Topup, error)
 }
 
@@ -7500,7 +7500,7 @@ func (e *V1TopupCanceledEvent) FetchRelatedObject(ctx context.Context) (*Topup, 
 // Occurs whenever a top-up is canceled.
 type V1TopupCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupCanceledEvent that created this Notification
@@ -7526,7 +7526,7 @@ func (n *V1TopupCanceledEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a top-up is created.
 type V1TopupCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Topup, error)
 }
 
@@ -7539,7 +7539,7 @@ func (e *V1TopupCreatedEvent) FetchRelatedObject(ctx context.Context) (*Topup, e
 // Occurs whenever a top-up is created.
 type V1TopupCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupCreatedEvent that created this Notification
@@ -7565,7 +7565,7 @@ func (n *V1TopupCreatedEventNotification) FetchRelatedObject(ctx context.Context
 // Occurs whenever a top-up fails.
 type V1TopupFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Topup, error)
 }
 
@@ -7578,7 +7578,7 @@ func (e *V1TopupFailedEvent) FetchRelatedObject(ctx context.Context) (*Topup, er
 // Occurs whenever a top-up fails.
 type V1TopupFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupFailedEvent that created this Notification
@@ -7604,7 +7604,7 @@ func (n *V1TopupFailedEventNotification) FetchRelatedObject(ctx context.Context)
 // Occurs whenever a top-up is reversed.
 type V1TopupReversedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Topup, error)
 }
 
@@ -7617,7 +7617,7 @@ func (e *V1TopupReversedEvent) FetchRelatedObject(ctx context.Context) (*Topup, 
 // Occurs whenever a top-up is reversed.
 type V1TopupReversedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupReversedEvent that created this Notification
@@ -7643,7 +7643,7 @@ func (n *V1TopupReversedEventNotification) FetchRelatedObject(ctx context.Contex
 // Occurs whenever a top-up succeeds.
 type V1TopupSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Topup, error)
 }
 
@@ -7656,7 +7656,7 @@ func (e *V1TopupSucceededEvent) FetchRelatedObject(ctx context.Context) (*Topup,
 // Occurs whenever a top-up succeeds.
 type V1TopupSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TopupSucceededEvent that created this Notification
@@ -7682,7 +7682,7 @@ func (n *V1TopupSucceededEventNotification) FetchRelatedObject(ctx context.Conte
 // Occurs whenever a transfer is created.
 type V1TransferCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Transfer, error)
 }
 
@@ -7695,7 +7695,7 @@ func (e *V1TransferCreatedEvent) FetchRelatedObject(ctx context.Context) (*Trans
 // Occurs whenever a transfer is created.
 type V1TransferCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TransferCreatedEvent that created this Notification
@@ -7721,7 +7721,7 @@ func (n *V1TransferCreatedEventNotification) FetchRelatedObject(ctx context.Cont
 // Occurs whenever a transfer is reversed, including partial reversals.
 type V1TransferReversedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Transfer, error)
 }
 
@@ -7734,7 +7734,7 @@ func (e *V1TransferReversedEvent) FetchRelatedObject(ctx context.Context) (*Tran
 // Occurs whenever a transfer is reversed, including partial reversals.
 type V1TransferReversedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TransferReversedEvent that created this Notification
@@ -7760,7 +7760,7 @@ func (n *V1TransferReversedEventNotification) FetchRelatedObject(ctx context.Con
 // Occurs whenever a transfer's description or metadata is updated.
 type V1TransferUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*Transfer, error)
 }
 
@@ -7773,7 +7773,7 @@ func (e *V1TransferUpdatedEvent) FetchRelatedObject(ctx context.Context) (*Trans
 // Occurs whenever a transfer's description or metadata is updated.
 type V1TransferUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1TransferUpdatedEvent that created this Notification
@@ -7800,7 +7800,7 @@ func (n *V1TransferUpdatedEventNotification) FetchRelatedObject(ctx context.Cont
 type V2BillingBillSettingUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingBillSettingUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                        `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject             `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingBillSetting, error)
 }
 
@@ -7813,7 +7813,7 @@ func (e *V2BillingBillSettingUpdatedEvent) FetchRelatedObject(ctx context.Contex
 // This event occurs when a bill setting is updated.
 type V2BillingBillSettingUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingBillSettingUpdatedEvent that created this Notification
@@ -7840,7 +7840,7 @@ func (n *V2BillingBillSettingUpdatedEventNotification) FetchRelatedObject(ctx co
 type V2BillingCadenceBilledEvent struct {
 	V2BaseEvent
 	Data               V2BillingCadenceBilledEventData `json:"data"`
-	RelatedObject      RelatedObject                   `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject        `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingCadence, error)
 }
 
@@ -7853,7 +7853,7 @@ func (e *V2BillingCadenceBilledEvent) FetchRelatedObject(ctx context.Context) (*
 // Occurs when a billing Cadence generates an invoice.
 type V2BillingCadenceBilledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingCadenceBilledEvent that created this Notification
@@ -7879,7 +7879,7 @@ func (n *V2BillingCadenceBilledEventNotification) FetchRelatedObject(ctx context
 // Occurs when a billing Cadence is canceled.
 type V2BillingCadenceCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingCadence, error)
 }
 
@@ -7892,7 +7892,7 @@ func (e *V2BillingCadenceCanceledEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs when a billing Cadence is canceled.
 type V2BillingCadenceCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingCadenceCanceledEvent that created this Notification
@@ -7919,7 +7919,7 @@ func (n *V2BillingCadenceCanceledEventNotification) FetchRelatedObject(ctx conte
 type V2BillingCadenceCreatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingCadenceCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                    `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject         `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingCadence, error)
 }
 
@@ -7932,7 +7932,7 @@ func (e *V2BillingCadenceCreatedEvent) FetchRelatedObject(ctx context.Context) (
 // Occurs when a billing Cadence is created.
 type V2BillingCadenceCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingCadenceCreatedEvent that created this Notification
@@ -7958,7 +7958,7 @@ func (n *V2BillingCadenceCreatedEventNotification) FetchRelatedObject(ctx contex
 // Occurs when a LicenseFee is created.
 type V2BillingLicenseFeeCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingLicenseFee, error)
 }
 
@@ -7971,7 +7971,7 @@ func (e *V2BillingLicenseFeeCreatedEvent) FetchRelatedObject(ctx context.Context
 // Occurs when a LicenseFee is created.
 type V2BillingLicenseFeeCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicenseFeeCreatedEvent that created this Notification
@@ -7997,7 +7997,7 @@ func (n *V2BillingLicenseFeeCreatedEventNotification) FetchRelatedObject(ctx con
 // Occurs when a LicenseFee is updated.
 type V2BillingLicenseFeeUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingLicenseFee, error)
 }
 
@@ -8010,7 +8010,7 @@ func (e *V2BillingLicenseFeeUpdatedEvent) FetchRelatedObject(ctx context.Context
 // Occurs when a LicenseFee is updated.
 type V2BillingLicenseFeeUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicenseFeeUpdatedEvent that created this Notification
@@ -8037,7 +8037,7 @@ func (n *V2BillingLicenseFeeUpdatedEventNotification) FetchRelatedObject(ctx con
 type V2BillingLicenseFeeVersionCreatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingLicenseFeeVersionCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                              `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                   `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingLicenseFeeVersion, error)
 }
 
@@ -8050,7 +8050,7 @@ func (e *V2BillingLicenseFeeVersionCreatedEvent) FetchRelatedObject(ctx context.
 // Occurs when a LicenseFeeVersion is created.
 type V2BillingLicenseFeeVersionCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicenseFeeVersionCreatedEvent that created this Notification
@@ -8076,7 +8076,7 @@ func (n *V2BillingLicenseFeeVersionCreatedEventNotification) FetchRelatedObject(
 // Occurs when a LicensedItem is created.
 type V2BillingLicensedItemCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingLicensedItem, error)
 }
 
@@ -8089,7 +8089,7 @@ func (e *V2BillingLicensedItemCreatedEvent) FetchRelatedObject(ctx context.Conte
 // Occurs when a LicensedItem is created.
 type V2BillingLicensedItemCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicensedItemCreatedEvent that created this Notification
@@ -8115,7 +8115,7 @@ func (n *V2BillingLicensedItemCreatedEventNotification) FetchRelatedObject(ctx c
 // Occurs when a LicensedItem is updated.
 type V2BillingLicensedItemUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingLicensedItem, error)
 }
 
@@ -8128,7 +8128,7 @@ func (e *V2BillingLicensedItemUpdatedEvent) FetchRelatedObject(ctx context.Conte
 // Occurs when a LicensedItem is updated.
 type V2BillingLicensedItemUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingLicensedItemUpdatedEvent that created this Notification
@@ -8154,7 +8154,7 @@ func (n *V2BillingLicensedItemUpdatedEventNotification) FetchRelatedObject(ctx c
 // Occurs when a MeteredItem is created.
 type V2BillingMeteredItemCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingMeteredItem, error)
 }
 
@@ -8167,7 +8167,7 @@ func (e *V2BillingMeteredItemCreatedEvent) FetchRelatedObject(ctx context.Contex
 // Occurs when a MeteredItem is created.
 type V2BillingMeteredItemCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingMeteredItemCreatedEvent that created this Notification
@@ -8193,7 +8193,7 @@ func (n *V2BillingMeteredItemCreatedEventNotification) FetchRelatedObject(ctx co
 // Occurs when a MeteredItem is updated.
 type V2BillingMeteredItemUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingMeteredItem, error)
 }
 
@@ -8206,7 +8206,7 @@ func (e *V2BillingMeteredItemUpdatedEvent) FetchRelatedObject(ctx context.Contex
 // Occurs when a MeteredItem is updated.
 type V2BillingMeteredItemUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingMeteredItemUpdatedEvent that created this Notification
@@ -8232,7 +8232,7 @@ func (n *V2BillingMeteredItemUpdatedEventNotification) FetchRelatedObject(ctx co
 // Occurs when a PricingPlan is created.
 type V2BillingPricingPlanCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlan, error)
 }
 
@@ -8245,7 +8245,7 @@ func (e *V2BillingPricingPlanCreatedEvent) FetchRelatedObject(ctx context.Contex
 // Occurs when a PricingPlan is created.
 type V2BillingPricingPlanCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanCreatedEvent that created this Notification
@@ -8271,7 +8271,7 @@ func (n *V2BillingPricingPlanCreatedEventNotification) FetchRelatedObject(ctx co
 // Occurs when a PricingPlan is updated.
 type V2BillingPricingPlanUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlan, error)
 }
 
@@ -8284,7 +8284,7 @@ func (e *V2BillingPricingPlanUpdatedEvent) FetchRelatedObject(ctx context.Contex
 // Occurs when a PricingPlan is updated.
 type V2BillingPricingPlanUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanUpdatedEvent that created this Notification
@@ -8311,7 +8311,7 @@ func (n *V2BillingPricingPlanUpdatedEventNotification) FetchRelatedObject(ctx co
 type V2BillingPricingPlanComponentCreatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingPricingPlanComponentCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                 `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                      `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanComponent, error)
 }
 
@@ -8324,7 +8324,7 @@ func (e *V2BillingPricingPlanComponentCreatedEvent) FetchRelatedObject(ctx conte
 // Occurs when a PricingPlanComponent is created.
 type V2BillingPricingPlanComponentCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanComponentCreatedEvent that created this Notification
@@ -8351,7 +8351,7 @@ func (n *V2BillingPricingPlanComponentCreatedEventNotification) FetchRelatedObje
 type V2BillingPricingPlanComponentUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingPricingPlanComponentUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                 `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                      `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanComponent, error)
 }
 
@@ -8364,7 +8364,7 @@ func (e *V2BillingPricingPlanComponentUpdatedEvent) FetchRelatedObject(ctx conte
 // Occurs when a PricingPlanComponent is updated.
 type V2BillingPricingPlanComponentUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanComponentUpdatedEvent that created this Notification
@@ -8390,7 +8390,7 @@ func (n *V2BillingPricingPlanComponentUpdatedEventNotification) FetchRelatedObje
 // Occurs when a PricingPlanSubscription's collection is awaiting customer action.
 type V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
 }
 
@@ -8403,7 +8403,7 @@ func (e *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent) 
 // Occurs when a PricingPlanSubscription's collection is awaiting customer action.
 type V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent that created this Notification
@@ -8429,7 +8429,7 @@ func (n *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNo
 // Occurs when a PricingPlanSubscription's collection is current.
 type V2BillingPricingPlanSubscriptionCollectionCurrentEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
 }
 
@@ -8442,7 +8442,7 @@ func (e *V2BillingPricingPlanSubscriptionCollectionCurrentEvent) FetchRelatedObj
 // Occurs when a PricingPlanSubscription's collection is current.
 type V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionCurrentEvent that created this Notification
@@ -8468,7 +8468,7 @@ func (n *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) Fet
 // Occurs when a PricingPlanSubscription's collection is past due.
 type V2BillingPricingPlanSubscriptionCollectionPastDueEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
 }
 
@@ -8481,7 +8481,7 @@ func (e *V2BillingPricingPlanSubscriptionCollectionPastDueEvent) FetchRelatedObj
 // Occurs when a PricingPlanSubscription's collection is past due.
 type V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionPastDueEvent that created this Notification
@@ -8507,7 +8507,7 @@ func (n *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) Fet
 // Occurs when a PricingPlanSubscription's collection is paused.
 type V2BillingPricingPlanSubscriptionCollectionPausedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
 }
 
@@ -8520,7 +8520,7 @@ func (e *V2BillingPricingPlanSubscriptionCollectionPausedEvent) FetchRelatedObje
 // Occurs when a PricingPlanSubscription's collection is paused.
 type V2BillingPricingPlanSubscriptionCollectionPausedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionPausedEvent that created this Notification
@@ -8546,7 +8546,7 @@ func (n *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) Fetc
 // Occurs when a PricingPlanSubscription's collection is unpaid.
 type V2BillingPricingPlanSubscriptionCollectionUnpaidEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
 }
 
@@ -8559,7 +8559,7 @@ func (e *V2BillingPricingPlanSubscriptionCollectionUnpaidEvent) FetchRelatedObje
 // Occurs when a PricingPlanSubscription's collection is unpaid.
 type V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionUnpaidEvent that created this Notification
@@ -8585,7 +8585,7 @@ func (n *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) Fetc
 // Occurs when PricingPlanSubscription servicing is activated.
 type V2BillingPricingPlanSubscriptionServicingActivatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
 }
 
@@ -8598,7 +8598,7 @@ func (e *V2BillingPricingPlanSubscriptionServicingActivatedEvent) FetchRelatedOb
 // Occurs when PricingPlanSubscription servicing is activated.
 type V2BillingPricingPlanSubscriptionServicingActivatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingActivatedEvent that created this Notification
@@ -8624,7 +8624,7 @@ func (n *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) Fe
 // Occurs when PricingPlanSubscription servicing is canceled.
 type V2BillingPricingPlanSubscriptionServicingCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
 }
 
@@ -8637,7 +8637,7 @@ func (e *V2BillingPricingPlanSubscriptionServicingCanceledEvent) FetchRelatedObj
 // Occurs when PricingPlanSubscription servicing is canceled.
 type V2BillingPricingPlanSubscriptionServicingCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingCanceledEvent that created this Notification
@@ -8663,7 +8663,7 @@ func (n *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) Fet
 // Occurs when PricingPlanSubscription servicing is paused.
 type V2BillingPricingPlanSubscriptionServicingPausedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
 }
 
@@ -8676,7 +8676,7 @@ func (e *V2BillingPricingPlanSubscriptionServicingPausedEvent) FetchRelatedObjec
 // Occurs when PricingPlanSubscription servicing is paused.
 type V2BillingPricingPlanSubscriptionServicingPausedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingPausedEvent that created this Notification
@@ -8703,7 +8703,7 @@ func (n *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) Fetch
 type V2BillingPricingPlanVersionCreatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingPricingPlanVersionCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                               `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                    `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingPricingPlanVersion, error)
 }
 
@@ -8716,7 +8716,7 @@ func (e *V2BillingPricingPlanVersionCreatedEvent) FetchRelatedObject(ctx context
 // Occurs when a PricingPlanVersion is created.
 type V2BillingPricingPlanVersionCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingPricingPlanVersionCreatedEvent that created this Notification
@@ -8743,7 +8743,7 @@ func (n *V2BillingPricingPlanVersionCreatedEventNotification) FetchRelatedObject
 type V2BillingRateCardCreatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingRateCardCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                     `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject          `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCard, error)
 }
 
@@ -8756,7 +8756,7 @@ func (e *V2BillingRateCardCreatedEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs when a RateCard is created.
 type V2BillingRateCardCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardCreatedEvent that created this Notification
@@ -8782,7 +8782,7 @@ func (n *V2BillingRateCardCreatedEventNotification) FetchRelatedObject(ctx conte
 // Occurs when a RateCard is updated.
 type V2BillingRateCardUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCard, error)
 }
 
@@ -8795,7 +8795,7 @@ func (e *V2BillingRateCardUpdatedEvent) FetchRelatedObject(ctx context.Context) 
 // Occurs when a RateCard is updated.
 type V2BillingRateCardUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardUpdatedEvent that created this Notification
@@ -8822,7 +8822,7 @@ func (n *V2BillingRateCardUpdatedEventNotification) FetchRelatedObject(ctx conte
 type V2BillingRateCardRateCreatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingRateCardRateCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                         `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject              `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardRate, error)
 }
 
@@ -8835,7 +8835,7 @@ func (e *V2BillingRateCardRateCreatedEvent) FetchRelatedObject(ctx context.Conte
 // Occurs when a RateCardRate is created.
 type V2BillingRateCardRateCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardRateCreatedEvent that created this Notification
@@ -8861,7 +8861,7 @@ func (n *V2BillingRateCardRateCreatedEventNotification) FetchRelatedObject(ctx c
 // Occurs when a RateCardSubscription is activated.
 type V2BillingRateCardSubscriptionActivatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -8874,7 +8874,7 @@ func (e *V2BillingRateCardSubscriptionActivatedEvent) FetchRelatedObject(ctx con
 // Occurs when a RateCardSubscription is activated.
 type V2BillingRateCardSubscriptionActivatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionActivatedEvent that created this Notification
@@ -8900,7 +8900,7 @@ func (n *V2BillingRateCardSubscriptionActivatedEventNotification) FetchRelatedOb
 // Occurs when a RateCardSubscription is canceled.
 type V2BillingRateCardSubscriptionCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -8913,7 +8913,7 @@ func (e *V2BillingRateCardSubscriptionCanceledEvent) FetchRelatedObject(ctx cont
 // Occurs when a RateCardSubscription is canceled.
 type V2BillingRateCardSubscriptionCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCanceledEvent that created this Notification
@@ -8939,7 +8939,7 @@ func (n *V2BillingRateCardSubscriptionCanceledEventNotification) FetchRelatedObj
 // Occurs when a RateCardSubscription's collection is awaiting customer action.
 type V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -8952,7 +8952,7 @@ func (e *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent) Fet
 // Occurs when a RateCardSubscription's collection is awaiting customer action.
 type V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent that created this Notification
@@ -8978,7 +8978,7 @@ func (n *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotif
 // Occurs when a RateCardSubscription's collection is current.
 type V2BillingRateCardSubscriptionCollectionCurrentEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -8991,7 +8991,7 @@ func (e *V2BillingRateCardSubscriptionCollectionCurrentEvent) FetchRelatedObject
 // Occurs when a RateCardSubscription's collection is current.
 type V2BillingRateCardSubscriptionCollectionCurrentEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionCurrentEvent that created this Notification
@@ -9017,7 +9017,7 @@ func (n *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) FetchR
 // Occurs when a RateCardSubscription's collection is past due.
 type V2BillingRateCardSubscriptionCollectionPastDueEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -9030,7 +9030,7 @@ func (e *V2BillingRateCardSubscriptionCollectionPastDueEvent) FetchRelatedObject
 // Occurs when a RateCardSubscription's collection is past due.
 type V2BillingRateCardSubscriptionCollectionPastDueEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionPastDueEvent that created this Notification
@@ -9056,7 +9056,7 @@ func (n *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) FetchR
 // Occurs when a RateCardSubscription's collection is paused.
 type V2BillingRateCardSubscriptionCollectionPausedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -9069,7 +9069,7 @@ func (e *V2BillingRateCardSubscriptionCollectionPausedEvent) FetchRelatedObject(
 // Occurs when a RateCardSubscription's collection is paused.
 type V2BillingRateCardSubscriptionCollectionPausedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionPausedEvent that created this Notification
@@ -9095,7 +9095,7 @@ func (n *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchRe
 // Occurs when a RateCardSubscription's collection is unpaid.
 type V2BillingRateCardSubscriptionCollectionUnpaidEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -9108,7 +9108,7 @@ func (e *V2BillingRateCardSubscriptionCollectionUnpaidEvent) FetchRelatedObject(
 // Occurs when a RateCardSubscription's collection is unpaid.
 type V2BillingRateCardSubscriptionCollectionUnpaidEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionUnpaidEvent that created this Notification
@@ -9134,7 +9134,7 @@ func (n *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchRe
 // Occurs when RateCardSubscription servicing is activated.
 type V2BillingRateCardSubscriptionServicingActivatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -9147,7 +9147,7 @@ func (e *V2BillingRateCardSubscriptionServicingActivatedEvent) FetchRelatedObjec
 // Occurs when RateCardSubscription servicing is activated.
 type V2BillingRateCardSubscriptionServicingActivatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingActivatedEvent that created this Notification
@@ -9173,7 +9173,7 @@ func (n *V2BillingRateCardSubscriptionServicingActivatedEventNotification) Fetch
 // Occurs when RateCardSubscription servicing is canceled.
 type V2BillingRateCardSubscriptionServicingCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -9186,7 +9186,7 @@ func (e *V2BillingRateCardSubscriptionServicingCanceledEvent) FetchRelatedObject
 // Occurs when RateCardSubscription servicing is canceled.
 type V2BillingRateCardSubscriptionServicingCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingCanceledEvent that created this Notification
@@ -9212,7 +9212,7 @@ func (n *V2BillingRateCardSubscriptionServicingCanceledEventNotification) FetchR
 // Occurs when RateCardSubscription servicing is paused.
 type V2BillingRateCardSubscriptionServicingPausedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
 }
 
@@ -9225,7 +9225,7 @@ func (e *V2BillingRateCardSubscriptionServicingPausedEvent) FetchRelatedObject(c
 // Occurs when RateCardSubscription servicing is paused.
 type V2BillingRateCardSubscriptionServicingPausedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingPausedEvent that created this Notification
@@ -9252,7 +9252,7 @@ func (n *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchRel
 type V2BillingRateCardVersionCreatedEvent struct {
 	V2BaseEvent
 	Data               V2BillingRateCardVersionCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                            `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                 `json:"related_object"`
 	fetchRelatedObject func() (*V2BillingRateCardVersion, error)
 }
 
@@ -9265,7 +9265,7 @@ func (e *V2BillingRateCardVersionCreatedEvent) FetchRelatedObject(ctx context.Co
 // Occurs when a RateCardVersion is created.
 type V2BillingRateCardVersionCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2BillingRateCardVersionCreatedEvent that created this Notification
@@ -9291,7 +9291,7 @@ func (n *V2BillingRateCardVersionCreatedEventNotification) FetchRelatedObject(ct
 // This event occurs when an account is closed.
 type V2CoreAccountClosedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9304,7 +9304,7 @@ func (e *V2CoreAccountClosedEvent) FetchRelatedObject(ctx context.Context) (*V2C
 // This event occurs when an account is closed.
 type V2CoreAccountClosedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountClosedEvent that created this Notification
@@ -9330,7 +9330,7 @@ func (n *V2CoreAccountClosedEventNotification) FetchRelatedObject(ctx context.Co
 // Occurs when an Account is created.
 type V2CoreAccountCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9343,7 +9343,7 @@ func (e *V2CoreAccountCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2
 // Occurs when an Account is created.
 type V2CoreAccountCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountCreatedEvent that created this Notification
@@ -9369,7 +9369,7 @@ func (n *V2CoreAccountCreatedEventNotification) FetchRelatedObject(ctx context.C
 // Occurs when an Account is updated.
 type V2CoreAccountUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9382,7 +9382,7 @@ func (e *V2CoreAccountUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2
 // Occurs when an Account is updated.
 type V2CoreAccountUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountUpdatedEvent that created this Notification
@@ -9409,7 +9409,7 @@ func (n *V2CoreAccountUpdatedEventNotification) FetchRelatedObject(ctx context.C
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                               `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                                                    `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9422,7 +9422,7 @@ func (e *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent
 // Occurs when the status of an Account's customer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent that created this Notification
@@ -9448,7 +9448,7 @@ func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent
 // Occurs when an Account's customer configuration is updated.
 type V2CoreAccountIncludingConfigurationCustomerUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9461,7 +9461,7 @@ func (e *V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedOb
 // Occurs when an Account's customer configuration is updated.
 type V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerUpdatedEvent that created this Notification
@@ -9488,7 +9488,7 @@ func (n *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) Fe
 type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                               `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                                                    `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9501,7 +9501,7 @@ func (e *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent
 // Occurs when the status of an Account's merchant configuration capability is updated.
 type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent that created this Notification
@@ -9527,7 +9527,7 @@ func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent
 // Occurs when an Account's merchant configuration is updated.
 type V2CoreAccountIncludingConfigurationMerchantUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9540,7 +9540,7 @@ func (e *V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedOb
 // Occurs when an Account's merchant configuration is updated.
 type V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantUpdatedEvent that created this Notification
@@ -9567,7 +9567,7 @@ func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) Fe
 type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                                `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                                                     `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9580,7 +9580,7 @@ func (e *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEven
 // Occurs when the status of an Account's recipient configuration capability is updated.
 type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent that created this Notification
@@ -9606,7 +9606,7 @@ func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEven
 // Occurs when a Recipient's configuration is updated.
 type V2CoreAccountIncludingConfigurationRecipientUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9619,7 +9619,7 @@ func (e *V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedO
 // Occurs when a Recipient's configuration is updated.
 type V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientUpdatedEvent that created this Notification
@@ -9646,7 +9646,7 @@ func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) F
 type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                                                             `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                                                  `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9659,7 +9659,7 @@ func (e *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent) 
 // Occurs when the status of an Account's storer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent that created this Notification
@@ -9685,7 +9685,7 @@ func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNo
 // Occurs when a Storer's configuration is updated.
 type V2CoreAccountIncludingConfigurationStorerUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9698,7 +9698,7 @@ func (e *V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObje
 // Occurs when a Storer's configuration is updated.
 type V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerUpdatedEvent that created this Notification
@@ -9724,7 +9724,7 @@ func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) Fetc
 // This event occurs when account defaults are created or updated.
 type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9737,7 +9737,7 @@ func (e *V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject(ctx cont
 // This event occurs when account defaults are created or updated.
 type V2CoreAccountIncludingDefaultsUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingDefaultsUpdatedEvent that created this Notification
@@ -9763,7 +9763,7 @@ func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchRelatedObj
 // Occurs when an Identity is updated.
 type V2CoreAccountIncludingIdentityUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9776,7 +9776,7 @@ func (e *V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject(ctx cont
 // Occurs when an Identity is updated.
 type V2CoreAccountIncludingIdentityUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingIdentityUpdatedEvent that created this Notification
@@ -9802,7 +9802,7 @@ func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchRelatedObj
 // Occurs when an Account's requirements are updated.
 type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -9815,7 +9815,7 @@ func (e *V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject(ctx 
 // Occurs when an Account's requirements are updated.
 type V2CoreAccountIncludingRequirementsUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountIncludingRequirementsUpdatedEvent that created this Notification
@@ -9864,7 +9864,7 @@ func (n *V2CoreAccountLinkReturnedEventNotification) FetchEvent(ctx context.Cont
 type V2CoreAccountPersonCreatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject            `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
@@ -9877,7 +9877,7 @@ func (e *V2CoreAccountPersonCreatedEvent) FetchRelatedObject(ctx context.Context
 // Occurs when a Person is created.
 type V2CoreAccountPersonCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountPersonCreatedEvent that created this Notification
@@ -9904,7 +9904,7 @@ func (n *V2CoreAccountPersonCreatedEventNotification) FetchRelatedObject(ctx con
 type V2CoreAccountPersonDeletedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject            `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
@@ -9917,7 +9917,7 @@ func (e *V2CoreAccountPersonDeletedEvent) FetchRelatedObject(ctx context.Context
 // Occurs when a Person is deleted.
 type V2CoreAccountPersonDeletedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountPersonDeletedEvent that created this Notification
@@ -9944,7 +9944,7 @@ func (n *V2CoreAccountPersonDeletedEventNotification) FetchRelatedObject(ctx con
 type V2CoreAccountPersonUpdatedEvent struct {
 	V2BaseEvent
 	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
-	RelatedObject      RelatedObject                       `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject            `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccountPerson, error)
 }
 
@@ -9957,7 +9957,7 @@ func (e *V2CoreAccountPersonUpdatedEvent) FetchRelatedObject(ctx context.Context
 // Occurs when a Person is updated.
 type V2CoreAccountPersonUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreAccountPersonUpdatedEvent that created this Notification
@@ -9983,7 +9983,7 @@ func (n *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx con
 // Occurs when a claimable sandbox is claimed.
 type V2CoreClaimableSandboxClaimedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
 }
 
@@ -9996,7 +9996,7 @@ func (e *V2CoreClaimableSandboxClaimedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs when a claimable sandbox is claimed.
 type V2CoreClaimableSandboxClaimedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxClaimedEvent that created this Notification
@@ -10022,7 +10022,7 @@ func (n *V2CoreClaimableSandboxClaimedEventNotification) FetchRelatedObject(ctx 
 // Occurs when a claimable sandbox is created.
 type V2CoreClaimableSandboxCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
 }
 
@@ -10035,7 +10035,7 @@ func (e *V2CoreClaimableSandboxCreatedEvent) FetchRelatedObject(ctx context.Cont
 // Occurs when a claimable sandbox is created.
 type V2CoreClaimableSandboxCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxCreatedEvent that created this Notification
@@ -10061,7 +10061,7 @@ func (n *V2CoreClaimableSandboxCreatedEventNotification) FetchRelatedObject(ctx 
 // Occurs when a claimable sandbox expires.
 type V2CoreClaimableSandboxExpiredEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
 }
 
@@ -10074,7 +10074,7 @@ func (e *V2CoreClaimableSandboxExpiredEvent) FetchRelatedObject(ctx context.Cont
 // Occurs when a claimable sandbox expires.
 type V2CoreClaimableSandboxExpiredEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxExpiredEvent that created this Notification
@@ -10100,7 +10100,7 @@ func (n *V2CoreClaimableSandboxExpiredEventNotification) FetchRelatedObject(ctx 
 // Occurs when a claimable sandbox is expiring in 7 days.
 type V2CoreClaimableSandboxExpiringEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
 }
 
@@ -10113,7 +10113,7 @@ func (e *V2CoreClaimableSandboxExpiringEvent) FetchRelatedObject(ctx context.Con
 // Occurs when a claimable sandbox is expiring in 7 days.
 type V2CoreClaimableSandboxExpiringEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxExpiringEvent that created this Notification
@@ -10139,7 +10139,7 @@ func (n *V2CoreClaimableSandboxExpiringEventNotification) FetchRelatedObject(ctx
 // Occurs when a claimable sandbox is activated by the user with the intention to go live and your Stripe app is installed on the live account.
 type V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreClaimableSandbox, error)
 }
 
@@ -10152,7 +10152,7 @@ func (e *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent) FetchRela
 // Occurs when a claimable sandbox is activated by the user with the intention to go live and your Stripe app is installed on the live account.
 type V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEvent that created this Notification
@@ -10613,7 +10613,7 @@ func (n *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx con
 // Occurs when an Adjustment is created.
 type V2MoneyManagementAdjustmentCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementAdjustment, error)
 }
 
@@ -10626,7 +10626,7 @@ func (e *V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject(ctx context
 // Occurs when an Adjustment is created.
 type V2MoneyManagementAdjustmentCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementAdjustmentCreatedEvent that created this Notification
@@ -10652,7 +10652,7 @@ func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchRelatedObject
 // Occurs when a FinancialAccount is created.
 type V2MoneyManagementFinancialAccountCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
 }
 
@@ -10665,7 +10665,7 @@ func (e *V2MoneyManagementFinancialAccountCreatedEvent) FetchRelatedObject(ctx c
 // Occurs when a FinancialAccount is created.
 type V2MoneyManagementFinancialAccountCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountCreatedEvent that created this Notification
@@ -10691,7 +10691,7 @@ func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchRelated
 // Occurs when a FinancialAccount is updated.
 type V2MoneyManagementFinancialAccountUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
 }
 
@@ -10704,7 +10704,7 @@ func (e *V2MoneyManagementFinancialAccountUpdatedEvent) FetchRelatedObject(ctx c
 // Occurs when a FinancialAccount is updated.
 type V2MoneyManagementFinancialAccountUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountUpdatedEvent that created this Notification
@@ -10730,7 +10730,7 @@ func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelated
 // Occurs when a FinancialAddress is activated and is ready to receive funds.
 type V2MoneyManagementFinancialAddressActivatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
 }
 
@@ -10743,7 +10743,7 @@ func (e *V2MoneyManagementFinancialAddressActivatedEvent) FetchRelatedObject(ctx
 // Occurs when a FinancialAddress is activated and is ready to receive funds.
 type V2MoneyManagementFinancialAddressActivatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressActivatedEvent that created this Notification
@@ -10769,7 +10769,7 @@ func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchRelat
 // Occurs when a FinancialAddress fails to activate and can not receive funds.
 type V2MoneyManagementFinancialAddressFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
 }
 
@@ -10782,7 +10782,7 @@ func (e *V2MoneyManagementFinancialAddressFailedEvent) FetchRelatedObject(ctx co
 // Occurs when a FinancialAddress fails to activate and can not receive funds.
 type V2MoneyManagementFinancialAddressFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressFailedEvent that created this Notification
@@ -10809,7 +10809,7 @@ func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchRelatedO
 type V2MoneyManagementInboundTransferAvailableEvent struct {
 	V2BaseEvent
 	Data               V2MoneyManagementInboundTransferAvailableEventData `json:"data"`
-	RelatedObject      RelatedObject                                      `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                           `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -10822,7 +10822,7 @@ func (e *V2MoneyManagementInboundTransferAvailableEvent) FetchRelatedObject(ctx 
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferAvailableEvent that created this Notification
@@ -10848,7 +10848,7 @@ func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchRelate
 // Occurs when an InboundTransfer fails.
 type V2MoneyManagementInboundTransferBankDebitFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -10861,7 +10861,7 @@ func (e *V2MoneyManagementInboundTransferBankDebitFailedEvent) FetchRelatedObjec
 // Occurs when an InboundTransfer fails.
 type V2MoneyManagementInboundTransferBankDebitFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitFailedEvent that created this Notification
@@ -10887,7 +10887,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) Fetch
 // Occurs when an InboundTransfer starts processing.
 type V2MoneyManagementInboundTransferBankDebitProcessingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -10900,7 +10900,7 @@ func (e *V2MoneyManagementInboundTransferBankDebitProcessingEvent) FetchRelatedO
 // Occurs when an InboundTransfer starts processing.
 type V2MoneyManagementInboundTransferBankDebitProcessingEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitProcessingEvent that created this Notification
@@ -10926,7 +10926,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) F
 // Occurs when an InboundTransfer is queued.
 type V2MoneyManagementInboundTransferBankDebitQueuedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -10939,7 +10939,7 @@ func (e *V2MoneyManagementInboundTransferBankDebitQueuedEvent) FetchRelatedObjec
 // Occurs when an InboundTransfer is queued.
 type V2MoneyManagementInboundTransferBankDebitQueuedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitQueuedEvent that created this Notification
@@ -10965,7 +10965,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) Fetch
 // Occurs when an InboundTransfer is returned.
 type V2MoneyManagementInboundTransferBankDebitReturnedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -10978,7 +10978,7 @@ func (e *V2MoneyManagementInboundTransferBankDebitReturnedEvent) FetchRelatedObj
 // Occurs when an InboundTransfer is returned.
 type V2MoneyManagementInboundTransferBankDebitReturnedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitReturnedEvent that created this Notification
@@ -11004,7 +11004,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) Fet
 // Occurs when an InboundTransfer succeeds.
 type V2MoneyManagementInboundTransferBankDebitSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -11017,7 +11017,7 @@ func (e *V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedOb
 // Occurs when an InboundTransfer succeeds.
 type V2MoneyManagementInboundTransferBankDebitSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitSucceededEvent that created this Notification
@@ -11043,7 +11043,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) Fe
 // Occurs when an OutboundPayment transitions into the canceled state.
 type V2MoneyManagementOutboundPaymentCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -11056,7 +11056,7 @@ func (e *V2MoneyManagementOutboundPaymentCanceledEvent) FetchRelatedObject(ctx c
 // Occurs when an OutboundPayment transitions into the canceled state.
 type V2MoneyManagementOutboundPaymentCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCanceledEvent that created this Notification
@@ -11082,7 +11082,7 @@ func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchRelated
 // Occurs when an OutboundPayment is created.
 type V2MoneyManagementOutboundPaymentCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -11095,7 +11095,7 @@ func (e *V2MoneyManagementOutboundPaymentCreatedEvent) FetchRelatedObject(ctx co
 // Occurs when an OutboundPayment is created.
 type V2MoneyManagementOutboundPaymentCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCreatedEvent that created this Notification
@@ -11121,7 +11121,7 @@ func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchRelatedO
 // Occurs when an OutboundPayment transitions into the failed state.
 type V2MoneyManagementOutboundPaymentFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -11134,7 +11134,7 @@ func (e *V2MoneyManagementOutboundPaymentFailedEvent) FetchRelatedObject(ctx con
 // Occurs when an OutboundPayment transitions into the failed state.
 type V2MoneyManagementOutboundPaymentFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentFailedEvent that created this Notification
@@ -11160,7 +11160,7 @@ func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchRelatedOb
 // Occurs when an OutboundPayment transitions into the posted state.
 type V2MoneyManagementOutboundPaymentPostedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -11173,7 +11173,7 @@ func (e *V2MoneyManagementOutboundPaymentPostedEvent) FetchRelatedObject(ctx con
 // Occurs when an OutboundPayment transitions into the posted state.
 type V2MoneyManagementOutboundPaymentPostedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentPostedEvent that created this Notification
@@ -11199,7 +11199,7 @@ func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchRelatedOb
 // Occurs when an OutboundPayment transitions into the returned state.
 type V2MoneyManagementOutboundPaymentReturnedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -11212,7 +11212,7 @@ func (e *V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject(ctx c
 // Occurs when an OutboundPayment transitions into the returned state.
 type V2MoneyManagementOutboundPaymentReturnedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentReturnedEvent that created this Notification
@@ -11238,7 +11238,7 @@ func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchRelated
 // Occurs when an OutboundPayment is updated.
 type V2MoneyManagementOutboundPaymentUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -11251,7 +11251,7 @@ func (e *V2MoneyManagementOutboundPaymentUpdatedEvent) FetchRelatedObject(ctx co
 // Occurs when an OutboundPayment is updated.
 type V2MoneyManagementOutboundPaymentUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentUpdatedEvent that created this Notification
@@ -11277,7 +11277,7 @@ func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchRelatedO
 // Occurs when an OutboundTransfer transitions into the canceled state.
 type V2MoneyManagementOutboundTransferCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -11290,7 +11290,7 @@ func (e *V2MoneyManagementOutboundTransferCanceledEvent) FetchRelatedObject(ctx 
 // Occurs when an OutboundTransfer transitions into the canceled state.
 type V2MoneyManagementOutboundTransferCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCanceledEvent that created this Notification
@@ -11316,7 +11316,7 @@ func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchRelate
 // Occurs when an OutboundTransfer is created.
 type V2MoneyManagementOutboundTransferCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -11329,7 +11329,7 @@ func (e *V2MoneyManagementOutboundTransferCreatedEvent) FetchRelatedObject(ctx c
 // Occurs when an OutboundTransfer is created.
 type V2MoneyManagementOutboundTransferCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCreatedEvent that created this Notification
@@ -11355,7 +11355,7 @@ func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchRelated
 // Occurs when an OutboundTransfer transitions into the failed state.
 type V2MoneyManagementOutboundTransferFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -11368,7 +11368,7 @@ func (e *V2MoneyManagementOutboundTransferFailedEvent) FetchRelatedObject(ctx co
 // Occurs when an OutboundTransfer transitions into the failed state.
 type V2MoneyManagementOutboundTransferFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferFailedEvent that created this Notification
@@ -11394,7 +11394,7 @@ func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchRelatedO
 // Occurs when an OutboundTransfer transitions into the posted state.
 type V2MoneyManagementOutboundTransferPostedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -11407,7 +11407,7 @@ func (e *V2MoneyManagementOutboundTransferPostedEvent) FetchRelatedObject(ctx co
 // Occurs when an OutboundTransfer transitions into the posted state.
 type V2MoneyManagementOutboundTransferPostedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferPostedEvent that created this Notification
@@ -11433,7 +11433,7 @@ func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchRelatedO
 // Occurs when an OutboundTransfer transitions into the returned state.
 type V2MoneyManagementOutboundTransferReturnedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -11446,7 +11446,7 @@ func (e *V2MoneyManagementOutboundTransferReturnedEvent) FetchRelatedObject(ctx 
 // Occurs when an OutboundTransfer transitions into the returned state.
 type V2MoneyManagementOutboundTransferReturnedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferReturnedEvent that created this Notification
@@ -11472,7 +11472,7 @@ func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchRelate
 // Event that is emitted every time an Outbound Transfer is updated.
 type V2MoneyManagementOutboundTransferUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -11485,7 +11485,7 @@ func (e *V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject(ctx c
 // Event that is emitted every time an Outbound Transfer is updated.
 type V2MoneyManagementOutboundTransferUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferUpdatedEvent that created this Notification
@@ -11511,7 +11511,7 @@ func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelated
 // Occurs when a PayoutMethod is updated.
 type V2MoneyManagementPayoutMethodUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementPayoutMethod, error)
 }
 
@@ -11524,7 +11524,7 @@ func (e *V2MoneyManagementPayoutMethodUpdatedEvent) FetchRelatedObject(ctx conte
 // Occurs when a PayoutMethod is updated.
 type V2MoneyManagementPayoutMethodUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementPayoutMethodUpdatedEvent that created this Notification
@@ -11551,7 +11551,7 @@ func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchRelatedObje
 type V2MoneyManagementReceivedCreditAvailableEvent struct {
 	V2BaseEvent
 	Data               V2MoneyManagementReceivedCreditAvailableEventData `json:"data"`
-	RelatedObject      RelatedObject                                     `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                          `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
@@ -11564,7 +11564,7 @@ func (e *V2MoneyManagementReceivedCreditAvailableEvent) FetchRelatedObject(ctx c
 // Occurs when a ReceivedCredit's funds are received and are available in your balance.
 type V2MoneyManagementReceivedCreditAvailableEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditAvailableEvent that created this Notification
@@ -11590,7 +11590,7 @@ func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchRelated
 // Occurs when a ReceivedCredit is attempted to your balance and fails. See the status_details for more information.
 type V2MoneyManagementReceivedCreditFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
@@ -11603,7 +11603,7 @@ func (e *V2MoneyManagementReceivedCreditFailedEvent) FetchRelatedObject(ctx cont
 // Occurs when a ReceivedCredit is attempted to your balance and fails. See the status_details for more information.
 type V2MoneyManagementReceivedCreditFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditFailedEvent that created this Notification
@@ -11629,7 +11629,7 @@ func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchRelatedObj
 // Occurs when a ReceivedCredit is reversed, returned to the originator, and deducted from your balance.
 type V2MoneyManagementReceivedCreditReturnedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
@@ -11642,7 +11642,7 @@ func (e *V2MoneyManagementReceivedCreditReturnedEvent) FetchRelatedObject(ctx co
 // Occurs when a ReceivedCredit is reversed, returned to the originator, and deducted from your balance.
 type V2MoneyManagementReceivedCreditReturnedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditReturnedEvent that created this Notification
@@ -11668,7 +11668,7 @@ func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchRelatedO
 // Occurs when a ReceivedCredit succeeds.
 type V2MoneyManagementReceivedCreditSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
@@ -11681,7 +11681,7 @@ func (e *V2MoneyManagementReceivedCreditSucceededEvent) FetchRelatedObject(ctx c
 // Occurs when a ReceivedCredit succeeds.
 type V2MoneyManagementReceivedCreditSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditSucceededEvent that created this Notification
@@ -11707,7 +11707,7 @@ func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchRelated
 // Occurs when a ReceivedDebit is canceled.
 type V2MoneyManagementReceivedDebitCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -11720,7 +11720,7 @@ func (e *V2MoneyManagementReceivedDebitCanceledEvent) FetchRelatedObject(ctx con
 // Occurs when a ReceivedDebit is canceled.
 type V2MoneyManagementReceivedDebitCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitCanceledEvent that created this Notification
@@ -11746,7 +11746,7 @@ func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchRelatedOb
 // Occurs when a ReceivedDebit fails.
 type V2MoneyManagementReceivedDebitFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -11759,7 +11759,7 @@ func (e *V2MoneyManagementReceivedDebitFailedEvent) FetchRelatedObject(ctx conte
 // Occurs when a ReceivedDebit fails.
 type V2MoneyManagementReceivedDebitFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitFailedEvent that created this Notification
@@ -11785,7 +11785,7 @@ func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchRelatedObje
 // Occurs when a ReceivedDebit is set to pending.
 type V2MoneyManagementReceivedDebitPendingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -11798,7 +11798,7 @@ func (e *V2MoneyManagementReceivedDebitPendingEvent) FetchRelatedObject(ctx cont
 // Occurs when a ReceivedDebit is set to pending.
 type V2MoneyManagementReceivedDebitPendingEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitPendingEvent that created this Notification
@@ -11824,7 +11824,7 @@ func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchRelatedObj
 // Occurs when a ReceivedDebit succeeds.
 type V2MoneyManagementReceivedDebitSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -11837,7 +11837,7 @@ func (e *V2MoneyManagementReceivedDebitSucceededEvent) FetchRelatedObject(ctx co
 // Occurs when a ReceivedDebit succeeds.
 type V2MoneyManagementReceivedDebitSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitSucceededEvent that created this Notification
@@ -11863,7 +11863,7 @@ func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchRelatedO
 // Occurs when a ReceivedDebit is updated.
 type V2MoneyManagementReceivedDebitUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -11876,7 +11876,7 @@ func (e *V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject(ctx cont
 // Occurs when a ReceivedDebit is updated.
 type V2MoneyManagementReceivedDebitUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitUpdatedEvent that created this Notification
@@ -11902,7 +11902,7 @@ func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObj
 // Occurs when a RecipientVerification is created.
 type V2MoneyManagementRecipientVerificationCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementRecipientVerification, error)
 }
 
@@ -11915,7 +11915,7 @@ func (e *V2MoneyManagementRecipientVerificationCreatedEvent) FetchRelatedObject(
 // Occurs when a RecipientVerification is created.
 type V2MoneyManagementRecipientVerificationCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementRecipientVerificationCreatedEvent that created this Notification
@@ -11941,7 +11941,7 @@ func (n *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchRe
 // Occurs when a RecipientVerification is updated.
 type V2MoneyManagementRecipientVerificationUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementRecipientVerification, error)
 }
 
@@ -11954,7 +11954,7 @@ func (e *V2MoneyManagementRecipientVerificationUpdatedEvent) FetchRelatedObject(
 // Occurs when a RecipientVerification is updated.
 type V2MoneyManagementRecipientVerificationUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementRecipientVerificationUpdatedEvent that created this Notification
@@ -11980,7 +11980,7 @@ func (n *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchRe
 // Occurs when a Transaction is created.
 type V2MoneyManagementTransactionCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
 }
 
@@ -11993,7 +11993,7 @@ func (e *V2MoneyManagementTransactionCreatedEvent) FetchRelatedObject(ctx contex
 // Occurs when a Transaction is created.
 type V2MoneyManagementTransactionCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementTransactionCreatedEvent that created this Notification
@@ -12019,7 +12019,7 @@ func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchRelatedObjec
 // Occurs when a Transaction is updated.
 type V2MoneyManagementTransactionUpdatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
 }
 
@@ -12032,7 +12032,7 @@ func (e *V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject(ctx contex
 // Occurs when a Transaction is updated.
 type V2MoneyManagementTransactionUpdatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2MoneyManagementTransactionUpdatedEvent that created this Notification
@@ -12058,7 +12058,7 @@ func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObjec
 // Sent after a failed authorization if there are still retries available on the OffSessionPayment.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -12071,7 +12071,7 @@ func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelate
 // Sent after a failed authorization if there are still retries available on the OffSessionPayment.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent that created this Notification
@@ -12098,7 +12098,7 @@ func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification)
 // retry or an initial authorization.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -12112,7 +12112,7 @@ func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelat
 // retry or an initial authorization.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent that created this Notification
@@ -12138,7 +12138,7 @@ func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification
 // Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
 type V2PaymentsOffSessionPaymentCanceledEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -12151,7 +12151,7 @@ func (e *V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject(ctx contex
 // Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
 type V2PaymentsOffSessionPaymentCanceledEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentCanceledEvent that created this Notification
@@ -12177,7 +12177,7 @@ func (n *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchRelatedObjec
 // Sent immediately following a user's call to the Off-Session Payments create endpoint.
 type V2PaymentsOffSessionPaymentCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -12190,7 +12190,7 @@ func (e *V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject(ctx context
 // Sent immediately following a user's call to the Off-Session Payments create endpoint.
 type V2PaymentsOffSessionPaymentCreatedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentCreatedEvent that created this Notification
@@ -12216,7 +12216,7 @@ func (n *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchRelatedObject
 // Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
 type V2PaymentsOffSessionPaymentFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -12229,7 +12229,7 @@ func (e *V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject(ctx context.
 // Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
 type V2PaymentsOffSessionPaymentFailedEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentFailedEvent that created this Notification
@@ -12255,7 +12255,7 @@ func (n *V2PaymentsOffSessionPaymentFailedEventNotification) FetchRelatedObject(
 // Off-Session payment requires capture event definition.
 type V2PaymentsOffSessionPaymentRequiresCaptureEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -12268,7 +12268,7 @@ func (e *V2PaymentsOffSessionPaymentRequiresCaptureEvent) FetchRelatedObject(ctx
 // Off-Session payment requires capture event definition.
 type V2PaymentsOffSessionPaymentRequiresCaptureEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentRequiresCaptureEvent that created this Notification
@@ -12294,7 +12294,7 @@ func (n *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification) FetchRelat
 // Sent immediately after a successful authorization.
 type V2PaymentsOffSessionPaymentSucceededEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -12307,7 +12307,7 @@ func (e *V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject(ctx conte
 // Sent immediately after a successful authorization.
 type V2PaymentsOffSessionPaymentSucceededEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentSucceededEvent that created this Notification
