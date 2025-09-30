@@ -52,8 +52,8 @@ type V2CoreEvent interface {
 // type when the event type is not known.
 type V2CoreRawEvent struct {
 	V2BaseEvent
-	Data          *json.RawMessage          `json:"data"`
-	RelatedObject *V2CoreEventRelatedObject `json:"related_object"`
+	Data          *json.RawMessage `json:"data"`
+	RelatedObject *RelatedObject   `json:"related_object"`
 }
 
 // Used for everything internal to the EventNotifications
