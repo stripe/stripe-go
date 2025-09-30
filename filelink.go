@@ -6,7 +6,7 @@
 
 package stripe
 
-import "github.com/stripe/stripe-go/v82/form"
+import "github.com/stripe/stripe-go/v83/form"
 
 // Returns a list of file links.
 type FileLinkListParams struct {

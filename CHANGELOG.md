@@ -1,5 +1,88 @@
 # Changelog
 
+## 83.0.0 - 2025-09-30
+This release changes the pinned API version to `2025-09-30.basil` and contains breaking changes (prefixed with ⚠️ below)
+
+* [#2121](https://github.com/stripe/stripe-go/pull/2121) Add strongly typed EventNotifications
+  We've overhauled how V2 Events are handled in the SDK! This approach should provide a lot more information at authoring and compile time, leading to more robust integrations. As part of this process, there are a number of changes to be aware of.
+  - ⚠️ Rename function `Client.ParseThinEvent` to `Client.ParseEventNotification` and remove the `ThinEvent` struct.
+      - This function now returns a `EventNotificationContainer` (which is an interface that all `EventNotification`s adhere to) instead of `ThinEvent`. When applicable, these event notifications will have the `RelatedObject` field and a function `FetchRelatedObject()`. They also have a `FetchEvent()` method to retrieve their corresponding event.
+      - If you parse an event the SDK doesn't have types for (e.g. it's newer than the SDK you're using), you'll get an instance of `UnknownEventNotification` instead of a more specific type. It has both the `RelatedObject` field and the function `FetchRelatedObject()` (but they may be `nil`)
+  - ⚠️ Removed `API.parseThinEvent`. Use `Client.ParseEventNotification` instead (referring to the [migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client) if necessary).
+* [#2133](https://github.com/stripe/stripe-go/pull/2133) Add `StripeContext` object
+  - Add the `stripe.Context` struct. Previously, you could set the stripe context only as a string via `SetStripeContext()`. You can now set it using the new struct as well via `SetStripeContextFrom()`.
+  - ⚠️ Change `EventNotification` (formerly known as `ThinEvent`)'s `context` property from `string` to `stripe.Context`
+* [#2114](https://github.com/stripe/stripe-go/pull/2114) ⚠️ Build SDK w/ V2 OpenAPI spec
+  - ⚠️ The delete methods for v2 APIs (the ones in the `V2` prefix) now return a `V2DeletedObject` which has the id of the object that has been deleted and a string representing the type of the object that has been deleted.
+  - ⚠️ Nullable properties on objects returned by v2 APIs now have the `omitempty` annotation
+* [#2138](https://github.com/stripe/stripe-go/pull/2138) Move `V2.Event` API resources to `V2.Core.Events`
+  - ⚠️ Rename all types starting with `V2Event` to start with `V2CoreEvent`. For example
+     - `V2EventNotification` -> `V2CoreEventNotification`
+     - `V2EventReason` -> `V2CoreEventReason`
+     - `V2Event` -> `V2CoreEvent`
+     - `V2RawEvent` -> `V2CoreRawEvent`
+     - `V2EventDestination` -> V`2CoreEventDestination`
+* [#2143](https://github.com/stripe/stripe-go/pull/2143) Change RelatedObject to V2CoreEventRelatedObject
+  - ⚠️ Changes the name of the `stripe.RelatedObject` struct to `stripe.V2CoreEventRelatedObject`.
+* [#2142](https://github.com/stripe/stripe-go/pull/2142) ⚠️ Drop support for Go < 1.20 & clarify policy
+  - Read our new [language version support policy](https://docs.stripe.com/sdks/versioning?server=go#stripe-sdk-language-version-support-policy)
+     - ⚠️ In this release, we drop support for Go versions 1.18 and 1.19
+     - Go 1.20 and 1.21 support is deprecated will be removed in the next scheduled major release (March 2026)
+* [#2134](https://github.com/stripe/stripe-go/pull/2134) Remove extraneous parameters from `CardUpdateParams` and `BankAccountUpdateParams`
+  - ⚠️ Removes `address_city`, `address_country`, `address_line1`, `address_line2`, `address_state`, `address_zip`, `exp_month`, `exp_year`, and `name` from `BankAccountUpdateParams`. These were not valid fields, so always received a 400 from the server if set.
+  - ⚠️ Removes `account_holder_name`, `account_holder_type`, `cvc`, `number`, and `owner` from `CardAccountParams`. These were not valid fields, so always received a 400 from the server if set.
+* [#2129](https://github.com/stripe/stripe-go/pull/2129) Add `context.Context` param to `V2CoreEventDestinations.Ping`
+  *  ⚠️ Adds a `context.Context` parameter to the `V2CoreEventDestinations.Ping` method on `stripe.Client`
+* [#2117](https://github.com/stripe/stripe-go/pull/2117) Add LastResponse to resources returned in List and Search APIs
+  - Add a `LastResponse` to each resource returned from either a `List` or `Search` API call using `stripe.Client`. The `RawJSON` is the JSON corresponding to just that item. This is useful for accessing fields not exposed in the SDK.
+  ```
+  for cust, err := range sc.V1Customers.List(context.TODO(), &stripe.CustomerListParams{}) {
+      if err != nil {
+          return err
+      }
+      customerJSON := cust.LastResponse.RawJSON
+      log.Printf("Customer JSON: %s", customerJSON) // {"id":"cus_123",...}
+  }
+  ```
+
+* [#2119](https://github.com/stripe/stripe-go/pull/2119), [#2115](https://github.com/stripe/stripe-go/pull/2115), [#2130](https://github.com/stripe/stripe-go/pull/2130), [#2140](https://github.com/stripe/stripe-go/pull/2140) Update generated code based on incoming API changes in the `2025-09-30.basil` API version.
+  * ⚠️ Remove support for `BalanceReport` and `PayoutReconciliationReport` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+  * ⚠️ Remove support for `Coupon` on `Discount`, `PromotionCodeParams`, and `PromotionCode`. Use `Discount.Source.Coupon`, `PromotionCodeParams.Promotion.Coupon` and `PromotionCode.Promotion.Coupon` instead.
+  * ⚠️ Remove support for values `saturday` and `sunday` from enum `AccountSettingsPayoutsSchedule.WeeklyPayoutDays`
+  * ⚠️ Remove support for `Iterations` on `InvoiceCreatePreviewScheduleDetailsPhaseParams` and `SubscriptionSchedulePhaseParams`
+  * ⚠️ Remove support for `Link` and `PayByBank` on `PaymentMethodParams`
+  * Add support for new value `prevented` on enum `Dispute.Status`
+  * Add support for new resource `BalanceSettings`
+  * Add support for `Get` and `Update` methods on resource `BalanceSettings`
+  * Add support for new values `external_request` and `unsupported_business_type` on enums `BankAccountFutureRequirementsErrors.Code` and `BankAccountRequirementsErrors.Code`
+  * Add support for `Source` on `Discount`
+  * Add support for `MbWayPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `TrialUpdateBehavior` on `BillingPortalConfigurationFeaturesSubscriptionUpdateParams` and `BillingPortalConfigurationFeaturesSubscriptionUpdate`
+  * Add support for `MbWay` on `ChargePaymentMethodDetails`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `BrandingSettings` and `NameCollection` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `ExcludedPaymentMethodTypes` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentIntentConfirmParams`, and `PaymentIntentParams`
+  * Add support for `UnitLabel` on `CheckoutSessionLineItemPriceDataProductDataParams`, `InvoiceAddLinesLinePriceDataProductDataParams`, `InvoiceLineItemPriceDataProductDataParams`, `InvoiceUpdateLinesLinePriceDataProductDataParams`, and `PaymentLinkLineItemPriceDataProductDataParams`
+  * Add support for `Alma`, `Billie`, and `Satispay` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for `DemoPay` on `CheckoutSessionPaymentMethodOptionsParams`
+  * Add support for `CaptureMethod` on `CheckoutSessionPaymentMethodOptionsAffirmParams`, `CheckoutSessionPaymentMethodOptionsAffirm`, `CheckoutSessionPaymentMethodOptionsAfterpayClearpayParams`, `CheckoutSessionPaymentMethodOptionsAfterpayClearpay`, `CheckoutSessionPaymentMethodOptionsAmazonPayParams`, `CheckoutSessionPaymentMethodOptionsAmazonPay`, `CheckoutSessionPaymentMethodOptionsCardParams`, `CheckoutSessionPaymentMethodOptionsCard`, `CheckoutSessionPaymentMethodOptionsCashappParams`, `CheckoutSessionPaymentMethodOptionsCashapp`, `CheckoutSessionPaymentMethodOptionsKlarnaParams`, `CheckoutSessionPaymentMethodOptionsKlarna`, `CheckoutSessionPaymentMethodOptionsLinkParams`, `CheckoutSessionPaymentMethodOptionsLink`, `CheckoutSessionPaymentMethodOptionsMobilepayParams`, `CheckoutSessionPaymentMethodOptionsMobilepay`, `CheckoutSessionPaymentMethodOptionsRevolutPayParams`, and `CheckoutSessionPaymentMethodOptionsRevolutPay`
+  * Add support for `Flexible` on `CheckoutSessionSubscriptionDataBillingModeParams`, `InvoiceCreatePreviewScheduleDetailsBillingModeParams`, `InvoiceCreatePreviewSubscriptionDetailsBillingModeParams`, `QuoteSubscriptionDataBillingModeParams`, `QuoteSubscriptionDataBillingMode`, `SubscriptionBillingModeParams`, `SubscriptionBillingMode`, `SubscriptionMigrateBillingModeParams`, `SubscriptionScheduleBillingModeParams`, and `SubscriptionScheduleBillingMode`
+  * Add support for `BusinessName` and `IndividualName` on `CheckoutSessionCollectedInformation`, `CheckoutSessionCustomerDetails`, `CustomerParams`, and `Customer`
+  * Add support for new value `mb_way` on enums `ConfirmationTokenPaymentMethodPreview.Type` and `PaymentMethod.Type`
+  * Add support for `ChargebackLossReasonCode` on `DisputePaymentMethodDetailsKlarna`
+  * Add support for `NetAmount` and `ProrationDetails` on `InvoiceItem`
+  * Add support for `FraudDisputabilityLikelihood` and `RiskAssessment` on `IssuingAuthorizationParams`
+  * Add support for `SecondLine` on `IssuingCard`
+  * Add support for new value `mb_way` on enum `PaymentIntent.ExcludedPaymentMethodTypes`
+  * Add support for `FRMealVoucherConecs` on `PaymentMethodConfigurationParams`
+  * Add support for `Promotion` on `PromotionCodeParams` and `PromotionCode`
+  * Add support for new values `acknowledged` and `payment_never_settled` on enum `Review.ClosedReason`
+  * Add support for `Provider` on `TaxSettingsDefaults`
+  * Add support for `BBPOSWisePad3` on `TerminalConfigurationParams` and `TerminalConfiguration`
+  * Add support for `AddressKana`, `AddressKanji`, `DisplayNameKana`, `DisplayNameKanji`, and `Phone` on `TerminalLocationParams` and `TerminalLocation`
+  * Add support for error codes `financial_connections_account_pending_account_numbers` and `financial_connections_account_unavailable_account_numbers` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+  
+
+
 ## 82.5.1 - 2025-09-17
 * [#2119](https://github.com/stripe/stripe-go/pull/2119) Add prevented to the dispute.status enum.
   * It's supported in the 2025-08-27.basil of the API, but was mistakenly excluded from this SDK. That issue is now resolved.

@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v83/form"
 )
 
 // v1SigmaScheduledQueryRunService is used to invoke /v1/sigma/scheduled_query_runs APIs.
