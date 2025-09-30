@@ -85,7 +85,7 @@ func TestParseEventNotification(t *testing.T) {
 			Created:  time.Now(),
 			Context:  nil,
 		},
-		RelatedObject: stripe.RelatedObject{
+		RelatedObject: stripe.V2CoreEventRelatedObject{
 			ID:   "bm_123",
 			Type: "billing.meter",
 			URL:  "/v1/billing/meters/bm_123",
@@ -131,7 +131,7 @@ func TestParseEventNotificationNoTolerance(t *testing.T) {
 			Created:  time.Now(),
 			Context:  nil,
 		},
-		RelatedObject: &stripe.RelatedObject{
+		RelatedObject: &stripe.V2CoreEventRelatedObject{
 			ID:   "ch_123",
 			Type: "charge",
 			URL:  "/v1/charges/ch_123",

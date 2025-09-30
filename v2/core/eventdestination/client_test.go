@@ -219,7 +219,7 @@ func TestEventDestinationPing(t *testing.T) {
 				Object:  "v2.core.event",
 				Type:    "v2.core.event_destination.ping",
 			},
-			RelatedObject: &stripe.RelatedObject{
+			RelatedObject: &stripe.V2CoreEventRelatedObject{
 				ID: "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92",
 			},
 		})
