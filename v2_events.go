@@ -470,8 +470,8 @@ type V2CoreEvent interface {
 // type when the event type is not known.
 type V2CoreRawEvent struct {
 	V2BaseEvent
-	Data          *json.RawMessage `json:"data"`
-	RelatedObject *RelatedObject   `json:"related_object"`
+	Data          *json.RawMessage          `json:"data"`
+	RelatedObject *V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // Used for everything internal to the EventNotifications
@@ -601,7 +601,7 @@ func (n *V1ApplicationFeeRefundedEventNotification) FetchRelatedObject(ctx conte
 type V1BillingMeterErrorReportTriggeredEvent struct {
 	V2BaseEvent
 	Data               V1BillingMeterErrorReportTriggeredEventData `json:"data"`
-	RelatedObject      RelatedObject                               `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject                    `json:"related_object"`
 	fetchRelatedObject func() (*BillingMeter, error)
 }
 
@@ -614,7 +614,7 @@ func (e *V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject(ctx context
 // Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
@@ -10178,7 +10178,7 @@ func (n *V2CoreClaimableSandboxSandboxDetailsOwnerAccountUpdatedEventNotificatio
 // A ping event used to test the connection to an EventDestination.
 type V2CoreEventDestinationPingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreEventDestination, error)
 }
 
@@ -10191,7 +10191,7 @@ func (e *V2CoreEventDestinationPingEvent) FetchRelatedObject(ctx context.Context
 // A ping event used to test the connection to an EventDestination.
 type V2CoreEventDestinationPingEventNotification struct {
 	V2CoreEventNotification
-	RelatedObject RelatedObject `json:"related_object"`
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
