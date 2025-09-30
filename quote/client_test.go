@@ -1,7 +1,7 @@
 package quote
 
 import (
-	"io/ioutil"
+	"io"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -62,7 +62,7 @@ func TestQuotePDF(t *testing.T) {
 	stream, err := PDF("qt_123", &stripe.QuotePDFParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, stream)
-	body, err := ioutil.ReadAll(stream.LastResponse.Body)
+	body, err := io.ReadAll(stream.LastResponse.Body)
 	assert.Nil(t, err)
 	assert.NotNil(t, body)
 	assert.Equal(t, []byte("Stripe binary response"), body)
