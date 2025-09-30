@@ -26,7 +26,7 @@ func TestEventGet(t *testing.T) {
 			Data: stripe.V1BillingMeterErrorReportTriggeredEventData{
 				DeveloperMessageSummary: "This is a developer message",
 			},
-			RelatedObject: stripe.RelatedObject{
+			RelatedObject: stripe.V2CoreEventRelatedObject{
 				ID: "ro_123",
 			},
 		})
@@ -61,7 +61,7 @@ func TestEventAll(t *testing.T) {
 					Data: stripe.V1BillingMeterErrorReportTriggeredEventData{
 						DeveloperMessageSummary: "This is a developer message",
 					},
-					RelatedObject: stripe.RelatedObject{
+					RelatedObject: stripe.V2CoreEventRelatedObject{
 						ID: "ro_123",
 					},
 				},

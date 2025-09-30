@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -938,7 +937,7 @@ func TestDoStreaming(t *testing.T) {
 		&response,
 	)
 	assert.NoError(t, err)
-	result, err := ioutil.ReadAll(response.LastResponse.Body)
+	result, err := io.ReadAll(response.LastResponse.Body)
 	assert.NoError(t, err)
 	err = response.LastResponse.Body.Close()
 	assert.NoError(t, err)
@@ -1553,7 +1552,7 @@ func TestRawRequestPreviewPost(t *testing.T) {
 	var method string
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1603,7 +1602,7 @@ func TestRawRequestStandardGet(t *testing.T) {
 	var contentType string
 	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1641,7 +1640,7 @@ func TestRawRequestStandardPost(t *testing.T) {
 	var contentType string
 	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1678,7 +1677,7 @@ func TestRawRequestPreviewGet(t *testing.T) {
 	var method string
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1717,7 +1716,7 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	var fooHeader string
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()

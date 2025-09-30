@@ -9,7 +9,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -509,7 +508,7 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	}
 	requestID := resp.Header.Get("Request-Id")
 	s.maybeEnqueueTelemetryMetrics(requestID, requestDuration, []string{"raw_request"})
-	body, err := ioutil.ReadAll(result.(io.ReadCloser))
+	body, err := io.ReadAll(result.(io.ReadCloser))
 	if err != nil {
 		return nil, err
 	}
@@ -794,7 +793,7 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	// Failure: try and parse the json of the response
 	// when logging the error
 	var resBody []byte
-	resBody, err = ioutil.ReadAll(res.Body)
+	resBody, err = io.ReadAll(res.Body)
 	res.Body.Close()
 	if err == nil {
 		err = s.ResponseToError(res, resBody)
@@ -829,7 +828,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		var resBody []byte
 		if err == nil {
-			resBody, err = ioutil.ReadAll(res.Body)
+			resBody, err = io.ReadAll(res.Body)
 			res.Body.Close()
 		}
 

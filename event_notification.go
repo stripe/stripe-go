@@ -47,7 +47,7 @@ type EventNotificationContainer interface {
 	GetEventNotification() *V2CoreEventNotification
 }
 
-type RelatedObject struct {
+type V2CoreEventRelatedObject struct {
 	ID   string `json:"id"`
 	Type string `json:"type"`
 	URL  string `json:"url"`
@@ -57,7 +57,7 @@ type UnknownEventNotification struct {
 	V2CoreEventNotification
 
 	// [Optional] Object containing the reference to API resource relevant to the event
-	RelatedObject *RelatedObject `json:"related_object"`
+	RelatedObject *V2CoreEventRelatedObject `json:"related_object"`
 }
 
 func (n *UnknownEventNotification) FetchEvent(ctx context.Context) (V2CoreEvent, error) {
