@@ -10,7 +10,7 @@ package creditbalancesummary
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
+	stripe "github.com/stripe/stripe-go/v83"
 )
 
 // Client is used to invoke /v1/billing/credit_balance_summary APIs.

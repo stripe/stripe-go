@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/client"
-	. "github.com/stripe/stripe-go/v82/testing"
+	stripe "github.com/stripe/stripe-go/v83"
+	"github.com/stripe/stripe-go/v83/client"
+	. "github.com/stripe/stripe-go/v83/testing"
 )
 
 func TestChargeCapture(t *testing.T) {

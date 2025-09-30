@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v83/form"
 )
 
 // v1QuotePreviewInvoiceService is used to invoke /v1/quotes/{quote}/preview_invoices APIs.

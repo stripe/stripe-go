@@ -18,7 +18,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v83"
 )
 
 var apiKey = "{{API_KEY}}"
