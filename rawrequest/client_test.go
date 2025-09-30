@@ -1,7 +1,7 @@
 package rawrequest
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -33,7 +33,7 @@ func TestV2PostRequest(t *testing.T) {
 	var method string
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -65,7 +65,7 @@ func TestRawV1PostRequest(t *testing.T) {
 	var method string
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -99,7 +99,7 @@ func TestV2GetRequestWithAdditionalHeaders(t *testing.T) {
 	var fooHeader string
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
