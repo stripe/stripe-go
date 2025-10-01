@@ -25,7 +25,7 @@ This release changes the pinned API version to `2025-09-30.clover` and contains 
 * [#2143](https://github.com/stripe/stripe-go/pull/2143) Change RelatedObject to V2CoreEventRelatedObject
   - ⚠️ Changes the name of the `stripe.RelatedObject` struct to `stripe.V2CoreEventRelatedObject`.
 * [#2142](https://github.com/stripe/stripe-go/pull/2142) ⚠️ Drop support for Go < 1.20 & clarify policy
-  - Read our new [language version support policy](https://docs.stripe.com/sdks/versioning?server=go#stripe-sdk-language-version-support-policy)
+  - Read our new [language version support policy](https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy)
      - ⚠️ In this release, we drop support for Go versions 1.18 and 1.19
      - Go 1.20 and 1.21 support is deprecated will be removed in the next scheduled major release (March 2026)
 * [#2134](https://github.com/stripe/stripe-go/pull/2134) Remove extraneous parameters from `CardUpdateParams` and `BankAccountUpdateParams`
