@@ -150,7 +150,7 @@ This release changes the pinned API version to `2025-09-30.clover` and contains 
   }
   ```
 
-* [#2119](https://github.com/stripe/stripe-go/pull/2119), [#2115](https://github.com/stripe/stripe-go/pull/2115), [#2130](https://github.com/stripe/stripe-go/pull/2130), [#2140](https://github.com/stripe/stripe-go/pull/2140) Update generated code based on incoming API changes in the `2025-09-30.basil` API version.
+* [#2119](https://github.com/stripe/stripe-go/pull/2119), [#2115](https://github.com/stripe/stripe-go/pull/2115), [#2130](https://github.com/stripe/stripe-go/pull/2130), [#2140](https://github.com/stripe/stripe-go/pull/2140) Update generated code based on incoming API changes in the `2025-09-30.clover` API version.
   * ⚠️ Remove support for `BalanceReport` and `PayoutReconciliationReport` on `AccountSessionComponentsParams` and `AccountSessionComponents`
   * ⚠️ Remove support for `Coupon` on `Discount`, `PromotionCodeParams`, and `PromotionCode`. Use `Discount.Source.Coupon`, `PromotionCodeParams.Promotion.Coupon` and `PromotionCode.Promotion.Coupon` instead.
   * ⚠️ Remove support for values `saturday` and `sunday` from enum `AccountSettingsPayoutsSchedule.WeeklyPayoutDays`
