@@ -60,7 +60,7 @@ jobs:
       matrix:
         go:
           # most recent 4 versions, once we're on schedule
-          # https://docs.stripe.com/sdks/versioning?server=go#stripe-sdk-language-version-support-policy
+          # https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy
           - "1.25"
           - "1.24"
           - "1.23"
