@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v83/form"
 )
 
 // v1PaymentIntentAmountDetailsLineItemService is used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.

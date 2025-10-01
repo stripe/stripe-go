@@ -10,7 +10,7 @@ package metereventstream
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
+	stripe "github.com/stripe/stripe-go/v83"
 )
 
 // Client is used to invoke metereventstream related APIs.

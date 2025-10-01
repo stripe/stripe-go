@@ -10,7 +10,7 @@ package adjustment
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
+	stripe "github.com/stripe/stripe-go/v83"
 )
 
 // Client is used to invoke adjustment related APIs.

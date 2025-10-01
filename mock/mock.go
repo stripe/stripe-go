@@ -8,9 +8,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/client"
-	. "github.com/stripe/stripe-go/v82/testing"
+	"github.com/stripe/stripe-go/v83"
+	"github.com/stripe/stripe-go/v83/client"
+	. "github.com/stripe/stripe-go/v83/testing"
 )
 
 type Assertion func(*testing.T, *http.Request)
