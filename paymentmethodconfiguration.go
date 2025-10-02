@@ -596,6 +596,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationMbWayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationMbWayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationMbWayDisplayPreferencePreferenceNone PaymentMethodConfigurationMbWayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationMbWayDisplayPreferencePreferenceOff  PaymentMethodConfigurationMbWayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationMbWayDisplayPreferencePreferenceOn   PaymentMethodConfigurationMbWayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationMbWayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationMbWayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationMbWayDisplayPreferenceValueOff PaymentMethodConfigurationMbWayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationMbWayDisplayPreferenceValueOn  PaymentMethodConfigurationMbWayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationMobilepayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationMobilepayDisplayPreferencePreference can take
@@ -1500,6 +1519,18 @@ type PaymentMethodConfigurationLinkParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationMbWayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+type PaymentMethodConfigurationMbWayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationMbWayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationMobilepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1884,6 +1915,8 @@ type PaymentMethodConfigurationParams struct {
 	KrCard *PaymentMethodConfigurationKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationLinkParams `form:"link"`
+	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+	MbWay *PaymentMethodConfigurationMbWayParams `form:"mb_way"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationMobilepayParams `form:"mobilepay"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -2344,6 +2377,18 @@ type PaymentMethodConfigurationCreateLinkParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+type PaymentMethodConfigurationCreateMbWayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateMobilepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2726,6 +2771,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	KrCard *PaymentMethodConfigurationCreateKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationCreateLinkParams `form:"link"`
+	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+	MbWay *PaymentMethodConfigurationCreateMbWayParams `form:"mb_way"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationCreateMobilepayParams `form:"mobilepay"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -3198,6 +3245,18 @@ type PaymentMethodConfigurationUpdateLinkParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+type PaymentMethodConfigurationUpdateMbWayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateMobilepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -3582,6 +3641,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	KrCard *PaymentMethodConfigurationUpdateKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationUpdateLinkParams `form:"link"`
+	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+	MbWay *PaymentMethodConfigurationUpdateMbWayParams `form:"mb_way"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationUpdateMobilepayParams `form:"mobilepay"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -4046,6 +4107,19 @@ type PaymentMethodConfigurationLink struct {
 	Available         bool                                             `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationLinkDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationMbWayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationMbWayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationMbWayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationMbWay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationMbWayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationMobilepayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4442,6 +4516,7 @@ type PaymentMethodConfiguration struct {
 	Link      *PaymentMethodConfigurationLink     `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode   bool                                  `json:"livemode"`
+	MbWay      *PaymentMethodConfigurationMbWay      `json:"mb_way"`
 	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay"`
 	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
 	// The configuration's name.
