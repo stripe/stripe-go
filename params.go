@@ -164,6 +164,13 @@ func (p *ListParams) SetStripeContext(val string) {
 	p.StripeContext = &val
 }
 
+// SetStripeContextFrom sets a value for the Stripe-Context header using a stripe.Context object.
+func (p *ListParams) SetStripeContextFrom(val *Context) {
+	if val != nil {
+		p.StripeContext = val.StringPtr()
+	}
+}
+
 // ToParams converts a ListParams to a Params by moving over any fields that
 // have valid targets in the new type. This is useful because fields in
 // Params can be injected directly into an http.Request while generally
@@ -309,7 +316,7 @@ func (p *Params) SetStripeContext(val string) {
 	p.StripeContext = &val
 }
 
-// SetStripeContextFrom sets a value for the Stripe-Context header using a StripeContext object.
+// SetStripeContextFrom sets a value for the Stripe-Context header using a stripe.Context object.
 func (p *Params) SetStripeContextFrom(val *Context) {
 	if val != nil {
 		p.StripeContext = val.StringPtr()

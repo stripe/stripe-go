@@ -70,10 +70,19 @@ func TestSearchParams_SetStripeAccount(t *testing.T) {
 }
 
 func TestSearchParams_SetStripeContext(t *testing.T) {
-	p := &stripe.SearchParams{}
-	p.SetStripeContext(TestMerchantID)
-	assert.Equal(t, TestMerchantID, *p.StripeContext)
-	assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	{
+		p := &stripe.SearchParams{}
+		p.SetStripeContext(TestMerchantID)
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+
+	{
+		p := &stripe.SearchParams{}
+		p.SetStripeContextFrom(stripe.NewStripeContext([]string{TestMerchantID}))
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
 }
 
 func TestSearchParams_ToParams(t *testing.T) {
