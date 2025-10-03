@@ -241,6 +241,38 @@ func TestParams_SetStripeAccount(t *testing.T) {
 	assert.Equal(t, TestMerchantID, *p.StripeAccount)
 }
 
+func TestParams_SetStripeContext(t *testing.T) {
+	{
+		p := &stripe.Params{}
+		p.SetStripeContext(TestMerchantID)
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+
+	{
+		p := &stripe.Params{}
+		p.SetStripeContextFrom(stripe.NewStripeContext([]string{TestMerchantID}))
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+}
+
+func TestListParams_SetStripeContext(t *testing.T) {
+	{
+		p := &stripe.ListParams{}
+		p.SetStripeContext(TestMerchantID)
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+
+	{
+		p := &stripe.ListParams{}
+		p.SetStripeContextFrom(stripe.NewStripeContext([]string{TestMerchantID}))
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+}
+
 //
 // ---
 //
