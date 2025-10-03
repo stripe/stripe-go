@@ -12,7 +12,7 @@ type Context struct {
 	Segments []string
 }
 
-// NewStripeContext creates a new StripeContext with the given segments.
+// NewStripeContext creates a new stripe.Context with the given segments.
 // If segments is nil or empty, creates an empty context.
 func NewStripeContext(segments []string) *Context {
 	if len(segments) == 0 {
@@ -30,8 +30,8 @@ func NewStripeContext(segments []string) *Context {
 	}
 }
 
-// ParseStripeContext parses a context string into a StripeContext instance.
-// If contextStr is empty, returns an empty StripeContext.
+// ParseStripeContext parses a context string into a stripe.Context instance.
+// If contextStr is empty, returns nil.
 func ParseStripeContext(contextStr string) *Context {
 	if contextStr == "" {
 		return nil
@@ -56,7 +56,7 @@ func (c *Context) Push(segment string) (*Context, error) {
 }
 
 // Pop creates a new StripeContext with the last segment removed.
-// If there are no segments, returns a new empty StripeContext.
+// If there are no segments, returns an error.
 func (c *Context) Pop() (*Context, error) {
 	if len(c.Segments) == 0 {
 		return nil, fmt.Errorf("cannot pop from empty context")
@@ -65,14 +65,14 @@ func (c *Context) Pop() (*Context, error) {
 	return NewStripeContext(c.Segments[:len(c.Segments)-1]), nil
 }
 
-// StringPtr returns the string representation of the StripeContext.
+// StringPtr returns the string representation of the stripe.Context.
 // Segments are joined with "/" as the separator.
 func (c *Context) StringPtr() *string {
 	result := strings.Join(c.Segments, "/")
 	return &result
 }
 
-// UnmarshalJSON implements the [encoding/json.Unmarshaler] interface for StripeContext.
+// UnmarshalJSON implements the [encoding/json.Unmarshaler] interface for stripe.Context.
 func (c *Context) UnmarshalJSON(data []byte) error {
 	var contextStr string
 	if err := json.Unmarshal(data, &contextStr); err != nil {

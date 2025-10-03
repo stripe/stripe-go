@@ -127,6 +127,11 @@ type ListParams struct {
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount *string `form:"-"` // Passed as header
+
+	// StripeContext is used to set the Stripe-Context header on a request.
+	// The Stripe-Context header can be used to set the account with which
+	// the request is made. It is preferred to using StripeAccount in new code.
+	StripeContext *string `form:"-" json:"-"` // Passed as header
 }
 
 // AddExpand on the embedded ListParams struct is deprecated.
@@ -154,6 +159,11 @@ func (p *ListParams) SetStripeAccount(val string) {
 	p.StripeAccount = &val
 }
 
+// SetStripeContext sets a value for the Stripe-Context header.
+func (p *ListParams) SetStripeContext(val string) {
+	p.StripeContext = &val
+}
+
 // ToParams converts a ListParams to a Params by moving over any fields that
 // have valid targets in the new type. This is useful because fields in
 // Params can be injected directly into an http.Request while generally
@@ -162,6 +172,7 @@ func (p *ListParams) ToParams() *Params {
 	return &Params{
 		Context:       p.Context,
 		StripeAccount: p.StripeAccount,
+		StripeContext: p.StripeContext,
 	}
 }
 
@@ -223,7 +234,7 @@ type Params struct {
 
 	// StripeContext is used to set the Stripe-Context header on a request.
 	// The Stripe-Context header can be used to set the account with which
-	// the request is made.
+	// the request is made. It is preferred to using StripeAccount in new code.
 	StripeContext *string `form:"-" json:"-"` // Passed as header
 
 	usage []string `form:"-" json:"-"` // Tracked behaviors
