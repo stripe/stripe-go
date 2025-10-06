@@ -168,7 +168,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, cfg webhook
 		return e, err
 	}
 
-	if err := checkThinEvent(payload); err != nil {
+	if err := checkEventNotification(payload); err != nil {
 		return e, err
 	}
 
@@ -183,7 +183,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, cfg webhook
 	return e, nil
 }
 
-func checkThinEvent(payload []byte) error {
+func checkEventNotification(payload []byte) error {
 	e := struct {
 		APIVersion string `json:"api_version"`
 	}{}
@@ -191,9 +191,9 @@ func checkThinEvent(payload []byte) error {
 		return fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	// Snapshot events have an API version field, but thin events do not
+	// Snapshot events have an API version field, but event notifications do not
 	if e.APIVersion == "" {
-		return fmt.Errorf("Received thin event; use ParseEventNotification instead")
+		return fmt.Errorf("Received event notification; use ParseEventNotification instead")
 	}
 
 	return nil
