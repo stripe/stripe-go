@@ -46,26 +46,38 @@ func main() {
 		// Unmarshal the event data into an appropriate struct depending on its Type
 		switch evt := eventNotification.(type) {
 		case *stripe.V1BillingMeterErrorReportTriggeredEventNotification:
-			fmt.Printf("Got an event related to Meter ID: %s\n", evt.RelatedObject.ID)
+			// there's basic info about the related object in the notification
+			fmt.Printf("Meter w/ id %s had a problem\n", evt.RelatedObject.ID)
+
+			// or you can fetch the full object form the API for more details
 			meter, err := evt.FetchRelatedObject(context.TODO())
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Error fetching related object: %v\n", err)
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			fmt.Printf("Meter ID %s uses aggregation %s.", meter.ID, meter.DefaultAggregation)
+			fmt.Fprintf(os.Stdout, "Meter %s (%s) had a problem\n", meter.DisplayName, meter.ID)
 
+			// And you can always fetch the full event:
 			event, err := evt.FetchEvent(context.TODO())
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Error fetching event: %v\n", err)
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			fmt.Printf("Event data reason: %+v\n", event.Data.Reason)
-
+			fmt.Printf("More info: %s\n", event.Data.DeveloperMessageSummary)
 		case *stripe.UnknownEventNotification:
-			fmt.Printf("Received an event the SDK doesn't have types for: %s\n", evt.Type)
-			fmt.Printf("Event ID: %s; has related object? %t\n", evt.ID, evt.RelatedObject != nil)
+			// Events that were introduced after this SDK version release are
+			// represented as `UnknownEventNotification`s.
+			// They're valid, the SDK just doesn't have corresponding classes for them.
+			// You must match on the "type" property instead.
+			switch evt.Type {
+			case "some.new.event":
+				// you can still `.FetchEvent()` and `.FetchRelatedObject()`, but the latter may
+				// return `nil` if that event type doesn't have a related object.
+				return
+			}
+
 		default:
 			fmt.Fprintf(os.Stderr, "Purposefully skipping the handling of event w/ type: %s\n", evt.GetEventNotification().Type)
 		}
