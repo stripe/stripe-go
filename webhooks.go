@@ -191,6 +191,7 @@ func checkThinEvent(payload []byte) error {
 		return fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
+	// Snapshot events have an API version field, but thin events do not
 	if e.APIVersion == "" {
 		return fmt.Errorf("Received thin event; use ParseEventNotification instead")
 	}

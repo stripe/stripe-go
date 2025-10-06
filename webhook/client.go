@@ -217,7 +217,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 	if err := validatePayload(payload, sigHeader, secret, tolerance, !options.IgnoreTolerance); err != nil {
 		return e, err
 	}
-	// "{\n\t\"id\": \"evt_test_webhook\",\n\t\"object\": \"v2.core.event\",\n\t\"created\": \"2025-10-04T15:13:32.232083866Z\"\n  }"
+
 	if err := checkThinEvent(payload); err != nil {
 		return e, err
 	}
@@ -241,6 +241,7 @@ func checkThinEvent(payload []byte) error {
 		return fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
+	// Snapshot events have an API version field, but thin events do not
 	if e.APIVersion == "" {
 		return fmt.Errorf("Received thin event; use ParseEventNotification instead")
 	}
