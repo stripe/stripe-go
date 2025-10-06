@@ -332,7 +332,7 @@ func TestApiVersionCompatibility(t *testing.T) {
 	}
 }
 
-func TestConstructEvent_ErrorOnThinEvent(t *testing.T) {
+func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
 		p.Payload = testPayloadWithISO8601Timestamp
 	})
@@ -340,5 +340,5 @@ func TestConstructEvent_ErrorOnThinEvent(t *testing.T) {
 	_, err := ConstructEvent(p.Payload, p.Header, p.Secret)
 
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "thin event")
+	assert.Contains(t, err.Error(), "event notification")
 }
