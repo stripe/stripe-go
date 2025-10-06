@@ -56,8 +56,7 @@ func main() {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			sb := fmt.Sprintf("Meter %s (%s) had a problem", meter.DisplayName, meter.ID)
-			fmt.Println(sb)
+			fmt.Fprintf(os.Stdout, "Meter %s (%s) had a problem\n", meter.DisplayName, meter.ID)
 
 			// And you can always fetch the full event:
 			event, err := evt.FetchEvent(context.TODO())
