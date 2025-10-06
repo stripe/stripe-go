@@ -6,6 +6,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	assert "github.com/stretchr/testify/require"
 )
 
 var testPayload = []byte(fmt.Sprintf(`{
@@ -30,6 +32,12 @@ var testPayloadWithReleaseTrainVersionMismatch = []byte(`{
 	"id": "evt_test_webhook",
 	"object": "event",
 	"api_version": "2099-10-10.the_larch"
+  }`)
+
+var testPayloadWithISO8601Timestamp = []byte(`{
+	"id": "evt_test_webhook",
+	"object": "v2.core.event",
+	"created": "2025-10-04T15:13:32.232083866Z"
   }`)
 
 var testSecret = "whsec_test_secret"
@@ -322,4 +330,15 @@ func TestApiVersionCompatibility(t *testing.T) {
 			t.Errorf("Expected %v for API version %s <> %s, got %v", test.expected, test.sdkAPIVersion, test.eventAPIVersion, result)
 		}
 	}
+}
+
+func TestConstructEvent_ErrorOnThinEvent(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Payload = testPayloadWithISO8601Timestamp
+	})
+
+	_, err := ConstructEvent(p.Payload, p.Header, p.Secret)
+
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "thin event")
 }

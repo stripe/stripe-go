@@ -168,6 +168,10 @@ func constructEvent(payload []byte, sigHeader string, secret string, cfg webhook
 		return e, err
 	}
 
+	if err := checkThinEvent(payload); err != nil {
+		return e, err
+	}
+
 	if err := json.Unmarshal(payload, &e); err != nil {
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
@@ -177,7 +181,21 @@ func constructEvent(payload []byte, sigHeader string, secret string, cfg webhook
 	}
 
 	return e, nil
+}
 
+func checkThinEvent(payload []byte) error {
+	e := struct {
+		APIVersion string `json:"api_version"`
+	}{}
+	if err := json.Unmarshal(payload, &e); err != nil {
+		return fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
+	}
+
+	if e.APIVersion == "" {
+		return fmt.Errorf("Received thin event; use ParseEventNotification instead")
+	}
+
+	return nil
 }
 
 func parseSignatureHeader(header string) (*signedHeader, error) {
