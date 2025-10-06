@@ -9,8 +9,9 @@ This release changes the pinned API version to `2025-09-30.clover` and contains 
       - This function now returns a `EventNotificationContainer` (which is an interface that all `EventNotification`s adhere to) instead of `ThinEvent`. When applicable, these event notifications will have the `RelatedObject` field and a function `FetchRelatedObject()`. They also have a `FetchEvent()` method to retrieve their corresponding event.
       - If you parse an event the SDK doesn't have types for (e.g. it's newer than the SDK you're using), you'll get an instance of `UnknownEventNotification` instead of a more specific type. It has both the `RelatedObject` field and the function `FetchRelatedObject()` (but they may be `nil`)
   - ⚠️ Removed `API.parseThinEvent`. Use `Client.ParseEventNotification` instead (referring to the [migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client) if necessary).
-* [#2133](https://github.com/stripe/stripe-go/pull/2133) Add `StripeContext` object
-  - Add the `stripe.Context` struct. Previously, you could set the stripe context only as a string via `SetStripeContext()`. You can now set it using the new struct as well via `SetStripeContextFrom()`.
+* [#2133](https://github.com/stripe/stripe-go/pull/2133) Add `stripe.Context` object
+  - This is a new struct that helps with accessing parent and child contexts.
+  - Previously, you could set the stripe context only as a string via `SetStripeContext()`. You can now set it using the new struct as well via `SetStripeContextFrom()`.
   - ⚠️ Change `EventNotification` (formerly known as `ThinEvent`)'s `context` property from `string` to `stripe.Context`
 * [#2114](https://github.com/stripe/stripe-go/pull/2114) ⚠️ Build SDK w/ V2 OpenAPI spec
   - ⚠️ The delete methods for v2 APIs (the ones in the `V2` prefix) now return a `V2DeletedObject` which has the id of the object that has been deleted and a string representing the type of the object that has been deleted.
