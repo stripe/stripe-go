@@ -68,8 +68,10 @@ func main() {
 			}
 			fmt.Printf("More info: %s\n", event.Data.DeveloperMessageSummary)
 		case *stripe.UnknownEventNotification:
-			// this is a valid event type, but it's newer than this SDK, so there's no corresponding class
-			// we'll have to match on "type" instead
+			// Events that were introduced after this SDK version release are
+			// represented as `UnknownEventNotification`s.
+			// They're valid, the SDK just doesn't have corresponding classes for them.
+			// You must match on the "type" property instead.
 			switch evt.Type {
 			case "some.new.event":
 				// you can still `.FetchEvent()` and `.FetchRelatedObject()`, but the latter may
