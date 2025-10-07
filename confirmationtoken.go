@@ -620,6 +620,12 @@ type ConfirmationTokenPaymentMethodPreviewBoleto struct {
 	// Uniquely identifies the customer tax id (CNPJ or CPF)
 	TaxID string `json:"tax_id"`
 }
+type ConfirmationTokenPaymentMethodPreviewCardBenefits struct {
+	// Issuer of this benefit card
+	Issuer string `json:"issuer"`
+	// Available benefit programs for this card
+	Programs []string `json:"programs"`
+}
 
 // Checks on Card address and CVC if provided.
 type ConfirmationTokenPaymentMethodPreviewCardChecks struct {
@@ -789,6 +795,7 @@ type ConfirmationTokenPaymentMethodPreviewCardWallet struct {
 	VisaCheckout *ConfirmationTokenPaymentMethodPreviewCardWalletVisaCheckout `json:"visa_checkout"`
 }
 type ConfirmationTokenPaymentMethodPreviewCard struct {
+	Benefits *ConfirmationTokenPaymentMethodPreviewCardBenefits `json:"benefits"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// Checks on Card address and CVC if provided.

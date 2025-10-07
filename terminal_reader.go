@@ -821,6 +821,8 @@ type TerminalReader struct {
 	IPAddress string `json:"ip_address"`
 	// Custom label given to the reader for easier identification.
 	Label string `json:"label"`
+	// The last time this reader reported to Stripe backend.
+	LastSeenAt int64 `json:"last_seen_at"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The location identifier of the reader.

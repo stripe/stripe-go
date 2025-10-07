@@ -115,3 +115,17 @@ func (c v1PaymentRecordService) ReportPaymentAttemptInformational(ctx context.Co
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
+
+// Report that the most recent payment attempt on the specified Payment Record
+//
+//	was refunded.
+func (c v1PaymentRecordService) ReportRefund(ctx context.Context, id string, params *PaymentRecordReportRefundParams) (*PaymentRecord, error) {
+	if params == nil {
+		params = &PaymentRecordReportRefundParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/payment_records/%s/report_refund", id)
+	paymentrecord := &PaymentRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
+	return paymentrecord, err
+}

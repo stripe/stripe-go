@@ -1701,6 +1701,18 @@ type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
+// French meal voucher benefit details for this PaymentIntent.
+type PaymentIntentPaymentDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this PaymentIntent
+type PaymentIntentPaymentDetailsBenefitParams struct {
+	// French meal voucher benefit details for this PaymentIntent.
+	FRMealVoucher *PaymentIntentPaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentPaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -2019,6 +2031,8 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 
 // Provides industry-specific information about the charge.
 type PaymentIntentPaymentDetailsParams struct {
+	// Benefit details for this PaymentIntent
+	Benefit *PaymentIntentPaymentDetailsBenefitParams `form:"benefit"`
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentPaymentDetailsCarRentalParams `form:"car_rental"`
 	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
@@ -4410,6 +4424,18 @@ type PaymentIntentConfirmHooksParams struct {
 	Inputs *PaymentIntentConfirmHooksInputsParams `form:"inputs"`
 }
 
+// French meal voucher benefit details for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsBenefitParams struct {
+	// French meal voucher benefit details for this PaymentIntent.
+	FRMealVoucher *PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentConfirmPaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -4728,6 +4754,8 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 
 // Provides industry-specific information about the charge.
 type PaymentIntentConfirmPaymentDetailsParams struct {
+	// Benefit details for this PaymentIntent
+	Benefit *PaymentIntentConfirmPaymentDetailsBenefitParams `form:"benefit"`
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentConfirmPaymentDetailsCarRentalParams `form:"car_rental"`
 	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
@@ -5324,6 +5352,18 @@ type PaymentIntentCreateMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentCreateMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
+// French meal voucher benefit details for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this PaymentIntent
+type PaymentIntentCreatePaymentDetailsBenefitParams struct {
+	// French meal voucher benefit details for this PaymentIntent.
+	FRMealVoucher *PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCreatePaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -5642,6 +5682,8 @@ type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
 
 // Provides industry-specific information about the charge.
 type PaymentIntentCreatePaymentDetailsParams struct {
+	// Benefit details for this PaymentIntent
+	Benefit *PaymentIntentCreatePaymentDetailsBenefitParams `form:"benefit"`
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentCreatePaymentDetailsCarRentalParams `form:"car_rental"`
 	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
@@ -7516,6 +7558,18 @@ type PaymentIntentUpdateMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentUpdateMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
+// French meal voucher benefit details for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this PaymentIntent
+type PaymentIntentUpdatePaymentDetailsBenefitParams struct {
+	// French meal voucher benefit details for this PaymentIntent.
+	FRMealVoucher *PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentUpdatePaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -7834,6 +7888,8 @@ type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
 
 // Provides industry-specific information about the charge.
 type PaymentIntentUpdatePaymentDetailsParams struct {
+	// Benefit details for this PaymentIntent
+	Benefit *PaymentIntentUpdatePaymentDetailsBenefitParams `form:"benefit"`
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentUpdatePaymentDetailsCarRentalParams `form:"car_rental"`
 	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
@@ -9901,6 +9957,13 @@ type PaymentIntentNextAction struct {
 	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
 	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
+type PaymentIntentPaymentDetailsBenefitFRMealVoucher struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret string `json:"siret"`
+}
+type PaymentIntentPaymentDetailsBenefit struct {
+	FRMealVoucher *PaymentIntentPaymentDetailsBenefitFRMealVoucher `json:"fr_meal_voucher"`
+}
 type PaymentIntentPaymentDetailsCarRentalAffiliate struct {
 	// The name of the affiliate that originated the purchase.
 	Name string `json:"name"`
@@ -10036,6 +10099,7 @@ type PaymentIntentPaymentDetailsSubscription struct {
 	StartsAt int64 `json:"starts_at"`
 }
 type PaymentIntentPaymentDetails struct {
+	Benefit   *PaymentIntentPaymentDetailsBenefit   `json:"benefit"`
 	CarRental *PaymentIntentPaymentDetailsCarRental `json:"car_rental"`
 	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
 	CustomerReference string                                   `json:"customer_reference"`

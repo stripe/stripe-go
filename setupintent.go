@@ -1164,6 +1164,24 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
+// French meal voucher benefit details for this SetupIntent.
+type SetupIntentSetupDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this SetupIntent
+type SetupIntentSetupDetailsBenefitParams struct {
+	// French meal voucher benefit details for this SetupIntent.
+	FRMealVoucher *SetupIntentSetupDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+}
+
+// Provides industry-specific information about the SetupIntent.
+type SetupIntentSetupDetailsParams struct {
+	// Benefit details for this SetupIntent
+	Benefit *SetupIntentSetupDetailsBenefitParams `form:"benefit"`
+}
+
 // If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
 //
 // Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
@@ -1229,6 +1247,8 @@ type SetupIntentParams struct {
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url"`
+	// Provides industry-specific information about the SetupIntent.
+	SetupDetails *SetupIntentSetupDetailsParams `form:"setup_details"`
 	// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
 	//
 	// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
@@ -1705,6 +1725,24 @@ func (p *SetupIntentConfirmPaymentMethodDataParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
+// French meal voucher benefit details for this SetupIntent.
+type SetupIntentConfirmSetupDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this SetupIntent
+type SetupIntentConfirmSetupDetailsBenefitParams struct {
+	// French meal voucher benefit details for this SetupIntent.
+	FRMealVoucher *SetupIntentConfirmSetupDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+}
+
+// Provides industry-specific information about the SetupIntent.
+type SetupIntentConfirmSetupDetailsParams struct {
+	// Benefit details for this SetupIntent
+	Benefit *SetupIntentConfirmSetupDetailsBenefitParams `form:"benefit"`
+}
+
 // Confirm that your customer intends to set up the current or
 // provided payment method. For example, you would confirm a SetupIntent
 // when a customer hits the “Save” button on a payment method management
@@ -1739,6 +1777,8 @@ type SetupIntentConfirmParams struct {
 	// If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
 	// This parameter is only used for cards and other redirect-based payment methods.
 	ReturnURL *string `form:"return_url"`
+	// Provides industry-specific information about the SetupIntent.
+	SetupDetails *SetupIntentConfirmSetupDetailsParams `form:"setup_details"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
@@ -2581,6 +2621,24 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	USBankAccount *SetupIntentCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
+// French meal voucher benefit details for this SetupIntent.
+type SetupIntentCreateSetupDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this SetupIntent
+type SetupIntentCreateSetupDetailsBenefitParams struct {
+	// French meal voucher benefit details for this SetupIntent.
+	FRMealVoucher *SetupIntentCreateSetupDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+}
+
+// Provides industry-specific information about the SetupIntent.
+type SetupIntentCreateSetupDetailsParams struct {
+	// Benefit details for this SetupIntent
+	Benefit *SetupIntentCreateSetupDetailsBenefitParams `form:"benefit"`
+}
+
 // If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
 //
 // Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
@@ -2644,6 +2702,8 @@ type SetupIntentCreateParams struct {
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url"`
+	// Provides industry-specific information about the SetupIntent.
+	SetupDetails *SetupIntentCreateSetupDetailsParams `form:"setup_details"`
 	// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
 	//
 	// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
@@ -3464,6 +3524,24 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	USBankAccount *SetupIntentUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
+// French meal voucher benefit details for this SetupIntent.
+type SetupIntentUpdateSetupDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this SetupIntent
+type SetupIntentUpdateSetupDetailsBenefitParams struct {
+	// French meal voucher benefit details for this SetupIntent.
+	FRMealVoucher *SetupIntentUpdateSetupDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+}
+
+// Provides industry-specific information about the SetupIntent.
+type SetupIntentUpdateSetupDetailsParams struct {
+	// Benefit details for this SetupIntent
+	Benefit *SetupIntentUpdateSetupDetailsBenefitParams `form:"benefit"`
+}
+
 // Updates a SetupIntent object.
 type SetupIntentUpdateParams struct {
 	Params `form:"*"`
@@ -3500,6 +3578,8 @@ type SetupIntentUpdateParams struct {
 	PaymentMethodOptions *SetupIntentUpdatePaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
+	// Provides industry-specific information about the SetupIntent.
+	SetupDetails *SetupIntentUpdateSetupDetailsParams `form:"setup_details"`
 }
 
 // AddExpand appends a new field to expand.
@@ -3761,6 +3841,16 @@ type SetupIntentPaymentMethodOptions struct {
 	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
+type SetupIntentSetupDetailsBenefitFRMealVoucher struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret string `json:"siret"`
+}
+type SetupIntentSetupDetailsBenefit struct {
+	FRMealVoucher *SetupIntentSetupDetailsBenefitFRMealVoucher `json:"fr_meal_voucher"`
+}
+type SetupIntentSetupDetails struct {
+	Benefit *SetupIntentSetupDetailsBenefit `json:"benefit"`
+}
 
 // A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.
 // For example, you can use a SetupIntent to set up and save your customer's card without immediately collecting a payment.
@@ -3840,7 +3930,8 @@ type SetupIntent struct {
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this SetupIntent is allowed to set up. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []string `json:"payment_method_types"`
+	PaymentMethodTypes []string                 `json:"payment_method_types"`
+	SetupDetails       *SetupIntentSetupDetails `json:"setup_details"`
 	// ID of the single_use Mandate generated by the SetupIntent.
 	SingleUseMandate *Mandate `json:"single_use_mandate"`
 	// [Status](https://stripe.com/docs/payments/intents#intent-statuses) of this SetupIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `canceled`, or `succeeded`.

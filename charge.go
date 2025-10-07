@@ -273,6 +273,7 @@ const (
 	ChargePaymentMethodDetailsCryptoNetworkBase     ChargePaymentMethodDetailsCryptoNetwork = "base"
 	ChargePaymentMethodDetailsCryptoNetworkEthereum ChargePaymentMethodDetailsCryptoNetwork = "ethereum"
 	ChargePaymentMethodDetailsCryptoNetworkPolygon  ChargePaymentMethodDetailsCryptoNetwork = "polygon"
+	ChargePaymentMethodDetailsCryptoNetworkSolana   ChargePaymentMethodDetailsCryptoNetwork = "solana"
 )
 
 // The token currency that the transaction was sent with.
@@ -2041,6 +2042,10 @@ type ChargePaymentMethodDetailsBoleto struct {
 	// The tax ID of the customer (CPF for individuals consumers or CNPJ for businesses consumers)
 	TaxID string `json:"tax_id"`
 }
+type ChargePaymentMethodDetailsCardBenefits struct {
+	// Issuer of the benefit card utilized on this payment
+	Issuer string `json:"issuer"`
+}
 
 // Check results by Card networks on Card address and CVC at time of payment.
 type ChargePaymentMethodDetailsCardChecks struct {
@@ -2162,7 +2167,8 @@ type ChargePaymentMethodDetailsCard struct {
 	// The latest amount intended to be authorized by this charge.
 	AmountRequested int64 `json:"amount_requested"`
 	// Authorization code on the charge.
-	AuthorizationCode string `json:"authorization_code"`
+	AuthorizationCode string                                  `json:"authorization_code"`
+	Benefits          *ChargePaymentMethodDetailsCardBenefits `json:"benefits"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
@@ -2637,7 +2643,10 @@ type ChargePaymentMethodDetailsPromptPay struct {
 	Reference string `json:"reference"`
 }
 type ChargePaymentMethodDetailsQris struct{}
-type ChargePaymentMethodDetailsRechnung struct{}
+type ChargePaymentMethodDetailsRechnung struct {
+	// Payment portal URL.
+	PaymentPortalURL string `json:"payment_portal_url"`
+}
 type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
