@@ -235,15 +235,14 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 
 func checkEventNotification(payload []byte) error {
 	e := struct {
-		APIVersion string `json:"api_version"`
+		Object string `json:"object"`
 	}{}
 	if err := json.Unmarshal(payload, &e); err != nil {
 		return fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	// Snapshot events have an API version field, but event notifications do not
-	if e.APIVersion == "" {
-		return fmt.Errorf("Received event notification; use ParseEventNotification instead")
+	if e.Object != "event" {
+		return fmt.Errorf("Did you use ConstructEvent to parse an EventNotification? If so, use ParseEventNotification instead.")
 	}
 
 	return nil
