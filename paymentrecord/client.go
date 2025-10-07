@@ -168,6 +168,27 @@ func (c Client) ReportPaymentAttemptInformational(id string, params *stripe.Paym
 	return paymentrecord, err
 }
 
+// Report that the most recent payment attempt on the specified Payment Record
+//
+//	was refunded.
+func ReportRefund(id string, params *stripe.PaymentRecordReportRefundParams) (*stripe.PaymentRecord, error) {
+	return getC().ReportRefund(id, params)
+}
+
+// Report that the most recent payment attempt on the specified Payment Record
+//
+//	was refunded.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ReportRefund(id string, params *stripe.PaymentRecordReportRefundParams) (*stripe.PaymentRecord, error) {
+	path := stripe.FormatURLPath("/v1/payment_records/%s/report_refund", id)
+	paymentrecord := &stripe.PaymentRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
+	return paymentrecord, err
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
