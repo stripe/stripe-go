@@ -136,13 +136,16 @@ type V1List[T any] struct {
 	*V1Page[T]
 }
 
+// V1Page represents a single page returned from a V1 List API call.
+// The internal state will be updated by the parent V1List when the
+// Page method is called.
 type V1Page[T any] struct {
 	APIResource
 	ListMeta
 	Data []T `json:"data"`
 }
 
-// All returns a Seq2 that will be evaluated on each item in a v1List.
+// All returns a Seq2 that will be evaluated on each item in a V1List.
 // The All function will continue to fetch pages of items as needed.
 func (it *V1List[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
@@ -165,7 +168,7 @@ func (it *V1List[T]) All() Seq2[T, error] {
 // It returns false when the iterator stops
 // at the end of the list.
 func (it *V1List[T]) next(ctx context.Context) bool {
-	if len(it.Data) == 0 && it.HasMore && !it.listParams.Single {
+	if len(it.Data) == 0 && it.CanPage() {
 		// determine if we're moving forward or backwards in paging
 		if it.listParams.EndingBefore != nil {
 			it.listParams.EndingBefore = String(listItemID(it.cur))
@@ -202,6 +205,13 @@ func (it *V1List[T]) Page(ctx context.Context) error {
 		reverse(it.Data)
 	}
 	return nil
+}
+
+func (s *V1List[T]) CanPage() bool {
+	if s == nil {
+		return false
+	}
+	return s.HasMore && !s.listParams.Single
 }
 
 // maybeAddLastResponse adds the LastResponse to the items in the page.
@@ -244,7 +254,7 @@ func maybeAddLastResponse[T any](page *V1Page[T]) error {
 	return nil
 }
 
-// Query is the function used to get a page listing.
+// v1Query is the function used to get a page listing.
 type v1Query[T any] func(context.Context, *Params, *form.Values) (*V1Page[T], error)
 
 // newV1List returns a new v1List for a given query and its options, and initializes
@@ -289,10 +299,10 @@ func reverse[T any](a []T) {
 }
 
 // Seq2 is the same as the iter.Seq2 type in Go 1.23+. It is used as the return type
-// of All methods. If you are using Go 1.23+, you can just range over the an All
+// of List methods. If you are using Go 1.23+, you can just range over the an List
 // method directly, e.g.,
 //
-//	for event, err := range sc.V2Events.All() {
+//	for event, err := range sc.V2CoreEvents.List(...) {
 //		// check err and do something with event
 //	}
 //
@@ -311,8 +321,9 @@ type V2List[T any] struct {
 	V2Page[T]
 }
 
-// V2Page is represents a single page returned from a List API call.
-// Users will not ordinaily interact with this type directly.
+// V2Page is represents a single page returned from a V2 List API call.
+// The internal state will be updated by the parent V2List when the
+// Page method is called.
 type V2Page[T any] struct {
 	APIResource
 	Data            []T    `json:"data"`
@@ -387,9 +398,8 @@ func (s *V2List[T]) All() Seq2[T, error] {
 	}
 }
 
-// page fetches the next page of items and updates the Seq's state.
-// It returns true if there exist more pages to fetch, and false if
-// that was the last page.
+// Page fetches the next page of items and updates the V2List's state.
+// It returns an error if the fetch fails.
 func (s *V2List[T]) Page(ctx context.Context) error {
 	// if we've already fetched a page, the next page URL
 	// already contains all of the query parameters
@@ -407,4 +417,11 @@ func (s *V2List[T]) Page(ctx context.Context) error {
 
 	s.V2Page = *next
 	return nil
+}
+
+func (s *V2List[T]) CanPage() bool {
+	if s == nil {
+		return false
+	}
+	return s.NextPageURL != ""
 }
