@@ -90,8 +90,8 @@ func (c v1PayoutService) List(ctx context.Context, listParams *PayoutListParams)
 		listParams = &PayoutListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Payout], error) {
-		list := &v1Page[*Payout]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Payout], error) {
+		list := &V1Page[*Payout]{}
 		if p == nil {
 			p = &Params{}
 		}

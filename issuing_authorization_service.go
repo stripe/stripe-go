@@ -75,8 +75,8 @@ func (c v1IssuingAuthorizationService) List(ctx context.Context, listParams *Iss
 		listParams = &IssuingAuthorizationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingAuthorization], error) {
-		list := &v1Page[*IssuingAuthorization]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*IssuingAuthorization], error) {
+		list := &V1Page[*IssuingAuthorization]{}
 		if p == nil {
 			p = &Params{}
 		}

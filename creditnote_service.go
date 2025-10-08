@@ -95,8 +95,8 @@ func (c v1CreditNoteService) List(ctx context.Context, listParams *CreditNoteLis
 		listParams = &CreditNoteListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNote], error) {
-		list := &v1Page[*CreditNote]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*CreditNote], error) {
+		list := &V1Page[*CreditNote]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -114,8 +114,8 @@ func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNo
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/credit_notes/%s/lines", StringValue(listParams.CreditNote))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
-		list := &v1Page[*CreditNoteLineItem]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*CreditNoteLineItem], error) {
+		list := &V1Page[*CreditNoteLineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -131,8 +131,8 @@ func (c v1CreditNoteService) PreviewLines(ctx context.Context, listParams *Credi
 		listParams = &CreditNotePreviewLinesParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
-		list := &v1Page[*CreditNoteLineItem]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*CreditNoteLineItem], error) {
+		list := &V1Page[*CreditNoteLineItem]{}
 		if p == nil {
 			p = &Params{}
 		}

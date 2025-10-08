@@ -71,8 +71,8 @@ func (c v1CustomerBalanceTransactionService) List(ctx context.Context, listParam
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/balance_transactions", StringValue(listParams.Customer))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CustomerBalanceTransaction], error) {
-		list := &v1Page[*CustomerBalanceTransaction]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*CustomerBalanceTransaction], error) {
+		list := &V1Page[*CustomerBalanceTransaction]{}
 		if p == nil {
 			p = &Params{}
 		}

@@ -73,8 +73,8 @@ func (c v1InvoiceItemService) List(ctx context.Context, listParams *InvoiceItemL
 		listParams = &InvoiceItemListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoiceItem], error) {
-		list := &v1Page[*InvoiceItem]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*InvoiceItem], error) {
+		list := &V1Page[*InvoiceItem]{}
 		if p == nil {
 			p = &Params{}
 		}

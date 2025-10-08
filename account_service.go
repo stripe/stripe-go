@@ -120,8 +120,8 @@ func (c v1AccountService) List(ctx context.Context, listParams *AccountListParam
 		listParams = &AccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Account], error) {
-		list := &v1Page[*Account]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Account], error) {
+		list := &V1Page[*Account]{}
 		if p == nil {
 			p = &Params{}
 		}

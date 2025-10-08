@@ -25,8 +25,8 @@ func (c v1SetupAttemptService) List(ctx context.Context, listParams *SetupAttemp
 		listParams = &SetupAttemptListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SetupAttempt], error) {
-		list := &v1Page[*SetupAttempt]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*SetupAttempt], error) {
+		list := &V1Page[*SetupAttempt]{}
 		if p == nil {
 			p = &Params{}
 		}

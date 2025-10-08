@@ -60,8 +60,8 @@ func (c v1IssuingCardService) List(ctx context.Context, listParams *IssuingCardL
 		listParams = &IssuingCardListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingCard], error) {
-		list := &v1Page[*IssuingCard]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*IssuingCard], error) {
+		list := &V1Page[*IssuingCard]{}
 		if p == nil {
 			p = &Params{}
 		}

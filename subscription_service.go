@@ -137,8 +137,8 @@ func (c v1SubscriptionService) List(ctx context.Context, listParams *Subscriptio
 		listParams = &SubscriptionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Subscription], error) {
-		list := &v1Page[*Subscription]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Subscription], error) {
+		list := &V1Page[*Subscription]{}
 		if p == nil {
 			p = &Params{}
 		}

@@ -61,8 +61,8 @@ func (c v1ApplePayDomainService) List(ctx context.Context, listParams *ApplePayD
 		listParams = &ApplePayDomainListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ApplePayDomain], error) {
-		list := &v1Page[*ApplePayDomain]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*ApplePayDomain], error) {
+		list := &V1Page[*ApplePayDomain]{}
 		if p == nil {
 			p = &Params{}
 		}
