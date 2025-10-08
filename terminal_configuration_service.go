@@ -73,7 +73,7 @@ func (c v1TerminalConfigurationService) List(ctx context.Context, listParams *Te
 		listParams = &TerminalConfigurationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TerminalConfiguration], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TerminalConfiguration], error) {
 		list := &V1Page[*TerminalConfiguration]{}
 		if p == nil {
 			p = &Params{}

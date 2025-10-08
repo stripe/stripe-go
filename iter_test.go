@@ -264,7 +264,7 @@ type testV1Query[T LastResponseSetter] []struct {
 	e error
 }
 
-func (tq *testV1Query[T]) query(*Params, *form.Values) (*V1Page[T], error) {
+func (tq *testV1Query[T]) query(context.Context, *Params, *form.Values) (*V1Page[T], error) {
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
 	return x.v, x.e

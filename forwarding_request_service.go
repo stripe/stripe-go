@@ -49,7 +49,7 @@ func (c v1ForwardingRequestService) List(ctx context.Context, listParams *Forwar
 		listParams = &ForwardingRequestListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*ForwardingRequest], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*ForwardingRequest], error) {
 		list := &V1Page[*ForwardingRequest]{}
 		if p == nil {
 			p = &Params{}

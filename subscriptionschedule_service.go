@@ -85,7 +85,7 @@ func (c v1SubscriptionScheduleService) List(ctx context.Context, listParams *Sub
 		listParams = &SubscriptionScheduleListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*SubscriptionSchedule], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*SubscriptionSchedule], error) {
 		list := &V1Page[*SubscriptionSchedule]{}
 		if p == nil {
 			p = &Params{}

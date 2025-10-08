@@ -61,7 +61,7 @@ func (c v1BillingPortalConfigurationService) List(ctx context.Context, listParam
 		listParams = &BillingPortalConfigurationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*BillingPortalConfiguration], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*BillingPortalConfiguration], error) {
 		list := &V1Page[*BillingPortalConfiguration]{}
 		if p == nil {
 			p = &Params{}

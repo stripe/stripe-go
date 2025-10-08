@@ -60,7 +60,7 @@ func (c v1TaxRateService) List(ctx context.Context, listParams *TaxRateListParam
 		listParams = &TaxRateListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TaxRate], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TaxRate], error) {
 		list := &V1Page[*TaxRate]{}
 		if p == nil {
 			p = &Params{}

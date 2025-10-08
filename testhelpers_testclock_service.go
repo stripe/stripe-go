@@ -73,7 +73,7 @@ func (c v1TestHelpersTestClockService) List(ctx context.Context, listParams *Tes
 		listParams = &TestHelpersTestClockListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TestHelpersTestClock], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TestHelpersTestClock], error) {
 		list := &V1Page[*TestHelpersTestClock]{}
 		if p == nil {
 			p = &Params{}

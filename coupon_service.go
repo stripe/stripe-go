@@ -74,7 +74,7 @@ func (c v1CouponService) List(ctx context.Context, listParams *CouponListParams)
 		listParams = &CouponListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*Coupon], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Coupon], error) {
 		list := &V1Page[*Coupon]{}
 		if p == nil {
 			p = &Params{}
