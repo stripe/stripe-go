@@ -303,7 +303,8 @@ type Seq2[K, V any] func(yield func(K, V) bool)
 // V2List contains a page of data received from a List API call,
 // and the means to paginate to the next page of data via the fetch function.
 type V2List[T any] struct {
-	fetch       Fetch[T]
+	ctx         context.Context
+	fetch       v2Query[T]
 	params      ParamsContainer
 	initialized bool
 	// Page contains the items returned from the last API call.
@@ -319,17 +320,40 @@ type V2Page[T any] struct {
 	PreviousPageURL string `json:"previous_page_url"`
 }
 
-// NewV2List creates a new V2List with the given path and fetch function.
-func NewV2List[T any](path string, p ParamsContainer, fetch Fetch[T]) *V2List[T] {
+// newV2List creates a new V2List with the given path and fetch function.
+func newV2List[T any](ctx context.Context, path string, p ParamsContainer, fetch v2Query[T]) *V2List[T] {
 	return &V2List[T]{
+		ctx:    ctx,
 		fetch:  fetch,
 		params: p,
 		V2Page: V2Page[T]{NextPageURL: path},
 	}
 }
 
+// v2Query is a function that fetches a page of items.
+type v2Query[T any] func(ctx context.Context, path string, p ParamsContainer) (*V2Page[T], error)
+
+// Deprecated: This type was intended for internal use only, and will be removed in a future version.
 // Fetch is a function that fetches a page of items.
 type Fetch[T any] func(path string, p ParamsContainer) (*V2Page[T], error)
+
+// Deprecated: This function was intended for internal use only, and will be removed in a future version.
+// NewV2List creates a new V2List with the given path and fetch function.
+func NewV2List[T any](path string, p ParamsContainer, fetch Fetch[T]) *V2List[T] {
+	var ctx context.Context
+	if p.GetParams() != nil {
+		ctx = p.GetParams().Context
+	} else {
+		ctx = context.Background()
+	}
+	v2Query := func(ctx context.Context, path string, p ParamsContainer) (*V2Page[T], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
+		return fetch(path, p)
+	}
+	return newV2List(ctx, path, p, v2Query)
+}
 
 // All returns a Seq2 that will be evaluated on each item in a V2List.
 // The All function will continue to fetch pages of items as needed.
@@ -337,7 +361,7 @@ func (s *V2List[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		var fetchMore bool
 		// fetch inital page
-		err := s.Page()
+		err := s.Page(s.ctx)
 		if err != nil && !yield(*new(T), err) {
 			return
 		}
@@ -354,7 +378,7 @@ func (s *V2List[T]) All() Seq2[T, error] {
 			if !fetchMore {
 				return
 			}
-			err := s.Page()
+			err := s.Page(s.ctx)
 			if err != nil && !yield(*new(T), err) {
 				return
 			}
@@ -366,7 +390,7 @@ func (s *V2List[T]) All() Seq2[T, error] {
 // page fetches the next page of items and updates the Seq's state.
 // It returns true if there exist more pages to fetch, and false if
 // that was the last page.
-func (s *V2List[T]) Page() error {
+func (s *V2List[T]) Page(ctx context.Context) error {
 	// if we've already fetched a page, the next page URL
 	// already contains all of the query parameters
 	var params ParamsContainer
@@ -376,7 +400,7 @@ func (s *V2List[T]) Page() error {
 		params = s.params
 	}
 
-	next, err := s.fetch(s.NextPageURL, params)
+	next, err := s.fetch(ctx, s.NextPageURL, params)
 	if err != nil {
 		return err
 	}

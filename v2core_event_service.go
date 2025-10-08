@@ -38,9 +38,15 @@ func (c v2CoreEventService) ListWithPage(ctx context.Context, listParams *V2Core
 		listParams = &V2CoreEventListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/core/events", listParams, func(path string, p ParamsContainer) (*V2Page[V2CoreEvent], error) {
+	return newV2List(ctx, "/v2/core/events", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[V2CoreEvent], error) {
 		raw := &V2Page[V2CoreRawEvent]{}
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, raw)
+		if err != nil {
+			return nil, err
+		}
 		page := &V2Page[V2CoreEvent]{}
 		page.LastResponse = raw.LastResponse
 		page.NextPageURL = raw.NextPageURL
