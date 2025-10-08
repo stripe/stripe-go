@@ -115,7 +115,10 @@ func (c v2CoreEventDestinationService) ListWithPage(ctx context.Context, listPar
 		listParams = &V2CoreEventDestinationListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/core/event_destinations", listParams, func(path string, p ParamsContainer) (*V2Page[*V2CoreEventDestination], error) {
+	return newV2List(ctx, "/v2/core/event_destinations", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2CoreEventDestination], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2CoreEventDestination]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
