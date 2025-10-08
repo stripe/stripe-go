@@ -109,7 +109,7 @@ func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) S
 		listParams = &QuoteListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Quote], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*Quote], error) {
 		list := &V1Page[*Quote]{}
 		if p == nil {
 			p = &Params{}
@@ -128,7 +128,7 @@ func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listPa
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/quotes/%s/computed_upfront_line_items", StringValue(listParams.Quote))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*LineItem], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*LineItem], error) {
 		list := &V1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}
@@ -147,7 +147,7 @@ func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteList
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/quotes/%s/line_items", StringValue(listParams.Quote))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*LineItem], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*LineItem], error) {
 		list := &V1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}

@@ -78,7 +78,7 @@ func (c v1PaymentMethodDomainService) List(ctx context.Context, listParams *Paym
 		listParams = &PaymentMethodDomainListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentMethodDomain], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentMethodDomain], error) {
 		list := &V1Page[*PaymentMethodDomain]{}
 		if p == nil {
 			p = &Params{}

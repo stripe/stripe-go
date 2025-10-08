@@ -39,7 +39,7 @@ func (c v1RadarEarlyFraudWarningService) List(ctx context.Context, listParams *R
 		listParams = &RadarEarlyFraudWarningListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*RadarEarlyFraudWarning], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*RadarEarlyFraudWarning], error) {
 		list := &V1Page[*RadarEarlyFraudWarning]{}
 		if p == nil {
 			p = &Params{}

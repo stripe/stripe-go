@@ -104,7 +104,7 @@ func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSou
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/sources", StringValue(listParams.Customer))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentSource], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentSource], error) {
 		list := &V1Page[*PaymentSource]{}
 		if p == nil {
 			p = &Params{}

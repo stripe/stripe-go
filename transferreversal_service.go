@@ -71,7 +71,7 @@ func (c v1TransferReversalService) List(ctx context.Context, listParams *Transfe
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/transfers/%s/reversals", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*TransferReversal], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TransferReversal], error) {
 		list := &V1Page[*TransferReversal]{}
 		if p == nil {
 			p = &Params{}

@@ -212,7 +212,7 @@ func (c v1PaymentIntentService) List(ctx context.Context, listParams *PaymentInt
 		listParams = &PaymentIntentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentIntent], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentIntent], error) {
 		list := &V1Page[*PaymentIntent]{}
 		if p == nil {
 			p = &Params{}

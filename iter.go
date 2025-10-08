@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"reflect"
@@ -126,6 +127,7 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
 type V1List[T any] struct {
+	ctx        context.Context
 	cur        T
 	err        error
 	formValues *form.Values
@@ -144,7 +146,7 @@ type V1Page[T any] struct {
 // The All function will continue to fetch pages of items as needed.
 func (it *V1List[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
-		for it.next() {
+		for it.next(it.ctx) {
 			if !yield(it.cur, nil) {
 				return
 			}
@@ -162,7 +164,7 @@ func (it *V1List[T]) All() Seq2[T, error] {
 // through the current method.
 // It returns false when the iterator stops
 // at the end of the list.
-func (it *V1List[T]) next() bool {
+func (it *V1List[T]) next(ctx context.Context) bool {
 	if len(it.Data) == 0 && it.HasMore && !it.listParams.Single {
 		// determine if we're moving forward or backwards in paging
 		if it.listParams.EndingBefore != nil {
@@ -172,7 +174,7 @@ func (it *V1List[T]) next() bool {
 			it.listParams.StartingAfter = String(listItemID(it.cur))
 			it.formValues.Set(StartingAfter, *it.listParams.StartingAfter)
 		}
-		it.Page()
+		it.Page(ctx)
 	}
 	if len(it.Data) == 0 {
 		return false
@@ -182,16 +184,16 @@ func (it *V1List[T]) next() bool {
 	return true
 }
 
-func (it *V1List[T]) Page() {
+func (it *V1List[T]) Page(ctx context.Context) error {
 	page, err := it.query(it.listParams.GetParams(), it.formValues)
 	it.V1Page = page
 	if err != nil {
 		it.err = err
-		return
+		return err
 	}
 	if err := maybeAddLastResponse(page); err != nil {
 		it.err = err
-		return
+		return err
 	}
 
 	if it.listParams.EndingBefore != nil {
@@ -199,6 +201,7 @@ func (it *V1List[T]) Page() {
 		// but items arrive in forward order.
 		reverse(it.Data)
 	}
+	return nil
 }
 
 // maybeAddLastResponse adds the LastResponse to the items in the page.
@@ -246,7 +249,7 @@ type v1Query[T any] func(*Params, *form.Values) (*V1Page[T], error)
 
 // newV1List returns a new v1List for a given query and its options, and initializes
 // it by fetching the first page of items.
-func newV1List[T any](container ListParamsContainer, query v1Query[T]) *V1List[T] {
+func newV1List[T any](ctx context.Context, container ListParamsContainer, query v1Query[T]) *V1List[T] {
 	var listParams *ListParams
 	formValues := &form.Values{}
 
@@ -264,12 +267,13 @@ func newV1List[T any](container ListParamsContainer, query v1Query[T]) *V1List[T
 		listParams = &ListParams{}
 	}
 	iter := &V1List[T]{
+		ctx:        ctx,
 		formValues: formValues,
 		listParams: *listParams,
 		query:      query,
 	}
 
-	iter.Page()
+	iter.Page(ctx)
 
 	return iter
 }

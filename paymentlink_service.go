@@ -61,7 +61,7 @@ func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkL
 		listParams = &PaymentLinkListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentLink], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentLink], error) {
 		list := &V1Page[*PaymentLink]{}
 		if p == nil {
 			p = &Params{}
@@ -80,7 +80,7 @@ func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *Pay
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/payment_links/%s/line_items", StringValue(listParams.PaymentLink))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*LineItem], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*LineItem], error) {
 		list := &V1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}

@@ -135,7 +135,7 @@ func (c v1BankAccountService) List(ctx context.Context, listParams *BankAccountL
 			StringValue(listParams.Customer))
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*BankAccount], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*BankAccount], error) {
 		list := &V1Page[*BankAccount]{}
 
 		if outerErr != nil {

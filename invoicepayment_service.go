@@ -37,7 +37,7 @@ func (c v1InvoicePaymentService) List(ctx context.Context, listParams *InvoicePa
 		listParams = &InvoicePaymentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*InvoicePayment], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*InvoicePayment], error) {
 		list := &V1Page[*InvoicePayment]{}
 		if p == nil {
 			p = &Params{}
