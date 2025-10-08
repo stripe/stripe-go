@@ -172,7 +172,7 @@ func (it *V1List[T]) next() bool {
 			it.listParams.StartingAfter = String(listItemID(it.cur))
 			it.formValues.Set(StartingAfter, *it.listParams.StartingAfter)
 		}
-		it.getPage()
+		it.Page()
 	}
 	if len(it.Data) == 0 {
 		return false
@@ -182,7 +182,7 @@ func (it *V1List[T]) next() bool {
 	return true
 }
 
-func (it *V1List[T]) getPage() {
+func (it *V1List[T]) Page() {
 	page, err := it.query(it.listParams.GetParams(), it.formValues)
 	it.V1Page = page
 	if err != nil {
@@ -269,7 +269,7 @@ func newV1List[T any](container ListParamsContainer, query v1Query[T]) *V1List[T
 		query:      query,
 	}
 
-	iter.getPage()
+	iter.Page()
 
 	return iter
 }
@@ -333,7 +333,7 @@ func (s *V2List[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		var fetchMore bool
 		// fetch inital page
-		err := s.page()
+		err := s.Page()
 		if err != nil && !yield(*new(T), err) {
 			return
 		}
@@ -350,7 +350,7 @@ func (s *V2List[T]) All() Seq2[T, error] {
 			if !fetchMore {
 				return
 			}
-			err := s.page()
+			err := s.Page()
 			if err != nil && !yield(*new(T), err) {
 				return
 			}
@@ -362,7 +362,7 @@ func (s *V2List[T]) All() Seq2[T, error] {
 // page fetches the next page of items and updates the Seq's state.
 // It returns true if there exist more pages to fetch, and false if
 // that was the last page.
-func (s *V2List[T]) page() error {
+func (s *V2List[T]) Page() error {
 	// if we've already fetched a page, the next page URL
 	// already contains all of the query parameters
 	var params ParamsContainer
