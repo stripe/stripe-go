@@ -620,12 +620,6 @@ type ConfirmationTokenPaymentMethodPreviewBoleto struct {
 	// Uniquely identifies the customer tax id (CNPJ or CPF)
 	TaxID string `json:"tax_id"`
 }
-type ConfirmationTokenPaymentMethodPreviewCardBenefits struct {
-	// Issuer of this benefit card
-	Issuer string `json:"issuer"`
-	// Available benefit programs for this card
-	Programs []string `json:"programs"`
-}
 
 // Checks on Card address and CVC if provided.
 type ConfirmationTokenPaymentMethodPreviewCardChecks struct {
@@ -793,6 +787,12 @@ type ConfirmationTokenPaymentMethodPreviewCardWallet struct {
 	// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type         ConfirmationTokenPaymentMethodPreviewCardWalletType          `json:"type"`
 	VisaCheckout *ConfirmationTokenPaymentMethodPreviewCardWalletVisaCheckout `json:"visa_checkout"`
+}
+type ConfirmationTokenPaymentMethodPreviewCardBenefits struct {
+	// Issuer of this benefit card
+	Issuer string `json:"issuer"`
+	// Available benefit programs for this card
+	Programs []string `json:"programs"`
 }
 type ConfirmationTokenPaymentMethodPreviewCard struct {
 	Benefits *ConfirmationTokenPaymentMethodPreviewCardBenefits `json:"benefits"`

@@ -1701,18 +1701,6 @@ type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
-// French meal voucher benefit details for this PaymentIntent.
-type PaymentIntentPaymentDetailsBenefitFRMealVoucherParams struct {
-	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret"`
-}
-
-// Benefit details for this PaymentIntent
-type PaymentIntentPaymentDetailsBenefitParams struct {
-	// French meal voucher benefit details for this PaymentIntent.
-	FRMealVoucher *PaymentIntentPaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
-}
-
 // Affiliate details for this purchase.
 type PaymentIntentPaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -2027,6 +2015,18 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
 	StartsAt *int64 `form:"starts_at"`
+}
+
+// French meal voucher benefit details for this PaymentIntent.
+type PaymentIntentPaymentDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this PaymentIntent
+type PaymentIntentPaymentDetailsBenefitParams struct {
+	// French meal voucher benefit details for this PaymentIntent.
+	FRMealVoucher *PaymentIntentPaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
 }
 
 // Provides industry-specific information about the charge.
@@ -4424,18 +4424,6 @@ type PaymentIntentConfirmHooksParams struct {
 	Inputs *PaymentIntentConfirmHooksInputsParams `form:"inputs"`
 }
 
-// French meal voucher benefit details for this PaymentIntent.
-type PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams struct {
-	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret"`
-}
-
-// Benefit details for this PaymentIntent
-type PaymentIntentConfirmPaymentDetailsBenefitParams struct {
-	// French meal voucher benefit details for this PaymentIntent.
-	FRMealVoucher *PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
-}
-
 // Affiliate details for this purchase.
 type PaymentIntentConfirmPaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -4750,6 +4738,18 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
 	StartsAt *int64 `form:"starts_at"`
+}
+
+// French meal voucher benefit details for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsBenefitParams struct {
+	// French meal voucher benefit details for this PaymentIntent.
+	FRMealVoucher *PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
 }
 
 // Provides industry-specific information about the charge.
@@ -5352,18 +5352,6 @@ type PaymentIntentCreateMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentCreateMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
-// French meal voucher benefit details for this PaymentIntent.
-type PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams struct {
-	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret"`
-}
-
-// Benefit details for this PaymentIntent
-type PaymentIntentCreatePaymentDetailsBenefitParams struct {
-	// French meal voucher benefit details for this PaymentIntent.
-	FRMealVoucher *PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
-}
-
 // Affiliate details for this purchase.
 type PaymentIntentCreatePaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -5678,6 +5666,18 @@ type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
 	StartsAt *int64 `form:"starts_at"`
+}
+
+// French meal voucher benefit details for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this PaymentIntent
+type PaymentIntentCreatePaymentDetailsBenefitParams struct {
+	// French meal voucher benefit details for this PaymentIntent.
+	FRMealVoucher *PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
 }
 
 // Provides industry-specific information about the charge.
@@ -7558,18 +7558,6 @@ type PaymentIntentUpdateMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentUpdateMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
-// French meal voucher benefit details for this PaymentIntent.
-type PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams struct {
-	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret"`
-}
-
-// Benefit details for this PaymentIntent
-type PaymentIntentUpdatePaymentDetailsBenefitParams struct {
-	// French meal voucher benefit details for this PaymentIntent.
-	FRMealVoucher *PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
-}
-
 // Affiliate details for this purchase.
 type PaymentIntentUpdatePaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -7884,6 +7872,18 @@ type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
 	StartsAt *int64 `form:"starts_at"`
+}
+
+// French meal voucher benefit details for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret *string `form:"siret"`
+}
+
+// Benefit details for this PaymentIntent
+type PaymentIntentUpdatePaymentDetailsBenefitParams struct {
+	// French meal voucher benefit details for this PaymentIntent.
+	FRMealVoucher *PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
 }
 
 // Provides industry-specific information about the charge.
@@ -9957,13 +9957,6 @@ type PaymentIntentNextAction struct {
 	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
 	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
-type PaymentIntentPaymentDetailsBenefitFRMealVoucher struct {
-	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret string `json:"siret"`
-}
-type PaymentIntentPaymentDetailsBenefit struct {
-	FRMealVoucher *PaymentIntentPaymentDetailsBenefitFRMealVoucher `json:"fr_meal_voucher"`
-}
 type PaymentIntentPaymentDetailsCarRentalAffiliate struct {
 	// The name of the affiliate that originated the purchase.
 	Name string `json:"name"`
@@ -10097,6 +10090,13 @@ type PaymentIntentPaymentDetailsSubscription struct {
 	Name string `json:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
 	StartsAt int64 `json:"starts_at"`
+}
+type PaymentIntentPaymentDetailsBenefitFRMealVoucher struct {
+	// The 14-digit SIRET of the meal voucher acceptor.
+	Siret string `json:"siret"`
+}
+type PaymentIntentPaymentDetailsBenefit struct {
+	FRMealVoucher *PaymentIntentPaymentDetailsBenefitFRMealVoucher `json:"fr_meal_voucher"`
 }
 type PaymentIntentPaymentDetails struct {
 	Benefit   *PaymentIntentPaymentDetailsBenefit   `json:"benefit"`
