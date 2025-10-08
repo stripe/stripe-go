@@ -49,7 +49,7 @@ func (c v1IssuingTokenService) List(ctx context.Context, listParams *IssuingToke
 		listParams = &IssuingTokenListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*IssuingToken], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*IssuingToken], error) {
 		list := &V1Page[*IssuingToken]{}
 		if p == nil {
 			p = &Params{}

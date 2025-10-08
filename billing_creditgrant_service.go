@@ -85,7 +85,7 @@ func (c v1BillingCreditGrantService) List(ctx context.Context, listParams *Billi
 		listParams = &BillingCreditGrantListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*BillingCreditGrant], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*BillingCreditGrant], error) {
 		list := &V1Page[*BillingCreditGrant]{}
 		if p == nil {
 			p = &Params{}

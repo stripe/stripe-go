@@ -77,7 +77,7 @@ func (c v1CheckoutSessionService) List(ctx context.Context, listParams *Checkout
 		listParams = &CheckoutSessionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*CheckoutSession], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*CheckoutSession], error) {
 		list := &V1Page[*CheckoutSession]{}
 		if p == nil {
 			p = &Params{}
@@ -96,7 +96,7 @@ func (c v1CheckoutSessionService) ListLineItems(ctx context.Context, listParams 
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/checkout/sessions/%s/line_items", StringValue(listParams.Session))
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*LineItem], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*LineItem], error) {
 		list := &V1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}

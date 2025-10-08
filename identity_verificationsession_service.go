@@ -117,7 +117,7 @@ func (c v1IdentityVerificationSessionService) List(ctx context.Context, listPara
 		listParams = &IdentityVerificationSessionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*IdentityVerificationSession], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*IdentityVerificationSession], error) {
 		list := &V1Page[*IdentityVerificationSession]{}
 		if p == nil {
 			p = &Params{}

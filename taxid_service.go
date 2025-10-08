@@ -78,7 +78,7 @@ func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) S
 		listParams = &TaxIDListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TaxID], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TaxID], error) {
 		list := &V1Page[*TaxID]{}
 		if p == nil {
 			p = &Params{}

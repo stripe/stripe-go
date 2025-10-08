@@ -63,7 +63,7 @@ func (c v1PaymentMethodConfigurationService) List(ctx context.Context, listParam
 		listParams = &PaymentMethodConfigurationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*PaymentMethodConfiguration], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*PaymentMethodConfiguration], error) {
 		list := &V1Page[*PaymentMethodConfiguration]{}
 		if p == nil {
 			p = &Params{}

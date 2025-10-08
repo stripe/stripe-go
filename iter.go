@@ -185,7 +185,7 @@ func (it *V1List[T]) next(ctx context.Context) bool {
 }
 
 func (it *V1List[T]) Page(ctx context.Context) error {
-	page, err := it.query(it.listParams.GetParams(), it.formValues)
+	page, err := it.query(ctx, it.listParams.GetParams(), it.formValues)
 	it.V1Page = page
 	if err != nil {
 		it.err = err
@@ -245,7 +245,7 @@ func maybeAddLastResponse[T any](page *V1Page[T]) error {
 }
 
 // Query is the function used to get a page listing.
-type v1Query[T any] func(*Params, *form.Values) (*V1Page[T], error)
+type v1Query[T any] func(context.Context, *Params, *form.Values) (*V1Page[T], error)
 
 // newV1List returns a new v1List for a given query and its options, and initializes
 // it by fetching the first page of items.

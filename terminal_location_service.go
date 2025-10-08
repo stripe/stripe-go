@@ -74,7 +74,7 @@ func (c v1TerminalLocationService) List(ctx context.Context, listParams *Termina
 		listParams = &TerminalLocationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TerminalLocation], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TerminalLocation], error) {
 		list := &V1Page[*TerminalLocation]{}
 		if p == nil {
 			p = &Params{}
