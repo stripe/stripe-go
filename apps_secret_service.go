@@ -60,8 +60,8 @@ func (c v1AppsSecretService) List(ctx context.Context, listParams *AppsSecretLis
 		listParams = &AppsSecretListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*AppsSecret], error) {
-		list := &v1Page[*AppsSecret]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*AppsSecret], error) {
+		list := &V1Page[*AppsSecret]{}
 		if p == nil {
 			p = &Params{}
 		}

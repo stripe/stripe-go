@@ -41,8 +41,8 @@ func (c v1BalanceTransactionService) List(ctx context.Context, listParams *Balan
 		listParams = &BalanceTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BalanceTransaction], error) {
-		list := &v1Page[*BalanceTransaction]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*BalanceTransaction], error) {
+		list := &V1Page[*BalanceTransaction]{}
 		if p == nil {
 			p = &Params{}
 		}

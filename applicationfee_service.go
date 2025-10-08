@@ -37,8 +37,8 @@ func (c v1ApplicationFeeService) List(ctx context.Context, listParams *Applicati
 		listParams = &ApplicationFeeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ApplicationFee], error) {
-		list := &v1Page[*ApplicationFee]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*ApplicationFee], error) {
+		list := &V1Page[*ApplicationFee]{}
 		if p == nil {
 			p = &Params{}
 		}

@@ -37,8 +37,8 @@ func (c v1IdentityVerificationReportService) List(ctx context.Context, listParam
 		listParams = &IdentityVerificationReportListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IdentityVerificationReport], error) {
-		list := &v1Page[*IdentityVerificationReport]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*IdentityVerificationReport], error) {
+		list := &V1Page[*IdentityVerificationReport]{}
 		if p == nil {
 			p = &Params{}
 		}

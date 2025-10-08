@@ -84,8 +84,8 @@ func (c v1BillingMeterService) List(ctx context.Context, listParams *BillingMete
 		listParams = &BillingMeterListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingMeter], error) {
-		list := &v1Page[*BillingMeter]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*BillingMeter], error) {
+		list := &V1Page[*BillingMeter]{}
 		if p == nil {
 			p = &Params{}
 		}

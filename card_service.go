@@ -128,8 +128,8 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 			StringValue(listParams.Customer))
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Card], error) {
-		list := &v1Page[*Card]{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Card], error) {
+		list := &V1Page[*Card]{}
 
 		if outerErr != nil {
 			return nil, outerErr
