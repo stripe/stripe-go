@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"context"
 	"errors"
 	"testing"
 
@@ -145,7 +146,7 @@ func TestIterListAndMeta(t *testing.T) {
 
 func TestV1ListEmpty(t *testing.T) {
 	tq := testV1Query[*item]{{v: &V1Page[*item]{}, e: nil}}
-	g, gerr := collectList(newV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
 	assert.NoError(t, gerr)
@@ -153,7 +154,7 @@ func TestV1ListEmpty(t *testing.T) {
 
 func TestV1ListEmptyErr(t *testing.T) {
 	tq := testV1Query[*item]{{v: &V1Page[*item]{}, e: errTest}}
-	g, gerr := collectList(newV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
 	assert.Equal(t, errTest, gerr)
@@ -162,7 +163,7 @@ func TestV1ListEmptyErr(t *testing.T) {
 func TestV1ListOne(t *testing.T) {
 	tq := testV1Query[*item]{{v: &V1Page[*item]{Data: []*item{{"1"}}}, e: nil}}
 	want := []*item{{"1"}}
-	g, gerr := collectList(newV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)
@@ -171,7 +172,7 @@ func TestV1ListOne(t *testing.T) {
 func TestV1ListOneErr(t *testing.T) {
 	tq := testV1Query[*item]{{v: &V1Page[*item]{Data: []*item{{"1"}}}, e: errTest}}
 	want := []*item{{"1"}}
-	g, gerr := collectList(newV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
@@ -183,7 +184,7 @@ func TestV1ListPage2EmptyErr(t *testing.T) {
 		{v: &V1Page[*item]{}, e: errTest},
 	}
 	want := []*item{{"x"}}
-	g, gerr := collectList(newV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
@@ -195,7 +196,7 @@ func TestV1ListTwoPages(t *testing.T) {
 		{v: &V1Page[*item]{Data: []*item{{"y"}}}, e: nil},
 	}
 	want := []*item{{"x"}, {"y"}}
-	g, gerr := collectList(newV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)
@@ -207,7 +208,7 @@ func TestV1ListTwoPagesErr(t *testing.T) {
 		{v: &V1Page[*item]{Data: []*item{{"y"}}}, e: errTest},
 	}
 	want := []*item{{"x"}, {"y"}}
-	g, gerr := collectList(newV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
@@ -216,7 +217,7 @@ func TestV1ListTwoPagesErr(t *testing.T) {
 func TestV1ListReversed(t *testing.T) {
 	tq := testV1Query[*item]{{v: &V1Page[*item]{Data: []*item{{"1"}, {"2"}}}, e: nil}}
 	want := []*item{{"2"}, {"1"}}
-	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), &ListParams{EndingBefore: String("x")}, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)
@@ -228,7 +229,7 @@ func TestV1ListReversedTwoPages(t *testing.T) {
 		{v: &V1Page[*item]{Data: []*item{{"1"}, {"2"}}}, e: nil},
 	}
 	want := []*item{{"4"}, {"3"}, {"2"}, {"1"}}
-	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
+	g, gerr := collectList(newV1List(context.TODO(), &ListParams{EndingBefore: String("x")}, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)

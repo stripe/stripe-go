@@ -61,7 +61,7 @@ func (c v1TreasuryOutboundTransferService) List(ctx context.Context, listParams 
 		listParams = &TreasuryOutboundTransferListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*TreasuryOutboundTransfer], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TreasuryOutboundTransfer], error) {
 		list := &V1Page[*TreasuryOutboundTransfer]{}
 		if p == nil {
 			p = &Params{}

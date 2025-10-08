@@ -72,7 +72,7 @@ func (c v1PlanService) List(ctx context.Context, listParams *PlanListParams) Seq
 		listParams = &PlanListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Plan], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*Plan], error) {
 		list := &V1Page[*Plan]{}
 		if p == nil {
 			p = &Params{}

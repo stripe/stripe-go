@@ -37,7 +37,7 @@ func (c v1IssuingPhysicalBundleService) List(ctx context.Context, listParams *Is
 		listParams = &IssuingPhysicalBundleListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*IssuingPhysicalBundle], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*IssuingPhysicalBundle], error) {
 		list := &V1Page[*IssuingPhysicalBundle]{}
 		if p == nil {
 			p = &Params{}

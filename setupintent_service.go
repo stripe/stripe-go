@@ -119,7 +119,7 @@ func (c v1SetupIntentService) List(ctx context.Context, listParams *SetupIntentL
 		listParams = &SetupIntentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*SetupIntent], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*SetupIntent], error) {
 		list := &V1Page[*SetupIntent]{}
 		if p == nil {
 			p = &Params{}

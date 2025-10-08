@@ -49,7 +49,7 @@ func (c v1ReportingReportRunService) List(ctx context.Context, listParams *Repor
 		listParams = &ReportingReportRunListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*ReportingReportRun], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*ReportingReportRun], error) {
 		list := &V1Page[*ReportingReportRun]{}
 		if p == nil {
 			p = &Params{}

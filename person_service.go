@@ -78,7 +78,7 @@ func (c v1PersonService) List(ctx context.Context, listParams *PersonListParams)
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/accounts/%s/persons", StringValue(listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Person], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*Person], error) {
 		list := &V1Page[*Person]{}
 		if p == nil {
 			p = &Params{}

@@ -73,7 +73,7 @@ func (c v1RadarValueListService) List(ctx context.Context, listParams *RadarValu
 		listParams = &RadarValueListListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*RadarValueList], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*RadarValueList], error) {
 		list := &V1Page[*RadarValueList]{}
 		if p == nil {
 			p = &Params{}

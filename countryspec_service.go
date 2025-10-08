@@ -37,7 +37,7 @@ func (c v1CountrySpecService) List(ctx context.Context, listParams *CountrySpecL
 		listParams = &CountrySpecListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*CountrySpec], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*CountrySpec], error) {
 		list := &V1Page[*CountrySpec]{}
 		if p == nil {
 			p = &Params{}

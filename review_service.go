@@ -49,7 +49,7 @@ func (c v1ReviewService) List(ctx context.Context, listParams *ReviewListParams)
 		listParams = &ReviewListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Review], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*Review], error) {
 		list := &V1Page[*Review]{}
 		if p == nil {
 			p = &Params{}

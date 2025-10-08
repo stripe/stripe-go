@@ -49,7 +49,7 @@ func (c v1TreasuryCreditReversalService) List(ctx context.Context, listParams *T
 		listParams = &TreasuryCreditReversalListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*TreasuryCreditReversal], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TreasuryCreditReversal], error) {
 		list := &V1Page[*TreasuryCreditReversal]{}
 		if p == nil {
 			p = &Params{}

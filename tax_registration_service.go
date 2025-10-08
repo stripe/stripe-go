@@ -63,7 +63,7 @@ func (c v1TaxRegistrationService) List(ctx context.Context, listParams *TaxRegis
 		listParams = &TaxRegistrationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*TaxRegistration], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*TaxRegistration], error) {
 		list := &V1Page[*TaxRegistration]{}
 		if p == nil {
 			p = &Params{}

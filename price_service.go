@@ -60,7 +60,7 @@ func (c v1PriceService) List(ctx context.Context, listParams *PriceListParams) S
 		listParams = &PriceListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Price], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*Price], error) {
 		list := &V1Page[*Price]{}
 		if p == nil {
 			p = &Params{}

@@ -53,7 +53,7 @@ func (c v1CapabilityService) List(ctx context.Context, listParams *CapabilityLis
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/accounts/%s/capabilities", StringValue(listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Capability], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*Capability], error) {
 		list := &V1Page[*Capability]{}
 		if p == nil {
 			p = &Params{}

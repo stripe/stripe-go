@@ -27,7 +27,7 @@ func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams 
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/billing/meters/%s/event_summaries", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*BillingMeterEventSummary], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*BillingMeterEventSummary], error) {
 		list := &V1Page[*BillingMeterEventSummary]{}
 		if p == nil {
 			p = &Params{}

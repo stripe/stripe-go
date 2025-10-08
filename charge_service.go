@@ -78,7 +78,7 @@ func (c v1ChargeService) List(ctx context.Context, listParams *ChargeListParams)
 		listParams = &ChargeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*V1Page[*Charge], error) {
+	return newV1List(ctx, listParams, func(p *Params, b *form.Values) (*V1Page[*Charge], error) {
 		list := &V1Page[*Charge]{}
 		if p == nil {
 			p = &Params{}
