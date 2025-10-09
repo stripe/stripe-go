@@ -311,6 +311,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationCryptoDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationCryptoDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationCryptoDisplayPreferencePreferenceNone PaymentMethodConfigurationCryptoDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationCryptoDisplayPreferencePreferenceOff  PaymentMethodConfigurationCryptoDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationCryptoDisplayPreferencePreferenceOn   PaymentMethodConfigurationCryptoDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationCryptoDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationCryptoDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationCryptoDisplayPreferenceValueOff PaymentMethodConfigurationCryptoDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationCryptoDisplayPreferenceValueOn  PaymentMethodConfigurationCryptoDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference can take
@@ -1327,6 +1346,18 @@ type PaymentMethodConfigurationCashAppParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCryptoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+type PaymentMethodConfigurationCryptoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCryptoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1881,6 +1912,8 @@ type PaymentMethodConfigurationParams struct {
 	CartesBancaires *PaymentMethodConfigurationCartesBancairesParams `form:"cartes_bancaires"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://stripe.com/docs/payments/cash-app-pay) for more details.
 	CashApp *PaymentMethodConfigurationCashAppParams `form:"cashapp"`
+	// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+	Crypto *PaymentMethodConfigurationCryptoParams `form:"crypto"`
 	// Uses a customer's [cash balance](https://stripe.com/docs/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://stripe.com/docs/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationCustomerBalanceParams `form:"customer_balance"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://stripe.com/docs/payments/eps) for more details.
@@ -2182,6 +2215,18 @@ type PaymentMethodConfigurationCreateCashAppDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateCashAppParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateCashAppDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateCryptoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+type PaymentMethodConfigurationCreateCryptoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateCryptoDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2737,6 +2782,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	CartesBancaires *PaymentMethodConfigurationCreateCartesBancairesParams `form:"cartes_bancaires"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://stripe.com/docs/payments/cash-app-pay) for more details.
 	CashApp *PaymentMethodConfigurationCreateCashAppParams `form:"cashapp"`
+	// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+	Crypto *PaymentMethodConfigurationCreateCryptoParams `form:"crypto"`
 	// Uses a customer's [cash balance](https://stripe.com/docs/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://stripe.com/docs/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationCreateCustomerBalanceParams `form:"customer_balance"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://stripe.com/docs/payments/eps) for more details.
@@ -3050,6 +3097,18 @@ type PaymentMethodConfigurationUpdateCashAppDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateCashAppParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateCashAppDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateCryptoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+type PaymentMethodConfigurationUpdateCryptoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateCryptoDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3607,6 +3666,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	CartesBancaires *PaymentMethodConfigurationUpdateCartesBancairesParams `form:"cartes_bancaires"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://stripe.com/docs/payments/cash-app-pay) for more details.
 	CashApp *PaymentMethodConfigurationUpdateCashAppParams `form:"cashapp"`
+	// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+	Crypto *PaymentMethodConfigurationUpdateCryptoParams `form:"crypto"`
 	// Uses a customer's [cash balance](https://stripe.com/docs/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://stripe.com/docs/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationUpdateCustomerBalanceParams `form:"customer_balance"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://stripe.com/docs/payments/eps) for more details.
@@ -3911,6 +3972,19 @@ type PaymentMethodConfigurationCashApp struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationCashAppDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationCryptoDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationCryptoDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationCryptoDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationCrypto struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationCryptoDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationCustomerBalanceDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -4495,6 +4569,7 @@ type PaymentMethodConfiguration struct {
 	Card            *PaymentMethodConfigurationCard            `json:"card"`
 	CartesBancaires *PaymentMethodConfigurationCartesBancaires `json:"cartes_bancaires"`
 	CashApp         *PaymentMethodConfigurationCashApp         `json:"cashapp"`
+	Crypto          *PaymentMethodConfigurationCrypto          `json:"crypto"`
 	CustomerBalance *PaymentMethodConfigurationCustomerBalance `json:"customer_balance"`
 	EPS             *PaymentMethodConfigurationEPS             `json:"eps"`
 	FPX             *PaymentMethodConfigurationFPX             `json:"fpx"`
