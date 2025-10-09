@@ -42,6 +42,19 @@ const (
 )
 
 // Open Enum. The capability which had its status updated.
+type V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability string
+
+// List of values that V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability can take
+const (
+	V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapabilityCommercialCelticChargeCard         V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability = "commercial.celtic.charge_card"
+	V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapabilityCommercialCelticSpendCard          V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability = "commercial.celtic.spend_card"
+	V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapabilityCommercialCrossRiverBankChargeCard V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability = "commercial.cross_river_bank.charge_card"
+	V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapabilityCommercialCrossRiverBankSpendCard  V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability = "commercial.cross_river_bank.spend_card"
+	V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapabilityCommercialStripeChargeCard         V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability = "commercial.stripe.charge_card"
+	V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapabilityCommercialStripePrepaidCard        V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability = "commercial.stripe.prepaid_card"
+)
+
+// Open Enum. The capability which had its status updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability string
 
 // List of values that V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability can take
@@ -9364,6 +9377,85 @@ func (n *V2CoreAccountUpdatedEventNotification) FetchRelatedObject(ctx context.C
 	return relatedObj, err
 }
 
+// V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.card_creator].capability_status_updated" event.
+// Occurs when the status of an Account's card creator configuration capability is updated.
+type V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                                       `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.card_creator].capability_status_updated"
+// Occurs when the status of an Account's card creator configuration capability is updated.
+type V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent that created this Notification
+func (n *V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (n *V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2CoreAccount{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent is the Go struct for the "v2.core.account[configuration.card_creator].updated" event.
+// Occurs when a Card Creator's configuration is updated.
+type V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.card_creator].updated"
+// Occurs when a Card Creator's configuration is updated.
+type V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent that created this Notification
+func (n *V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (n *V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2CoreAccount{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
 // Occurs when the status of an Account's customer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent struct {
@@ -12437,6 +12529,12 @@ type V2BillingRateCardVersionCreatedEventData struct {
 	RateCardID string `json:"rate_card_id"`
 }
 
+// Occurs when the status of an Account's card creator configuration capability is updated.
+type V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
 // Occurs when the status of an Account's customer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData struct {
 	// Open Enum. The capability which had its status updated.
@@ -15284,6 +15382,29 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.core.account[configuration.card_creator].capability_status_updated":
+		result := &V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.card_creator].updated":
+		result := &V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.core.account[configuration.customer].capability_status_updated":
 		result := &V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -17696,6 +17817,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.account.updated":
 		evt := V2CoreAccountUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.card_creator].capability_status_updated":
+		evt := V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.card_creator].updated":
+		evt := V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
