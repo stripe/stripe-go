@@ -29,6 +29,7 @@ type PaymentMethodBalanceBalance struct {
 // PaymentMethodBalance objects represent balances available on a payment method.
 // You can use v1/payment_methods/:id/check_balance to check the balance of a payment method.
 type PaymentMethodBalance struct {
+	APIResource
 	// The time at which the balance was calculated. Measured in seconds since the Unix epoch.
 	AsOf int64 `json:"as_of"`
 	// BalanceEntry contain information about every individual balance type of a card.
