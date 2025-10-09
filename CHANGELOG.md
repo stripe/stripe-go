@@ -95,6 +95,15 @@ This release changes the pinned API version to `2025-09-30.preview`. It is built
   * Add support for thin event `V2CoreClaimableSandboxCreatedEvent` with related object `V2CoreClaimableSandbox`
   * Add support for thin events `V2MoneyManagementRecipientVerificationCreatedEvent` and `V2MoneyManagementRecipientVerificationUpdatedEvent` with related object `V2MoneyManagementRecipientVerification`
 
+## 83.0.1 - 2025-10-08
+* [#2161](https://github.com/stripe/stripe-go/pull/2161) Return clearer error when calling `ConstructEvent` on an event notification
+* [#2157](https://github.com/stripe/stripe-go/pull/2157) Improve event notification example
+* [#2158](https://github.com/stripe/stripe-go/pull/2158) add `StripeContext` field to `ListParams` and `SearchParams`
+  
+  - Fixes an issue where it wasn't possible to add `StripeContext` to list and search calls.
+* [#2151](https://github.com/stripe/stripe-go/pull/2151) Update param in deprecation docs link
+* [#2148](https://github.com/stripe/stripe-go/pull/2148) Update CHANGELOG.md to point to right API version
+
 ## 83.0.0 - 2025-09-30
 This release changes the pinned API version to `2025-09-30.clover` and contains breaking changes (prefixed with ⚠️ below)
 
