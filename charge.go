@@ -2156,13 +2156,18 @@ type ChargePaymentMethodDetailsCardWallet struct {
 	Type         PaymentMethodCardWalletType                       `json:"type"`
 	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout"`
 }
+type ChargePaymentMethodDetailsCardBenefits struct {
+	// Issuer of the benefit card utilized on this payment
+	Issuer string `json:"issuer"`
+}
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
 	// The latest amount intended to be authorized by this charge.
 	AmountRequested int64 `json:"amount_requested"`
 	// Authorization code on the charge.
-	AuthorizationCode string `json:"authorization_code"`
+	AuthorizationCode string                                  `json:"authorization_code"`
+	Benefits          *ChargePaymentMethodDetailsCardBenefits `json:"benefits"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.

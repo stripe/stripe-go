@@ -919,6 +919,18 @@ func (p *PaymentMethodAttachParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves a payment method's balance.
+type PaymentMethodCheckBalanceParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodCheckBalanceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 type PaymentMethodDetachParams struct {
 	Params `form:"*"`
@@ -1719,7 +1731,14 @@ type PaymentMethodCardWallet struct {
 	Type         PaymentMethodCardWalletType          `json:"type"`
 	VisaCheckout *PaymentMethodCardWalletVisaCheckout `json:"visa_checkout"`
 }
+type PaymentMethodCardBenefits struct {
+	// Issuer of this benefit card
+	Issuer string `json:"issuer"`
+	// Available benefit programs for this card
+	Programs []string `json:"programs"`
+}
 type PaymentMethodCard struct {
+	Benefits *PaymentMethodCardBenefits `json:"benefits"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// Checks on Card address and CVC if provided.

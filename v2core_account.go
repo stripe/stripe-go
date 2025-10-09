@@ -13,10 +13,221 @@ type V2CoreAccountAppliedConfiguration string
 
 // List of values that V2CoreAccountAppliedConfiguration can take
 const (
-	V2CoreAccountAppliedConfigurationCustomer  V2CoreAccountAppliedConfiguration = "customer"
-	V2CoreAccountAppliedConfigurationMerchant  V2CoreAccountAppliedConfiguration = "merchant"
-	V2CoreAccountAppliedConfigurationRecipient V2CoreAccountAppliedConfiguration = "recipient"
-	V2CoreAccountAppliedConfigurationStorer    V2CoreAccountAppliedConfiguration = "storer"
+	V2CoreAccountAppliedConfigurationCardCreator V2CoreAccountAppliedConfiguration = "card_creator"
+	V2CoreAccountAppliedConfigurationCustomer    V2CoreAccountAppliedConfiguration = "customer"
+	V2CoreAccountAppliedConfigurationMerchant    V2CoreAccountAppliedConfiguration = "merchant"
+	V2CoreAccountAppliedConfigurationRecipient   V2CoreAccountAppliedConfiguration = "recipient"
+	V2CoreAccountAppliedConfigurationStorer      V2CoreAccountAppliedConfiguration = "storer"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusActive      V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusPending     V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatus = "pending"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusRestricted  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatus = "restricted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusUnsupported V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolutionContactStripe V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusActive      V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusPending     V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatus = "pending"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusRestricted  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatus = "restricted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusUnsupported V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolutionContactStripe V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusActive      V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusPending     V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatus = "pending"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusRestricted  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatus = "restricted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusUnsupported V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolutionContactStripe V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusActive      V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusPending     V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatus = "pending"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusRestricted  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatus = "restricted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusUnsupported V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolutionContactStripe V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusActive      V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusPending     V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatus = "pending"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusRestricted  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatus = "restricted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusUnsupported V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolutionContactStripe V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusActive      V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusPending     V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatus = "pending"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusRestricted  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatus = "restricted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusUnsupported V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolutionContactStripe V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolution = "provide_info"
 )
 
 // Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: “Reverse charge”.
@@ -2714,6 +2925,12 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCardPayments                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "card_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCartesBancairesPayments            V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "cartes_bancaires_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCashAppPayments                    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "cashapp_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialCelticChargeCard         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.celtic.charge_card"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialCelticSpendCard          V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.celtic.spend_card"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialCrossRiverBankChargeCard V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.cross_river_bank.charge_card"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialCrossRiverBankSpendCard  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.cross_river_bank.spend_card"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripeChargeCard         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.charge_card"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripePrepaidCard        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.prepaid_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCrypto                             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "crypto"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityFinancialAddressesBankAccounts     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "financial_addresses.bank_accounts"
@@ -2762,10 +2979,11 @@ type V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration string
 
 // List of values that V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration can take
 const (
-	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationCustomer  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "customer"
-	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationMerchant  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "merchant"
-	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationRecipient V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "recipient"
-	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationStorer    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "storer"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationCardCreator V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "card_creator"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationCustomer    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "customer"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationMerchant    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "merchant"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationRecipient   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "recipient"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfigurationStorer      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityConfiguration = "storer"
 )
 
 // The current status of the requirement's impact.
@@ -2816,6 +3034,162 @@ const (
 	V2CoreAccountRequirementsSummaryMinimumDeadlineStatusEventuallyDue V2CoreAccountRequirementsSummaryMinimumDeadlineStatus = "eventually_due"
 	V2CoreAccountRequirementsSummaryMinimumDeadlineStatusPastDue       V2CoreAccountRequirementsSummaryMinimumDeadlineStatus = "past_due"
 )
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetailResolution `json:"resolution"`
+}
+
+// Can create commercial issuing charge cards with Celtic as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCard struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCardStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetailResolution `json:"resolution"`
+}
+
+// Can create commercial issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCard struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCardStatusDetail `json:"status_details"`
+}
+
+// Can create commercial issuing cards with Celtic as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCeltic struct {
+	// Can create commercial issuing charge cards with Celtic as BIN sponsor.
+	ChargeCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticChargeCard `json:"charge_card,omitempty"`
+	// Can create commercial issuing spend cards with Celtic as BIN sponsor.
+	SpendCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticSpendCard `json:"spend_card,omitempty"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetailResolution `json:"resolution"`
+}
+
+// Can create commercial issuing charge cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCard struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetailResolution `json:"resolution"`
+}
+
+// Can create commercial issuing spend cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCard struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardStatusDetail `json:"status_details"`
+}
+
+// Can create commercial issuing cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBank struct {
+	// Can create commercial issuing charge cards with Cross River Bank as BIN sponsor.
+	ChargeCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCard `json:"charge_card,omitempty"`
+	// Can create commercial issuing spend cards with Cross River Bank as BIN sponsor.
+	SpendCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCard `json:"spend_card,omitempty"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetailResolution `json:"resolution"`
+}
+
+// Can create commercial issuing charge cards with Stripe as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCard struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetailResolution `json:"resolution"`
+}
+
+// Can create commercial issuing prepaid cards with Stripe as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCard struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetail `json:"status_details"`
+}
+
+// Can create commercial issuing cards with Stripe as a BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripe struct {
+	// Can create commercial issuing charge cards with Stripe as BIN sponsor.
+	ChargeCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCard `json:"charge_card,omitempty"`
+	// Can create commercial issuing prepaid cards with Stripe as BIN sponsor.
+	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCard `json:"prepaid_card,omitempty"`
+}
+
+// Can create cards for commercial issuing use cases.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercial struct {
+	// Can create commercial issuing cards with Celtic as BIN sponsor.
+	Celtic *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCeltic `json:"celtic,omitempty"`
+	// Can create commercial issuing cards with Cross River Bank as BIN sponsor.
+	CrossRiverBank *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBank `json:"cross_river_bank,omitempty"`
+	// Can create commercial issuing cards with Stripe as a BIN sponsor.
+	Stripe *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripe `json:"stripe,omitempty"`
+}
+
+// Capabilities that have been requested on the CardCreator Configuration.
+type V2CoreAccountConfigurationCardCreatorCapabilities struct {
+	// Can create cards for commercial issuing use cases.
+	Commercial *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercial `json:"commercial,omitempty"`
+}
+
+// The CardCreator Configuration allows the Account to create and issue cards to users.
+type V2CoreAccountConfigurationCardCreator struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied bool `json:"applied"`
+	// Capabilities that have been requested on the CardCreator Configuration.
+	Capabilities *V2CoreAccountConfigurationCardCreatorCapabilities `json:"capabilities,omitempty"`
+}
 
 // The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation struct {
@@ -4293,6 +4667,8 @@ type V2CoreAccountConfigurationStorer struct {
 
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
 type V2CoreAccountConfiguration struct {
+	// The CardCreator Configuration allows the Account to create and issue cards to users.
+	CardCreator *V2CoreAccountConfigurationCardCreator `json:"card_creator,omitempty"`
 	// The Customer Configuration allows the Account to be used in inbound payment flows.
 	Customer *V2CoreAccountConfigurationCustomer `json:"customer,omitempty"`
 	// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
@@ -4375,6 +4751,234 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceAccount struct {
 	UserAgent string `json:"user_agent,omitempty"`
 }
 
+// Terms of service acceptances for Stripe commercial card issuing.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialAccountHolder struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing Apple Pay cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticApplePay struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for commercial issuing charge cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardBankTerms struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing charge cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardPlatform struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing charge cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCard struct {
+	// Bank terms of service acceptance for commercial issuing charge cards with Celtic as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardBankTerms `json:"bank_terms,omitempty"`
+	// Platform terms of service acceptance for commercial issuing charge cards with Celtic as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardPlatform `json:"platform,omitempty"`
+}
+
+// Bank terms of service acceptance for commercial issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardBankTerms struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for commercial issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardFinancingDisclosures struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardPlatform struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCard struct {
+	// Bank terms of service acceptance for commercial issuing spend cards with Celtic as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardBankTerms `json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for commercial issuing spend cards with Celtic as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardFinancingDisclosures `json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for commercial issuing spend cards with Celtic as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardPlatform `json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCeltic struct {
+	// Terms of service acceptances for commercial issuing Apple Pay cards with Celtic as BIN sponsor.
+	ApplePay *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticApplePay `json:"apple_pay,omitempty"`
+	// Terms of service acceptances for commercial issuing charge cards with Celtic as BIN sponsor.
+	ChargeCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCard `json:"charge_card,omitempty"`
+	// Terms of service acceptances for commercial issuing spend cards with Celtic as BIN sponsor.
+	SpendCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCard `json:"spend_card,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing Apple Pay cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankApplePay struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for commercial issuing charge cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardBankTerms struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for commercial issuing charge cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardFinancingDisclosures struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing charge cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardPlatform struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing charge cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCard struct {
+	// Bank terms of service acceptance for commercial issuing charge cards with Cross River Bank as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardBankTerms `json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for commercial issuing charge cards with Cross River Bank as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardFinancingDisclosures `json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for commercial issuing charge cards with Cross River Bank as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardPlatform `json:"platform,omitempty"`
+}
+
+// Bank terms of service acceptance for commercial issuing spend cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardBankTerms struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for commercial issuing spend cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardFinancingDisclosures struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing spend cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCard struct {
+	// Bank terms of service acceptance for commercial issuing spend cards with Cross River Bank as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardBankTerms `json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for commercial issuing spend cards with Cross River Bank as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardFinancingDisclosures `json:"financing_disclosures,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBank struct {
+	// Terms of service acceptances for commercial issuing Apple Pay cards with Cross River Bank as BIN sponsor.
+	ApplePay *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankApplePay `json:"apple_pay,omitempty"`
+	// Terms of service acceptances for commercial issuing charge cards with Cross River Bank as BIN sponsor.
+	ChargeCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCard `json:"charge_card,omitempty"`
+	// Terms of service acceptances for commercial issuing spend cards with Cross River Bank as BIN sponsor.
+	SpendCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCard `json:"spend_card,omitempty"`
+}
+
+// Terms of service acceptances to create cards for commercial issuing use cases.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercial struct {
+	// Terms of service acceptances for Stripe commercial card issuing.
+	AccountHolder *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialAccountHolder `json:"account_holder,omitempty"`
+	// Terms of service acceptances for commercial issuing cards with Celtic as BIN sponsor.
+	Celtic *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCeltic `json:"celtic,omitempty"`
+	// Terms of service acceptances for commercial issuing cards with Cross River Bank as BIN sponsor.
+	CrossRiverBank *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBank `json:"cross_river_bank,omitempty"`
+}
+
+// Details on the Account's acceptance of Issuing-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreator struct {
+	// Terms of service acceptances to create cards for commercial issuing use cases.
+	Commercial *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercial `json:"commercial,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountIdentityAttestationsTermsOfServiceStorer struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -4389,6 +4993,8 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceStorer struct {
 type V2CoreAccountIdentityAttestationsTermsOfService struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccount `json:"account,omitempty"`
+	// Details on the Account's acceptance of Issuing-specific terms of service.
+	CardCreator *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreator `json:"card_creator,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorer `json:"storer,omitempty"`
 }

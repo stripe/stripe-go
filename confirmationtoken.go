@@ -788,7 +788,14 @@ type ConfirmationTokenPaymentMethodPreviewCardWallet struct {
 	Type         ConfirmationTokenPaymentMethodPreviewCardWalletType          `json:"type"`
 	VisaCheckout *ConfirmationTokenPaymentMethodPreviewCardWalletVisaCheckout `json:"visa_checkout"`
 }
+type ConfirmationTokenPaymentMethodPreviewCardBenefits struct {
+	// Issuer of this benefit card
+	Issuer string `json:"issuer"`
+	// Available benefit programs for this card
+	Programs []string `json:"programs"`
+}
 type ConfirmationTokenPaymentMethodPreviewCard struct {
+	Benefits *ConfirmationTokenPaymentMethodPreviewCardBenefits `json:"benefits"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// Checks on Card address and CVC if provided.

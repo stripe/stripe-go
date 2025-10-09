@@ -8,7 +8,8 @@ package stripe
 
 // List all Pricing Plan Component objects for a Pricing Plan.
 type V2BillingPricingPlansComponentListParams struct {
-	Params        `form:"*"`
+	Params `form:"*"`
+	// The ID of the Pricing Plan to list components for.
 	PricingPlanID *string `form:"-" json:"-"` // Included in URL
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
@@ -44,7 +45,8 @@ type V2BillingPricingPlansComponentServiceActionParams struct {
 
 // Create a Pricing Plan Component object.
 type V2BillingPricingPlansComponentParams struct {
-	Params        `form:"*"`
+	Params `form:"*"`
+	// The ID of the Pricing Plan the component belongs to.
 	PricingPlanID *string `form:"-" json:"-"` // Included in URL
 	// Details if this component is a License Fee.
 	LicenseFee *V2BillingPricingPlansComponentLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
@@ -93,7 +95,8 @@ type V2BillingPricingPlansComponentCreateServiceActionParams struct {
 
 // Create a Pricing Plan Component object.
 type V2BillingPricingPlansComponentCreateParams struct {
-	Params        `form:"*"`
+	Params `form:"*"`
+	// The ID of the PricingPlan to add the component to.
 	PricingPlanID *string `form:"-" json:"-"` // Included in URL
 	// Details if this component is a License Fee.
 	LicenseFee *V2BillingPricingPlansComponentCreateLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
@@ -120,19 +123,22 @@ func (p *V2BillingPricingPlansComponentCreateParams) AddMetadata(key string, val
 
 // Remove a Pricing Plan Component from the latest version of a Pricing Plan.
 type V2BillingPricingPlansComponentDeleteParams struct {
-	Params        `form:"*"`
+	Params `form:"*"`
+	// The ID of the Pricing Plan.
 	PricingPlanID *string `form:"-" json:"-"` // Included in URL
 }
 
 // Retrieve a Pricing Plan Component object.
 type V2BillingPricingPlansComponentRetrieveParams struct {
-	Params        `form:"*"`
+	Params `form:"*"`
+	// The ID of the PricingPlan the component belongs to.
 	PricingPlanID *string `form:"-" json:"-"` // Included in URL
 }
 
 // Update a Pricing Plan Component object.
 type V2BillingPricingPlansComponentUpdateParams struct {
-	Params        `form:"*"`
+	Params `form:"*"`
+	// The ID of the Pricing Plan the component belongs to.
 	PricingPlanID *string `form:"-" json:"-"` // Included in URL
 	// An identifier that can be used to find this component. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`

@@ -8,7 +8,8 @@ package stripe
 
 // List all Rates associated with a Rate Card for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.
 type V2BillingRateCardsRateListParams struct {
-	Params     `form:"*"`
+	Params `form:"*"`
+	// The ID of the Rate Card to retrieve rates for.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
@@ -51,7 +52,8 @@ type V2BillingRateCardsRateTransformQuantityParams struct {
 // Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
 // if the Metered Item already has a rate on the Rate Card.
 type V2BillingRateCardsRateParams struct {
-	Params     `form:"*"`
+	Params `form:"*"`
+	// The ID of the Rate Card to create a new rate for.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// The custom pricing unit that this rate binds to.
 	CustomPricingUnitAmount *V2BillingRateCardsRateCustomPricingUnitAmountParams `form:"custom_pricing_unit_amount" json:"custom_pricing_unit_amount,omitempty"`
@@ -114,7 +116,8 @@ type V2BillingRateCardsRateCreateTransformQuantityParams struct {
 // Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
 // if the Metered Item already has a rate on the Rate Card.
 type V2BillingRateCardsRateCreateParams struct {
-	Params     `form:"*"`
+	Params `form:"*"`
+	// The ID of the Rate Card to create a new rate for.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 	// The custom pricing unit that this rate binds to.
 	CustomPricingUnitAmount *V2BillingRateCardsRateCreateCustomPricingUnitAmountParams `form:"custom_pricing_unit_amount" json:"custom_pricing_unit_amount,omitempty"`
@@ -146,12 +149,14 @@ func (p *V2BillingRateCardsRateCreateParams) AddMetadata(key string, value strin
 
 // Remove an existing Rate from a Rate Card. This will create a new Rate Card Version without that Rate.
 type V2BillingRateCardsRateDeleteParams struct {
-	Params     `form:"*"`
+	Params `form:"*"`
+	// The ID of the Rate Card.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 }
 
 // Retrieve a Rate object.
 type V2BillingRateCardsRateRetrieveParams struct {
-	Params     `form:"*"`
+	Params `form:"*"`
+	// The ID of the Rate Card.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
 }

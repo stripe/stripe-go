@@ -119,6 +119,23 @@ func (c Client) Attach(id string, params *stripe.PaymentMethodAttachParams) (*st
 	return paymentmethod, err
 }
 
+// Retrieves a payment method's balance.
+func CheckBalance(id string, params *stripe.PaymentMethodCheckBalanceParams) (*stripe.PaymentMethodBalance, error) {
+	return getC().CheckBalance(id, params)
+}
+
+// Retrieves a payment method's balance.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) CheckBalance(id string, params *stripe.PaymentMethodCheckBalanceParams) (*stripe.PaymentMethodBalance, error) {
+	path := stripe.FormatURLPath("/v1/payment_methods/%s/check_balance", id)
+	paymentmethodbalance := &stripe.PaymentMethodBalance{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentmethodbalance)
+	return paymentmethodbalance, err
+}
+
 // Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 func Detach(id string, params *stripe.PaymentMethodDetachParams) (*stripe.PaymentMethod, error) {
 	return getC().Detach(id, params)

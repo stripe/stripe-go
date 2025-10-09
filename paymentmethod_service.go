@@ -81,6 +81,18 @@ func (c v1PaymentMethodService) Attach(ctx context.Context, id string, params *P
 	return paymentmethod, err
 }
 
+// Retrieves a payment method's balance.
+func (c v1PaymentMethodService) CheckBalance(ctx context.Context, id string, params *PaymentMethodCheckBalanceParams) (*PaymentMethodBalance, error) {
+	if params == nil {
+		params = &PaymentMethodCheckBalanceParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/payment_methods/%s/check_balance", id)
+	paymentmethodbalance := &PaymentMethodBalance{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentmethodbalance)
+	return paymentmethodbalance, err
+}
+
 // Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 func (c v1PaymentMethodService) Detach(ctx context.Context, id string, params *PaymentMethodDetachParams) (*PaymentMethod, error) {
 	if params == nil {
