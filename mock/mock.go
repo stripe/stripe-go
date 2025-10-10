@@ -30,7 +30,7 @@ func Server[T any](t *testing.T, method, path string, req T, resp func(T) []byte
 			assert.NoError(t, json.Unmarshal(body, req))
 		}
 		data := resp(req)
-		_, err = w.Write(data)
+		_, err = json.NewEncoder(w).Encode(data)
 		assert.NoError(t, err)
 	}))
 	backends := stripe.NewBackendsWithConfig(
