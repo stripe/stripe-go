@@ -2,6 +2,7 @@
 package stripe
 
 import (
+	"math/big"
 	"bytes"
 	"context"
 	"crypto/x509"
@@ -9,7 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"math/rand"
+	"crypto/rand"
 	"net/http"
 	"net/url"
 	"os/exec"
