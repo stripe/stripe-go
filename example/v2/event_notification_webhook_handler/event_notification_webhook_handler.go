@@ -85,7 +85,9 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	err := http.ListenAndServe(":4242", nil)
+	// For production use, always use TLS. You'll need to provide valid certificate files.
+	// Generate self-signed certs for testing: openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+	log.Fatal(http.ListenAndServeTLS(":4242", "cert.pem", "key.pem", nil))
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
