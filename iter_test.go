@@ -235,6 +235,76 @@ func TestV1ListReversedTwoPages(t *testing.T) {
 	assert.NoError(t, gerr)
 }
 
+func TestV2ListEmpty(t *testing.T) {
+	tq := testV2Query[*item]{{v: &V2Page[*item]{}, e: nil}}
+	g, gerr := collectV2List(newV2List(context.TODO(), "/test", nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, 0, len(g))
+	assert.NoError(t, gerr)
+}
+
+func TestV2ListEmptyErr(t *testing.T) {
+	tq := testV2Query[*item]{{v: &V2Page[*item]{}, e: errTest}}
+	g, gerr := collectV2List(newV2List(context.TODO(), "/test", nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, 0, len(g))
+	assert.Equal(t, errTest, gerr)
+}
+
+func TestV2ListOne(t *testing.T) {
+	tq := testV2Query[*item]{{v: &V2Page[*item]{Data: []*item{{"1"}}}, e: nil}}
+	want := []*item{{"1"}}
+	g, gerr := collectV2List(newV2List(context.TODO(), "/test", nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.NoError(t, gerr)
+}
+
+func TestV2ListOneErr(t *testing.T) {
+	tq := testV2Query[*item]{{v: &V2Page[*item]{Data: []*item{{"1"}}}, e: errTest}}
+	want := []*item{{"1"}}
+	g, gerr := collectV2List(newV2List(context.TODO(), "/test", nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.Equal(t, errTest, gerr)
+}
+
+func TestV2ListPage2EmptyErr(t *testing.T) {
+	tq := testV2Query[*item]{
+		{v: &V2Page[*item]{Data: []*item{{"x"}}, NextPageURL: "/test?page=2"}, e: nil},
+		{v: &V2Page[*item]{}, e: errTest},
+	}
+	want := []*item{{"x"}}
+	g, gerr := collectV2List(newV2List(context.TODO(), "/test", nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.Equal(t, errTest, gerr)
+}
+
+func TestV2ListTwoPages(t *testing.T) {
+	tq := testV2Query[*item]{
+		{v: &V2Page[*item]{Data: []*item{{"x"}}, NextPageURL: "/test?page=2"}, e: nil},
+		{v: &V2Page[*item]{Data: []*item{{"y"}}}, e: nil},
+	}
+	want := []*item{{"x"}, {"y"}}
+	g, gerr := collectV2List(newV2List(context.TODO(), "/test", nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.NoError(t, gerr)
+}
+
+func TestV2ListTwoPagesErr(t *testing.T) {
+	tq := testV2Query[*item]{
+		{v: &V2Page[*item]{Data: []*item{{"x"}}, NextPageURL: "/test?page=2"}, e: nil},
+		{v: &V2Page[*item]{Data: []*item{{"y"}}}, e: errTest},
+	}
+	want := []*item{{"x"}, {"y"}}
+	g, gerr := collectV2List(newV2List(context.TODO(), "/test", nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.Equal(t, errTest, gerr)
+}
+
 //
 // ---
 //
@@ -270,7 +340,32 @@ func (tq *testV1Query[T]) query(context.Context, *Params, *form.Values) (*V1Page
 	return x.v, x.e
 }
 
+type testV2Query[T any] []struct {
+	v *V2Page[T]
+	e error
+}
+
+func (tq *testV2Query[T]) query(context.Context, string, ParamsContainer) (*V2Page[T], error) {
+	x := (*tq)[0]
+	*tq = (*tq)[1:]
+	return x.v, x.e
+}
+
 func collectList[T LastResponseSetter](it *V1List[T]) ([]T, error) {
+	var tt []T
+	var err error
+	it.All()(func(t T, e error) bool {
+		if e != nil {
+			err = e
+			return false
+		}
+		tt = append(tt, t)
+		return true
+	})
+	return tt, err
+}
+
+func collectV2List[T any](it *V2List[T]) ([]T, error) {
 	var tt []T
 	var err error
 	it.All()(func(t T, e error) bool {
