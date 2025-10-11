@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // A short machine-readable string giving the reason for the verification or user-session failure.
 type IdentityVerificationSessionLastErrorCode string
 
@@ -569,4 +571,23 @@ type IdentityVerificationSessionList struct {
 	APIResource
 	ListMeta
 	Data []*IdentityVerificationSession `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an IdentityVerificationSession.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (i *IdentityVerificationSession) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		i.ID = id
+		return nil
+	}
+
+	type identityVerificationSession IdentityVerificationSession
+	var v identityVerificationSession
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*i = IdentityVerificationSession(v)
+	return nil
 }
