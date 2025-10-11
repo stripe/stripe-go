@@ -85,7 +85,16 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	err := http.ListenAndServe(":4242", nil)
+	// SECURITY WARNING: The following line uses HTTP without TLS and should only be used for local development.
+	// For production or testing with real webhook data, use HTTPS instead.
+	// Uncomment the line below for local development only:
+	// log.Fatal(http.ListenAndServe(":4242", nil))
+
+	// For secure connections, use HTTPS with TLS certificates.
+	// Generate self-signed certificates for development:
+	//   openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=localhost"
+	// Then uncomment the following line:
+	log.Fatal(http.ListenAndServeTLS(":4242", "cert.pem", "key.pem", nil))
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
