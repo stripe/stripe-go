@@ -93,7 +93,7 @@ type PlanParams struct {
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*PlanTierParams `form:"tiers"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in `graduated` tiering pricing can successively change as the quantity grows.
-	TiersMode *string `form:"tiers_mode"`
+	TiersMode *PlanTiersMode `form:"tiers_mode"`
 	// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
 	TransformUsage *PlanTransformUsageParams `form:"transform_usage"`
 	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
@@ -342,7 +342,7 @@ type PlanCreateParams struct {
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 	Tiers []*PlanCreateTierParams `form:"tiers"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in `graduated` tiering pricing can successively change as the quantity grows.
-	TiersMode *string `form:"tiers_mode"`
+	TiersMode *PlanTiersMode `form:"tiers_mode"`
 	// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
 	TransformUsage *PlanCreateTransformUsageParams `form:"transform_usage"`
 	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).

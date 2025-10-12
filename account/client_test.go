@@ -50,7 +50,7 @@ func TestAccountNew(t *testing.T) {
 			SupportURL:   stripe.String("www.stripe.com"),
 			SupportPhone: stripe.String("4151234567"),
 		},
-		BusinessType: stripe.String(string(stripe.AccountBusinessTypeCompany)),
+		BusinessType: stripe.String(stripe.AccountBusinessTypeCompany),
 		Capabilities: &stripe.AccountCapabilitiesParams{
 			CardPayments: &stripe.AccountCapabilitiesCardPaymentsParams{
 				Requested: stripe.Bool(true),
@@ -97,12 +97,12 @@ func TestAccountNew(t *testing.T) {
 				DebitNegativeBalances: stripe.Bool(true),
 				Schedule: &stripe.AccountSettingsPayoutsScheduleParams{
 					DelayDaysMinimum: stripe.Bool(true),
-					Interval:         stripe.String(string(stripe.AccountSettingsPayoutsScheduleIntervalManual)),
+					Interval:         stripe.String(stripe.AccountSettingsPayoutsScheduleIntervalManual),
 				},
 				StatementDescriptor: stripe.String("payout_descriptor"),
 			},
 		},
-		Type: stripe.String(string(stripe.AccountTypeCustom)),
+		Type: stripe.String(stripe.AccountTypeCustom),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, account)

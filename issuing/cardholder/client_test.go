@@ -61,7 +61,7 @@ func TestIssuingCardholderNew(t *testing.T) {
 			SpendingLimits: []*stripe.IssuingCardholderSpendingControlsSpendingLimitParams{
 				{
 					Amount:   stripe.Int64(1000),
-					Interval: stripe.String(string(stripe.IssuingCardholderSpendingControlsSpendingLimitIntervalWeekly)),
+					Interval: stripe.String(stripe.IssuingCardholderSpendingControlsSpendingLimitIntervalWeekly),
 				},
 			},
 		},
@@ -75,9 +75,9 @@ func TestIssuingCardholderNew(t *testing.T) {
 // IssuingCardholderSpendingControlsSpendingLimitParams is the set of parameters that can be used to
 // represent a given spending limit for an issuing cardholder.
 type IssuingCardholderSpendingControlsSpendingLimitParams struct {
-	Amount     *int64    `form:"amount"`
-	Categories []*string `form:"categories"`
-	Interval   *string   `form:"interval"`
+	Amount     *int64                                                    `form:"amount"`
+	Categories []*string                                                 `form:"categories"`
+	Interval   *stripe.IssuingCardholderSpendingControlsSpendingLimitInterval `form:"interval"`
 }
 
 // IssuingCardholderSpendingControlsParams is the set of parameters that can be used to configure

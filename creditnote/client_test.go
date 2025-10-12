@@ -44,7 +44,7 @@ func TestPreviewLines(t *testing.T) {
 		Invoice: stripe.String("in_123"),
 		Lines: []*stripe.CreditNotePreviewLinesLineParams{
 			{
-				Type:            stripe.String(string(stripe.CreditNoteLineItemTypeInvoiceLineItem)),
+				Type:            stripe.String(stripe.CreditNoteLineItemTypeInvoiceLineItem),
 				Amount:          stripe.Int64(100),
 				InvoiceLineItem: stripe.String("ili_123"),
 				TaxRates: stripe.StringSlice([]string{
@@ -65,10 +65,10 @@ func TestCreditNoteNew(t *testing.T) {
 	params := &stripe.CreditNoteParams{
 		Amount:  stripe.Int64(100),
 		Invoice: stripe.String("in_123"),
-		Reason:  stripe.String(string(stripe.CreditNoteReasonDuplicate)),
+		Reason:  stripe.String(stripe.CreditNoteReasonDuplicate),
 		Lines: []*stripe.CreditNoteLineParams{
 			{
-				Type:            stripe.String(string(stripe.CreditNoteLineItemTypeInvoiceLineItem)),
+				Type:            stripe.String(stripe.CreditNoteLineItemTypeInvoiceLineItem),
 				Amount:          stripe.Int64(100),
 				InvoiceLineItem: stripe.String("ili_123"),
 				TaxRates: stripe.StringSlice([]string{
@@ -101,7 +101,7 @@ func TestCreditNotePreview(t *testing.T) {
 		Invoice: stripe.String("in_123"),
 		Lines: []*stripe.CreditNotePreviewLineParams{
 			{
-				Type:            stripe.String(string(stripe.CreditNoteLineItemTypeInvoiceLineItem)),
+				Type:            stripe.String(stripe.CreditNoteLineItemTypeInvoiceLineItem),
 				Amount:          stripe.Int64(100),
 				InvoiceLineItem: stripe.String("ili_123"),
 				TaxRates: stripe.StringSlice([]string{

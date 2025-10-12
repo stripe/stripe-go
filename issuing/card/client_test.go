@@ -38,7 +38,7 @@ func TestIssuingCardNew(t *testing.T) {
 			SpendingLimits: []*stripe.IssuingCardSpendingControlsSpendingLimitParams{
 				{
 					Amount:   stripe.Int64(1000),
-					Interval: stripe.String(string(stripe.IssuingCardSpendingControlsSpendingLimitIntervalWeekly)),
+					Interval: stripe.String(stripe.IssuingCardSpendingControlsSpendingLimitIntervalWeekly),
 				},
 			},
 		},

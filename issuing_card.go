@@ -219,7 +219,7 @@ type IssuingCardSpendingControlsSpendingLimitParams struct {
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []*string `form:"categories"`
 	// Interval (or event) to which the amount applies.
-	Interval *string `form:"interval"`
+	Interval *IssuingCardSpendingControlsSpendingLimitInterval `form:"interval"`
 }
 
 // Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
@@ -335,7 +335,7 @@ type IssuingCardCreateSpendingControlsSpendingLimitParams struct {
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []*string `form:"categories"`
 	// Interval (or event) to which the amount applies.
-	Interval *string `form:"interval"`
+	Interval *IssuingCardSpendingControlsSpendingLimitInterval `form:"interval"`
 }
 
 // Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
@@ -460,7 +460,7 @@ type IssuingCardUpdateSpendingControlsSpendingLimitParams struct {
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []*string `form:"categories"`
 	// Interval (or event) to which the amount applies.
-	Interval *string `form:"interval"`
+	Interval *IssuingCardSpendingControlsSpendingLimitInterval `form:"interval"`
 }
 
 // Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.

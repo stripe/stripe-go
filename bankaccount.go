@@ -266,7 +266,7 @@ type BankAccountParams struct {
 	// The name of the person or business that owns the bank account. This field is required when attaching the bank account to a `Customer` object.
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *BankAccountAccountHolderType `form:"account_holder_type"`
 	// The account number for the bank account, in string form. Must be a checking account.
 	AccountNumber *string `form:"account_number"`
 	// The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.
@@ -463,7 +463,7 @@ type BankAccountUpdateParams struct {
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *BankAccountAccountHolderType `form:"account_holder_type"`
 	// The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.
 	AccountType *string `form:"account_type"`
 	// When set to true, this becomes the default external account for its currency.
@@ -508,7 +508,7 @@ type BankAccountCreateParams struct {
 	// The name of the person or business that owns the bank account. This field is required when attaching the bank account to a `Customer` object.
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *BankAccountAccountHolderType `form:"account_holder_type"`
 	// The account number for the bank account, in string form. Must be a checking account.
 	AccountNumber *string `form:"account_number"`
 	// The country in which the bank account is located.

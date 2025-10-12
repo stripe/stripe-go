@@ -154,7 +154,7 @@ type CreditNoteLineParams struct {
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
 	TaxRates []*string `form:"tax_rates"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
-	Type *string `form:"type"`
+	Type *CreditNoteLineItemType `form:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
@@ -209,7 +209,7 @@ type CreditNoteParams struct {
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
-	Reason *string `form:"reason"`
+	Reason *CreditNoteReason `form:"reason"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
@@ -257,7 +257,7 @@ type CreditNotePreviewLineParams struct {
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
 	TaxRates []*string `form:"tax_rates"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
-	Type *string `form:"type"`
+	Type *CreditNoteLineItemType `form:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
@@ -302,7 +302,7 @@ type CreditNotePreviewParams struct {
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
-	Reason *string `form:"reason"`
+	Reason *CreditNoteReason `form:"reason"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
@@ -350,7 +350,7 @@ type CreditNotePreviewLinesLineParams struct {
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
 	TaxRates []*string `form:"tax_rates"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
-	Type *string `form:"type"`
+	Type *CreditNoteLineItemType `form:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
@@ -395,7 +395,7 @@ type CreditNotePreviewLinesParams struct {
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
-	Reason *string `form:"reason"`
+	Reason *CreditNoteReason `form:"reason"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
@@ -468,7 +468,7 @@ type CreditNoteCreateLineParams struct {
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
 	TaxRates []*string `form:"tax_rates"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
-	Type *string `form:"type"`
+	Type *CreditNoteLineItemType `form:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
@@ -523,7 +523,7 @@ type CreditNoteCreateParams struct {
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
-	Reason *string `form:"reason"`
+	Reason *CreditNoteReason `form:"reason"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.

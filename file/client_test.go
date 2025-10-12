@@ -76,7 +76,7 @@ func TestFileNew(t *testing.T) {
 	}
 
 	fileParams := &stripe.FileParams{
-		Purpose:    stripe.String(string(stripe.FilePurposeDisputeEvidence)),
+		Purpose:    stripe.String(stripe.FilePurposeDisputeEvidence),
 		FileReader: f,
 		Filename:   stripe.String(f.Name()),
 		FileLinkData: &stripe.FileFileLinkDataParams{

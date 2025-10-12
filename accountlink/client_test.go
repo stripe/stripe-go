@@ -11,10 +11,10 @@ import (
 func TestAccountLinkNew(t *testing.T) {
 	params := &stripe.AccountLinkParams{
 		Account:    stripe.String("acct_123"),
-		Collect:    stripe.String(string(stripe.AccountLinkCollectCurrentlyDue)),
+		Collect:    stripe.String(stripe.AccountLinkCollectCurrentlyDue),
 		RefreshURL: stripe.String("https://stripe.com/refresh"),
 		ReturnURL:  stripe.String("https://stripe.com/return"),
-		Type:       stripe.String(string(stripe.AccountLinkTypeAccountOnboarding)),
+		Type:       stripe.String(stripe.AccountLinkTypeAccountOnboarding),
 	}
 	link, err := New(params)
 	assert.Nil(t, err)

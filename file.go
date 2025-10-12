@@ -51,7 +51,7 @@ type FileListParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Filter queries by the file purpose. If you don't provide a purpose, the queries return unfiltered files.
-	Purpose *string `form:"purpose"`
+	Purpose *FilePurpose `form:"purpose"`
 }
 
 // AddExpand appends a new field to expand.
@@ -94,7 +94,7 @@ type FileParams struct {
 	// Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
 	FileLinkData *FileFileLinkDataParams `form:"file_link_data"`
 	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
-	Purpose *string `form:"purpose"`
+	Purpose *FilePurpose `form:"purpose"`
 }
 
 // GetBody gets an appropriate multipart form payload to use in a request body
@@ -188,7 +188,7 @@ type FileCreateParams struct {
 	// Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
 	FileLinkData *FileCreateFileLinkDataParams `form:"file_link_data"`
 	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
-	Purpose *string `form:"purpose"`
+	Purpose *FilePurpose `form:"purpose"`
 }
 
 // GetBody gets an appropriate multipart form payload to use in a request body

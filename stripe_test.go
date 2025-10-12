@@ -1462,7 +1462,9 @@ func TestString_Enum(t *testing.T) {
 		MyEnumBar MyEnum = "bar"
 	)
 
+	// Test the clean way with typed enums (preferred)
 	assert.Equal(t, "foo", *String(MyEnumFoo))
+	// Test backward compatibility with explicit string conversion (intentional test case)
 	assert.Equal(t, "foo", *String(string(MyEnumFoo)))
 }
 

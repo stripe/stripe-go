@@ -271,7 +271,7 @@ type AccountParams struct {
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
 	// The business type. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
-	BusinessType *string `form:"business_type"`
+	BusinessType *AccountBusinessType `form:"business_type"`
 	// Each key of the dictionary represents a capability, and each capability
 	// maps to its settings (for example, whether it has been requested or not). Each
 	// capability is inactive until you have provided its specific
@@ -310,7 +310,7 @@ type AccountParams struct {
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
-	Type *string `form:"type"`
+	Type *AccountType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1188,7 +1188,7 @@ type AccountSettingsPayoutsScheduleParams struct {
 	DelayDays        *int64 `form:"delay_days"`
 	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
-	Interval *string `form:"interval"`
+	Interval *AccountSettingsPayoutsScheduleInterval `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
@@ -1295,7 +1295,7 @@ type AccountControllerLossesParams struct {
 // A hash of configuration for Stripe-hosted dashboards.
 type AccountControllerStripeDashboardParams struct {
 	// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no Stripe-hosted dashboard (`none`). Defaults to `full`.
-	Type *string `form:"type"`
+	Type *AccountType `form:"type"`
 }
 
 // A hash of configuration describing the account controller's attributes.
@@ -2214,7 +2214,7 @@ type AccountUpdateSettingsPayoutsScheduleParams struct {
 	DelayDays        *int64 `form:"delay_days"`
 	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
-	Interval *string `form:"interval"`
+	Interval *AccountSettingsPayoutsScheduleInterval `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
@@ -2310,7 +2310,7 @@ type AccountUpdateParams struct {
 	// Business information about the account.
 	BusinessProfile *AccountUpdateBusinessProfileParams `form:"business_profile"`
 	// The business type. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
-	BusinessType *string `form:"business_type"`
+	BusinessType *AccountBusinessType `form:"business_type"`
 	// Each key of the dictionary represents a capability, and each capability
 	// maps to its settings (for example, whether it has been requested or not). Each
 	// capability is inactive until you have provided its specific
@@ -3041,7 +3041,7 @@ type AccountCreateControllerLossesParams struct {
 // A hash of configuration for Stripe-hosted dashboards.
 type AccountCreateControllerStripeDashboardParams struct {
 	// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no Stripe-hosted dashboard (`none`). Defaults to `full`.
-	Type *string `form:"type"`
+	Type *AccountType `form:"type"`
 }
 
 // A hash of configuration describing the account controller's attributes.
@@ -3257,7 +3257,7 @@ type AccountCreateSettingsPayoutsScheduleParams struct {
 	DelayDays        *int64 `form:"delay_days"`
 	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
-	Interval *string `form:"interval"`
+	Interval *AccountSettingsPayoutsScheduleInterval `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
@@ -3346,7 +3346,7 @@ type AccountCreateParams struct {
 	// Business information about the account.
 	BusinessProfile *AccountCreateBusinessProfileParams `form:"business_profile"`
 	// The business type. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
-	BusinessType *string `form:"business_type"`
+	BusinessType *AccountBusinessType `form:"business_type"`
 	// Each key of the dictionary represents a capability, and each capability
 	// maps to its settings (for example, whether it has been requested or not). Each
 	// capability is inactive until you have provided its specific
@@ -3385,7 +3385,7 @@ type AccountCreateParams struct {
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountCreateTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
-	Type *string `form:"type"`
+	Type *AccountType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
