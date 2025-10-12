@@ -27,7 +27,7 @@ func TestTransferList(t *testing.T) {
 func TestTransferNew(t *testing.T) {
 	transfer, err := New(&stripe.TransferParams{
 		Amount:            stripe.Int64(123),
-		Currency:          stripe.String(string(stripe.CurrencyUSD)),
+		Currency:          stripe.String(stripe.CurrencyUSD),
 		Destination:       stripe.String("acct_123"),
 		SourceTransaction: stripe.String("ch_123"),
 	})

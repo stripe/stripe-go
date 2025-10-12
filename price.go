@@ -90,11 +90,11 @@ const (
 // Only return prices with these recurring fields.
 type PriceListRecurringParams struct {
 	// Filter by billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// Filter by the price's meter.
 	Meter *string `form:"meter"`
 	// Filter by the usage type for this price. Can be either `metered` or `licensed`.
-	UsageType *string `form:"usage_type"`
+	UsageType *PriceRecurringUsageType `form:"usage_type"`
 }
 
 // Returns a list of your active prices, excluding [inline prices](https://docs.stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
@@ -107,7 +107,7 @@ type PriceListParams struct {
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return prices for the given currency.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Only return the price with these lookup_keys, if any exist. You can specify up to 10 lookup_keys.
@@ -217,7 +217,7 @@ func (p *PriceProductDataParams) AddMetadata(key string, value string) {
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 	// The meter tracking the usage of a metered price
@@ -225,7 +225,7 @@ type PriceRecurringParams struct {
 	// Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
-	UsageType *string `form:"usage_type"`
+	UsageType *PriceRecurringUsageType `form:"usage_type"`
 }
 
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
@@ -264,9 +264,9 @@ type PriceParams struct {
 	// Whether the price can be used for new purchases. Defaults to `true`.
 	Active *bool `form:"active"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
-	BillingScheme *string `form:"billing_scheme"`
+	BillingScheme *PriceBillingScheme `form:"billing_scheme"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*PriceCurrencyOptionsParams `form:"currency_options"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -424,7 +424,7 @@ func (p *PriceCreateProductDataParams) AddMetadata(key string, value string) {
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceCreateRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 	// The meter tracking the usage of a metered price
@@ -432,7 +432,7 @@ type PriceCreateRecurringParams struct {
 	// Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
-	UsageType *string `form:"usage_type"`
+	UsageType *PriceRecurringUsageType `form:"usage_type"`
 }
 
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
@@ -471,9 +471,9 @@ type PriceCreateParams struct {
 	// Whether the price can be used for new purchases. Defaults to `true`.
 	Active *bool `form:"active"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
-	BillingScheme *string `form:"billing_scheme"`
+	BillingScheme *PriceBillingScheme `form:"billing_scheme"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*PriceCreateCurrencyOptionsParams `form:"currency_options"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.

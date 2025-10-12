@@ -42,7 +42,7 @@ type ReportingReportRunParametersParams struct {
 	// Connected account ID to filter for in the report run.
 	ConnectedAccount *string `form:"connected_account"`
 	// Currency of objects to be included in the report run.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Ending timestamp of data to be included in the report run (exclusive).
 	IntervalEnd *int64 `form:"interval_end"`
 	// Starting timestamp of data to be included in the report run.
@@ -78,7 +78,7 @@ type ReportingReportRunCreateParametersParams struct {
 	// Connected account ID to filter for in the report run.
 	ConnectedAccount *string `form:"connected_account"`
 	// Currency of objects to be included in the report run.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Ending timestamp of data to be included in the report run (exclusive).
 	IntervalEnd *int64 `form:"interval_end"`
 	// Starting timestamp of data to be included in the report run.

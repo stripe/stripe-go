@@ -93,7 +93,7 @@ type TreasuryInboundTransferParams struct {
 	// Amount (in cents) to be transferred.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
@@ -140,7 +140,7 @@ type TreasuryInboundTransferCreateParams struct {
 	// Amount (in cents) to be transferred.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.

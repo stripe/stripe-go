@@ -421,7 +421,7 @@ type TerminalReaderSetReaderDisplayCartLineItemParams struct {
 // Cart
 type TerminalReaderSetReaderDisplayCartParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Array of line items that were purchased.
 	LineItems []*TerminalReaderSetReaderDisplayCartLineItemParams `form:"line_items"`
 	// The amount of tax in cents.

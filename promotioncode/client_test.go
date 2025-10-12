@@ -40,7 +40,7 @@ func TestPromotionCodeList(t *testing.T) {
 // 		Restrictions: &stripe.PromotionCodeRestrictionsParams{
 // 			FirstTimeTransaction:  stripe.Bool(true),
 // 			MinimumAmount:         stripe.Int64(1234),
-// 			MinimumAmountCurrency: stripe.String(string(stripe.CurrencyUSD)),
+// 			MinimumAmountCurrency: stripe.String(stripe.CurrencyUSD),
 // 		},
 // 	}
 // 	pc, err := New(params)

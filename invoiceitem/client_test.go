@@ -33,7 +33,7 @@ func TestInvoiceItemList(t *testing.T) {
 func TestInvoiceItemNew(t *testing.T) {
 	item, err := New(&stripe.InvoiceItemParams{
 		Amount:   stripe.Int64(123),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)

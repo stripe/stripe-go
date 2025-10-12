@@ -37,7 +37,7 @@ func TestRadarValueListNew(t *testing.T) {
 	vl, err := New(&stripe.RadarValueListParams{
 		Alias:    stripe.String("alias"),
 		Name:     stripe.String("name"),
-		ItemType: stripe.String(string(stripe.RadarValueListItemTypeIPAddress)),
+		ItemType: stripe.String(stripe.RadarValueListItemTypeIPAddress),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, vl)

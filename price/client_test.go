@@ -22,8 +22,8 @@ func TestPriceList(t *testing.T) {
 			"Key2",
 		}),
 		Recurring: &stripe.PriceListRecurringParams{
-			Interval:  stripe.String(string(stripe.PriceRecurringIntervalMonth)),
-			UsageType: stripe.String(string(stripe.PriceRecurringUsageTypeLicensed)),
+			Interval:  stripe.String(stripe.PriceRecurringIntervalMonth),
+			UsageType: stripe.String(stripe.PriceRecurringUsageTypeLicensed),
 		},
 	}
 	i := List(params)
@@ -37,12 +37,12 @@ func TestPriceList(t *testing.T) {
 
 func TestPriceNew(t *testing.T) {
 	price, err := New(&stripe.PriceParams{
-		BillingScheme: stripe.String(string(stripe.PriceBillingSchemeTiered)),
-		Currency:      stripe.String(string(stripe.CurrencyUSD)),
+		BillingScheme: stripe.String(stripe.PriceBillingSchemeTiered),
+		Currency:      stripe.String(stripe.CurrencyUSD),
 		Recurring: &stripe.PriceRecurringParams{
-			Interval:      stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+			Interval:      stripe.String(stripe.PriceRecurringIntervalMonth),
 			IntervalCount: stripe.Int64(6),
-			UsageType:     stripe.String(string(stripe.PriceRecurringUsageTypeLicensed)),
+			UsageType:     stripe.String(stripe.PriceRecurringUsageTypeLicensed),
 		},
 		ProductData: &stripe.PriceProductDataParams{
 			Name:                stripe.String("Sapphire Elite"),

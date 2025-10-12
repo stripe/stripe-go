@@ -70,7 +70,7 @@ type ShippingRateListParams struct {
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return shipping rates for the given currency.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -117,7 +117,7 @@ type ShippingRateFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*ShippingRateFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
@@ -196,7 +196,7 @@ type ShippingRateCreateFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*ShippingRateCreateFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }

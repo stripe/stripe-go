@@ -65,7 +65,7 @@ func TestIssuingCardholderNew(t *testing.T) {
 				},
 			},
 		},
-		Type: stripe.String(string(stripe.IssuingCardholderTypeIndividual)),
+		Type: stripe.String(stripe.IssuingCardholderTypeIndividual),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, cardholder)

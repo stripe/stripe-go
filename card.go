@@ -136,7 +136,7 @@ type CardParams struct {
 	// ZIP or postal code.
 	AddressZip *string `form:"address_zip"`
 	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
 	CVC *string `form:"cvc"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
@@ -388,7 +388,7 @@ type CardCreateParams struct {
 	// ZIP or postal code.
 	AddressZip *string `form:"address_zip"`
 	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
 	CVC *string `form:"cvc"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.

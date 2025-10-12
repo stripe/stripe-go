@@ -1638,7 +1638,7 @@ type CheckoutSessionLineItemPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type CheckoutSessionLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -1825,7 +1825,7 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 // contains details about the ACSS Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). This is only accepted for Checkout Sessions in `setup` mode.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1845,7 +1845,7 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 // contains details about the Affirm payment method options.
 type CheckoutSessionPaymentMethodOptionsAffirmParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsAffirmCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1859,7 +1859,7 @@ type CheckoutSessionPaymentMethodOptionsAffirmParams struct {
 // contains details about the Afterpay Clearpay payment method options.
 type CheckoutSessionPaymentMethodOptionsAfterpayClearpayParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsAfterpayClearpayCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1885,13 +1885,13 @@ type CheckoutSessionPaymentMethodOptionsAlipayParams struct {
 // contains details about the Alma payment method options.
 type CheckoutSessionPaymentMethodOptionsAlmaParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsAlmaCaptureMethod `form:"capture_method"`
 }
 
 // contains details about the AmazonPay payment method options.
 type CheckoutSessionPaymentMethodOptionsAmazonPayParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsAmazonPayCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1953,7 +1953,7 @@ type CheckoutSessionPaymentMethodOptionsBancontactParams struct {
 // contains details about the Billie payment method options.
 type CheckoutSessionPaymentMethodOptionsBillieParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsBillieCaptureMethod `form:"capture_method"`
 }
 
 // contains details about the Boleto payment method options.
@@ -1986,7 +1986,7 @@ type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
 // contains details about the Card payment method options.
 type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsCardCaptureMethod `form:"capture_method"`
 	// Installment options for card payments
 	Installments *CheckoutSessionPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -2018,7 +2018,7 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 // contains details about the Cashapp Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsCashAppParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsCashAppCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2138,7 +2138,7 @@ type CheckoutSessionPaymentMethodOptionsIDEALParams struct {
 // contains details about the Kakao Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsKakaoPayParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsKakaoPayCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2174,7 +2174,7 @@ type CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionParams struct {
 // contains details about the Klarna payment method options.
 type CheckoutSessionPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsKlarnaCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2204,7 +2204,7 @@ type CheckoutSessionPaymentMethodOptionsKonbiniParams struct {
 // contains details about the Korean card payment method options.
 type CheckoutSessionPaymentMethodOptionsKrCardParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsKrCardCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2218,7 +2218,7 @@ type CheckoutSessionPaymentMethodOptionsKrCardParams struct {
 // contains details about the Link payment method options.
 type CheckoutSessionPaymentMethodOptionsLinkParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsLinkCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2232,7 +2232,7 @@ type CheckoutSessionPaymentMethodOptionsLinkParams struct {
 // contains details about the Mobilepay payment method options.
 type CheckoutSessionPaymentMethodOptionsMobilepayParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsMobilepayCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2258,7 +2258,7 @@ type CheckoutSessionPaymentMethodOptionsMultibancoParams struct {
 // contains details about the Naver Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsNaverPayParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsNaverPayCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2303,7 +2303,7 @@ type CheckoutSessionPaymentMethodOptionsPayByBankParams struct{}
 // contains details about the PAYCO payment method options.
 type CheckoutSessionPaymentMethodOptionsPaycoParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsPaycoCaptureMethod `form:"capture_method"`
 }
 
 // contains details about the PayNow payment method options.
@@ -2321,7 +2321,7 @@ type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
 // contains details about the PayPal payment method options.
 type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsPaypalCaptureMethod `form:"capture_method"`
 	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
@@ -2359,7 +2359,7 @@ type CheckoutSessionPaymentMethodOptionsPixParams struct {
 // contains details about the RevolutPay payment method options.
 type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsRevolutPayCaptureMethod `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2373,13 +2373,13 @@ type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
 // contains details about the Samsung Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsSamsungPayParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod `form:"capture_method"`
 }
 
 // contains details about the Satispay payment method options.
 type CheckoutSessionPaymentMethodOptionsSatispayParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *CheckoutSessionPaymentMethodOptionsSatispayCaptureMethod `form:"capture_method"`
 }
 
 // Additional fields for Mandate creation
@@ -2650,7 +2650,7 @@ type CheckoutSessionShippingOptionShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
@@ -2761,7 +2761,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 	TransferData *CheckoutSessionSubscriptionDataTransferDataParams `form:"transfer_data"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
@@ -2827,7 +2828,7 @@ type CheckoutSessionParams struct {
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recently saved card
 	// payment method will be used to prefill the email, name, card details, and billing address
 	// on the Checkout page. In `subscription` mode, the customer's [default payment method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method)
@@ -3347,7 +3348,7 @@ type CheckoutSessionCreateLineItemPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type CheckoutSessionCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -3534,7 +3535,7 @@ type CheckoutSessionCreatePaymentMethodOptionsACSSDebitMandateOptionsParams stru
 // contains details about the ACSS Debit payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). This is only accepted for Checkout Sessions in `setup` mode.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -4359,7 +4360,7 @@ type CheckoutSessionCreateShippingOptionShippingRateDataFixedAmountParams struct
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CheckoutSessionCreateShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
@@ -4470,7 +4471,8 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 	TransferData *CheckoutSessionCreateSubscriptionDataTransferDataParams `form:"transfer_data"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
@@ -4534,7 +4536,7 @@ type CheckoutSessionCreateParams struct {
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionCreateConsentCollectionParams `form:"consent_collection"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recently saved card
 	// payment method will be used to prefill the email, name, card details, and billing address
 	// on the Checkout page. In `subscription` mode, the customer's [default payment method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method)
@@ -4755,7 +4757,7 @@ type CheckoutSessionUpdateShippingOptionShippingRateDataFixedAmountParams struct
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CheckoutSessionUpdateShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }

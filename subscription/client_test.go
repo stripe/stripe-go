@@ -43,7 +43,7 @@ func TestSubscriptionNew(t *testing.T) {
 			},
 			{
 				PriceData: &stripe.InvoiceItemPriceDataParams{
-					Currency:   stripe.String(string(stripe.CurrencyUSD)),
+					Currency:   stripe.String(stripe.CurrencyUSD),
 					UnitAmount: stripe.Int64(1000),
 					Product:    stripe.String("prod_123"),
 				},
@@ -51,7 +51,7 @@ func TestSubscriptionNew(t *testing.T) {
 			},
 		},
 		BillingCycleAnchor: stripe.Int64(time.Now().AddDate(0, 0, 12).Unix()),
-		CollectionMethod:   stripe.String(string(stripe.SubscriptionCollectionMethodChargeAutomatically)),
+		CollectionMethod:   stripe.String(stripe.SubscriptionCollectionMethodChargeAutomatically),
 		Customer:           stripe.String("cus_123"),
 		DaysUntilDue:       stripe.Int64(30),
 		Items: []*stripe.SubscriptionItemsParams{
@@ -61,10 +61,10 @@ func TestSubscriptionNew(t *testing.T) {
 			},
 			{
 				PriceData: &stripe.SubscriptionItemPriceDataParams{
-					Currency: stripe.String(string(stripe.CurrencyUSD)),
+					Currency: stripe.String(stripe.CurrencyUSD),
 					Product:  stripe.String("prod_ABC"),
 					Recurring: &stripe.SubscriptionItemPriceDataRecurringParams{
-						Interval:      stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+						Interval:      stripe.String(stripe.PriceRecurringIntervalMonth),
 						IntervalCount: stripe.Int64(6),
 					},
 					UnitAmount: stripe.Int64(1000),
@@ -92,7 +92,7 @@ func TestSubscriptionNew_WithItems(t *testing.T) {
 
 func TestSubscriptionUpdate(t *testing.T) {
 	params := &stripe.SubscriptionParams{
-		ProrationBehavior: stripe.String("none"),
+		ProrationBehavior: stripe.String(stripe.SubscriptionProrationBehaviorNone),
 	}
 	subscription, err := Update("sub_123", params)
 	assert.Nil(t, err)

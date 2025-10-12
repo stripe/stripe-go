@@ -56,7 +56,7 @@ type ClimateOrderParams struct {
 	// Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
 	Beneficiary *ClimateOrderBeneficiaryParams `form:"beneficiary"`
 	// Request currency for the order as a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a supported [settlement currency for your account](https://stripe.com/docs/currencies). If omitted, the account's default currency will be used.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -111,7 +111,7 @@ type ClimateOrderCreateParams struct {
 	// Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
 	Beneficiary *ClimateOrderCreateBeneficiaryParams `form:"beneficiary"`
 	// Request currency for the order as a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a supported [settlement currency for your account](https://stripe.com/docs/currencies). If omitted, the account's default currency will be used.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

@@ -22,11 +22,11 @@ func TestEventDestinationNew(t *testing.T) {
 		Name:          stripe.String("My Event Destination"),
 		Description:   stripe.String("This is my event destination, I like it a lot"),
 		EnabledEvents: stripe.StringSlice([]string{"v1.billing.meter.error_report_triggered"}),
-		Type:          stripe.String(string(stripe.V2CoreEventDestinationTypeWebhookEndpoint)),
+		Type:          stripe.String(stripe.V2CoreEventDestinationTypeWebhookEndpoint),
 		WebhookEndpoint: &stripe.V2CoreEventDestinationWebhookEndpointParams{
 			URL: stripe.String("https://example.com/my/webhook/endpoint"),
 		},
-		EventPayload: stripe.String(string(stripe.V2CoreEventDestinationEventPayloadThin)),
+		EventPayload: stripe.String(stripe.V2CoreEventDestinationEventPayloadThin),
 		Include:      stripe.StringSlice([]string{"webhook_endpoint.url"}),
 	}
 	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations", params, func(p *stripe.V2CoreEventDestinationParams) []byte {

@@ -51,7 +51,7 @@ func TestQuoteListLineItems(t *testing.T) {
 
 func TestQuoteNew(t *testing.T) {
 	quote, err := New(&stripe.QuoteParams{
-		CollectionMethod: stripe.String(string(stripe.QuoteCollectionMethodChargeAutomatically)),
+		CollectionMethod: stripe.String(stripe.QuoteCollectionMethodChargeAutomatically),
 		Customer:         stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)

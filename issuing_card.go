@@ -164,9 +164,9 @@ type IssuingCardListParams struct {
 	Last4                 *string `form:"last4"`
 	PersonalizationDesign *string `form:"personalization_design"`
 	// Only return cards that have the given status. One of `active`, `inactive`, or `canceled`.
-	Status *string `form:"status"`
+	Status *IssuingCardStatus `form:"status"`
 	// Only return cards that have the given type. One of `virtual` or `physical`.
-	Type *string `form:"type"`
+	Type *IssuingCardType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -242,7 +242,7 @@ type IssuingCardParams struct {
 	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The desired expiration month (1-12) for this card if [specifying a custom expiration date](https://docs.stripe.com/issuing/cards/virtual/issue-cards?testing-method=with-code#exp-dates).
@@ -268,12 +268,12 @@ type IssuingCardParams struct {
 	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardSpendingControlsParams `form:"spending_controls"`
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
-	Status *string `form:"status"`
+	Status *IssuingCardStatus `form:"status"`
 	// The type of card to issue. Possible values are `physical` or `virtual`.
-	Type *string `form:"type"`
+	Type *IssuingCardType `form:"type"`
 	// The following parameter is only supported when updating a card
 	// Reason why the `status` of this card is `canceled`.
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *IssuingCardCancellationReason `form:"cancellation_reason"`
 }
 
 // AddExpand appends a new field to expand.
@@ -358,7 +358,7 @@ type IssuingCardCreateParams struct {
 	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The desired expiration month (1-12) for this card if [specifying a custom expiration date](https://docs.stripe.com/issuing/cards/virtual/issue-cards?testing-method=with-code#exp-dates).
@@ -384,9 +384,9 @@ type IssuingCardCreateParams struct {
 	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardCreateSpendingControlsParams `form:"spending_controls"`
 	// Whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`.
-	Status *string `form:"status"`
+	Status *IssuingCardStatus `form:"status"`
 	// The type of card to issue. Possible values are `physical` or `virtual`.
-	Type *string `form:"type"`
+	Type *IssuingCardType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -481,7 +481,7 @@ type IssuingCardUpdateSpendingControlsParams struct {
 type IssuingCardUpdateParams struct {
 	Params `form:"*"`
 	// Reason why the `status` of this card is `canceled`.
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *IssuingCardCancellationReason `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -494,7 +494,7 @@ type IssuingCardUpdateParams struct {
 	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardUpdateSpendingControlsParams `form:"spending_controls"`
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
-	Status *string `form:"status"`
+	Status *IssuingCardStatus `form:"status"`
 }
 
 // AddExpand appends a new field to expand.

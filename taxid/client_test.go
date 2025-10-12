@@ -18,7 +18,7 @@ func TestTaxIDDel(t *testing.T) {
 
 func TestTaxIDGet(t *testing.T) {
 	taxid, err := Get("txi_123", &stripe.TaxIDParams{
-		Customer: stripe.String(string(stripe.TaxIDTypeAUABN)),
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, taxid)
@@ -39,7 +39,7 @@ func TestTaxIDList(t *testing.T) {
 func TestTaxIDNew(t *testing.T) {
 	taxid, err := New(&stripe.TaxIDParams{
 		Customer: stripe.String("cus_123"),
-		Type:     stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Type:     stripe.String(stripe.TaxIDTypeEUVAT),
 		Value:    stripe.String("11111"),
 	})
 	assert.Nil(t, err)

@@ -55,6 +55,18 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorNone             BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "none"
 )
 
+// IsValid checks if the BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior value is valid
+func (b BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior) IsValid() bool {
+	switch b {
+	case BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorAlwaysInvoice,
+		BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorCreateProrations,
+		BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorNone:
+		return true
+	default:
+		return false
+	}
+}
+
 // The types of subscription updates that are supported for items listed in the `products` attribute. When empty, subscriptions are not updateable.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate string
 
@@ -74,6 +86,18 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorCreateProrations BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior = "create_prorations"
 	BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorNone             BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior = "none"
 )
+
+// IsValid checks if the BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior value is valid
+func (b BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior) IsValid() bool {
+	switch b {
+	case BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorAlwaysInvoice,
+		BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorCreateProrations,
+		BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorNone:
+		return true
+	default:
+		return false
+	}
+}
 
 // The type of condition.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionType string
@@ -156,7 +180,8 @@ type BillingPortalConfigurationFeaturesSubscriptionCancelParams struct {
 	// Whether to cancel subscriptions immediately or at the end of the billing period.
 	Mode *string `form:"mode"`
 	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`, which is only compatible with `mode=immediately`. Passing `always_invoice` will result in an error. No prorations are generated when canceling a subscription at the end of its natural billing period.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorNone) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 }
 
 // Control whether the quantity of the product can be adjusted.
@@ -200,7 +225,8 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
 	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams `form:"products"`
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
 	// The behavior when updating a subscription that is trialing.
@@ -311,7 +337,8 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionCancelParams struct {
 	// Whether to cancel subscriptions immediately or at the end of the billing period.
 	Mode *string `form:"mode"`
 	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`, which is only compatible with `mode=immediately`. Passing `always_invoice` will result in an error. No prorations are generated when canceling a subscription at the end of its natural billing period.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorNone) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 }
 
 // Control whether the quantity of the product can be adjusted.
@@ -355,7 +382,8 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams struct {
 	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationCreateFeaturesSubscriptionUpdateProductParams `form:"products"`
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
 	// The behavior when updating a subscription that is trialing.
@@ -474,7 +502,8 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionCancelParams struct {
 	// Whether to cancel subscriptions immediately or at the end of the billing period.
 	Mode *string `form:"mode"`
 	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`, which is only compatible with `mode=immediately`. Passing `always_invoice` will result in an error. No prorations are generated when canceling a subscription at the end of its natural billing period.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorNone) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 }
 
 // Control whether the quantity of the product can be adjusted.
@@ -518,7 +547,8 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams struct {
 	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateProductParams `form:"products"`
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
 	// The behavior when updating a subscription that is trialing.

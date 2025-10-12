@@ -34,7 +34,7 @@ func TestPayoutList(t *testing.T) {
 func TestPayoutNew(t *testing.T) {
 	payout, err := New(&stripe.PayoutParams{
 		Amount:   stripe.Int64(123),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, payout)

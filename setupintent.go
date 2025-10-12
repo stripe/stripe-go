@@ -689,7 +689,7 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 // If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
 type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	// Bank account verification method.
@@ -718,7 +718,7 @@ type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
 	// Currency in which future payments will be charged. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description *string `form:"description"`
 	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
@@ -845,7 +845,7 @@ type SetupIntentPaymentMethodOptionsKlarnaSubscriptionParams struct {
 // If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
 type SetupIntentPaymentMethodOptionsKlarnaParams struct {
 	// The currency of the SetupIntent. Three letter ISO currency code.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// On-demand details if setting up a payment method for on-demand payments.
 	OnDemand *SetupIntentPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
@@ -900,7 +900,8 @@ type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams stru
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper) for type-safe usage.
+	CollectionMethod *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod `form:"collection_method"`
 }
 
 // Additional fields for network related functions
@@ -952,7 +953,7 @@ type SetupIntentSingleUseParams struct {
 	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 }
 
 // Creates a SetupIntent object.
@@ -1036,7 +1037,7 @@ func (p *SetupIntentParams) AddMetadata(key string, value string) {
 type SetupIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this SetupIntent. Possible values are: `abandoned`, `requested_by_customer`, or `duplicate`
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *SetupIntentCancellationReason `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -1899,7 +1900,7 @@ type SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 // If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
 type SetupIntentCreatePaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	// Bank account verification method.
@@ -1928,7 +1929,7 @@ type SetupIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
 	// Currency in which future payments will be charged. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description *string `form:"description"`
 	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
@@ -2055,7 +2056,7 @@ type SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams struct {
 // If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
 type SetupIntentCreatePaymentMethodOptionsKlarnaParams struct {
 	// The currency of the SetupIntent. Three letter ISO currency code.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// On-demand details if setting up a payment method for on-demand payments.
 	OnDemand *SetupIntentCreatePaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
@@ -2110,7 +2111,8 @@ type SetupIntentCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsParam
 // Additional fields for Mandate creation
 type SetupIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper) for type-safe usage.
+	CollectionMethod *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod `form:"collection_method"`
 }
 
 // Additional fields for network related functions
@@ -2162,7 +2164,7 @@ type SetupIntentCreateSingleUseParams struct {
 	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 }
 
 // Creates a SetupIntent object.
@@ -2643,7 +2645,7 @@ type SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 // If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
 type SetupIntentUpdatePaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	// Bank account verification method.
@@ -2672,7 +2674,7 @@ type SetupIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
 	// Currency in which future payments will be charged. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description *string `form:"description"`
 	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
@@ -2799,7 +2801,7 @@ type SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams struct {
 // If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
 type SetupIntentUpdatePaymentMethodOptionsKlarnaParams struct {
 	// The currency of the SetupIntent. Three letter ISO currency code.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// On-demand details if setting up a payment method for on-demand payments.
 	OnDemand *SetupIntentUpdatePaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
@@ -2854,7 +2856,8 @@ type SetupIntentUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsParam
 // Additional fields for Mandate creation
 type SetupIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper) for type-safe usage.
+	CollectionMethod *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod `form:"collection_method"`
 }
 
 // Additional fields for network related functions

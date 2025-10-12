@@ -50,7 +50,7 @@ func (p *BillingCreditGrantListParams) AddExpand(f string) {
 // The monetary amount.
 type BillingCreditGrantAmountMonetaryParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// A positive integer representing the amount of the credit grant.
 	Value *int64 `form:"value"`
 }
@@ -149,7 +149,7 @@ func (p *BillingCreditGrantVoidGrantParams) AddExpand(f string) {
 // The monetary amount.
 type BillingCreditGrantCreateAmountMonetaryParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// A positive integer representing the amount of the credit grant.
 	Value *int64 `form:"value"`
 }

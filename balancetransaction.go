@@ -143,7 +143,7 @@ type BalanceTransactionListParams struct {
 	// Only return transactions that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return transactions in a certain currency. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID.

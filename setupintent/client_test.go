@@ -10,7 +10,7 @@ import (
 
 func TestSetupIntentCancel(t *testing.T) {
 	intent, err := Cancel("seti_123", &stripe.SetupIntentCancelParams{
-		CancellationReason: stripe.String(string(stripe.SetupIntentCancellationReasonRequestedByCustomer)),
+		CancellationReason: stripe.String(stripe.SetupIntentCancellationReasonRequestedByCustomer),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, intent)

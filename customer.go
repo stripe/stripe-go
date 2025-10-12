@@ -274,7 +274,7 @@ type CustomerCreateFundingInstructionsParams struct {
 	// Additional parameters for `bank_transfer` funding types
 	BankTransfer *CustomerCreateFundingInstructionsBankTransferParams `form:"bank_transfer"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The `funding_type` to get the instructions for.

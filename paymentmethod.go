@@ -380,7 +380,7 @@ type PaymentMethodListParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.
-	Type *string `form:"type"`
+	Type *PaymentMethodType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -766,7 +766,7 @@ type PaymentMethodParams struct {
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
-	Type *string `form:"type"`
+	Type *PaymentMethodType `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -1214,7 +1214,7 @@ type PaymentMethodCreateParams struct {
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodCreateTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
-	Type *string `form:"type"`
+	Type *PaymentMethodType `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodCreateUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.

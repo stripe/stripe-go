@@ -286,7 +286,7 @@ type BankAccountParams struct {
 	// The country in which the bank account is located.
 	Country *string `form:"country"`
 	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports](https://stripe.com/docs/payouts).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// When set to true, or if this is the first external account added in this currency, this account becomes the default external account for its currency.
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
@@ -514,7 +514,7 @@ type BankAccountCreateParams struct {
 	// The country in which the bank account is located.
 	Country *string `form:"country"`
 	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports](https://stripe.com/docs/payouts).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// When set to true, or if this is the first external account added in this currency, this account becomes the default external account for its currency.
 	DefaultForCurrency *bool                             `form:"default_for_currency"`
 	Documents          *BankAccountCreateDocumentsParams `form:"documents"`

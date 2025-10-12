@@ -191,7 +191,7 @@ type ProductDefaultPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object. This Price will be set as the default price for this product.
 type ProductDefaultPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*ProductDefaultPriceDataCurrencyOptionsParams `form:"currency_options"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
@@ -390,7 +390,7 @@ type ProductCreateDefaultPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object. This Price will be set as the default price for this product.
 type ProductCreateDefaultPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*ProductCreateDefaultPriceDataCurrencyOptionsParams `form:"currency_options"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.

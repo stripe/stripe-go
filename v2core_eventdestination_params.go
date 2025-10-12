@@ -39,7 +39,7 @@ type V2CoreEventDestinationParams struct {
 	// The list of events to enable for this endpoint.
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
 	// Payload type of events being subscribed to.
-	EventPayload *string `form:"event_payload" json:"event_payload,omitempty"`
+	EventPayload *V2CoreEventDestinationEventPayload `form:"event_payload" json:"event_payload,omitempty"`
 	// Where events should be routed from.
 	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
 	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
@@ -51,7 +51,7 @@ type V2CoreEventDestinationParams struct {
 	// If using the snapshot event payload, the API version events are rendered as.
 	SnapshotAPIVersion *string `form:"snapshot_api_version" json:"snapshot_api_version,omitempty"`
 	// Event destination type.
-	Type *string `form:"type" json:"type,omitempty"`
+	Type *V2CoreEventDestinationType `form:"type" json:"type,omitempty"`
 	// Webhook endpoint configuration.
 	WebhookEndpoint *V2CoreEventDestinationWebhookEndpointParams `form:"webhook_endpoint" json:"webhook_endpoint,omitempty"`
 }
@@ -104,7 +104,7 @@ type V2CoreEventDestinationCreateParams struct {
 	// The list of events to enable for this endpoint.
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events"`
 	// Payload type of events being subscribed to.
-	EventPayload *string `form:"event_payload" json:"event_payload"`
+	EventPayload *V2CoreEventDestinationEventPayload `form:"event_payload" json:"event_payload"`
 	// Where events should be routed from.
 	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
 	// Additional fields to include in the response.
@@ -116,7 +116,7 @@ type V2CoreEventDestinationCreateParams struct {
 	// If using the snapshot event payload, the API version events are rendered as.
 	SnapshotAPIVersion *string `form:"snapshot_api_version" json:"snapshot_api_version,omitempty"`
 	// Event destination type.
-	Type *string `form:"type" json:"type"`
+	Type *V2CoreEventDestinationType `form:"type" json:"type"`
 	// Webhook endpoint configuration.
 	WebhookEndpoint *V2CoreEventDestinationCreateWebhookEndpointParams `form:"webhook_endpoint" json:"webhook_endpoint,omitempty"`
 }

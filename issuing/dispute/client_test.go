@@ -17,7 +17,7 @@ func TestIssuingDisputeGet(t *testing.T) {
 
 func TestIssuingDisputeList(t *testing.T) {
 	params := &stripe.IssuingDisputeListParams{
-		Status:      stripe.String(string(stripe.IssuingDisputeStatusWon)),
+		Status:      stripe.String(stripe.IssuingDisputeStatusWon),
 		Transaction: stripe.String("ipi_123"),
 	}
 	i := List(params)
@@ -41,11 +41,11 @@ func TestIssuingDisputeNew(t *testing.T) {
 				ExpectedAt:                 stripe.Int64(1577836800),
 				Explanation:                stripe.String("explanation"),
 				ProductDescription:         stripe.String("product description"),
-				ProductType:                stripe.String(string(stripe.IssuingDisputeEvidenceCanceledProductTypeMerchandise)),
-				ReturnStatus:               stripe.String(string(stripe.IssuingDisputeEvidenceCanceledReturnStatusMerchantRejected)),
+				ProductType:                stripe.String(stripe.IssuingDisputeEvidenceCanceledProductTypeMerchandise),
+				ReturnStatus:               stripe.String(stripe.IssuingDisputeEvidenceCanceledReturnStatusMerchantRejected),
 				ReturnedAt:                 stripe.Int64(1577836800),
 			},
-			Reason: stripe.String(string(stripe.IssuingDisputeEvidenceReasonCanceled)),
+			Reason: stripe.String(stripe.IssuingDisputeEvidenceReasonCanceled),
 		},
 		Transaction: stripe.String("ipi_123"),
 	}

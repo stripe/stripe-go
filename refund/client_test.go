@@ -28,7 +28,7 @@ func TestRefundNew(t *testing.T) {
 	refund, err := New(&stripe.RefundParams{
 		Charge:        stripe.String("ch_123"),
 		PaymentIntent: stripe.String("pi_123"),
-		Reason:        stripe.String(string(stripe.RefundReasonDuplicate)),
+		Reason:        stripe.String(stripe.RefundReasonDuplicate),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, refund)

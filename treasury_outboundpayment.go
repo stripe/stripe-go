@@ -185,7 +185,7 @@ type TreasuryOutboundPaymentParams struct {
 	// Amount (in cents) to be transferred.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the customer to whom the OutboundPayment is sent. Must match the Customer attached to the `destination_payment_method` passed in.
 	Customer *string `form:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -309,7 +309,7 @@ type TreasuryOutboundPaymentCreateParams struct {
 	// Amount (in cents) to be transferred.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the customer to whom the OutboundPayment is sent. Must match the Customer attached to the `destination_payment_method` passed in.
 	Customer *string `form:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.

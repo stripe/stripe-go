@@ -26,7 +26,7 @@ type CouponParams struct {
 	// A hash containing directions for what this Coupon will apply discounts to.
 	AppliesTo *CouponAppliesToParams `form:"applies_to"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Coupons defined in each available currency option (only supported if the coupon is amount-based). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CouponCurrencyOptionsParams `form:"currency_options"`
 	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
@@ -163,7 +163,7 @@ type CouponCreateParams struct {
 	// A hash containing directions for what this Coupon will apply discounts to.
 	AppliesTo *CouponCreateAppliesToParams `form:"applies_to"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Coupons defined in each available currency option (only supported if `amount_off` is passed). Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CouponCreateCurrencyOptionsParams `form:"currency_options"`
 	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.

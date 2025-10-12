@@ -488,7 +488,7 @@ type PaymentLinkLineItemPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type PaymentLinkLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -699,7 +699,7 @@ type PaymentLinkParams struct {
 	// Configure fields to gather active consent from customers.
 	ConsentCollection *PaymentLinkConsentCollectionParams `form:"consent_collection"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies) and supported by each line item's price.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
@@ -1042,7 +1042,7 @@ type PaymentLinkCreateLineItemPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type PaymentLinkCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -1249,7 +1249,7 @@ type PaymentLinkCreateParams struct {
 	// Configure fields to gather active consent from customers.
 	ConsentCollection *PaymentLinkCreateConsentCollectionParams `form:"consent_collection"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies) and supported by each line item's price.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.

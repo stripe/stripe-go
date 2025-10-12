@@ -39,6 +39,17 @@ const (
 	QuoteCollectionMethodSendInvoice         QuoteCollectionMethod = "send_invoice"
 )
 
+// IsValid checks if the QuoteCollectionMethod value is valid
+func (q QuoteCollectionMethod) IsValid() bool {
+	switch q {
+	case QuoteCollectionMethodChargeAutomatically,
+		QuoteCollectionMethodSendInvoice:
+		return true
+	default:
+		return false
+	}
+}
+
 // The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
 type QuoteComputedRecurringInterval string
 
@@ -243,7 +254,7 @@ type QuoteLineItemPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type QuoteLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
@@ -337,7 +348,8 @@ type QuoteParams struct {
 	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 	AutomaticTax *QuoteAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.QuoteCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *QuoteCollectionMethod `form:"collection_method"`
 	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer *string `form:"customer"`
 	// The tax rates that will apply to any line item that does not have `tax_rates` set.
@@ -533,7 +545,7 @@ type QuoteCreateLineItemPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type QuoteCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
@@ -625,7 +637,8 @@ type QuoteCreateParams struct {
 	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 	AutomaticTax *QuoteCreateAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.QuoteCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *QuoteCollectionMethod `form:"collection_method"`
 	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer *string `form:"customer"`
 	// The tax rates that will apply to any line item that does not have `tax_rates` set.
@@ -749,7 +762,7 @@ type QuoteUpdateLineItemPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type QuoteUpdateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
@@ -827,7 +840,8 @@ type QuoteUpdateParams struct {
 	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 	AutomaticTax *QuoteUpdateAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.QuoteCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *QuoteCollectionMethod `form:"collection_method"`
 	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer *string `form:"customer"`
 	// The tax rates that will apply to any line item that does not have `tax_rates` set.

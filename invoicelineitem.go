@@ -118,7 +118,7 @@ func (p *InvoiceLineItemPriceDataProductDataParams) AddMetadata(key string, valu
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type InvoiceLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -268,7 +268,7 @@ func (p *InvoiceLineItemUpdatePriceDataProductDataParams) AddMetadata(key string
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type InvoiceLineItemUpdatePriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.

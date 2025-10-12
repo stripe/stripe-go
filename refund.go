@@ -98,7 +98,7 @@ type RefundParams struct {
 	// The identifier of the charge to refund.
 	Charge *string `form:"charge"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Customer whose customer balance to refund from.
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
@@ -112,7 +112,7 @@ type RefundParams struct {
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://stripe.com/docs/radar/lists), and will also help us improve our fraud detection algorithms.
-	Reason *string `form:"reason"`
+	Reason *RefundReason `form:"reason"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
 	RefundApplicationFee *bool `form:"refund_application_fee"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).
@@ -166,7 +166,7 @@ type RefundCreateParams struct {
 	// The identifier of the charge to refund.
 	Charge *string `form:"charge"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Customer whose customer balance to refund from.
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
@@ -180,7 +180,7 @@ type RefundCreateParams struct {
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://stripe.com/docs/radar/lists), and will also help us improve our fraud detection algorithms.
-	Reason *string `form:"reason"`
+	Reason *RefundReason `form:"reason"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
 	RefundApplicationFee *bool `form:"refund_application_fee"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).

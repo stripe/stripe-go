@@ -72,6 +72,17 @@ const (
 	InvoiceCollectionMethodSendInvoice         InvoiceCollectionMethod = "send_invoice"
 )
 
+// IsValid checks if the InvoiceCollectionMethod value is valid
+func (i InvoiceCollectionMethod) IsValid() bool {
+	switch i {
+	case InvoiceCollectionMethodChargeAutomatically,
+		InvoiceCollectionMethodSendInvoice:
+		return true
+	default:
+		return false
+	}
+}
+
 // Type of the account referenced.
 type InvoiceIssuerType string
 
@@ -320,9 +331,10 @@ type InvoiceParams struct {
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.InvoiceCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *InvoiceCollectionMethod `form:"collection_method"`
 	// The currency to create this invoice in. Defaults to that of `customer` if not specified.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the customer who will be billed.
 	Customer *string `form:"customer"`
 	// A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
@@ -620,7 +632,7 @@ type InvoiceShippingCostShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*InvoiceShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
@@ -682,7 +694,8 @@ type InvoiceTransferDataParams struct {
 type InvoiceListParams struct {
 	ListParams `form:"*"`
 	// The collection method of the invoice to retrieve. Either `charge_automatically` or `send_invoice`.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.InvoiceCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *InvoiceCollectionMethod `form:"collection_method"`
 	// Only return invoices that were created during the given date interval.
 	Created *int64 `form:"created"`
 	// Only return invoices that were created during the given date interval.
@@ -775,7 +788,7 @@ func (p *InvoiceAddLinesLinePriceDataProductDataParams) AddMetadata(key string, 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type InvoiceAddLinesLinePriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -1044,7 +1057,7 @@ func (p *InvoiceUpdateLinesLinePriceDataProductDataParams) AddMetadata(key strin
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type InvoiceUpdateLinesLinePriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -1253,7 +1266,7 @@ type InvoiceCreatePreviewInvoiceItemPeriodParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type InvoiceCreatePreviewInvoiceItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -1269,7 +1282,7 @@ type InvoiceCreatePreviewInvoiceItemParams struct {
 	// The integer amount in cents (or local equivalent) of previewed invoice item.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Only applicable to new invoice items.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// An arbitrary string which you can attach to the invoice item. The description is displayed in the invoice for easy tracking.
 	Description *string `form:"description"`
 	// Explicitly controls whether discounts apply to this invoice item. Defaults to true, except for negative invoice items.
@@ -1368,7 +1381,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPeriodParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -1493,7 +1506,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataRecurringParams struct
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
@@ -1556,9 +1569,10 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *InvoiceCreatePreviewScheduleDetailsPhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.InvoiceCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *InvoiceCollectionMethod `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
@@ -1581,7 +1595,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
 	StartDate    *int64 `form:"start_date"`
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
@@ -1625,7 +1640,8 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*InvoiceCreatePreviewScheduleDetailsPhaseParams `form:"phases"`
 	// In cases where the `schedule_details` params update the currently active phase, specifies if and how to prorate at the time of the request.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 }
 
 // Configure behavior for flexible billing mode.
@@ -1669,7 +1685,7 @@ type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataRecurringParams struct 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
@@ -1738,7 +1754,8 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	// A list of up to 20 subscription items, each with an attached price.
 	Items []*InvoiceCreatePreviewSubscriptionDetailsItemParams `form:"items"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_details.proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_details.items`, or `subscription_details.trial_end` are required. Also, `subscription_details.proration_behavior` cannot be set to 'none'.
 	ProrationDate *int64 `form:"proration_date"`
 	// For paused subscriptions, setting `subscription_details.resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
@@ -1783,7 +1800,7 @@ type InvoiceCreatePreviewParams struct {
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceCreatePreviewAutomaticTaxParams `form:"automatic_tax"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The identifier of the customer whose upcoming invoice you'd like to retrieve. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 	Customer *string `form:"customer"`
 	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
@@ -2076,7 +2093,7 @@ type InvoiceUpdateShippingCostShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*InvoiceUpdateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
@@ -2153,7 +2170,8 @@ type InvoiceUpdateParams struct {
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceUpdateAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically` or `send_invoice`. This field can be updated only on `draft` invoices.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.InvoiceCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *InvoiceCollectionMethod `form:"collection_method"`
 	// A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
 	CustomFields []*InvoiceUpdateCustomFieldParams `form:"custom_fields"`
 	// The number of days from which the invoice is created until it is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
@@ -2451,7 +2469,7 @@ type InvoiceCreateShippingCostShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*InvoiceCreateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
@@ -2523,9 +2541,10 @@ type InvoiceCreateParams struct {
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceCreateAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.InvoiceCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *InvoiceCollectionMethod `form:"collection_method"`
 	// The currency to create this invoice in. Defaults to that of `customer` if not specified.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the customer who will be billed.
 	Customer *string `form:"customer"`
 	// A list of up to 4 custom fields to be displayed on the invoice.

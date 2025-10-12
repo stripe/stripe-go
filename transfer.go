@@ -44,7 +44,7 @@ type TransferParams struct {
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// The ID of a connected Stripe account. [See the Connect documentation](https://docs.stripe.com/docs/connect/separate-charges-and-transfers) for details.
@@ -81,7 +81,7 @@ type TransferCreateParams struct {
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// The ID of a connected Stripe account. [See the Connect documentation](https://docs.stripe.com/docs/connect/separate-charges-and-transfers) for details.

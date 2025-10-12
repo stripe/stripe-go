@@ -29,7 +29,8 @@ type SubscriptionItemParams struct {
 	// Use `pending_if_incomplete` to update the subscription using [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://stripe.com/docs/billing/pending-updates-reference#supported-attributes).
 	//
 	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/changelog/2019-03-14) to learn more.
-	PaymentBehavior *string `form:"payment_behavior"`
+	// Use stripe.String(stripe.SubscriptionPaymentBehaviorAllowIncomplete) for type-safe usage.
+	PaymentBehavior *SubscriptionPaymentBehavior `form:"payment_behavior"`
 	// The identifier of the new plan for this subscription item.
 	Plan *string `form:"plan"`
 	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
@@ -37,7 +38,8 @@ type SubscriptionItemParams struct {
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
@@ -81,7 +83,7 @@ type SubscriptionItemDiscountParams struct {
 // The recurring components of a price such as `interval` and `interval_count`.
 type SubscriptionItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 }
@@ -89,7 +91,7 @@ type SubscriptionItemPriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type SubscriptionItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
@@ -122,7 +124,8 @@ type SubscriptionItemDeleteParams struct {
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 }
@@ -158,7 +161,7 @@ type SubscriptionItemUpdateDiscountParams struct {
 // The recurring components of a price such as `interval` and `interval_count`.
 type SubscriptionItemUpdatePriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 }
@@ -166,7 +169,7 @@ type SubscriptionItemUpdatePriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type SubscriptionItemUpdatePriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
@@ -199,7 +202,8 @@ type SubscriptionItemUpdateParams struct {
 	// Use `pending_if_incomplete` to update the subscription using [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://stripe.com/docs/billing/pending-updates-reference#supported-attributes).
 	//
 	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/changelog/2019-03-14) to learn more.
-	PaymentBehavior *string `form:"payment_behavior"`
+	// Use stripe.String(stripe.SubscriptionPaymentBehaviorAllowIncomplete) for type-safe usage.
+	PaymentBehavior *SubscriptionPaymentBehavior `form:"payment_behavior"`
 	// The identifier of the new plan for this subscription item.
 	Plan *string `form:"plan"`
 	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
@@ -207,7 +211,8 @@ type SubscriptionItemUpdateParams struct {
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *SubscriptionItemUpdatePriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
@@ -249,7 +254,7 @@ type SubscriptionItemCreateDiscountParams struct {
 // The recurring components of a price such as `interval` and `interval_count`.
 type SubscriptionItemCreatePriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 }
@@ -257,7 +262,7 @@ type SubscriptionItemCreatePriceDataRecurringParams struct {
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type SubscriptionItemCreatePriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
@@ -288,7 +293,8 @@ type SubscriptionItemCreateParams struct {
 	// Use `pending_if_incomplete` to update the subscription using [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://stripe.com/docs/billing/pending-updates-reference#supported-attributes).
 	//
 	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/changelog/2019-03-14) to learn more.
-	PaymentBehavior *string `form:"payment_behavior"`
+	// Use stripe.String(stripe.SubscriptionPaymentBehaviorAllowIncomplete) for type-safe usage.
+	PaymentBehavior *SubscriptionPaymentBehavior `form:"payment_behavior"`
 	// The identifier of the plan to add to the subscription.
 	Plan *string `form:"plan"`
 	// The ID of the price object.
@@ -296,7 +302,8 @@ type SubscriptionItemCreateParams struct {
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 	PriceData *SubscriptionItemCreatePriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.

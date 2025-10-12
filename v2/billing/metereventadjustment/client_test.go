@@ -56,7 +56,7 @@ func TestMeterEventAdjustmentNew(t *testing.T) {
 		Cancel: &stripe.V2BillingMeterEventAdjustmentCancelParams{
 			Identifier: stripe.String("test_identifier"),
 		},
-		Type: stripe.String(string(stripe.V2BillingMeterEventAdjustmentTypeCancel)),
+		Type: stripe.String(stripe.V2BillingMeterEventAdjustmentTypeCancel),
 	}
 	sc := client.New(TestAPIKey, backends)
 	event, err := sc.V2BillingMeterEventAdjustments.New(&params)

@@ -272,7 +272,7 @@ const (
 type TaxCalculationParams struct {
 	Params `form:"*"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of an existing customer to use for this calculation. If provided, the customer's address and tax IDs are copied to `customer_details`.
 	Customer *string `form:"customer"`
 	// Details about the customer, including address and tax IDs.
@@ -459,7 +459,7 @@ type TaxCalculationCreateShippingCostParams struct {
 type TaxCalculationCreateParams struct {
 	Params `form:"*"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The ID of an existing customer to use for this calculation. If provided, the customer's address and tax IDs are copied to `customer_details`.
 	Customer *string `form:"customer"`
 	// Details about the customer, including address and tax IDs.

@@ -2447,7 +2447,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams st
 // Additional fields for Mandate creation
 type PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper) for type-safe usage.
+	CollectionMethod *PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod `form:"collection_method"`
 }
 
 // Additional fields for network related functions
@@ -2675,7 +2676,7 @@ type PaymentIntentParams struct {
 	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
 	ConfirmationToken *string `form:"confirmation_token"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the Customer this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.
@@ -2790,7 +2791,7 @@ type PaymentIntentApplyCustomerBalanceParams struct {
 	// When you omit the amount, it defaults to the remaining amount requested on the PaymentIntent.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -2808,7 +2809,7 @@ func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
 type PaymentIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this PaymentIntent. Possible values are: `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *PaymentIntentCancellationReason `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -4217,7 +4218,8 @@ type PaymentIntentCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsPar
 // Additional fields for Mandate creation
 type PaymentIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper) for type-safe usage.
+	CollectionMethod *PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod `form:"collection_method"`
 }
 
 // Additional fields for network related functions
@@ -4443,7 +4445,7 @@ type PaymentIntentCreateParams struct {
 	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
 	ConfirmationToken *string `form:"confirmation_token"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the Customer this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.
@@ -5690,7 +5692,8 @@ type PaymentIntentUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsPar
 // Additional fields for Mandate creation
 type PaymentIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper) for type-safe usage.
+	CollectionMethod *PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod `form:"collection_method"`
 }
 
 // Additional fields for network related functions
@@ -5885,7 +5888,7 @@ type PaymentIntentUpdateParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the Customer this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.

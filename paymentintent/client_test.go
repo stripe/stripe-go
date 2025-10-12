@@ -10,7 +10,7 @@ import (
 
 func TestPaymentIntentCancel(t *testing.T) {
 	intent, err := Cancel("pi_123", &stripe.PaymentIntentCancelParams{
-		CancellationReason: stripe.String(string(stripe.PaymentIntentCancellationReasonRequestedByCustomer)),
+		CancellationReason: stripe.String(stripe.PaymentIntentCancellationReasonRequestedByCustomer),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, intent)
@@ -52,7 +52,7 @@ func TestPaymentIntentList(t *testing.T) {
 func TestPaymentIntentNew(t *testing.T) {
 	intent, err := New(&stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(123),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		PaymentMethodTypes: stripe.StringSlice([]string{
 			"card",
 		}),

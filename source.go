@@ -131,13 +131,13 @@ type SourceParams struct {
 	// The client secret of the source. Required if a publishable key is used to retrieve the source.
 	ClientSecret *string `form:"client_secret"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) associated with the source. This is the currency for which the source will be chargeable once ready.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The `Customer` to whom the original source is attached to. Must be set when the original source is not a `Source` (e.g., `Card`).
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The authentication `flow` of the source to create. `flow` is one of `redirect`, `receiver`, `code_verification`, `none`. It is generally inferred unless a type supports multiple flows.
-	Flow *string `form:"flow"`
+	Flow *SourceFlow `form:"flow"`
 	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
 	Mandate *SourceMandateParams `form:"mandate"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -158,7 +158,7 @@ type SourceParams struct {
 	Token *string `form:"token"`
 	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
 	Type  *string `form:"type"`
-	Usage *string `form:"usage"`
+	Usage *SourceUsage `form:"usage"`
 }
 
 // AddExpand appends a new field to expand.
@@ -216,7 +216,7 @@ type SourceMandateParams struct {
 	// The amount specified by the mandate. (Leave null for a mandate covering all amounts)
 	Amount *int64 `form:"amount"`
 	// The currency specified by the mandate. (Must match `currency` of the source)
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The interval of debits permitted by the mandate. Either `one_time` (just permitting a single debit), `scheduled` (with debits on an agreed schedule or for clearly-defined events), or `variable`(for debits with any frequency)
 	Interval *string `form:"interval"`
 	// The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification).
@@ -322,7 +322,7 @@ type SourceUpdateMandateParams struct {
 	// The amount specified by the mandate. (Leave null for a mandate covering all amounts)
 	Amount *int64 `form:"amount"`
 	// The currency specified by the mandate. (Must match `currency` of the source)
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The interval of debits permitted by the mandate. Either `one_time` (just permitting a single debit), `scheduled` (with debits on an agreed schedule or for clearly-defined events), or `variable`(for debits with any frequency)
 	Interval *string `form:"interval"`
 	// The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification).
@@ -435,7 +435,7 @@ type SourceCreateMandateParams struct {
 	// The amount specified by the mandate. (Leave null for a mandate covering all amounts)
 	Amount *int64 `form:"amount"`
 	// The currency specified by the mandate. (Must match `currency` of the source)
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The interval of debits permitted by the mandate. Either `one_time` (just permitting a single debit), `scheduled` (with debits on an agreed schedule or for clearly-defined events), or `variable`(for debits with any frequency)
 	Interval *string `form:"interval"`
 	// The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification).
@@ -492,13 +492,13 @@ type SourceCreateParams struct {
 	// Amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for `single_use` sources. Not supported for `receiver` type sources, where charge amount may not be specified until funds land.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) associated with the source. This is the currency for which the source will be chargeable once ready.
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// The `Customer` to whom the original source is attached to. Must be set when the original source is not a `Source` (e.g., `Card`).
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The authentication `flow` of the source to create. `flow` is one of `redirect`, `receiver`, `code_verification`, `none`. It is generally inferred unless a type supports multiple flows.
-	Flow *string `form:"flow"`
+	Flow *SourceFlow `form:"flow"`
 	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
 	Mandate  *SourceCreateMandateParams `form:"mandate"`
 	Metadata map[string]string          `form:"metadata"`
@@ -518,7 +518,7 @@ type SourceCreateParams struct {
 	Token *string `form:"token"`
 	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
 	Type  *string `form:"type"`
-	Usage *string `form:"usage"`
+	Usage *SourceUsage `form:"usage"`
 }
 
 // AddExpand appends a new field to expand.

@@ -33,7 +33,7 @@ func TestPaymentMethodGet(t *testing.T) {
 func TestPaymentMethodList(t *testing.T) {
 	params := &stripe.PaymentMethodListParams{
 		Customer: stripe.String("cus_123"),
-		Type:     stripe.String(string(stripe.PaymentMethodTypeCard)),
+		Type:     stripe.String(stripe.PaymentMethodTypeCard),
 	}
 	i := List(params)
 
@@ -46,7 +46,7 @@ func TestPaymentMethodList(t *testing.T) {
 
 func TestPaymentMethodNew(t *testing.T) {
 	pm, err := New(&stripe.PaymentMethodParams{
-		Type: stripe.String(string(stripe.PaymentMethodTypeCard)),
+		Type: stripe.String(stripe.PaymentMethodTypeCard),
 		Card: &stripe.PaymentMethodCardParams{
 			Token: stripe.String("tok_123"),
 		},

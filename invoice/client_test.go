@@ -38,7 +38,7 @@ func TestInvoiceListLines(t *testing.T) {
 
 func TestInvoiceNew(t *testing.T) {
 	invoice, err := New(&stripe.InvoiceParams{
-		CollectionMethod: stripe.String(string(stripe.InvoiceCollectionMethodChargeAutomatically)),
+		CollectionMethod: stripe.String(stripe.InvoiceCollectionMethodChargeAutomatically),
 		Customer:         stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)

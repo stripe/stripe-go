@@ -117,7 +117,7 @@ type IssuingDisputeListParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Select Issuing disputes with the given status.
-	Status *string `form:"status"`
+	Status *IssuingDisputeStatus `form:"status"`
 	// Select the Issuing dispute for the given transaction.
 	Transaction *string `form:"transaction"`
 }
@@ -144,11 +144,11 @@ type IssuingDisputeEvidenceCanceledParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string `form:"return_status"`
+	ReturnStatus *IssuingDisputeEvidenceCanceledReturnStatus `form:"return_status"`
 }
 
 // Evidence provided when `reason` is 'duplicate'.
@@ -188,7 +188,7 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string `form:"return_status"`
+	ReturnStatus *IssuingDisputeEvidenceCanceledReturnStatus `form:"return_status"`
 }
 
 // Evidence provided when `reason` is 'no_valid_authorization'.
@@ -210,7 +210,7 @@ type IssuingDisputeEvidenceNotReceivedParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 }
 
 // Evidence provided when `reason` is 'other'.
@@ -222,7 +222,7 @@ type IssuingDisputeEvidenceOtherParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 }
 
 // Evidence provided when `reason` is 'service_not_as_described'.
@@ -256,7 +256,7 @@ type IssuingDisputeEvidenceParams struct {
 	// Evidence provided when `reason` is 'other'.
 	Other *IssuingDisputeEvidenceOtherParams `form:"other"`
 	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
-	Reason *string `form:"reason"`
+	Reason *IssuingDisputeEvidenceReason `form:"reason"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
 	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
 }
@@ -338,11 +338,11 @@ type IssuingDisputeCreateEvidenceCanceledParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string `form:"return_status"`
+	ReturnStatus *IssuingDisputeEvidenceCanceledReturnStatus `form:"return_status"`
 }
 
 // Evidence provided when `reason` is 'duplicate'.
@@ -382,7 +382,7 @@ type IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string `form:"return_status"`
+	ReturnStatus *IssuingDisputeEvidenceCanceledReturnStatus `form:"return_status"`
 }
 
 // Evidence provided when `reason` is 'no_valid_authorization'.
@@ -404,7 +404,7 @@ type IssuingDisputeCreateEvidenceNotReceivedParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 }
 
 // Evidence provided when `reason` is 'other'.
@@ -416,7 +416,7 @@ type IssuingDisputeCreateEvidenceOtherParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 }
 
 // Evidence provided when `reason` is 'service_not_as_described'.
@@ -450,7 +450,7 @@ type IssuingDisputeCreateEvidenceParams struct {
 	// Evidence provided when `reason` is 'other'.
 	Other *IssuingDisputeCreateEvidenceOtherParams `form:"other"`
 	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
-	Reason *string `form:"reason"`
+	Reason *IssuingDisputeEvidenceReason `form:"reason"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
 	ServiceNotAsDescribed *IssuingDisputeCreateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
 }
@@ -521,11 +521,11 @@ type IssuingDisputeUpdateEvidenceCanceledParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string `form:"return_status"`
+	ReturnStatus *IssuingDisputeEvidenceCanceledReturnStatus `form:"return_status"`
 }
 
 // Evidence provided when `reason` is 'duplicate'.
@@ -565,7 +565,7 @@ type IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string `form:"return_status"`
+	ReturnStatus *IssuingDisputeEvidenceCanceledReturnStatus `form:"return_status"`
 }
 
 // Evidence provided when `reason` is 'no_valid_authorization'.
@@ -587,7 +587,7 @@ type IssuingDisputeUpdateEvidenceNotReceivedParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 }
 
 // Evidence provided when `reason` is 'other'.
@@ -599,7 +599,7 @@ type IssuingDisputeUpdateEvidenceOtherParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *IssuingDisputeEvidenceCanceledProductType `form:"product_type"`
 }
 
 // Evidence provided when `reason` is 'service_not_as_described'.
@@ -633,7 +633,7 @@ type IssuingDisputeUpdateEvidenceParams struct {
 	// Evidence provided when `reason` is 'other'.
 	Other *IssuingDisputeUpdateEvidenceOtherParams `form:"other"`
 	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
-	Reason *string `form:"reason"`
+	Reason *IssuingDisputeEvidenceReason `form:"reason"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
 	ServiceNotAsDescribed *IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
 }

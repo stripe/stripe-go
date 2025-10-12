@@ -20,7 +20,7 @@ type V2BillingMeterEventAdjustmentParams struct {
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
 	EventName *string `form:"event_name" json:"event_name"`
 	// Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
-	Type *string `form:"type" json:"type"`
+	Type *V2BillingMeterEventAdjustmentType `form:"type" json:"type"`
 }
 
 // Specifies which event to cancel.
@@ -37,5 +37,5 @@ type V2BillingMeterEventAdjustmentCreateParams struct {
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
 	EventName *string `form:"event_name" json:"event_name"`
 	// Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
-	Type *string `form:"type" json:"type"`
+	Type *V2BillingMeterEventAdjustmentType `form:"type" json:"type"`
 }

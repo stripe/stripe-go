@@ -106,6 +106,18 @@ const (
 	SubscriptionSchedulePhaseProrationBehaviorNone             SubscriptionSchedulePhaseProrationBehavior = "none"
 )
 
+// IsValid checks if the SubscriptionSchedulePhaseProrationBehavior value is valid
+func (s SubscriptionSchedulePhaseProrationBehavior) IsValid() bool {
+	switch s {
+	case SubscriptionSchedulePhaseProrationBehaviorAlwaysInvoice,
+		SubscriptionSchedulePhaseProrationBehaviorCreateProrations,
+		SubscriptionSchedulePhaseProrationBehaviorNone:
+		return true
+	default:
+		return false
+	}
+}
+
 // The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
 type SubscriptionScheduleStatus string
 
@@ -202,7 +214,8 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SubscriptionCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *SubscriptionCollectionMethod `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -313,7 +326,7 @@ type SubscriptionSchedulePhaseDiscountParams struct {
 // The number of intervals the phase should last. If set, `end_date` must not be set.
 type SubscriptionSchedulePhaseDurationParams struct {
 	// Specifies phase duration. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// The multiplier applied to the interval.
 	IntervalCount *int64 `form:"interval_count"`
 }
@@ -394,9 +407,10 @@ type SubscriptionSchedulePhaseParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionSchedulePhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SubscriptionCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *SubscriptionCollectionMethod `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
@@ -419,7 +433,8 @@ type SubscriptionSchedulePhaseParams struct {
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
 	StartDate    *int64 `form:"start_date"`
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
@@ -464,7 +479,7 @@ type SubscriptionScheduleParams struct {
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *SubscriptionScheduleEndBehavior `form:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
@@ -474,7 +489,8 @@ type SubscriptionScheduleParams struct {
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionSchedulePhaseParams `form:"phases"`
 	// If the update changes the billing configuration (item price, quantity, etc.) of the current phase, indicates how prorations from this change should be handled. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
 	StartDate    *int64 `form:"start_date"`
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
@@ -582,7 +598,8 @@ type SubscriptionScheduleCreateDefaultSettingsParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleCreateDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SubscriptionCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *SubscriptionCollectionMethod `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -693,7 +710,7 @@ type SubscriptionScheduleCreatePhaseDiscountParams struct {
 // The number of intervals the phase should last. If set, `end_date` must not be set.
 type SubscriptionScheduleCreatePhaseDurationParams struct {
 	// Specifies phase duration. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// The multiplier applied to the interval.
 	IntervalCount *int64 `form:"interval_count"`
 }
@@ -774,9 +791,10 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleCreatePhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SubscriptionCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *SubscriptionCollectionMethod `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
@@ -798,7 +816,8 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
@@ -826,7 +845,7 @@ type SubscriptionScheduleCreateParams struct {
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleCreateDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *SubscriptionScheduleEndBehavior `form:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
@@ -910,7 +929,8 @@ type SubscriptionScheduleUpdateDefaultSettingsParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleUpdateDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SubscriptionCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *SubscriptionCollectionMethod `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -1021,7 +1041,7 @@ type SubscriptionScheduleUpdatePhaseDiscountParams struct {
 // The number of intervals the phase should last. If set, `end_date` must not be set.
 type SubscriptionScheduleUpdatePhaseDurationParams struct {
 	// Specifies phase duration. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *PriceRecurringInterval `form:"interval"`
 	// The multiplier applied to the interval.
 	IntervalCount *int64 `form:"interval_count"`
 }
@@ -1102,9 +1122,10 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleUpdatePhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
-	CollectionMethod *string `form:"collection_method"`
+	// Use stripe.String(stripe.SubscriptionCollectionMethodChargeAutomatically) for type-safe usage.
+	CollectionMethod *SubscriptionCollectionMethod `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
@@ -1127,7 +1148,8 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
 	StartDate    *int64 `form:"start_date"`
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
@@ -1168,7 +1190,7 @@ type SubscriptionScheduleUpdateParams struct {
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleUpdateDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *SubscriptionScheduleEndBehavior `form:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1176,7 +1198,8 @@ type SubscriptionScheduleUpdateParams struct {
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionScheduleUpdatePhaseParams `form:"phases"`
 	// If the update changes the billing configuration (item price, quantity, etc.) of the current phase, indicates how prorations from this change should be handled. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	// Use stripe.String(stripe.SubscriptionProrationBehaviorCreateProrations) for type-safe usage.
+	ProrationBehavior *SubscriptionProrationBehavior `form:"proration_behavior"`
 }
 
 // AddExpand appends a new field to expand.

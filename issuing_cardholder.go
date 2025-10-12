@@ -81,7 +81,7 @@ type IssuingCardholderListParams struct {
 	// Only return cardholders that have the given status. One of `active`, `inactive`, or `blocked`.
 	Status *string `form:"status"`
 	// Only return cardholders that have the given type. One of `individual` or `company`.
-	Type *string `form:"type"`
+	Type *IssuingCardholderType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -208,7 +208,7 @@ type IssuingCardholderParams struct {
 	// Specifies whether to permit authorizations on this cardholder's cards. Defaults to `active`.
 	Status *string `form:"status"`
 	// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
-	Type *string `form:"type"`
+	Type *IssuingCardholderType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -344,7 +344,7 @@ type IssuingCardholderCreateParams struct {
 	// Specifies whether to permit authorizations on this cardholder's cards. Defaults to `active`.
 	Status *string `form:"status"`
 	// One of `individual` or `company`. See [Choose a cardholder type](https://stripe.com/docs/issuing/other/choose-cardholder) for more details.
-	Type *string `form:"type"`
+	Type *IssuingCardholderType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.

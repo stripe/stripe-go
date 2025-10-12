@@ -23,7 +23,7 @@ func TestTopupGet(t *testing.T) {
 func TestTopupNew(t *testing.T) {
 	topup, err := New(&stripe.TopupParams{
 		Amount:              stripe.Int64(123),
-		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Currency:            stripe.String(stripe.CurrencyUSD),
 		Source:              stripe.String("src_123"),
 		Description:         stripe.String("creating a topup"),
 		StatementDescriptor: stripe.String("topup"),

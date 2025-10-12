@@ -1427,16 +1427,15 @@ func SetHTTPClient(client *http.Client) {
 }
 
 // String returns a pointer to the string value or enum passed in.
-func String[T ~string](v T) *string {
-	result := string(v)
-	return &result
+func String[T ~string](v T) *T {
+	return &v
 }
 
 // StringValue returns the value of the string pointer passed in or
 // "" if the pointer is nil.
-func StringValue(v *string) string {
+func StringValue[T ~string](v *T) string {
 	if v != nil {
-		return *v
+		return string(*v)
 	}
 	return ""
 }

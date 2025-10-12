@@ -29,7 +29,7 @@ func TestIssuingCardList(t *testing.T) {
 func TestIssuingCardNew(t *testing.T) {
 	params := &stripe.IssuingCardParams{
 		Cardholder: stripe.String("ich_123"),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
 		SpendingControls: &stripe.IssuingCardSpendingControlsParams{
 			AllowedCategories: stripe.StringSlice([]string{
 				"fast_food_restaurants",
@@ -42,7 +42,7 @@ func TestIssuingCardNew(t *testing.T) {
 				},
 			},
 		},
-		Type: stripe.String(string(stripe.IssuingCardTypeVirtual)),
+		Type: stripe.String(stripe.IssuingCardTypeVirtual),
 	}
 	card, err := New(params)
 	assert.Nil(t, err)
@@ -52,7 +52,7 @@ func TestIssuingCardNew(t *testing.T) {
 
 func TestIssuingCardUpdate(t *testing.T) {
 	card, err := Update("ic_123", &stripe.IssuingCardParams{
-		Status: stripe.String(string(stripe.IssuingCardStatusInactive)),
+		Status: stripe.String(stripe.IssuingCardStatusInactive),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)
