@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"reflect"
@@ -126,64 +127,58 @@ func GetSearchIter(container SearchParamsContainer, query SearchQuery) *SearchIt
 	return iter
 }
 
-// v1SearchList provides a convenient interface for iterating over the elements
+// V1SearchList provides a convenient interface for iterating over the elements
 // returned from paginated list API calls. It is meant to be an improvement
 // over the SearchIter type, which was written before Go introduced generics and iter.Seq2.
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
-type v1SearchList[T any] struct {
-	cur          T
+type V1SearchList[T any] struct {
+	ctx          context.Context
 	err          error
 	formValues   *form.Values
 	searchParams SearchParams
 	query        v1SearchQuery[T]
-	*v1SearchPage[T]
+	*V1SearchPage[T]
 }
 
-type v1SearchPage[T any] struct {
+// V1SearchPage represents a single page returned from a V1 Search API call.
+// The internal state will be updated by the parent V1SearchList when the
+// Page method is called.
+type V1SearchPage[T any] struct {
 	APIResource
 	SearchMeta
 	Data []T `json:"data"`
 }
 
-func (it *v1SearchList[T]) All() Seq2[T, error] {
+// All returns a Seq2 that will be evaluated on each item in a V1SearchList.
+// The All function will continue to fetch pages of items as needed.
+func (it *V1SearchList[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
-		for it.next() {
-			if !yield(it.cur, nil) {
+		for {
+			for _, item := range it.Data {
+				if !yield(item, nil) {
+					return
+				}
+			}
+			if it.Err() != nil {
+				if !yield(*new(T), it.Err()) {
+					return
+				}
+			}
+			if !it.HasMore() {
 				return
 			}
-		}
-		if it.err != nil {
-			if !yield(*new(T), it.err) {
-				return
-			}
+			it.Page(it.ctx)
 		}
 	}
 }
 
-// next advances the v1SearchList to the next item in the list,
-// which will then be available
-// through the current method.
-// It returns false when the iterator stops
-// at the end of the list.
-func (it *v1SearchList[T]) next() bool {
-	// Refresh the page if there is an more data to fetch
-	if len(it.Data) == 0 && it.HasMore && !it.searchParams.Single && it.NextPage != nil {
+func (it *V1SearchList[T]) Page(ctx context.Context) {
+	if it.NextPage != nil {
 		it.formValues.Set(Page, *it.NextPage)
-		it.getPage()
 	}
-	// If there was no new data after fetching, return false
-	if len(it.Data) == 0 {
-		return false
-	}
-	it.cur = it.Data[0]
-	it.Data = it.Data[1:]
-	return true
-}
-
-func (it *v1SearchList[T]) getPage() {
-	page, err := it.query(it.searchParams.GetParams(), it.formValues)
-	it.v1SearchPage = page
+	page, err := it.query(ctx, it.searchParams.GetParams(), it.formValues)
+	it.V1SearchPage = page
 	if err != nil {
 		it.err = err
 		return
@@ -194,11 +189,22 @@ func (it *v1SearchList[T]) getPage() {
 	}
 }
 
+func (s *V1SearchList[T]) HasMore() bool {
+	if s == nil {
+		return false
+	}
+	return s.SearchMeta.HasMore && !s.searchParams.Single
+}
+
+func (s *V1SearchList[T]) Err() error {
+	return s.err
+}
+
 // maybeAddLastResponse adds the LastResponse to the items in the page.
 // It parses the page's JSON and adds each `data` item's JSON to the
 // LastResponse of the corresponding resource. Note that not
 // every resource implements the LastResponseSetter interface.
-func maybeAddLastResponseSearch[T any](page *v1SearchPage[T]) error {
+func maybeAddLastResponseSearch[T any](page *V1SearchPage[T]) error {
 	if page.LastResponse == nil {
 		return nil
 	}
@@ -234,15 +240,16 @@ func maybeAddLastResponseSearch[T any](page *v1SearchPage[T]) error {
 	return nil
 }
 
-// SearchQuery is the function used to get search results.
-type v1SearchQuery[T any] func(*Params, *form.Values) (*v1SearchPage[T], error)
+// v1SearchQuery is the function used to get search results.
+type v1SearchQuery[T any] func(context.Context, *Params, *form.Values) (*V1SearchPage[T], error)
 
 //
 // Public functions
 //
 
-// GetSearchIter returns a new SearchIter for a given query and its options.
-func newV1SearchList[T any](container SearchParamsContainer, query v1SearchQuery[T]) *v1SearchList[T] {
+// newV1SearchList returns a new V1SearchList for a given query and its options, and initializes
+// it by fetching the first page of items.
+func newV1SearchList[T any](ctx context.Context, container SearchParamsContainer, query v1SearchQuery[T]) *V1SearchList[T] {
 	var searchParams *SearchParams
 	formValues := &form.Values{}
 
@@ -266,13 +273,15 @@ func newV1SearchList[T any](container SearchParamsContainer, query v1SearchQuery
 	if searchParams == nil {
 		searchParams = &SearchParams{}
 	}
-	iter := &v1SearchList[T]{
+	iter := &V1SearchList[T]{
+		ctx:          ctx,
 		formValues:   formValues,
 		searchParams: *searchParams,
 		query:        query,
+		V1SearchPage: &V1SearchPage[T]{},
 	}
 
-	iter.getPage()
+	iter.Page(ctx)
 
 	return iter
 }
