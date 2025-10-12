@@ -128,7 +128,7 @@ func ExampleFormatURLPathWithTemplate() {
 
 	// The helper function formats the path and sets URLTemplate in params
 	path := stripe.FormatURLPathWithTemplate(
-		params.Params,
+		&params.Params,
 		"/v1/charges/{id}",
 		chargeID,
 	)
