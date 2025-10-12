@@ -95,3 +95,45 @@ func ExamplePlan_list() {
 		log.Fatal(err)
 	}
 }
+
+// This example demonstrates how to enable OpenTelemetry tracing for Stripe API calls.
+func ExampleSetTracerProvider() {
+	// Get the global tracer provider from your OpenTelemetry setup
+	// (You would typically initialize this in your main() or init() function)
+	// For example:
+	//   import "go.opentelemetry.io/otel"
+	//   tp := otel.GetTracerProvider()
+
+	// Enable OpenTelemetry tracing for all Stripe API calls
+	// stripe.SetTracerProvider(tp)
+
+	// Now all Stripe API calls will create spans with proper attributes
+	// including http.method, url.template, stripe.request_id, etc.
+
+	// To disable tracing later:
+	// stripe.SetTracerProvider(nil)
+}
+
+// This example shows how to use FormatURLPathWithTemplate to ensure
+// proper URL template tracking in OpenTelemetry spans.
+func ExampleFormatURLPathWithTemplate() {
+	stripe.Key = "sk_test_example"
+
+	chargeID := "ch_1234567890"
+
+	// Use FormatURLPathWithTemplate instead of FormatURLPath
+	// This ensures the OpenTelemetry span gets the template "/v1/charges/{id}"
+	// instead of the expanded path "/v1/charges/ch_1234567890"
+	params := &stripe.ChargeParams{}
+
+	// The helper function formats the path and sets URLTemplate in params
+	path := stripe.FormatURLPathWithTemplate(
+		params.Params,
+		"/v1/charges/{id}",
+		chargeID,
+	)
+
+	log.Printf("Formatted path: %s", path)
+	// Output: path is "/v1/charges/ch_1234567890"
+	// The resulting OpenTelemetry span will have url.template="/v1/charges/{id}"
+}
