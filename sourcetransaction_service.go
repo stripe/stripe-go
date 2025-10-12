@@ -21,6 +21,11 @@ type v1SourceTransactionService struct {
 
 // List source transactions for a given source.
 func (c v1SourceTransactionService) List(ctx context.Context, listParams *SourceTransactionListParams) Seq2[*SourceTransaction, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// List source transactions for a given source.
+func (c v1SourceTransactionService) ListWithPage(ctx context.Context, listParams *SourceTransactionListParams) *V1List[*SourceTransaction] {
 	if listParams == nil {
 		listParams = &SourceTransactionListParams{}
 	}
@@ -35,5 +40,5 @@ func (c v1SourceTransactionService) List(ctx context.Context, listParams *Source
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -70,6 +70,11 @@ func (c v1TerminalLocationService) Delete(ctx context.Context, id string, params
 
 // Returns a list of Location objects.
 func (c v1TerminalLocationService) List(ctx context.Context, listParams *TerminalLocationListParams) Seq2[*TerminalLocation, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of Location objects.
+func (c v1TerminalLocationService) ListWithPage(ctx context.Context, listParams *TerminalLocationListParams) *V1List[*TerminalLocation] {
 	if listParams == nil {
 		listParams = &TerminalLocationListParams{}
 	}
@@ -82,5 +87,5 @@ func (c v1TerminalLocationService) List(ctx context.Context, listParams *Termina
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/locations", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

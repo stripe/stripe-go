@@ -98,6 +98,11 @@ func (c v1PaymentSourceService) Verify(ctx context.Context, id string, params *P
 
 // List sources for a specified customer.
 func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSourceListParams) Seq2[*PaymentSource, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// List sources for a specified customer.
+func (c v1PaymentSourceService) ListWithPage(ctx context.Context, listParams *PaymentSourceListParams) *V1List[*PaymentSource] {
 	if listParams == nil {
 		listParams = &PaymentSourceListParams{}
 	}
@@ -112,5 +117,5 @@ func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSou
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

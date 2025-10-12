@@ -116,6 +116,10 @@ func (c v1BankAccountService) Delete(ctx context.Context, id string, params *Ban
 	return bankaccount, err
 }
 func (c v1BankAccountService) List(ctx context.Context, listParams *BankAccountListParams) Seq2[*BankAccount, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+func (c v1BankAccountService) ListWithPage(ctx context.Context, listParams *BankAccountListParams) *V1List[*BankAccount] {
 	var path string
 	var outerErr error
 
@@ -148,5 +152,5 @@ func (c v1BankAccountService) List(ctx context.Context, listParams *BankAccountL
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

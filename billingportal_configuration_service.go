@@ -57,6 +57,11 @@ func (c v1BillingPortalConfigurationService) Update(ctx context.Context, id stri
 
 // Returns a list of configurations that describe the functionality of the customer portal.
 func (c v1BillingPortalConfigurationService) List(ctx context.Context, listParams *BillingPortalConfigurationListParams) Seq2[*BillingPortalConfiguration, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of configurations that describe the functionality of the customer portal.
+func (c v1BillingPortalConfigurationService) ListWithPage(ctx context.Context, listParams *BillingPortalConfigurationListParams) *V1List[*BillingPortalConfiguration] {
 	if listParams == nil {
 		listParams = &BillingPortalConfigurationListParams{}
 	}
@@ -69,5 +74,5 @@ func (c v1BillingPortalConfigurationService) List(ctx context.Context, listParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing_portal/configurations", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

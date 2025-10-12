@@ -57,6 +57,11 @@ func (c v1EntitlementsFeatureService) Update(ctx context.Context, id string, par
 
 // Retrieve a list of features
 func (c v1EntitlementsFeatureService) List(ctx context.Context, listParams *EntitlementsFeatureListParams) Seq2[*EntitlementsFeature, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Retrieve a list of features
+func (c v1EntitlementsFeatureService) ListWithPage(ctx context.Context, listParams *EntitlementsFeatureListParams) *V1List[*EntitlementsFeature] {
 	if listParams == nil {
 		listParams = &EntitlementsFeatureListParams{}
 	}
@@ -69,5 +74,5 @@ func (c v1EntitlementsFeatureService) List(ctx context.Context, listParams *Enti
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/entitlements/features", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

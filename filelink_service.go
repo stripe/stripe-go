@@ -56,6 +56,11 @@ func (c v1FileLinkService) Update(ctx context.Context, id string, params *FileLi
 
 // Returns a list of file links.
 func (c v1FileLinkService) List(ctx context.Context, listParams *FileLinkListParams) Seq2[*FileLink, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of file links.
+func (c v1FileLinkService) ListWithPage(ctx context.Context, listParams *FileLinkListParams) *V1List[*FileLink] {
 	if listParams == nil {
 		listParams = &FileLinkListParams{}
 	}
@@ -68,5 +73,5 @@ func (c v1FileLinkService) List(ctx context.Context, listParams *FileLinkListPar
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/file_links", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

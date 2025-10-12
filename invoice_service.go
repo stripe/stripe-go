@@ -214,6 +214,11 @@ func (c v1InvoiceService) VoidInvoice(ctx context.Context, id string, params *In
 
 // You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
 func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParams) Seq2[*Invoice, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
+func (c v1InvoiceService) ListWithPage(ctx context.Context, listParams *InvoiceListParams) *V1List[*Invoice] {
 	if listParams == nil {
 		listParams = &InvoiceListParams{}
 	}
@@ -226,11 +231,16 @@ func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceListLinesParams) Seq2[*InvoiceLineItem, error] {
+	return c.ListLinesWithPage(ctx, listParams).All()
+}
+
+// When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+func (c v1InvoiceService) ListLinesWithPage(ctx context.Context, listParams *InvoiceListLinesParams) *V1List[*InvoiceLineItem] {
 	if listParams == nil {
 		listParams = &InvoiceListLinesParams{}
 	}
@@ -245,7 +255,7 @@ func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceList
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for invoices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
@@ -253,17 +263,25 @@ func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceList
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 func (c v1InvoiceService) Search(ctx context.Context, params *InvoiceSearchParams) Seq2[*Invoice, error] {
+	return c.SearchWithPage(ctx, params).All()
+}
+
+// Search for invoices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+func (c v1InvoiceService) SearchWithPage(ctx context.Context, params *InvoiceSearchParams) *V1SearchList[*Invoice] {
 	if params == nil {
 		params = &InvoiceSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Invoice], error) {
-		list := &v1SearchPage[*Invoice]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Invoice], error) {
+		list := &V1SearchPage[*Invoice]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

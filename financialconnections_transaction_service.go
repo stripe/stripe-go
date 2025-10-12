@@ -33,6 +33,11 @@ func (c v1FinancialConnectionsTransactionService) Retrieve(ctx context.Context, 
 
 // Returns a list of Financial Connections Transaction objects.
 func (c v1FinancialConnectionsTransactionService) List(ctx context.Context, listParams *FinancialConnectionsTransactionListParams) Seq2[*FinancialConnectionsTransaction, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of Financial Connections Transaction objects.
+func (c v1FinancialConnectionsTransactionService) ListWithPage(ctx context.Context, listParams *FinancialConnectionsTransactionListParams) *V1List[*FinancialConnectionsTransaction] {
 	if listParams == nil {
 		listParams = &FinancialConnectionsTransactionListParams{}
 	}
@@ -45,5 +50,5 @@ func (c v1FinancialConnectionsTransactionService) List(ctx context.Context, list
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/transactions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

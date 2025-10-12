@@ -33,6 +33,11 @@ func (c v1CountrySpecService) Retrieve(ctx context.Context, id string, params *C
 
 // Lists all Country Spec objects available in the API.
 func (c v1CountrySpecService) List(ctx context.Context, listParams *CountrySpecListParams) Seq2[*CountrySpec, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Lists all Country Spec objects available in the API.
+func (c v1CountrySpecService) ListWithPage(ctx context.Context, listParams *CountrySpecListParams) *V1List[*CountrySpec] {
 	if listParams == nil {
 		listParams = &CountrySpecListParams{}
 	}
@@ -45,5 +50,5 @@ func (c v1CountrySpecService) List(ctx context.Context, listParams *CountrySpecL
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/country_specs", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

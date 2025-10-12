@@ -115,6 +115,11 @@ func (c v1SetupIntentService) VerifyMicrodeposits(ctx context.Context, id string
 
 // Returns a list of SetupIntents.
 func (c v1SetupIntentService) List(ctx context.Context, listParams *SetupIntentListParams) Seq2[*SetupIntent, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of SetupIntents.
+func (c v1SetupIntentService) ListWithPage(ctx context.Context, listParams *SetupIntentListParams) *V1List[*SetupIntent] {
 	if listParams == nil {
 		listParams = &SetupIntentListParams{}
 	}
@@ -127,5 +132,5 @@ func (c v1SetupIntentService) List(ctx context.Context, listParams *SetupIntentL
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/setup_intents", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

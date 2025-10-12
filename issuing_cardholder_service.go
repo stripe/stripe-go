@@ -57,6 +57,11 @@ func (c v1IssuingCardholderService) Update(ctx context.Context, id string, param
 
 // Returns a list of Issuing Cardholder objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1IssuingCardholderService) List(ctx context.Context, listParams *IssuingCardholderListParams) Seq2[*IssuingCardholder, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of Issuing Cardholder objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
+func (c v1IssuingCardholderService) ListWithPage(ctx context.Context, listParams *IssuingCardholderListParams) *V1List[*IssuingCardholder] {
 	if listParams == nil {
 		listParams = &IssuingCardholderListParams{}
 	}
@@ -69,5 +74,5 @@ func (c v1IssuingCardholderService) List(ctx context.Context, listParams *Issuin
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cardholders", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

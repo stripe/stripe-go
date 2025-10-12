@@ -68,6 +68,11 @@ func (c v1PlanService) Delete(ctx context.Context, id string, params *PlanDelete
 
 // Returns a list of your plans.
 func (c v1PlanService) List(ctx context.Context, listParams *PlanListParams) Seq2[*Plan, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of your plans.
+func (c v1PlanService) ListWithPage(ctx context.Context, listParams *PlanListParams) *V1List[*Plan] {
 	if listParams == nil {
 		listParams = &PlanListParams{}
 	}
@@ -80,5 +85,5 @@ func (c v1PlanService) List(ctx context.Context, listParams *PlanListParams) Seq
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/plans", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

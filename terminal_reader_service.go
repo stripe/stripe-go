@@ -165,6 +165,11 @@ func (c v1TerminalReaderService) SetReaderDisplay(ctx context.Context, id string
 
 // Returns a list of Reader objects.
 func (c v1TerminalReaderService) List(ctx context.Context, listParams *TerminalReaderListParams) Seq2[*TerminalReader, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of Reader objects.
+func (c v1TerminalReaderService) ListWithPage(ctx context.Context, listParams *TerminalReaderListParams) *V1List[*TerminalReader] {
 	if listParams == nil {
 		listParams = &TerminalReaderListParams{}
 	}
@@ -177,5 +182,5 @@ func (c v1TerminalReaderService) List(ctx context.Context, listParams *TerminalR
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/readers", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

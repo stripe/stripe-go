@@ -65,6 +65,11 @@ func (c v1CustomerBalanceTransactionService) Update(ctx context.Context, id stri
 
 // Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 func (c v1CustomerBalanceTransactionService) List(ctx context.Context, listParams *CustomerBalanceTransactionListParams) Seq2[*CustomerBalanceTransaction, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
+func (c v1CustomerBalanceTransactionService) ListWithPage(ctx context.Context, listParams *CustomerBalanceTransactionListParams) *V1List[*CustomerBalanceTransaction] {
 	if listParams == nil {
 		listParams = &CustomerBalanceTransactionListParams{}
 	}
@@ -79,5 +84,5 @@ func (c v1CustomerBalanceTransactionService) List(ctx context.Context, listParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -57,6 +57,11 @@ func (c v1IssuingPersonalizationDesignService) Update(ctx context.Context, id st
 
 // Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1IssuingPersonalizationDesignService) List(ctx context.Context, listParams *IssuingPersonalizationDesignListParams) Seq2[*IssuingPersonalizationDesign, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
+func (c v1IssuingPersonalizationDesignService) ListWithPage(ctx context.Context, listParams *IssuingPersonalizationDesignListParams) *V1List[*IssuingPersonalizationDesign] {
 	if listParams == nil {
 		listParams = &IssuingPersonalizationDesignListParams{}
 	}
@@ -69,5 +74,5 @@ func (c v1IssuingPersonalizationDesignService) List(ctx context.Context, listPar
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/personalization_designs", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

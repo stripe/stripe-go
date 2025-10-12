@@ -56,6 +56,11 @@ func (c v1AppsSecretService) Find(ctx context.Context, params *AppsSecretFindPar
 
 // List all secrets stored on the given scope.
 func (c v1AppsSecretService) List(ctx context.Context, listParams *AppsSecretListParams) Seq2[*AppsSecret, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// List all secrets stored on the given scope.
+func (c v1AppsSecretService) ListWithPage(ctx context.Context, listParams *AppsSecretListParams) *V1List[*AppsSecret] {
 	if listParams == nil {
 		listParams = &AppsSecretListParams{}
 	}
@@ -68,5 +73,5 @@ func (c v1AppsSecretService) List(ctx context.Context, listParams *AppsSecretLis
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/apps/secrets", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

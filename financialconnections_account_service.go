@@ -81,6 +81,11 @@ func (c v1FinancialConnectionsAccountService) Unsubscribe(ctx context.Context, i
 
 // Returns a list of Financial Connections Account objects.
 func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listParams *FinancialConnectionsAccountListParams) Seq2[*FinancialConnectionsAccount, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of Financial Connections Account objects.
+func (c v1FinancialConnectionsAccountService) ListWithPage(ctx context.Context, listParams *FinancialConnectionsAccountListParams) *V1List[*FinancialConnectionsAccount] {
 	if listParams == nil {
 		listParams = &FinancialConnectionsAccountListParams{}
 	}
@@ -93,11 +98,16 @@ func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listPara
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/accounts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Lists all owners for a given Account
 func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, listParams *FinancialConnectionsAccountListOwnersParams) Seq2[*FinancialConnectionsAccountOwner, error] {
+	return c.ListOwnersWithPage(ctx, listParams).All()
+}
+
+// Lists all owners for a given Account
+func (c v1FinancialConnectionsAccountService) ListOwnersWithPage(ctx context.Context, listParams *FinancialConnectionsAccountListOwnersParams) *V1List[*FinancialConnectionsAccountOwner] {
 	if listParams == nil {
 		listParams = &FinancialConnectionsAccountListOwnersParams{}
 	}
@@ -113,5 +123,5 @@ func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, li
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

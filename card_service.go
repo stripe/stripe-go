@@ -109,6 +109,10 @@ func (c v1CardService) Delete(ctx context.Context, id string, params *CardDelete
 	return card, err
 }
 func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq2[*Card, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+func (c v1CardService) ListWithPage(ctx context.Context, listParams *CardListParams) *V1List[*Card] {
 	var path string
 	var outerErr error
 
@@ -141,5 +145,5 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
