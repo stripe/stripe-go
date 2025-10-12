@@ -21,6 +21,7 @@ import (
 	"time"
 
 	"github.com/stripe/stripe-go/v83/form"
+	"go.opentelemetry.io/otel/trace"
 )
 
 //
@@ -392,6 +393,9 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 		return err
 	}
 
+	// Extract URL template for OpenTelemetry
+	urlTemplate := extractURLTemplate(commonParams)
+
 	ver, err := extractVersion(path)
 	if err != nil {
 		return err
@@ -412,6 +416,11 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 	req, err := s.NewRequest(method, path, key, ver.contentType(), commonParams)
 	if err != nil {
 		return err
+	}
+
+	// Add URL template to request context
+	if urlTemplate != "" {
+		req = req.WithContext(contextWithURLTemplate(req.Context(), urlTemplate))
 	}
 
 	responseSetter := streamingLastResponseSetterWrapper{
@@ -516,6 +525,9 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
 func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error {
+	// Extract URL template for OpenTelemetry
+	urlTemplate := extractURLTemplate(params)
+
 	err := validateMethod(method)
 	if err != nil {
 		return err
@@ -537,6 +549,12 @@ func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, p
 	if err != nil {
 		return err
 	}
+
+	// Add URL template to request context
+	if urlTemplate != "" {
+		req = req.WithContext(contextWithURLTemplate(req.Context(), urlTemplate))
+	}
+
 	buf := bytes.NewBuffer(body)
 	responseSetter := metricsResponseSetter{
 		LastResponseSetter: v,
@@ -808,14 +826,35 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 // a StreamingLastResponse onto v, but in unsuccessful cases handles unmarshaling
 // errors returned by the API.
 func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) error {
+	// Start OpenTelemetry span if tracer is configured
+	ctx := req.Context()
+	urlTemplate := urlTemplateFromContext(ctx)
+	var span trace.Span
+
+	ctx, span = startHTTPSpan(ctx, otelSpanInfo{
+		method:      req.Method,
+		url:         req.URL.String(),
+		host:        req.URL.Host,
+		urlTemplate: urlTemplate,
+		backend:     s.Type,
+	})
+	req = req.WithContext(ctx)
+
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		return s.handleResponseBufferingErrors(res, err)
 	}
 
 	resp, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
+		endHTTPSpan(span, nil, err)
 		return err
 	}
+
+	// Update span with successful response details
+	if resp != nil {
+		endHTTPSpan(span, resp, nil)
+	}
+
 	v.SetLastResponse(newStreamingAPIResponse(resp, result.(io.ReadCloser), requestDuration))
 	return nil
 }
@@ -824,6 +863,20 @@ func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffe
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
 func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
+	// Start OpenTelemetry span if tracer is configured
+	ctx := req.Context()
+	urlTemplate := urlTemplateFromContext(ctx)
+	var span trace.Span
+
+	ctx, span = startHTTPSpan(ctx, otelSpanInfo{
+		method:      req.Method,
+		url:         req.URL.String(),
+		host:        req.URL.Host,
+		urlTemplate: urlTemplate,
+		backend:     s.Type,
+	})
+	req = req.WithContext(ctx)
+
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		var resBody []byte
 		if err == nil {
@@ -852,10 +905,16 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 
 	res, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
+		endHTTPSpan(span, nil, err)
 		return err
 	}
 	resBody := result.([]byte)
 	s.LeveledLogger.Debugf("Response: %s", string(resBody))
+
+	// Update span with successful response details
+	if res != nil {
+		endHTTPSpan(span, res, nil)
+	}
 
 	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
 	v.SetLastResponse(newAPIResponse(res, resBody, requestDuration))
@@ -1006,6 +1065,9 @@ var (
 	redirectsErrorRE = regexp.MustCompile(`stopped after \d+ redirects\z`)
 	schemeErrorRE    = regexp.MustCompile(`unsupported protocol scheme`)
 )
+
+// urlTemplatePattern matches OpenTelemetry-style URL template parameters like {id}, {customer_id}
+var urlTemplatePattern = regexp.MustCompile(`\{[^}]+\}`)
 
 // Checks if an error is a problem that we should retry on. This includes both
 // socket errors that may represent an intermittent problem and some special
@@ -1211,6 +1273,35 @@ func FormatURLPath(format string, params ...string) string {
 	}
 
 	return fmt.Sprintf(format, untypedParams...)
+}
+
+// FormatURLPathWithTemplate formats a URL path and sets the URL template in params for OpenTelemetry.
+// This is a helper function that combines FormatURLPath with setting the URLTemplate field.
+//
+// The template should use {param} placeholders (OpenTelemetry convention), while the actual formatting
+// is done using %s placeholders.
+//
+// Example:
+//
+//	params := &stripe.ChargeParams{}
+//	path := stripe.FormatURLPathWithTemplate(params.GetParams(), "/v1/charges/{id}", chargeID)
+//	// Result: path = "/v1/charges/ch_123", params.URLTemplate = "/v1/charges/{id}"
+func FormatURLPathWithTemplate(params *Params, template string, urlParams ...string) string {
+	if params != nil {
+		params.URLTemplate = &template
+	}
+
+	// Convert OpenTelemetry template format {param} to printf format %s
+	// This regex replaces any {xxx} with %s in the order they appear
+	format := urlTemplatePattern.ReplaceAllString(template, "%s")
+
+	// Count replacements to validate
+	expectedParams := len(urlTemplatePattern.FindAllString(template, -1))
+	if expectedParams != len(urlParams) {
+		panic(fmt.Sprintf("FormatURLPathWithTemplate: template has %d parameters but %d values provided", expectedParams, len(urlParams)))
+	}
+
+	return FormatURLPath(format, urlParams...)
 }
 
 // GetBackend returns one of the library's supported backends based off of the
