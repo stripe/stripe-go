@@ -228,6 +228,11 @@ type BackendConfig struct {
 	// LeveledLogger is the logger that the backend will use to log errors,
 	// warnings, and informational messages.
 	//
+	// This field accepts either LeveledLoggerInterface (the traditional interface)
+	// or ContextLeveledLoggerInterface (the context-aware interface). The SDK will
+	// automatically detect which interface your logger implements and use it
+	// appropriately.
+	//
 	// LeveledLoggerInterface is implemented by LeveledLogger, and one can be
 	// initialized at the desired level of logging.  LeveledLoggerInterface
 	// also provides out-of-the-box compatibility with a Logrus Logger, but may
@@ -239,7 +244,7 @@ type BackendConfig struct {
 	// To set a logger that logs nothing, set this to a stripe.LeveledLogger
 	// with a Level of LevelNull (simply setting this field to nil will not
 	// work).
-	LeveledLogger LeveledLoggerInterface
+	LeveledLogger interface{}
 
 	// MaxNetworkRetries sets maximum number of times that the library will
 	// retry requests that appear to have failed due to an intermittent
@@ -275,8 +280,8 @@ type BackendImplementation struct {
 	URL               string
 	HTTPClient        *http.Client
 
-	// LeveledLogger may implement either LeveledLoggerInterface or ContextLeveledLoggerInterface
-	LeveledLogger     LeveledLoggerInterface
+	// LeveledLogger holds the configured logger (either LeveledLoggerInterface or ContextLeveledLoggerInterface)
+	LeveledLogger     interface{}
 	MaxNetworkRetries int64
 	StripeContext     *string
 
@@ -293,6 +298,10 @@ type BackendImplementation struct {
 	// contextLogger is set if LeveledLogger implements ContextLeveledLoggerInterface.
 	// This allows us to check once at initialization rather than on every log call.
 	contextLogger ContextLeveledLoggerInterface
+
+	// regularLogger is set if LeveledLogger implements LeveledLoggerInterface.
+	// Used for fallback when contextLogger is not available.
+	regularLogger LeveledLoggerInterface
 }
 
 type metricsResponseSetter struct {
@@ -667,8 +676,8 @@ func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(requestID string, r
 func (s *BackendImplementation) logDebugf(ctx context.Context, format string, v ...interface{}) {
 	if s.contextLogger != nil {
 		s.contextLogger.Debugf(ctx, format, v...)
-	} else {
-		s.LeveledLogger.Debugf(format, v...)
+	} else if s.regularLogger != nil {
+		s.regularLogger.Debugf(format, v...)
 	}
 }
 
@@ -676,8 +685,8 @@ func (s *BackendImplementation) logDebugf(ctx context.Context, format string, v 
 func (s *BackendImplementation) logInfof(ctx context.Context, format string, v ...interface{}) {
 	if s.contextLogger != nil {
 		s.contextLogger.Infof(ctx, format, v...)
-	} else {
-		s.LeveledLogger.Infof(format, v...)
+	} else if s.regularLogger != nil {
+		s.regularLogger.Infof(format, v...)
 	}
 }
 
@@ -685,8 +694,8 @@ func (s *BackendImplementation) logInfof(ctx context.Context, format string, v .
 func (s *BackendImplementation) logWarnf(ctx context.Context, format string, v ...interface{}) {
 	if s.contextLogger != nil {
 		s.contextLogger.Warnf(ctx, format, v...)
-	} else {
-		s.LeveledLogger.Warnf(format, v...)
+	} else if s.regularLogger != nil {
+		s.regularLogger.Warnf(format, v...)
 	}
 }
 
@@ -694,8 +703,8 @@ func (s *BackendImplementation) logWarnf(ctx context.Context, format string, v .
 func (s *BackendImplementation) logErrorf(ctx context.Context, format string, v ...interface{}) {
 	if s.contextLogger != nil {
 		s.contextLogger.Errorf(ctx, format, v...)
-	} else {
-		s.LeveledLogger.Errorf(format, v...)
+	} else if s.regularLogger != nil {
+		s.regularLogger.Errorf(format, v...)
 	}
 }
 
@@ -1684,13 +1693,16 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		requestMetricsBuffer = make(chan requestMetrics, telemetryBufferSize)
 	}
 
-	// Check if the logger implements ContextLeveledLoggerInterface
-	// Note: We cast to interface{} first because a type cannot implement both
-	// LeveledLoggerInterface and ContextLeveledLoggerInterface due to conflicting
+	// Detect which logger interface is implemented
+	// Note: A type can only implement ONE of these interfaces due to conflicting
 	// method signatures (Debugf, etc. have different parameters)
 	var contextLogger ContextLeveledLoggerInterface
-	if cl, ok := interface{}(config.LeveledLogger).(ContextLeveledLoggerInterface); ok {
+	var regularLogger LeveledLoggerInterface
+
+	if cl, ok := config.LeveledLogger.(ContextLeveledLoggerInterface); ok {
 		contextLogger = cl
+	} else if rl, ok := config.LeveledLogger.(LeveledLoggerInterface); ok {
+		regularLogger = rl
 	}
 
 	return &BackendImplementation{
@@ -1704,6 +1716,7 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		networkRetriesSleep:  true,
 		requestMetricsBuffer: requestMetricsBuffer,
 		contextLogger:        contextLogger,
+		regularLogger:        regularLogger,
 	}
 }
 
