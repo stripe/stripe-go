@@ -182,7 +182,7 @@ type TestHelpersIssuingTransactionCreateForceCaptureParams struct {
 	// Card associated with this transaction.
 	Card *string `form:"card"`
 	// The currency of the capture. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
@@ -358,7 +358,7 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundParams struct {
 	// Card associated with this unlinked refund transaction.
 	Card *string `form:"card"`
 	// The currency of the unlinked refund. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.

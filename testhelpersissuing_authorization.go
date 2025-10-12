@@ -176,11 +176,11 @@ type TestHelpersIssuingAuthorizationParams struct {
 	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	AmountDetails *TestHelpersIssuingAuthorizationAmountDetailsParams `form:"amount_details"`
 	// How the card details were provided. Defaults to online.
-	AuthorizationMethod *string `form:"authorization_method"`
+	AuthorizationMethod *IssuingAuthorizationAuthorizationMethod `form:"authorization_method"`
 	// Card associated with this authorization.
 	Card *string `form:"card"`
 	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Fleet-specific information for authorizations using Fleet cards.
@@ -676,11 +676,11 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	AmountDetails *TestHelpersIssuingAuthorizationCreateAmountDetailsParams `form:"amount_details"`
 	// How the card details were provided. Defaults to online.
-	AuthorizationMethod *string `form:"authorization_method"`
+	AuthorizationMethod *IssuingAuthorizationAuthorizationMethod `form:"authorization_method"`
 	// Card associated with this authorization.
 	Card *string `form:"card"`
 	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Fleet-specific information for authorizations using Fleet cards.

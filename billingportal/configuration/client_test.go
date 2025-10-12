@@ -32,7 +32,7 @@ func TestBillingPortalConfigurationNew(t *testing.T) {
 		},
 		Features: &stripe.BillingPortalConfigurationFeaturesParams{
 			CustomerUpdate: &stripe.BillingPortalConfigurationFeaturesCustomerUpdateParams{
-				AllowedUpdates: []*string{stripe.String("address")},
+				AllowedUpdates: []*stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate{stripe.String(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateAddress)},
 				Enabled:        stripe.Bool(true),
 			},
 		},

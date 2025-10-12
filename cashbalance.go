@@ -33,7 +33,7 @@ func (p *CashBalanceParams) AddExpand(f string) {
 // A hash of settings for this cash balance.
 type CashBalanceSettingsParams struct {
 	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
-	ReconciliationMode *string `form:"reconciliation_mode"`
+	ReconciliationMode *CashBalanceSettingsReconciliationMode `form:"reconciliation_mode"`
 }
 
 // Retrieves a customer's cash balance.
@@ -52,7 +52,7 @@ func (p *CashBalanceRetrieveParams) AddExpand(f string) {
 // A hash of settings for this cash balance.
 type CashBalanceUpdateSettingsParams struct {
 	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
-	ReconciliationMode *string `form:"reconciliation_mode"`
+	ReconciliationMode *CashBalanceSettingsReconciliationMode `form:"reconciliation_mode"`
 }
 
 // Changes the settings on a customer's cash balance.

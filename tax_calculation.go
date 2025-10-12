@@ -320,7 +320,7 @@ type TaxCalculationCustomerDetailsParams struct {
 	// The customer's postal address (for example, home or business location).
 	Address *AddressParams `form:"address"`
 	// The type of customer address provided.
-	AddressSource *string `form:"address_source"`
+	AddressSource *TaxCalculationCustomerDetailsAddressSource `form:"address_source"`
 	// The customer's IP address (IPv4 or IPv6).
 	IPAddress *string `form:"ip_address"`
 	// Overrides the tax calculation result to allow you to not collect tax from your customer. Use this if you've manually checked your customer's tax exemptions. Prefer providing the customer's `tax_ids` where possible, which automatically determines whether `reverse_charge` applies.
@@ -400,7 +400,7 @@ type TaxCalculationCreateCustomerDetailsParams struct {
 	// The customer's postal address (for example, home or business location).
 	Address *AddressParams `form:"address"`
 	// The type of customer address provided.
-	AddressSource *string `form:"address_source"`
+	AddressSource *TaxCalculationCustomerDetailsAddressSource `form:"address_source"`
 	// The customer's IP address (IPv4 or IPv6).
 	IPAddress *string `form:"ip_address"`
 	// Overrides the tax calculation result to allow you to not collect tax from your customer. Use this if you've manually checked your customer's tax exemptions. Prefer providing the customer's `tax_ids` where possible, which automatically determines whether `reverse_charge` applies.

@@ -192,7 +192,7 @@ type IdentityVerificationSessionParams struct {
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
-	Type *string `form:"type"`
+	Type *IdentityVerificationSessionType `form:"type"`
 	// The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
 	VerificationFlow *string `form:"verification_flow"`
 }
@@ -315,7 +315,7 @@ type IdentityVerificationSessionCreateParams struct {
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
-	Type *string `form:"type"`
+	Type *IdentityVerificationSessionType `form:"type"`
 	// The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
 	VerificationFlow *string `form:"verification_flow"`
 }
@@ -390,7 +390,7 @@ type IdentityVerificationSessionUpdateParams struct {
 	// Details provided about the user being verified. These details may be shown to the user.
 	ProvidedDetails *IdentityVerificationSessionUpdateProvidedDetailsParams `form:"provided_details"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.
-	Type *string `form:"type"`
+	Type *IdentityVerificationSessionType `form:"type"`
 }
 
 // AddExpand appends a new field to expand.

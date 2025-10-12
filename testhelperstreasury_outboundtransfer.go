@@ -73,7 +73,7 @@ func (p *TestHelpersTreasuryOutboundTransferPostParams) AddExpand(f string) {
 // Details about a returned OutboundTransfer.
 type TestHelpersTreasuryOutboundTransferReturnOutboundTransferReturnedDetailsParams struct {
 	// Reason for the return.
-	Code *string `form:"code"`
+	Code *TreasuryOutboundTransferReturnedDetailsCode `form:"code"`
 }
 
 // Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.

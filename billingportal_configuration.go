@@ -146,7 +146,7 @@ type BillingPortalConfigurationBusinessProfileParams struct {
 // Information about updating the customer details in the portal.
 type BillingPortalConfigurationFeaturesCustomerUpdateParams struct {
 	// The types of customer updates that are supported. When empty, customers are not updateable.
-	AllowedUpdates []*string `form:"allowed_updates"`
+	AllowedUpdates []*BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate `form:"allowed_updates"`
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 }
@@ -219,7 +219,7 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndPara
 // Information about updating subscriptions in the portal.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
 	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
-	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
+	DefaultAllowedUpdates []*BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `form:"default_allowed_updates"`
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// The list of up to 10 products that support subscription updates.
@@ -303,7 +303,7 @@ type BillingPortalConfigurationCreateBusinessProfileParams struct {
 // Information about updating the customer details in the portal.
 type BillingPortalConfigurationCreateFeaturesCustomerUpdateParams struct {
 	// The types of customer updates that are supported. When empty, customers are not updateable.
-	AllowedUpdates []*string `form:"allowed_updates"`
+	AllowedUpdates []*BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate `form:"allowed_updates"`
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 }
@@ -376,7 +376,7 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodE
 // Information about updating subscriptions in the portal.
 type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams struct {
 	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
-	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
+	DefaultAllowedUpdates []*BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `form:"default_allowed_updates"`
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// The list of up to 10 products that support subscription updates.
@@ -468,7 +468,7 @@ type BillingPortalConfigurationUpdateBusinessProfileParams struct {
 // Information about updating the customer details in the portal.
 type BillingPortalConfigurationUpdateFeaturesCustomerUpdateParams struct {
 	// The types of customer updates that are supported. When empty, customers are not updateable.
-	AllowedUpdates []*string `form:"allowed_updates"`
+	AllowedUpdates []*BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate `form:"allowed_updates"`
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 }
@@ -541,7 +541,7 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodE
 // Information about updating subscriptions in the portal.
 type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams struct {
 	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
-	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
+	DefaultAllowedUpdates []*BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `form:"default_allowed_updates"`
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// The list of up to 10 products that support subscription updates.

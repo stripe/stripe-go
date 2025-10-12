@@ -33,7 +33,7 @@ func (p *TestHelpersIssuingPersonalizationDesignDeactivateParams) AddExpand(f st
 // The reason(s) the personalization design was rejected.
 type TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams struct {
 	// The reason(s) the card logo was rejected.
-	CardLogo []*string `form:"card_logo"`
+	CardLogo []*IssuingPersonalizationDesignRejectionReasonsCardLogo `form:"card_logo"`
 	// The reason(s) the carrier text was rejected.
 	CarrierText []*string `form:"carrier_text"`
 }

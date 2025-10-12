@@ -30,7 +30,7 @@ type TestHelpersTreasuryReceivedCreditParams struct {
 	// Amount (in cents) to be transferred.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
@@ -40,7 +40,7 @@ type TestHelpersTreasuryReceivedCreditParams struct {
 	// Initiating payment method details for the object.
 	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedCreditInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
 	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
-	Network *string `form:"network"`
+	Network *TreasuryReceivedCreditNetwork `form:"network"`
 }
 
 // AddExpand appends a new field to expand.
@@ -72,7 +72,7 @@ type TestHelpersTreasuryReceivedCreditCreateParams struct {
 	// Amount (in cents) to be transferred.
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *Currency `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
@@ -82,7 +82,7 @@ type TestHelpersTreasuryReceivedCreditCreateParams struct {
 	// Initiating payment method details for the object.
 	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedCreditCreateInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
 	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
-	Network *string `form:"network"`
+	Network *TreasuryReceivedCreditNetwork `form:"network"`
 }
 
 // AddExpand appends a new field to expand.

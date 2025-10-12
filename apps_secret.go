@@ -18,7 +18,7 @@ const (
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretListScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *AppsSecretScopeType `form:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
 	User *string `form:"user"`
 }
@@ -40,7 +40,7 @@ func (p *AppsSecretListParams) AddExpand(f string) {
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *AppsSecretScopeType `form:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
 	User *string `form:"user"`
 }
@@ -68,7 +68,7 @@ func (p *AppsSecretParams) AddExpand(f string) {
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretFindScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *AppsSecretScopeType `form:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
 	User *string `form:"user"`
 }
@@ -92,7 +92,7 @@ func (p *AppsSecretFindParams) AddExpand(f string) {
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretDeleteWhereScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *AppsSecretScopeType `form:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
 	User *string `form:"user"`
 }
@@ -116,7 +116,7 @@ func (p *AppsSecretDeleteWhereParams) AddExpand(f string) {
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretCreateScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *AppsSecretScopeType `form:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
 	User *string `form:"user"`
 }

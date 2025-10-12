@@ -60,7 +60,7 @@ type FinancialConnectionsSessionParams struct {
 	// List of data features that you would like to request access to.
 	//
 	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
-	Permissions []*string `form:"permissions"`
+	Permissions []*FinancialConnectionsSessionPermission `form:"permissions"`
 	// List of data features that you would like to retrieve upon account creation.
 	Prefetch []*string `form:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
@@ -79,7 +79,7 @@ type FinancialConnectionsSessionAccountHolderParams struct {
 	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
 	Customer *string `form:"customer"`
 	// Type of account holder to collect accounts for.
-	Type *string `form:"type"`
+	Type *FinancialConnectionsSessionAccountHolderType `form:"type"`
 }
 
 // Filters to restrict the kinds of accounts to collect.
@@ -109,7 +109,7 @@ type FinancialConnectionsSessionCreateAccountHolderParams struct {
 	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
 	Customer *string `form:"customer"`
 	// Type of account holder to collect accounts for.
-	Type *string `form:"type"`
+	Type *FinancialConnectionsSessionAccountHolderType `form:"type"`
 }
 
 // Filters to restrict the kinds of accounts to collect.
@@ -132,7 +132,7 @@ type FinancialConnectionsSessionCreateParams struct {
 	// List of data features that you would like to request access to.
 	//
 	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
-	Permissions []*string `form:"permissions"`
+	Permissions []*FinancialConnectionsSessionPermission `form:"permissions"`
 	// List of data features that you would like to retrieve upon account creation.
 	Prefetch []*string `form:"prefetch"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.

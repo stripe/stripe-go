@@ -112,7 +112,7 @@ func (p *CustomerParams) AddMetadata(key string, value string) {
 // such as reconciliation of funds received.
 type CustomerCashBalanceSettingsParams struct {
 	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
-	ReconciliationMode *string `form:"reconciliation_mode"`
+	ReconciliationMode *CashBalanceSettingsReconciliationMode `form:"reconciliation_mode"`
 }
 
 // Balance information and default balance settings for this customer.
@@ -307,7 +307,7 @@ func (p *CustomerRetrieveParams) AddExpand(f string) {
 // such as reconciliation of funds received.
 type CustomerUpdateCashBalanceSettingsParams struct {
 	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
-	ReconciliationMode *string `form:"reconciliation_mode"`
+	ReconciliationMode *CashBalanceSettingsReconciliationMode `form:"reconciliation_mode"`
 }
 
 // Balance information and default balance settings for this customer.
@@ -432,7 +432,7 @@ func (p *CustomerUpdateParams) AddMetadata(key string, value string) {
 // such as reconciliation of funds received.
 type CustomerCreateCashBalanceSettingsParams struct {
 	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
-	ReconciliationMode *string `form:"reconciliation_mode"`
+	ReconciliationMode *CashBalanceSettingsReconciliationMode `form:"reconciliation_mode"`
 }
 
 // Balance information and default balance settings for this customer.

@@ -2884,7 +2884,7 @@ type CheckoutSessionParams struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
-	Mode *string `form:"mode"`
+	Mode *CheckoutSessionMode `form:"mode"`
 	// Controls name collection settings for the session.
 	//
 	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
@@ -4592,7 +4592,7 @@ type CheckoutSessionCreateParams struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
-	Mode *string `form:"mode"`
+	Mode *CheckoutSessionMode `form:"mode"`
 	// Controls name collection settings for the session.
 	//
 	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.

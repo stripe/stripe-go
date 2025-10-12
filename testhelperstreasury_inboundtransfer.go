@@ -9,7 +9,7 @@ package stripe
 // Details about a failed InboundTransfer.
 type TestHelpersTreasuryInboundTransferFailFailureDetailsParams struct {
 	// Reason for the failure.
-	Code *string `form:"code"`
+	Code *TreasuryInboundTransferFailureDetailsCode `form:"code"`
 }
 
 // Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
