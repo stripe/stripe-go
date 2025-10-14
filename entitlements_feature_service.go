@@ -57,17 +57,22 @@ func (c v1EntitlementsFeatureService) Update(ctx context.Context, id string, par
 
 // Retrieve a list of features
 func (c v1EntitlementsFeatureService) List(ctx context.Context, listParams *EntitlementsFeatureListParams) Seq2[*EntitlementsFeature, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Retrieve a list of features
+func (c v1EntitlementsFeatureService) ListWithPage(ctx context.Context, listParams *EntitlementsFeatureListParams) *V1List[*EntitlementsFeature] {
 	if listParams == nil {
 		listParams = &EntitlementsFeatureListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*EntitlementsFeature], error) {
-		list := &v1Page[*EntitlementsFeature]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*EntitlementsFeature], error) {
+		list := &V1Page[*EntitlementsFeature]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/entitlements/features", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

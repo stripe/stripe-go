@@ -180,7 +180,8 @@ type InvoiceLineItemTaxAmountParams struct {
 // item and the invoice line item, so updates on this endpoint will propagate to the invoice item as well.
 // Updating an invoice's line item is only possible before the invoice is finalized.
 type InvoiceLineItemParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Invoice ID of line item
 	Invoice *string `form:"-"` // Included in URL
 	// The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
 	Amount *int64 `form:"amount"`
@@ -330,7 +331,8 @@ type InvoiceLineItemUpdateTaxAmountParams struct {
 // item and the invoice line item, so updates on this endpoint will propagate to the invoice item as well.
 // Updating an invoice's line item is only possible before the invoice is finalized.
 type InvoiceLineItemUpdateParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Invoice ID of line item
 	Invoice *string `form:"-"` // Included in URL
 	// The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
 	Amount *int64 `form:"amount"`

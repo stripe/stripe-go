@@ -57,17 +57,22 @@ func (c v1PromotionCodeService) Update(ctx context.Context, id string, params *P
 
 // Returns a list of your promotion codes.
 func (c v1PromotionCodeService) List(ctx context.Context, listParams *PromotionCodeListParams) Seq2[*PromotionCode, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of your promotion codes.
+func (c v1PromotionCodeService) ListWithPage(ctx context.Context, listParams *PromotionCodeListParams) *V1List[*PromotionCode] {
 	if listParams == nil {
 		listParams = &PromotionCodeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PromotionCode], error) {
-		list := &v1Page[*PromotionCode]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*PromotionCode], error) {
+		list := &V1Page[*PromotionCode]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/promotion_codes", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

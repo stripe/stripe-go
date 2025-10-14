@@ -33,17 +33,22 @@ func (c v1BillingCreditBalanceTransactionService) Retrieve(ctx context.Context, 
 
 // Retrieve a list of credit balance transactions.
 func (c v1BillingCreditBalanceTransactionService) List(ctx context.Context, listParams *BillingCreditBalanceTransactionListParams) Seq2[*BillingCreditBalanceTransaction, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Retrieve a list of credit balance transactions.
+func (c v1BillingCreditBalanceTransactionService) ListWithPage(ctx context.Context, listParams *BillingCreditBalanceTransactionListParams) *V1List[*BillingCreditBalanceTransaction] {
 	if listParams == nil {
 		listParams = &BillingCreditBalanceTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingCreditBalanceTransaction], error) {
-		list := &v1Page[*BillingCreditBalanceTransaction]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*BillingCreditBalanceTransaction], error) {
+		list := &V1Page[*BillingCreditBalanceTransaction]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/credit_balance_transactions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

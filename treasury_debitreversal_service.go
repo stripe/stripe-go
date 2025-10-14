@@ -45,17 +45,22 @@ func (c v1TreasuryDebitReversalService) Retrieve(ctx context.Context, id string,
 
 // Returns a list of DebitReversals.
 func (c v1TreasuryDebitReversalService) List(ctx context.Context, listParams *TreasuryDebitReversalListParams) Seq2[*TreasuryDebitReversal, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of DebitReversals.
+func (c v1TreasuryDebitReversalService) ListWithPage(ctx context.Context, listParams *TreasuryDebitReversalListParams) *V1List[*TreasuryDebitReversal] {
 	if listParams == nil {
 		listParams = &TreasuryDebitReversalListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryDebitReversal], error) {
-		list := &v1Page[*TreasuryDebitReversal]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TreasuryDebitReversal], error) {
+		list := &V1Page[*TreasuryDebitReversal]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/debit_reversals", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

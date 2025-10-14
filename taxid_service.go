@@ -78,8 +78,8 @@ func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) S
 		listParams = &TaxIDListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TaxID], error) {
-		list := &v1Page[*TaxID]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TaxID], error) {
+		list := &V1Page[*TaxID]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -87,4 +87,23 @@ func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) S
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
 	}).All()
+}
+
+// Returns a list of tax IDs for a customer.
+func (c v1TaxIDService) ListWithPage(ctx context.Context, listParams *TaxIDListParams) *V1List[*TaxID] {
+	if listParams == nil {
+		listParams = &TaxIDListParams{}
+	}
+	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/tax_ids", StringValue(listParams.Customer))
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TaxID], error) {
+		list := &V1Page[*TaxID]{}
+		if p == nil {
+			p = &Params{}
+		}
+		p.Context = ctx
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
+		return list, err
+	})
 }

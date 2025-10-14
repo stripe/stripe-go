@@ -45,17 +45,22 @@ func (c v1TreasuryCreditReversalService) Retrieve(ctx context.Context, id string
 
 // Returns a list of CreditReversals.
 func (c v1TreasuryCreditReversalService) List(ctx context.Context, listParams *TreasuryCreditReversalListParams) Seq2[*TreasuryCreditReversal, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of CreditReversals.
+func (c v1TreasuryCreditReversalService) ListWithPage(ctx context.Context, listParams *TreasuryCreditReversalListParams) *V1List[*TreasuryCreditReversal] {
 	if listParams == nil {
 		listParams = &TreasuryCreditReversalListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryCreditReversal], error) {
-		list := &v1Page[*TreasuryCreditReversal]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TreasuryCreditReversal], error) {
+		list := &V1Page[*TreasuryCreditReversal]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/credit_reversals", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

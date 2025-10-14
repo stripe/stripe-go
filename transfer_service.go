@@ -58,17 +58,22 @@ func (c v1TransferService) Update(ctx context.Context, id string, params *Transf
 
 // Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
 func (c v1TransferService) List(ctx context.Context, listParams *TransferListParams) Seq2[*Transfer, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
+func (c v1TransferService) ListWithPage(ctx context.Context, listParams *TransferListParams) *V1List[*Transfer] {
 	if listParams == nil {
 		listParams = &TransferListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Transfer], error) {
-		list := &v1Page[*Transfer]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Transfer], error) {
+		list := &V1Page[*Transfer]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/transfers", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -81,17 +81,22 @@ func (c v1BillingCreditGrantService) VoidGrant(ctx context.Context, id string, p
 
 // Retrieve a list of credit grants.
 func (c v1BillingCreditGrantService) List(ctx context.Context, listParams *BillingCreditGrantListParams) Seq2[*BillingCreditGrant, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Retrieve a list of credit grants.
+func (c v1BillingCreditGrantService) ListWithPage(ctx context.Context, listParams *BillingCreditGrantListParams) *V1List[*BillingCreditGrant] {
 	if listParams == nil {
 		listParams = &BillingCreditGrantListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingCreditGrant], error) {
-		list := &v1Page[*BillingCreditGrant]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*BillingCreditGrant], error) {
+		list := &V1Page[*BillingCreditGrant]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/credit_grants", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

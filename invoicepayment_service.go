@@ -33,17 +33,22 @@ func (c v1InvoicePaymentService) Retrieve(ctx context.Context, id string, params
 
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 func (c v1InvoicePaymentService) List(ctx context.Context, listParams *InvoicePaymentListParams) Seq2[*InvoicePayment, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
+func (c v1InvoicePaymentService) ListWithPage(ctx context.Context, listParams *InvoicePaymentListParams) *V1List[*InvoicePayment] {
 	if listParams == nil {
 		listParams = &InvoicePaymentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoicePayment], error) {
-		list := &v1Page[*InvoicePayment]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*InvoicePayment], error) {
+		list := &V1Page[*InvoicePayment]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoice_payments", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -81,17 +81,22 @@ func (c v1SubscriptionScheduleService) Release(ctx context.Context, id string, p
 
 // Retrieves the list of your subscription schedules.
 func (c v1SubscriptionScheduleService) List(ctx context.Context, listParams *SubscriptionScheduleListParams) Seq2[*SubscriptionSchedule, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Retrieves the list of your subscription schedules.
+func (c v1SubscriptionScheduleService) ListWithPage(ctx context.Context, listParams *SubscriptionScheduleListParams) *V1List[*SubscriptionSchedule] {
 	if listParams == nil {
 		listParams = &SubscriptionScheduleListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SubscriptionSchedule], error) {
-		list := &v1Page[*SubscriptionSchedule]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*SubscriptionSchedule], error) {
+		list := &V1Page[*SubscriptionSchedule]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscription_schedules", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -65,19 +65,24 @@ func (c v1CustomerBalanceTransactionService) Update(ctx context.Context, id stri
 
 // Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 func (c v1CustomerBalanceTransactionService) List(ctx context.Context, listParams *CustomerBalanceTransactionListParams) Seq2[*CustomerBalanceTransaction, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
+func (c v1CustomerBalanceTransactionService) ListWithPage(ctx context.Context, listParams *CustomerBalanceTransactionListParams) *V1List[*CustomerBalanceTransaction] {
 	if listParams == nil {
 		listParams = &CustomerBalanceTransactionListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/balance_transactions", StringValue(listParams.Customer))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CustomerBalanceTransaction], error) {
-		list := &v1Page[*CustomerBalanceTransaction]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*CustomerBalanceTransaction], error) {
+		list := &V1Page[*CustomerBalanceTransaction]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

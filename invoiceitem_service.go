@@ -69,17 +69,22 @@ func (c v1InvoiceItemService) Delete(ctx context.Context, id string, params *Inv
 
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 func (c v1InvoiceItemService) List(ctx context.Context, listParams *InvoiceItemListParams) Seq2[*InvoiceItem, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
+func (c v1InvoiceItemService) ListWithPage(ctx context.Context, listParams *InvoiceItemListParams) *V1List[*InvoiceItem] {
 	if listParams == nil {
 		listParams = &InvoiceItemListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoiceItem], error) {
-		list := &v1Page[*InvoiceItem]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*InvoiceItem], error) {
+		list := &V1Page[*InvoiceItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoiceitems", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

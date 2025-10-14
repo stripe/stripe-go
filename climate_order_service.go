@@ -73,17 +73,23 @@ func (c v1ClimateOrderService) Cancel(ctx context.Context, id string, params *Cl
 // Lists all Climate order objects. The orders are returned sorted by creation date, with the
 // most recently created orders appearing first.
 func (c v1ClimateOrderService) List(ctx context.Context, listParams *ClimateOrderListParams) Seq2[*ClimateOrder, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Lists all Climate order objects. The orders are returned sorted by creation date, with the
+// most recently created orders appearing first.
+func (c v1ClimateOrderService) ListWithPage(ctx context.Context, listParams *ClimateOrderListParams) *V1List[*ClimateOrder] {
 	if listParams == nil {
 		listParams = &ClimateOrderListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ClimateOrder], error) {
-		list := &v1Page[*ClimateOrder]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*ClimateOrder], error) {
+		list := &V1Page[*ClimateOrder]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/climate/orders", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

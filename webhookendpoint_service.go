@@ -69,17 +69,22 @@ func (c v1WebhookEndpointService) Delete(ctx context.Context, id string, params 
 
 // Returns a list of your webhook endpoints.
 func (c v1WebhookEndpointService) List(ctx context.Context, listParams *WebhookEndpointListParams) Seq2[*WebhookEndpoint, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of your webhook endpoints.
+func (c v1WebhookEndpointService) ListWithPage(ctx context.Context, listParams *WebhookEndpointListParams) *V1List[*WebhookEndpoint] {
 	if listParams == nil {
 		listParams = &WebhookEndpointListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*WebhookEndpoint], error) {
-		list := &v1Page[*WebhookEndpoint]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*WebhookEndpoint], error) {
+		list := &V1Page[*WebhookEndpoint]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/webhook_endpoints", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

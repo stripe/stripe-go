@@ -37,17 +37,24 @@ func (c v1BalanceTransactionService) Retrieve(ctx context.Context, id string, pa
 //
 // Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 func (c v1BalanceTransactionService) List(ctx context.Context, listParams *BalanceTransactionListParams) Seq2[*BalanceTransaction, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of transactions that have contributed to the Stripe account balance (e.g., charges, transfers, and so forth). The transactions are returned in sorted order, with the most recent transactions appearing first.
+//
+// Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
+func (c v1BalanceTransactionService) ListWithPage(ctx context.Context, listParams *BalanceTransactionListParams) *V1List[*BalanceTransaction] {
 	if listParams == nil {
 		listParams = &BalanceTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BalanceTransaction], error) {
-		list := &v1Page[*BalanceTransaction]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*BalanceTransaction], error) {
+		list := &V1Page[*BalanceTransaction]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/balance_transactions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

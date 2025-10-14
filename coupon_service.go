@@ -70,17 +70,22 @@ func (c v1CouponService) Delete(ctx context.Context, id string, params *CouponDe
 
 // Returns a list of your coupons.
 func (c v1CouponService) List(ctx context.Context, listParams *CouponListParams) Seq2[*Coupon, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of your coupons.
+func (c v1CouponService) ListWithPage(ctx context.Context, listParams *CouponListParams) *V1List[*Coupon] {
 	if listParams == nil {
 		listParams = &CouponListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Coupon], error) {
-		list := &v1Page[*Coupon]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Coupon], error) {
+		list := &V1Page[*Coupon]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/coupons", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

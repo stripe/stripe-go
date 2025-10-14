@@ -61,17 +61,22 @@ func (c v1DisputeService) Close(ctx context.Context, id string, params *DisputeC
 
 // Returns a list of your disputes.
 func (c v1DisputeService) List(ctx context.Context, listParams *DisputeListParams) Seq2[*Dispute, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of your disputes.
+func (c v1DisputeService) ListWithPage(ctx context.Context, listParams *DisputeListParams) *V1List[*Dispute] {
 	if listParams == nil {
 		listParams = &DisputeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Dispute], error) {
-		list := &v1Page[*Dispute]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Dispute], error) {
+		list := &V1Page[*Dispute]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/disputes", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

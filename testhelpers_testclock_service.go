@@ -69,17 +69,22 @@ func (c v1TestHelpersTestClockService) Advance(ctx context.Context, id string, p
 
 // Returns a list of your test clocks.
 func (c v1TestHelpersTestClockService) List(ctx context.Context, listParams *TestHelpersTestClockListParams) Seq2[*TestHelpersTestClock, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of your test clocks.
+func (c v1TestHelpersTestClockService) ListWithPage(ctx context.Context, listParams *TestHelpersTestClockListParams) *V1List[*TestHelpersTestClock] {
 	if listParams == nil {
 		listParams = &TestHelpersTestClockListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TestHelpersTestClock], error) {
-		list := &v1Page[*TestHelpersTestClock]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TestHelpersTestClock], error) {
+		list := &V1Page[*TestHelpersTestClock]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/test_helpers/test_clocks", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

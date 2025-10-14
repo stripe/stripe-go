@@ -82,17 +82,22 @@ func (c v1RefundService) Cancel(ctx context.Context, id string, params *RefundCa
 
 // Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first. The 10 most recent refunds are always available by default on the Charge object.
 func (c v1RefundService) List(ctx context.Context, listParams *RefundListParams) Seq2[*Refund, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first. The 10 most recent refunds are always available by default on the Charge object.
+func (c v1RefundService) ListWithPage(ctx context.Context, listParams *RefundListParams) *V1List[*Refund] {
 	if listParams == nil {
 		listParams = &RefundListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Refund], error) {
-		list := &v1Page[*Refund]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Refund], error) {
+		list := &V1Page[*Refund]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/refunds", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

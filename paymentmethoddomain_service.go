@@ -74,17 +74,22 @@ func (c v1PaymentMethodDomainService) Validate(ctx context.Context, id string, p
 
 // Lists the details of existing payment method domains.
 func (c v1PaymentMethodDomainService) List(ctx context.Context, listParams *PaymentMethodDomainListParams) Seq2[*PaymentMethodDomain, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Lists the details of existing payment method domains.
+func (c v1PaymentMethodDomainService) ListWithPage(ctx context.Context, listParams *PaymentMethodDomainListParams) *V1List[*PaymentMethodDomain] {
 	if listParams == nil {
 		listParams = &PaymentMethodDomainListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentMethodDomain], error) {
-		list := &v1Page[*PaymentMethodDomain]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*PaymentMethodDomain], error) {
+		list := &V1Page[*PaymentMethodDomain]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_domains", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

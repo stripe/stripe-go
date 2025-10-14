@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"reflect"
@@ -120,71 +121,63 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 	return iter
 }
 
-// v1List provides a convenient interface for iterating over the elements
+// V1List provides a convenient interface for iterating over the elements
 // returned from paginated list API calls. It is meant to be an improvement
 // over the Iter type, which was written before Go introduced generics and iter.Seq2.
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
-type v1List[T any] struct {
-	cur        T
+type V1List[T any] struct {
+	ctx        context.Context
 	err        error
 	formValues *form.Values
 	listParams ListParams
 	query      v1Query[T]
-	*v1Page[T]
+	backward   bool
+	*V1Page[T]
 }
 
-type v1Page[T any] struct {
+// V1Page represents a single page returned from a V1 List API call.
+// The internal state will be updated by the parent V1List when the
+// Page method is called.
+type V1Page[T any] struct {
 	APIResource
 	ListMeta
 	Data []T `json:"data"`
 }
 
-// All returns a Seq2 that will be evaluated on each item in a v1List.
+// All returns a Seq2 that will be evaluated on each item in a V1List.
 // The All function will continue to fetch pages of items as needed.
-func (it *v1List[T]) All() Seq2[T, error] {
+func (it *V1List[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
-		for it.next() {
-			if !yield(it.cur, nil) {
+		for {
+			for _, item := range it.Data {
+				if !yield(item, nil) {
+					return
+				}
+			}
+			if it.Err() != nil {
+				if !yield(*new(T), it.Err()) {
+					return
+				}
+			}
+			if !it.HasMore() {
 				return
 			}
-		}
-		if it.err != nil {
-			if !yield(*new(T), it.err) {
-				return
-			}
+			it.Page(it.ctx)
 		}
 	}
 }
 
-// next advances the V1List to the next item in the list,
-// which will then be available
-// through the current method.
-// It returns false when the iterator stops
-// at the end of the list.
-func (it *v1List[T]) next() bool {
-	if len(it.Data) == 0 && it.HasMore && !it.listParams.Single {
-		// determine if we're moving forward or backwards in paging
-		if it.listParams.EndingBefore != nil {
-			it.listParams.EndingBefore = String(listItemID(it.cur))
-			it.formValues.Set(EndingBefore, *it.listParams.EndingBefore)
-		} else {
-			it.listParams.StartingAfter = String(listItemID(it.cur))
-			it.formValues.Set(StartingAfter, *it.listParams.StartingAfter)
-		}
-		it.getPage()
+func (it *V1List[T]) Page(ctx context.Context) {
+	if len(it.Data) > 0 && it.backward {
+		it.listParams.EndingBefore = String(listItemID(it.Data[len(it.Data)-1]))
+		it.formValues.Set(EndingBefore, *it.listParams.EndingBefore)
+	} else if len(it.Data) > 0 {
+		it.listParams.StartingAfter = String(listItemID(it.Data[len(it.Data)-1]))
+		it.formValues.Set(StartingAfter, *it.listParams.StartingAfter)
 	}
-	if len(it.Data) == 0 {
-		return false
-	}
-	it.cur = it.Data[0]
-	it.Data = it.Data[1:]
-	return true
-}
-
-func (it *v1List[T]) getPage() {
-	page, err := it.query(it.listParams.GetParams(), it.formValues)
-	it.v1Page = page
+	page, err := it.query(ctx, it.listParams.GetParams(), it.formValues)
+	it.V1Page = page
 	if err != nil {
 		it.err = err
 		return
@@ -194,18 +187,29 @@ func (it *v1List[T]) getPage() {
 		return
 	}
 
-	if it.listParams.EndingBefore != nil {
+	if it.backward {
 		// We are moving backward,
 		// but items arrive in forward order.
 		reverse(it.Data)
 	}
 }
 
+func (s *V1List[T]) HasMore() bool {
+	if s == nil {
+		return false
+	}
+	return s.V1Page.HasMore && !s.listParams.Single
+}
+
+func (s *V1List[T]) Err() error {
+	return s.err
+}
+
 // maybeAddLastResponse adds the LastResponse to the items in the page.
 // It parses the page's JSON and adds each `data` item's JSON to the
 // LastResponse of the corresponding resource. Note that not
 // every resource implements the LastResponseSetter interface.
-func maybeAddLastResponse[T any](page *v1Page[T]) error {
+func maybeAddLastResponse[T any](page *V1Page[T]) error {
 	if page.LastResponse == nil {
 		return nil
 	}
@@ -241,12 +245,12 @@ func maybeAddLastResponse[T any](page *v1Page[T]) error {
 	return nil
 }
 
-// Query is the function used to get a page listing.
-type v1Query[T any] func(*Params, *form.Values) (*v1Page[T], error)
+// v1Query is the function used to get a page listing.
+type v1Query[T any] func(context.Context, *Params, *form.Values) (*V1Page[T], error)
 
 // newV1List returns a new v1List for a given query and its options, and initializes
 // it by fetching the first page of items.
-func newV1List[T any](container ListParamsContainer, query v1Query[T]) *v1List[T] {
+func newV1List[T any](ctx context.Context, container ListParamsContainer, query v1Query[T]) *V1List[T] {
 	var listParams *ListParams
 	formValues := &form.Values{}
 
@@ -263,13 +267,16 @@ func newV1List[T any](container ListParamsContainer, query v1Query[T]) *v1List[T
 	if listParams == nil {
 		listParams = &ListParams{}
 	}
-	iter := &v1List[T]{
+	iter := &V1List[T]{
+		ctx:        ctx,
 		formValues: formValues,
 		listParams: *listParams,
 		query:      query,
+		backward:   listParams.EndingBefore != nil,
+		V1Page:     &V1Page[T]{},
 	}
 
-	iter.getPage()
+	iter.Page(ctx)
 
 	return iter
 }
@@ -285,10 +292,10 @@ func reverse[T any](a []T) {
 }
 
 // Seq2 is the same as the iter.Seq2 type in Go 1.23+. It is used as the return type
-// of All methods. If you are using Go 1.23+, you can just range over the an All
+// of List methods. If you are using Go 1.23+, you can just range over the an List
 // method directly, e.g.,
 //
-//	for event, err := range sc.V2Events.All() {
+//	for event, err := range sc.V2CoreEvents.List(...) {
 //		// check err and do something with event
 //	}
 //
@@ -299,15 +306,18 @@ type Seq2[K, V any] func(yield func(K, V) bool)
 // V2List contains a page of data received from a List API call,
 // and the means to paginate to the next page of data via the fetch function.
 type V2List[T any] struct {
-	fetch       Fetch[T]
+	ctx         context.Context
+	fetch       v2Query[T]
 	params      ParamsContainer
 	initialized bool
+	err         error
 	// Page contains the items returned from the last API call.
 	V2Page[T]
 }
 
-// V2Page is represents a single page returned from a List API call.
-// Users will not ordinaily interact with this type directly.
+// V2Page is represents a single page returned from a V2 List API call.
+// The internal state will be updated by the parent V2List when the
+// Page method is called.
 type V2Page[T any] struct {
 	APIResource
 	Data            []T    `json:"data"`
@@ -315,54 +325,32 @@ type V2Page[T any] struct {
 	PreviousPageURL string `json:"previous_page_url"`
 }
 
-// NewV2List creates a new V2List with the given path and fetch function.
-func NewV2List[T any](path string, p ParamsContainer, fetch Fetch[T]) *V2List[T] {
-	return &V2List[T]{
-		fetch:  fetch,
-		params: p,
-		V2Page: V2Page[T]{NextPageURL: path},
-	}
-}
-
-// Fetch is a function that fetches a page of items.
-type Fetch[T any] func(path string, p ParamsContainer) (*V2Page[T], error)
-
 // All returns a Seq2 that will be evaluated on each item in a V2List.
 // The All function will continue to fetch pages of items as needed.
 func (s *V2List[T]) All() Seq2[T, error] {
 	return func(yield func(T, error) bool) {
-		var fetchMore bool
-		// fetch inital page
-		err := s.page()
-		if err != nil && !yield(*new(T), err) {
-			return
-		}
-		s.initialized = true
-		fetchMore = (s.NextPageURL != "")
-
-		for len(s.Data) > 0 {
+		for {
 			for _, item := range s.Data {
 				if !yield(item, nil) {
 					return
 				}
 			}
-
-			if !fetchMore {
+			if s.Err() != nil {
+				if !yield(*new(T), s.Err()) {
+					return
+				}
+			}
+			if !s.HasMore() {
 				return
 			}
-			err := s.page()
-			if err != nil && !yield(*new(T), err) {
-				return
-			}
-			fetchMore = (s.NextPageURL != "")
+			s.Page(s.ctx)
 		}
 	}
 }
 
-// page fetches the next page of items and updates the Seq's state.
-// It returns true if there exist more pages to fetch, and false if
-// that was the last page.
-func (s *V2List[T]) page() error {
+// Page fetches the next page of items and updates the V2List's state.
+// It returns an error if the fetch fails.
+func (s *V2List[T]) Page(ctx context.Context) {
 	// if we've already fetched a page, the next page URL
 	// already contains all of the query parameters
 	var params ParamsContainer
@@ -372,11 +360,62 @@ func (s *V2List[T]) page() error {
 		params = s.params
 	}
 
-	next, err := s.fetch(s.NextPageURL, params)
+	next, err := s.fetch(ctx, s.NextPageURL, params)
+	if next != nil {
+		s.V2Page = *next
+	}
 	if err != nil {
-		return err
+		s.err = err
+		return
 	}
 
-	s.V2Page = *next
-	return nil
+}
+
+func (s *V2List[T]) HasMore() bool {
+	if s == nil {
+		return false
+	}
+	return s.NextPageURL != ""
+}
+
+func (s *V2List[T]) Err() error {
+	return s.err
+}
+
+// newV2List creates a new V2List with the given path and fetch function.
+func newV2List[T any](ctx context.Context, path string, p ParamsContainer, fetch v2Query[T]) *V2List[T] {
+	list := &V2List[T]{
+		ctx:    ctx,
+		fetch:  fetch,
+		params: p,
+		V2Page: V2Page[T]{NextPageURL: path},
+	}
+	list.Page(ctx)
+	list.initialized = true
+	return list
+}
+
+// v2Query is a function that fetches a page of items.
+type v2Query[T any] func(ctx context.Context, path string, p ParamsContainer) (*V2Page[T], error)
+
+// Deprecated: This type was intended for internal use only, and will be removed in a future version.
+// Fetch is a function that fetches a page of items.
+type Fetch[T any] func(path string, p ParamsContainer) (*V2Page[T], error)
+
+// Deprecated: This function was intended for internal use only, and will be removed in a future version.
+// NewV2List creates a new V2List with the given path and fetch function.
+func NewV2List[T any](path string, p ParamsContainer, fetch Fetch[T]) *V2List[T] {
+	var ctx context.Context
+	if p.GetParams() != nil {
+		ctx = p.GetParams().Context
+	} else {
+		ctx = context.Background()
+	}
+	v2Query := func(ctx context.Context, path string, p ParamsContainer) (*V2Page[T], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
+		return fetch(path, p)
+	}
+	return newV2List(ctx, path, p, v2Query)
 }

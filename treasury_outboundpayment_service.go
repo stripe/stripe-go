@@ -57,17 +57,22 @@ func (c v1TreasuryOutboundPaymentService) Cancel(ctx context.Context, id string,
 
 // Returns a list of OutboundPayments sent from the specified FinancialAccount.
 func (c v1TreasuryOutboundPaymentService) List(ctx context.Context, listParams *TreasuryOutboundPaymentListParams) Seq2[*TreasuryOutboundPayment, error] {
+	return c.ListWithPage(ctx, listParams).All()
+}
+
+// Returns a list of OutboundPayments sent from the specified FinancialAccount.
+func (c v1TreasuryOutboundPaymentService) ListWithPage(ctx context.Context, listParams *TreasuryOutboundPaymentListParams) *V1List[*TreasuryOutboundPayment] {
 	if listParams == nil {
 		listParams = &TreasuryOutboundPaymentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryOutboundPayment], error) {
-		list := &v1Page[*TreasuryOutboundPayment]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TreasuryOutboundPayment], error) {
+		list := &V1Page[*TreasuryOutboundPayment]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/outbound_payments", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
