@@ -1611,7 +1611,7 @@ type CheckoutSessionAutomaticTaxParams struct {
 	Liability *CheckoutSessionAutomaticTaxLiabilityParams `form:"liability"`
 }
 
-// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+// The icon for the Checkout Session. For best results, use a square image.
 type CheckoutSessionBrandingSettingsIconParams struct {
 	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
 	File *string `form:"file"`
@@ -1621,7 +1621,7 @@ type CheckoutSessionBrandingSettingsIconParams struct {
 	URL *string `form:"url"`
 }
 
-// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+// The logo for the Checkout Session.
 type CheckoutSessionBrandingSettingsLogoParams struct {
 	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
 	File *string `form:"file"`
@@ -1639,13 +1639,13 @@ type CheckoutSessionBrandingSettingsParams struct {
 	BorderStyle *string `form:"border_style"`
 	// A hex color value starting with `#` representing the button color for the Checkout Session.
 	ButtonColor *string `form:"button_color"`
-	// A string to override the business name shown on the Checkout Session.
+	// A string to override the business name shown on the Checkout Session. This only shows at the top of the Checkout page, and your business name still appears in terms, receipts, and other places.
 	DisplayName *string `form:"display_name"`
 	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
 	FontFamily *string `form:"font_family"`
-	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	// The icon for the Checkout Session. For best results, use a square image.
 	Icon *CheckoutSessionBrandingSettingsIconParams `form:"icon"`
-	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	// The logo for the Checkout Session.
 	Logo *CheckoutSessionBrandingSettingsLogoParams `form:"logo"`
 }
 
@@ -3466,7 +3466,7 @@ type CheckoutSessionCreateAutomaticTaxParams struct {
 	Liability *CheckoutSessionCreateAutomaticTaxLiabilityParams `form:"liability"`
 }
 
-// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+// The icon for the Checkout Session. For best results, use a square image.
 type CheckoutSessionCreateBrandingSettingsIconParams struct {
 	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
 	File *string `form:"file"`
@@ -3476,7 +3476,7 @@ type CheckoutSessionCreateBrandingSettingsIconParams struct {
 	URL *string `form:"url"`
 }
 
-// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+// The logo for the Checkout Session.
 type CheckoutSessionCreateBrandingSettingsLogoParams struct {
 	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
 	File *string `form:"file"`
@@ -3494,13 +3494,13 @@ type CheckoutSessionCreateBrandingSettingsParams struct {
 	BorderStyle *string `form:"border_style"`
 	// A hex color value starting with `#` representing the button color for the Checkout Session.
 	ButtonColor *string `form:"button_color"`
-	// A string to override the business name shown on the Checkout Session.
+	// A string to override the business name shown on the Checkout Session. This only shows at the top of the Checkout page, and your business name still appears in terms, receipts, and other places.
 	DisplayName *string `form:"display_name"`
 	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
 	FontFamily *string `form:"font_family"`
-	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	// The icon for the Checkout Session. For best results, use a square image.
 	Icon *CheckoutSessionCreateBrandingSettingsIconParams `form:"icon"`
-	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	// The logo for the Checkout Session.
 	Logo *CheckoutSessionCreateBrandingSettingsLogoParams `form:"logo"`
 }
 
