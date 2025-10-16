@@ -8,15 +8,6 @@ package stripe
 
 import "encoding/json"
 
-// Indicates whether this object and its related objects have been redacted or not.
-type IdentityBlocklistEntryRedactionStatus string
-
-// List of values that IdentityBlocklistEntryRedactionStatus can take
-const (
-	IdentityBlocklistEntryRedactionStatusProcessing IdentityBlocklistEntryRedactionStatus = "processing"
-	IdentityBlocklistEntryRedactionStatusRedacted   IdentityBlocklistEntryRedactionStatus = "redacted"
-)
-
 // The current status of the BlocklistEntry.
 type IdentityBlocklistEntryStatus string
 
@@ -143,15 +134,9 @@ func (p *IdentityBlocklistEntryRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Redaction status of the BlocklistEntry. If the BlocklistEntry isn't redacted, this field is null.
-type IdentityBlocklistEntryRedaction struct {
-	// Indicates whether this object and its related objects have been redacted or not.
-	Status IdentityBlocklistEntryRedactionStatus `json:"status"`
-}
-
 // A BlocklistEntry represents an entry in our identity verification blocklist.
 // It helps prevent fraudulent users from repeatedly attempting verification with similar information.
-// When you create a BlocklistEntry, we store data from a previous verification attempt,
+// When you create a BlocklistEntry, we store data from a specified VerificationReport,
 // such as document details or facial biometrics.
 // This allows us to compare future verification attempts against these entries.
 // If a match is found, we categorize the new verification as unverified.
@@ -171,8 +156,6 @@ type IdentityBlocklistEntry struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Redaction status of the BlocklistEntry. If the BlocklistEntry isn't redacted, this field is null.
-	Redaction *IdentityBlocklistEntryRedaction `json:"redaction"`
 	// The current status of the BlocklistEntry.
 	Status IdentityBlocklistEntryStatus `json:"status"`
 	// The type of BlocklistEntry.

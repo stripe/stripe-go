@@ -88,6 +88,8 @@ type Client struct {
 	V1Customers *v1CustomerService
 	// V1CustomerSessions is the service used to invoke /v1/customer_sessions APIs.
 	V1CustomerSessions *v1CustomerSessionService
+	// V1DelegatedCheckoutRequestedSessions is the service used to invoke /v1/delegated_checkout/requested_sessions APIs.
+	V1DelegatedCheckoutRequestedSessions *v1DelegatedCheckoutRequestedSessionService
 	// V1Disputes is the service used to invoke /v1/disputes APIs.
 	V1Disputes *v1DisputeService
 	// V1EntitlementsActiveEntitlements is the service used to invoke /v1/entitlements/active_entitlements APIs.
@@ -515,6 +517,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1CustomerCashBalanceTransactions = &v1CustomerCashBalanceTransactionService{B: backends.API, Key: key}
 	client.V1Customers = &v1CustomerService{B: backends.API, Key: key}
 	client.V1CustomerSessions = &v1CustomerSessionService{B: backends.API, Key: key}
+	client.V1DelegatedCheckoutRequestedSessions = &v1DelegatedCheckoutRequestedSessionService{B: backends.API, Key: key}
 	client.V1Disputes = &v1DisputeService{B: backends.API, Key: key}
 	client.V1EntitlementsActiveEntitlements = &v1EntitlementsActiveEntitlementService{B: backends.API, Key: key}
 	client.V1EntitlementsFeatures = &v1EntitlementsFeatureService{B: backends.API, Key: key}
