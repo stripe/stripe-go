@@ -1,5 +1,12 @@
 # Changelog
 
+## 83.1.0-alpha.4 - 2025-10-17
+* [#2173](https://github.com/stripe/stripe-go/pull/2173) Update generated code for private-preview
+  * Add support for new resources `DelegatedCheckoutRequestedSession` and `IdentityBlocklistEntry`
+  * Add support for `Confirm`, `Expire`, `Get`, `New`, and `Update` methods on resource `DelegatedCheckoutRequestedSession`
+  * Add support for `Disable`, `Get`, `List`, and `New` methods on resource `IdentityBlocklistEntry`
+  * Add support for `BlockedByEntry` on `IdentityVerificationReportDocument`, `IdentityVerificationReportListParams`, and `IdentityVerificationReportSelfie`
+
 ## 83.1.0-alpha.3 - 2025-10-09
 * [#2155](https://github.com/stripe/stripe-go/pull/2155) Update generated code for private-preview
   * Add support for new resource `PaymentMethodBalance`
