@@ -156,6 +156,8 @@ const (
 // List all verification reports.
 type IdentityVerificationReportListParams struct {
 	ListParams `form:"*"`
+	// Only return VerificationReports that were blocked by this BlocklistEntry id.
+	BlockedByEntry *string `form:"blocked_by_entry"`
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
 	ClientReferenceID *string `form:"client_reference_id"`
 	// Only return VerificationReports that were created during the given date interval.
@@ -241,6 +243,8 @@ type IdentityVerificationReportDocumentIssuedDate struct {
 type IdentityVerificationReportDocument struct {
 	// Address as it appears in the document.
 	Address *Address `json:"address"`
+	// If document was not verified due to extracted data being on the blocklist, this is the token of the BlocklistEntry that blocked it
+	BlockedByEntry *IdentityBlocklistEntry `json:"blocked_by_entry"`
 	// Date of birth as it appears in the document.
 	DOB *IdentityVerificationReportDocumentDOB `json:"dob"`
 	// Details on the verification error. Present when status is `unverified`.
@@ -368,6 +372,8 @@ type IdentityVerificationReportSelfieError struct {
 
 // Result from a selfie check
 type IdentityVerificationReportSelfie struct {
+	// If selfie was not verified due to being on the blocklist, this is the token of the BlocklistEntry that blocked it
+	BlockedByEntry *IdentityBlocklistEntry `json:"blocked_by_entry"`
 	// ID of the [File](https://stripe.com/docs/api/files) holding the image of the identity document used in this check.
 	Document string `json:"document"`
 	// Details on the verification error. Present when status is `unverified`.

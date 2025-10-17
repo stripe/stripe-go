@@ -88,6 +88,8 @@ type Client struct {
 	V1Customers *v1CustomerService
 	// V1CustomerSessions is the service used to invoke /v1/customer_sessions APIs.
 	V1CustomerSessions *v1CustomerSessionService
+	// V1DelegatedCheckoutRequestedSessions is the service used to invoke /v1/delegated_checkout/requested_sessions APIs.
+	V1DelegatedCheckoutRequestedSessions *v1DelegatedCheckoutRequestedSessionService
 	// V1Disputes is the service used to invoke /v1/disputes APIs.
 	V1Disputes *v1DisputeService
 	// V1EntitlementsActiveEntitlements is the service used to invoke /v1/entitlements/active_entitlements APIs.
@@ -120,6 +122,8 @@ type Client struct {
 	V1ForwardingRequests *v1ForwardingRequestService
 	// V1FxQuotes is the service used to invoke /v1/fx_quotes APIs.
 	V1FxQuotes *v1FxQuoteService
+	// V1IdentityBlocklistEntries is the service used to invoke /v1/identity/blocklist_entries APIs.
+	V1IdentityBlocklistEntries *v1IdentityBlocklistEntryService
 	// V1IdentityVerificationReports is the service used to invoke /v1/identity/verification_reports APIs.
 	V1IdentityVerificationReports *v1IdentityVerificationReportService
 	// V1IdentityVerificationSessions is the service used to invoke /v1/identity/verification_sessions APIs.
@@ -513,6 +517,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1CustomerCashBalanceTransactions = &v1CustomerCashBalanceTransactionService{B: backends.API, Key: key}
 	client.V1Customers = &v1CustomerService{B: backends.API, Key: key}
 	client.V1CustomerSessions = &v1CustomerSessionService{B: backends.API, Key: key}
+	client.V1DelegatedCheckoutRequestedSessions = &v1DelegatedCheckoutRequestedSessionService{B: backends.API, Key: key}
 	client.V1Disputes = &v1DisputeService{B: backends.API, Key: key}
 	client.V1EntitlementsActiveEntitlements = &v1EntitlementsActiveEntitlementService{B: backends.API, Key: key}
 	client.V1EntitlementsFeatures = &v1EntitlementsFeatureService{B: backends.API, Key: key}
@@ -529,6 +534,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1FinancialConnectionsTransactions = &v1FinancialConnectionsTransactionService{B: backends.API, Key: key}
 	client.V1ForwardingRequests = &v1ForwardingRequestService{B: backends.API, Key: key}
 	client.V1FxQuotes = &v1FxQuoteService{B: backends.API, Key: key}
+	client.V1IdentityBlocklistEntries = &v1IdentityBlocklistEntryService{B: backends.API, Key: key}
 	client.V1IdentityVerificationReports = &v1IdentityVerificationReportService{B: backends.API, Key: key}
 	client.V1IdentityVerificationSessions = &v1IdentityVerificationSessionService{B: backends.API, Key: key}
 	client.V1InvoiceItems = &v1InvoiceItemService{B: backends.API, Key: key}
