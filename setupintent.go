@@ -29,6 +29,69 @@ const (
 	SetupIntentCancellationReasonRequestedByCustomer SetupIntentCancellationReason = "requested_by_customer"
 )
 
+// Payment method types that are excluded from this SetupIntent.
+type SetupIntentExcludedPaymentMethodType string
+
+// List of values that SetupIntentExcludedPaymentMethodType can take
+const (
+	SetupIntentExcludedPaymentMethodTypeACSSDebit        SetupIntentExcludedPaymentMethodType = "acss_debit"
+	SetupIntentExcludedPaymentMethodTypeAffirm           SetupIntentExcludedPaymentMethodType = "affirm"
+	SetupIntentExcludedPaymentMethodTypeAfterpayClearpay SetupIntentExcludedPaymentMethodType = "afterpay_clearpay"
+	SetupIntentExcludedPaymentMethodTypeAlipay           SetupIntentExcludedPaymentMethodType = "alipay"
+	SetupIntentExcludedPaymentMethodTypeAlma             SetupIntentExcludedPaymentMethodType = "alma"
+	SetupIntentExcludedPaymentMethodTypeAmazonPay        SetupIntentExcludedPaymentMethodType = "amazon_pay"
+	SetupIntentExcludedPaymentMethodTypeAUBECSDebit      SetupIntentExcludedPaymentMethodType = "au_becs_debit"
+	SetupIntentExcludedPaymentMethodTypeBACSDebit        SetupIntentExcludedPaymentMethodType = "bacs_debit"
+	SetupIntentExcludedPaymentMethodTypeBancontact       SetupIntentExcludedPaymentMethodType = "bancontact"
+	SetupIntentExcludedPaymentMethodTypeBillie           SetupIntentExcludedPaymentMethodType = "billie"
+	SetupIntentExcludedPaymentMethodTypeBLIK             SetupIntentExcludedPaymentMethodType = "blik"
+	SetupIntentExcludedPaymentMethodTypeBoleto           SetupIntentExcludedPaymentMethodType = "boleto"
+	SetupIntentExcludedPaymentMethodTypeCard             SetupIntentExcludedPaymentMethodType = "card"
+	SetupIntentExcludedPaymentMethodTypeCashApp          SetupIntentExcludedPaymentMethodType = "cashapp"
+	SetupIntentExcludedPaymentMethodTypeCrypto           SetupIntentExcludedPaymentMethodType = "crypto"
+	SetupIntentExcludedPaymentMethodTypeCustomerBalance  SetupIntentExcludedPaymentMethodType = "customer_balance"
+	SetupIntentExcludedPaymentMethodTypeEPS              SetupIntentExcludedPaymentMethodType = "eps"
+	SetupIntentExcludedPaymentMethodTypeFPX              SetupIntentExcludedPaymentMethodType = "fpx"
+	SetupIntentExcludedPaymentMethodTypeGiropay          SetupIntentExcludedPaymentMethodType = "giropay"
+	SetupIntentExcludedPaymentMethodTypeGopay            SetupIntentExcludedPaymentMethodType = "gopay"
+	SetupIntentExcludedPaymentMethodTypeGrabpay          SetupIntentExcludedPaymentMethodType = "grabpay"
+	SetupIntentExcludedPaymentMethodTypeIDBankTransfer   SetupIntentExcludedPaymentMethodType = "id_bank_transfer"
+	SetupIntentExcludedPaymentMethodTypeIDEAL            SetupIntentExcludedPaymentMethodType = "ideal"
+	SetupIntentExcludedPaymentMethodTypeKakaoPay         SetupIntentExcludedPaymentMethodType = "kakao_pay"
+	SetupIntentExcludedPaymentMethodTypeKlarna           SetupIntentExcludedPaymentMethodType = "klarna"
+	SetupIntentExcludedPaymentMethodTypeKonbini          SetupIntentExcludedPaymentMethodType = "konbini"
+	SetupIntentExcludedPaymentMethodTypeKrCard           SetupIntentExcludedPaymentMethodType = "kr_card"
+	SetupIntentExcludedPaymentMethodTypeMbWay            SetupIntentExcludedPaymentMethodType = "mb_way"
+	SetupIntentExcludedPaymentMethodTypeMobilepay        SetupIntentExcludedPaymentMethodType = "mobilepay"
+	SetupIntentExcludedPaymentMethodTypeMultibanco       SetupIntentExcludedPaymentMethodType = "multibanco"
+	SetupIntentExcludedPaymentMethodTypeNaverPay         SetupIntentExcludedPaymentMethodType = "naver_pay"
+	SetupIntentExcludedPaymentMethodTypeNzBankAccount    SetupIntentExcludedPaymentMethodType = "nz_bank_account"
+	SetupIntentExcludedPaymentMethodTypeOXXO             SetupIntentExcludedPaymentMethodType = "oxxo"
+	SetupIntentExcludedPaymentMethodTypeP24              SetupIntentExcludedPaymentMethodType = "p24"
+	SetupIntentExcludedPaymentMethodTypePayByBank        SetupIntentExcludedPaymentMethodType = "pay_by_bank"
+	SetupIntentExcludedPaymentMethodTypePayco            SetupIntentExcludedPaymentMethodType = "payco"
+	SetupIntentExcludedPaymentMethodTypePayNow           SetupIntentExcludedPaymentMethodType = "paynow"
+	SetupIntentExcludedPaymentMethodTypePaypal           SetupIntentExcludedPaymentMethodType = "paypal"
+	SetupIntentExcludedPaymentMethodTypePaypay           SetupIntentExcludedPaymentMethodType = "paypay"
+	SetupIntentExcludedPaymentMethodTypePayto            SetupIntentExcludedPaymentMethodType = "payto"
+	SetupIntentExcludedPaymentMethodTypePix              SetupIntentExcludedPaymentMethodType = "pix"
+	SetupIntentExcludedPaymentMethodTypePromptPay        SetupIntentExcludedPaymentMethodType = "promptpay"
+	SetupIntentExcludedPaymentMethodTypeQris             SetupIntentExcludedPaymentMethodType = "qris"
+	SetupIntentExcludedPaymentMethodTypeRechnung         SetupIntentExcludedPaymentMethodType = "rechnung"
+	SetupIntentExcludedPaymentMethodTypeRevolutPay       SetupIntentExcludedPaymentMethodType = "revolut_pay"
+	SetupIntentExcludedPaymentMethodTypeSamsungPay       SetupIntentExcludedPaymentMethodType = "samsung_pay"
+	SetupIntentExcludedPaymentMethodTypeSatispay         SetupIntentExcludedPaymentMethodType = "satispay"
+	SetupIntentExcludedPaymentMethodTypeSEPADebit        SetupIntentExcludedPaymentMethodType = "sepa_debit"
+	SetupIntentExcludedPaymentMethodTypeShopeepay        SetupIntentExcludedPaymentMethodType = "shopeepay"
+	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
+	SetupIntentExcludedPaymentMethodTypeStripeBalance    SetupIntentExcludedPaymentMethodType = "stripe_balance"
+	SetupIntentExcludedPaymentMethodTypeSwish            SetupIntentExcludedPaymentMethodType = "swish"
+	SetupIntentExcludedPaymentMethodTypeTWINT            SetupIntentExcludedPaymentMethodType = "twint"
+	SetupIntentExcludedPaymentMethodTypeUSBankAccount    SetupIntentExcludedPaymentMethodType = "us_bank_account"
+	SetupIntentExcludedPaymentMethodTypeWeChatPay        SetupIntentExcludedPaymentMethodType = "wechat_pay"
+	SetupIntentExcludedPaymentMethodTypeZip              SetupIntentExcludedPaymentMethodType = "zip"
+)
+
 // Indicates the directions of money movement for which this payment method is intended to be used.
 //
 // Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
@@ -1204,6 +1267,8 @@ type SetupIntentParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this SetupIntent.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
@@ -2619,6 +2684,8 @@ type SetupIntentCreateParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this SetupIntent.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
@@ -3481,6 +3548,8 @@ type SetupIntentUpdateParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this SetupIntent.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
@@ -3811,6 +3880,8 @@ type SetupIntent struct {
 	CustomerAccount string `json:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
+	// Payment method types that are excluded from this SetupIntent.
+	ExcludedPaymentMethodTypes []SetupIntentExcludedPaymentMethodType `json:"excluded_payment_method_types"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
 	//
 	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.

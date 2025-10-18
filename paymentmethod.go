@@ -297,6 +297,7 @@ const (
 	PaymentMethodTypeCardPresent      PaymentMethodType = "card_present"
 	PaymentMethodTypeCashApp          PaymentMethodType = "cashapp"
 	PaymentMethodTypeCrypto           PaymentMethodType = "crypto"
+	PaymentMethodTypeCustom           PaymentMethodType = "custom"
 	PaymentMethodTypeCustomerBalance  PaymentMethodType = "customer_balance"
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
 	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
@@ -514,6 +515,12 @@ type PaymentMethodCashAppParams struct{}
 
 // If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
 type PaymentMethodCryptoParams struct{}
+
+// If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
+type PaymentMethodCustomParams struct {
+	// ID of the Dashboard-only CustomPaymentMethodType. This field is used by Stripe products' internal code to support CPMs.
+	Type *string `form:"type"`
+}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentMethodCustomerBalanceParams struct{}
@@ -776,6 +783,8 @@ type PaymentMethodParams struct {
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
 	Crypto *PaymentMethodCryptoParams `form:"crypto"`
+	// If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
+	Custom *PaymentMethodCustomParams `form:"custom"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1028,6 +1037,12 @@ type PaymentMethodCreateCashAppParams struct{}
 
 // If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
 type PaymentMethodCreateCryptoParams struct{}
+
+// If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
+type PaymentMethodCreateCustomParams struct {
+	// ID of the Dashboard-only CustomPaymentMethodType. This field is used by Stripe products' internal code to support CPMs.
+	Type *string `form:"type"`
+}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentMethodCreateCustomerBalanceParams struct{}
@@ -1290,6 +1305,8 @@ type PaymentMethodCreateParams struct {
 	CashApp *PaymentMethodCreateCashAppParams `form:"cashapp"`
 	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
 	Crypto *PaymentMethodCreateCryptoParams `form:"crypto"`
+	// If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
+	Custom *PaymentMethodCreateCustomParams `form:"custom"`
 	// The `Customer` to whom the original PaymentMethod is attached.
 	Customer *string `form:"customer"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
@@ -1823,6 +1840,22 @@ type PaymentMethodCashApp struct {
 	Cashtag string `json:"cashtag"`
 }
 type PaymentMethodCrypto struct{}
+
+// Contains information about the Dashboard-only CustomPaymentMethodType logo.
+type PaymentMethodCustomLogo struct {
+	// Content type of the Dashboard-only CustomPaymentMethodType logo.
+	ContentType string `json:"content_type"`
+	// URL of the Dashboard-only CustomPaymentMethodType logo.
+	URL string `json:"url"`
+}
+type PaymentMethodCustom struct {
+	// Display name of the Dashboard-only CustomPaymentMethodType.
+	DisplayName string `json:"display_name"`
+	// Contains information about the Dashboard-only CustomPaymentMethodType logo.
+	Logo *PaymentMethodCustomLogo `json:"logo"`
+	// ID of the Dashboard-only CustomPaymentMethodType. Not expandable.
+	Type string `json:"type"`
+}
 type PaymentMethodCustomerBalance struct{}
 type PaymentMethodEPS struct {
 	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
@@ -2102,6 +2135,7 @@ type PaymentMethod struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64                `json:"created"`
 	Crypto  *PaymentMethodCrypto `json:"crypto"`
+	Custom  *PaymentMethodCustom `json:"custom"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
 	Customer        *Customer                     `json:"customer"`
 	CustomerAccount string                        `json:"customer_account"`

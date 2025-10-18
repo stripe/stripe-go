@@ -38,6 +38,7 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent struct {
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarna struct {
 	ImageURL   string `json:"image_url"`
 	ProductURL string `json:"product_url"`
+	Reference  string `json:"reference"`
 }
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypal struct {
 	// Type of the line item.

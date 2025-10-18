@@ -67,7 +67,7 @@ func (c v1TerminalReaderService) Delete(ctx context.Context, id string, params *
 	return reader, err
 }
 
-// Cancels the current reader action.
+// Cancels the current reader action. See [Programmatic Cancellation](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven#programmatic-cancellation) for more details.
 func (c v1TerminalReaderService) CancelAction(ctx context.Context, id string, params *TerminalReaderCancelActionParams) (*TerminalReader, error) {
 	if params == nil {
 		params = &TerminalReaderCancelActionParams{}
@@ -79,7 +79,7 @@ func (c v1TerminalReaderService) CancelAction(ctx context.Context, id string, pa
 	return reader, err
 }
 
-// Initiates an input collection flow on a Reader.
+// Initiates an [input collection flow](https://docs.stripe.com/docs/terminal/features/collect-inputs) on a Reader to display input forms and collect information from your customers.
 func (c v1TerminalReaderService) CollectInputs(ctx context.Context, id string, params *TerminalReaderCollectInputsParams) (*TerminalReader, error) {
 	if params == nil {
 		params = &TerminalReaderCollectInputsParams{}
@@ -91,7 +91,7 @@ func (c v1TerminalReaderService) CollectInputs(ctx context.Context, id string, p
 	return reader, err
 }
 
-// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
+// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation. See [Collecting a Payment method](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=inspect#collect-a-paymentmethod) for more details.
 func (c v1TerminalReaderService) CollectPaymentMethod(ctx context.Context, id string, params *TerminalReaderCollectPaymentMethodParams) (*TerminalReader, error) {
 	if params == nil {
 		params = &TerminalReaderCollectPaymentMethodParams{}
@@ -103,7 +103,7 @@ func (c v1TerminalReaderService) CollectPaymentMethod(ctx context.Context, id st
 	return reader, err
 }
 
-// Finalizes a payment on a Reader.
+// Finalizes a payment on a Reader. See [Confirming a Payment](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=inspect#confirm-the-paymentintent) for more details.
 func (c v1TerminalReaderService) ConfirmPaymentIntent(ctx context.Context, id string, params *TerminalReaderConfirmPaymentIntentParams) (*TerminalReader, error) {
 	if params == nil {
 		params = &TerminalReaderConfirmPaymentIntentParams{}
@@ -115,7 +115,7 @@ func (c v1TerminalReaderService) ConfirmPaymentIntent(ctx context.Context, id st
 	return reader, err
 }
 
-// Initiates a payment flow on a Reader.
+// Initiates a payment flow on a Reader. See [process the payment](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=immediately#process-payment) for more details.
 func (c v1TerminalReaderService) ProcessPaymentIntent(ctx context.Context, id string, params *TerminalReaderProcessPaymentIntentParams) (*TerminalReader, error) {
 	if params == nil {
 		params = &TerminalReaderProcessPaymentIntentParams{}
@@ -127,7 +127,7 @@ func (c v1TerminalReaderService) ProcessPaymentIntent(ctx context.Context, id st
 	return reader, err
 }
 
-// Initiates a setup intent flow on a Reader.
+// Initiates a SetupIntent flow on a Reader. See [Save directly without charging](https://docs.stripe.com/docs/terminal/features/saving-payment-details/save-directly) for more details.
 func (c v1TerminalReaderService) ProcessSetupIntent(ctx context.Context, id string, params *TerminalReaderProcessSetupIntentParams) (*TerminalReader, error) {
 	if params == nil {
 		params = &TerminalReaderProcessSetupIntentParams{}
@@ -139,7 +139,7 @@ func (c v1TerminalReaderService) ProcessSetupIntent(ctx context.Context, id stri
 	return reader, err
 }
 
-// Initiates a refund on a Reader
+// Initiates an in-person refund on a Reader. See [Refund an Interac Payment](https://docs.stripe.com/docs/terminal/payments/regional?integration-country=CA#refund-an-interac-payment) for more details.
 func (c v1TerminalReaderService) RefundPayment(ctx context.Context, id string, params *TerminalReaderRefundPaymentParams) (*TerminalReader, error) {
 	if params == nil {
 		params = &TerminalReaderRefundPaymentParams{}
@@ -151,7 +151,7 @@ func (c v1TerminalReaderService) RefundPayment(ctx context.Context, id string, p
 	return reader, err
 }
 
-// Sets reader display to show cart details.
+// Sets the reader display to show [cart details](https://docs.stripe.com/docs/terminal/features/display).
 func (c v1TerminalReaderService) SetReaderDisplay(ctx context.Context, id string, params *TerminalReaderSetReaderDisplayParams) (*TerminalReader, error) {
 	if params == nil {
 		params = &TerminalReaderSetReaderDisplayParams{}

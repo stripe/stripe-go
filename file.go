@@ -34,6 +34,7 @@ const (
 	FilePurposeIdentityDocumentDownloadable     FilePurpose = "identity_document_downloadable"
 	FilePurposeIssuingRegulatoryReporting       FilePurpose = "issuing_regulatory_reporting"
 	FilePurposePCIDocument                      FilePurpose = "pci_document"
+	FilePurposePlatformTermsOfService           FilePurpose = "platform_terms_of_service"
 	FilePurposeSelfie                           FilePurpose = "selfie"
 	FilePurposeSigmaScheduledQuery              FilePurpose = "sigma_scheduled_query"
 	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"

@@ -92,7 +92,7 @@ type BillingCreditGrantParams struct {
 	Amount *BillingCreditGrantAmountParams `form:"amount"`
 	// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
-	// The category of this credit grant.
+	// The category of this credit grant. It defaults to `paid` if not specified.
 	Category *string `form:"category"`
 	// ID of the customer to receive the billing credits.
 	Customer *string `form:"customer"`
@@ -193,7 +193,7 @@ type BillingCreditGrantCreateParams struct {
 	Amount *BillingCreditGrantCreateAmountParams `form:"amount"`
 	// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 	ApplicabilityConfig *BillingCreditGrantCreateApplicabilityConfigParams `form:"applicability_config"`
-	// The category of this credit grant.
+	// The category of this credit grant. It defaults to `paid` if not specified.
 	Category *string `form:"category"`
 	// ID of the customer to receive the billing credits.
 	Customer *string `form:"customer"`
