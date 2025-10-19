@@ -394,12 +394,12 @@ func newV2List[T any](ctx context.Context, path string, p ParamsContainer, fetch
 // v2Query is a function that fetches a page of items.
 type v2Query[T any] func(ctx context.Context, path string, p ParamsContainer) (*V2Page[T], error)
 
-// Deprecated: This type was intended for internal use only, and will be removed in a future version.
 // Fetch is a function that fetches a page of items.
+// Deprecated: This type was intended for internal use only, and will be removed in a future version.
 type Fetch[T any] func(path string, p ParamsContainer) (*V2Page[T], error)
 
-// Deprecated: This function was intended for internal use only, and will be removed in a future version.
 // NewV2List creates a new V2List with the given path and fetch function.
+// Deprecated: This function was intended for internal use only, and will be removed in a future version.
 func NewV2List[T any](path string, p ParamsContainer, fetch Fetch[T]) *V2List[T] {
 	var ctx context.Context
 	if p.GetParams() != nil {
