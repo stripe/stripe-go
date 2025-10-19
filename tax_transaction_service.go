@@ -56,7 +56,7 @@ func (c v1TaxTransactionService) CreateReversal(ctx context.Context, params *Tax
 }
 
 // Retrieves the line items of a committed standalone transaction as a collection.
-func (c v1TaxTransactionService) ListLineItems(ctx context.Context, listParams *TaxTransactionListLineItemsParams) Seq2[*TaxTransactionLineItem, error] {
+func (c v1TaxTransactionService) ListLineItems(ctx context.Context, listParams *TaxTransactionListLineItemsParams) *V1List[*TaxTransactionLineItem] {
 	if listParams == nil {
 		listParams = &TaxTransactionListLineItemsParams{}
 	}
@@ -71,5 +71,5 @@ func (c v1TaxTransactionService) ListLineItems(ctx context.Context, listParams *
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

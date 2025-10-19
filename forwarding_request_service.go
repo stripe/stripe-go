@@ -44,7 +44,7 @@ func (c v1ForwardingRequestService) Retrieve(ctx context.Context, id string, par
 }
 
 // Lists all ForwardingRequest objects.
-func (c v1ForwardingRequestService) List(ctx context.Context, listParams *ForwardingRequestListParams) Seq2[*ForwardingRequest, error] {
+func (c v1ForwardingRequestService) List(ctx context.Context, listParams *ForwardingRequestListParams) *V1List[*ForwardingRequest] {
 	if listParams == nil {
 		listParams = &ForwardingRequestListParams{}
 	}
@@ -57,5 +57,5 @@ func (c v1ForwardingRequestService) List(ctx context.Context, listParams *Forwar
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/forwarding/requests", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

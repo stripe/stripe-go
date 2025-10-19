@@ -68,7 +68,7 @@ func (c v1SubscriptionItemService) Delete(ctx context.Context, id string, params
 }
 
 // Returns a list of your subscription items for a given subscription.
-func (c v1SubscriptionItemService) List(ctx context.Context, listParams *SubscriptionItemListParams) Seq2[*SubscriptionItem, error] {
+func (c v1SubscriptionItemService) List(ctx context.Context, listParams *SubscriptionItemListParams) *V1List[*SubscriptionItem] {
 	if listParams == nil {
 		listParams = &SubscriptionItemListParams{}
 	}
@@ -81,5 +81,5 @@ func (c v1SubscriptionItemService) List(ctx context.Context, listParams *Subscri
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscription_items", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

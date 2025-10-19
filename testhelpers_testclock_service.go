@@ -68,7 +68,7 @@ func (c v1TestHelpersTestClockService) Advance(ctx context.Context, id string, p
 }
 
 // Returns a list of your test clocks.
-func (c v1TestHelpersTestClockService) List(ctx context.Context, listParams *TestHelpersTestClockListParams) Seq2[*TestHelpersTestClock, error] {
+func (c v1TestHelpersTestClockService) List(ctx context.Context, listParams *TestHelpersTestClockListParams) *V1List[*TestHelpersTestClock] {
 	if listParams == nil {
 		listParams = &TestHelpersTestClockListParams{}
 	}
@@ -81,5 +81,5 @@ func (c v1TestHelpersTestClockService) List(ctx context.Context, listParams *Tes
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/test_helpers/test_clocks", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

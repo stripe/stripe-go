@@ -55,7 +55,7 @@ func (c v1TaxRateService) Update(ctx context.Context, id string, params *TaxRate
 }
 
 // Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
-func (c v1TaxRateService) List(ctx context.Context, listParams *TaxRateListParams) Seq2[*TaxRate, error] {
+func (c v1TaxRateService) List(ctx context.Context, listParams *TaxRateListParams) *V1List[*TaxRate] {
 	if listParams == nil {
 		listParams = &TaxRateListParams{}
 	}
@@ -68,5 +68,5 @@ func (c v1TaxRateService) List(ctx context.Context, listParams *TaxRateListParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/tax_rates", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

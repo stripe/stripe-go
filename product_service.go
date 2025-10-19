@@ -67,7 +67,7 @@ func (c v1ProductService) Delete(ctx context.Context, id string, params *Product
 }
 
 // Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
-func (c v1ProductService) List(ctx context.Context, listParams *ProductListParams) Seq2[*Product, error] {
+func (c v1ProductService) List(ctx context.Context, listParams *ProductListParams) *V1List[*Product] {
 	if listParams == nil {
 		listParams = &ProductListParams{}
 	}
@@ -80,25 +80,25 @@ func (c v1ProductService) List(ctx context.Context, listParams *ProductListParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/products", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for products you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
-func (c v1ProductService) Search(ctx context.Context, params *ProductSearchParams) Seq2[*Product, error] {
+func (c v1ProductService) Search(ctx context.Context, params *ProductSearchParams) *V1SearchList[*Product] {
 	if params == nil {
 		params = &ProductSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Product], error) {
-		list := &v1SearchPage[*Product]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Product], error) {
+		list := &V1SearchPage[*Product]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/products/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

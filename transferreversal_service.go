@@ -64,7 +64,7 @@ func (c v1TransferReversalService) Update(ctx context.Context, id string, params
 }
 
 // You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional reversals.
-func (c v1TransferReversalService) List(ctx context.Context, listParams *TransferReversalListParams) Seq2[*TransferReversal, error] {
+func (c v1TransferReversalService) List(ctx context.Context, listParams *TransferReversalListParams) *V1List[*TransferReversal] {
 	if listParams == nil {
 		listParams = &TransferReversalListParams{}
 	}
@@ -79,5 +79,5 @@ func (c v1TransferReversalService) List(ctx context.Context, listParams *Transfe
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

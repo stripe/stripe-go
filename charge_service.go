@@ -73,7 +73,7 @@ func (c v1ChargeService) Capture(ctx context.Context, id string, params *ChargeC
 }
 
 // Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
-func (c v1ChargeService) List(ctx context.Context, listParams *ChargeListParams) Seq2[*Charge, error] {
+func (c v1ChargeService) List(ctx context.Context, listParams *ChargeListParams) *V1List[*Charge] {
 	if listParams == nil {
 		listParams = &ChargeListParams{}
 	}
@@ -86,25 +86,25 @@ func (c v1ChargeService) List(ctx context.Context, listParams *ChargeListParams)
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/charges", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for charges you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
-func (c v1ChargeService) Search(ctx context.Context, params *ChargeSearchParams) Seq2[*Charge, error] {
+func (c v1ChargeService) Search(ctx context.Context, params *ChargeSearchParams) *V1SearchList[*Charge] {
 	if params == nil {
 		params = &ChargeSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Charge], error) {
-		list := &v1SearchPage[*Charge]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Charge], error) {
+		list := &V1SearchPage[*Charge]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/charges/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

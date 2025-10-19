@@ -72,7 +72,7 @@ func (c v1CheckoutSessionService) Expire(ctx context.Context, id string, params 
 }
 
 // Returns a list of Checkout Sessions.
-func (c v1CheckoutSessionService) List(ctx context.Context, listParams *CheckoutSessionListParams) Seq2[*CheckoutSession, error] {
+func (c v1CheckoutSessionService) List(ctx context.Context, listParams *CheckoutSessionListParams) *V1List[*CheckoutSession] {
 	if listParams == nil {
 		listParams = &CheckoutSessionListParams{}
 	}
@@ -85,11 +85,11 @@ func (c v1CheckoutSessionService) List(ctx context.Context, listParams *Checkout
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/checkout/sessions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c v1CheckoutSessionService) ListLineItems(ctx context.Context, listParams *CheckoutSessionListLineItemsParams) Seq2[*LineItem, error] {
+func (c v1CheckoutSessionService) ListLineItems(ctx context.Context, listParams *CheckoutSessionListLineItemsParams) *V1List[*LineItem] {
 	if listParams == nil {
 		listParams = &CheckoutSessionListLineItemsParams{}
 	}
@@ -104,5 +104,5 @@ func (c v1CheckoutSessionService) ListLineItems(ctx context.Context, listParams 
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

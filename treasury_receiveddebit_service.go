@@ -32,7 +32,7 @@ func (c v1TreasuryReceivedDebitService) Retrieve(ctx context.Context, id string,
 }
 
 // Returns a list of ReceivedDebits.
-func (c v1TreasuryReceivedDebitService) List(ctx context.Context, listParams *TreasuryReceivedDebitListParams) Seq2[*TreasuryReceivedDebit, error] {
+func (c v1TreasuryReceivedDebitService) List(ctx context.Context, listParams *TreasuryReceivedDebitListParams) *V1List[*TreasuryReceivedDebit] {
 	if listParams == nil {
 		listParams = &TreasuryReceivedDebitListParams{}
 	}
@@ -45,5 +45,5 @@ func (c v1TreasuryReceivedDebitService) List(ctx context.Context, listParams *Tr
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/received_debits", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

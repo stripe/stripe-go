@@ -44,7 +44,7 @@ func (c v1IssuingTokenService) Update(ctx context.Context, id string, params *Is
 }
 
 // Lists all Issuing Token objects for a given card.
-func (c v1IssuingTokenService) List(ctx context.Context, listParams *IssuingTokenListParams) Seq2[*IssuingToken, error] {
+func (c v1IssuingTokenService) List(ctx context.Context, listParams *IssuingTokenListParams) *V1List[*IssuingToken] {
 	if listParams == nil {
 		listParams = &IssuingTokenListParams{}
 	}
@@ -57,5 +57,5 @@ func (c v1IssuingTokenService) List(ctx context.Context, listParams *IssuingToke
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/tokens", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -32,7 +32,7 @@ func (c v1ReportingReportTypeService) Retrieve(ctx context.Context, id string, p
 }
 
 // Returns a full list of Report Types.
-func (c v1ReportingReportTypeService) List(ctx context.Context, listParams *ReportingReportTypeListParams) Seq2[*ReportingReportType, error] {
+func (c v1ReportingReportTypeService) List(ctx context.Context, listParams *ReportingReportTypeListParams) *V1List[*ReportingReportType] {
 	if listParams == nil {
 		listParams = &ReportingReportTypeListParams{}
 	}
@@ -45,5 +45,5 @@ func (c v1ReportingReportTypeService) List(ctx context.Context, listParams *Repo
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

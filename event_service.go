@@ -32,7 +32,7 @@ func (c v1EventService) Retrieve(ctx context.Context, id string, params *EventRe
 }
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
-func (c v1EventService) List(ctx context.Context, listParams *EventListParams) Seq2[*Event, error] {
+func (c v1EventService) List(ctx context.Context, listParams *EventListParams) *V1List[*Event] {
 	if listParams == nil {
 		listParams = &EventListParams{}
 	}
@@ -45,5 +45,5 @@ func (c v1EventService) List(ctx context.Context, listParams *EventListParams) S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/events", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

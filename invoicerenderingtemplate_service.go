@@ -58,7 +58,7 @@ func (c v1InvoiceRenderingTemplateService) Unarchive(ctx context.Context, id str
 }
 
 // List all templates, ordered by creation date, with the most recently created template appearing first.
-func (c v1InvoiceRenderingTemplateService) List(ctx context.Context, listParams *InvoiceRenderingTemplateListParams) Seq2[*InvoiceRenderingTemplate, error] {
+func (c v1InvoiceRenderingTemplateService) List(ctx context.Context, listParams *InvoiceRenderingTemplateListParams) *V1List[*InvoiceRenderingTemplate] {
 	if listParams == nil {
 		listParams = &InvoiceRenderingTemplateListParams{}
 	}
@@ -71,5 +71,5 @@ func (c v1InvoiceRenderingTemplateService) List(ctx context.Context, listParams 
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoice_rendering_templates", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

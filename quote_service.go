@@ -104,7 +104,7 @@ func (c v1QuoteService) PDF(ctx context.Context, id string, params *QuotePDFPara
 }
 
 // Returns a list of your quotes.
-func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) Seq2[*Quote, error] {
+func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) *V1List[*Quote] {
 	if listParams == nil {
 		listParams = &QuoteListParams{}
 	}
@@ -117,11 +117,11 @@ func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/quotes", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
-func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listParams *QuoteListComputedUpfrontLineItemsParams) Seq2[*LineItem, error] {
+func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listParams *QuoteListComputedUpfrontLineItemsParams) *V1List[*LineItem] {
 	if listParams == nil {
 		listParams = &QuoteListComputedUpfrontLineItemsParams{}
 	}
@@ -136,11 +136,11 @@ func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listPa
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteListLineItemsParams) Seq2[*LineItem, error] {
+func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteListLineItemsParams) *V1List[*LineItem] {
 	if listParams == nil {
 		listParams = &QuoteListLineItemsParams{}
 	}
@@ -155,5 +155,5 @@ func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteList
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

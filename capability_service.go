@@ -46,7 +46,7 @@ func (c v1CapabilityService) Update(ctx context.Context, id string, params *Capa
 }
 
 // Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
-func (c v1CapabilityService) List(ctx context.Context, listParams *CapabilityListParams) Seq2[*Capability, error] {
+func (c v1CapabilityService) List(ctx context.Context, listParams *CapabilityListParams) *V1List[*Capability] {
 	if listParams == nil {
 		listParams = &CapabilityListParams{}
 	}
@@ -61,5 +61,5 @@ func (c v1CapabilityService) List(ctx context.Context, listParams *CapabilityLis
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

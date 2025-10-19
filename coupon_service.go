@@ -69,7 +69,7 @@ func (c v1CouponService) Delete(ctx context.Context, id string, params *CouponDe
 }
 
 // Returns a list of your coupons.
-func (c v1CouponService) List(ctx context.Context, listParams *CouponListParams) Seq2[*Coupon, error] {
+func (c v1CouponService) List(ctx context.Context, listParams *CouponListParams) *V1List[*Coupon] {
 	if listParams == nil {
 		listParams = &CouponListParams{}
 	}
@@ -82,5 +82,5 @@ func (c v1CouponService) List(ctx context.Context, listParams *CouponListParams)
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/coupons", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

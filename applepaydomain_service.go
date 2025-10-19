@@ -56,7 +56,7 @@ func (c v1ApplePayDomainService) Delete(ctx context.Context, id string, params *
 }
 
 // List apple pay domains.
-func (c v1ApplePayDomainService) List(ctx context.Context, listParams *ApplePayDomainListParams) Seq2[*ApplePayDomain, error] {
+func (c v1ApplePayDomainService) List(ctx context.Context, listParams *ApplePayDomainListParams) *V1List[*ApplePayDomain] {
 	if listParams == nil {
 		listParams = &ApplePayDomainListParams{}
 	}
@@ -69,5 +69,5 @@ func (c v1ApplePayDomainService) List(ctx context.Context, listParams *ApplePayD
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/apple_pay/domains", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

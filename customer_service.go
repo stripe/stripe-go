@@ -108,7 +108,7 @@ func (c v1CustomerService) RetrievePaymentMethod(ctx context.Context, id string,
 }
 
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
-func (c v1CustomerService) List(ctx context.Context, listParams *CustomerListParams) Seq2[*Customer, error] {
+func (c v1CustomerService) List(ctx context.Context, listParams *CustomerListParams) *V1List[*Customer] {
 	if listParams == nil {
 		listParams = &CustomerListParams{}
 	}
@@ -121,11 +121,11 @@ func (c v1CustomerService) List(ctx context.Context, listParams *CustomerListPar
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/customers", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Returns a list of PaymentMethods for a given Customer
-func (c v1CustomerService) ListPaymentMethods(ctx context.Context, listParams *CustomerListPaymentMethodsParams) Seq2[*PaymentMethod, error] {
+func (c v1CustomerService) ListPaymentMethods(ctx context.Context, listParams *CustomerListPaymentMethodsParams) *V1List[*PaymentMethod] {
 	if listParams == nil {
 		listParams = &CustomerListPaymentMethodsParams{}
 	}
@@ -140,25 +140,25 @@ func (c v1CustomerService) ListPaymentMethods(ctx context.Context, listParams *C
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for customers you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
-func (c v1CustomerService) Search(ctx context.Context, params *CustomerSearchParams) Seq2[*Customer, error] {
+func (c v1CustomerService) Search(ctx context.Context, params *CustomerSearchParams) *V1SearchList[*Customer] {
 	if params == nil {
 		params = &CustomerSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Customer], error) {
-		list := &v1SearchPage[*Customer]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Customer], error) {
+		list := &V1SearchPage[*Customer]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/customers/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

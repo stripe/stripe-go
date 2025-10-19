@@ -80,7 +80,7 @@ func (c v1BillingCreditGrantService) VoidGrant(ctx context.Context, id string, p
 }
 
 // Retrieve a list of credit grants.
-func (c v1BillingCreditGrantService) List(ctx context.Context, listParams *BillingCreditGrantListParams) Seq2[*BillingCreditGrant, error] {
+func (c v1BillingCreditGrantService) List(ctx context.Context, listParams *BillingCreditGrantListParams) *V1List[*BillingCreditGrant] {
 	if listParams == nil {
 		listParams = &BillingCreditGrantListParams{}
 	}
@@ -93,5 +93,5 @@ func (c v1BillingCreditGrantService) List(ctx context.Context, listParams *Billi
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/credit_grants", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

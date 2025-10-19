@@ -58,7 +58,7 @@ func (c v1TaxRegistrationService) Update(ctx context.Context, id string, params 
 }
 
 // Returns a list of Tax Registration objects.
-func (c v1TaxRegistrationService) List(ctx context.Context, listParams *TaxRegistrationListParams) Seq2[*TaxRegistration, error] {
+func (c v1TaxRegistrationService) List(ctx context.Context, listParams *TaxRegistrationListParams) *V1List[*TaxRegistration] {
 	if listParams == nil {
 		listParams = &TaxRegistrationListParams{}
 	}
@@ -71,5 +71,5 @@ func (c v1TaxRegistrationService) List(ctx context.Context, listParams *TaxRegis
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/tax/registrations", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

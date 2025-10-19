@@ -32,7 +32,7 @@ func (c v1IdentityVerificationReportService) Retrieve(ctx context.Context, id st
 }
 
 // List all verification reports.
-func (c v1IdentityVerificationReportService) List(ctx context.Context, listParams *IdentityVerificationReportListParams) Seq2[*IdentityVerificationReport, error] {
+func (c v1IdentityVerificationReportService) List(ctx context.Context, listParams *IdentityVerificationReportListParams) *V1List[*IdentityVerificationReport] {
 	if listParams == nil {
 		listParams = &IdentityVerificationReportListParams{}
 	}
@@ -45,5 +45,5 @@ func (c v1IdentityVerificationReportService) List(ctx context.Context, listParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/identity/verification_reports", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

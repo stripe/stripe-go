@@ -85,7 +85,7 @@ func (c v1PayoutService) Reverse(ctx context.Context, id string, params *PayoutR
 }
 
 // Returns a list of existing payouts sent to third-party bank accounts or payouts that Stripe sent to you. The payouts return in sorted order, with the most recently created payouts appearing first.
-func (c v1PayoutService) List(ctx context.Context, listParams *PayoutListParams) Seq2[*Payout, error] {
+func (c v1PayoutService) List(ctx context.Context, listParams *PayoutListParams) *V1List[*Payout] {
 	if listParams == nil {
 		listParams = &PayoutListParams{}
 	}
@@ -98,5 +98,5 @@ func (c v1PayoutService) List(ctx context.Context, listParams *PayoutListParams)
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payouts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

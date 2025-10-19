@@ -79,7 +79,7 @@ func (c v1BillingMeterService) Reactivate(ctx context.Context, id string, params
 }
 
 // Retrieve a list of billing meters.
-func (c v1BillingMeterService) List(ctx context.Context, listParams *BillingMeterListParams) Seq2[*BillingMeter, error] {
+func (c v1BillingMeterService) List(ctx context.Context, listParams *BillingMeterListParams) *V1List[*BillingMeter] {
 	if listParams == nil {
 		listParams = &BillingMeterListParams{}
 	}
@@ -92,5 +92,5 @@ func (c v1BillingMeterService) List(ctx context.Context, listParams *BillingMete
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/meters", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -56,7 +56,7 @@ func (c v1PaymentLinkService) Update(ctx context.Context, id string, params *Pay
 }
 
 // Returns a list of your payment links.
-func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkListParams) Seq2[*PaymentLink, error] {
+func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkListParams) *V1List[*PaymentLink] {
 	if listParams == nil {
 		listParams = &PaymentLinkListParams{}
 	}
@@ -69,11 +69,11 @@ func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkL
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_links", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *PaymentLinkListLineItemsParams) Seq2[*LineItem, error] {
+func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *PaymentLinkListLineItemsParams) *V1List[*LineItem] {
 	if listParams == nil {
 		listParams = &PaymentLinkListLineItemsParams{}
 	}
@@ -88,5 +88,5 @@ func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *Pay
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

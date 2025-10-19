@@ -20,7 +20,7 @@ type v1BillingMeterEventSummaryService struct {
 }
 
 // Retrieve a list of billing meter event summaries.
-func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams *BillingMeterEventSummaryListParams) Seq2[*BillingMeterEventSummary, error] {
+func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams *BillingMeterEventSummaryListParams) *V1List[*BillingMeterEventSummary] {
 	if listParams == nil {
 		listParams = &BillingMeterEventSummaryListParams{}
 	}
@@ -35,5 +35,5 @@ func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams 
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -119,5 +119,5 @@ func (c Client) All(listParams *stripe.V2CoreEventDestinationListParams) stripe.
 		page := &stripe.V2Page[*stripe.V2CoreEventDestination]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

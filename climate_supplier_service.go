@@ -32,7 +32,7 @@ func (c v1ClimateSupplierService) Retrieve(ctx context.Context, id string, param
 }
 
 // Lists all available Climate supplier objects.
-func (c v1ClimateSupplierService) List(ctx context.Context, listParams *ClimateSupplierListParams) Seq2[*ClimateSupplier, error] {
+func (c v1ClimateSupplierService) List(ctx context.Context, listParams *ClimateSupplierListParams) *V1List[*ClimateSupplier] {
 	if listParams == nil {
 		listParams = &ClimateSupplierListParams{}
 	}
@@ -45,5 +45,5 @@ func (c v1ClimateSupplierService) List(ctx context.Context, listParams *ClimateS
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/climate/suppliers", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

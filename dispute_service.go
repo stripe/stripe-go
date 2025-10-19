@@ -59,13 +59,8 @@ func (c v1DisputeService) Close(ctx context.Context, id string, params *DisputeC
 	return dispute, err
 }
 
-// Returns a list of Issuing Transaction objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1DisputeService) List(ctx context.Context, listParams *DisputeListParams) Seq2[*Dispute, error] {
-	return c.ListWithPage(ctx, listParams).All()
-}
-
-// Returns a list of Issuing Transaction objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1DisputeService) ListWithPage(ctx context.Context, listParams *DisputeListParams) *V1List[*Dispute] {
+// Returns a list of your disputes.
+func (c v1DisputeService) List(ctx context.Context, listParams *DisputeListParams) *V1List[*Dispute] {
 	if listParams == nil {
 		listParams = &DisputeListParams{}
 	}

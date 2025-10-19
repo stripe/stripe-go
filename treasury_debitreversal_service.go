@@ -44,7 +44,7 @@ func (c v1TreasuryDebitReversalService) Retrieve(ctx context.Context, id string,
 }
 
 // Returns a list of DebitReversals.
-func (c v1TreasuryDebitReversalService) List(ctx context.Context, listParams *TreasuryDebitReversalListParams) Seq2[*TreasuryDebitReversal, error] {
+func (c v1TreasuryDebitReversalService) List(ctx context.Context, listParams *TreasuryDebitReversalListParams) *V1List[*TreasuryDebitReversal] {
 	if listParams == nil {
 		listParams = &TreasuryDebitReversalListParams{}
 	}
@@ -57,5 +57,5 @@ func (c v1TreasuryDebitReversalService) List(ctx context.Context, listParams *Tr
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/debit_reversals", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

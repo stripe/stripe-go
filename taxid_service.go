@@ -68,7 +68,7 @@ func (c v1TaxIDService) Delete(ctx context.Context, id string, params *TaxIDDele
 }
 
 // Returns a list of tax IDs for a customer.
-func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) Seq2[*TaxID, error] {
+func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) *V1List[*TaxID] {
 	path := "/v1/tax_ids"
 	if listParams != nil && listParams.Customer != nil {
 		path = FormatURLPath(
@@ -86,5 +86,5 @@ func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

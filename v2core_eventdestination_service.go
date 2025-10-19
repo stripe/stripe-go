@@ -105,12 +105,7 @@ func (c v2CoreEventDestinationService) Ping(ctx context.Context, id string, para
 }
 
 // Lists all event destinations.
-func (c v2CoreEventDestinationService) List(ctx context.Context, listParams *V2CoreEventDestinationListParams) Seq2[*V2CoreEventDestination, error] {
-	return c.ListWithPage(ctx, listParams).All()
-}
-
-// Lists all event destinations.
-func (c v2CoreEventDestinationService) ListWithPage(ctx context.Context, listParams *V2CoreEventDestinationListParams) *V2List[*V2CoreEventDestination] {
+func (c v2CoreEventDestinationService) List(ctx context.Context, listParams *V2CoreEventDestinationListParams) *V2List[*V2CoreEventDestination] {
 	if listParams == nil {
 		listParams = &V2CoreEventDestinationListParams{}
 	}

@@ -32,7 +32,7 @@ func (c v1ApplicationFeeService) Retrieve(ctx context.Context, id string, params
 }
 
 // Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
-func (c v1ApplicationFeeService) List(ctx context.Context, listParams *ApplicationFeeListParams) Seq2[*ApplicationFee, error] {
+func (c v1ApplicationFeeService) List(ctx context.Context, listParams *ApplicationFeeListParams) *V1List[*ApplicationFee] {
 	if listParams == nil {
 		listParams = &ApplicationFeeListParams{}
 	}
@@ -45,5 +45,5 @@ func (c v1ApplicationFeeService) List(ctx context.Context, listParams *Applicati
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/application_fees", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

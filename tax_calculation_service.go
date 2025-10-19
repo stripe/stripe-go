@@ -44,7 +44,7 @@ func (c v1TaxCalculationService) Retrieve(ctx context.Context, id string, params
 }
 
 // Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
-func (c v1TaxCalculationService) ListLineItems(ctx context.Context, listParams *TaxCalculationListLineItemsParams) Seq2[*TaxCalculationLineItem, error] {
+func (c v1TaxCalculationService) ListLineItems(ctx context.Context, listParams *TaxCalculationListLineItemsParams) *V1List[*TaxCalculationLineItem] {
 	if listParams == nil {
 		listParams = &TaxCalculationListLineItemsParams{}
 	}
@@ -59,5 +59,5 @@ func (c v1TaxCalculationService) ListLineItems(ctx context.Context, listParams *
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

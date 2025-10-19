@@ -58,7 +58,7 @@ func (c v1PaymentMethodConfigurationService) Update(ctx context.Context, id stri
 }
 
 // List payment method configurations
-func (c v1PaymentMethodConfigurationService) List(ctx context.Context, listParams *PaymentMethodConfigurationListParams) Seq2[*PaymentMethodConfiguration, error] {
+func (c v1PaymentMethodConfigurationService) List(ctx context.Context, listParams *PaymentMethodConfigurationListParams) *V1List[*PaymentMethodConfiguration] {
 	if listParams == nil {
 		listParams = &PaymentMethodConfigurationListParams{}
 	}
@@ -71,5 +71,5 @@ func (c v1PaymentMethodConfigurationService) List(ctx context.Context, listParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_configurations", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

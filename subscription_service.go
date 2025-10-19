@@ -132,7 +132,7 @@ func (c v1SubscriptionService) Resume(ctx context.Context, id string, params *Su
 }
 
 // By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
-func (c v1SubscriptionService) List(ctx context.Context, listParams *SubscriptionListParams) Seq2[*Subscription, error] {
+func (c v1SubscriptionService) List(ctx context.Context, listParams *SubscriptionListParams) *V1List[*Subscription] {
 	if listParams == nil {
 		listParams = &SubscriptionListParams{}
 	}
@@ -145,25 +145,25 @@ func (c v1SubscriptionService) List(ctx context.Context, listParams *Subscriptio
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for subscriptions you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
-func (c v1SubscriptionService) Search(ctx context.Context, params *SubscriptionSearchParams) Seq2[*Subscription, error] {
+func (c v1SubscriptionService) Search(ctx context.Context, params *SubscriptionSearchParams) *V1SearchList[*Subscription] {
 	if params == nil {
 		params = &SubscriptionSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Subscription], error) {
-		list := &v1SearchPage[*Subscription]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Subscription], error) {
+		list := &V1SearchPage[*Subscription]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

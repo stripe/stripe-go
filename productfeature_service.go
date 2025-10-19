@@ -58,7 +58,7 @@ func (c v1ProductFeatureService) Delete(ctx context.Context, id string, params *
 }
 
 // Retrieve a list of features for a product
-func (c v1ProductFeatureService) List(ctx context.Context, listParams *ProductFeatureListParams) Seq2[*ProductFeature, error] {
+func (c v1ProductFeatureService) List(ctx context.Context, listParams *ProductFeatureListParams) *V1List[*ProductFeature] {
 	if listParams == nil {
 		listParams = &ProductFeatureListParams{}
 	}
@@ -73,5 +73,5 @@ func (c v1ProductFeatureService) List(ctx context.Context, listParams *ProductFe
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

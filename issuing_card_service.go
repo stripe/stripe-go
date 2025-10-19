@@ -55,7 +55,7 @@ func (c v1IssuingCardService) Update(ctx context.Context, id string, params *Iss
 }
 
 // Returns a list of Issuing Card objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1IssuingCardService) List(ctx context.Context, listParams *IssuingCardListParams) Seq2[*IssuingCard, error] {
+func (c v1IssuingCardService) List(ctx context.Context, listParams *IssuingCardListParams) *V1List[*IssuingCard] {
 	if listParams == nil {
 		listParams = &IssuingCardListParams{}
 	}
@@ -68,5 +68,5 @@ func (c v1IssuingCardService) List(ctx context.Context, listParams *IssuingCardL
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cards", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
