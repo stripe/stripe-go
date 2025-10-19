@@ -133,7 +133,6 @@ func GetSearchIter(container SearchParamsContainer, query SearchQuery) *SearchIt
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
 type V1SearchList[T any] struct {
-	ctx          context.Context
 	err          error
 	formValues   *form.Values
 	searchParams SearchParams
@@ -152,7 +151,7 @@ type V1SearchPage[T any] struct {
 
 // All returns a Seq2 that will be evaluated on each item in a V1SearchList.
 // The All function will continue to fetch pages of items as needed.
-func (it *V1SearchList[T]) All() Seq2[T, error] {
+func (it *V1SearchList[T]) All(ctx context.Context) Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		for {
 			for _, item := range it.Data {
@@ -168,7 +167,7 @@ func (it *V1SearchList[T]) All() Seq2[T, error] {
 			if !it.HasMore() {
 				return
 			}
-			it.Page(it.ctx)
+			it.Page(ctx)
 		}
 	}
 }
@@ -274,7 +273,6 @@ func newV1SearchList[T any](ctx context.Context, container SearchParamsContainer
 		searchParams = &SearchParams{}
 	}
 	iter := &V1SearchList[T]{
-		ctx:          ctx,
 		formValues:   formValues,
 		searchParams: *searchParams,
 		query:        query,

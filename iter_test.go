@@ -354,7 +354,7 @@ func (tq *testV2Query[T]) query(context.Context, string, ParamsContainer) (*V2Pa
 func collectList[T LastResponseSetter](it *V1List[T]) ([]T, error) {
 	var tt []T
 	var err error
-	it.All()(func(t T, e error) bool {
+	it.All(context.TODO())(func(t T, e error) bool {
 		if e != nil {
 			err = e
 			return false
@@ -368,7 +368,7 @@ func collectList[T LastResponseSetter](it *V1List[T]) ([]T, error) {
 func collectV2List[T any](it *V2List[T]) ([]T, error) {
 	var tt []T
 	var err error
-	it.All()(func(t T, e error) bool {
+	it.All(context.TODO())(func(t T, e error) bool {
 		if e != nil {
 			err = e
 			return false

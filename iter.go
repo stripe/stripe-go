@@ -127,7 +127,6 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
 type V1List[T any] struct {
-	ctx        context.Context
 	err        error
 	formValues *form.Values
 	listParams ListParams
@@ -147,7 +146,7 @@ type V1Page[T any] struct {
 
 // All returns a Seq2 that will be evaluated on each item in a V1List.
 // The All function will continue to fetch pages of items as needed.
-func (it *V1List[T]) All() Seq2[T, error] {
+func (it *V1List[T]) All(ctx context.Context) Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		for {
 			for _, item := range it.Data {
@@ -163,7 +162,7 @@ func (it *V1List[T]) All() Seq2[T, error] {
 			if !it.HasMore() {
 				return
 			}
-			it.Page(it.ctx)
+			it.Page(ctx)
 		}
 	}
 }
@@ -268,7 +267,6 @@ func newV1List[T any](ctx context.Context, container ListParamsContainer, query 
 		listParams = &ListParams{}
 	}
 	iter := &V1List[T]{
-		ctx:        ctx,
 		formValues: formValues,
 		listParams: *listParams,
 		query:      query,
@@ -306,7 +304,6 @@ type Seq2[K, V any] func(yield func(K, V) bool)
 // V2List contains a page of data received from a List API call,
 // and the means to paginate to the next page of data via the fetch function.
 type V2List[T any] struct {
-	ctx         context.Context
 	fetch       v2Query[T]
 	params      ParamsContainer
 	initialized bool
@@ -327,7 +324,7 @@ type V2Page[T any] struct {
 
 // All returns a Seq2 that will be evaluated on each item in a V2List.
 // The All function will continue to fetch pages of items as needed.
-func (s *V2List[T]) All() Seq2[T, error] {
+func (s *V2List[T]) All(ctx context.Context) Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		for {
 			for _, item := range s.Data {
@@ -343,7 +340,7 @@ func (s *V2List[T]) All() Seq2[T, error] {
 			if !s.HasMore() {
 				return
 			}
-			s.Page(s.ctx)
+			s.Page(ctx)
 		}
 	}
 }
@@ -385,7 +382,6 @@ func (s *V2List[T]) Err() error {
 // newV2List creates a new V2List with the given path and fetch function.
 func newV2List[T any](ctx context.Context, path string, p ParamsContainer, fetch v2Query[T]) *V2List[T] {
 	list := &V2List[T]{
-		ctx:    ctx,
 		fetch:  fetch,
 		params: p,
 		V2Page: V2Page[T]{NextPageURL: path},

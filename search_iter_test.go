@@ -325,7 +325,7 @@ func (c TestServer) Search(ctx context.Context, params *SearchParams) Seq2[*Test
 		ret := make([]*TestEntity, len(list.Data))
 		copy(ret, list.Data)
 		return list, err
-	}).All()
+	}).All(ctx)
 }
 
 type TestEntity struct {
@@ -343,7 +343,7 @@ type TestSearchResult struct {
 func collectSearchList[T LastResponseSetter](it *V1SearchList[T]) ([]T, error) {
 	var tt []T
 	var err error
-	it.All()(func(t T, e error) bool {
+	it.All(context.TODO())(func(t T, e error) bool {
 		if e != nil {
 			err = e
 			return false
