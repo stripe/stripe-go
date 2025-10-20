@@ -140,7 +140,7 @@ type V1SearchList[T any] struct {
 	v1SearchPage *v1SearchPage[T]
 }
 
-// V1SearchPage represents a single page returned from a V1 Search API call.
+// v1SearchPage represents a single page returned from a V1 Search API call.
 // The internal state will be updated by the parent V1SearchList when the
 // Page method is called.
 type v1SearchPage[T any] struct {
