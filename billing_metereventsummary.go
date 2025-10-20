@@ -9,7 +9,8 @@ package stripe
 // Retrieve a list of billing meter event summaries.
 type BillingMeterEventSummaryListParams struct {
 	ListParams `form:"*"`
-	ID         *string `form:"-"` // Included in URL
+	// Unique identifier for the object.
+	ID *string `form:"-"` // Included in URL
 	// The customer for which to fetch event summaries.
 	Customer *string `form:"customer"`
 	// The timestamp from when to stop aggregating meter events (exclusive). Must be aligned with minute boundaries.
