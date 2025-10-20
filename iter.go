@@ -132,13 +132,13 @@ type V1List[T any] struct {
 	listParams ListParams
 	query      v1Query[T]
 	backward   bool
-	*V1Page[T]
+	v1Page     *v1Page[T]
 }
 
-// V1Page represents a single page returned from a V1 List API call.
+// v1Page represents a single page returned from a V1 List API call.
 // The internal state will be updated by the parent V1List when the
 // Page method is called.
-type V1Page[T any] struct {
+type v1Page[T any] struct {
 	APIResource
 	ListMeta
 	Data []T `json:"data"`
@@ -146,66 +146,87 @@ type V1Page[T any] struct {
 
 // All returns a Seq2 that will be evaluated on each item in a V1List.
 // The All function will continue to fetch pages of items as needed.
-func (it *V1List[T]) All(ctx context.Context) Seq2[T, error] {
+func (l *V1List[T]) All(ctx context.Context) Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		for {
-			for _, item := range it.Data {
+			for _, item := range l.Data() {
 				if !yield(item, nil) {
 					return
 				}
 			}
-			if it.err != nil {
-				if !yield(*new(T), it.err) {
+			if l.err != nil {
+				if !yield(*new(T), l.Err()) {
 					return
 				}
 			}
-			if !it.hasMore() {
+			if !l.hasMore() {
 				return
 			}
-			it.page(ctx)
+			l.page(ctx)
 		}
 	}
 }
 
-func (it *V1List[T]) page(ctx context.Context) {
-	if len(it.Data) > 0 && it.backward {
-		it.listParams.EndingBefore = String(listItemID(it.Data[len(it.Data)-1]))
-		it.formValues.Set(EndingBefore, *it.listParams.EndingBefore)
-	} else if len(it.Data) > 0 {
-		it.listParams.StartingAfter = String(listItemID(it.Data[len(it.Data)-1]))
-		it.formValues.Set(StartingAfter, *it.listParams.StartingAfter)
+// Data returns the data for the current page.
+func (l *V1List[T]) Data() []T {
+	return l.v1Page.Data
+}
+
+// Err returns the error for the current page.
+func (l *V1List[T]) Err() error {
+	return l.err
+}
+
+// Meta returns the metadata for the current page.
+func (l *V1List[T]) Meta() ListMeta {
+	return l.v1Page.ListMeta
+}
+
+// LastResponse returns the last response for the current page.
+func (l *V1List[T]) LastResponse() *APIResponse {
+	return l.v1Page.LastResponse
+}
+
+// page updates the V1List's state by fetching the next page of items.
+func (l *V1List[T]) page(ctx context.Context) {
+	if len(l.Data()) > 0 && l.backward {
+		l.listParams.EndingBefore = String(listItemID(l.Data()[len(l.Data())-1]))
+		l.formValues.Set(EndingBefore, *l.listParams.EndingBefore)
+	} else if len(l.Data()) > 0 {
+		l.listParams.StartingAfter = String(listItemID(l.Data()[len(l.Data())-1]))
+		l.formValues.Set(StartingAfter, *l.listParams.StartingAfter)
 	}
-	page, err := it.query(ctx, it.listParams.GetParams(), it.formValues)
-	it.V1Page = page
+	page, err := l.query(ctx, l.listParams.GetParams(), l.formValues)
+	l.v1Page = page
 	if err != nil {
-		it.err = err
+		l.err = err
 		return
 	}
 	if err := maybeAddLastResponseV1(page); err != nil {
-		it.err = err
+		l.err = err
 		return
 	}
 
-	if it.backward {
+	if l.backward {
 		// We are moving backward,
 		// but items arrive in forward order.
-		reverse(it.Data)
+		reverse(l.Data())
 	}
 }
 
 // hasMore returns true if there is another page of items to fetch.
-func (s *V1List[T]) hasMore() bool {
-	if s == nil {
+func (l *V1List[T]) hasMore() bool {
+	if l == nil {
 		return false
 	}
-	return s.V1Page.HasMore && !s.listParams.Single
+	return l.v1Page.HasMore && !l.listParams.Single
 }
 
 // maybeAddLastResponseV1 adds the LastResponse to the items in the page.
 // It parses the page's JSON and adds each `data` item's JSON to the
 // LastResponse of the corresponding resource. Note that not
 // every resource implements the LastResponseSetter interface.
-func maybeAddLastResponseV1[T any](page *V1Page[T]) error {
+func maybeAddLastResponseV1[T any](page *v1Page[T]) error {
 	if page.LastResponse == nil {
 		return nil
 	}
@@ -242,7 +263,7 @@ func maybeAddLastResponseV1[T any](page *V1Page[T]) error {
 }
 
 // v1Query is the function used to get a page listing.
-type v1Query[T any] func(context.Context, *Params, *form.Values) (*V1Page[T], error)
+type v1Query[T any] func(context.Context, *Params, *form.Values) (*v1Page[T], error)
 
 // newV1List returns a new v1List for a given query and its options, and initializes
 // it by fetching the first page of items.
@@ -268,7 +289,7 @@ func newV1List[T any](ctx context.Context, container ListParamsContainer, query 
 		listParams: *listParams,
 		query:      query,
 		backward:   listParams.EndingBefore != nil,
-		V1Page:     &V1Page[T]{},
+		v1Page:     &v1Page[T]{},
 	}
 
 	iter.page(ctx)
@@ -306,61 +327,80 @@ type V2List[T any] struct {
 	initialized bool
 	err         error
 	// Page contains the items returned from the last API call.
-	*V2Page[T]
+	v2Page *V2Page[T]
 }
 
 // V2Page is represents a single page returned from a V2 List API call.
 type V2Page[T any] struct {
 	APIResource
-	Data            []T    `json:"data"`
-	NextPageURL     string `json:"next_page_url"`
-	PreviousPageURL string `json:"previous_page_url"`
+	V2ListMeta
+	Data []T `json:"data"`
+}
+
+// Data returns the data for the current page.
+func (l *V2List[T]) Data() []T {
+	return l.v2Page.Data
+}
+
+// Err returns the error for the current page.
+func (l *V2List[T]) Err() error {
+	return l.err
+}
+
+// Meta returns the metadata for the current page.
+func (l *V2List[T]) Meta() V2ListMeta {
+	return l.v2Page.V2ListMeta
+}
+
+// LastResponse returns the last response for the current page.
+func (l *V2List[T]) LastResponse() *APIResponse {
+	return l.v2Page.LastResponse
 }
 
 // All returns a Seq2 that will be evaluated on each item in a V2List.
 // The All function will continue to fetch pages of items as needed.
-func (s *V2List[T]) All(ctx context.Context) Seq2[T, error] {
+func (l *V2List[T]) All(ctx context.Context) Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		for {
-			for _, item := range s.Data {
+			for _, item := range l.Data() {
 				if !yield(item, nil) {
 					return
 				}
 			}
-			if s.err != nil {
-				if !yield(*new(T), s.err) {
+			if l.err != nil {
+				if !yield(*new(T), l.err) {
 					return
 				}
 			}
-			if !s.hasMore() {
+			if !l.hasMore() {
 				return
 			}
-			s.page(ctx)
+			l.page(ctx)
 		}
 	}
 }
 
 // page fetches the next page of items and updates the V2List's state.
 // It returns an error if the fetch fails.
-func (s *V2List[T]) page(ctx context.Context) {
+func (l *V2List[T]) page(ctx context.Context) {
 	// if we've already fetched a page, the next page URL
 	// already contains all of the query parameters
 	var params ParamsContainer
-	if s.initialized {
+	if l.initialized {
 		params = &Params{}
 	} else {
-		params = s.params
+		params = l.params
 	}
 
-	next, err := s.fetch(ctx, s.NextPageURL, params)
-	s.V2Page = next
+	next, err := l.fetch(ctx, l.v2Page.NextPageURL, params)
+	l.v2Page = next
 	if err != nil {
-		s.err = err
+		l.err = err
 		return
 	}
 
 	if err := maybeAddLastResponseV2(next); err != nil {
-		s.err = err
+		l.err = err
 		return
 	}
 }
@@ -406,11 +446,11 @@ func maybeAddLastResponseV2[T any](page *V2Page[T]) error {
 }
 
 // hasMore returns true if there is another page of items to fetch.
-func (s *V2List[T]) hasMore() bool {
-	if s == nil {
+func (l *V2List[T]) hasMore() bool {
+	if l == nil {
 		return false
 	}
-	return s.NextPageURL != ""
+	return l.v2Page.NextPageURL != ""
 }
 
 // newV2List creates a new V2List with the given path and fetch function.
@@ -418,7 +458,7 @@ func newV2List[T any](ctx context.Context, path string, p ParamsContainer, fetch
 	list := &V2List[T]{
 		fetch:  fetch,
 		params: p,
-		V2Page: &V2Page[T]{NextPageURL: path},
+		v2Page: &V2Page[T]{V2ListMeta: V2ListMeta{NextPageURL: path}},
 	}
 	list.page(ctx)
 	list.initialized = true

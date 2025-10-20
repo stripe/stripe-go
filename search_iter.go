@@ -137,71 +137,91 @@ type V1SearchList[T any] struct {
 	formValues   *form.Values
 	searchParams SearchParams
 	query        v1SearchQuery[T]
-	*V1SearchPage[T]
+	v1SearchPage *v1SearchPage[T]
 }
 
 // V1SearchPage represents a single page returned from a V1 Search API call.
 // The internal state will be updated by the parent V1SearchList when the
 // Page method is called.
-type V1SearchPage[T any] struct {
+type v1SearchPage[T any] struct {
 	APIResource
 	SearchMeta
 	Data []T `json:"data"`
 }
 
+// Data returns the data for the current page.
+func (l *V1SearchList[T]) Data() []T {
+	return l.v1SearchPage.Data
+}
+
+// Err returns the error for the current page.
+func (l *V1SearchList[T]) Err() error {
+	return l.err
+}
+
+// Meta returns the metadata for the current page.
+func (l *V1SearchList[T]) Meta() SearchMeta {
+	return l.v1SearchPage.SearchMeta
+}
+
+// LastResponse returns the last response for the current page.
+func (l *V1SearchList[T]) LastResponse() *APIResponse {
+	return l.v1SearchPage.LastResponse
+}
+
 // All returns a Seq2 that will be evaluated on each item in a V1SearchList.
 // The All function will continue to fetch pages of items as needed.
-func (it *V1SearchList[T]) All(ctx context.Context) Seq2[T, error] {
+func (l *V1SearchList[T]) All(ctx context.Context) Seq2[T, error] {
 	return func(yield func(T, error) bool) {
 		for {
-			for _, item := range it.Data {
+			for _, item := range l.Data() {
 				if !yield(item, nil) {
 					return
 				}
 			}
-			if it.err != nil {
-				if !yield(*new(T), it.err) {
+			if l.err != nil {
+				if !yield(*new(T), l.err) {
 					return
 				}
 			}
-			if !it.hasMore() {
+			if !l.hasMore() {
 				return
 			}
-			it.page(ctx)
+			l.page(ctx)
 		}
 	}
 }
 
 // page fetches the next page of items and updates the V1SearchList's state.
-func (it *V1SearchList[T]) page(ctx context.Context) {
-	if it.NextPage != nil {
-		it.formValues.Set(Page, *it.NextPage)
+func (l *V1SearchList[T]) page(ctx context.Context) {
+	if l.v1SearchPage.NextPage != nil {
+		l.formValues.Set(Page, *l.v1SearchPage.NextPage)
 	}
-	page, err := it.query(ctx, it.searchParams.GetParams(), it.formValues)
-	it.V1SearchPage = page
+	page, err := l.query(ctx, l.searchParams.GetParams(), l.formValues)
+	l.v1SearchPage = page
 	if err != nil {
-		it.err = err
+		l.err = err
 		return
 	}
 	if err := maybeAddLastResponseSearch(page); err != nil {
-		it.err = err
+		l.err = err
 		return
 	}
 }
 
 // hasMore returns true if there is another page of items to fetch.
-func (s *V1SearchList[T]) hasMore() bool {
-	if s == nil {
+func (l *V1SearchList[T]) hasMore() bool {
+	if l == nil {
 		return false
 	}
-	return s.SearchMeta.HasMore && !s.searchParams.Single
+	return l.Meta().HasMore && !l.searchParams.Single
 }
 
 // maybeAddLastResponse adds the LastResponse to the items in the page.
 // It parses the page's JSON and adds each `data` item's JSON to the
 // LastResponse of the corresponding resource. Note that not
 // every resource implements the LastResponseSetter interface.
-func maybeAddLastResponseSearch[T any](page *V1SearchPage[T]) error {
+func maybeAddLastResponseSearch[T any](page *v1SearchPage[T]) error {
 	if page.LastResponse == nil {
 		return nil
 	}
@@ -238,7 +258,7 @@ func maybeAddLastResponseSearch[T any](page *V1SearchPage[T]) error {
 }
 
 // v1SearchQuery is the function used to get search results.
-type v1SearchQuery[T any] func(context.Context, *Params, *form.Values) (*V1SearchPage[T], error)
+type v1SearchQuery[T any] func(context.Context, *Params, *form.Values) (*v1SearchPage[T], error)
 
 //
 // Public functions
@@ -274,7 +294,7 @@ func newV1SearchList[T any](ctx context.Context, container SearchParamsContainer
 		formValues:   formValues,
 		searchParams: *searchParams,
 		query:        query,
-		V1SearchPage: &V1SearchPage[T]{},
+		v1SearchPage: &v1SearchPage[T]{},
 	}
 
 	iter.page(ctx)

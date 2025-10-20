@@ -95,6 +95,11 @@ func (l *ListMeta) GetListMeta() *ListMeta {
 	return l
 }
 
+type V2ListMeta struct {
+	NextPageURL     string `json:"next_page_url"`
+	PreviousPageURL string `json:"previous_page_url"`
+}
+
 // ListParams is the structure that contains the common properties
 // of any *ListParams structure.
 type ListParams struct {
