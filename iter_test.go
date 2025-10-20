@@ -438,7 +438,7 @@ func TestMaybeAddLastResponseIndividualJSON(t *testing.T) {
 	}
 
 	// Call the function
-	err := maybeAddLastResponse(page)
+	err := maybeAddLastResponseV1(page)
 	assert.NoError(t, err)
 
 	// Verify each item has its corresponding JSON
@@ -478,7 +478,7 @@ func TestMaybeAddLastResponseMismatchedLengths(t *testing.T) {
 		Data: []*testItemSimple{{"cus_1"}, {"cus_2"}}, // 2 items but only 1 in JSON data array
 	}
 
-	err := maybeAddLastResponse(page)
+	err := maybeAddLastResponseV1(page)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "mismatch in data length for requestID req_test123")
 }
@@ -496,7 +496,7 @@ func TestMaybeAddLastResponseInvalidJSON(t *testing.T) {
 		Data: []*testItemSimple{{"cus_1"}},
 	}
 
-	err := maybeAddLastResponse(page)
+	err := maybeAddLastResponseV1(page)
 	assert.Error(t, err)
 }
 
@@ -521,6 +521,6 @@ func TestMaybeAddLastResponseWithNonLastResponseSetter(t *testing.T) {
 	}
 
 	// Should not error even though items don't implement LastResponseSetter
-	err := maybeAddLastResponse(page)
+	err := maybeAddLastResponseV1(page)
 	assert.NoError(t, err)
 }

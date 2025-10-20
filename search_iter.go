@@ -159,20 +159,21 @@ func (it *V1SearchList[T]) All(ctx context.Context) Seq2[T, error] {
 					return
 				}
 			}
-			if it.Err() != nil {
-				if !yield(*new(T), it.Err()) {
+			if it.err != nil {
+				if !yield(*new(T), it.err) {
 					return
 				}
 			}
-			if !it.HasMore() {
+			if !it.hasMore() {
 				return
 			}
-			it.Page(ctx)
+			it.page(ctx)
 		}
 	}
 }
 
-func (it *V1SearchList[T]) Page(ctx context.Context) {
+// page fetches the next page of items and updates the V1SearchList's state.
+func (it *V1SearchList[T]) page(ctx context.Context) {
 	if it.NextPage != nil {
 		it.formValues.Set(Page, *it.NextPage)
 	}
@@ -188,15 +189,12 @@ func (it *V1SearchList[T]) Page(ctx context.Context) {
 	}
 }
 
-func (s *V1SearchList[T]) HasMore() bool {
+// hasMore returns true if there is another page of items to fetch.
+func (s *V1SearchList[T]) hasMore() bool {
 	if s == nil {
 		return false
 	}
 	return s.SearchMeta.HasMore && !s.searchParams.Single
-}
-
-func (s *V1SearchList[T]) Err() error {
-	return s.err
 }
 
 // maybeAddLastResponse adds the LastResponse to the items in the page.
@@ -279,7 +277,7 @@ func newV1SearchList[T any](ctx context.Context, container SearchParamsContainer
 		V1SearchPage: &V1SearchPage[T]{},
 	}
 
-	iter.Page(ctx)
+	iter.page(ctx)
 
 	return iter
 }

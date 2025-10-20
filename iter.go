@@ -154,20 +154,20 @@ func (it *V1List[T]) All(ctx context.Context) Seq2[T, error] {
 					return
 				}
 			}
-			if it.Err() != nil {
-				if !yield(*new(T), it.Err()) {
+			if it.err != nil {
+				if !yield(*new(T), it.err) {
 					return
 				}
 			}
-			if !it.HasMore() {
+			if !it.hasMore() {
 				return
 			}
-			it.Page(ctx)
+			it.page(ctx)
 		}
 	}
 }
 
-func (it *V1List[T]) Page(ctx context.Context) {
+func (it *V1List[T]) page(ctx context.Context) {
 	if len(it.Data) > 0 && it.backward {
 		it.listParams.EndingBefore = String(listItemID(it.Data[len(it.Data)-1]))
 		it.formValues.Set(EndingBefore, *it.listParams.EndingBefore)
@@ -181,7 +181,7 @@ func (it *V1List[T]) Page(ctx context.Context) {
 		it.err = err
 		return
 	}
-	if err := maybeAddLastResponse(page); err != nil {
+	if err := maybeAddLastResponseV1(page); err != nil {
 		it.err = err
 		return
 	}
@@ -193,22 +193,19 @@ func (it *V1List[T]) Page(ctx context.Context) {
 	}
 }
 
-func (s *V1List[T]) HasMore() bool {
+// hasMore returns true if there is another page of items to fetch.
+func (s *V1List[T]) hasMore() bool {
 	if s == nil {
 		return false
 	}
 	return s.V1Page.HasMore && !s.listParams.Single
 }
 
-func (s *V1List[T]) Err() error {
-	return s.err
-}
-
-// maybeAddLastResponse adds the LastResponse to the items in the page.
+// maybeAddLastResponseV1 adds the LastResponse to the items in the page.
 // It parses the page's JSON and adds each `data` item's JSON to the
 // LastResponse of the corresponding resource. Note that not
 // every resource implements the LastResponseSetter interface.
-func maybeAddLastResponse[T any](page *V1Page[T]) error {
+func maybeAddLastResponseV1[T any](page *V1Page[T]) error {
 	if page.LastResponse == nil {
 		return nil
 	}
@@ -274,7 +271,7 @@ func newV1List[T any](ctx context.Context, container ListParamsContainer, query 
 		V1Page:     &V1Page[T]{},
 	}
 
-	iter.Page(ctx)
+	iter.page(ctx)
 
 	return iter
 }
@@ -309,12 +306,10 @@ type V2List[T any] struct {
 	initialized bool
 	err         error
 	// Page contains the items returned from the last API call.
-	V2Page[T]
+	*V2Page[T]
 }
 
 // V2Page is represents a single page returned from a V2 List API call.
-// The internal state will be updated by the parent V2List when the
-// Page method is called.
 type V2Page[T any] struct {
 	APIResource
 	Data            []T    `json:"data"`
@@ -332,22 +327,22 @@ func (s *V2List[T]) All(ctx context.Context) Seq2[T, error] {
 					return
 				}
 			}
-			if s.Err() != nil {
-				if !yield(*new(T), s.Err()) {
+			if s.err != nil {
+				if !yield(*new(T), s.err) {
 					return
 				}
 			}
-			if !s.HasMore() {
+			if !s.hasMore() {
 				return
 			}
-			s.Page(ctx)
+			s.page(ctx)
 		}
 	}
 }
 
-// Page fetches the next page of items and updates the V2List's state.
+// page fetches the next page of items and updates the V2List's state.
 // It returns an error if the fetch fails.
-func (s *V2List[T]) Page(ctx context.Context) {
+func (s *V2List[T]) page(ctx context.Context) {
 	// if we've already fetched a page, the next page URL
 	// already contains all of the query parameters
 	var params ParamsContainer
@@ -358,25 +353,64 @@ func (s *V2List[T]) Page(ctx context.Context) {
 	}
 
 	next, err := s.fetch(ctx, s.NextPageURL, params)
-	if next != nil {
-		s.V2Page = *next
-	}
+	s.V2Page = next
 	if err != nil {
 		s.err = err
 		return
 	}
 
+	if err := maybeAddLastResponseV2(next); err != nil {
+		s.err = err
+		return
+	}
 }
 
-func (s *V2List[T]) HasMore() bool {
+// maybeAddLastResponseV2 adds the LastResponse to the items in the page.
+// It parses the page's JSON and adds each `data` item's JSON to the
+// LastResponse of the corresponding resource. Note that not
+// every resource implements the LastResponseSetter interface.
+func maybeAddLastResponseV2[T any](page *V2Page[T]) error {
+	if page.LastResponse == nil {
+		return nil
+	}
+	lastResponse := page.LastResponse
+
+	var pageData struct {
+		Data []json.RawMessage `json:"data"`
+	}
+	if err := json.Unmarshal(lastResponse.RawJSON, &pageData); err != nil {
+		return err
+	}
+
+	if len(pageData.Data) != len(page.Data) {
+		return fmt.Errorf("mismatch in data length for requestID %s", lastResponse.RequestID)
+	}
+
+	for i, item := range page.Data {
+		// Note that not every resource implements the LastResponseSetter interface
+		// (e.g. CreditNoteLineItem).
+		if item, ok := any(item).(LastResponseSetter); ok {
+			// Create a copy of the original response with individual item's raw JSON
+			itemResponse := &APIResponse{
+				Header:         lastResponse.Header,
+				IdempotencyKey: lastResponse.IdempotencyKey,
+				RawJSON:        []byte(pageData.Data[i]),
+				RequestID:      lastResponse.RequestID,
+				Status:         lastResponse.Status,
+				StatusCode:     lastResponse.StatusCode,
+			}
+			item.SetLastResponse(itemResponse)
+		}
+	}
+	return nil
+}
+
+// hasMore returns true if there is another page of items to fetch.
+func (s *V2List[T]) hasMore() bool {
 	if s == nil {
 		return false
 	}
 	return s.NextPageURL != ""
-}
-
-func (s *V2List[T]) Err() error {
-	return s.err
 }
 
 // newV2List creates a new V2List with the given path and fetch function.
@@ -384,9 +418,9 @@ func newV2List[T any](ctx context.Context, path string, p ParamsContainer, fetch
 	list := &V2List[T]{
 		fetch:  fetch,
 		params: p,
-		V2Page: V2Page[T]{NextPageURL: path},
+		V2Page: &V2Page[T]{NextPageURL: path},
 	}
-	list.Page(ctx)
+	list.page(ctx)
 	list.initialized = true
 	return list
 }
@@ -395,11 +429,11 @@ func newV2List[T any](ctx context.Context, path string, p ParamsContainer, fetch
 type v2Query[T any] func(ctx context.Context, path string, p ParamsContainer) (*V2Page[T], error)
 
 // Fetch is a function that fetches a page of items.
-// Deprecated: This type was intended for internal use only, and will be removed in a future version.
+// Deprecated: This type is intended for internal use only, and will be removed in a future version.
 type Fetch[T any] func(path string, p ParamsContainer) (*V2Page[T], error)
 
 // NewV2List creates a new V2List with the given path and fetch function.
-// Deprecated: This function was intended for internal use only, and will be removed in a future version.
+// Deprecated: This function is intended for internal use only, and will be removed in a future version.
 func NewV2List[T any](path string, p ParamsContainer, fetch Fetch[T]) *V2List[T] {
 	var ctx context.Context
 	if p.GetParams() != nil {
