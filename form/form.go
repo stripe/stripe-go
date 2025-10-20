@@ -418,7 +418,6 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 	// `form`
 	se := &structEncoder{}
 
-	// validation step
 	for i := 0; i < t.NumField(); i++ {
 		reflectField := t.Field(i)
 		tag := reflectField.Tag.Get(tagName)
@@ -441,6 +440,7 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 		fldTyp := reflectField.Type
 		fldKind := fldTyp.Kind()
 
+		// validate that fields are of expected types and have expected annotations
 		if Strict && options != nil {
 			if options.Empty && fldKind != reflect.Bool {
 				panic(fmt.Sprintf(
@@ -461,6 +461,13 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 			if options.HighPrecision && !fldIsFloat {
 				panic(fmt.Sprintf(
 					"Cannot specify `high_precision` for non-float field; on: %s/%s (%s)",
+					t.Name(), reflectField.Name, fldTyp,
+				))
+			}
+
+			if options.FlatArray && !(k == reflect.Array || k == reflect.Slice) {
+				panic(fmt.Sprintf(
+					"Cannot specify `flat_array` for non-array field; on: %s/%s (%s)",
 					t.Name(), reflectField.Name, fldTyp,
 				))
 			}
