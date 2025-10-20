@@ -18,7 +18,7 @@ type V2MoneyManagementFinancialAccountListParams struct {
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorageParams struct {
 	// The currencies that this FinancialAccount can hold.
-	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
+	HoldsCurrencies []*string `form:"holds_currencies,flat_array" json:"holds_currencies"`
 }
 
 // Creates a new FinancialAccount.
@@ -61,7 +61,7 @@ type V2MoneyManagementFinancialAccountCloseParams struct {
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountCreateStorageParams struct {
 	// The currencies that this FinancialAccount can hold.
-	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
+	HoldsCurrencies []*string `form:"holds_currencies,flat_array" json:"holds_currencies"`
 }
 
 // Creates a new FinancialAccount.

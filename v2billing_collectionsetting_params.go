@@ -13,7 +13,7 @@ type V2BillingCollectionSettingListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Only return the settings with these lookup_keys, if any exist.
 	// You can specify up to 10 lookup_keys.
-	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
+	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
 }
 
 // Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
@@ -104,7 +104,7 @@ type V2BillingCollectionSettingPaymentMethodOptionsSEPADebitParams struct{}
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
-	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
+	AccountSubcategories []*string `form:"account_subcategories,flat_array" json:"account_subcategories,omitempty"`
 }
 
 // Additional fields for Financial Connections Session creation.
@@ -112,9 +112,9 @@ type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnect
 	// Provide filters for the linked accounts that the customer can select for the payment method.
 	Filters *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters" json:"filters,omitempty"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included.
-	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
+	Permissions []*string `form:"permissions,flat_array" json:"permissions,omitempty"`
 	// List of data features that you would like to retrieve upon account creation.
-	Prefetch []*string `form:"prefetch" json:"prefetch,omitempty"`
+	Prefetch []*string `form:"prefetch,flat_array" json:"prefetch,omitempty"`
 }
 
 // This sub-hash contains details about the ACH direct debit payment method options.
@@ -258,7 +258,7 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsSEPADebitParams struct{
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
-	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
+	AccountSubcategories []*string `form:"account_subcategories,flat_array" json:"account_subcategories,omitempty"`
 }
 
 // Additional fields for Financial Connections Session creation.
@@ -266,9 +266,9 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountFinancialC
 	// Provide filters for the linked accounts that the customer can select for the payment method.
 	Filters *V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters" json:"filters,omitempty"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included.
-	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
+	Permissions []*string `form:"permissions,flat_array" json:"permissions,omitempty"`
 	// List of data features that you would like to retrieve upon account creation.
-	Prefetch []*string `form:"prefetch" json:"prefetch,omitempty"`
+	Prefetch []*string `form:"prefetch,flat_array" json:"prefetch,omitempty"`
 }
 
 // This sub-hash contains details about the ACH direct debit payment method options.
@@ -412,7 +412,7 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsSEPADebitParams struct{
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
-	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
+	AccountSubcategories []*string `form:"account_subcategories,flat_array" json:"account_subcategories,omitempty"`
 }
 
 // Additional fields for Financial Connections Session creation.
@@ -420,9 +420,9 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountFinancialC
 	// Provide filters for the linked accounts that the customer can select for the payment method.
 	Filters *V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters" json:"filters,omitempty"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included.
-	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
+	Permissions []*string `form:"permissions,flat_array" json:"permissions,omitempty"`
 	// List of data features that you would like to retrieve upon account creation.
-	Prefetch []*string `form:"prefetch" json:"prefetch,omitempty"`
+	Prefetch []*string `form:"prefetch,flat_array" json:"prefetch,omitempty"`
 }
 
 // This sub-hash contains details about the ACH direct debit payment method options.
