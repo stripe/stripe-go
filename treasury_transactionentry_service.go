@@ -37,8 +37,8 @@ func (c v1TreasuryTransactionEntryService) List(ctx context.Context, listParams 
 		listParams = &TreasuryTransactionEntryListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TreasuryTransactionEntry], error) {
-		list := &V1Page[*TreasuryTransactionEntry]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TreasuryTransactionEntry], error) {
+		list := &v1Page[*TreasuryTransactionEntry]{}
 		if p == nil {
 			p = &Params{}
 		}

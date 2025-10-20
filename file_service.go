@@ -57,8 +57,8 @@ func (c v1FileService) List(ctx context.Context, listParams *FileListParams) *V1
 		listParams = &FileListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*File], error) {
-		list := &V1Page[*File]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*File], error) {
+		list := &v1Page[*File]{}
 		if p == nil {
 			p = &Params{}
 		}

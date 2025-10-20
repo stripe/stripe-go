@@ -37,8 +37,8 @@ func (c v1ReportingReportTypeService) List(ctx context.Context, listParams *Repo
 		listParams = &ReportingReportTypeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*ReportingReportType], error) {
-		list := &V1Page[*ReportingReportType]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ReportingReportType], error) {
+		list := &v1Page[*ReportingReportType]{}
 		if p == nil {
 			p = &Params{}
 		}

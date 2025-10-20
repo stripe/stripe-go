@@ -60,8 +60,8 @@ func (c v1PriceService) List(ctx context.Context, listParams *PriceListParams) *
 		listParams = &PriceListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Price], error) {
-		list := &V1Page[*Price]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Price], error) {
+		list := &v1Page[*Price]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -80,8 +80,8 @@ func (c v1PriceService) Search(ctx context.Context, params *PriceSearchParams) *
 		params = &PriceSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Price], error) {
-		list := &V1SearchPage[*Price]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*Price], error) {
+		list := &v1SearchPage[*Price]{}
 		if p == nil {
 			p = &Params{}
 		}

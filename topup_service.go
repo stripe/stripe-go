@@ -72,8 +72,8 @@ func (c v1TopupService) List(ctx context.Context, listParams *TopupListParams) *
 		listParams = &TopupListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Topup], error) {
-		list := &V1Page[*Topup]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Topup], error) {
+		list := &v1Page[*Topup]{}
 		if p == nil {
 			p = &Params{}
 		}

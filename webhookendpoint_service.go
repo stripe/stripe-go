@@ -73,8 +73,8 @@ func (c v1WebhookEndpointService) List(ctx context.Context, listParams *WebhookE
 		listParams = &WebhookEndpointListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*WebhookEndpoint], error) {
-		list := &V1Page[*WebhookEndpoint]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*WebhookEndpoint], error) {
+		list := &v1Page[*WebhookEndpoint]{}
 		if p == nil {
 			p = &Params{}
 		}

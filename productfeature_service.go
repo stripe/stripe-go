@@ -65,8 +65,8 @@ func (c v1ProductFeatureService) List(ctx context.Context, listParams *ProductFe
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/products/%s/features", StringValue(listParams.Product))
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*ProductFeature], error) {
-		list := &V1Page[*ProductFeature]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ProductFeature], error) {
+		list := &v1Page[*ProductFeature]{}
 		if p == nil {
 			p = &Params{}
 		}

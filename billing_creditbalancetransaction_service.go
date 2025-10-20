@@ -37,8 +37,8 @@ func (c v1BillingCreditBalanceTransactionService) List(ctx context.Context, list
 		listParams = &BillingCreditBalanceTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*BillingCreditBalanceTransaction], error) {
-		list := &V1Page[*BillingCreditBalanceTransaction]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*BillingCreditBalanceTransaction], error) {
+		list := &v1Page[*BillingCreditBalanceTransaction]{}
 		if p == nil {
 			p = &Params{}
 		}

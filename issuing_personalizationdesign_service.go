@@ -61,8 +61,8 @@ func (c v1IssuingPersonalizationDesignService) List(ctx context.Context, listPar
 		listParams = &IssuingPersonalizationDesignListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*IssuingPersonalizationDesign], error) {
-		list := &V1Page[*IssuingPersonalizationDesign]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IssuingPersonalizationDesign], error) {
+		list := &v1Page[*IssuingPersonalizationDesign]{}
 		if p == nil {
 			p = &Params{}
 		}

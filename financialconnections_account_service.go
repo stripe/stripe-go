@@ -85,8 +85,8 @@ func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listPara
 		listParams = &FinancialConnectionsAccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*FinancialConnectionsAccount], error) {
-		list := &V1Page[*FinancialConnectionsAccount]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccount], error) {
+		list := &v1Page[*FinancialConnectionsAccount]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -105,8 +105,8 @@ func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, li
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/owners", StringValue(
 			listParams.Account))
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*FinancialConnectionsAccountOwner], error) {
-		list := &V1Page[*FinancialConnectionsAccountOwner]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountOwner], error) {
+		list := &v1Page[*FinancialConnectionsAccountOwner]{}
 		if p == nil {
 			p = &Params{}
 		}

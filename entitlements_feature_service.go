@@ -61,8 +61,8 @@ func (c v1EntitlementsFeatureService) List(ctx context.Context, listParams *Enti
 		listParams = &EntitlementsFeatureListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*EntitlementsFeature], error) {
-		list := &V1Page[*EntitlementsFeature]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*EntitlementsFeature], error) {
+		list := &v1Page[*EntitlementsFeature]{}
 		if p == nil {
 			p = &Params{}
 		}

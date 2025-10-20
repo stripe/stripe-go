@@ -113,8 +113,8 @@ func (c v1CustomerService) List(ctx context.Context, listParams *CustomerListPar
 		listParams = &CustomerListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Customer], error) {
-		list := &V1Page[*Customer]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Customer], error) {
+		list := &v1Page[*Customer]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -132,8 +132,8 @@ func (c v1CustomerService) ListPaymentMethods(ctx context.Context, listParams *C
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/payment_methods", StringValue(listParams.Customer))
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*PaymentMethod], error) {
-		list := &V1Page[*PaymentMethod]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentMethod], error) {
+		list := &v1Page[*PaymentMethod]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -152,8 +152,8 @@ func (c v1CustomerService) Search(ctx context.Context, params *CustomerSearchPar
 		params = &CustomerSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Customer], error) {
-		list := &V1SearchPage[*Customer]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*Customer], error) {
+		list := &v1SearchPage[*Customer]{}
 		if p == nil {
 			p = &Params{}
 		}

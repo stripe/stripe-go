@@ -62,8 +62,8 @@ func (c v1TransferService) List(ctx context.Context, listParams *TransferListPar
 		listParams = &TransferListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Transfer], error) {
-		list := &V1Page[*Transfer]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Transfer], error) {
+		list := &v1Page[*Transfer]{}
 		if p == nil {
 			p = &Params{}
 		}

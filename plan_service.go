@@ -72,8 +72,8 @@ func (c v1PlanService) List(ctx context.Context, listParams *PlanListParams) *V1
 		listParams = &PlanListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Plan], error) {
-		list := &V1Page[*Plan]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Plan], error) {
+		list := &v1Page[*Plan]{}
 		if p == nil {
 			p = &Params{}
 		}

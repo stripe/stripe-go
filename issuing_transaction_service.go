@@ -49,8 +49,8 @@ func (c v1IssuingTransactionService) List(ctx context.Context, listParams *Issui
 		listParams = &IssuingTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*IssuingTransaction], error) {
-		list := &V1Page[*IssuingTransaction]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IssuingTransaction], error) {
+		list := &v1Page[*IssuingTransaction]{}
 		if p == nil {
 			p = &Params{}
 		}

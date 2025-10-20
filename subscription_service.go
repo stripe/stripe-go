@@ -137,8 +137,8 @@ func (c v1SubscriptionService) List(ctx context.Context, listParams *Subscriptio
 		listParams = &SubscriptionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Subscription], error) {
-		list := &V1Page[*Subscription]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Subscription], error) {
+		list := &v1Page[*Subscription]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -157,8 +157,8 @@ func (c v1SubscriptionService) Search(ctx context.Context, params *SubscriptionS
 		params = &SubscriptionSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Subscription], error) {
-		list := &V1SearchPage[*Subscription]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*Subscription], error) {
+		list := &v1SearchPage[*Subscription]{}
 		if p == nil {
 			p = &Params{}
 		}

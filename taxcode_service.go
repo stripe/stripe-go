@@ -37,8 +37,8 @@ func (c v1TaxCodeService) List(ctx context.Context, listParams *TaxCodeListParam
 		listParams = &TaxCodeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TaxCode], error) {
-		list := &V1Page[*TaxCode]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TaxCode], error) {
+		list := &v1Page[*TaxCode]{}
 		if p == nil {
 			p = &Params{}
 		}

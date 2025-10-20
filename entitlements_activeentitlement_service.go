@@ -37,8 +37,8 @@ func (c v1EntitlementsActiveEntitlementService) List(ctx context.Context, listPa
 		listParams = &EntitlementsActiveEntitlementListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*EntitlementsActiveEntitlement], error) {
-		list := &V1Page[*EntitlementsActiveEntitlement]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*EntitlementsActiveEntitlement], error) {
+		list := &v1Page[*EntitlementsActiveEntitlement]{}
 		if p == nil {
 			p = &Params{}
 		}

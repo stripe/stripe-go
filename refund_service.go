@@ -86,8 +86,8 @@ func (c v1RefundService) List(ctx context.Context, listParams *RefundListParams)
 		listParams = &RefundListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Refund], error) {
-		list := &V1Page[*Refund]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Refund], error) {
+		list := &v1Page[*Refund]{}
 		if p == nil {
 			p = &Params{}
 		}

@@ -169,8 +169,8 @@ func (c v1TerminalReaderService) List(ctx context.Context, listParams *TerminalR
 		listParams = &TerminalReaderListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*TerminalReader], error) {
-		list := &V1Page[*TerminalReader]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TerminalReader], error) {
+		list := &v1Page[*TerminalReader]{}
 		if p == nil {
 			p = &Params{}
 		}

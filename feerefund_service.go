@@ -83,8 +83,8 @@ func (c v1FeeRefundService) List(ctx context.Context, listParams *FeeRefundListP
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/application_fees/%s/refunds", StringValue(listParams.ID))
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*FeeRefund], error) {
-		list := &V1Page[*FeeRefund]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FeeRefund], error) {
+		list := &v1Page[*FeeRefund]{}
 		if p == nil {
 			p = &Params{}
 		}

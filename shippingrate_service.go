@@ -61,8 +61,8 @@ func (c v1ShippingRateService) List(ctx context.Context, listParams *ShippingRat
 		listParams = &ShippingRateListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*ShippingRate], error) {
-		list := &V1Page[*ShippingRate]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ShippingRate], error) {
+		list := &v1Page[*ShippingRate]{}
 		if p == nil {
 			p = &Params{}
 		}

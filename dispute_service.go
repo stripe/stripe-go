@@ -65,8 +65,8 @@ func (c v1DisputeService) List(ctx context.Context, listParams *DisputeListParam
 		listParams = &DisputeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Dispute], error) {
-		list := &V1Page[*Dispute]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Dispute], error) {
+		list := &v1Page[*Dispute]{}
 		if p == nil {
 			p = &Params{}
 		}

@@ -37,8 +37,8 @@ func (c v1ClimateSupplierService) List(ctx context.Context, listParams *ClimateS
 		listParams = &ClimateSupplierListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*ClimateSupplier], error) {
-		list := &V1Page[*ClimateSupplier]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ClimateSupplier], error) {
+		list := &v1Page[*ClimateSupplier]{}
 		if p == nil {
 			p = &Params{}
 		}

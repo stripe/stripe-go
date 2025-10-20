@@ -37,8 +37,8 @@ func (c v1EventService) List(ctx context.Context, listParams *EventListParams) *
 		listParams = &EventListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Event], error) {
-		list := &V1Page[*Event]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Event], error) {
+		list := &v1Page[*Event]{}
 		if p == nil {
 			p = &Params{}
 		}

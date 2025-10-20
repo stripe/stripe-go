@@ -212,8 +212,8 @@ func (c v1PaymentIntentService) List(ctx context.Context, listParams *PaymentInt
 		listParams = &PaymentIntentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*PaymentIntent], error) {
-		list := &V1Page[*PaymentIntent]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentIntent], error) {
+		list := &v1Page[*PaymentIntent]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -232,8 +232,8 @@ func (c v1PaymentIntentService) Search(ctx context.Context, params *PaymentInten
 		params = &PaymentIntentSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*PaymentIntent], error) {
-		list := &V1SearchPage[*PaymentIntent]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*PaymentIntent], error) {
+		list := &v1SearchPage[*PaymentIntent]{}
 		if p == nil {
 			p = &Params{}
 		}

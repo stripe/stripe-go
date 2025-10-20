@@ -218,8 +218,8 @@ func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParam
 		listParams = &InvoiceListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*Invoice], error) {
-		list := &V1Page[*Invoice]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Invoice], error) {
+		list := &v1Page[*Invoice]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -237,8 +237,8 @@ func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceList
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/invoices/%s/lines", StringValue(listParams.Invoice))
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*InvoiceLineItem], error) {
-		list := &V1Page[*InvoiceLineItem]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*InvoiceLineItem], error) {
+		list := &v1Page[*InvoiceLineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
@@ -257,8 +257,8 @@ func (c v1InvoiceService) Search(ctx context.Context, params *InvoiceSearchParam
 		params = &InvoiceSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*V1SearchPage[*Invoice], error) {
-		list := &V1SearchPage[*Invoice]{}
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*Invoice], error) {
+		list := &v1SearchPage[*Invoice]{}
 		if p == nil {
 			p = &Params{}
 		}

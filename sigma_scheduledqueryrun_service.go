@@ -37,8 +37,8 @@ func (c v1SigmaScheduledQueryRunService) List(ctx context.Context, listParams *S
 		listParams = &SigmaScheduledQueryRunListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*SigmaScheduledQueryRun], error) {
-		list := &V1Page[*SigmaScheduledQueryRun]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*SigmaScheduledQueryRun], error) {
+		list := &v1Page[*SigmaScheduledQueryRun]{}
 		if p == nil {
 			p = &Params{}
 		}

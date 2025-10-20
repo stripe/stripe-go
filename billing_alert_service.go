@@ -84,8 +84,8 @@ func (c v1BillingAlertService) List(ctx context.Context, listParams *BillingAler
 		listParams = &BillingAlertListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*V1Page[*BillingAlert], error) {
-		list := &V1Page[*BillingAlert]{}
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*BillingAlert], error) {
+		list := &v1Page[*BillingAlert]{}
 		if p == nil {
 			p = &Params{}
 		}
