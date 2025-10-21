@@ -1,5 +1,8 @@
 # Changelog
 
+## 83.1.0-alpha.5 - 2025-10-21
+* [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs
+
 ## 83.1.0-alpha.4 - 2025-10-17
 * [#2173](https://github.com/stripe/stripe-go/pull/2173) Update generated code for private-preview
   * Add support for new resources `DelegatedCheckoutRequestedSession` and `IdentityBlocklistEntry`
