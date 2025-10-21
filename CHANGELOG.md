@@ -1,5 +1,8 @@
 # Changelog
 
+## 83.1.0-beta.3 - 2025-10-21
+* [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs 
+
 ## 83.1.0-beta.2 - 2025-10-08
 * Contains bug fixes and improvements from [v83.0.1](https://github.com/stripe/stripe-go/blob/v83.0.1/CHANGELOG.md#8301---2025-10-08).
 
