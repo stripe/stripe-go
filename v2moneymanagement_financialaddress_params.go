@@ -12,7 +12,7 @@ type V2MoneyManagementFinancialAddressListParams struct {
 	// The ID of the FinancialAccount for which FinancialAddresses are to be returned.
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// Open Enum. A list of fields to reveal in the FinancialAddresses returned.
-	Include []*string `form:"include" json:"include,omitempty"`
+	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 	// The page limit.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
@@ -29,7 +29,7 @@ type V2MoneyManagementFinancialAddressParams struct {
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// Open Enum. A list of fields to reveal in the FinancialAddresses returned.
-	Include []*string `form:"include" json:"include,omitempty"`
+	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 	// Optional SEPA Bank account options, used to configure the type of SEPA Bank account to create, such as the originating country.
 	SEPABankAccount *V2MoneyManagementFinancialAddressSEPABankAccountParams `form:"sepa_bank_account" json:"sepa_bank_account,omitempty"`
 	// The type of FinancialAddress details to provision.
@@ -57,5 +57,5 @@ type V2MoneyManagementFinancialAddressCreateParams struct {
 type V2MoneyManagementFinancialAddressRetrieveParams struct {
 	Params `form:"*"`
 	// Open Enum. A list of fields to reveal in the FinancialAddresses returned.
-	Include []*string `form:"include" json:"include,omitempty"`
+	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 }

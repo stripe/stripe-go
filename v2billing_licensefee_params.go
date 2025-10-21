@@ -15,7 +15,7 @@ type V2BillingLicenseFeeListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Filter by lookup keys.
 	// You can specify up to 10 lookup keys.
-	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys"`
+	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys"`
 }
 
 // Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
@@ -73,7 +73,7 @@ type V2BillingLicenseFeeParams struct {
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
-	Tiers []*V2BillingLicenseFeeTierParams `form:"tiers" json:"tiers,omitempty"`
+	Tiers []*V2BillingLicenseFeeTierParams `form:"tiers,flat_array" json:"tiers,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed.
 	TransformQuantity *V2BillingLicenseFeeTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal
@@ -142,7 +142,7 @@ type V2BillingLicenseFeeCreateParams struct {
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
-	Tiers []*V2BillingLicenseFeeCreateTierParams `form:"tiers" json:"tiers,omitempty"`
+	Tiers []*V2BillingLicenseFeeCreateTierParams `form:"tiers,flat_array" json:"tiers,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed.
 	TransformQuantity *V2BillingLicenseFeeCreateTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal
@@ -205,7 +205,7 @@ type V2BillingLicenseFeeUpdateParams struct {
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
-	Tiers []*V2BillingLicenseFeeUpdateTierParams `form:"tiers" json:"tiers,omitempty"`
+	Tiers []*V2BillingLicenseFeeUpdateTierParams `form:"tiers,flat_array" json:"tiers,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed.
 	TransformQuantity *V2BillingLicenseFeeUpdateTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal

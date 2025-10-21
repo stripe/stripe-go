@@ -66,7 +66,7 @@ type V2BillingRateCardsRateParams struct {
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
-	Tiers []*V2BillingRateCardsRateTierParams `form:"tiers" json:"tiers,omitempty"`
+	Tiers []*V2BillingRateCardsRateTierParams `form:"tiers,flat_array" json:"tiers,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed.
 	TransformQuantity *V2BillingRateCardsRateTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal
@@ -130,7 +130,7 @@ type V2BillingRateCardsRateCreateParams struct {
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
-	Tiers []*V2BillingRateCardsRateCreateTierParams `form:"tiers" json:"tiers,omitempty"`
+	Tiers []*V2BillingRateCardsRateCreateTierParams `form:"tiers,flat_array" json:"tiers,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed.
 	TransformQuantity *V2BillingRateCardsRateCreateTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal
