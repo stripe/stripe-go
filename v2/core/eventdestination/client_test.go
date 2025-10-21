@@ -90,7 +90,7 @@ func TestEventDestinationGet(t *testing.T) {
 		assert.NoError(t, err)
 		return data
 	}, func(t *testing.T, r *http.Request) {
-		assert.Equal(t, r.URL.Query().Get("include[0]"), "webhook_endpoint.url")
+		assert.Equal(t, r.URL.Query().Get("include"), "webhook_endpoint.url")
 	})
 	defer testServer.Close()
 
