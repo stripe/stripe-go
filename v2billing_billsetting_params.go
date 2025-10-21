@@ -13,7 +13,7 @@ type V2BillingBillSettingListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Only return the settings with these lookup_keys, if any exist.
 	// You can specify up to 10 lookup_keys.
-	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
+	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
 }
 
 // Settings for calculating tax.
