@@ -28,6 +28,15 @@ const (
 	CreditNoteReasonProductUnsatisfactory CreditNoteReason = "product_unsatisfactory"
 )
 
+// Type of the refund, one of `refund` or `payment_record_refund`.
+type CreditNoteRefundType string
+
+// List of values that CreditNoteRefundType can take
+const (
+	CreditNoteRefundTypePaymentRecordRefund CreditNoteRefundType = "payment_record_refund"
+	CreditNoteRefundTypeRefund              CreditNoteRefundType = "refund"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type CreditNoteShippingCostTaxTaxabilityReason string
 
@@ -161,12 +170,24 @@ type CreditNoteLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+type CreditNoteRefundPaymentRecordRefundParams struct {
+	// The ID of the PaymentRecord with the refund to link to this credit note.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
+	RefundGroup *string `form:"refund_group"`
+}
+
 // Refunds to link to this credit note.
 type CreditNoteRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
+	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+	PaymentRecordRefund *CreditNoteRefundPaymentRecordRefundParams `form:"payment_record_refund"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
+	Type *string `form:"type"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -264,12 +285,24 @@ type CreditNotePreviewLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+type CreditNotePreviewRefundPaymentRecordRefundParams struct {
+	// The ID of the PaymentRecord with the refund to link to this credit note.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
+	RefundGroup *string `form:"refund_group"`
+}
+
 // Refunds to link to this credit note.
 type CreditNotePreviewRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
+	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+	PaymentRecordRefund *CreditNotePreviewRefundPaymentRecordRefundParams `form:"payment_record_refund"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
+	Type *string `form:"type"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -357,12 +390,24 @@ type CreditNotePreviewLinesLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+type CreditNotePreviewLinesRefundPaymentRecordRefundParams struct {
+	// The ID of the PaymentRecord with the refund to link to this credit note.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
+	RefundGroup *string `form:"refund_group"`
+}
+
 // Refunds to link to this credit note.
 type CreditNotePreviewLinesRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
+	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+	PaymentRecordRefund *CreditNotePreviewLinesRefundPaymentRecordRefundParams `form:"payment_record_refund"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
+	Type *string `form:"type"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -475,12 +520,24 @@ type CreditNoteCreateLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+type CreditNoteCreateRefundPaymentRecordRefundParams struct {
+	// The ID of the PaymentRecord with the refund to link to this credit note.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
+	RefundGroup *string `form:"refund_group"`
+}
+
 // Refunds to link to this credit note.
 type CreditNoteCreateRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
+	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+	PaymentRecordRefund *CreditNoteCreateRefundPaymentRecordRefundParams `form:"payment_record_refund"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
+	Type *string `form:"type"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -603,12 +660,24 @@ type CreditNotePretaxCreditAmount struct {
 	Type CreditNotePretaxCreditAmountType `json:"type"`
 }
 
+// The PaymentRecord refund details associated with this credit note refund.
+type CreditNoteRefundPaymentRecordRefund struct {
+	// ID of the payment record.
+	PaymentRecord string `json:"payment_record"`
+	// ID of the refund group.
+	RefundGroup string `json:"refund_group"`
+}
+
 // Refunds related to this credit note.
 type CreditNoteRefund struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent).
 	AmountRefunded int64 `json:"amount_refunded"`
+	// The PaymentRecord refund details associated with this credit note refund.
+	PaymentRecordRefund *CreditNoteRefundPaymentRecordRefund `json:"payment_record_refund"`
 	// ID of the refund.
 	Refund *Refund `json:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`.
+	Type CreditNoteRefundType `json:"type"`
 }
 
 // The taxes applied to the shipping rate.

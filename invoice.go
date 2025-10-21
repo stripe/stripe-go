@@ -184,6 +184,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
 	InvoicePaymentSettingsPaymentMethodTypeCashApp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
 	InvoicePaymentSettingsPaymentMethodTypeCrypto             InvoicePaymentSettingsPaymentMethodType = "crypto"
+	InvoicePaymentSettingsPaymentMethodTypeCustom             InvoicePaymentSettingsPaymentMethodType = "custom"
 	InvoicePaymentSettingsPaymentMethodTypeCustomerBalance    InvoicePaymentSettingsPaymentMethodType = "customer_balance"
 	InvoicePaymentSettingsPaymentMethodTypeEPS                InvoicePaymentSettingsPaymentMethodType = "eps"
 	InvoicePaymentSettingsPaymentMethodTypeFPX                InvoicePaymentSettingsPaymentMethodType = "fpx"
@@ -901,6 +902,8 @@ type InvoiceAttachPaymentParams struct {
 	Expand []*string `form:"expand"`
 	// The ID of the PaymentIntent to attach to the invoice.
 	PaymentIntent *string `form:"payment_intent"`
+	// The ID of the PaymentRecord to attach to the invoice.
+	PaymentRecord *string `form:"payment_record"`
 }
 
 // AddExpand appends a new field to expand.

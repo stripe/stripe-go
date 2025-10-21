@@ -55,7 +55,7 @@ func (c v1FinancialConnectionsAccountService) Refresh(ctx context.Context, id st
 	return account, err
 }
 
-// Subscribes to periodic refreshes of data associated with a Financial Connections Account.
+// Subscribes to periodic refreshes of data associated with a Financial Connections Account. When the account status is active, data is typically refreshed once a day.
 func (c v1FinancialConnectionsAccountService) Subscribe(ctx context.Context, id string, params *FinancialConnectionsAccountSubscribeParams) (*FinancialConnectionsAccount, error) {
 	if params == nil {
 		params = &FinancialConnectionsAccountSubscribeParams{}
