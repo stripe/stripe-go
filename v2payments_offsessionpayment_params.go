@@ -56,7 +56,7 @@ type V2PaymentsOffSessionPaymentAmountDetailsParams struct {
 	// The amount the total transaction was discounted for.
 	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
-	LineItems []*V2PaymentsOffSessionPaymentAmountDetailsLineItemParams `form:"line_items" json:"line_items"`
+	LineItems []*V2PaymentsOffSessionPaymentAmountDetailsLineItemParams `form:"line_items,flat_array" json:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *V2PaymentsOffSessionPaymentAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// Contains information about the tax portion of the amount.
@@ -260,7 +260,7 @@ type V2PaymentsOffSessionPaymentCreateAmountDetailsParams struct {
 	// The amount the total transaction was discounted for.
 	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
-	LineItems []*V2PaymentsOffSessionPaymentCreateAmountDetailsLineItemParams `form:"line_items" json:"line_items"`
+	LineItems []*V2PaymentsOffSessionPaymentCreateAmountDetailsLineItemParams `form:"line_items,flat_array" json:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *V2PaymentsOffSessionPaymentCreateAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// Contains information about the tax portion of the amount.

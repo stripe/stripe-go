@@ -15,7 +15,7 @@ type V2BillingPricingPlansComponentListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Filter by lookup keys. Mutually exclusive with `pricing_plan_version`.
 	// You can specify up to 10 lookup keys.
-	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
+	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
 	// The ID of the Pricing Plan Version to list components for. Will use the latest version if not provided.
 	// Mutually exclusive with `lookup_keys`.
 	PricingPlanVersion *string `form:"pricing_plan_version" json:"pricing_plan_version,omitempty"`

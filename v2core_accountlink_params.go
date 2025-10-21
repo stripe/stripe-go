@@ -19,7 +19,7 @@ type V2CoreAccountLinkUseCaseAccountOnboardingParams struct {
 	// Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 	CollectionOptions *V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsParams `form:"collection_options" json:"collection_options,omitempty"`
 	// Open Enum. A v2/core/account can be configured to enable certain functionality. The configuration param targets the v2/core/account_link to collect information for the specified v2/core/account configuration/s.
-	Configurations []*string `form:"configurations" json:"configurations"`
+	Configurations []*string `form:"configurations,flat_array" json:"configurations"`
 	// The URL the user will be redirected to if the AccountLink is expired, has been used, or is otherwise invalid. The URL you specify should attempt to generate a new AccountLink with the same parameters used to create the original AccountLink, then redirect the user to the new AccountLink's URL so they can continue the flow. If a new AccountLink cannot be generated or the redirect fails you should display a useful error to the user. Please make sure to implement authentication before redirecting the user in case this URL is leaked to a third party.
 	RefreshURL *string `form:"refresh_url" json:"refresh_url"`
 	// The URL that the user will be redirected to upon completing the linked flow.
@@ -39,7 +39,7 @@ type V2CoreAccountLinkUseCaseAccountUpdateParams struct {
 	// Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 	CollectionOptions *V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsParams `form:"collection_options" json:"collection_options,omitempty"`
 	// Open Enum. A v2/account can be configured to enable certain functionality. The configuration param targets the v2/account_link to collect information for the specified v2/account configuration/s.
-	Configurations []*string `form:"configurations" json:"configurations"`
+	Configurations []*string `form:"configurations,flat_array" json:"configurations"`
 	// The URL the user will be redirected to if the AccountLink is expired, has been used, or is otherwise invalid. The URL you specify should attempt to generate a new AccountLink with the same parameters used to create the original AccountLink, then redirect the user to the new AccountLink's URL so they can continue the flow. If a new AccountLink cannot be generated or the redirect fails you should display a useful error to the user. Please make sure to implement authentication before redirecting the user in case this URL is leaked to a third party.
 	RefreshURL *string `form:"refresh_url" json:"refresh_url"`
 	// The URL that the user will be redirected to upon completing the linked flow.
@@ -78,7 +78,7 @@ type V2CoreAccountLinkCreateUseCaseAccountOnboardingParams struct {
 	// Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 	CollectionOptions *V2CoreAccountLinkCreateUseCaseAccountOnboardingCollectionOptionsParams `form:"collection_options" json:"collection_options,omitempty"`
 	// Open Enum. A v2/core/account can be configured to enable certain functionality. The configuration param targets the v2/core/account_link to collect information for the specified v2/core/account configuration/s.
-	Configurations []*string `form:"configurations" json:"configurations"`
+	Configurations []*string `form:"configurations,flat_array" json:"configurations"`
 	// The URL the user will be redirected to if the AccountLink is expired, has been used, or is otherwise invalid. The URL you specify should attempt to generate a new AccountLink with the same parameters used to create the original AccountLink, then redirect the user to the new AccountLink's URL so they can continue the flow. If a new AccountLink cannot be generated or the redirect fails you should display a useful error to the user. Please make sure to implement authentication before redirecting the user in case this URL is leaked to a third party.
 	RefreshURL *string `form:"refresh_url" json:"refresh_url"`
 	// The URL that the user will be redirected to upon completing the linked flow.
@@ -98,7 +98,7 @@ type V2CoreAccountLinkCreateUseCaseAccountUpdateParams struct {
 	// Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 	CollectionOptions *V2CoreAccountLinkCreateUseCaseAccountUpdateCollectionOptionsParams `form:"collection_options" json:"collection_options,omitempty"`
 	// Open Enum. A v2/account can be configured to enable certain functionality. The configuration param targets the v2/account_link to collect information for the specified v2/account configuration/s.
-	Configurations []*string `form:"configurations" json:"configurations"`
+	Configurations []*string `form:"configurations,flat_array" json:"configurations"`
 	// The URL the user will be redirected to if the AccountLink is expired, has been used, or is otherwise invalid. The URL you specify should attempt to generate a new AccountLink with the same parameters used to create the original AccountLink, then redirect the user to the new AccountLink's URL so they can continue the flow. If a new AccountLink cannot be generated or the redirect fails you should display a useful error to the user. Please make sure to implement authentication before redirecting the user in case this URL is leaked to a third party.
 	RefreshURL *string `form:"refresh_url" json:"refresh_url"`
 	// The URL that the user will be redirected to upon completing the linked flow.
