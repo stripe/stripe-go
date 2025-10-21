@@ -1,5 +1,8 @@
 # Changelog
 
+## 83.0.2 - 2025-10-21
+* [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs
+
 ## 83.0.1 - 2025-10-08
 * [#2161](https://github.com/stripe/stripe-go/pull/2161) Return clearer error when calling `ConstructEvent` on an event notification
 * [#2157](https://github.com/stripe/stripe-go/pull/2157) Improve event notification example
