@@ -12996,7 +12996,7 @@ func TestV2BillingMeterEventStreamPostClient(t *testing.T) {
 }
 
 func TestV2CoreEventGetService(t *testing.T) {
-	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
+	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
 		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
@@ -13008,7 +13008,7 @@ func TestV2CoreEventGetService(t *testing.T) {
 }
 
 func TestV2CoreEventGetClient(t *testing.T) {
-	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
+	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
 		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
