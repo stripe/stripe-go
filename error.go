@@ -553,7 +553,7 @@ func (e *ControlledByDashboardError) canRetry() bool {
 }
 
 // FeatureNotEnabledError is the Go struct corresponding to the error type "feature_not_enabled".
-// Error returned when recipient does not have the active features required to receive funds from this OutboundPayment request.
+// The user attempts to create an outbound flow from a closed Financial Account.
 type FeatureNotEnabledError struct {
 	APIResource
 	Code        string    `json:"code"`

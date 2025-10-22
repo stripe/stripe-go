@@ -13,6 +13,8 @@ type V2CoreAccountListParams struct {
 	Params `form:"*"`
 	// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
 	AppliedConfigurations []*string `form:"applied_configurations,flat_array" json:"applied_configurations,omitempty"`
+	// Filter by whether the account is closed. If omitted, returns only Accounts that are not closed.
+	Closed *bool `form:"closed" json:"closed,omitempty"`
 	// The upper limit on the number of accounts returned by the List Account request.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
@@ -1702,7 +1704,7 @@ func (p *V2CoreAccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Removes access to the Account and its associated resources.
+// Removes access to the Account and its associated resources. Closed Accounts can no longer be operated on, but limited information can still be retrieved through the API in order to be able to track their history.
 type V2CoreAccountCloseParams struct {
 	Params `form:"*"`
 	// Configurations on the Account to be closed. All configurations on the Account must be passed in for this request to succeed.

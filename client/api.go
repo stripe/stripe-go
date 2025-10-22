@@ -196,6 +196,7 @@ import (
 	v2billingpricingplanscomponent "github.com/stripe/stripe-go/v83/v2/billing/pricingplans/component"
 	v2billingpricingplansversion "github.com/stripe/stripe-go/v83/v2/billing/pricingplans/version"
 	v2billingpricingplansubscription "github.com/stripe/stripe-go/v83/v2/billing/pricingplansubscription"
+	v2billingpricingplansubscriptionscomponent "github.com/stripe/stripe-go/v83/v2/billing/pricingplansubscriptions/component"
 	v2billingprofile "github.com/stripe/stripe-go/v83/v2/billing/profile"
 	v2billingratecard "github.com/stripe/stripe-go/v83/v2/billing/ratecard"
 	v2billingratecardsrate "github.com/stripe/stripe-go/v83/v2/billing/ratecards/rate"
@@ -602,6 +603,8 @@ type API struct {
 	V2BillingPricingPlansComponents *v2billingpricingplanscomponent.Client
 	// V2BillingPricingPlanSubscriptions is the client used to invoke /v2/billing/pricing_plan_subscriptions APIs.
 	V2BillingPricingPlanSubscriptions *v2billingpricingplansubscription.Client
+	// V2BillingPricingPlanSubscriptionsComponents is the client used to invoke component related APIs.
+	V2BillingPricingPlanSubscriptionsComponents *v2billingpricingplansubscriptionscomponent.Client
 	// V2BillingPricingPlansVersions is the client used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/versions APIs.
 	V2BillingPricingPlansVersions *v2billingpricingplansversion.Client
 	// V2BillingProfiles is the client used to invoke /v2/billing/profiles APIs.
@@ -870,6 +873,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingPricingPlans = &v2billingpricingplan.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlansComponents = &v2billingpricingplanscomponent.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlanSubscriptions = &v2billingpricingplansubscription.Client{B: backends.API, Key: key}
+	a.V2BillingPricingPlanSubscriptionsComponents = &v2billingpricingplansubscriptionscomponent.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlansVersions = &v2billingpricingplansversion.Client{B: backends.API, Key: key}
 	a.V2BillingProfiles = &v2billingprofile.Client{B: backends.API, Key: key}
 	a.V2BillingRateCards = &v2billingratecard.Client{B: backends.API, Key: key}

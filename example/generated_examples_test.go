@@ -14892,6 +14892,34 @@ func TestV2BillingPricingPlanSubscriptionPostClient(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2BillingPricingPlanSubscriptionsComponentGetService(t *testing.T) {
+	params := &stripe.V2BillingPricingPlanSubscriptionsComponentParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions/id_123/components", params, "{\"components\":[{\"pricing_plan_component\":\"pricing_plan_component\",\"type\":\"license_fee_subscription\"}],\"object\":\"v2.billing.pricing_plan_subscription_components\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2BillingPricingPlanSubscriptionsComponents.Get(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingPricingPlanSubscriptionsComponentGetClient(t *testing.T) {
+	params := &stripe.V2BillingPricingPlanSubscriptionsComponentRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/billing/pricing_plan_subscriptions/id_123/components", params, "{\"components\":[{\"pricing_plan_component\":\"pricing_plan_component\",\"type\":\"license_fee_subscription\"}],\"object\":\"v2.billing.pricing_plan_subscription_components\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2BillingPricingPlanSubscriptionsComponents.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestV2BillingProfileGetService(t *testing.T) {
 	params := &stripe.V2BillingProfileListParams{
 		LookupKeys: []*string{stripe.String("lookup_keys")},
@@ -15939,7 +15967,7 @@ func TestV2CoreClaimableSandboxGetClient(t *testing.T) {
 }
 
 func TestV2CoreEventGetService(t *testing.T) {
-	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
+	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
 		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
@@ -15951,7 +15979,7 @@ func TestV2CoreEventGetService(t *testing.T) {
 }
 
 func TestV2CoreEventGetClient(t *testing.T) {
-	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
+	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
 		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
@@ -16701,6 +16729,33 @@ func TestV2MoneyManagementFinancialAccountGet2Client(t *testing.T) {
 }
 
 func TestV2MoneyManagementFinancialAccountPost2Service(t *testing.T) {
+	params := &stripe.V2MoneyManagementFinancialAccountParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementFinancialAccounts.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2MoneyManagementFinancialAccountPost2Client(t *testing.T) {
+	params := &stripe.V2MoneyManagementFinancialAccountUpdateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementFinancialAccounts.Update(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2MoneyManagementFinancialAccountPost3Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountCloseParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
@@ -16713,7 +16768,7 @@ func TestV2MoneyManagementFinancialAccountPost2Service(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestV2MoneyManagementFinancialAccountPost2Client(t *testing.T) {
+func TestV2MoneyManagementFinancialAccountPost3Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountCloseParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
@@ -18302,7 +18357,7 @@ func TestFeatureNotEnabledErrorService(t *testing.T) {
 		Type: stripe.String("storage"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"error\":{\"type\":\"feature_not_enabled\",\"code\":\"recipient_feature_not_active\"}}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"error\":{\"type\":\"feature_not_enabled\",\"code\":\"outbound_flow_from_closed_financial_account_unsupported\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18317,7 +18372,7 @@ func TestFeatureNotEnabledErrorClient(t *testing.T) {
 		Type: stripe.String("storage"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"error\":{\"type\":\"feature_not_enabled\",\"code\":\"recipient_feature_not_active\"}}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"error\":{\"type\":\"feature_not_enabled\",\"code\":\"outbound_flow_from_closed_financial_account_unsupported\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

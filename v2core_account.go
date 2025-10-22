@@ -247,6 +247,7 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource string
 const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourceIdentityAddress V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "identity_address"
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourceIPAddress       V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "ip_address"
+	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourcePaymentMethod   V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "payment_method"
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourceShippingAddress V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "shipping_address"
 )
 
@@ -2477,8 +2478,10 @@ type V2CoreAccountDefaultsResponsibilitiesFeesCollector string
 
 // List of values that V2CoreAccountDefaultsResponsibilitiesFeesCollector can take
 const (
-	V2CoreAccountDefaultsResponsibilitiesFeesCollectorApplication V2CoreAccountDefaultsResponsibilitiesFeesCollector = "application"
-	V2CoreAccountDefaultsResponsibilitiesFeesCollectorStripe      V2CoreAccountDefaultsResponsibilitiesFeesCollector = "stripe"
+	V2CoreAccountDefaultsResponsibilitiesFeesCollectorApplication        V2CoreAccountDefaultsResponsibilitiesFeesCollector = "application"
+	V2CoreAccountDefaultsResponsibilitiesFeesCollectorApplicationCustom  V2CoreAccountDefaultsResponsibilitiesFeesCollector = "application_custom"
+	V2CoreAccountDefaultsResponsibilitiesFeesCollectorApplicationExpress V2CoreAccountDefaultsResponsibilitiesFeesCollector = "application_express"
+	V2CoreAccountDefaultsResponsibilitiesFeesCollectorStripe             V2CoreAccountDefaultsResponsibilitiesFeesCollector = "stripe"
 )
 
 // A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
@@ -5724,6 +5727,8 @@ type V2CoreAccount struct {
 	APIResource
 	// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
 	AppliedConfigurations []V2CoreAccountAppliedConfiguration `json:"applied_configurations"`
+	// A value indicating if the Account has been closed.
+	Closed bool `json:"closed,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountConfiguration `json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
