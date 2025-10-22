@@ -68,15 +68,15 @@ func (p *DelegatedCheckoutRequestedSessionParams) AddMetadata(key string, value 
 }
 
 // The shipping fulfillment option.
-type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingParams struct {
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
 	// The shipping option identifer.
 	ShippingOption *string `form:"shipping_option"`
 }
 
 // The fulfillment option to select.
-type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionParams struct {
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionParams struct {
 	// The shipping fulfillment option.
-	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingParams `form:"shipping"`
+	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams `form:"shipping"`
 	// The type of fulfillment option.
 	Type *string `form:"type"`
 }
@@ -86,12 +86,12 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsParams struct {
 	Address *AddressParams `form:"address"`
 	// The customer's email address.
 	Email *string `form:"email"`
-	// The fulfillment option to select.
-	FulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionParams `form:"fulfillment_option"`
 	// The customer's name.
 	Name *string `form:"name"`
 	// The customer's phone number.
 	Phone *string `form:"phone"`
+	// The fulfillment option to select.
+	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionParams `form:"selected_fulfillment_option"`
 }
 
 // The details of the line items.
@@ -203,15 +203,15 @@ func (p *DelegatedCheckoutRequestedSessionRetrieveParams) AddExpand(f string) {
 }
 
 // The shipping fulfillment option.
-type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsFulfillmentOptionShippingParams struct {
+type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
 	// The shipping option identifer.
 	ShippingOption *string `form:"shipping_option"`
 }
 
 // The fulfillment option to select.
-type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsFulfillmentOptionParams struct {
+type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionParams struct {
 	// The shipping fulfillment option.
-	Shipping *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsFulfillmentOptionShippingParams `form:"shipping"`
+	Shipping *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams `form:"shipping"`
 	// The type of fulfillment option.
 	Type *string `form:"type"`
 }
@@ -221,12 +221,12 @@ type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsParams struct {
 	Address *AddressParams `form:"address"`
 	// The customer's email address.
 	Email *string `form:"email"`
-	// The fulfillment option to select.
-	FulfillmentOption *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsFulfillmentOptionParams `form:"fulfillment_option"`
 	// The customer's name.
 	Name *string `form:"name"`
 	// The customer's phone number.
 	Phone *string `form:"phone"`
+	// The fulfillment option to select.
+	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionParams `form:"selected_fulfillment_option"`
 }
 
 // The details of the line items.
@@ -426,23 +426,7 @@ func (p *DelegatedCheckoutRequestedSessionCreateParams) AddMetadata(key string, 
 	p.Metadata[key] = value
 }
 
-// The shipping option.
-type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShipping struct {
-	// The shipping option.
-	ShippingOption string `json:"shipping_option"`
-	// The shipping options.
-	ShippingOptions []*DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingShippingOption `json:"shipping_options"`
-}
-
-// The fulfillment option.
-type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOption struct {
-	// The shipping option.
-	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShipping `json:"shipping"`
-	// The type of the selected fulfillment option.
-	Type string `json:"type"`
-}
-
-// The shipping option.
+// The shipping options.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingShippingOption struct {
 	// The description of the shipping option.
 	Description string `json:"description"`
@@ -458,20 +442,48 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippin
 	ShippingAmount int64 `json:"shipping_amount"`
 }
 
+// The shipping option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShipping struct {
+	// The shipping options.
+	ShippingOptions []*DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingShippingOption `json:"shipping_options"`
+}
+
+// The fulfillment options.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOption struct {
+	// The shipping option.
+	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShipping `json:"shipping"`
+	// The type of the fulfillment option.
+	Type string `json:"type"`
+}
+
+// The shipping option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShipping struct {
+	// The shipping option.
+	ShippingOption string `json:"shipping_option"`
+}
+
+// The fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOption struct {
+	// The shipping option.
+	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShipping `json:"shipping"`
+	// The type of the selected fulfillment option.
+	Type string `json:"type"`
+}
+
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionFulfillmentDetails struct {
 	// The fulfillment address.
 	Address *Address `json:"address"`
 	// The email address for the fulfillment details.
 	Email string `json:"email"`
-	// The fulfillment option.
-	FulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOption `json:"fulfillment_option"`
 	// The fulfillment options.
 	FulfillmentOptions []*DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOption `json:"fulfillment_options"`
 	// The name for the fulfillment details.
 	Name string `json:"name"`
 	// The phone number for the fulfillment details.
 	Phone string `json:"phone"`
+	// The fulfillment option.
+	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOption `json:"selected_fulfillment_option"`
 }
 
 // The line items to be purchased.
