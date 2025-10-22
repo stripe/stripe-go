@@ -21,7 +21,8 @@ const (
 // Returns a list of validation errors for the specified redaction job.
 type PrivacyRedactionJobValidationErrorListParams struct {
 	ListParams `form:"*"`
-	Job        *string `form:"-"` // Included in URL
+	// RedactionJob object identifier
+	Job *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }

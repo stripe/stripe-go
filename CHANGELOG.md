@@ -1,7 +1,7 @@
 # Changelog
 
 ## 83.1.0-beta.3 - 2025-10-21
-* [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs 
+* [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs
 
 ## 83.1.0-beta.2 - 2025-10-08
 * Contains bug fixes and improvements from [v83.0.1](https://github.com/stripe/stripe-go/blob/v83.0.1/CHANGELOG.md#8301---2025-10-08).
@@ -65,6 +65,9 @@ This release changes the pinned API version to `2025-09-30.preview`. It is built
   * Add support for error type `RateLimitError`
   * Add support for error codes `financial_connections_account_pending_account_numbers` and `financial_connections_account_unavailable_account_numbers` on `QuotePreviewInvoiceLastFinalizationError`
   * Add support for error code `invalid_payout_method_crypto_wallet` on `InvalidPayoutMethodError`
+
+## 83.0.2 - 2025-10-21
+* [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs
 
 ## 83.0.1 - 2025-10-08
 * [#2161](https://github.com/stripe/stripe-go/pull/2161) Return clearer error when calling `ConstructEvent` on an event notification

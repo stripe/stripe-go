@@ -52,7 +52,7 @@ func (c v2CoreAccountService) Update(ctx context.Context, id string, params *V2C
 	return account, err
 }
 
-// Removes access to the Account and its associated resources.
+// Removes access to the Account and its associated resources. Closed Accounts can no longer be operated on, but limited information can still be retrieved through the API in order to be able to track their history.
 func (c v2CoreAccountService) Close(ctx context.Context, id string, params *V2CoreAccountCloseParams) (*V2CoreAccount, error) {
 	if params == nil {
 		params = &V2CoreAccountCloseParams{}

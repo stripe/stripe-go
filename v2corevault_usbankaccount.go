@@ -17,6 +17,44 @@ const (
 	V2CoreVaultUSBankAccountBankAccountTypeSavings  V2CoreVaultUSBankAccountBankAccountType = "savings"
 )
 
+// Microdeposit type can be amounts or descriptor_type.
+type V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetailsMicrodepositType string
+
+// List of values that V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetailsMicrodepositType can take
+const (
+	V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetailsMicrodepositTypeAmounts        V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetailsMicrodepositType = "amounts"
+	V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetailsMicrodepositTypeDescriptorCode V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetailsMicrodepositType = "descriptor_code"
+)
+
+// The bank account verification status.
+type V2CoreVaultUSBankAccountVerificationStatus string
+
+// List of values that V2CoreVaultUSBankAccountVerificationStatus can take
+const (
+	V2CoreVaultUSBankAccountVerificationStatusAwaitingVerification V2CoreVaultUSBankAccountVerificationStatus = "awaiting_verification"
+	V2CoreVaultUSBankAccountVerificationStatusUnverified           V2CoreVaultUSBankAccountVerificationStatus = "unverified"
+	V2CoreVaultUSBankAccountVerificationStatusVerificationFailed   V2CoreVaultUSBankAccountVerificationStatus = "verification_failed"
+	V2CoreVaultUSBankAccountVerificationStatusVerified             V2CoreVaultUSBankAccountVerificationStatus = "verified"
+)
+
+// The microdeposit verification details if the status is awaiting verification.
+type V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetails struct {
+	// Time when microdeposits will expire and have to be re-sent.
+	Expires time.Time `json:"expires"`
+	// Microdeposit type can be amounts or descriptor_type.
+	MicrodepositType V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetailsMicrodepositType `json:"microdeposit_type"`
+	// Time when microdeposits were sent.
+	Sent time.Time `json:"sent"`
+}
+
+// The bank account verification details.
+type V2CoreVaultUSBankAccountVerification struct {
+	// The microdeposit verification details if the status is awaiting verification.
+	MicrodepositVerificationDetails *V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetails `json:"microdeposit_verification_details,omitempty"`
+	// The bank account verification status.
+	Status V2CoreVaultUSBankAccountVerificationStatus `json:"status"`
+}
+
 // Use the USBankAccounts API to create and manage US bank accounts objects that you can use to receive funds. Note that these are not interchangeable with v1 Tokens.
 type V2CoreVaultUSBankAccount struct {
 	APIResource
@@ -40,4 +78,6 @@ type V2CoreVaultUSBankAccount struct {
 	Object string `json:"object"`
 	// The ACH routing number of the bank account.
 	RoutingNumber string `json:"routing_number,omitempty"`
+	// The bank account verification details.
+	Verification *V2CoreVaultUSBankAccountVerification `json:"verification"`
 }

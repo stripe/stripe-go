@@ -1564,6 +1564,8 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	ImageURL *string `form:"image_url"`
 	// URL to the product page. Max length, 4096 characters.
 	ProductURL *string `form:"product_url"`
+	// Unique reference for this line item to correlate it with your system's internal records. The field is displayed in the Klarna Consumer App if passed.
+	Reference *string `form:"reference"`
 	// Reference for the subscription this line item is for.
 	SubscriptionReference *string `form:"subscription_reference"`
 }
@@ -3814,6 +3816,8 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams s
 	ImageURL *string `form:"image_url"`
 	// URL to the product page. Max length, 4096 characters.
 	ProductURL *string `form:"product_url"`
+	// Unique reference for this line item to correlate it with your system's internal records. The field is displayed in the Klarna Consumer App if passed.
+	Reference *string `form:"reference"`
 	// Reference for the subscription this line item is for.
 	SubscriptionReference *string `form:"subscription_reference"`
 }
@@ -4312,6 +4316,8 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams s
 	ImageURL *string `form:"image_url"`
 	// URL to the product page. Max length, 4096 characters.
 	ProductURL *string `form:"product_url"`
+	// Unique reference for this line item to correlate it with your system's internal records. The field is displayed in the Klarna Consumer App if passed.
+	Reference *string `form:"reference"`
 	// Reference for the subscription this line item is for.
 	SubscriptionReference *string `form:"subscription_reference"`
 }
@@ -4941,6 +4947,8 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 	ImageURL *string `form:"image_url"`
 	// URL to the product page. Max length, 4096 characters.
 	ProductURL *string `form:"product_url"`
+	// Unique reference for this line item to correlate it with your system's internal records. The field is displayed in the Klarna Consumer App if passed.
+	Reference *string `form:"reference"`
 	// Reference for the subscription this line item is for.
 	SubscriptionReference *string `form:"subscription_reference"`
 }
@@ -5187,6 +5195,8 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams st
 	ImageURL *string `form:"image_url"`
 	// URL to the product page. Max length, 4096 characters.
 	ProductURL *string `form:"product_url"`
+	// Unique reference for this line item to correlate it with your system's internal records. The field is displayed in the Klarna Consumer App if passed.
+	Reference *string `form:"reference"`
 	// Reference for the subscription this line item is for.
 	SubscriptionReference *string `form:"subscription_reference"`
 }
@@ -7396,6 +7406,8 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams st
 	ImageURL *string `form:"image_url"`
 	// URL to the product page. Max length, 4096 characters.
 	ProductURL *string `form:"product_url"`
+	// Unique reference for this line item to correlate it with your system's internal records. The field is displayed in the Klarna Consumer App if passed.
+	Reference *string `form:"reference"`
 	// Reference for the subscription this line item is for.
 	SubscriptionReference *string `form:"subscription_reference"`
 }

@@ -90,3 +90,21 @@ func (p *V2MoneyManagementFinancialAccountCreateParams) AddMetadata(key string, 
 type V2MoneyManagementFinancialAccountRetrieveParams struct {
 	Params `form:"*"`
 }
+
+// Updates an existing FinancialAccount.
+type V2MoneyManagementFinancialAccountUpdateParams struct {
+	Params `form:"*"`
+	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	// Metadata associated with the FinancialAccount.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2MoneyManagementFinancialAccountUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
