@@ -6,6 +6,13 @@
 
 package stripe
 
+// List objects that can be used as destinations for outbound money movement via OutboundPayment.
+type V2CoreVaultGBBankAccountListParams struct {
+	Params `form:"*"`
+	// Optionally set the maximum number of results per page. Defaults to 10.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
+}
+
 // Whether or not to automatically perform Confirmation of Payee to verify the users information
 // against what was provided by the bank. Doing so is required for all bank accounts not owned
 // by you before making domestic UK OutboundPayments.

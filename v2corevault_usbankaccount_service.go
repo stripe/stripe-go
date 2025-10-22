@@ -66,3 +66,42 @@ func (c v2CoreVaultUSBankAccountService) Archive(ctx context.Context, id string,
 	err := c.B.Call(http.MethodPost, path, c.Key, params, usbankaccount)
 	return usbankaccount, err
 }
+
+// Confirm microdeposits amounts or descriptor code that you have received from the Send Microdeposits request. Once you correctly confirm this, this US Bank Account will be verified and eligible to transfer funds with.
+func (c v2CoreVaultUSBankAccountService) ConfirmMicrodeposits(ctx context.Context, id string, params *V2CoreVaultUSBankAccountConfirmMicrodepositsParams) (*V2CoreVaultUSBankAccount, error) {
+	if params == nil {
+		params = &V2CoreVaultUSBankAccountConfirmMicrodepositsParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/core/vault/us_bank_accounts/%s/confirm_microdeposits", id)
+	usbankaccount := &V2CoreVaultUSBankAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, usbankaccount)
+	return usbankaccount, err
+}
+
+// Send microdeposits in order to verify your US Bank Account so it is eligible to transfer funds. This will start the verification process and you must Confirm Microdeposits to successfully verify your US Bank Account.
+func (c v2CoreVaultUSBankAccountService) SendMicrodeposits(ctx context.Context, id string, params *V2CoreVaultUSBankAccountSendMicrodepositsParams) (*V2CoreVaultUSBankAccount, error) {
+	if params == nil {
+		params = &V2CoreVaultUSBankAccountSendMicrodepositsParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/core/vault/us_bank_accounts/%s/send_microdeposits", id)
+	usbankaccount := &V2CoreVaultUSBankAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, usbankaccount)
+	return usbankaccount, err
+}
+
+// List USBankAccount objects. Optionally filter by verification status.
+func (c v2CoreVaultUSBankAccountService) List(ctx context.Context, listParams *V2CoreVaultUSBankAccountListParams) Seq2[*V2CoreVaultUSBankAccount, error] {
+	if listParams == nil {
+		listParams = &V2CoreVaultUSBankAccountListParams{}
+	}
+	listParams.Context = ctx
+	return NewV2List("/v2/core/vault/us_bank_accounts", listParams, func(path string, p ParamsContainer) (*V2Page[*V2CoreVaultUSBankAccount], error) {
+		page := &V2Page[*V2CoreVaultUSBankAccount]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	}).All()
+}
