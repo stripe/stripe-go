@@ -1,5 +1,20 @@
 # Changelog
 
+## 83.1.0-alpha.6 - 2025-10-23
+* [#2184](https://github.com/stripe/stripe-go/pull/2184) Update generated code for private-preview
+  * Add support for new resource `V2BillingPricingPlanSubscriptionComponents`
+  * Add support for `Get` method on resource `V2BillingPricingPlanSubscriptionComponents`
+  * Add support for `DimensionPayloadKeys` on `BillingMeterParams` and `BillingMeter`
+  * Add support for `DimensionFilters` and `DimensionGroupByKeys` on `BillingBillingMeterMeterEventSummaryListParams`
+  * Add support for `Dimensions` on `BillingMeterEventSummary`
+  * Add support for `FulfillmentDetails` and `PaymentMethodData` on `DelegatedCheckoutRequestedSessionParams`
+  * Add support for `LineItemDetails`, `Metadata`, `PaymentMethod`, and `SharedMetadata` on `DelegatedCheckoutRequestedSessionParams` and `DelegatedCheckoutRequestedSession`
+  * Add support for `Currency`, `Customer`, and `RiskDetails` on `DelegatedCheckoutRequestedSessionParams`
+  * Add support for `SellerDetails` and `SetupFutureUsage` on `DelegatedCheckoutRequestedSessionParams` and `DelegatedCheckoutRequestedSession`
+  * Add support for `AmountSubtotal`, `AmountTotal`, `CreatedAt`, `ExpiresAt`, `OrderDetails`, `SharedPaymentIssuedToken`, `Status`, `TotalDetails`, and `UpdatedAt` on `DelegatedCheckoutRequestedSession`
+  * Add support for `Address`, `Email`, `FulfillmentOptions`, `Name`, `Phone`, and `SelectedFulfillmentOption` on `DelegatedCheckoutRequestedSessionFulfillmentDetails`
+  * Add support for new values `billie`, `crypto`, `kr_card`, `kriya`, `mb_way`, `mondu`, `ng_bank_transfer`, `ng_bank`, `ng_card`, `ng_market`, `ng_ussd`, `ng_wallet`, `payco`, `paypay`, `rechnung`, `samsung_pay`, `satispay`, `scalapay`, `sequra`, `sunbit`, `us_bank_account`, and `vipps` on enums `EventsV2CoreHealthAuthorizationRateDropFiringEventImpact.PaymentMethodType`, `EventsV2CoreHealthAuthorizationRateDropResolvedEventImpact.PaymentMethodType`, `EventsV2CoreHealthPaymentMethodErrorFiringEventImpact.PaymentMethodType`, and `EventsV2CoreHealthPaymentMethodErrorResolvedEventImpact.PaymentMethodType`
+
 ## 83.1.0-beta.1 - 2025-09-30
 This release changes the pinned API version to `2025-09-30.preview`. It is built on top of SDK version 83.0.0 which contains breaking changes. Please review the [changelog for 83.0.0](https://github.com/stripe/stripe-go/blob/master/CHANGELOG.md#8300---2025-09-30) if upgrading from older SDK versions.
 
