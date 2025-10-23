@@ -16,17 +16,17 @@ type V2BillingCollectionSettingListParams struct {
 	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
 }
 
-// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+// Controls emails for when the payment is due. For example after the invoice is finalized and transitions to Open state.
 type V2BillingCollectionSettingEmailDeliveryPaymentDueParams struct {
 	// If true an email for the invoice would be generated and sent out.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// If true the payment link to hosted invocie page would be included in email and PDF of the invoice.
+	// If true the payment link to hosted invoice page would be included in email and PDF of the invoice.
 	IncludePaymentLink *bool `form:"include_payment_link" json:"include_payment_link"`
 }
 
 // Email delivery setting.
 type V2BillingCollectionSettingEmailDeliveryParams struct {
-	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+	// Controls emails for when the payment is due. For example after the invoice is finalized and transitions to Open state.
 	PaymentDue *V2BillingCollectionSettingEmailDeliveryPaymentDueParams `form:"payment_due" json:"payment_due,omitempty"`
 }
 
@@ -170,17 +170,17 @@ type V2BillingCollectionSettingParams struct {
 	PaymentMethodOptions *V2BillingCollectionSettingPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 }
 
-// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+// Controls emails for when the payment is due. For example after the invoice is finalized and transitions to Open state.
 type V2BillingCollectionSettingCreateEmailDeliveryPaymentDueParams struct {
 	// If true an email for the invoice would be generated and sent out.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// If true the payment link to hosted invocie page would be included in email and PDF of the invoice.
+	// If true the payment link to hosted invoice page would be included in email and PDF of the invoice.
 	IncludePaymentLink *bool `form:"include_payment_link" json:"include_payment_link"`
 }
 
 // Email delivery setting.
 type V2BillingCollectionSettingCreateEmailDeliveryParams struct {
-	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+	// Controls emails for when the payment is due. For example after the invoice is finalized and transitions to Open state.
 	PaymentDue *V2BillingCollectionSettingCreateEmailDeliveryPaymentDueParams `form:"payment_due" json:"payment_due,omitempty"`
 }
 
@@ -324,17 +324,17 @@ type V2BillingCollectionSettingRetrieveParams struct {
 	Params `form:"*"`
 }
 
-// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+// Controls emails for when the payment is due. For example after the invoice is finalized and transitions to Open state.
 type V2BillingCollectionSettingUpdateEmailDeliveryPaymentDueParams struct {
 	// If true an email for the invoice would be generated and sent out.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// If true the payment link to hosted invocie page would be included in email and PDF of the invoice.
+	// If true the payment link to hosted invoice page would be included in email and PDF of the invoice.
 	IncludePaymentLink *bool `form:"include_payment_link" json:"include_payment_link"`
 }
 
 // Email delivery settings.
 type V2BillingCollectionSettingUpdateEmailDeliveryParams struct {
-	// Controls emails for when the payment is due. For example after the invoice is finilized and transition to Open state.
+	// Controls emails for when the payment is due. For example after the invoice is finalized and transitions to Open state.
 	PaymentDue *V2BillingCollectionSettingUpdateEmailDeliveryPaymentDueParams `form:"payment_due" json:"payment_due,omitempty"`
 }
 

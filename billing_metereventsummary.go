@@ -13,6 +13,10 @@ type BillingMeterEventSummaryListParams struct {
 	ID *string `form:"-"` // Included in URL
 	// The customer for which to fetch event summaries.
 	Customer *string `form:"customer"`
+	// Key-value pairs used to filter meter events by dimension values. If specified, event summaries will be generated with only matching meter events.
+	DimensionFilters map[string]string `form:"dimension_filters"`
+	// List of dimension payload keys to group by. If specified, event summaries will be grouped by the given dimension payload key values.
+	DimensionGroupByKeys []*string `form:"dimension_group_by_keys"`
 	// The timestamp from when to stop aggregating meter events (exclusive). Must be aligned with minute boundaries.
 	EndTime *int64 `form:"end_time"`
 	// Specifies which fields in the response should be expanded.
@@ -35,6 +39,8 @@ func (p *BillingMeterEventSummaryListParams) AddExpand(f string) {
 type BillingMeterEventSummary struct {
 	// Aggregated value of all the events within `start_time` (inclusive) and `end_time` (inclusive). The aggregation strategy is defined on meter via `default_aggregation`.
 	AggregatedValue float64 `json:"aggregated_value"`
+	// Key-value pairs of dimension values for event summaries with grouping on dimensions.
+	Dimensions map[string]string `json:"dimensions"`
 	// End timestamp for this event summary (exclusive). Must be aligned with minute boundaries.
 	EndTime int64 `json:"end_time"`
 	// Unique identifier for the object.

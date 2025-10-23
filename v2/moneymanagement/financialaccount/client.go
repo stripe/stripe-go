@@ -46,6 +46,18 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementFinancialAccountP
 	return financialaccount, err
 }
 
+// Updates an existing FinancialAccount.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Update(id string, params *stripe.V2MoneyManagementFinancialAccountParams) (*stripe.V2MoneyManagementFinancialAccount, error) {
+	path := stripe.FormatURLPath("/v2/money_management/financial_accounts/%s", id)
+	financialaccount := &stripe.V2MoneyManagementFinancialAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, financialaccount)
+	return financialaccount, err
+}
+
 // Closes a FinancialAccount with or without forwarding settings.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

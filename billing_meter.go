@@ -85,6 +85,8 @@ type BillingMeterParams struct {
 	CustomerMapping *BillingMeterCustomerMappingParams `form:"customer_mapping"`
 	// The default settings to aggregate a meter's events with.
 	DefaultAggregation *BillingMeterDefaultAggregationParams `form:"default_aggregation"`
+	// Set of keys that will be used to group meter events by. Each key must be present in the event payload.
+	DimensionPayloadKeys []*string `form:"dimension_payload_keys"`
 	// The meter's name. Not visible to the customer.
 	DisplayName *string `form:"display_name"`
 	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.
@@ -153,6 +155,8 @@ type BillingMeterCreateParams struct {
 	CustomerMapping *BillingMeterCreateCustomerMappingParams `form:"customer_mapping"`
 	// The default settings to aggregate a meter's events with.
 	DefaultAggregation *BillingMeterCreateDefaultAggregationParams `form:"default_aggregation"`
+	// Set of keys that will be used to group meter events by. Each key must be present in the event payload.
+	DimensionPayloadKeys []*string `form:"dimension_payload_keys"`
 	// The meter's name. Not visible to the customer.
 	DisplayName *string `form:"display_name"`
 	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.
@@ -224,6 +228,8 @@ type BillingMeter struct {
 	Created            int64                           `json:"created"`
 	CustomerMapping    *BillingMeterCustomerMapping    `json:"customer_mapping"`
 	DefaultAggregation *BillingMeterDefaultAggregation `json:"default_aggregation"`
+	// Set of keys that will be used to group meter events by.
+	DimensionPayloadKeys []string `json:"dimension_payload_keys"`
 	// The meter's name.
 	DisplayName string `json:"display_name"`
 	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.

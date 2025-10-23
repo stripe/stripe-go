@@ -370,6 +370,8 @@ type Client struct {
 	V2BillingPricingPlansComponents *v2BillingPricingPlansComponentService
 	// V2BillingPricingPlanSubscriptions is the service used to invoke /v2/billing/pricing_plan_subscriptions APIs.
 	V2BillingPricingPlanSubscriptions *v2BillingPricingPlanSubscriptionService
+	// V2BillingPricingPlanSubscriptionsComponents is the service used to invoke component related APIs.
+	V2BillingPricingPlanSubscriptionsComponents *v2BillingPricingPlanSubscriptionsComponentService
 	// V2BillingPricingPlansVersions is the service used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/versions APIs.
 	V2BillingPricingPlansVersions *v2BillingPricingPlansVersionService
 	// V2BillingProfiles is the service used to invoke /v2/billing/profiles APIs.
@@ -658,6 +660,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingPricingPlans = &v2BillingPricingPlanService{B: backends.API, Key: key}
 	client.V2BillingPricingPlansComponents = &v2BillingPricingPlansComponentService{B: backends.API, Key: key}
 	client.V2BillingPricingPlanSubscriptions = &v2BillingPricingPlanSubscriptionService{B: backends.API, Key: key}
+	client.V2BillingPricingPlanSubscriptionsComponents = &v2BillingPricingPlanSubscriptionsComponentService{B: backends.API, Key: key}
 	client.V2BillingPricingPlansVersions = &v2BillingPricingPlansVersionService{B: backends.API, Key: key}
 	client.V2BillingProfiles = &v2BillingProfileService{B: backends.API, Key: key}
 	client.V2BillingRateCards = &v2BillingRateCardService{B: backends.API, Key: key}
