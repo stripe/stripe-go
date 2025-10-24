@@ -5,6 +5,37 @@
 
 The official [Stripe][stripe] Go client library.
 
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Documentation](#documentation)
+  - [Customers](#customers)
+  - [PaymentIntents](#paymentintents)
+  - [Events](#events)
+  - [Authentication with Connect](#authentication-with-connect)
+  - [Google AppEngine](#google-appengine)
+- [Usage](#usage)
+  - [With Stripe Client](#with-stripe-client)
+  - [`stripe.Client` vs legacy `client.API` pattern](#stripeclient-vs-legacy-clientapi-pattern)
+  - [Without a Client (legacy)](#without-a-client-legacy)
+- [Other usage patterns](#other-usage-patterns)
+  - [Accessing the Last Response](#accessing-the-last-response)
+  - [Automatic Retries](#automatic-retries)
+  - [Configuring Logging](#configuring-logging)
+  - [Expanding Objects](#expanding-objects)
+  - [How to use undocumented parameters and properties](#how-to-use-undocumented-parameters-and-properties)
+  - [Webhook signing](#webhook-signing)
+  - [Writing a Plugin](#writing-a-plugin)
+  - [Telemetry](#telemetry)
+  - [Mocking clients for unit tests](#mocking-clients-for-unit-tests)
+  - [Public Preview SDKs](#public-preview-sdks)
+  - [Private Preview SDKs](#private-preview-sdks)
+  - [Custom Request](#custom-request)
+- [Support](#support)
+- [Development](#development)
+- [Test](#test)
+
 ## Requirements
 
 Per our [Language Version Support Policy](https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy), we support the 4 most recent Go versions at the time of release. Currently, that's **Go 1.20+**.
@@ -192,7 +223,7 @@ for c, err := range sc.Customers.List(context.TODO(), &stripe.CustomerListParams
 ### `stripe.Client` vs legacy `client.API` pattern
 We introduced `stripe.Client` in v82.1 of the Go SDK. The legacy client pattern used prior to that version (using `client.API`) is still available to use but is marked as deprecated. Review the [migration guide to use stripe.Client](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client) to help you move from the legacy pattern to `stripe.Client`.
 
-### Without a Client (Legacy)
+### Without a Client (legacy)
 
 The legacy pattern to access Stripe APIs is the "resource pattern" shown below. We plan to deprecate this pattern in a future release. Note also that Stripe's V2 APIs are not supported by this pattern.
 
