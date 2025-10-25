@@ -678,6 +678,10 @@ func (s *BackendImplementation) logDebugf(ctx context.Context, format string, v 
 		s.contextLogger.Debugf(ctx, format, v...)
 	} else if s.regularLogger != nil {
 		s.regularLogger.Debugf(format, v...)
+	} else if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		logger.Debugf(ctx, format, v...)
+	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
+		logger.Debugf(format, v...)
 	}
 }
 
@@ -687,6 +691,10 @@ func (s *BackendImplementation) logInfof(ctx context.Context, format string, v .
 		s.contextLogger.Infof(ctx, format, v...)
 	} else if s.regularLogger != nil {
 		s.regularLogger.Infof(format, v...)
+	} else if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		logger.Infof(ctx, format, v...)
+	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
+		logger.Infof(format, v...)
 	}
 }
 
@@ -696,6 +704,10 @@ func (s *BackendImplementation) logWarnf(ctx context.Context, format string, v .
 		s.contextLogger.Warnf(ctx, format, v...)
 	} else if s.regularLogger != nil {
 		s.regularLogger.Warnf(format, v...)
+	} else if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		logger.Warnf(ctx, format, v...)
+	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
+		logger.Warnf(format, v...)
 	}
 }
 
@@ -705,6 +717,10 @@ func (s *BackendImplementation) logErrorf(ctx context.Context, format string, v 
 		s.contextLogger.Errorf(ctx, format, v...)
 	} else if s.regularLogger != nil {
 		s.regularLogger.Errorf(format, v...)
+	} else if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		logger.Errorf(ctx, format, v...)
+	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
+		logger.Errorf(format, v...)
 	}
 }
 
@@ -1703,6 +1719,13 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		contextLogger = cl
 	} else if rl, ok := config.LeveledLogger.(LeveledLoggerInterface); ok {
 		regularLogger = rl
+	} else if config.LeveledLogger != nil {
+		// If a non-nil logger is provided that doesn't implement either interface,
+		// this is a programming error that should be caught at initialization.
+		// This panic won't fire for manual BackendImplementation instantiation
+		// (where contextLogger and regularLogger would be nil), which is handled
+		// defensively in the log methods.
+		panic(fmt.Sprintf("LeveledLogger must implement either LeveledLoggerInterface or ContextLeveledLoggerInterface, got %T", config.LeveledLogger))
 	}
 
 	return &BackendImplementation{
