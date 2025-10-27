@@ -1,7 +1,19 @@
 # Changelog
 
+## 83.0.2 - 2025-10-21
+* [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs
+
+## 83.0.1 - 2025-10-08
+* [#2161](https://github.com/stripe/stripe-go/pull/2161) Return clearer error when calling `ConstructEvent` on an event notification
+* [#2157](https://github.com/stripe/stripe-go/pull/2157) Improve event notification example
+* [#2158](https://github.com/stripe/stripe-go/pull/2158) add `StripeContext` field to `ListParams` and `SearchParams`
+  
+  - Fixes an issue where it wasn't possible to add `StripeContext` to list and search calls.
+* [#2151](https://github.com/stripe/stripe-go/pull/2151) Update param in deprecation docs link
+* [#2148](https://github.com/stripe/stripe-go/pull/2148) Update CHANGELOG.md to point to right API version
+
 ## 83.0.0 - 2025-09-30
-This release changes the pinned API version to `2025-09-30.basil` and contains breaking changes (prefixed with ⚠️ below)
+This release changes the pinned API version to `2025-09-30.clover` and contains breaking changes (prefixed with ⚠️ below)
 
 * [#2121](https://github.com/stripe/stripe-go/pull/2121) Add strongly typed EventNotifications
   We've overhauled how V2 Events are handled in the SDK! This approach should provide a lot more information at authoring and compile time, leading to more robust integrations. As part of this process, there are a number of changes to be aware of.
@@ -9,8 +21,9 @@ This release changes the pinned API version to `2025-09-30.basil` and contains b
       - This function now returns a `EventNotificationContainer` (which is an interface that all `EventNotification`s adhere to) instead of `ThinEvent`. When applicable, these event notifications will have the `RelatedObject` field and a function `FetchRelatedObject()`. They also have a `FetchEvent()` method to retrieve their corresponding event.
       - If you parse an event the SDK doesn't have types for (e.g. it's newer than the SDK you're using), you'll get an instance of `UnknownEventNotification` instead of a more specific type. It has both the `RelatedObject` field and the function `FetchRelatedObject()` (but they may be `nil`)
   - ⚠️ Removed `API.parseThinEvent`. Use `Client.ParseEventNotification` instead (referring to the [migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client) if necessary).
-* [#2133](https://github.com/stripe/stripe-go/pull/2133) Add `StripeContext` object
-  - Add the `stripe.Context` struct. Previously, you could set the stripe context only as a string via `SetStripeContext()`. You can now set it using the new struct as well via `SetStripeContextFrom()`.
+* [#2133](https://github.com/stripe/stripe-go/pull/2133) Add `stripe.Context` object
+  - This is a new struct that helps with accessing parent and child contexts.
+  - Previously, you could set the stripe context only as a string via `SetStripeContext()`. You can now set it using the new struct as well via `SetStripeContextFrom()`.
   - ⚠️ Change `EventNotification` (formerly known as `ThinEvent`)'s `context` property from `string` to `stripe.Context`
 * [#2114](https://github.com/stripe/stripe-go/pull/2114) ⚠️ Build SDK w/ V2 OpenAPI spec
   - ⚠️ The delete methods for v2 APIs (the ones in the `V2` prefix) now return a `V2DeletedObject` which has the id of the object that has been deleted and a string representing the type of the object that has been deleted.
@@ -25,7 +38,7 @@ This release changes the pinned API version to `2025-09-30.basil` and contains b
 * [#2143](https://github.com/stripe/stripe-go/pull/2143) Change RelatedObject to V2CoreEventRelatedObject
   - ⚠️ Changes the name of the `stripe.RelatedObject` struct to `stripe.V2CoreEventRelatedObject`.
 * [#2142](https://github.com/stripe/stripe-go/pull/2142) ⚠️ Drop support for Go < 1.20 & clarify policy
-  - Read our new [language version support policy](https://docs.stripe.com/sdks/versioning?server=go#stripe-sdk-language-version-support-policy)
+  - Read our new [language version support policy](https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy)
      - ⚠️ In this release, we drop support for Go versions 1.18 and 1.19
      - Go 1.20 and 1.21 support is deprecated will be removed in the next scheduled major release (March 2026)
 * [#2134](https://github.com/stripe/stripe-go/pull/2134) Remove extraneous parameters from `CardUpdateParams` and `BankAccountUpdateParams`
@@ -45,7 +58,7 @@ This release changes the pinned API version to `2025-09-30.basil` and contains b
   }
   ```
 
-* [#2119](https://github.com/stripe/stripe-go/pull/2119), [#2115](https://github.com/stripe/stripe-go/pull/2115), [#2130](https://github.com/stripe/stripe-go/pull/2130), [#2140](https://github.com/stripe/stripe-go/pull/2140) Update generated code based on incoming API changes in the `2025-09-30.basil` API version.
+* [#2119](https://github.com/stripe/stripe-go/pull/2119), [#2115](https://github.com/stripe/stripe-go/pull/2115), [#2130](https://github.com/stripe/stripe-go/pull/2130), [#2140](https://github.com/stripe/stripe-go/pull/2140) Update generated code based on incoming API changes in the `2025-09-30.clover` API version.
   * ⚠️ Remove support for `BalanceReport` and `PayoutReconciliationReport` on `AccountSessionComponentsParams` and `AccountSessionComponents`
   * ⚠️ Remove support for `Coupon` on `Discount`, `PromotionCodeParams`, and `PromotionCode`. Use `Discount.Source.Coupon`, `PromotionCodeParams.Promotion.Coupon` and `PromotionCode.Promotion.Coupon` instead.
   * ⚠️ Remove support for values `saturday` and `sunday` from enum `AccountSettingsPayoutsSchedule.WeeklyPayoutDays`
