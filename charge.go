@@ -253,6 +253,7 @@ const (
 	ChargePaymentMethodDetailsCryptoNetworkBase     ChargePaymentMethodDetailsCryptoNetwork = "base"
 	ChargePaymentMethodDetailsCryptoNetworkEthereum ChargePaymentMethodDetailsCryptoNetwork = "ethereum"
 	ChargePaymentMethodDetailsCryptoNetworkPolygon  ChargePaymentMethodDetailsCryptoNetwork = "polygon"
+	ChargePaymentMethodDetailsCryptoNetworkSolana   ChargePaymentMethodDetailsCryptoNetwork = "solana"
 )
 
 // The token currency that the transaction was sent with.

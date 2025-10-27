@@ -19,6 +19,8 @@ const (
 type InvoicePaymentListPaymentParams struct {
 	// Only return invoice payments associated by this payment intent ID.
 	PaymentIntent *string `form:"payment_intent"`
+	// Only return invoice payments associated by this payment record ID.
+	PaymentRecord *string `form:"payment_record"`
 	// Only return invoice payments associated by this payment type.
 	Type *string `form:"type"`
 }
@@ -70,6 +72,8 @@ type InvoicePaymentPayment struct {
 	Charge *Charge `json:"charge"`
 	// ID of the PaymentIntent associated with this payment when `type` is `payment_intent`. Note: This property is only populated for invoices finalized on or after March 15th, 2019.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// ID of the PaymentRecord associated with this payment when `type` is `payment_record`.
+	PaymentRecord *PaymentRecord `json:"payment_record"`
 	// Type of payment object associated with this invoice payment.
 	Type InvoicePaymentPaymentType `json:"type"`
 }

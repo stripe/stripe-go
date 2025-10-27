@@ -153,6 +153,7 @@ const (
 	PaymentLinkPaymentMethodTypeKlarna           PaymentLinkPaymentMethodType = "klarna"
 	PaymentLinkPaymentMethodTypeKonbini          PaymentLinkPaymentMethodType = "konbini"
 	PaymentLinkPaymentMethodTypeLink             PaymentLinkPaymentMethodType = "link"
+	PaymentLinkPaymentMethodTypeMbWay            PaymentLinkPaymentMethodType = "mb_way"
 	PaymentLinkPaymentMethodTypeMobilepay        PaymentLinkPaymentMethodType = "mobilepay"
 	PaymentLinkPaymentMethodTypeMultibanco       PaymentLinkPaymentMethodType = "multibanco"
 	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
@@ -517,6 +518,30 @@ type PaymentLinkLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 }
 
+// Controls settings applied for collecting the customer's business name.
+type PaymentLinkNameCollectionBusinessParams struct {
+	// Enable business name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their business name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name.
+type PaymentLinkNameCollectionIndividualParams struct {
+	// Enable individual name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their full name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's name.
+type PaymentLinkNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name.
+	Business *PaymentLinkNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name.
+	Individual *PaymentLinkNameCollectionIndividualParams `form:"individual"`
+}
+
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 type PaymentLinkOptionalItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer.
@@ -716,6 +741,8 @@ type PaymentLinkParams struct {
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata"`
+	// Controls settings applied for collecting the customer's name.
+	NameCollection *PaymentLinkNameCollectionParams `form:"name_collection"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
@@ -1069,6 +1096,30 @@ type PaymentLinkCreateLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 }
 
+// Controls settings applied for collecting the customer's business name.
+type PaymentLinkCreateNameCollectionBusinessParams struct {
+	// Enable business name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their business name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name.
+type PaymentLinkCreateNameCollectionIndividualParams struct {
+	// Enable individual name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their full name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's name.
+type PaymentLinkCreateNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name.
+	Business *PaymentLinkCreateNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name.
+	Individual *PaymentLinkCreateNameCollectionIndividualParams `form:"individual"`
+}
+
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 type PaymentLinkCreateOptionalItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer.
@@ -1266,6 +1317,8 @@ type PaymentLinkCreateParams struct {
 	LineItems []*PaymentLinkCreateLineItemParams `form:"line_items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata"`
+	// Controls settings applied for collecting the customer's name.
+	NameCollection *PaymentLinkCreateNameCollectionParams `form:"name_collection"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
@@ -1545,6 +1598,30 @@ type PaymentLinkUpdateLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 }
 
+// Controls settings applied for collecting the customer's business name.
+type PaymentLinkUpdateNameCollectionBusinessParams struct {
+	// Enable business name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their business name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name.
+type PaymentLinkUpdateNameCollectionIndividualParams struct {
+	// Enable individual name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their full name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's name.
+type PaymentLinkUpdateNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name.
+	Business *PaymentLinkUpdateNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name.
+	Individual *PaymentLinkUpdateNameCollectionIndividualParams `form:"individual"`
+}
+
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type PaymentLinkUpdatePaymentIntentDataParams struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -1681,6 +1758,8 @@ type PaymentLinkUpdateParams struct {
 	LineItems []*PaymentLinkUpdateLineItemParams `form:"line_items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata"`
+	// Controls settings applied for collecting the customer's name.
+	NameCollection *PaymentLinkUpdateNameCollectionParams `form:"name_collection"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *PaymentLinkUpdatePaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
@@ -1901,6 +1980,22 @@ type PaymentLinkInvoiceCreation struct {
 	// Configuration for the invoice. Default invoice values will be used if unspecified.
 	InvoiceData *PaymentLinkInvoiceCreationInvoiceData `json:"invoice_data"`
 }
+type PaymentLinkNameCollectionBusiness struct {
+	// Indicates whether business name collection is enabled for the payment link.
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before checking out. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type PaymentLinkNameCollectionIndividual struct {
+	// Indicates whether individual name collection is enabled for the payment link.
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before checking out. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type PaymentLinkNameCollection struct {
+	Business   *PaymentLinkNameCollectionBusiness   `json:"business"`
+	Individual *PaymentLinkNameCollectionIndividual `json:"individual"`
+}
 type PaymentLinkOptionalItemAdjustableQuantity struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer.
 	Enabled bool `json:"enabled"`
@@ -2052,7 +2147,8 @@ type PaymentLink struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata       map[string]string          `json:"metadata"`
+	NameCollection *PaymentLinkNameCollection `json:"name_collection"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.

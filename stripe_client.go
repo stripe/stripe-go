@@ -136,6 +136,10 @@ type Client struct {
 	V1LoginLinks *v1LoginLinkService
 	// V1Mandates is the service used to invoke /v1/mandates APIs.
 	V1Mandates *v1MandateService
+	// V1PaymentAttemptRecords is the service used to invoke /v1/payment_attempt_records APIs.
+	V1PaymentAttemptRecords *v1PaymentAttemptRecordService
+	// V1PaymentIntentAmountDetailsLineItems is the service used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.
+	V1PaymentIntentAmountDetailsLineItems *v1PaymentIntentAmountDetailsLineItemService
 	// V1PaymentIntents is the service used to invoke /v1/payment_intents APIs.
 	V1PaymentIntents *v1PaymentIntentService
 	// V1PaymentLinks is the service used to invoke /v1/payment_links APIs.
@@ -146,6 +150,8 @@ type Client struct {
 	V1PaymentMethodDomains *v1PaymentMethodDomainService
 	// V1PaymentMethods is the service used to invoke /v1/payment_methods APIs.
 	V1PaymentMethods *v1PaymentMethodService
+	// V1PaymentRecords is the service used to invoke /v1/payment_records APIs.
+	V1PaymentRecords *v1PaymentRecordService
 	// V1PaymentSources is the service used to invoke /v1/customers/{customer}/sources APIs.
 	V1PaymentSources *v1PaymentSourceService
 	// V1Payouts is the service used to invoke /v1/payouts APIs.
@@ -391,11 +397,14 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1IssuingTransactions = &v1IssuingTransactionService{B: backends.API, Key: key}
 	client.V1LoginLinks = &v1LoginLinkService{B: backends.API, Key: key}
 	client.V1Mandates = &v1MandateService{B: backends.API, Key: key}
+	client.V1PaymentAttemptRecords = &v1PaymentAttemptRecordService{B: backends.API, Key: key}
+	client.V1PaymentIntentAmountDetailsLineItems = &v1PaymentIntentAmountDetailsLineItemService{B: backends.API, Key: key}
 	client.V1PaymentIntents = &v1PaymentIntentService{B: backends.API, Key: key}
 	client.V1PaymentLinks = &v1PaymentLinkService{B: backends.API, Key: key}
 	client.V1PaymentMethodConfigurations = &v1PaymentMethodConfigurationService{B: backends.API, Key: key}
 	client.V1PaymentMethodDomains = &v1PaymentMethodDomainService{B: backends.API, Key: key}
 	client.V1PaymentMethods = &v1PaymentMethodService{B: backends.API, Key: key}
+	client.V1PaymentRecords = &v1PaymentRecordService{B: backends.API, Key: key}
 	client.V1PaymentSources = &v1PaymentSourceService{B: backends.API, Key: key}
 	client.V1Payouts = &v1PayoutService{B: backends.API, Key: key}
 	client.V1Persons = &v1PersonService{B: backends.API, Key: key}

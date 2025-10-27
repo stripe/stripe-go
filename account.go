@@ -930,6 +930,16 @@ type AccountCompanyRegistrationDateParams struct {
 	Year *int64 `form:"year"`
 }
 
+// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+type AccountCompanyRepresentativeDeclarationParams struct {
+	// The Unix timestamp marking when the representative declaration attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the representative declaration attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the representative declaration attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
 // A document verifying the business.
 type AccountCompanyVerificationDocumentParams struct {
 	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -982,6 +992,8 @@ type AccountCompanyParams struct {
 	RegistrationDate *AccountCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
+	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+	RepresentativeDeclaration *AccountCompanyRepresentativeDeclarationParams `form:"representative_declaration"`
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
@@ -1950,6 +1962,16 @@ type AccountUpdateCompanyRegistrationDateParams struct {
 	Year *int64 `form:"year"`
 }
 
+// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+type AccountUpdateCompanyRepresentativeDeclarationParams struct {
+	// The Unix timestamp marking when the representative declaration attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the representative declaration attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the representative declaration attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
 // A document verifying the business.
 type AccountUpdateCompanyVerificationDocumentParams struct {
 	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -1999,6 +2021,8 @@ type AccountUpdateCompanyParams struct {
 	RegistrationDate *AccountUpdateCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
+	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+	RepresentativeDeclaration *AccountUpdateCompanyRepresentativeDeclarationParams `form:"representative_declaration"`
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
@@ -2963,6 +2987,16 @@ type AccountCreateCompanyRegistrationDateParams struct {
 	Year *int64 `form:"year"`
 }
 
+// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+type AccountCreateCompanyRepresentativeDeclarationParams struct {
+	// The Unix timestamp marking when the representative declaration attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the representative declaration attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the representative declaration attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
 // A document verifying the business.
 type AccountCreateCompanyVerificationDocumentParams struct {
 	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -3014,6 +3048,8 @@ type AccountCreateCompanyParams struct {
 	RegistrationDate *AccountCreateCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
+	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+	RepresentativeDeclaration *AccountCreateCompanyRepresentativeDeclarationParams `form:"representative_declaration"`
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
@@ -3630,6 +3666,16 @@ type AccountCompanyRegistrationDate struct {
 	// The four-digit year of registration.
 	Year int64 `json:"year"`
 }
+
+// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+type AccountCompanyRepresentativeDeclaration struct {
+	// The Unix timestamp marking when the representative declaration attestation was made.
+	Date int64 `json:"date"`
+	// The IP address from which the representative declaration attestation was made.
+	IP string `json:"ip"`
+	// The user-agent string from the browser where the representative declaration attestation was made.
+	UserAgent string `json:"user_agent"`
+}
 type AccountCompanyVerificationDocument struct {
 	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
 	Back *File `json:"back"`
@@ -3676,6 +3722,8 @@ type AccountCompany struct {
 	// The company's phone number (used for verification).
 	Phone            string                          `json:"phone"`
 	RegistrationDate *AccountCompanyRegistrationDate `json:"registration_date"`
+	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+	RepresentativeDeclaration *AccountCompanyRepresentativeDeclaration `json:"representative_declaration"`
 	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 	Structure AccountCompanyStructure `json:"structure"`
 	// Whether the company's business ID number was provided.

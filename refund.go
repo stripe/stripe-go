@@ -271,6 +271,10 @@ type RefundDestinationDetailsCard struct {
 	Type RefundDestinationDetailsCardType `json:"type"`
 }
 type RefundDestinationDetailsCashApp struct{}
+type RefundDestinationDetailsCrypto struct {
+	// The transaction hash of the refund.
+	Reference string `json:"reference"`
+}
 type RefundDestinationDetailsCustomerCashBalance struct{}
 type RefundDestinationDetailsEPS struct{}
 type RefundDestinationDetailsEUBankTransfer struct {
@@ -354,6 +358,7 @@ type RefundDestinationDetails struct {
 	BrBankTransfer      *RefundDestinationDetailsBrBankTransfer      `json:"br_bank_transfer"`
 	Card                *RefundDestinationDetailsCard                `json:"card"`
 	CashApp             *RefundDestinationDetailsCashApp             `json:"cashapp"`
+	Crypto              *RefundDestinationDetailsCrypto              `json:"crypto"`
 	CustomerCashBalance *RefundDestinationDetailsCustomerCashBalance `json:"customer_cash_balance"`
 	EPS                 *RefundDestinationDetailsEPS                 `json:"eps"`
 	EUBankTransfer      *RefundDestinationDetailsEUBankTransfer      `json:"eu_bank_transfer"`
