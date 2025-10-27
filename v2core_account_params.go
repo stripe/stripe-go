@@ -13,6 +13,8 @@ type V2CoreAccountListParams struct {
 	Params `form:"*"`
 	// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
 	AppliedConfigurations []*string `form:"applied_configurations,flat_array" json:"applied_configurations,omitempty"`
+	// Filter by whether the account is closed. If omitted, returns only Accounts that are not closed.
+	Closed *bool `form:"closed" json:"closed,omitempty"`
 	// The upper limit on the number of accounts returned by the List Account request.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
@@ -627,10 +629,18 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams struct
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can hold storage-type funds on Stripe in USD.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can hold storage-type funds on Stripe in USD.
+	USD *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
 }
 
 // Can pull funds from an external bank account owned by yourself to a FinancialAccount.
@@ -789,6 +799,16 @@ type V2CoreAccountIdentityAttestationsPersonsProvidedParams struct {
 	OwnershipExemptionReason *string `form:"ownership_exemption_reason" json:"ownership_exemption_reason,omitempty"`
 }
 
+// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+type V2CoreAccountIdentityAttestationsRepresentativeDeclarationParams struct {
+	// The time marking when the representative attestation was made. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the representative attestation was made.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the representative attestation was made.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 type V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -817,7 +837,7 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
-// Attestations from the identity's key people, e.g. owners, executives, directors.
+// Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
 type V2CoreAccountIdentityAttestationsParams struct {
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *V2CoreAccountIdentityAttestationsDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
@@ -825,6 +845,8 @@ type V2CoreAccountIdentityAttestationsParams struct {
 	OwnershipDeclaration *V2CoreAccountIdentityAttestationsOwnershipDeclarationParams `form:"ownership_declaration" json:"ownership_declaration,omitempty"`
 	// Attestation that all Persons with a specific Relationship value have been provided.
 	PersonsProvided *V2CoreAccountIdentityAttestationsPersonsProvidedParams `form:"persons_provided" json:"persons_provided,omitempty"`
+	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+	RepresentativeDeclaration *V2CoreAccountIdentityAttestationsRepresentativeDeclarationParams `form:"representative_declaration" json:"representative_declaration,omitempty"`
 	// Attestations of accepted terms of service agreements.
 	TermsOfService *V2CoreAccountIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
@@ -1342,7 +1364,7 @@ func (p *V2CoreAccountIdentityIndividualParams) AddMetadata(key string, value st
 
 // Information about the company, individual, and business represented by the Account.
 type V2CoreAccountIdentityParams struct {
-	// Attestations from the identity's key people, e.g. owners, executives, directors.
+	// Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
 	Attestations *V2CoreAccountIdentityAttestationsParams `form:"attestations" json:"attestations,omitempty"`
 	// Information about the company or business.
 	BusinessDetails *V2CoreAccountIdentityBusinessDetailsParams `form:"business_details" json:"business_details,omitempty"`
@@ -1384,7 +1406,7 @@ func (p *V2CoreAccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Removes access to the Account and its associated resources.
+// Removes access to the Account and its associated resources. Closed Accounts can no longer be operated on, but limited information can still be retrieved through the API in order to be able to track their history.
 type V2CoreAccountCloseParams struct {
 	Params `form:"*"`
 	// Configurations on the Account to be closed. All configurations on the Account must be passed in for this request to succeed.
@@ -1989,10 +2011,18 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams 
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Can hold storage-type funds on Stripe in USD.
+type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can hold storage-type funds on Stripe in USD.
+	USD *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
 }
 
 // Can pull funds from an external bank account owned by yourself to a FinancialAccount.
@@ -2149,6 +2179,16 @@ type V2CoreAccountCreateIdentityAttestationsPersonsProvidedParams struct {
 	OwnershipExemptionReason *string `form:"ownership_exemption_reason" json:"ownership_exemption_reason,omitempty"`
 }
 
+// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+type V2CoreAccountCreateIdentityAttestationsRepresentativeDeclarationParams struct {
+	// The time marking when the representative attestation was made. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the representative attestation was made.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the representative attestation was made.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -2177,7 +2217,7 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams struct {
 	Storer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
-// Attestations from the identity's key people, e.g. owners, executives, directors.
+// Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
 type V2CoreAccountCreateIdentityAttestationsParams struct {
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *V2CoreAccountCreateIdentityAttestationsDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
@@ -2185,6 +2225,8 @@ type V2CoreAccountCreateIdentityAttestationsParams struct {
 	OwnershipDeclaration *V2CoreAccountCreateIdentityAttestationsOwnershipDeclarationParams `form:"ownership_declaration" json:"ownership_declaration,omitempty"`
 	// Attestation that all Persons with a specific Relationship value have been provided.
 	PersonsProvided *V2CoreAccountCreateIdentityAttestationsPersonsProvidedParams `form:"persons_provided" json:"persons_provided,omitempty"`
+	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+	RepresentativeDeclaration *V2CoreAccountCreateIdentityAttestationsRepresentativeDeclarationParams `form:"representative_declaration" json:"representative_declaration,omitempty"`
 	// Attestations of accepted terms of service agreements.
 	TermsOfService *V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
@@ -2702,7 +2744,7 @@ func (p *V2CoreAccountCreateIdentityIndividualParams) AddMetadata(key string, va
 
 // Information about the company, individual, and business represented by the Account.
 type V2CoreAccountCreateIdentityParams struct {
-	// Attestations from the identity's key people, e.g. owners, executives, directors.
+	// Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
 	Attestations *V2CoreAccountCreateIdentityAttestationsParams `form:"attestations" json:"attestations,omitempty"`
 	// Information about the company or business.
 	BusinessDetails *V2CoreAccountCreateIdentityBusinessDetailsParams `form:"business_details" json:"business_details,omitempty"`
@@ -3361,10 +3403,18 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams 
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can hold storage-type funds on Stripe in USD.
+type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can hold storage-type funds on Stripe in USD.
+	USD *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
 }
 
 // Can pull funds from an external bank account owned by yourself to a FinancialAccount.
@@ -3523,6 +3573,16 @@ type V2CoreAccountUpdateIdentityAttestationsPersonsProvidedParams struct {
 	OwnershipExemptionReason *string `form:"ownership_exemption_reason" json:"ownership_exemption_reason,omitempty"`
 }
 
+// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+type V2CoreAccountUpdateIdentityAttestationsRepresentativeDeclarationParams struct {
+	// The time marking when the representative attestation was made. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the representative attestation was made.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the representative attestation was made.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -3551,7 +3611,7 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	Storer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
-// Attestations from the identity's key people, e.g. owners, executives, directors.
+// Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
 type V2CoreAccountUpdateIdentityAttestationsParams struct {
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *V2CoreAccountUpdateIdentityAttestationsDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
@@ -3559,6 +3619,8 @@ type V2CoreAccountUpdateIdentityAttestationsParams struct {
 	OwnershipDeclaration *V2CoreAccountUpdateIdentityAttestationsOwnershipDeclarationParams `form:"ownership_declaration" json:"ownership_declaration,omitempty"`
 	// Attestation that all Persons with a specific Relationship value have been provided.
 	PersonsProvided *V2CoreAccountUpdateIdentityAttestationsPersonsProvidedParams `form:"persons_provided" json:"persons_provided,omitempty"`
+	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+	RepresentativeDeclaration *V2CoreAccountUpdateIdentityAttestationsRepresentativeDeclarationParams `form:"representative_declaration" json:"representative_declaration,omitempty"`
 	// Attestations of accepted terms of service agreements.
 	TermsOfService *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
@@ -4076,7 +4138,7 @@ func (p *V2CoreAccountUpdateIdentityIndividualParams) AddMetadata(key string, va
 
 // Information about the company, individual, and business represented by the Account.
 type V2CoreAccountUpdateIdentityParams struct {
-	// Attestations from the identity's key people, e.g. owners, executives, directors.
+	// Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
 	Attestations *V2CoreAccountUpdateIdentityAttestationsParams `form:"attestations" json:"attestations,omitempty"`
 	// Information about the company or business.
 	BusinessDetails *V2CoreAccountUpdateIdentityBusinessDetailsParams `form:"business_details" json:"business_details,omitempty"`

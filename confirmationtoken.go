@@ -378,6 +378,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeCardPresent      ConfirmationTokenPaymentMethodPreviewType = "card_present"
 	ConfirmationTokenPaymentMethodPreviewTypeCashApp          ConfirmationTokenPaymentMethodPreviewType = "cashapp"
 	ConfirmationTokenPaymentMethodPreviewTypeCrypto           ConfirmationTokenPaymentMethodPreviewType = "crypto"
+	ConfirmationTokenPaymentMethodPreviewTypeCustom           ConfirmationTokenPaymentMethodPreviewType = "custom"
 	ConfirmationTokenPaymentMethodPreviewTypeCustomerBalance  ConfirmationTokenPaymentMethodPreviewType = "customer_balance"
 	ConfirmationTokenPaymentMethodPreviewTypeEPS              ConfirmationTokenPaymentMethodPreviewType = "eps"
 	ConfirmationTokenPaymentMethodPreviewTypeFPX              ConfirmationTokenPaymentMethodPreviewType = "fpx"

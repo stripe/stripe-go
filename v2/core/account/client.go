@@ -57,7 +57,7 @@ func (c Client) Update(id string, params *stripe.V2CoreAccountParams) (*stripe.V
 	return account, err
 }
 
-// Removes access to the Account and its associated resources.
+// Removes access to the Account and its associated resources. Closed Accounts can no longer be operated on, but limited information can still be retrieved through the API in order to be able to track their history.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

@@ -273,6 +273,7 @@ const (
 	ChargePaymentMethodDetailsCryptoNetworkBase     ChargePaymentMethodDetailsCryptoNetwork = "base"
 	ChargePaymentMethodDetailsCryptoNetworkEthereum ChargePaymentMethodDetailsCryptoNetwork = "ethereum"
 	ChargePaymentMethodDetailsCryptoNetworkPolygon  ChargePaymentMethodDetailsCryptoNetwork = "polygon"
+	ChargePaymentMethodDetailsCryptoNetworkSolana   ChargePaymentMethodDetailsCryptoNetwork = "solana"
 )
 
 // The token currency that the transaction was sent with.
@@ -2637,7 +2638,10 @@ type ChargePaymentMethodDetailsPromptPay struct {
 	Reference string `json:"reference"`
 }
 type ChargePaymentMethodDetailsQris struct{}
-type ChargePaymentMethodDetailsRechnung struct{}
+type ChargePaymentMethodDetailsRechnung struct {
+	// Payment portal URL.
+	PaymentPortalURL string `json:"payment_portal_url"`
+}
 type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`

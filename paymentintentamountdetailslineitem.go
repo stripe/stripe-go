@@ -36,8 +36,10 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent struct {
 	CommodityCode string `json:"commodity_code"`
 }
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarna struct {
-	ImageURL   string `json:"image_url"`
-	ProductURL string `json:"product_url"`
+	ImageURL              string `json:"image_url"`
+	ProductURL            string `json:"product_url"`
+	Reference             string `json:"reference"`
+	SubscriptionReference string `json:"subscription_reference"`
 }
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypal struct {
 	// Type of the line item.

@@ -169,6 +169,7 @@ const (
 	ErrorCodePaymentIntentMandateInvalid                                 ErrorCode = "payment_intent_mandate_invalid"
 	ErrorCodePaymentIntentPaymentAttemptExpired                          ErrorCode = "payment_intent_payment_attempt_expired"
 	ErrorCodePaymentIntentPaymentAttemptFailed                           ErrorCode = "payment_intent_payment_attempt_failed"
+	ErrorCodePaymentIntentRateLimitExceeded                              ErrorCode = "payment_intent_rate_limit_exceeded"
 	ErrorCodePaymentIntentUnexpectedState                                ErrorCode = "payment_intent_unexpected_state"
 	ErrorCodePaymentMethodBankAccountAlreadyVerified                     ErrorCode = "payment_method_bank_account_already_verified"
 	ErrorCodePaymentMethodBankAccountBlocked                             ErrorCode = "payment_method_bank_account_blocked"
@@ -444,8 +445,8 @@ func (e *IdempotencyError) Error() string {
 
 // errorStructs: The beginning of the section generated from our OpenAPI spec
 
-// AlreadyCanceledError is the Go struct corresponding to the error type "already_canceled."
-// Information about the error that occurred
+// AlreadyCanceledError is the Go struct corresponding to the error type "already_canceled".
+// Error returned when user tries to cancel an OutboundPayment that was already canceled.
 type AlreadyCanceledError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -471,8 +472,8 @@ func (e *AlreadyCanceledError) canRetry() bool {
 	return false
 }
 
-// AlreadyExistsError is the Go struct corresponding to the error type "already_exists."
-// Information about the error that occurred
+// AlreadyExistsError is the Go struct corresponding to the error type "already_exists".
+// The resource already exists.
 type AlreadyExistsError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -498,8 +499,8 @@ func (e *AlreadyExistsError) canRetry() bool {
 	return false
 }
 
-// BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe."
-// Information about the error that occurred
+// BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe".
+// Returned when the bank account cannot be added due to previous suspicious activity.
 type BlockedByStripeError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -525,8 +526,8 @@ func (e *BlockedByStripeError) canRetry() bool {
 	return false
 }
 
-// ControlledByDashboardError is the Go struct corresponding to the error type "controlled_by_dashboard."
-// Information about the error that occurred
+// ControlledByDashboardError is the Go struct corresponding to the error type "controlled_by_dashboard".
+// Returned when the PayoutMethodBankAccount object is controlled by the Stripe Dashboard, and cannot be archived.
 type ControlledByDashboardError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -552,8 +553,8 @@ func (e *ControlledByDashboardError) canRetry() bool {
 	return false
 }
 
-// FeatureNotEnabledError is the Go struct corresponding to the error type "feature_not_enabled."
-// Information about the error that occurred
+// FeatureNotEnabledError is the Go struct corresponding to the error type "feature_not_enabled".
+// The user attempts to create an outbound flow from a closed Financial Account.
 type FeatureNotEnabledError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -579,8 +580,7 @@ func (e *FeatureNotEnabledError) canRetry() bool {
 	return false
 }
 
-// FinancialAccountNotOpenError is the Go struct corresponding to the error type "financial_account_not_open."
-// Information about the error that occurred
+// FinancialAccountNotOpenError is the Go struct corresponding to the error type "financial_account_not_open".
 type FinancialAccountNotOpenError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -606,8 +606,8 @@ func (e *FinancialAccountNotOpenError) canRetry() bool {
 	return false
 }
 
-// InsufficientFundsError is the Go struct corresponding to the error type "insufficient_funds."
-// Information about the error that occurred
+// InsufficientFundsError is the Go struct corresponding to the error type "insufficient_funds".
+// Error returned when the balance of provided financial account and balance type in the OutboundPayment/OutboundTransfer request does not have enough funds.
 type InsufficientFundsError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -633,8 +633,9 @@ func (e *InsufficientFundsError) canRetry() bool {
 	return false
 }
 
-// InvalidPaymentMethodError is the Go struct corresponding to the error type "invalid_payment_method."
-// Information about the error that occurred
+// InvalidPaymentMethodError is the Go struct corresponding to the error type "invalid_payment_method".
+// Returned in cases where the bank account provided is not valid (wrong format of account number
+// or a routing number that does not correspond to a banking institution).
 type InvalidPaymentMethodError struct {
 	APIResource
 	Code         string                           `json:"code"`
@@ -661,8 +662,8 @@ func (e *InvalidPaymentMethodError) canRetry() bool {
 	return false
 }
 
-// InvalidPayoutMethodError is the Go struct corresponding to the error type "invalid_payout_method."
-// Information about the error that occurred
+// InvalidPayoutMethodError is the Go struct corresponding to the error type "invalid_payout_method".
+// Returned in cases where the ID provided doesn't correspond to a valid payout method.
 type InvalidPayoutMethodError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -688,8 +689,8 @@ func (e *InvalidPayoutMethodError) canRetry() bool {
 	return false
 }
 
-// NonZeroBalanceError is the Go struct corresponding to the error type "non_zero_balance."
-// Information about the error that occurred
+// NonZeroBalanceError is the Go struct corresponding to the error type "non_zero_balance".
+// Error thrown if a user tries to close an account that has non-zero balances.
 type NonZeroBalanceError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -715,8 +716,8 @@ func (e *NonZeroBalanceError) canRetry() bool {
 	return false
 }
 
-// NotCancelableError is the Go struct corresponding to the error type "not_cancelable."
-// Information about the error that occurred
+// NotCancelableError is the Go struct corresponding to the error type "not_cancelable".
+// Error returned when user tries to cancel an OutboundPayment that is not cancelable.
 type NotCancelableError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -742,8 +743,8 @@ func (e *NotCancelableError) canRetry() bool {
 	return false
 }
 
-// QuotaExceededError is the Go struct corresponding to the error type "quota_exceeded."
-// Information about the error that occurred
+// QuotaExceededError is the Go struct corresponding to the error type "quota_exceeded".
+// Returned when attempting to update an archived card.
 type QuotaExceededError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -769,8 +770,8 @@ func (e *QuotaExceededError) canRetry() bool {
 	return false
 }
 
-// RateLimitError is the Go struct corresponding to the error type "rate_limit."
-// Information about the error that occurred
+// RateLimitError is the Go struct corresponding to the error type "rate_limit".
+// Account cannot exceed a configured concurrency rate limit on updates.
 type RateLimitError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -796,8 +797,8 @@ func (e *RateLimitError) canRetry() bool {
 	return false
 }
 
-// RecipientNotNotifiableError is the Go struct corresponding to the error type "recipient_not_notifiable."
-// Information about the error that occurred
+// RecipientNotNotifiableError is the Go struct corresponding to the error type "recipient_not_notifiable".
+// Error returned when the user enables notifications in the OutboundPayment request, but an email is not set up on the recipient account.
 type RecipientNotNotifiableError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -823,8 +824,8 @@ func (e *RecipientNotNotifiableError) canRetry() bool {
 	return false
 }
 
-// TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired."
-// Information about the error that occurred
+// TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired".
+// The temporary session token has expired.
 type TemporarySessionExpiredError struct {
 	APIResource
 	Code        string    `json:"code"`

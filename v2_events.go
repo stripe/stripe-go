@@ -237,46 +237,6 @@ func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Con
 	return evt.(*V1BillingMeterNoMeterFoundEvent), nil
 }
 
-// V2BillingBillSettingUpdatedEvent is the Go struct for the "v2.billing.bill_setting.updated" event.
-// This event occurs when a bill setting is updated.
-type V2BillingBillSettingUpdatedEvent struct {
-	V2BaseEvent
-	Data               V2BillingBillSettingUpdatedEventData `json:"data"`
-	RelatedObject      V2CoreEventRelatedObject             `json:"related_object"`
-	fetchRelatedObject func() (*V2BillingBillSetting, error)
-}
-
-// FetchRelatedObject fetches the V2BillingBillSetting related to the event.
-func (e *V2BillingBillSettingUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingBillSetting, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2BillingBillSettingUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.bill_setting.updated"
-// This event occurs when a bill setting is updated.
-type V2BillingBillSettingUpdatedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V2BillingBillSettingUpdatedEvent that created this Notification
-func (n *V2BillingBillSettingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingBillSettingUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V2BillingBillSettingUpdatedEvent), nil
-}
-
-// FetchRelatedObject fetches the V2BillingBillSetting related to the event.
-func (n *V2BillingBillSettingUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingBillSetting, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	relatedObj := &V2BillingBillSetting{}
-	err := n.client.backend.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
 // This event occurs when an account is closed.
 type V2CoreAccountClosedEvent struct {
@@ -2301,7 +2261,8 @@ func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObj
 // Occurs when a Transaction is created.
 type V2MoneyManagementTransactionCreatedEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	Data               V2MoneyManagementTransactionCreatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                     `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
 }
 
@@ -2738,12 +2699,6 @@ type V1BillingMeterNoMeterFoundEventData struct {
 	ValidationStart time.Time `json:"validation_start"`
 }
 
-// This event occurs when a bill setting is updated.
-type V2BillingBillSettingUpdatedEventData struct {
-	// Timestamp of when the object was updated.
-	Updated time.Time `json:"updated"`
-}
-
 // Occurs when the status of an Account's customer configuration capability is updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData struct {
 	// Open Enum. The capability which had its status updated.
@@ -2808,6 +2763,12 @@ type V2MoneyManagementReceivedCreditAvailableEventData struct {
 	TransactionID string `json:"transaction_id"`
 }
 
+// Occurs when a Transaction is created.
+type V2MoneyManagementTransactionCreatedEventData struct {
+	// Id of the v1 Transaction corresponding to this Transaction.
+	V1ID string `json:"v1_id,omitempty"`
+}
+
 // ConvertRawEvent converts a raw event to a concrete event type.
 // If the event type is not known, it returns the raw event.
 func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2CoreEvent, error) {
@@ -2828,19 +2789,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v1.billing.meter.no_meter_found":
 		result := &V1BillingMeterNoMeterFoundEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.billing.bill_setting.updated":
-		result := &V2BillingBillSettingUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2BillingBillSetting, error) {
-			v := &V2BillingBillSetting{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
@@ -3398,6 +3346,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.money_management.transaction.updated":
 		result := &V2MoneyManagementTransactionUpdatedEvent{}
@@ -3509,13 +3460,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.billing.meter.no_meter_found":
 		evt := V1BillingMeterNoMeterFoundEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v2.billing.bill_setting.updated":
-		evt := V2BillingBillSettingUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

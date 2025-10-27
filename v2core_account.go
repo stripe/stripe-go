@@ -36,6 +36,7 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource string
 const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourceIdentityAddress V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "identity_address"
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourceIPAddress       V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "ip_address"
+	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourcePaymentMethod   V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "payment_method"
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourceShippingAddress V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "shipping_address"
 )
 
@@ -1972,6 +1973,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusActive      V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusPending     V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsStatus string
 
 // List of values that V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsStatus can take
@@ -2196,8 +2232,10 @@ type V2CoreAccountDefaultsResponsibilitiesFeesCollector string
 
 // List of values that V2CoreAccountDefaultsResponsibilitiesFeesCollector can take
 const (
-	V2CoreAccountDefaultsResponsibilitiesFeesCollectorApplication V2CoreAccountDefaultsResponsibilitiesFeesCollector = "application"
-	V2CoreAccountDefaultsResponsibilitiesFeesCollectorStripe      V2CoreAccountDefaultsResponsibilitiesFeesCollector = "stripe"
+	V2CoreAccountDefaultsResponsibilitiesFeesCollectorApplication        V2CoreAccountDefaultsResponsibilitiesFeesCollector = "application"
+	V2CoreAccountDefaultsResponsibilitiesFeesCollectorApplicationCustom  V2CoreAccountDefaultsResponsibilitiesFeesCollector = "application_custom"
+	V2CoreAccountDefaultsResponsibilitiesFeesCollectorApplicationExpress V2CoreAccountDefaultsResponsibilitiesFeesCollector = "application_express"
+	V2CoreAccountDefaultsResponsibilitiesFeesCollectorStripe             V2CoreAccountDefaultsResponsibilitiesFeesCollector = "stripe"
 )
 
 // A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
@@ -2685,6 +2723,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityGBBankTransferPayments             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "gb_bank_transfer_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityGrabpayPayments                    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "grabpay_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesGBP                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.gbp"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesUSD                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.usd"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityIDEALPayments                      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "ideal_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityInboundTransfersFinancialAccounts  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "inbound_transfers.financial_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityJCBPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "jcb_payments"
@@ -4075,10 +4114,30 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBP struct {
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetail `json:"status_details"`
 }
 
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution `json:"resolution"`
+}
+
+// Can hold storage-type funds on Stripe in USD.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSD struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetail `json:"status_details"`
+}
+
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrencies struct {
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBP `json:"gbp,omitempty"`
+	// Can hold storage-type funds on Stripe in USD.
+	USD *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSD `json:"usd,omitempty"`
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
@@ -4309,6 +4368,16 @@ type V2CoreAccountIdentityAttestationsPersonsProvided struct {
 	OwnershipExemptionReason V2CoreAccountIdentityAttestationsPersonsProvidedOwnershipExemptionReason `json:"ownership_exemption_reason,omitempty"`
 }
 
+// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+type V2CoreAccountIdentityAttestationsRepresentativeDeclaration struct {
+	// The time marking when the representative attestation was made. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the representative attestation was made.
+	IP string `json:"ip,omitempty"`
+	// The user agent of the browser from which the representative attestation was made.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 type V2CoreAccountIdentityAttestationsTermsOfServiceAccount struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -4337,7 +4406,7 @@ type V2CoreAccountIdentityAttestationsTermsOfService struct {
 	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorer `json:"storer,omitempty"`
 }
 
-// Attestations from the identity's key people, e.g. owners, executives, directors.
+// Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
 type V2CoreAccountIdentityAttestations struct {
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *V2CoreAccountIdentityAttestationsDirectorshipDeclaration `json:"directorship_declaration,omitempty"`
@@ -4345,6 +4414,8 @@ type V2CoreAccountIdentityAttestations struct {
 	OwnershipDeclaration *V2CoreAccountIdentityAttestationsOwnershipDeclaration `json:"ownership_declaration,omitempty"`
 	// Attestation that all Persons with a specific Relationship value have been provided.
 	PersonsProvided *V2CoreAccountIdentityAttestationsPersonsProvided `json:"persons_provided,omitempty"`
+	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
+	RepresentativeDeclaration *V2CoreAccountIdentityAttestationsRepresentativeDeclaration `json:"representative_declaration,omitempty"`
 	// Attestations of accepted terms of service agreements.
 	TermsOfService *V2CoreAccountIdentityAttestationsTermsOfService `json:"terms_of_service,omitempty"`
 }
@@ -4883,7 +4954,7 @@ type V2CoreAccountIdentityIndividual struct {
 
 // Information about the company, individual, and business represented by the Account.
 type V2CoreAccountIdentity struct {
-	// Attestations from the identity's key people, e.g. owners, executives, directors.
+	// Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
 	Attestations *V2CoreAccountIdentityAttestations `json:"attestations,omitempty"`
 	// Information about the company or business.
 	BusinessDetails *V2CoreAccountIdentityBusinessDetails `json:"business_details,omitempty"`
@@ -4994,6 +5065,8 @@ type V2CoreAccount struct {
 	APIResource
 	// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
 	AppliedConfigurations []V2CoreAccountAppliedConfiguration `json:"applied_configurations"`
+	// A value indicating if the Account has been closed.
+	Closed bool `json:"closed,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountConfiguration `json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.

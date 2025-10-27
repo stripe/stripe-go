@@ -41,6 +41,18 @@ func (c v2MoneyManagementFinancialAccountService) Retrieve(ctx context.Context, 
 	return financialaccount, err
 }
 
+// Updates an existing FinancialAccount.
+func (c v2MoneyManagementFinancialAccountService) Update(ctx context.Context, id string, params *V2MoneyManagementFinancialAccountUpdateParams) (*V2MoneyManagementFinancialAccount, error) {
+	if params == nil {
+		params = &V2MoneyManagementFinancialAccountUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/financial_accounts/%s", id)
+	financialaccount := &V2MoneyManagementFinancialAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, financialaccount)
+	return financialaccount, err
+}
+
 // Closes a FinancialAccount with or without forwarding settings.
 func (c v2MoneyManagementFinancialAccountService) Close(ctx context.Context, id string, params *V2MoneyManagementFinancialAccountCloseParams) (*V2MoneyManagementFinancialAccount, error) {
 	if params == nil {
