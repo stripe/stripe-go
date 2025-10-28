@@ -833,6 +833,8 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams struct {
 type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
+	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+	CryptoStorer *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
@@ -1404,6 +1406,16 @@ func (p *V2CoreAccountParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
 // Removes access to the Account and its associated resources. Closed Accounts can no longer be operated on, but limited information can still be retrieved through the API in order to be able to track their history.
@@ -3593,6 +3605,16 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams struct {
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -3607,6 +3629,8 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams struct {
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
+	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+	CryptoStorer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	Storer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }

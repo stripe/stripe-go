@@ -905,7 +905,9 @@ type ChargePaymentDetailsSubscriptionParams struct {
 type ChargePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *ChargePaymentDetailsCarRentalParams `form:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *ChargePaymentDetailsEventDetailsParams `form:"event_details"`
@@ -913,7 +915,11 @@ type ChargePaymentDetailsParams struct {
 	Flight *ChargePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *ChargePaymentDetailsLodgingParams `form:"lodging"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargePaymentDetailsSubscriptionParams `form:"subscription"`
@@ -1256,7 +1262,9 @@ type ChargeCapturePaymentDetailsSubscriptionParams struct {
 type ChargeCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *ChargeCapturePaymentDetailsCarRentalParams `form:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *ChargeCapturePaymentDetailsEventDetailsParams `form:"event_details"`
@@ -1264,7 +1272,11 @@ type ChargeCapturePaymentDetailsParams struct {
 	Flight *ChargeCapturePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *ChargeCapturePaymentDetailsLodgingParams `form:"lodging"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargeCapturePaymentDetailsSubscriptionParams `form:"subscription"`
@@ -1756,7 +1768,9 @@ type ChargeUpdatePaymentDetailsSubscriptionParams struct {
 type ChargeUpdatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *ChargeUpdatePaymentDetailsCarRentalParams `form:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *ChargeUpdatePaymentDetailsEventDetailsParams `form:"event_details"`
@@ -1764,7 +1778,11 @@ type ChargeUpdatePaymentDetailsParams struct {
 	Flight *ChargeUpdatePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *ChargeUpdatePaymentDetailsLodgingParams `form:"lodging"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargeUpdatePaymentDetailsSubscriptionParams `form:"subscription"`
