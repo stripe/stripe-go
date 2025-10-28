@@ -126,6 +126,8 @@ type V2MoneyManagementReceivedDebit struct {
 	Created time.Time `json:"created"`
 	// Freeform string sent by the originator of the ReceivedDebit.
 	Description string `json:"description,omitempty"`
+	// The amount and currency of the original/external debit request.
+	ExternalAmount Amount `json:"external_amount,omitempty"`
 	// Financial Account on which funds for ReceivedDebit were debited.
 	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the ReceivedDebit.

@@ -213,6 +213,8 @@ type V2MoneyManagementReceivedCredit struct {
 	Created time.Time `json:"created"`
 	// Freeform string set by originator of the ReceivedCredit.
 	Description string `json:"description,omitempty"`
+	// The amount and currency of the original/external credit request.
+	ExternalAmount Amount `json:"external_amount,omitempty"`
 	// Financial Account ID on which funds for ReceivedCredit were received.
 	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the ReceivedCredit.
