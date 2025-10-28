@@ -1093,7 +1093,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
 )
 
-// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
+// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType can take
@@ -1102,7 +1102,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeMaximum PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "maximum"
 )
 
-// The periodicity at which payments will be collected. Defaults to `adhoc`.
+// The periodicity at which payments will be collected.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule can take
@@ -1117,7 +1117,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleWeekly      PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "weekly"
 )
 
-// The purpose for which payments are made. Has a default value based on your merchant category code.
+// The purpose for which payments are made. Defaults to retail.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose can take
@@ -3143,15 +3143,15 @@ type PaymentIntentPaymentMethodOptionsPaypayParams struct {
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected. Defaults to `adhoc`.
+	// The periodicity at which payments will be collected.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Has a default value based on your merchant category code.
+	// The purpose for which payments are made. Defaults to retail.
 	Purpose *string `form:"purpose"`
 }
 
@@ -6838,15 +6838,15 @@ type PaymentIntentCreatePaymentMethodOptionsPaypayParams struct {
 type PaymentIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected. Defaults to `adhoc`.
+	// The periodicity at which payments will be collected.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Has a default value based on your merchant category code.
+	// The purpose for which payments are made. Defaults to retail.
 	Purpose *string `form:"purpose"`
 }
 
@@ -9048,15 +9048,15 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypayParams struct {
 type PaymentIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected. Defaults to `adhoc`.
+	// The periodicity at which payments will be collected.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Has a default value based on your merchant category code.
+	// The purpose for which payments are made. Defaults to retail.
 	Purpose *string `form:"purpose"`
 }
 
@@ -10757,15 +10757,15 @@ type PaymentIntentPaymentMethodOptionsPaypay struct{}
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptions struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount int64 `json:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
 	AmountType PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType `json:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate string `json:"end_date"`
-	// The periodicity at which payments will be collected. Defaults to `adhoc`.
+	// The periodicity at which payments will be collected.
 	PaymentSchedule PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule `json:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod int64 `json:"payments_per_period"`
-	// The purpose for which payments are made. Has a default value based on your merchant category code.
+	// The purpose for which payments are made. Defaults to retail.
 	Purpose PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose `json:"purpose"`
 }
 type PaymentIntentPaymentMethodOptionsPayto struct {

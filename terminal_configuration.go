@@ -19,9 +19,9 @@ const (
 // Deletes a Configuration object.
 type TerminalConfigurationParams struct {
 	Params `form:"*"`
-	// An object containing device type specific settings for BBPOS WisePad 3 readers.
+	// An object containing device type specific settings for BBPOS WisePad 3 readers
 	BBPOSWisePad3 *TerminalConfigurationBBPOSWisePad3Params `form:"bbpos_wisepad3"`
-	// An object containing device type specific settings for BBPOS WisePOS E readers.
+	// An object containing device type specific settings for BBPOS WisePOS E readers
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -31,13 +31,13 @@ type TerminalConfigurationParams struct {
 	Offline *TerminalConfigurationOfflineParams `form:"offline"`
 	// Configurations for reader security settings.
 	ReaderSecurity *TerminalConfigurationReaderSecurityParams `form:"reader_security"`
-	// Reboot time settings for readers. that support customized reboot time configuration.
+	// Reboot time settings for readers that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationRebootWindowParams `form:"reboot_window"`
-	// An object containing device type specific settings for Stripe S700 readers.
+	// An object containing device type specific settings for Stripe S700 readers
 	StripeS700 *TerminalConfigurationStripeS700Params `form:"stripe_s700"`
-	// Tipping configurations for readers. supporting on-reader tips
+	// Tipping configurations for readers supporting on-reader tips
 	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
-	// An object containing device type specific settings for Verifone P400 readers.
+	// An object containing device type specific settings for Verifone P400 readers
 	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
 	Wifi *TerminalConfigurationWifiParams `form:"wifi"`
@@ -48,13 +48,13 @@ func (p *TerminalConfigurationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// An object containing device type specific settings for BBPOS WisePad 3 readers.
+// An object containing device type specific settings for BBPOS WisePad 3 readers
 type TerminalConfigurationBBPOSWisePad3Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
-// An object containing device type specific settings for BBPOS WisePOS E readers.
+// An object containing device type specific settings for BBPOS WisePOS E readers
 type TerminalConfigurationBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *string `form:"splashscreen"`
@@ -72,7 +72,7 @@ type TerminalConfigurationReaderSecurityParams struct {
 	AdminMenuPasscode *string `form:"admin_menu_passcode"`
 }
 
-// Reboot time settings for readers. that support customized reboot time configuration.
+// Reboot time settings for readers that support customized reboot time configuration.
 type TerminalConfigurationRebootWindowParams struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
 	EndHour *int64 `form:"end_hour"`
@@ -80,9 +80,9 @@ type TerminalConfigurationRebootWindowParams struct {
 	StartHour *int64 `form:"start_hour"`
 }
 
-// An object containing device type specific settings for Stripe S700 readers.
+// An object containing device type specific settings for Stripe S700 readers
 type TerminalConfigurationStripeS700Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
@@ -306,7 +306,7 @@ type TerminalConfigurationTippingUSDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
-// Tipping configurations for readers. supporting on-reader tips
+// Tipping configurations for readers supporting on-reader tips
 type TerminalConfigurationTippingParams struct {
 	// Tipping configuration for AED
 	Aed *TerminalConfigurationTippingAedParams `form:"aed"`
@@ -354,9 +354,9 @@ type TerminalConfigurationTippingParams struct {
 	USD *TerminalConfigurationTippingUSDParams `form:"usd"`
 }
 
-// An object containing device type specific settings for Verifone P400 readers.
+// An object containing device type specific settings for Verifone P400 readers
 type TerminalConfigurationVerifoneP400Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
@@ -437,13 +437,13 @@ func (p *TerminalConfigurationRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// An object containing device type specific settings for BBPOS WisePad 3 readers.
+// An object containing device type specific settings for BBPOS WisePad 3 readers
 type TerminalConfigurationUpdateBBPOSWisePad3Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
-// An object containing device type specific settings for BBPOS WisePOS E readers.
+// An object containing device type specific settings for BBPOS WisePOS E readers
 type TerminalConfigurationUpdateBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *string `form:"splashscreen"`
@@ -461,7 +461,7 @@ type TerminalConfigurationUpdateReaderSecurityParams struct {
 	AdminMenuPasscode *string `form:"admin_menu_passcode"`
 }
 
-// Reboot time settings for readers. that support customized reboot time configuration.
+// Reboot time settings for readers that support customized reboot time configuration.
 type TerminalConfigurationUpdateRebootWindowParams struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
 	EndHour *int64 `form:"end_hour"`
@@ -469,9 +469,9 @@ type TerminalConfigurationUpdateRebootWindowParams struct {
 	StartHour *int64 `form:"start_hour"`
 }
 
-// An object containing device type specific settings for Stripe S700 readers.
+// An object containing device type specific settings for Stripe S700 readers
 type TerminalConfigurationUpdateStripeS700Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
@@ -695,7 +695,7 @@ type TerminalConfigurationUpdateTippingUSDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
-// Tipping configurations for readers. supporting on-reader tips
+// Tipping configurations for readers supporting on-reader tips
 type TerminalConfigurationUpdateTippingParams struct {
 	// Tipping configuration for AED
 	Aed *TerminalConfigurationUpdateTippingAedParams `form:"aed"`
@@ -743,9 +743,9 @@ type TerminalConfigurationUpdateTippingParams struct {
 	USD *TerminalConfigurationUpdateTippingUSDParams `form:"usd"`
 }
 
-// An object containing device type specific settings for Verifone P400 readers.
+// An object containing device type specific settings for Verifone P400 readers
 type TerminalConfigurationUpdateVerifoneP400Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
@@ -798,9 +798,9 @@ type TerminalConfigurationUpdateWifiParams struct {
 // Updates a new Configuration object.
 type TerminalConfigurationUpdateParams struct {
 	Params `form:"*"`
-	// An object containing device type specific settings for BBPOS WisePad 3 readers.
+	// An object containing device type specific settings for BBPOS WisePad 3 readers
 	BBPOSWisePad3 *TerminalConfigurationUpdateBBPOSWisePad3Params `form:"bbpos_wisepad3"`
-	// An object containing device type specific settings for BBPOS WisePOS E readers.
+	// An object containing device type specific settings for BBPOS WisePOS E readers
 	BBPOSWisePOSE *TerminalConfigurationUpdateBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -810,13 +810,13 @@ type TerminalConfigurationUpdateParams struct {
 	Offline *TerminalConfigurationUpdateOfflineParams `form:"offline"`
 	// Configurations for reader security settings.
 	ReaderSecurity *TerminalConfigurationUpdateReaderSecurityParams `form:"reader_security"`
-	// Reboot time settings for readers. that support customized reboot time configuration.
+	// Reboot time settings for readers that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationUpdateRebootWindowParams `form:"reboot_window"`
-	// An object containing device type specific settings for Stripe S700 readers.
+	// An object containing device type specific settings for Stripe S700 readers
 	StripeS700 *TerminalConfigurationUpdateStripeS700Params `form:"stripe_s700"`
-	// Tipping configurations for readers. supporting on-reader tips
+	// Tipping configurations for readers supporting on-reader tips
 	Tipping *TerminalConfigurationUpdateTippingParams `form:"tipping"`
-	// An object containing device type specific settings for Verifone P400 readers.
+	// An object containing device type specific settings for Verifone P400 readers
 	VerifoneP400 *TerminalConfigurationUpdateVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
 	Wifi *TerminalConfigurationUpdateWifiParams `form:"wifi"`
@@ -827,13 +827,13 @@ func (p *TerminalConfigurationUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// An object containing device type specific settings for BBPOS WisePad 3 readers.
+// An object containing device type specific settings for BBPOS WisePad 3 readers
 type TerminalConfigurationCreateBBPOSWisePad3Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
-// An object containing device type specific settings for BBPOS WisePOS E readers.
+// An object containing device type specific settings for BBPOS WisePOS E readers
 type TerminalConfigurationCreateBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *string `form:"splashscreen"`
@@ -851,7 +851,7 @@ type TerminalConfigurationCreateReaderSecurityParams struct {
 	AdminMenuPasscode *string `form:"admin_menu_passcode"`
 }
 
-// Reboot time settings for readers. that support customized reboot time configuration.
+// Reboot time settings for readers that support customized reboot time configuration.
 type TerminalConfigurationCreateRebootWindowParams struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
 	EndHour *int64 `form:"end_hour"`
@@ -859,9 +859,9 @@ type TerminalConfigurationCreateRebootWindowParams struct {
 	StartHour *int64 `form:"start_hour"`
 }
 
-// An object containing device type specific settings for Stripe S700 readers.
+// An object containing device type specific settings for Stripe S700 readers
 type TerminalConfigurationCreateStripeS700Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
@@ -1085,7 +1085,7 @@ type TerminalConfigurationCreateTippingUSDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
-// Tipping configurations for readers. supporting on-reader tips
+// Tipping configurations for readers supporting on-reader tips
 type TerminalConfigurationCreateTippingParams struct {
 	// Tipping configuration for AED
 	Aed *TerminalConfigurationCreateTippingAedParams `form:"aed"`
@@ -1133,9 +1133,9 @@ type TerminalConfigurationCreateTippingParams struct {
 	USD *TerminalConfigurationCreateTippingUSDParams `form:"usd"`
 }
 
-// An object containing device type specific settings for Verifone P400 readers.
+// An object containing device type specific settings for Verifone P400 readers
 type TerminalConfigurationCreateVerifoneP400Params struct {
-	// A File ID representing an image you want to display on the reader.
+	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
 
@@ -1188,9 +1188,9 @@ type TerminalConfigurationCreateWifiParams struct {
 // Creates a new Configuration object.
 type TerminalConfigurationCreateParams struct {
 	Params `form:"*"`
-	// An object containing device type specific settings for BBPOS WisePad 3 readers.
+	// An object containing device type specific settings for BBPOS WisePad 3 readers
 	BBPOSWisePad3 *TerminalConfigurationCreateBBPOSWisePad3Params `form:"bbpos_wisepad3"`
-	// An object containing device type specific settings for BBPOS WisePOS E readers.
+	// An object containing device type specific settings for BBPOS WisePOS E readers
 	BBPOSWisePOSE *TerminalConfigurationCreateBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -1200,13 +1200,13 @@ type TerminalConfigurationCreateParams struct {
 	Offline *TerminalConfigurationCreateOfflineParams `form:"offline"`
 	// Configurations for reader security settings.
 	ReaderSecurity *TerminalConfigurationCreateReaderSecurityParams `form:"reader_security"`
-	// Reboot time settings for readers. that support customized reboot time configuration.
+	// Reboot time settings for readers that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationCreateRebootWindowParams `form:"reboot_window"`
-	// An object containing device type specific settings for Stripe S700 readers.
+	// An object containing device type specific settings for Stripe S700 readers
 	StripeS700 *TerminalConfigurationCreateStripeS700Params `form:"stripe_s700"`
-	// Tipping configurations for readers. supporting on-reader tips
+	// Tipping configurations for readers supporting on-reader tips
 	Tipping *TerminalConfigurationCreateTippingParams `form:"tipping"`
-	// An object containing device type specific settings for Verifone P400 readers.
+	// An object containing device type specific settings for Verifone P400 readers
 	VerifoneP400 *TerminalConfigurationCreateVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
 	Wifi *TerminalConfigurationCreateWifiParams `form:"wifi"`
