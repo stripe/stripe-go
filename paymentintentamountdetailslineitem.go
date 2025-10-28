@@ -60,11 +60,15 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptions struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentAmountDetailsLineItemTax struct {
-	// Total portion of the amount that is for tax.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount int64 `json:"total_tax_amount"`
 }
 type PaymentIntentAmountDetailsLineItem struct {
-	// The amount an item was discounted for. Positive integer.
+	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount int64 `json:"discount_amount"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -72,17 +76,19 @@ type PaymentIntentAmountDetailsLineItem struct {
 	Object string `json:"object"`
 	// Payment method-specific information for line items.
 	PaymentMethodOptions *PaymentIntentAmountDetailsLineItemPaymentMethodOptions `json:"payment_method_options"`
-	// Unique identifier of the product. At most 12 characters long.
+	// The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long.
 	ProductCode string `json:"product_code"`
-	// Name of the product. At most 100 characters long.
+	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
+	//
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
 	ProductName string `json:"product_name"`
-	// Number of items of the product. Positive integer.
+	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity int64 `json:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentAmountDetailsLineItemTax `json:"tax"`
-	// Cost of the product. Non-negative integer.
+	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost int64 `json:"unit_cost"`
-	// A unit of measure for the line item, such as gallons, feet, meters, etc.
+	// A unit of measure for the line item, such as gallons, feet, meters, etc. Required for L3 rates. At most 12 alphanumeric characters long.
 	UnitOfMeasure string `json:"unit_of_measure"`
 }
 
