@@ -16,7 +16,6 @@ const (
 	BalanceTransactionBalanceTypeIssuing                    BalanceTransactionBalanceType = "issuing"
 	BalanceTransactionBalanceTypePayments                   BalanceTransactionBalanceType = "payments"
 	BalanceTransactionBalanceTypeRefundAndDisputePrefunding BalanceTransactionBalanceType = "refund_and_dispute_prefunding"
-	BalanceTransactionBalanceTypeTransit                    BalanceTransactionBalanceType = "transit"
 )
 
 // Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.

@@ -43,6 +43,8 @@ type DelegatedCheckoutRequestedSessionParams struct {
 	PaymentMethod *string `form:"payment_method"`
 	// The payment method data for this requested session.
 	PaymentMethodData *DelegatedCheckoutRequestedSessionPaymentMethodDataParams `form:"payment_method_data"`
+	// The risk details for this requested session.
+	RiskDetails *DelegatedCheckoutRequestedSessionRiskDetailsParams `form:"risk_details"`
 	// The details of the seller.
 	SellerDetails *DelegatedCheckoutRequestedSessionSellerDetailsParams `form:"seller_details"`
 	// The setup future usage for this requested session.
@@ -136,30 +138,30 @@ type DelegatedCheckoutRequestedSessionPaymentMethodDataParams struct {
 	Type *string `form:"type"`
 }
 
-// The details of the seller.
-type DelegatedCheckoutRequestedSessionSellerDetailsParams struct {
-	// The network profile for the seller.
-	NetworkProfile *string `form:"network_profile"`
-}
-
 // The client device metadata details for this requested session.
-type DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams struct {
+type DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetailsParams struct {
 	// The radar session.
 	RadarSession *string `form:"radar_session"`
 	// The referrer of the client device.
 	Referrer *string `form:"referrer"`
 	// The remote IP address of the client device.
 	RemoteIP *string `form:"remote_ip"`
-	// The time on page in milliseconds.
-	TimeOnPageMS *int64 `form:"time_on_page_ms"`
+	// The time on page in seconds.
+	TimeOnPage *int64 `form:"time_on_page"`
 	// The user agent of the client device.
 	UserAgent *string `form:"user_agent"`
 }
 
-// Risk details/signals associated with the requested session
-type DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams struct {
+// The risk details for this requested session.
+type DelegatedCheckoutRequestedSessionRiskDetailsParams struct {
 	// The client device metadata details for this requested session.
-	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+}
+
+// The details of the seller.
+type DelegatedCheckoutRequestedSessionSellerDetailsParams struct {
+	// The network profile for the seller.
+	NetworkProfile *string `form:"network_profile"`
 }
 
 // Confirms a requested session
@@ -169,8 +171,6 @@ type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Expand []*string `form:"expand"`
 	// The PaymentMethod to use with the requested session.
 	PaymentMethod *string `form:"payment_method"`
-	// Risk details/signals associated with the requested session
-	RiskDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams `form:"risk_details"`
 }
 
 // AddExpand appends a new field to expand.
@@ -357,6 +357,26 @@ type DelegatedCheckoutRequestedSessionCreatePaymentMethodDataParams struct {
 	Type *string `form:"type"`
 }
 
+// The client device metadata details for this requested session.
+type DelegatedCheckoutRequestedSessionCreateRiskDetailsClientDeviceMetadataDetailsParams struct {
+	// The radar session.
+	RadarSession *string `form:"radar_session"`
+	// The referrer of the client device.
+	Referrer *string `form:"referrer"`
+	// The remote IP address of the client device.
+	RemoteIP *string `form:"remote_ip"`
+	// The time on page in seconds.
+	TimeOnPage *int64 `form:"time_on_page"`
+	// The user agent of the client device.
+	UserAgent *string `form:"user_agent"`
+}
+
+// The risk details for this requested session.
+type DelegatedCheckoutRequestedSessionCreateRiskDetailsParams struct {
+	// The client device metadata details for this requested session.
+	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionCreateRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+}
+
 // The details of the seller.
 type DelegatedCheckoutRequestedSessionCreateSellerDetailsParams struct {
 	// The network profile for the seller.
@@ -382,6 +402,8 @@ type DelegatedCheckoutRequestedSessionCreateParams struct {
 	PaymentMethod *string `form:"payment_method"`
 	// The payment method data for this requested session.
 	PaymentMethodData *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataParams `form:"payment_method_data"`
+	// The risk details for this requested session.
+	RiskDetails *DelegatedCheckoutRequestedSessionCreateRiskDetailsParams `form:"risk_details"`
 	// The details of the seller.
 	SellerDetails *DelegatedCheckoutRequestedSessionCreateSellerDetailsParams `form:"seller_details"`
 	// The setup future usage for this requested session.
