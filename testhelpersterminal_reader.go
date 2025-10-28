@@ -26,7 +26,7 @@ type TestHelpersTerminalReaderPresentPaymentMethodCardPresentParams struct {
 
 // Simulated data for the interac_present payment method.
 type TestHelpersTerminalReaderPresentPaymentMethodInteracPresentParams struct {
-	// Card Number
+	// The Interac card number.
 	Number *string `form:"number"`
 }
 

@@ -215,6 +215,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkBase     PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "base"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkEthereum PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "ethereum"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkPolygon  PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "polygon"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkSolana   PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "solana"
 )
 
 // The token currency that the transaction was sent with.
@@ -1302,7 +1303,10 @@ type PaymentAttemptRecordPaymentMethodDetailsPromptPay struct {
 	Reference string `json:"reference"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsQris struct{}
-type PaymentAttemptRecordPaymentMethodDetailsRechnung struct{}
+type PaymentAttemptRecordPaymentMethodDetailsRechnung struct {
+	// Payment portal URL.
+	PaymentPortalURL string `json:"payment_portal_url"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`

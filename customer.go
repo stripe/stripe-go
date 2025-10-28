@@ -30,6 +30,17 @@ const (
 	CustomerTaxLocationSourceShippingDestination CustomerTaxLocationSource = "shipping_destination"
 )
 
+// The tax calculation provider used for location resolution. Defaults to `stripe` when not using a [third-party provider](https://docs.stripe.com/tax/third-party-apps).
+type CustomerTaxProvider string
+
+// List of values that CustomerTaxProvider can take
+const (
+	CustomerTaxProviderAnrok   CustomerTaxProvider = "anrok"
+	CustomerTaxProviderAvalara CustomerTaxProvider = "avalara"
+	CustomerTaxProviderSphere  CustomerTaxProvider = "sphere"
+	CustomerTaxProviderStripe  CustomerTaxProvider = "stripe"
+)
+
 // Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to `reverse`, invoice and receipt PDFs include the following text: **"Reverse charge"**.
 type CustomerTaxExempt string
 
@@ -600,6 +611,8 @@ type CustomerTax struct {
 	IPAddress string `json:"ip_address"`
 	// The identified tax location of the customer.
 	Location *CustomerTaxLocation `json:"location"`
+	// The tax calculation provider used for location resolution. Defaults to `stripe` when not using a [third-party provider](https://docs.stripe.com/tax/third-party-apps).
+	Provider CustomerTaxProvider `json:"provider"`
 }
 
 // This object represents a customer of your business. Use it to [create recurring charges](https://stripe.com/docs/invoicing/customer), [save payment](https://stripe.com/docs/payments/save-during-payment) and contact information,

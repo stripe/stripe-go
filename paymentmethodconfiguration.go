@@ -311,6 +311,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationCryptoDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationCryptoDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationCryptoDisplayPreferencePreferenceNone PaymentMethodConfigurationCryptoDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationCryptoDisplayPreferencePreferenceOff  PaymentMethodConfigurationCryptoDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationCryptoDisplayPreferencePreferenceOn   PaymentMethodConfigurationCryptoDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationCryptoDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationCryptoDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationCryptoDisplayPreferenceValueOff PaymentMethodConfigurationCryptoDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationCryptoDisplayPreferenceValueOn  PaymentMethodConfigurationCryptoDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationCustomerBalanceDisplayPreferencePreference can take
@@ -593,6 +612,25 @@ type PaymentMethodConfigurationLinkDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationLinkDisplayPreferenceValueOff PaymentMethodConfigurationLinkDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationLinkDisplayPreferenceValueOn  PaymentMethodConfigurationLinkDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationMbWayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationMbWayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationMbWayDisplayPreferencePreferenceNone PaymentMethodConfigurationMbWayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationMbWayDisplayPreferencePreferenceOff  PaymentMethodConfigurationMbWayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationMbWayDisplayPreferencePreferenceOn   PaymentMethodConfigurationMbWayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationMbWayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationMbWayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationMbWayDisplayPreferenceValueOff PaymentMethodConfigurationMbWayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationMbWayDisplayPreferenceValueOn  PaymentMethodConfigurationMbWayDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -1308,6 +1346,18 @@ type PaymentMethodConfigurationCashAppParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCryptoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+type PaymentMethodConfigurationCryptoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCryptoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1497,6 +1547,18 @@ type PaymentMethodConfigurationLinkDisplayPreferenceParams struct {
 type PaymentMethodConfigurationLinkParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationLinkDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationMbWayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+type PaymentMethodConfigurationMbWayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationMbWayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1850,6 +1912,8 @@ type PaymentMethodConfigurationParams struct {
 	CartesBancaires *PaymentMethodConfigurationCartesBancairesParams `form:"cartes_bancaires"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://stripe.com/docs/payments/cash-app-pay) for more details.
 	CashApp *PaymentMethodConfigurationCashAppParams `form:"cashapp"`
+	// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+	Crypto *PaymentMethodConfigurationCryptoParams `form:"crypto"`
 	// Uses a customer's [cash balance](https://stripe.com/docs/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://stripe.com/docs/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationCustomerBalanceParams `form:"customer_balance"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://stripe.com/docs/payments/eps) for more details.
@@ -1884,6 +1948,8 @@ type PaymentMethodConfigurationParams struct {
 	KrCard *PaymentMethodConfigurationKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationLinkParams `form:"link"`
+	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+	MbWay *PaymentMethodConfigurationMbWayParams `form:"mb_way"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationMobilepayParams `form:"mobilepay"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -2152,6 +2218,18 @@ type PaymentMethodConfigurationCreateCashAppParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateCryptoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+type PaymentMethodConfigurationCreateCryptoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateCryptoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateCustomerBalanceDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2341,6 +2419,18 @@ type PaymentMethodConfigurationCreateLinkDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateLinkParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateLinkDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+type PaymentMethodConfigurationCreateMbWayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2692,6 +2782,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	CartesBancaires *PaymentMethodConfigurationCreateCartesBancairesParams `form:"cartes_bancaires"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://stripe.com/docs/payments/cash-app-pay) for more details.
 	CashApp *PaymentMethodConfigurationCreateCashAppParams `form:"cashapp"`
+	// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+	Crypto *PaymentMethodConfigurationCreateCryptoParams `form:"crypto"`
 	// Uses a customer's [cash balance](https://stripe.com/docs/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://stripe.com/docs/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationCreateCustomerBalanceParams `form:"customer_balance"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://stripe.com/docs/payments/eps) for more details.
@@ -2726,6 +2818,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	KrCard *PaymentMethodConfigurationCreateKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationCreateLinkParams `form:"link"`
+	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+	MbWay *PaymentMethodConfigurationCreateMbWayParams `form:"mb_way"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationCreateMobilepayParams `form:"mobilepay"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -3006,6 +3100,18 @@ type PaymentMethodConfigurationUpdateCashAppParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateCryptoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+type PaymentMethodConfigurationUpdateCryptoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateCryptoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateCustomerBalanceDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -3195,6 +3301,18 @@ type PaymentMethodConfigurationUpdateLinkDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateLinkParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateLinkDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+type PaymentMethodConfigurationUpdateMbWayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3548,6 +3666,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	CartesBancaires *PaymentMethodConfigurationUpdateCartesBancairesParams `form:"cartes_bancaires"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://stripe.com/docs/payments/cash-app-pay) for more details.
 	CashApp *PaymentMethodConfigurationUpdateCashAppParams `form:"cashapp"`
+	// [Stablecoin payments](https://stripe.com/docs/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
+	Crypto *PaymentMethodConfigurationUpdateCryptoParams `form:"crypto"`
 	// Uses a customer's [cash balance](https://stripe.com/docs/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://stripe.com/docs/payments/bank-transfers) for more details.
 	CustomerBalance *PaymentMethodConfigurationUpdateCustomerBalanceParams `form:"customer_balance"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://stripe.com/docs/payments/eps) for more details.
@@ -3582,6 +3702,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	KrCard *PaymentMethodConfigurationUpdateKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationUpdateLinkParams `form:"link"`
+	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://stripe.com/docs/payments/mb-way) for more details.
+	MbWay *PaymentMethodConfigurationUpdateMbWayParams `form:"mb_way"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationUpdateMobilepayParams `form:"mobilepay"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
@@ -3851,6 +3973,19 @@ type PaymentMethodConfigurationCashApp struct {
 	Available         bool                                                `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationCashAppDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationCryptoDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationCryptoDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationCryptoDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationCrypto struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationCryptoDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationCustomerBalanceDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4045,6 +4180,19 @@ type PaymentMethodConfigurationLink struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                             `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationLinkDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationMbWayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationMbWayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationMbWayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationMbWay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationMbWayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationMobilepayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -4421,6 +4569,7 @@ type PaymentMethodConfiguration struct {
 	Card            *PaymentMethodConfigurationCard            `json:"card"`
 	CartesBancaires *PaymentMethodConfigurationCartesBancaires `json:"cartes_bancaires"`
 	CashApp         *PaymentMethodConfigurationCashApp         `json:"cashapp"`
+	Crypto          *PaymentMethodConfigurationCrypto          `json:"crypto"`
 	CustomerBalance *PaymentMethodConfigurationCustomerBalance `json:"customer_balance"`
 	EPS             *PaymentMethodConfigurationEPS             `json:"eps"`
 	FPX             *PaymentMethodConfigurationFPX             `json:"fpx"`
@@ -4442,6 +4591,7 @@ type PaymentMethodConfiguration struct {
 	Link      *PaymentMethodConfigurationLink     `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode   bool                                  `json:"livemode"`
+	MbWay      *PaymentMethodConfigurationMbWay      `json:"mb_way"`
 	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay"`
 	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
 	// The configuration's name.

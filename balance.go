@@ -115,6 +115,46 @@ type BalanceRefundAndDisputePrefunding struct {
 	// Funds that are pending
 	Pending []*BalanceRefundAndDisputePrefundingPending `json:"pending"`
 }
+type BalanceTransitBalancesTotalAvailableSourceTypes struct {
+	// Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+	BankAccount int64 `json:"bank_account"`
+	// Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+	Card int64 `json:"card"`
+	// Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+	FPX int64 `json:"fpx"`
+}
+
+// Funds that are available for use.
+type BalanceTransitBalancesTotalAvailable struct {
+	// Balance amount.
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency    Currency                                         `json:"currency"`
+	SourceTypes *BalanceTransitBalancesTotalAvailableSourceTypes `json:"source_types"`
+}
+type BalanceTransitBalancesTotalPendingSourceTypes struct {
+	// Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+	BankAccount int64 `json:"bank_account"`
+	// Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+	Card int64 `json:"card"`
+	// Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+	FPX int64 `json:"fpx"`
+}
+
+// Funds that are pending
+type BalanceTransitBalancesTotalPending struct {
+	// Balance amount.
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency    Currency                                       `json:"currency"`
+	SourceTypes *BalanceTransitBalancesTotalPendingSourceTypes `json:"source_types"`
+}
+type BalanceTransitBalancesTotal struct {
+	// Funds that are available for use.
+	Available []*BalanceTransitBalancesTotalAvailable `json:"available"`
+	// Funds that are pending
+	Pending []*BalanceTransitBalancesTotalPending `json:"pending"`
+}
 
 // This is an object representing your Stripe balance. You can retrieve it to see
 // the balance currently on your Stripe account.
@@ -138,4 +178,5 @@ type Balance struct {
 	// Funds that aren't available in the balance yet. You can find the pending balance for each currency and each payment type in the `source_types` property.
 	Pending                    []*BalanceAmount                   `json:"pending"`
 	RefundAndDisputePrefunding *BalanceRefundAndDisputePrefunding `json:"refund_and_dispute_prefunding"`
+	TransitBalancesTotal       *BalanceTransitBalancesTotal       `json:"transit_balances_total"`
 }

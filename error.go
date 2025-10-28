@@ -169,6 +169,7 @@ const (
 	ErrorCodePaymentIntentMandateInvalid                                 ErrorCode = "payment_intent_mandate_invalid"
 	ErrorCodePaymentIntentPaymentAttemptExpired                          ErrorCode = "payment_intent_payment_attempt_expired"
 	ErrorCodePaymentIntentPaymentAttemptFailed                           ErrorCode = "payment_intent_payment_attempt_failed"
+	ErrorCodePaymentIntentRateLimitExceeded                              ErrorCode = "payment_intent_rate_limit_exceeded"
 	ErrorCodePaymentIntentUnexpectedState                                ErrorCode = "payment_intent_unexpected_state"
 	ErrorCodePaymentMethodBankAccountAlreadyVerified                     ErrorCode = "payment_method_bank_account_already_verified"
 	ErrorCodePaymentMethodBankAccountBlocked                             ErrorCode = "payment_method_bank_account_blocked"
