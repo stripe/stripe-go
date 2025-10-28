@@ -2,6 +2,7 @@
 package stripe
 
 import (
+	"math/big"
 	"bytes"
 	"context"
 	"crypto/x509"
@@ -9,7 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"math/rand"
+	"crypto/rand"
 	"net/http"
 	"net/url"
 	"os/exec"
@@ -1109,7 +1110,7 @@ func (s *BackendImplementation) sleepTime(numRetries int) time.Duration {
 	}
 
 	// Apply some jitter by randomizing the value in the range of 75%-100%.
-	jitter := rand.Int63n(int64(delay / 4))
+	jitter := rand.Int(rand.Reader, big.NewInt(int64(delay / 4)))
 	delay -= time.Duration(jitter)
 
 	// But never sleep less than the base sleep seconds.
