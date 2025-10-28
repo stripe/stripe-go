@@ -1093,7 +1093,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
 )
 
-// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType can take
@@ -1102,7 +1102,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeMaximum PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "maximum"
 )
 
-// The periodicity at which payments will be collected.
+// The periodicity at which payments will be collected. Defaults to `adhoc`.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule can take
@@ -1117,7 +1117,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleWeekly      PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "weekly"
 )
 
-// The purpose for which payments are made. Defaults to retail.
+// The purpose for which payments are made. Has a default value based on your merchant category code.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose can take
@@ -1594,25 +1594,31 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsParams struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentAmountDetailsLineItemTaxParams struct {
-	// The total tax on an item. Non-negative integer.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentAmountDetailsLineItemParams struct {
-	// The amount an item was discounted for. Positive integer.
+	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// Payment method-specific information for line items.
 	PaymentMethodOptions *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
-	// Unique identifier of the product. At most 12 characters long.
+	// The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long.
 	ProductCode *string `form:"product_code"`
-	// Name of the product. At most 100 characters long.
+	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
+	//
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
-	// Number of items of the product. Positive integer.
+	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentAmountDetailsLineItemTaxParams `form:"tax"`
-	// Cost of the product. Non-negative integer.
+	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -1620,23 +1626,27 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentAmountDetailsShippingParams struct {
-	// Portion of the amount that is for shipping.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
-	// The postal code that represents the shipping source.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
-	// The postal code that represents the shipping destination.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
 	ToPostalCode *string `form:"to_postal_code"`
 }
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentAmountDetailsTaxParams struct {
-	// Total portion of the amount that is for tax.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // Provides industry-specific information about the amount.
 type PaymentIntentAmountDetailsParams struct {
-	// The total discount applied on the transaction.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
@@ -2023,7 +2033,9 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 type PaymentIntentPaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentPaymentDetailsCarRentalParams `form:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentPaymentDetailsEventDetailsParams `form:"event_details"`
@@ -2031,7 +2043,11 @@ type PaymentIntentPaymentDetailsParams struct {
 	Flight *PaymentIntentPaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentPaymentDetailsLodgingParams `form:"lodging"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentPaymentDetailsSubscriptionParams `form:"subscription"`
@@ -3127,15 +3143,15 @@ type PaymentIntentPaymentMethodOptionsPaypayParams struct {
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected.
+	// The periodicity at which payments will be collected. Defaults to `adhoc`.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Defaults to retail.
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 }
 
@@ -3846,25 +3862,31 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsParams struct 
 
 // Contains information about the tax on the item.
 type PaymentIntentCaptureAmountDetailsLineItemTaxParams struct {
-	// The total tax on an item. Non-negative integer.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentCaptureAmountDetailsLineItemParams struct {
-	// The amount an item was discounted for. Positive integer.
+	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// Payment method-specific information for line items.
 	PaymentMethodOptions *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
-	// Unique identifier of the product. At most 12 characters long.
+	// The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long.
 	ProductCode *string `form:"product_code"`
-	// Name of the product. At most 100 characters long.
+	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
+	//
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
-	// Number of items of the product. Positive integer.
+	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentCaptureAmountDetailsLineItemTaxParams `form:"tax"`
-	// Cost of the product. Non-negative integer.
+	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -3872,23 +3894,27 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentCaptureAmountDetailsShippingParams struct {
-	// Portion of the amount that is for shipping.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
-	// The postal code that represents the shipping source.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
-	// The postal code that represents the shipping destination.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
 	ToPostalCode *string `form:"to_postal_code"`
 }
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentCaptureAmountDetailsTaxParams struct {
-	// Total portion of the amount that is for tax.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // Provides industry-specific information about the amount.
 type PaymentIntentCaptureAmountDetailsParams struct {
-	// The total discount applied on the transaction.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
@@ -4236,7 +4262,9 @@ type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
 type PaymentIntentCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentCapturePaymentDetailsCarRentalParams `form:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentCapturePaymentDetailsEventDetailsParams `form:"event_details"`
@@ -4244,7 +4272,11 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 	Flight *PaymentIntentCapturePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentCapturePaymentDetailsLodgingParams `form:"lodging"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentCapturePaymentDetailsSubscriptionParams `form:"subscription"`
@@ -4346,25 +4378,31 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsParams struct 
 
 // Contains information about the tax on the item.
 type PaymentIntentConfirmAmountDetailsLineItemTaxParams struct {
-	// The total tax on an item. Non-negative integer.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentConfirmAmountDetailsLineItemParams struct {
-	// The amount an item was discounted for. Positive integer.
+	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// Payment method-specific information for line items.
 	PaymentMethodOptions *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
-	// Unique identifier of the product. At most 12 characters long.
+	// The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long.
 	ProductCode *string `form:"product_code"`
-	// Name of the product. At most 100 characters long.
+	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
+	//
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
-	// Number of items of the product. Positive integer.
+	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentConfirmAmountDetailsLineItemTaxParams `form:"tax"`
-	// Cost of the product. Non-negative integer.
+	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -4372,23 +4410,27 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentConfirmAmountDetailsShippingParams struct {
-	// Portion of the amount that is for shipping.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
-	// The postal code that represents the shipping source.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
-	// The postal code that represents the shipping destination.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
 	ToPostalCode *string `form:"to_postal_code"`
 }
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentConfirmAmountDetailsTaxParams struct {
-	// Total portion of the amount that is for tax.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // Provides industry-specific information about the amount.
 type PaymentIntentConfirmAmountDetailsParams struct {
-	// The total discount applied on the transaction.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
@@ -4736,7 +4778,9 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 type PaymentIntentConfirmPaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentConfirmPaymentDetailsCarRentalParams `form:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentConfirmPaymentDetailsEventDetailsParams `form:"event_details"`
@@ -4744,7 +4788,11 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentConfirmPaymentDetailsLodgingParams `form:"lodging"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentConfirmPaymentDetailsSubscriptionParams `form:"subscription"`
@@ -4977,25 +5025,31 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 
 // Contains information about the tax on the item.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams struct {
-	// The total tax on an item. Non-negative integer.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
-	// The amount an item was discounted for. Positive integer.
+	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// Payment method-specific information for line items.
 	PaymentMethodOptions *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
-	// Unique identifier of the product. At most 12 characters long.
+	// The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long.
 	ProductCode *string `form:"product_code"`
-	// Name of the product. At most 100 characters long.
+	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
+	//
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
-	// Number of items of the product. Positive integer.
+	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax"`
-	// Cost of the product. Non-negative integer.
+	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -5003,23 +5057,27 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsShippingParams struct {
-	// Portion of the amount that is for shipping.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
-	// The postal code that represents the shipping source.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
-	// The postal code that represents the shipping destination.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
 	ToPostalCode *string `form:"to_postal_code"`
 }
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsTaxParams struct {
-	// Total portion of the amount that is for tax.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // Provides industry-specific information about the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
-	// The total discount applied on the transaction.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
@@ -5049,9 +5107,15 @@ type PaymentIntentIncrementAuthorizationHooksParams struct {
 
 // Provides industry-specific information about the charge.
 type PaymentIntentIncrementAuthorizationPaymentDetailsParams struct {
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 }
 
@@ -5225,25 +5289,31 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsParams struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentCreateAmountDetailsLineItemTaxParams struct {
-	// The total tax on an item. Non-negative integer.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentCreateAmountDetailsLineItemParams struct {
-	// The amount an item was discounted for. Positive integer.
+	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// Payment method-specific information for line items.
 	PaymentMethodOptions *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
-	// Unique identifier of the product. At most 12 characters long.
+	// The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long.
 	ProductCode *string `form:"product_code"`
-	// Name of the product. At most 100 characters long.
+	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
+	//
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
-	// Number of items of the product. Positive integer.
+	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentCreateAmountDetailsLineItemTaxParams `form:"tax"`
-	// Cost of the product. Non-negative integer.
+	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -5251,23 +5321,27 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentCreateAmountDetailsShippingParams struct {
-	// Portion of the amount that is for shipping.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
-	// The postal code that represents the shipping source.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
-	// The postal code that represents the shipping destination.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
 	ToPostalCode *string `form:"to_postal_code"`
 }
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentCreateAmountDetailsTaxParams struct {
-	// Total portion of the amount that is for tax.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // Provides industry-specific information about the amount.
 type PaymentIntentCreateAmountDetailsParams struct {
-	// The total discount applied on the transaction.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
@@ -5654,7 +5728,9 @@ type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
 type PaymentIntentCreatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentCreatePaymentDetailsCarRentalParams `form:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentCreatePaymentDetailsEventDetailsParams `form:"event_details"`
@@ -5662,7 +5738,11 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 	Flight *PaymentIntentCreatePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentCreatePaymentDetailsLodgingParams `form:"lodging"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentCreatePaymentDetailsSubscriptionParams `form:"subscription"`
@@ -6758,15 +6838,15 @@ type PaymentIntentCreatePaymentMethodOptionsPaypayParams struct {
 type PaymentIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected.
+	// The periodicity at which payments will be collected. Defaults to `adhoc`.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Defaults to retail.
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 }
 
@@ -7436,25 +7516,31 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsParams struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentUpdateAmountDetailsLineItemTaxParams struct {
-	// The total tax on an item. Non-negative integer.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentUpdateAmountDetailsLineItemParams struct {
-	// The amount an item was discounted for. Positive integer.
+	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// Payment method-specific information for line items.
 	PaymentMethodOptions *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
-	// Unique identifier of the product. At most 12 characters long.
+	// The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long.
 	ProductCode *string `form:"product_code"`
-	// Name of the product. At most 100 characters long.
+	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
+	//
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
-	// Number of items of the product. Positive integer.
+	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentUpdateAmountDetailsLineItemTaxParams `form:"tax"`
-	// Cost of the product. Non-negative integer.
+	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -7462,23 +7548,27 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentUpdateAmountDetailsShippingParams struct {
-	// Portion of the amount that is for shipping.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
-	// The postal code that represents the shipping source.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
-	// The postal code that represents the shipping destination.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
 	ToPostalCode *string `form:"to_postal_code"`
 }
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentUpdateAmountDetailsTaxParams struct {
-	// Total portion of the amount that is for tax.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
 // Provides industry-specific information about the amount.
 type PaymentIntentUpdateAmountDetailsParams struct {
-	// The total discount applied on the transaction.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
@@ -7848,7 +7938,9 @@ type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
 type PaymentIntentUpdatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentUpdatePaymentDetailsCarRentalParams `form:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentUpdatePaymentDetailsEventDetailsParams `form:"event_details"`
@@ -7856,7 +7948,11 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 	Flight *PaymentIntentUpdatePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentUpdatePaymentDetailsLodgingParams `form:"lodging"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentUpdatePaymentDetailsSubscriptionParams `form:"subscription"`
@@ -8952,15 +9048,15 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypayParams struct {
 type PaymentIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected.
+	// The periodicity at which payments will be collected. Defaults to `adhoc`.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Defaults to retail.
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 }
 
@@ -9514,15 +9610,17 @@ func (p *PaymentIntentUpdateParams) AddMetadata(key string, value string) {
 }
 
 type PaymentIntentAmountDetailsShipping struct {
-	// Portion of the amount that is for shipping.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount int64 `json:"amount"`
-	// The postal code that represents the shipping source.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode string `json:"from_postal_code"`
-	// The postal code that represents the shipping destination.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
 	ToPostalCode string `json:"to_postal_code"`
 }
 type PaymentIntentAmountDetailsTax struct {
-	// Total portion of the amount that is for tax.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount int64 `json:"total_tax_amount"`
 }
 type PaymentIntentAmountDetailsTip struct {
@@ -9530,7 +9628,9 @@ type PaymentIntentAmountDetailsTip struct {
 	Amount int64 `json:"amount"`
 }
 type PaymentIntentAmountDetails struct {
-	// The total discount applied on the transaction.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount int64 `json:"discount_amount"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items"`
@@ -10049,10 +10149,16 @@ type PaymentIntentPaymentDetailsSubscription struct {
 }
 type PaymentIntentPaymentDetails struct {
 	CarRental *PaymentIntentPaymentDetailsCarRental `json:"car_rental"`
-	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference string                                   `json:"customer_reference"`
 	EventDetails      *PaymentIntentPaymentDetailsEventDetails `json:"event_details"`
-	// A unique value assigned by the business to identify the transaction.
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference string                                   `json:"order_reference"`
 	Subscription   *PaymentIntentPaymentDetailsSubscription `json:"subscription"`
 }
@@ -10651,15 +10757,15 @@ type PaymentIntentPaymentMethodOptionsPaypay struct{}
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptions struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount int64 `json:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 	AmountType PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType `json:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate string `json:"end_date"`
-	// The periodicity at which payments will be collected.
+	// The periodicity at which payments will be collected. Defaults to `adhoc`.
 	PaymentSchedule PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule `json:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod int64 `json:"payments_per_period"`
-	// The purpose for which payments are made. Defaults to retail.
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose `json:"purpose"`
 }
 type PaymentIntentPaymentMethodOptionsPayto struct {

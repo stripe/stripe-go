@@ -230,7 +230,7 @@ const (
 	AccountRiskControlsRejectedReasonTermsOfService           AccountRiskControlsRejectedReason = "terms_of_service"
 )
 
-// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 type AccountSettingsInvoicesHostedPaymentMethodSave string
 
 // List of values that AccountSettingsInvoicesHostedPaymentMethodSave can take
@@ -1358,7 +1358,7 @@ type AccountSettingsCardPaymentsParams struct {
 type AccountSettingsInvoicesParams struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
-	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
 }
 
@@ -2578,7 +2578,7 @@ type AccountUpdateSettingsCardPaymentsParams struct {
 type AccountUpdateSettingsInvoicesParams struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
-	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
 }
 
@@ -3817,7 +3817,7 @@ type AccountCreateSettingsCardPaymentsParams struct {
 
 // Settings specific to the account's use of Invoices.
 type AccountCreateSettingsInvoicesParams struct {
-	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
 }
 
@@ -4513,7 +4513,7 @@ type AccountSettingsDashboard struct {
 type AccountSettingsInvoices struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*TaxID `json:"default_account_tax_ids"`
-	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 	HostedPaymentMethodSave AccountSettingsInvoicesHostedPaymentMethodSave `json:"hosted_payment_method_save"`
 }
 type AccountSettingsPayments struct {
