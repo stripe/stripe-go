@@ -42,7 +42,8 @@ func (p *TransferListParams) AddExpand(f string) {
 type TransferParams struct {
 	Params `form:"*"`
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
-	Amount *int64 `form:"amount"`
+	Amount               *int64 `form:"amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies).
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -81,7 +82,8 @@ func (p *TransferParams) AddMetadata(key string, value string) {
 type TransferCreateParams struct {
 	Params `form:"*"`
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
-	Amount *int64 `form:"amount"`
+	Amount               *int64 `form:"amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies).
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -170,7 +172,9 @@ type Transfer struct {
 	// Amount in cents (or local equivalent) to be transferred.
 	Amount int64 `json:"amount"`
 	// Amount in cents (or local equivalent) reversed (can be less than the amount attribute on the transfer if a partial reversal was issued).
-	AmountReversed int64 `json:"amount_reversed"`
+	AmountReversed       int64           `json:"amount_reversed"`
+	ApplicationFee       *ApplicationFee `json:"application_fee"`
+	ApplicationFeeAmount int64           `json:"application_fee_amount"`
 	// Balance transaction that describes the impact of this transfer on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// Time that this record of the transfer was first created.

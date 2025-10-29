@@ -16,6 +16,8 @@ type BillingAnalyticsMeterUsageMeterParams struct {
 	Meter *string `form:"meter"`
 	// Key-value pairs used to filter usage events by high cardinality tenant dimension values. If specified, usage will be filtered for matching usage events.
 	TenantFilters map[string]string `form:"tenant_filters"`
+	// List of high cardinality tenant dimension keys to group by. If specified, usage events will be grouped by the given tenant dimension key's values.
+	TenantGroupByKeys []*string `form:"tenant_group_by_keys"`
 }
 
 // Returns aggregated meter usage data for a customer within a specified time interval. The data can be grouped by various dimensions and can include multiple meters if specified.
@@ -52,6 +54,8 @@ type BillingAnalyticsMeterUsageRetrieveMeterParams struct {
 	Meter *string `form:"meter"`
 	// Key-value pairs used to filter usage events by high cardinality tenant dimension values. If specified, usage will be filtered for matching usage events.
 	TenantFilters map[string]string `form:"tenant_filters"`
+	// List of high cardinality tenant dimension keys to group by. If specified, usage events will be grouped by the given tenant dimension key's values.
+	TenantGroupByKeys []*string `form:"tenant_group_by_keys"`
 }
 
 // Returns aggregated meter usage data for a customer within a specified time interval. The data can be grouped by various dimensions and can include multiple meters if specified.

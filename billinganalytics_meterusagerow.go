@@ -19,6 +19,8 @@ type BillingAnalyticsMeterUsageRow struct {
 	Object string `json:"object"`
 	// Timestamp indicating the start of the bucket. Measured in seconds since the Unix epoch.
 	StartsAt int64 `json:"starts_at"`
+	// A set of key-value pairs representing the tenants of the meter usage.
+	Tenants map[string]string `json:"tenants"`
 	// The aggregated meter usage value for the specified bucket.
 	Value float64 `json:"value"`
 }

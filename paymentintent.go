@@ -11046,6 +11046,12 @@ type PaymentIntentTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
+// Allocated Funds configuration for this PaymentIntent.
+type PaymentIntentAllocatedFunds struct {
+	// Allocated Funds configuration for this PaymentIntent.
+	Enabled bool `json:"enabled"`
+}
+
 // A PaymentIntent guides you through the process of collecting a payment from your customer.
 // We recommend that you create exactly one PaymentIntent for each order or
 // customer session in your system. You can reference the PaymentIntent later to
@@ -11059,6 +11065,8 @@ type PaymentIntentTransferData struct {
 // Related guide: [Payment Intents API](https://stripe.com/docs/payments/payment-intents)
 type PaymentIntent struct {
 	APIResource
+	// Allocated Funds configuration for this PaymentIntent.
+	AllocatedFunds *PaymentIntentAllocatedFunds `json:"allocated_funds"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount int64 `json:"amount"`
 	// Amount that can be captured from this PaymentIntent.
