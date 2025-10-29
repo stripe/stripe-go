@@ -29,6 +29,69 @@ const (
 	SetupIntentCancellationReasonRequestedByCustomer SetupIntentCancellationReason = "requested_by_customer"
 )
 
+// Payment method types that are excluded from this SetupIntent.
+type SetupIntentExcludedPaymentMethodType string
+
+// List of values that SetupIntentExcludedPaymentMethodType can take
+const (
+	SetupIntentExcludedPaymentMethodTypeACSSDebit        SetupIntentExcludedPaymentMethodType = "acss_debit"
+	SetupIntentExcludedPaymentMethodTypeAffirm           SetupIntentExcludedPaymentMethodType = "affirm"
+	SetupIntentExcludedPaymentMethodTypeAfterpayClearpay SetupIntentExcludedPaymentMethodType = "afterpay_clearpay"
+	SetupIntentExcludedPaymentMethodTypeAlipay           SetupIntentExcludedPaymentMethodType = "alipay"
+	SetupIntentExcludedPaymentMethodTypeAlma             SetupIntentExcludedPaymentMethodType = "alma"
+	SetupIntentExcludedPaymentMethodTypeAmazonPay        SetupIntentExcludedPaymentMethodType = "amazon_pay"
+	SetupIntentExcludedPaymentMethodTypeAUBECSDebit      SetupIntentExcludedPaymentMethodType = "au_becs_debit"
+	SetupIntentExcludedPaymentMethodTypeBACSDebit        SetupIntentExcludedPaymentMethodType = "bacs_debit"
+	SetupIntentExcludedPaymentMethodTypeBancontact       SetupIntentExcludedPaymentMethodType = "bancontact"
+	SetupIntentExcludedPaymentMethodTypeBillie           SetupIntentExcludedPaymentMethodType = "billie"
+	SetupIntentExcludedPaymentMethodTypeBLIK             SetupIntentExcludedPaymentMethodType = "blik"
+	SetupIntentExcludedPaymentMethodTypeBoleto           SetupIntentExcludedPaymentMethodType = "boleto"
+	SetupIntentExcludedPaymentMethodTypeCard             SetupIntentExcludedPaymentMethodType = "card"
+	SetupIntentExcludedPaymentMethodTypeCashApp          SetupIntentExcludedPaymentMethodType = "cashapp"
+	SetupIntentExcludedPaymentMethodTypeCrypto           SetupIntentExcludedPaymentMethodType = "crypto"
+	SetupIntentExcludedPaymentMethodTypeCustomerBalance  SetupIntentExcludedPaymentMethodType = "customer_balance"
+	SetupIntentExcludedPaymentMethodTypeEPS              SetupIntentExcludedPaymentMethodType = "eps"
+	SetupIntentExcludedPaymentMethodTypeFPX              SetupIntentExcludedPaymentMethodType = "fpx"
+	SetupIntentExcludedPaymentMethodTypeGiropay          SetupIntentExcludedPaymentMethodType = "giropay"
+	SetupIntentExcludedPaymentMethodTypeGopay            SetupIntentExcludedPaymentMethodType = "gopay"
+	SetupIntentExcludedPaymentMethodTypeGrabpay          SetupIntentExcludedPaymentMethodType = "grabpay"
+	SetupIntentExcludedPaymentMethodTypeIDBankTransfer   SetupIntentExcludedPaymentMethodType = "id_bank_transfer"
+	SetupIntentExcludedPaymentMethodTypeIDEAL            SetupIntentExcludedPaymentMethodType = "ideal"
+	SetupIntentExcludedPaymentMethodTypeKakaoPay         SetupIntentExcludedPaymentMethodType = "kakao_pay"
+	SetupIntentExcludedPaymentMethodTypeKlarna           SetupIntentExcludedPaymentMethodType = "klarna"
+	SetupIntentExcludedPaymentMethodTypeKonbini          SetupIntentExcludedPaymentMethodType = "konbini"
+	SetupIntentExcludedPaymentMethodTypeKrCard           SetupIntentExcludedPaymentMethodType = "kr_card"
+	SetupIntentExcludedPaymentMethodTypeMbWay            SetupIntentExcludedPaymentMethodType = "mb_way"
+	SetupIntentExcludedPaymentMethodTypeMobilepay        SetupIntentExcludedPaymentMethodType = "mobilepay"
+	SetupIntentExcludedPaymentMethodTypeMultibanco       SetupIntentExcludedPaymentMethodType = "multibanco"
+	SetupIntentExcludedPaymentMethodTypeNaverPay         SetupIntentExcludedPaymentMethodType = "naver_pay"
+	SetupIntentExcludedPaymentMethodTypeNzBankAccount    SetupIntentExcludedPaymentMethodType = "nz_bank_account"
+	SetupIntentExcludedPaymentMethodTypeOXXO             SetupIntentExcludedPaymentMethodType = "oxxo"
+	SetupIntentExcludedPaymentMethodTypeP24              SetupIntentExcludedPaymentMethodType = "p24"
+	SetupIntentExcludedPaymentMethodTypePayByBank        SetupIntentExcludedPaymentMethodType = "pay_by_bank"
+	SetupIntentExcludedPaymentMethodTypePayco            SetupIntentExcludedPaymentMethodType = "payco"
+	SetupIntentExcludedPaymentMethodTypePayNow           SetupIntentExcludedPaymentMethodType = "paynow"
+	SetupIntentExcludedPaymentMethodTypePaypal           SetupIntentExcludedPaymentMethodType = "paypal"
+	SetupIntentExcludedPaymentMethodTypePaypay           SetupIntentExcludedPaymentMethodType = "paypay"
+	SetupIntentExcludedPaymentMethodTypePayto            SetupIntentExcludedPaymentMethodType = "payto"
+	SetupIntentExcludedPaymentMethodTypePix              SetupIntentExcludedPaymentMethodType = "pix"
+	SetupIntentExcludedPaymentMethodTypePromptPay        SetupIntentExcludedPaymentMethodType = "promptpay"
+	SetupIntentExcludedPaymentMethodTypeQris             SetupIntentExcludedPaymentMethodType = "qris"
+	SetupIntentExcludedPaymentMethodTypeRechnung         SetupIntentExcludedPaymentMethodType = "rechnung"
+	SetupIntentExcludedPaymentMethodTypeRevolutPay       SetupIntentExcludedPaymentMethodType = "revolut_pay"
+	SetupIntentExcludedPaymentMethodTypeSamsungPay       SetupIntentExcludedPaymentMethodType = "samsung_pay"
+	SetupIntentExcludedPaymentMethodTypeSatispay         SetupIntentExcludedPaymentMethodType = "satispay"
+	SetupIntentExcludedPaymentMethodTypeSEPADebit        SetupIntentExcludedPaymentMethodType = "sepa_debit"
+	SetupIntentExcludedPaymentMethodTypeShopeepay        SetupIntentExcludedPaymentMethodType = "shopeepay"
+	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
+	SetupIntentExcludedPaymentMethodTypeStripeBalance    SetupIntentExcludedPaymentMethodType = "stripe_balance"
+	SetupIntentExcludedPaymentMethodTypeSwish            SetupIntentExcludedPaymentMethodType = "swish"
+	SetupIntentExcludedPaymentMethodTypeTWINT            SetupIntentExcludedPaymentMethodType = "twint"
+	SetupIntentExcludedPaymentMethodTypeUSBankAccount    SetupIntentExcludedPaymentMethodType = "us_bank_account"
+	SetupIntentExcludedPaymentMethodTypeWeChatPay        SetupIntentExcludedPaymentMethodType = "wechat_pay"
+	SetupIntentExcludedPaymentMethodTypeZip              SetupIntentExcludedPaymentMethodType = "zip"
+)
+
 // Indicates the directions of money movement for which this payment method is intended to be used.
 //
 // Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.
@@ -1164,16 +1227,6 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
-// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
-//
-// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
-type SetupIntentSingleUseParams struct {
-	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
-	Amount *int64 `form:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-}
-
 // French meal voucher benefit details for this SetupIntent.
 type SetupIntentSetupDetailsBenefitFRMealVoucherParams struct {
 	// The 14-digit SIRET of the meal voucher acceptor.
@@ -1190,6 +1243,16 @@ type SetupIntentSetupDetailsBenefitParams struct {
 type SetupIntentSetupDetailsParams struct {
 	// Benefit details for this SetupIntent
 	Benefit *SetupIntentSetupDetailsBenefitParams `form:"benefit"`
+}
+
+// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
+//
+// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
+type SetupIntentSingleUseParams struct {
+	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
 }
 
 // Creates a SetupIntent object.
@@ -1222,6 +1285,8 @@ type SetupIntentParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this SetupIntent.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
@@ -2621,16 +2686,6 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	USBankAccount *SetupIntentCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
-// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
-//
-// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
-type SetupIntentCreateSingleUseParams struct {
-	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
-	Amount *int64 `form:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-}
-
 // French meal voucher benefit details for this SetupIntent.
 type SetupIntentCreateSetupDetailsBenefitFRMealVoucherParams struct {
 	// The 14-digit SIRET of the meal voucher acceptor.
@@ -2647,6 +2702,16 @@ type SetupIntentCreateSetupDetailsBenefitParams struct {
 type SetupIntentCreateSetupDetailsParams struct {
 	// Benefit details for this SetupIntent
 	Benefit *SetupIntentCreateSetupDetailsBenefitParams `form:"benefit"`
+}
+
+// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
+//
+// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
+type SetupIntentCreateSingleUseParams struct {
+	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
 }
 
 // Creates a SetupIntent object.
@@ -2677,6 +2742,8 @@ type SetupIntentCreateParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this SetupIntent.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
@@ -3559,6 +3626,8 @@ type SetupIntentUpdateParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this SetupIntent.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
@@ -3901,6 +3970,8 @@ type SetupIntent struct {
 	CustomerAccount string `json:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
+	// Payment method types that are excluded from this SetupIntent.
+	ExcludedPaymentMethodTypes []SetupIntentExcludedPaymentMethodType `json:"excluded_payment_method_types"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
 	//
 	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.

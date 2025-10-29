@@ -76,12 +76,12 @@ func (c Client) Refresh(id string, params *stripe.FinancialConnectionsAccountRef
 	return account, err
 }
 
-// Subscribes to periodic refreshes of data associated with a Financial Connections Account.
+// Subscribes to periodic refreshes of data associated with a Financial Connections Account. When the account status is active, data is typically refreshed once a day.
 func Subscribe(id string, params *stripe.FinancialConnectionsAccountSubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
 	return getC().Subscribe(id, params)
 }
 
-// Subscribes to periodic refreshes of data associated with a Financial Connections Account.
+// Subscribes to periodic refreshes of data associated with a Financial Connections Account. When the account status is active, data is typically refreshed once a day.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

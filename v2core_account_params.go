@@ -709,10 +709,18 @@ type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsP
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can provision a crypto wallet like financial address to credit a FinancialAccount.
+type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can provision a financial address to credit/debit a FinancialAccount.
 type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesParams struct {
 	// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can provision a crypto wallet like financial address to credit a FinancialAccount.
+	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 }
 
 // Can hold storage-type funds on Stripe in GBP.
@@ -727,12 +735,20 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams struct
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can hold storage-type funds on Stripe in USDC.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.
 	USD *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
+	// Can hold storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcParams `form:"usdc" json:"usdc,omitempty"`
 }
 
 // Can pull funds from an external bank account owned by yourself to a FinancialAccount.
@@ -759,6 +775,12 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsParams str
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can send funds from a FinancialAccount to a crypto wallet owned by someone else.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -771,12 +793,20 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsParams struct {
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Can send funds from a FinancialAccount to a debit card owned by someone else.
 	Cards *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
+	// Can send funds from a FinancialAccount to a crypto wallet owned by someone else.
+	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
 }
 
 // Can send funds from a FinancialAccount to a bank account owned by yourself.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a crypto wallet owned by yourself.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -791,6 +821,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccou
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by yourself.
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to a crypto wallet owned by yourself.
+	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
 }
@@ -809,12 +841,44 @@ type V2CoreAccountConfigurationStorerCapabilitiesParams struct {
 	OutboundTransfers *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
 }
 
+// Details of the regulated activity if the business participates in one.
+type V2CoreAccountConfigurationStorerRegulatedActivityParams struct {
+	// A detailed description of the regulated activities the business is licensed to conduct.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The license number or registration number assigned by the business's primary regulator.
+	LicenseNumber *string `form:"license_number" json:"license_number,omitempty"`
+	// The country of the primary regulatory authority that oversees the business's regulated activities.
+	PrimaryRegulatoryAuthorityCountry *string `form:"primary_regulatory_authority_country" json:"primary_regulatory_authority_country,omitempty"`
+	// The name of the primary regulatory authority that oversees the business's regulated activities.
+	PrimaryRegulatoryAuthorityName *string `form:"primary_regulatory_authority_name" json:"primary_regulatory_authority_name,omitempty"`
+}
+
 // The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 type V2CoreAccountConfigurationStorerParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to request on the Storer Configuration.
 	Capabilities *V2CoreAccountConfigurationStorerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
+	// List of high-risk activities the business is involved in.
+	HighRiskActivities []*string `form:"high_risk_activities,flat_array" json:"high_risk_activities,omitempty"`
+	// An explanation of the high risk activities that the business performs.
+	HighRiskActivitiesDescription *string `form:"high_risk_activities_description" json:"high_risk_activities_description,omitempty"`
+	// Description of the money services offered by the business.
+	MoneyServicesDescription *string `form:"money_services_description" json:"money_services_description,omitempty"`
+	// Does the business operate in any prohibited countries.
+	OperatesInProhibitedCountries *bool `form:"operates_in_prohibited_countries" json:"operates_in_prohibited_countries,omitempty"`
+	// Does the business participate in any regulated activity.
+	ParticipatesInRegulatedActivity *bool `form:"participates_in_regulated_activity" json:"participates_in_regulated_activity,omitempty"`
+	// Primary purpose of the stored funds.
+	PurposeOfFunds *string `form:"purpose_of_funds" json:"purpose_of_funds,omitempty"`
+	// Description of the purpose of the stored funds.
+	PurposeOfFundsDescription *string `form:"purpose_of_funds_description" json:"purpose_of_funds_description,omitempty"`
+	// Details of the regulated activity if the business participates in one.
+	RegulatedActivity *V2CoreAccountConfigurationStorerRegulatedActivityParams `form:"regulated_activity" json:"regulated_activity,omitempty"`
+	// The source of funds for the business, e.g. profits, income, venture capital, etc.
+	SourceOfFunds *string `form:"source_of_funds" json:"source_of_funds,omitempty"`
+	// Description of the source of funds for the business' account.
+	SourceOfFundsDescription *string `form:"source_of_funds_description" json:"source_of_funds_description,omitempty"`
 }
 
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
@@ -1115,6 +1179,16 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorParams struct {
 	Commercial *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialParams `form:"commercial" json:"commercial,omitempty"`
 }
 
+// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -1131,6 +1205,8 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
+	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+	CryptoStorer *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
@@ -1373,6 +1449,8 @@ type V2CoreAccountIdentityBusinessDetailsParams struct {
 	Address *V2CoreAccountIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
 	AnnualRevenue *V2CoreAccountIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
+	// A detailed description of the business's compliance and anti-money laundering controls and practices.
+	ComplianceScreeningDescription *string `form:"compliance_screening_description" json:"compliance_screening_description,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
@@ -2387,10 +2465,18 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesBankAcc
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Can provision a crypto wallet like financial address to credit a FinancialAccount.
+type V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can provision a financial address to credit/debit a FinancialAccount.
 type V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesParams struct {
 	// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
 	BankAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can provision a crypto wallet like financial address to credit a FinancialAccount.
+	CryptoWallets *V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 }
 
 // Can hold storage-type funds on Stripe in GBP.
@@ -2405,12 +2491,20 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams 
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Can hold storage-type funds on Stripe in USDC.
+type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUsdcParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.
 	USD *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
+	// Can hold storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUsdcParams `form:"usdc" json:"usdc,omitempty"`
 }
 
 // Can pull funds from an external bank account owned by yourself to a FinancialAccount.
@@ -2437,6 +2531,12 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsCardsPara
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Can send funds from a FinancialAccount to a crypto wallet owned by someone else.
+type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -2449,12 +2549,20 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsParams st
 	BankAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Can send funds from a FinancialAccount to a debit card owned by someone else.
 	Cards *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
+	// Can send funds from a FinancialAccount to a crypto wallet owned by someone else.
+	CryptoWallets *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
 }
 
 // Can send funds from a FinancialAccount to a bank account owned by yourself.
 type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send funds from a FinancialAccount to a crypto wallet owned by yourself.
+type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
@@ -2469,6 +2577,8 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersFinancia
 type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by yourself.
 	BankAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to a crypto wallet owned by yourself.
+	CryptoWallets *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
 	FinancialAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
 }
@@ -2487,10 +2597,42 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesParams struct {
 	OutboundTransfers *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
 }
 
+// Details of the regulated activity if the business participates in one.
+type V2CoreAccountCreateConfigurationStorerRegulatedActivityParams struct {
+	// A detailed description of the regulated activities the business is licensed to conduct.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The license number or registration number assigned by the business's primary regulator.
+	LicenseNumber *string `form:"license_number" json:"license_number,omitempty"`
+	// The country of the primary regulatory authority that oversees the business's regulated activities.
+	PrimaryRegulatoryAuthorityCountry *string `form:"primary_regulatory_authority_country" json:"primary_regulatory_authority_country,omitempty"`
+	// The name of the primary regulatory authority that oversees the business's regulated activities.
+	PrimaryRegulatoryAuthorityName *string `form:"primary_regulatory_authority_name" json:"primary_regulatory_authority_name,omitempty"`
+}
+
 // The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 type V2CoreAccountCreateConfigurationStorerParams struct {
 	// Capabilities to request on the Storer Configuration.
 	Capabilities *V2CoreAccountCreateConfigurationStorerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
+	// List of high-risk activities the business is involved in.
+	HighRiskActivities []*string `form:"high_risk_activities,flat_array" json:"high_risk_activities,omitempty"`
+	// An explanation of the high risk activities that the business performs.
+	HighRiskActivitiesDescription *string `form:"high_risk_activities_description" json:"high_risk_activities_description,omitempty"`
+	// Description of the money services offered by the business.
+	MoneyServicesDescription *string `form:"money_services_description" json:"money_services_description,omitempty"`
+	// Does the business operate in any prohibited countries.
+	OperatesInProhibitedCountries *bool `form:"operates_in_prohibited_countries" json:"operates_in_prohibited_countries,omitempty"`
+	// Does the business participate in any regulated activity.
+	ParticipatesInRegulatedActivity *bool `form:"participates_in_regulated_activity" json:"participates_in_regulated_activity,omitempty"`
+	// Primary purpose of the stored funds.
+	PurposeOfFunds *string `form:"purpose_of_funds" json:"purpose_of_funds,omitempty"`
+	// Description of the purpose of the stored funds.
+	PurposeOfFundsDescription *string `form:"purpose_of_funds_description" json:"purpose_of_funds_description,omitempty"`
+	// Details of the regulated activity if the business participates in one.
+	RegulatedActivity *V2CoreAccountCreateConfigurationStorerRegulatedActivityParams `form:"regulated_activity" json:"regulated_activity,omitempty"`
+	// The source of funds for the business, e.g. profits, income, venture capital, etc.
+	SourceOfFunds *string `form:"source_of_funds" json:"source_of_funds,omitempty"`
+	// Description of the source of funds for the business' account.
+	SourceOfFundsDescription *string `form:"source_of_funds_description" json:"source_of_funds_description,omitempty"`
 }
 
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
@@ -2791,6 +2933,16 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorParams stru
 	Commercial *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialParams `form:"commercial" json:"commercial,omitempty"`
 }
 
+// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceStorerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -2807,6 +2959,8 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
+	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+	CryptoStorer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	Storer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
@@ -3049,6 +3203,8 @@ type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
 	Address *V2CoreAccountCreateIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
 	AnnualRevenue *V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
+	// A detailed description of the business's compliance and anti-money laundering controls and practices.
+	ComplianceScreeningDescription *string `form:"compliance_screening_description" json:"compliance_screening_description,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountCreateIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
@@ -4077,10 +4233,18 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesBankAcc
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can provision a crypto wallet like financial address to credit a FinancialAccount.
+type V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can provision a financial address to credit/debit a FinancialAccount.
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesParams struct {
 	// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
 	BankAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can provision a crypto wallet like financial address to credit a FinancialAccount.
+	CryptoWallets *V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 }
 
 // Can hold storage-type funds on Stripe in GBP.
@@ -4095,12 +4259,20 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams 
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can hold storage-type funds on Stripe in USDC.
+type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUsdcParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.
 	USD *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
+	// Can hold storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUsdcParams `form:"usdc" json:"usdc,omitempty"`
 }
 
 // Can pull funds from an external bank account owned by yourself to a FinancialAccount.
@@ -4127,6 +4299,12 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsCardsPara
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can send funds from a FinancialAccount to a crypto wallet owned by someone else.
+type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -4139,12 +4317,20 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsParams st
 	BankAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Can send funds from a FinancialAccount to a debit card owned by someone else.
 	Cards *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
+	// Can send funds from a FinancialAccount to a crypto wallet owned by someone else.
+	CryptoWallets *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
 }
 
 // Can send funds from a FinancialAccount to a bank account owned by yourself.
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a crypto wallet owned by yourself.
+type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -4159,6 +4345,8 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersFinancia
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by yourself.
 	BankAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to a crypto wallet owned by yourself.
+	CryptoWallets *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
 	FinancialAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
 }
@@ -4177,12 +4365,44 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesParams struct {
 	OutboundTransfers *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
 }
 
+// Details of the regulated activity if the business participates in one.
+type V2CoreAccountUpdateConfigurationStorerRegulatedActivityParams struct {
+	// A detailed description of the regulated activities the business is licensed to conduct.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The license number or registration number assigned by the business's primary regulator.
+	LicenseNumber *string `form:"license_number" json:"license_number,omitempty"`
+	// The country of the primary regulatory authority that oversees the business's regulated activities.
+	PrimaryRegulatoryAuthorityCountry *string `form:"primary_regulatory_authority_country" json:"primary_regulatory_authority_country,omitempty"`
+	// The name of the primary regulatory authority that oversees the business's regulated activities.
+	PrimaryRegulatoryAuthorityName *string `form:"primary_regulatory_authority_name" json:"primary_regulatory_authority_name,omitempty"`
+}
+
 // The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 type V2CoreAccountUpdateConfigurationStorerParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to request on the Storer Configuration.
 	Capabilities *V2CoreAccountUpdateConfigurationStorerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
+	// List of high-risk activities the business is involved in.
+	HighRiskActivities []*string `form:"high_risk_activities,flat_array" json:"high_risk_activities,omitempty"`
+	// An explanation of the high risk activities that the business performs.
+	HighRiskActivitiesDescription *string `form:"high_risk_activities_description" json:"high_risk_activities_description,omitempty"`
+	// Description of the money services offered by the business.
+	MoneyServicesDescription *string `form:"money_services_description" json:"money_services_description,omitempty"`
+	// Does the business operate in any prohibited countries.
+	OperatesInProhibitedCountries *bool `form:"operates_in_prohibited_countries" json:"operates_in_prohibited_countries,omitempty"`
+	// Does the business participate in any regulated activity.
+	ParticipatesInRegulatedActivity *bool `form:"participates_in_regulated_activity" json:"participates_in_regulated_activity,omitempty"`
+	// Primary purpose of the stored funds.
+	PurposeOfFunds *string `form:"purpose_of_funds" json:"purpose_of_funds,omitempty"`
+	// Description of the purpose of the stored funds.
+	PurposeOfFundsDescription *string `form:"purpose_of_funds_description" json:"purpose_of_funds_description,omitempty"`
+	// Details of the regulated activity if the business participates in one.
+	RegulatedActivity *V2CoreAccountUpdateConfigurationStorerRegulatedActivityParams `form:"regulated_activity" json:"regulated_activity,omitempty"`
+	// The source of funds for the business, e.g. profits, income, venture capital, etc.
+	SourceOfFunds *string `form:"source_of_funds" json:"source_of_funds,omitempty"`
+	// Description of the source of funds for the business' account.
+	SourceOfFundsDescription *string `form:"source_of_funds_description" json:"source_of_funds_description,omitempty"`
 }
 
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
@@ -4483,6 +4703,16 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorParams stru
 	Commercial *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialParams `form:"commercial" json:"commercial,omitempty"`
 }
 
+// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -4499,6 +4729,8 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
+	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+	CryptoStorer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	Storer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
@@ -4741,6 +4973,8 @@ type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
 	Address *V2CoreAccountUpdateIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
 	AnnualRevenue *V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
+	// A detailed description of the business's compliance and anti-money laundering controls and practices.
+	ComplianceScreeningDescription *string `form:"compliance_screening_description" json:"compliance_screening_description,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.

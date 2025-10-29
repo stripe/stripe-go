@@ -1285,6 +1285,20 @@ const (
 	CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage = "none"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage = "none"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -1612,7 +1626,7 @@ type CheckoutSessionAutomaticTaxParams struct {
 	Liability *CheckoutSessionAutomaticTaxLiabilityParams `form:"liability"`
 }
 
-// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+// The icon for the Checkout Session. For best results, use a square image.
 type CheckoutSessionBrandingSettingsIconParams struct {
 	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
 	File *string `form:"file"`
@@ -1622,7 +1636,7 @@ type CheckoutSessionBrandingSettingsIconParams struct {
 	URL *string `form:"url"`
 }
 
-// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+// The logo for the Checkout Session.
 type CheckoutSessionBrandingSettingsLogoParams struct {
 	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
 	File *string `form:"file"`
@@ -1640,13 +1654,13 @@ type CheckoutSessionBrandingSettingsParams struct {
 	BorderStyle *string `form:"border_style"`
 	// A hex color value starting with `#` representing the button color for the Checkout Session.
 	ButtonColor *string `form:"button_color"`
-	// A string to override the business name shown on the Checkout Session.
+	// A string to override the business name shown on the Checkout Session. This only shows at the top of the Checkout page, and your business name still appears in terms, receipts, and other places.
 	DisplayName *string `form:"display_name"`
 	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
 	FontFamily *string `form:"font_family"`
-	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	// The icon for the Checkout Session. For best results, use a square image.
 	Icon *CheckoutSessionBrandingSettingsIconParams `form:"icon"`
-	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	// The logo for the Checkout Session.
 	Logo *CheckoutSessionBrandingSettingsLogoParams `form:"logo"`
 }
 
@@ -2777,6 +2791,18 @@ type CheckoutSessionPaymentMethodOptionsSwishParams struct {
 	Reference *string `form:"reference"`
 }
 
+// contains details about the TWINT payment method options.
+type CheckoutSessionPaymentMethodOptionsTWINTParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Additional fields for Financial Connections Session creation
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -2905,6 +2931,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Sofort *CheckoutSessionPaymentMethodOptionsSofortParams `form:"sofort"`
 	// contains details about the Swish payment method options.
 	Swish *CheckoutSessionPaymentMethodOptionsSwishParams `form:"swish"`
+	// contains details about the TWINT payment method options.
+	TWINT *CheckoutSessionPaymentMethodOptionsTWINTParams `form:"twint"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
@@ -3497,7 +3525,7 @@ type CheckoutSessionCreateAutomaticTaxParams struct {
 	Liability *CheckoutSessionCreateAutomaticTaxLiabilityParams `form:"liability"`
 }
 
-// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+// The icon for the Checkout Session. For best results, use a square image.
 type CheckoutSessionCreateBrandingSettingsIconParams struct {
 	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise.
 	File *string `form:"file"`
@@ -3507,7 +3535,7 @@ type CheckoutSessionCreateBrandingSettingsIconParams struct {
 	URL *string `form:"url"`
 }
 
-// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+// The logo for the Checkout Session.
 type CheckoutSessionCreateBrandingSettingsLogoParams struct {
 	// The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise.
 	File *string `form:"file"`
@@ -3525,13 +3553,13 @@ type CheckoutSessionCreateBrandingSettingsParams struct {
 	BorderStyle *string `form:"border_style"`
 	// A hex color value starting with `#` representing the button color for the Checkout Session.
 	ButtonColor *string `form:"button_color"`
-	// A string to override the business name shown on the Checkout Session.
+	// A string to override the business name shown on the Checkout Session. This only shows at the top of the Checkout page, and your business name still appears in terms, receipts, and other places.
 	DisplayName *string `form:"display_name"`
 	// The font family for the Checkout Session corresponding to one of the [supported font families](https://docs.stripe.com/payments/checkout/customization/appearance?payment-ui=stripe-hosted#font-compatibility).
 	FontFamily *string `form:"font_family"`
-	// The icon for the Checkout Session. You cannot set both `logo` and `icon`.
+	// The icon for the Checkout Session. For best results, use a square image.
 	Icon *CheckoutSessionCreateBrandingSettingsIconParams `form:"icon"`
-	// The logo for the Checkout Session. You cannot set both `logo` and `icon`.
+	// The logo for the Checkout Session.
 	Logo *CheckoutSessionCreateBrandingSettingsLogoParams `form:"logo"`
 }
 
@@ -4660,6 +4688,18 @@ type CheckoutSessionCreatePaymentMethodOptionsSwishParams struct {
 	Reference *string `form:"reference"`
 }
 
+// contains details about the TWINT payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsTWINTParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Additional fields for Financial Connections Session creation
 type CheckoutSessionCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -4788,6 +4828,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Sofort *CheckoutSessionCreatePaymentMethodOptionsSofortParams `form:"sofort"`
 	// contains details about the Swish payment method options.
 	Swish *CheckoutSessionCreatePaymentMethodOptionsSwishParams `form:"swish"`
+	// contains details about the TWINT payment method options.
+	TWINT *CheckoutSessionCreatePaymentMethodOptionsTWINTParams `form:"twint"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
@@ -6524,6 +6566,16 @@ type CheckoutSessionPaymentMethodOptionsSwish struct {
 	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
 	Reference string `json:"reference"`
 }
+type CheckoutSessionPaymentMethodOptionsTWINT struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage `json:"setup_future_usage"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
@@ -6602,6 +6654,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish"`
+	TWINT            *CheckoutSessionPaymentMethodOptionsTWINT            `json:"twint"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 }
 

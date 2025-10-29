@@ -13,8 +13,9 @@ type ApplicationFeeFeeSourceType string
 
 // List of values that ApplicationFeeFeeSourceType can take
 const (
-	ApplicationFeeFeeSourceTypeCharge ApplicationFeeFeeSourceType = "charge"
-	ApplicationFeeFeeSourceTypePayout ApplicationFeeFeeSourceType = "payout"
+	ApplicationFeeFeeSourceTypeCharge   ApplicationFeeFeeSourceType = "charge"
+	ApplicationFeeFeeSourceTypePayout   ApplicationFeeFeeSourceType = "payout"
+	ApplicationFeeFeeSourceTypeTransfer ApplicationFeeFeeSourceType = "transfer"
 )
 
 // Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
@@ -65,6 +66,8 @@ type ApplicationFeeFeeSource struct {
 	Charge string `json:"charge"`
 	// Payout ID that created this application fee.
 	Payout string `json:"payout"`
+	// Transfer ID that created this application fee.
+	Transfer string `json:"transfer"`
 	// Type of object that created the application fee.
 	Type ApplicationFeeFeeSourceType `json:"type"`
 }

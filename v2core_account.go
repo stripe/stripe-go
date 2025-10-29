@@ -2184,6 +2184,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusActive      V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusPending     V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatus string
 
 // List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatus can take
@@ -2251,6 +2286,41 @@ const (
 	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution = "contact_stripe"
 	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution = "no_resolution"
 	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusActive      V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusPending     V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolution = "provide_info"
 )
 
 // The status of the Capability.
@@ -2359,6 +2429,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusActive      V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusPending     V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatus string
 
 // List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatus can take
@@ -2429,6 +2534,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusActive      V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusPending     V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatus string
 
 // List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatus can take
@@ -2461,6 +2601,67 @@ const (
 	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetailResolution = "contact_stripe"
 	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetailResolution = "no_resolution"
 	V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetailResolution = "provide_info"
+)
+
+// List of high-risk activities the business is involved in.
+type V2CoreAccountConfigurationStorerHighRiskActivity string
+
+// List of values that V2CoreAccountConfigurationStorerHighRiskActivity can take
+const (
+	V2CoreAccountConfigurationStorerHighRiskActivityAdultEntertainment                                  V2CoreAccountConfigurationStorerHighRiskActivity = "adult_entertainment"
+	V2CoreAccountConfigurationStorerHighRiskActivityGambling                                            V2CoreAccountConfigurationStorerHighRiskActivity = "gambling"
+	V2CoreAccountConfigurationStorerHighRiskActivityHoldClientFunds                                     V2CoreAccountConfigurationStorerHighRiskActivity = "hold_client_funds"
+	V2CoreAccountConfigurationStorerHighRiskActivityInvestmentServices                                  V2CoreAccountConfigurationStorerHighRiskActivity = "investment_services"
+	V2CoreAccountConfigurationStorerHighRiskActivityLendingBanking                                      V2CoreAccountConfigurationStorerHighRiskActivity = "lending_banking"
+	V2CoreAccountConfigurationStorerHighRiskActivityMarijuanaOrRelatedServices                          V2CoreAccountConfigurationStorerHighRiskActivity = "marijuana_or_related_services"
+	V2CoreAccountConfigurationStorerHighRiskActivityMoneyServices                                       V2CoreAccountConfigurationStorerHighRiskActivity = "money_services"
+	V2CoreAccountConfigurationStorerHighRiskActivityNicotineTobaccoOrRelatedServices                    V2CoreAccountConfigurationStorerHighRiskActivity = "nicotine_tobacco_or_related_services"
+	V2CoreAccountConfigurationStorerHighRiskActivityNone                                                V2CoreAccountConfigurationStorerHighRiskActivity = "none"
+	V2CoreAccountConfigurationStorerHighRiskActivityOperateForeignExchangeVirtualCurrenciesBrokerageOtc V2CoreAccountConfigurationStorerHighRiskActivity = "operate_foreign_exchange_virtual_currencies_brokerage_otc"
+	V2CoreAccountConfigurationStorerHighRiskActivityPharmaceuticals                                     V2CoreAccountConfigurationStorerHighRiskActivity = "pharmaceuticals"
+	V2CoreAccountConfigurationStorerHighRiskActivityPreciousMetalsPreciousStonesJewelry                 V2CoreAccountConfigurationStorerHighRiskActivity = "precious_metals_precious_stones_jewelry"
+	V2CoreAccountConfigurationStorerHighRiskActivitySafeDepositBoxRentals                               V2CoreAccountConfigurationStorerHighRiskActivity = "safe_deposit_box_rentals"
+	V2CoreAccountConfigurationStorerHighRiskActivityThirdPartyPaymentProcessing                         V2CoreAccountConfigurationStorerHighRiskActivity = "third_party_payment_processing"
+	V2CoreAccountConfigurationStorerHighRiskActivityWeaponsFirearmsAndExplosives                        V2CoreAccountConfigurationStorerHighRiskActivity = "weapons_firearms_and_explosives"
+)
+
+// Primary purpose of the stored funds.
+type V2CoreAccountConfigurationStorerPurposeOfFunds string
+
+// List of values that V2CoreAccountConfigurationStorerPurposeOfFunds can take
+const (
+	V2CoreAccountConfigurationStorerPurposeOfFundsCharitableDonations                V2CoreAccountConfigurationStorerPurposeOfFunds = "charitable_donations"
+	V2CoreAccountConfigurationStorerPurposeOfFundsEcommerceRetailPayments            V2CoreAccountConfigurationStorerPurposeOfFunds = "ecommerce_retail_payments"
+	V2CoreAccountConfigurationStorerPurposeOfFundsInvestmentPurposes                 V2CoreAccountConfigurationStorerPurposeOfFunds = "investment_purposes"
+	V2CoreAccountConfigurationStorerPurposeOfFundsOther                              V2CoreAccountConfigurationStorerPurposeOfFunds = "other"
+	V2CoreAccountConfigurationStorerPurposeOfFundsPaymentsToFriendsOrFamilyAbroad    V2CoreAccountConfigurationStorerPurposeOfFunds = "payments_to_friends_or_family_abroad"
+	V2CoreAccountConfigurationStorerPurposeOfFundsPayroll                            V2CoreAccountConfigurationStorerPurposeOfFunds = "payroll"
+	V2CoreAccountConfigurationStorerPurposeOfFundsPersonalOrLivingExpenses           V2CoreAccountConfigurationStorerPurposeOfFunds = "personal_or_living_expenses"
+	V2CoreAccountConfigurationStorerPurposeOfFundsProtectWealth                      V2CoreAccountConfigurationStorerPurposeOfFunds = "protect_wealth"
+	V2CoreAccountConfigurationStorerPurposeOfFundsPurchaseGoodsAndServices           V2CoreAccountConfigurationStorerPurposeOfFunds = "purchase_goods_and_services"
+	V2CoreAccountConfigurationStorerPurposeOfFundsReceivePaymentsForGoodsAndServices V2CoreAccountConfigurationStorerPurposeOfFunds = "receive_payments_for_goods_and_services"
+	V2CoreAccountConfigurationStorerPurposeOfFundsTaxOptimization                    V2CoreAccountConfigurationStorerPurposeOfFunds = "tax_optimization"
+	V2CoreAccountConfigurationStorerPurposeOfFundsThirdPartyMoneyTransmission        V2CoreAccountConfigurationStorerPurposeOfFunds = "third_party_money_transmission"
+	V2CoreAccountConfigurationStorerPurposeOfFundsTreasuryManagement                 V2CoreAccountConfigurationStorerPurposeOfFunds = "treasury_management"
+)
+
+// The source of funds for the business, e.g. profits, income, venture capital, etc.
+type V2CoreAccountConfigurationStorerSourceOfFunds string
+
+// List of values that V2CoreAccountConfigurationStorerSourceOfFunds can take
+const (
+	V2CoreAccountConfigurationStorerSourceOfFundsBusinessLoans           V2CoreAccountConfigurationStorerSourceOfFunds = "business_loans"
+	V2CoreAccountConfigurationStorerSourceOfFundsGrants                  V2CoreAccountConfigurationStorerSourceOfFunds = "grants"
+	V2CoreAccountConfigurationStorerSourceOfFundsInterCompanyFunds       V2CoreAccountConfigurationStorerSourceOfFunds = "inter_company_funds"
+	V2CoreAccountConfigurationStorerSourceOfFundsInvestmentProceeds      V2CoreAccountConfigurationStorerSourceOfFunds = "investment_proceeds"
+	V2CoreAccountConfigurationStorerSourceOfFundsLegalSettlement         V2CoreAccountConfigurationStorerSourceOfFunds = "legal_settlement"
+	V2CoreAccountConfigurationStorerSourceOfFundsOwnersCapital           V2CoreAccountConfigurationStorerSourceOfFunds = "owners_capital"
+	V2CoreAccountConfigurationStorerSourceOfFundsPensionRetirement       V2CoreAccountConfigurationStorerSourceOfFunds = "pension_retirement"
+	V2CoreAccountConfigurationStorerSourceOfFundsSalesOfAssets           V2CoreAccountConfigurationStorerSourceOfFunds = "sales_of_assets"
+	V2CoreAccountConfigurationStorerSourceOfFundsSalesOfGoodsAndServices V2CoreAccountConfigurationStorerSourceOfFunds = "sales_of_goods_and_services"
+	V2CoreAccountConfigurationStorerSourceOfFundsTaxRefund               V2CoreAccountConfigurationStorerSourceOfFunds = "tax_refund"
+	V2CoreAccountConfigurationStorerSourceOfFundsThirdPartyFunds         V2CoreAccountConfigurationStorerSourceOfFunds = "third_party_funds"
+	V2CoreAccountConfigurationStorerSourceOfFundsTreasuryReserves        V2CoreAccountConfigurationStorerSourceOfFunds = "treasury_reserves"
 )
 
 // A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
@@ -4520,10 +4721,30 @@ type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccounts 
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsStatusDetail `json:"status_details"`
 }
 
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetailResolution `json:"resolution"`
+}
+
+// Can provision a crypto wallet like financial address to credit a FinancialAccount.
+type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWallets struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWalletsStatusDetail `json:"status_details"`
+}
+
 // Can provision a financial address to credit/debit a FinancialAccount.
 type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddresses struct {
 	// Can provision a bank-account like financial address (VBAN) to credit/debit a FinancialAccount.
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccounts `json:"bank_accounts,omitempty"`
+	// Can provision a crypto wallet like financial address to credit a FinancialAccount.
+	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesCryptoWallets `json:"crypto_wallets,omitempty"`
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
@@ -4562,12 +4783,32 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSD struct {
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetail `json:"status_details"`
 }
 
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetailResolution `json:"resolution"`
+}
+
+// Can hold storage-type funds on Stripe in USDC.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdc struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdcStatusDetail `json:"status_details"`
+}
+
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrencies struct {
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBP `json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.
 	USD *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSD `json:"usd,omitempty"`
+	// Can hold storage-type funds on Stripe in USDC.
+	Usdc *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdc `json:"usdc,omitempty"`
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
@@ -4631,6 +4872,24 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCards struct {
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetailResolution `json:"resolution"`
+}
+
+// Can send funds from a FinancialAccount to a crypto wallet, owned by someone else.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWallets struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetailCode `json:"code"`
@@ -4654,6 +4913,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPayments struct {
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccounts `json:"bank_accounts,omitempty"`
 	// Can send funds from a FinancialAccount to a debit card, owned by someone else.
 	Cards *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCards `json:"cards,omitempty"`
+	// Can send funds from a FinancialAccount to a crypto wallet, owned by someone else.
+	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWallets `json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount, owned by someone else.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccounts `json:"financial_accounts,omitempty"`
 }
@@ -4674,6 +4935,24 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccounts s
 	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatus `json:"status"`
 	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetailResolution `json:"resolution"`
+}
+
+// Can send funds from a FinancialAccount to a crypto wallet, owned by yourself.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWallets struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWalletsStatusDetail `json:"status_details"`
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
@@ -4698,6 +4977,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccou
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfers struct {
 	// Can send funds from a FinancialAccount, to a bank account, owned by yourself.
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccounts `json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to a crypto wallet, owned by yourself.
+	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersCryptoWallets `json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount, owned by yourself.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccounts `json:"financial_accounts,omitempty"`
 }
@@ -4716,12 +4997,44 @@ type V2CoreAccountConfigurationStorerCapabilities struct {
 	OutboundTransfers *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfers `json:"outbound_transfers,omitempty"`
 }
 
+// Details of the regulated activity if the business participates in one.
+type V2CoreAccountConfigurationStorerRegulatedActivity struct {
+	// A detailed description of the regulated activities the business is licensed to conduct.
+	Description string `json:"description,omitempty"`
+	// The license number or registration number assigned by the business's primary regulator.
+	LicenseNumber string `json:"license_number,omitempty"`
+	// The country of the primary regulatory authority that oversees the business's regulated activities.
+	PrimaryRegulatoryAuthorityCountry string `json:"primary_regulatory_authority_country,omitempty"`
+	// The name of the primary regulatory authority that oversees the business's regulated activities.
+	PrimaryRegulatoryAuthorityName string `json:"primary_regulatory_authority_name,omitempty"`
+}
+
 // The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 type V2CoreAccountConfigurationStorer struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied bool `json:"applied"`
 	// Capabilities that have been requested on the Storer Configuration.
 	Capabilities *V2CoreAccountConfigurationStorerCapabilities `json:"capabilities,omitempty"`
+	// List of high-risk activities the business is involved in.
+	HighRiskActivities []V2CoreAccountConfigurationStorerHighRiskActivity `json:"high_risk_activities,omitempty"`
+	// An explanation of the high risk activities that the business performs.
+	HighRiskActivitiesDescription string `json:"high_risk_activities_description,omitempty"`
+	// Description of the money services offered by the business.
+	MoneyServicesDescription string `json:"money_services_description,omitempty"`
+	// Does the business operate in any prohibited countries.
+	OperatesInProhibitedCountries bool `json:"operates_in_prohibited_countries,omitempty"`
+	// Does the business participate in any regulated activity.
+	ParticipatesInRegulatedActivity bool `json:"participates_in_regulated_activity,omitempty"`
+	// Primary purpose of the stored funds.
+	PurposeOfFunds V2CoreAccountConfigurationStorerPurposeOfFunds `json:"purpose_of_funds,omitempty"`
+	// Description of the purpose of the stored funds.
+	PurposeOfFundsDescription string `json:"purpose_of_funds_description,omitempty"`
+	// Details of the regulated activity if the business participates in one.
+	RegulatedActivity *V2CoreAccountConfigurationStorerRegulatedActivity `json:"regulated_activity,omitempty"`
+	// The source of funds for the business, e.g. profits, income, venture capital, etc.
+	SourceOfFunds V2CoreAccountConfigurationStorerSourceOfFunds `json:"source_of_funds,omitempty"`
+	// Description of the source of funds for the business' account.
+	SourceOfFundsDescription string `json:"source_of_funds_description,omitempty"`
 }
 
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
@@ -5048,6 +5361,16 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreator struct {
 	Commercial *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercial `json:"commercial,omitempty"`
 }
 
+// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorer struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Treasury-specific terms of service.
 type V2CoreAccountIdentityAttestationsTermsOfServiceStorer struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -5064,6 +5387,8 @@ type V2CoreAccountIdentityAttestationsTermsOfService struct {
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccount `json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreator `json:"card_creator,omitempty"`
+	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
+	CryptoStorer *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorer `json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
 	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorer `json:"storer,omitempty"`
 }
@@ -5304,6 +5629,8 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	Address *V2CoreAccountIdentityBusinessDetailsAddress `json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
 	AnnualRevenue *V2CoreAccountIdentityBusinessDetailsAnnualRevenue `json:"annual_revenue,omitempty"`
+	// A detailed description of the business's compliance and anti-money laundering controls and practices.
+	ComplianceScreeningDescription string `json:"compliance_screening_description,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountIdentityBusinessDetailsDocuments `json:"documents,omitempty"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.

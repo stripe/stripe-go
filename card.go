@@ -540,15 +540,15 @@ type CardRetrieveParams struct {
 	Customer *string `form:"-"` // Included in URL
 	Account  *string `form:"-"` // Included in URL
 }
-type CardNetworks struct {
-	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
-	Preferred string `json:"preferred"`
-}
 type CardBenefits struct {
 	// Issuer of this benefit card
 	Issuer string `json:"issuer"`
 	// Available benefit programs for this card
 	Programs []string `json:"programs"`
+}
+type CardNetworks struct {
+	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
+	Preferred string `json:"preferred"`
 }
 
 // You can store multiple cards on a customer in order to charge the customer
