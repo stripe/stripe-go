@@ -1,19 +1,45 @@
 # Changelog
 
-## 83.1.0-alpha.6 - 2025-10-23
-* [#2184](https://github.com/stripe/stripe-go/pull/2184) Update generated code for private-preview
-  * Add support for new resource `V2BillingPricingPlanSubscriptionComponents`
-  * Add support for `Get` method on resource `V2BillingPricingPlanSubscriptionComponents`
-  * Add support for `DimensionPayloadKeys` on `BillingMeterParams` and `BillingMeter`
-  * Add support for `DimensionFilters` and `DimensionGroupByKeys` on `BillingBillingMeterMeterEventSummaryListParams`
-  * Add support for `Dimensions` on `BillingMeterEventSummary`
-  * Add support for `FulfillmentDetails` and `PaymentMethodData` on `DelegatedCheckoutRequestedSessionParams`
-  * Add support for `LineItemDetails`, `Metadata`, `PaymentMethod`, and `SharedMetadata` on `DelegatedCheckoutRequestedSessionParams` and `DelegatedCheckoutRequestedSession`
-  * Add support for `Currency`, `Customer`, and `RiskDetails` on `DelegatedCheckoutRequestedSessionParams`
-  * Add support for `SellerDetails` and `SetupFutureUsage` on `DelegatedCheckoutRequestedSessionParams` and `DelegatedCheckoutRequestedSession`
-  * Add support for `AmountSubtotal`, `AmountTotal`, `CreatedAt`, `ExpiresAt`, `OrderDetails`, `SharedPaymentIssuedToken`, `Status`, `TotalDetails`, and `UpdatedAt` on `DelegatedCheckoutRequestedSession`
-  * Add support for `Address`, `Email`, `FulfillmentOptions`, `Name`, `Phone`, and `SelectedFulfillmentOption` on `DelegatedCheckoutRequestedSessionFulfillmentDetails`
-  * Add support for new values `billie`, `crypto`, `kr_card`, `kriya`, `mb_way`, `mondu`, `ng_bank_transfer`, `ng_bank`, `ng_card`, `ng_market`, `ng_ussd`, `ng_wallet`, `payco`, `paypay`, `rechnung`, `samsung_pay`, `satispay`, `scalapay`, `sequra`, `sunbit`, `us_bank_account`, and `vipps` on enums `EventsV2CoreHealthAuthorizationRateDropFiringEventImpact.PaymentMethodType`, `EventsV2CoreHealthAuthorizationRateDropResolvedEventImpact.PaymentMethodType`, `EventsV2CoreHealthPaymentMethodErrorFiringEventImpact.PaymentMethodType`, and `EventsV2CoreHealthPaymentMethodErrorResolvedEventImpact.PaymentMethodType`
+## 83.1.0 - 2025-10-29
+
+This release changes the pinned API version to `2025-10-29.clover`.
+
+* [#2193](https://github.com/stripe/stripe-go/pull/2193) Update generated code
+  * Improve docs for PaymentIntent related endpoints
+* [#2147](https://github.com/stripe/stripe-go/pull/2147) Update generated code
+  * Add support for new resources `PaymentAttemptRecord`, `PaymentIntentAmountDetailsLineItem`, and `PaymentRecord`
+  * Add support for `Get` and `List` methods on resource `PaymentAttemptRecord`
+  * Add support for `Get`, `ReportPaymentAttemptCanceled`, `ReportPaymentAttemptFailed`, `ReportPaymentAttemptGuaranteed`, `ReportPaymentAttemptInformational`, `ReportPaymentAttempt`, `ReportPayment`, and `ReportRefund` methods on resource `PaymentRecord`
+  * Add support for `List` method on resource `PaymentIntentAmountDetailsLineItem`
+  * Add support for `RepresentativeDeclaration` on `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
+  * Add support for `PaymentMethodConfiguration` on `BillingPortalConfigurationFeaturesPaymentMethodUpdateParams`
+  * Add support for new value `solana` on enum `ChargePaymentMethodDetailsCrypto.Network`
+  * Add support for `TWINT` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for new value `custom` on enums `ConfirmationTokenPaymentMethodPreview.Type` and `PaymentMethod.Type`
+  * Add support for `PaymentRecordRefund` and `Type` on `CreditNotePreviewLinesRefundParams`, `CreditNotePreviewRefundParams`, `CreditNoteRefundParams`, and `CreditNoteRefund`
+  * Add support for `CustomerSheet` and `MobilePaymentElement` on `CustomerSessionComponentsParams` and `CustomerSessionComponents`
+  * Add support for `Provider` on `CustomerTax`
+  * Add support for new values `balance_settings.updated` and `invoice.payment_attempt_required` on enum `Event.Type`
+  * Add support for new value `platform_terms_of_service` on enum `File.Purpose`
+  * Add support for `PaymentRecord` on `InvoiceAttachPaymentParams`, `InvoicePaymentListPaymentParams`, and `InvoicePaymentPayment`
+  * Change type of `InvoicePaymentListPaymentParams.Type` from `literal('payment_intent')` to `enum('payment_intent'|'payment_record')`
+  * Add support for new value `custom` on enums `InvoicePaymentSettings.PaymentMethodTypes` and `SubscriptionPaymentSettings.PaymentMethodTypes`
+  * Add support for `AmountDetails` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentIncrementAuthorizationParams`, and `PaymentIntentParams`
+  * Add support for `PaymentDetails` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentIncrementAuthorizationParams`, `PaymentIntentParams`, and `PaymentIntent`
+  * Add support for `DiscountAmount`, `LineItems`, `Shipping`, and `Tax` on `PaymentIntentAmountDetails`
+  * Add support for `NameCollection` on `PaymentLinkParams` and `PaymentLink`
+  * Add support for new value `mb_way` on enum `PaymentLink.PaymentMethodTypes`
+  * Add support for `Crypto` on `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, and `RefundDestinationDetails`
+  * Add support for `MbWay` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+  * Add support for `Custom` on `PaymentMethodParams` and `PaymentMethod`
+  * Add support for `ExcludedPaymentMethodTypes` on `SetupIntentParams` and `SetupIntent`
+  * Add support for `Tw` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
+  * Add support for `Gip` on `TerminalConfigurationTippingParams` and `TerminalConfigurationTipping`
+  * Add support for `LastSeenAt` on `TerminalReader`
+  * Add support for `GTE`, `Gt`, `LT`, `Lte`, and `Types` on `V2CoreEventListParams`
+  * Add support for snapshot event `EventTypeBalanceSettingsUpdated` with resource `BalanceSettings`
+  * Add support for snapshot event `EventTypeInvoicePaymentAttemptRequired` with resource `Invoice`
+  * Add support for error code `payment_intent_rate_limit_exceeded` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
 
 ## 83.1.0-beta.1 - 2025-09-30
 This release changes the pinned API version to `2025-09-30.preview`. It is built on top of SDK version 83.0.0 which contains breaking changes. Please review the [changelog for 83.0.0](https://github.com/stripe/stripe-go/blob/master/CHANGELOG.md#8300---2025-09-30) if upgrading from older SDK versions.
@@ -74,6 +100,21 @@ This release changes the pinned API version to `2025-09-30.preview`. It is built
   * Add support for error type `RateLimitError`
   * Add support for error codes `financial_connections_account_pending_account_numbers` and `financial_connections_account_unavailable_account_numbers` on `QuotePreviewInvoiceLastFinalizationError`
   * Add support for error code `invalid_payout_method_crypto_wallet` on `InvalidPayoutMethodError`
+
+## 83.1.0-alpha.6 - 2025-10-23
+* [#2184](https://github.com/stripe/stripe-go/pull/2184) Update generated code for private-preview
+  * Add support for new resource `V2BillingPricingPlanSubscriptionComponents`
+  * Add support for `Get` method on resource `V2BillingPricingPlanSubscriptionComponents`
+  * Add support for `DimensionPayloadKeys` on `BillingMeterParams` and `BillingMeter`
+  * Add support for `DimensionFilters` and `DimensionGroupByKeys` on `BillingBillingMeterMeterEventSummaryListParams`
+  * Add support for `Dimensions` on `BillingMeterEventSummary`
+  * Add support for `FulfillmentDetails` and `PaymentMethodData` on `DelegatedCheckoutRequestedSessionParams`
+  * Add support for `LineItemDetails`, `Metadata`, `PaymentMethod`, and `SharedMetadata` on `DelegatedCheckoutRequestedSessionParams` and `DelegatedCheckoutRequestedSession`
+  * Add support for `Currency`, `Customer`, and `RiskDetails` on `DelegatedCheckoutRequestedSessionParams`
+  * Add support for `SellerDetails` and `SetupFutureUsage` on `DelegatedCheckoutRequestedSessionParams` and `DelegatedCheckoutRequestedSession`
+  * Add support for `AmountSubtotal`, `AmountTotal`, `CreatedAt`, `ExpiresAt`, `OrderDetails`, `SharedPaymentIssuedToken`, `Status`, `TotalDetails`, and `UpdatedAt` on `DelegatedCheckoutRequestedSession`
+  * Add support for `Address`, `Email`, `FulfillmentOptions`, `Name`, `Phone`, and `SelectedFulfillmentOption` on `DelegatedCheckoutRequestedSessionFulfillmentDetails`
+  * Add support for new values `billie`, `crypto`, `kr_card`, `kriya`, `mb_way`, `mondu`, `ng_bank_transfer`, `ng_bank`, `ng_card`, `ng_market`, `ng_ussd`, `ng_wallet`, `payco`, `paypay`, `rechnung`, `samsung_pay`, `satispay`, `scalapay`, `sequra`, `sunbit`, `us_bank_account`, and `vipps` on enums `EventsV2CoreHealthAuthorizationRateDropFiringEventImpact.PaymentMethodType`, `EventsV2CoreHealthAuthorizationRateDropResolvedEventImpact.PaymentMethodType`, `EventsV2CoreHealthPaymentMethodErrorFiringEventImpact.PaymentMethodType`, and `EventsV2CoreHealthPaymentMethodErrorResolvedEventImpact.PaymentMethodType`
 
 ## 83.1.0-alpha.5 - 2025-10-21
 * [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs
