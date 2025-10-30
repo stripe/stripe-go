@@ -484,6 +484,8 @@ type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 
 // The details of the order.
 type DelegatedCheckoutRequestedSessionOrderDetails struct {
+	// The seller's order identifier.
+	OrderID string `json:"order_id"`
 	// The URL to the order status.
 	OrderStatusURL string `json:"order_status_url"`
 }
@@ -495,6 +497,38 @@ type DelegatedCheckoutRequestedSessionTotalDetails struct {
 	AmountFulfillment int64 `json:"amount_fulfillment"`
 	// The amount tax of the total details.
 	AmountTax int64 `json:"amount_tax"`
+}
+
+// The billing details of the payment method.
+type DelegatedCheckoutRequestedSessionPaymentMethodPreviewBillingDetails struct {
+	// The billing address.
+	Address *Address `json:"address"`
+	// The email address for the billing details.
+	Email string `json:"email"`
+	// The name for the billing details.
+	Name string `json:"name"`
+	// The phone number for the billing details.
+	Phone string `json:"phone"`
+}
+
+// The card details of the payment method.
+type DelegatedCheckoutRequestedSessionPaymentMethodPreviewCard struct {
+	// The expiry month of the card.
+	ExpMonth int64 `json:"exp_month"`
+	// The expiry year of the card.
+	ExpYear int64 `json:"exp_year"`
+	// The last 4 digits of the card number.
+	Last4 string `json:"last4"`
+}
+
+// The preview of the payment method to be created when the requested session is confirmed.
+type DelegatedCheckoutRequestedSessionPaymentMethodPreview struct {
+	// The billing details of the payment method.
+	BillingDetails *DelegatedCheckoutRequestedSessionPaymentMethodPreviewBillingDetails `json:"billing_details"`
+	// The card details of the payment method.
+	Card *DelegatedCheckoutRequestedSessionPaymentMethodPreviewCard `json:"card"`
+	// The type of the payment method.
+	Type string `json:"type"`
 }
 
 // A requested session is a session that has been requested by a customer.
@@ -527,8 +561,10 @@ type DelegatedCheckoutRequestedSession struct {
 	// The details of the order.
 	OrderDetails *DelegatedCheckoutRequestedSessionOrderDetails `json:"order_details"`
 	// The payment method used for the requested session.
-	PaymentMethod string                                          `json:"payment_method"`
-	SellerDetails *DelegatedCheckoutRequestedSessionSellerDetails `json:"seller_details"`
+	PaymentMethod string `json:"payment_method"`
+	// The preview of the payment method to be created when the requested session is confirmed.
+	PaymentMethodPreview *DelegatedCheckoutRequestedSessionPaymentMethodPreview `json:"payment_method_preview"`
+	SellerDetails        *DelegatedCheckoutRequestedSessionSellerDetails        `json:"seller_details"`
 	// Whether or not the payment method should be saved for future use.
 	SetupFutureUsage DelegatedCheckoutRequestedSessionSetupFutureUsage `json:"setup_future_usage"`
 	// The metadata shared with the seller.
