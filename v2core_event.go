@@ -16,9 +16,6 @@ const (
 	V2CoreEventReasonTypeRequest V2CoreEventReasonType = "request"
 )
 
-// Before and after changes for the primary related object.
-type V2CoreEventChanges struct{}
-
 // Information on the API request that instigated the event.
 type V2CoreEventReasonRequest struct {
 	// ID of the API request that caused the event.
@@ -39,7 +36,7 @@ type V2CoreEventReason struct {
 type V2BaseEvent struct {
 	APIResource
 	// Before and after changes for the primary related object.
-	Changes *V2CoreEventChanges `json:"changes,omitempty"`
+	Changes map[string]any `json:"changes,omitempty"`
 	// Authentication context needed to fetch the event or related object.
 	Context string `json:"context,omitempty"`
 	// Time at which the object was created.

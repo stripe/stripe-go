@@ -434,6 +434,10 @@ type Client struct {
 	V2MoneyManagementTransactions *v2MoneyManagementTransactionService
 	// V2PaymentsOffSessionPayments is the service used to invoke /v2/payments/off_session_payments APIs.
 	V2PaymentsOffSessionPayments *v2PaymentsOffSessionPaymentService
+	// V2ReportingReportRuns is the service used to invoke /v2/reporting/report_runs APIs.
+	V2ReportingReportRuns *v2ReportingReportRunService
+	// V2ReportingReports is the service used to invoke report related APIs.
+	V2ReportingReports *v2ReportingReportService
 	// V2TaxAutomaticRules is the service used to invoke /v2/tax/automatic_rules APIs.
 	V2TaxAutomaticRules *v2TaxAutomaticRuleService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
@@ -692,6 +696,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
+	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
+	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
 	client.V2TaxAutomaticRules = &v2TaxAutomaticRuleService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}

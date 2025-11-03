@@ -12471,6 +12471,162 @@ func (n *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchRelatedObje
 	return relatedObj, err
 }
 
+// V2ReportingReportRunCreatedEvent is the Go struct for the "v2.reporting.report_run.created" event.
+// Occurs when a ReportRun is created.
+type V2ReportingReportRunCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ReportingReportRun, error)
+}
+
+// FetchRelatedObject fetches the V2ReportingReportRun related to the event.
+func (e *V2ReportingReportRunCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2ReportingReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ReportingReportRunCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.reporting.report_run.created"
+// Occurs when a ReportRun is created.
+type V2ReportingReportRunCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ReportingReportRunCreatedEvent that created this Notification
+func (n *V2ReportingReportRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V2ReportingReportRunCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ReportingReportRunCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ReportingReportRun related to the event.
+func (n *V2ReportingReportRunCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2ReportingReportRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2ReportingReportRun{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2ReportingReportRunFailedEvent is the Go struct for the "v2.reporting.report_run.failed" event.
+// Occurs when a ReportRun has failed to complete.
+type V2ReportingReportRunFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ReportingReportRun, error)
+}
+
+// FetchRelatedObject fetches the V2ReportingReportRun related to the event.
+func (e *V2ReportingReportRunFailedEvent) FetchRelatedObject(ctx context.Context) (*V2ReportingReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ReportingReportRunFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.reporting.report_run.failed"
+// Occurs when a ReportRun has failed to complete.
+type V2ReportingReportRunFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ReportingReportRunFailedEvent that created this Notification
+func (n *V2ReportingReportRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2ReportingReportRunFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ReportingReportRunFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ReportingReportRun related to the event.
+func (n *V2ReportingReportRunFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2ReportingReportRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2ReportingReportRun{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2ReportingReportRunSucceededEvent is the Go struct for the "v2.reporting.report_run.succeeded" event.
+// Occurs when a ReportRun has successfully completed.
+type V2ReportingReportRunSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ReportingReportRun, error)
+}
+
+// FetchRelatedObject fetches the V2ReportingReportRun related to the event.
+func (e *V2ReportingReportRunSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2ReportingReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ReportingReportRunSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.reporting.report_run.succeeded"
+// Occurs when a ReportRun has successfully completed.
+type V2ReportingReportRunSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ReportingReportRunSucceededEvent that created this Notification
+func (n *V2ReportingReportRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2ReportingReportRunSucceededEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ReportingReportRunSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ReportingReportRun related to the event.
+func (n *V2ReportingReportRunSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2ReportingReportRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2ReportingReportRun{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2ReportingReportRunUpdatedEvent is the Go struct for the "v2.reporting.report_run.updated" event.
+// Occurs when a ReportRun is updated.
+type V2ReportingReportRunUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ReportingReportRun, error)
+}
+
+// FetchRelatedObject fetches the V2ReportingReportRun related to the event.
+func (e *V2ReportingReportRunUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2ReportingReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ReportingReportRunUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.reporting.report_run.updated"
+// Occurs when a ReportRun is updated.
+type V2ReportingReportRunUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ReportingReportRunUpdatedEvent that created this Notification
+func (n *V2ReportingReportRunUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2ReportingReportRunUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ReportingReportRunUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ReportingReportRun related to the event.
+func (n *V2ReportingReportRunUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2ReportingReportRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2ReportingReportRun{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // The request causes the error.
 type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeSampleErrorRequest struct {
 	// The request idempotency key.
@@ -16304,6 +16460,46 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.reporting.report_run.created":
+		result := &V2ReportingReportRunCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
+			v := &V2ReportingReportRun{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.reporting.report_run.failed":
+		result := &V2ReportingReportRunFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
+			v := &V2ReportingReportRun{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.reporting.report_run.succeeded":
+		result := &V2ReportingReportRunSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
+			v := &V2ReportingReportRun{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.reporting.report_run.updated":
+		result := &V2ReportingReportRunUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
+			v := &V2ReportingReportRun{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	default:
 		return event, nil
 	}
@@ -18511,6 +18707,34 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.payments.off_session_payment.succeeded":
 		evt := V2PaymentsOffSessionPaymentSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.reporting.report_run.created":
+		evt := V2ReportingReportRunCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.reporting.report_run.failed":
+		evt := V2ReportingReportRunFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.reporting.report_run.succeeded":
+		evt := V2ReportingReportRunSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.reporting.report_run.updated":
+		evt := V2ReportingReportRunUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
