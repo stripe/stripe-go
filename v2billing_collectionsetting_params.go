@@ -95,12 +95,6 @@ type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceParams struct 
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
-// This sub-hash contains details about the Konbini payment method options.
-type V2BillingCollectionSettingPaymentMethodOptionsKonbiniParams struct{}
-
-// This sub-hash contains details about the SEPA Direct Debit payment method options.
-type V2BillingCollectionSettingPaymentMethodOptionsSEPADebitParams struct{}
-
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
@@ -136,9 +130,9 @@ type V2BillingCollectionSettingPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini *V2BillingCollectionSettingPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
+	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit *V2BillingCollectionSettingPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -249,12 +243,6 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsCustomerBalanceParams s
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
-// This sub-hash contains details about the Konbini payment method options.
-type V2BillingCollectionSettingCreatePaymentMethodOptionsKonbiniParams struct{}
-
-// This sub-hash contains details about the SEPA Direct Debit payment method options.
-type V2BillingCollectionSettingCreatePaymentMethodOptionsSEPADebitParams struct{}
-
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
@@ -290,9 +278,9 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini *V2BillingCollectionSettingCreatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
+	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit *V2BillingCollectionSettingCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -403,12 +391,6 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsCustomerBalanceParams s
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
-// This sub-hash contains details about the Konbini payment method options.
-type V2BillingCollectionSettingUpdatePaymentMethodOptionsKonbiniParams struct{}
-
-// This sub-hash contains details about the SEPA Direct Debit payment method options.
-type V2BillingCollectionSettingUpdatePaymentMethodOptionsSEPADebitParams struct{}
-
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
@@ -444,9 +426,9 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingUpdatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini *V2BillingCollectionSettingUpdatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
+	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit *V2BillingCollectionSettingUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
