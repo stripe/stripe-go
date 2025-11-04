@@ -1469,7 +1469,7 @@ func TimeValue(v *time.Time) time.Time {
 //
 
 // clientversion is the binding version
-const clientversion = "83.1.0"
+const clientversion = "83.1.1"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
