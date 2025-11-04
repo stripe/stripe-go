@@ -272,6 +272,8 @@ type Client struct {
 	V1TerminalReaderCollectedData *v1TerminalReaderCollectedDataService
 	// V1TerminalReaders is the service used to invoke /v1/terminal/readers APIs.
 	V1TerminalReaders *v1TerminalReaderService
+	// V1TestHelpersCapitalFinancingOffers is the service used to invoke /v1/capital/financing_offers APIs.
+	V1TestHelpersCapitalFinancingOffers *v1TestHelpersCapitalFinancingOfferService
 	// V1TestHelpersConfirmationTokens is the service used to invoke /v1/confirmation_tokens APIs.
 	V1TestHelpersConfirmationTokens *v1TestHelpersConfirmationTokenService
 	// V1TestHelpersCustomers is the service used to invoke /v1/customers APIs.
@@ -615,6 +617,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TerminalOnboardingLinks = &v1TerminalOnboardingLinkService{B: backends.API, Key: key}
 	client.V1TerminalReaderCollectedData = &v1TerminalReaderCollectedDataService{B: backends.API, Key: key}
 	client.V1TerminalReaders = &v1TerminalReaderService{B: backends.API, Key: key}
+	client.V1TestHelpersCapitalFinancingOffers = &v1TestHelpersCapitalFinancingOfferService{B: backends.API, Key: key}
 	client.V1TestHelpersConfirmationTokens = &v1TestHelpersConfirmationTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersCustomers = &v1TestHelpersCustomerService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingAuthorizations = &v1TestHelpersIssuingAuthorizationService{B: backends.API, Key: key}
