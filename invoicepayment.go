@@ -13,6 +13,7 @@ type InvoicePaymentPaymentType string
 const (
 	InvoicePaymentPaymentTypeCharge        InvoicePaymentPaymentType = "charge"
 	InvoicePaymentPaymentTypePaymentIntent InvoicePaymentPaymentType = "payment_intent"
+	InvoicePaymentPaymentTypePaymentRecord InvoicePaymentPaymentType = "payment_record"
 )
 
 // The payment details of the invoice payments to return.
