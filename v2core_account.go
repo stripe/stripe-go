@@ -29,7 +29,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExemptReverse V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt = "reverse"
 )
 
-// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+// The data source used to identify the customer's tax location - defaults to `identity_address`. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource can take
@@ -1938,6 +1938,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusActive      V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusPending     V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatus string
 
 // List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatus can take
@@ -2836,7 +2871,7 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTax struct {
 	IPAddress string `json:"ip_address,omitempty"`
 	// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 	Location *V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation `json:"location,omitempty"`
-	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to `identity_address`. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource `json:"location_source,omitempty"`
 }
 
@@ -3872,6 +3907,54 @@ type V2CoreAccountConfigurationMerchantCardPayments struct {
 	DeclineOn *V2CoreAccountConfigurationMerchantCardPaymentsDeclineOn `json:"decline_on,omitempty"`
 }
 
+// Support hours for Konbini payments.
+type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportHours struct {
+	// Support hours end time (JST time of day) for in `HH:MM` format.
+	EndTime string `json:"end_time,omitempty"`
+	// Support hours start time (JST time of day) for in `HH:MM` format.
+	StartTime string `json:"start_time,omitempty"`
+}
+
+// Support for Konbini payments.
+type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupport struct {
+	// Support email address for Konbini payments.
+	Email string `json:"email,omitempty"`
+	// Support hours for Konbini payments.
+	Hours *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportHours `json:"hours,omitempty"`
+	// Support phone number for Konbini payments.
+	Phone string `json:"phone,omitempty"`
+}
+
+// Settings specific to Konbini payments on the account.
+type V2CoreAccountConfigurationMerchantKonbiniPayments struct {
+	// Support for Konbini payments.
+	Support *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupport `json:"support,omitempty"`
+}
+
+// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptorKana struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor string `json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix string `json:"prefix,omitempty"`
+}
+
+// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanji struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor string `json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix string `json:"prefix,omitempty"`
+}
+
+// Settings for the default text that appears on statements for language variations.
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptor struct {
+	// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kana *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKana `json:"kana,omitempty"`
+	// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kanji *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanji `json:"kanji,omitempty"`
+}
+
 // Settings used for SEPA debit payments.
 type V2CoreAccountConfigurationMerchantSEPADebitPayments struct {
 	// Creditor ID for SEPA debit payments.
@@ -3928,8 +4011,12 @@ type V2CoreAccountConfigurationMerchant struct {
 	Capabilities *V2CoreAccountConfigurationMerchantCapabilities `json:"capabilities,omitempty"`
 	// Card payments settings.
 	CardPayments *V2CoreAccountConfigurationMerchantCardPayments `json:"card_payments,omitempty"`
+	// Settings specific to Konbini payments on the account.
+	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPayments `json:"konbini_payments,omitempty"`
 	// The merchant category code for the merchant. MCCs are used to classify businesses based on the goods or services they provide.
 	MCC string `json:"mcc,omitempty"`
+	// Settings for the default text that appears on statements for language variations.
+	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptor `json:"script_statement_descriptor,omitempty"`
 	// Settings used for SEPA debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantSEPADebitPayments `json:"sepa_debit_payments,omitempty"`
 	// Statement descriptor.
@@ -4097,6 +4184,24 @@ type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddresses struct {
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution `json:"resolution"`
+}
+
+// Can hold storage-type funds on Stripe in EUR.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEUR struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetailCode `json:"code"`
@@ -4134,6 +4239,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSD struct {
 
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrencies struct {
+	// Can hold storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEUR `json:"eur,omitempty"`
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBP `json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.

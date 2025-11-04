@@ -31,6 +31,9 @@ This release changes the pinned API version to `2025-10-29.preview`.
   * Add support for error code `outbound_flow_from_closed_financial_account_unsupported` on `FeatureNotEnabledError`
   * Add support for error code `limit_payout_method_crypto_wallet` on `QuotaExceededError`
 
+## 83.1.1 - 2025-11-04
+* [#2202](https://github.com/stripe/stripe-go/pull/2202) Add support for value `payment_record` to enum `InvoicePaymentPayment.Type`
+
 ## 83.1.0 - 2025-10-29
 
 This release changes the pinned API version to `2025-10-29.clover`.
