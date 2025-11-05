@@ -232,7 +232,7 @@ type CustomerSessionComponentsPricingTableParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Configuration for each component. Exactly 1 component must be enabled.
+// Configuration for each component. At least 1 component must be enabled.
 type CustomerSessionComponentsParams struct {
 	// Configuration for buy button.
 	BuyButton *CustomerSessionComponentsBuyButtonParams `form:"buy_button"`
@@ -249,7 +249,7 @@ type CustomerSessionComponentsParams struct {
 // Creates a Customer Session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 type CustomerSessionParams struct {
 	Params `form:"*"`
-	// Configuration for each component. Exactly 1 component must be enabled.
+	// Configuration for each component. At least 1 component must be enabled.
 	Components *CustomerSessionComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the Customer Session.
 	Customer *string `form:"customer"`
@@ -356,7 +356,7 @@ type CustomerSessionCreateComponentsPricingTableParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Configuration for each component. Exactly 1 component must be enabled.
+// Configuration for each component. At least 1 component must be enabled.
 type CustomerSessionCreateComponentsParams struct {
 	// Configuration for buy button.
 	BuyButton *CustomerSessionCreateComponentsBuyButtonParams `form:"buy_button"`
@@ -373,7 +373,7 @@ type CustomerSessionCreateComponentsParams struct {
 // Creates a Customer Session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 type CustomerSessionCreateParams struct {
 	Params `form:"*"`
-	// Configuration for each component. Exactly 1 component must be enabled.
+	// Configuration for each component. At least 1 component must be enabled.
 	Components *CustomerSessionCreateComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the Customer Session.
 	Customer *string `form:"customer"`

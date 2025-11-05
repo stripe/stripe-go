@@ -527,6 +527,15 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManual          PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManualPreferred PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual_preferred"
+)
+
 // Requested routing priority
 type PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority string
 
@@ -1951,6 +1960,12 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
@@ -4233,6 +4248,12 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
@@ -5834,6 +5855,12 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
@@ -7367,6 +7394,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 	RequestedPriority PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority `json:"requested_priority"`
 }
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod `json:"capture_method"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
