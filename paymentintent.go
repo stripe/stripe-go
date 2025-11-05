@@ -608,6 +608,15 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManual          PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManualPreferred PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual_preferred"
+)
+
 // Requested routing priority
 type PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority string
 
@@ -1093,7 +1102,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
 )
 
-// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType can take
@@ -1102,7 +1111,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeMaximum PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "maximum"
 )
 
-// The periodicity at which payments will be collected.
+// The periodicity at which payments will be collected. Defaults to `adhoc`.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule can take
@@ -1117,7 +1126,7 @@ const (
 	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleWeekly      PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "weekly"
 )
 
-// The purpose for which payments are made. Defaults to retail.
+// The purpose for which payments are made. Has a default value based on your merchant category code.
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose string
 
 // List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose can take
@@ -2606,6 +2615,12 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
@@ -3143,15 +3158,15 @@ type PaymentIntentPaymentMethodOptionsPaypayParams struct {
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected.
+	// The periodicity at which payments will be collected. Defaults to `adhoc`.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Defaults to retail.
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 }
 
@@ -6301,6 +6316,12 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
@@ -6838,15 +6859,15 @@ type PaymentIntentCreatePaymentMethodOptionsPaypayParams struct {
 type PaymentIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected.
+	// The periodicity at which payments will be collected. Defaults to `adhoc`.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Defaults to retail.
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 }
 
@@ -8511,6 +8532,12 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
@@ -9048,15 +9075,15 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypayParams struct {
 type PaymentIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount *int64 `form:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 	AmountType *string `form:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate *string `form:"end_date"`
-	// The periodicity at which payments will be collected.
+	// The periodicity at which payments will be collected. Defaults to `adhoc`.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod *int64 `form:"payments_per_period"`
-	// The purpose for which payments are made. Defaults to retail.
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 }
 
@@ -10413,6 +10440,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 	RequestedPriority PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority `json:"requested_priority"`
 }
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod `json:"capture_method"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
@@ -10757,15 +10786,15 @@ type PaymentIntentPaymentMethodOptionsPaypay struct{}
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptions struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount int64 `json:"amount"`
-	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 	AmountType PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType `json:"amount_type"`
 	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
 	EndDate string `json:"end_date"`
-	// The periodicity at which payments will be collected.
+	// The periodicity at which payments will be collected. Defaults to `adhoc`.
 	PaymentSchedule PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule `json:"payment_schedule"`
 	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
 	PaymentsPerPeriod int64 `json:"payments_per_period"`
-	// The purpose for which payments are made. Defaults to retail.
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose `json:"purpose"`
 }
 type PaymentIntentPaymentMethodOptionsPayto struct {
