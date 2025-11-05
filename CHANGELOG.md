@@ -1,5 +1,9 @@
 # Changelog
 
+## 83.2.0 - 2025-11-05
+* [#2203](https://github.com/stripe/stripe-go/pull/2203) Update generated code
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+
 ## 83.1.1 - 2025-11-04
 * [#2202](https://github.com/stripe/stripe-go/pull/2202) Add support for value `payment_record` to enum `InvoicePaymentPayment.Type`
 
