@@ -272,6 +272,8 @@ type Client struct {
 	V1TerminalReaderCollectedData *v1TerminalReaderCollectedDataService
 	// V1TerminalReaders is the service used to invoke /v1/terminal/readers APIs.
 	V1TerminalReaders *v1TerminalReaderService
+	// V1TestHelpersCapitalFinancingOffers is the service used to invoke /v1/capital/financing_offers APIs.
+	V1TestHelpersCapitalFinancingOffers *v1TestHelpersCapitalFinancingOfferService
 	// V1TestHelpersConfirmationTokens is the service used to invoke /v1/confirmation_tokens APIs.
 	V1TestHelpersConfirmationTokens *v1TestHelpersConfirmationTokenService
 	// V1TestHelpersCustomers is the service used to invoke /v1/customers APIs.
@@ -434,6 +436,10 @@ type Client struct {
 	V2MoneyManagementTransactions *v2MoneyManagementTransactionService
 	// V2PaymentsOffSessionPayments is the service used to invoke /v2/payments/off_session_payments APIs.
 	V2PaymentsOffSessionPayments *v2PaymentsOffSessionPaymentService
+	// V2ReportingReportRuns is the service used to invoke /v2/reporting/report_runs APIs.
+	V2ReportingReportRuns *v2ReportingReportRunService
+	// V2ReportingReports is the service used to invoke report related APIs.
+	V2ReportingReports *v2ReportingReportService
 	// V2TaxAutomaticRules is the service used to invoke /v2/tax/automatic_rules APIs.
 	V2TaxAutomaticRules *v2TaxAutomaticRuleService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
@@ -611,6 +617,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TerminalOnboardingLinks = &v1TerminalOnboardingLinkService{B: backends.API, Key: key}
 	client.V1TerminalReaderCollectedData = &v1TerminalReaderCollectedDataService{B: backends.API, Key: key}
 	client.V1TerminalReaders = &v1TerminalReaderService{B: backends.API, Key: key}
+	client.V1TestHelpersCapitalFinancingOffers = &v1TestHelpersCapitalFinancingOfferService{B: backends.API, Key: key}
 	client.V1TestHelpersConfirmationTokens = &v1TestHelpersConfirmationTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersCustomers = &v1TestHelpersCustomerService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingAuthorizations = &v1TestHelpersIssuingAuthorizationService{B: backends.API, Key: key}
@@ -692,6 +699,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
+	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
+	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
 	client.V2TaxAutomaticRules = &v2TaxAutomaticRuleService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}

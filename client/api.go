@@ -147,6 +147,7 @@ import (
 	terminalonboardinglink "github.com/stripe/stripe-go/v83/terminal/onboardinglink"
 	terminalreader "github.com/stripe/stripe-go/v83/terminal/reader"
 	terminalreadercollecteddata "github.com/stripe/stripe-go/v83/terminal/readercollecteddata"
+	testhelperscapitalfinancingoffer "github.com/stripe/stripe-go/v83/testhelpers/capital/financingoffer"
 	testhelpersconfirmationtoken "github.com/stripe/stripe-go/v83/testhelpers/confirmationtoken"
 	testhelperscustomer "github.com/stripe/stripe-go/v83/testhelpers/customer"
 	testhelpersissuingauthorization "github.com/stripe/stripe-go/v83/testhelpers/issuing/authorization"
@@ -227,6 +228,8 @@ import (
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v83/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v83/v2/moneymanagement/transactionentry"
 	v2paymentsoffsessionpayment "github.com/stripe/stripe-go/v83/v2/payments/offsessionpayment"
+	v2reportingreport "github.com/stripe/stripe-go/v83/v2/reporting/report"
+	v2reportingreportrun "github.com/stripe/stripe-go/v83/v2/reporting/reportrun"
 	v2taxautomaticrule "github.com/stripe/stripe-go/v83/v2/tax/automaticrule"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v83/v2/testhelpers/financialaddress"
 	v2testhelpersmoneymanagement "github.com/stripe/stripe-go/v83/v2/testhelpers/moneymanagement"
@@ -507,6 +510,8 @@ type API struct {
 	TerminalReaderCollectedData *terminalreadercollecteddata.Client
 	// TerminalReaders is the client used to invoke /v1/terminal/readers APIs.
 	TerminalReaders *terminalreader.Client
+	// TestHelpersCapitalFinancingOffers is the client used to invoke /v1/capital/financing_offers APIs.
+	TestHelpersCapitalFinancingOffers *testhelperscapitalfinancingoffer.Client
 	// TestHelpersConfirmationTokens is the client used to invoke /v1/confirmation_tokens APIs.
 	TestHelpersConfirmationTokens *testhelpersconfirmationtoken.Client
 	// TestHelpersCustomers is the client used to invoke /v1/customers APIs.
@@ -667,6 +672,10 @@ type API struct {
 	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
 	// V2PaymentsOffSessionPayments is the client used to invoke /v2/payments/off_session_payments APIs.
 	V2PaymentsOffSessionPayments *v2paymentsoffsessionpayment.Client
+	// V2ReportingReportRuns is the client used to invoke /v2/reporting/report_runs APIs.
+	V2ReportingReportRuns *v2reportingreportrun.Client
+	// V2ReportingReports is the client used to invoke report related APIs.
+	V2ReportingReports *v2reportingreport.Client
 	// V2TaxAutomaticRules is the client used to invoke /v2/tax/automatic_rules APIs.
 	V2TaxAutomaticRules *v2taxautomaticrule.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
@@ -825,6 +834,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalOnboardingLinks = &terminalonboardinglink.Client{B: backends.API, Key: key}
 	a.TerminalReaderCollectedData = &terminalreadercollecteddata.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
+	a.TestHelpersCapitalFinancingOffers = &testhelperscapitalfinancingoffer.Client{B: backends.API, Key: key}
 	a.TestHelpersConfirmationTokens = &testhelpersconfirmationtoken.Client{B: backends.API, Key: key}
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingAuthorizations = &testhelpersissuingauthorization.Client{B: backends.API, Key: key}
@@ -905,6 +915,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
 	a.V2PaymentsOffSessionPayments = &v2paymentsoffsessionpayment.Client{B: backends.API, Key: key}
+	a.V2ReportingReportRuns = &v2reportingreportrun.Client{B: backends.API, Key: key}
+	a.V2ReportingReports = &v2reportingreport.Client{B: backends.API, Key: key}
 	a.V2TaxAutomaticRules = &v2taxautomaticrule.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2TestHelpersMoneyManagements = &v2testhelpersmoneymanagement.Client{B: backends.API, Key: key}

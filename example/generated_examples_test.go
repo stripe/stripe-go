@@ -12835,7 +12835,7 @@ func TestWebhookEndpointsPost2Client(t *testing.T) {
 func TestCoreEventsGetService(t *testing.T) {
 	params := &stripe.V2CoreEventParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"changes\":{\"key\":{}},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\",\"v1_event_id\":\"v1_event_id\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\",\"v1_event_id\":\"v1_event_id\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -12848,7 +12848,7 @@ func TestCoreEventsGetService(t *testing.T) {
 func TestCoreEventsGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"changes\":{\"key\":{}},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\",\"v1_event_id\":\"v1_event_id\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\",\"v1_event_id\":\"v1_event_id\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15969,7 +15969,7 @@ func TestV2CoreClaimableSandboxGetClient(t *testing.T) {
 func TestV2CoreEventGetService(t *testing.T) {
 	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15981,7 +15981,7 @@ func TestV2CoreEventGetService(t *testing.T) {
 func TestV2CoreEventGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15993,7 +15993,7 @@ func TestV2CoreEventGetClient(t *testing.T) {
 func TestV2CoreEventGet2Service(t *testing.T) {
 	params := &stripe.V2CoreEventParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16006,7 +16006,7 @@ func TestV2CoreEventGet2Service(t *testing.T) {
 func TestV2CoreEventGet2Client(t *testing.T) {
 	params := &stripe.V2CoreEventRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16214,7 +16214,7 @@ func TestV2CoreEventDestinationPost4Client(t *testing.T) {
 func TestV2CoreEventDestinationPost5Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationPingParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16227,7 +16227,7 @@ func TestV2CoreEventDestinationPost5Service(t *testing.T) {
 func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationPingParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17994,6 +17994,112 @@ func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2PaymentsOffSessionPayments.Capture(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ReportingReportGetService(t *testing.T) {
+	params := &stripe.V2ReportingReportParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/reporting/reports/id_123", params, "{\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.reporting.report\",\"parameters\":{\"key\":{\"description\":\"description\",\"required\":true,\"type\":\"string\"}},\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ReportingReports.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ReportingReportGetClient(t *testing.T) {
+	params := &stripe.V2ReportingReportRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/reporting/reports/id_123", params, "{\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.reporting.report\",\"parameters\":{\"key\":{\"description\":\"description\",\"required\":true,\"type\":\"string\"}},\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ReportingReports.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ReportingReportRunPostService(t *testing.T) {
+	params := &stripe.V2ReportingReportRunParams{
+		Report: stripe.String("report"),
+		ReportParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/reporting/report_runs", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.reporting.report_run\",\"report\":\"report\",\"report_name\":\"report_name\",\"report_parameters\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"status\":\"failed\",\"status_details\":{\"key\":{}},\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ReportingReportRuns.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ReportingReportRunPostClient(t *testing.T) {
+	params := &stripe.V2ReportingReportRunCreateParams{
+		Report: stripe.String("report"),
+		ReportParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/reporting/report_runs", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.reporting.report_run\",\"report\":\"report\",\"report_name\":\"report_name\",\"report_parameters\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"status\":\"failed\",\"status_details\":{\"key\":{}},\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ReportingReportRuns.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ReportingReportRunGetService(t *testing.T) {
+	params := &stripe.V2ReportingReportRunParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/reporting/report_runs/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.reporting.report_run\",\"report\":\"report\",\"report_name\":\"report_name\",\"report_parameters\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"status\":\"failed\",\"status_details\":{\"key\":{}},\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ReportingReportRuns.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ReportingReportRunGetClient(t *testing.T) {
+	params := &stripe.V2ReportingReportRunRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/reporting/report_runs/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.reporting.report_run\",\"report\":\"report\",\"report_name\":\"report_name\",\"report_parameters\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"status\":\"failed\",\"status_details\":{\"key\":{}},\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ReportingReportRuns.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)

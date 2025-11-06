@@ -3622,6 +3622,12 @@ type PaymentIntentTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
+// Allocated Funds configuration for this PaymentIntent.
+type PaymentIntentAllocatedFundsParams struct {
+	// Whether Allocated Funds creation is enabled for this PaymentIntent.
+	Enabled *bool `form:"enabled"`
+}
+
 // Creates a PaymentIntent object.
 //
 // After the PaymentIntent is created, attach a payment method and [confirm](https://docs.stripe.com/docs/api/payment_intents/confirm)
@@ -3634,6 +3640,8 @@ type PaymentIntentTransferDataParams struct {
 // confirm=true.
 type PaymentIntentParams struct {
 	Params `form:"*"`
+	// Allocated Funds configuration for this PaymentIntent.
+	AllocatedFunds *PaymentIntentAllocatedFundsParams `form:"allocated_funds"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
 	// Provides industry-specific information about the amount.
@@ -4784,6 +4792,12 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
+// Allocated Funds configuration for this PaymentIntent.
+type PaymentIntentConfirmAllocatedFundsParams struct {
+	// Whether Allocated Funds creation is enabled for this PaymentIntent.
+	Enabled *bool `form:"enabled"`
+}
+
 // Confirm that your customer intends to pay with current or provided
 // payment method. Upon confirmation, the PaymentIntent will attempt to initiate
 // a payment.
@@ -4816,6 +4830,8 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // transition the PaymentIntent to the canceled state.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
+	// Allocated Funds configuration for this PaymentIntent.
+	AllocatedFunds *PaymentIntentConfirmAllocatedFundsParams `form:"allocated_funds"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *PaymentIntentConfirmAmountDetailsParams `form:"amount_details"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
@@ -7281,6 +7297,12 @@ type PaymentIntentCreateTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
+// Allocated Funds configuration for this PaymentIntent.
+type PaymentIntentCreateAllocatedFundsParams struct {
+	// Whether Allocated Funds creation is enabled for this PaymentIntent.
+	Enabled *bool `form:"enabled"`
+}
+
 // Creates a PaymentIntent object.
 //
 // After the PaymentIntent is created, attach a payment method and [confirm](https://docs.stripe.com/docs/api/payment_intents/confirm)
@@ -7293,6 +7315,8 @@ type PaymentIntentCreateTransferDataParams struct {
 // confirm=true.
 type PaymentIntentCreateParams struct {
 	Params `form:"*"`
+	// Allocated Funds configuration for this PaymentIntent.
+	AllocatedFunds *PaymentIntentCreateAllocatedFundsParams `form:"allocated_funds"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
 	// Provides industry-specific information about the amount.
@@ -9471,6 +9495,12 @@ type PaymentIntentUpdateTransferDataParams struct {
 	Amount *int64 `form:"amount"`
 }
 
+// Allocated Funds configuration for this PaymentIntent.
+type PaymentIntentUpdateAllocatedFundsParams struct {
+	// Whether Allocated Funds creation is enabled for this PaymentIntent.
+	Enabled *bool `form:"enabled"`
+}
+
 // Updates properties on a PaymentIntent object without confirming.
 //
 // Depending on which properties you update, you might need to confirm the
@@ -9480,6 +9510,8 @@ type PaymentIntentUpdateTransferDataParams struct {
 // the [confirm API](https://docs.stripe.com/docs/api/payment_intents/confirm) instead.
 type PaymentIntentUpdateParams struct {
 	Params `form:"*"`
+	// Allocated Funds configuration for this PaymentIntent.
+	AllocatedFunds *PaymentIntentUpdateAllocatedFundsParams `form:"allocated_funds"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
 	// Provides industry-specific information about the amount.
