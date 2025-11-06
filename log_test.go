@@ -147,7 +147,7 @@ func TestContextLeveledLoggerDebugf(t *testing.T) {
 		},
 	}
 
-	ctx := context.WithValue(context.Background(), "trace_id", "test-123")
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "test-123")
 	logger.Debugf(ctx, "test message")
 
 	assert.Equal(t, "[DEBUG] test message\n", stdout.String())
@@ -165,7 +165,7 @@ func TestContextLeveledLoggerInfof(t *testing.T) {
 		},
 	}
 
-	ctx := context.WithValue(context.Background(), "trace_id", "test-456")
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "test-456")
 	logger.Infof(ctx, "test message")
 
 	assert.Equal(t, "[INFO] test message\n", stdout.String())
@@ -183,7 +183,7 @@ func TestContextLeveledLoggerWarnf(t *testing.T) {
 		},
 	}
 
-	ctx := context.WithValue(context.Background(), "trace_id", "test-789")
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "test-789")
 	logger.Warnf(ctx, "test message")
 
 	assert.Equal(t, "", stdout.String())
@@ -201,7 +201,7 @@ func TestContextLeveledLoggerErrorf(t *testing.T) {
 		},
 	}
 
-	ctx := context.WithValue(context.Background(), "trace_id", "test-abc")
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "test-abc")
 	logger.Errorf(ctx, "test message")
 
 	assert.Equal(t, "", stdout.String())
@@ -220,6 +220,7 @@ func TestContextLeveledLoggerNilContext(t *testing.T) {
 	}
 
 	// Should handle nil context gracefully
+	//lint:ignore SA1012 Intentionally testing nil context handling
 	logger.Infof(nil, "test message")
 
 	assert.Equal(t, "[INFO] test message\n", stdout.String())

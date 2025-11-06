@@ -10,6 +10,9 @@ import (
 	assert "github.com/stretchr/testify/require"
 )
 
+// contextKey is a custom type for context keys to avoid collisions
+type contextKey string
+
 // Test that BackendImplementation detects ContextLeveledLoggerInterface
 func TestBackendDetectsContextLogger(t *testing.T) {
 	var stdout, stderr bytes.Buffer
@@ -82,7 +85,7 @@ func TestContextPropagationThroughHelpers(t *testing.T) {
 	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
 
 	// Create context with test value
-	ctx := context.WithValue(context.Background(), "trace_id", "test-trace-123")
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "test-trace-123")
 
 	// Test all helper methods
 	backend.logDebugf(ctx, "debug message")
@@ -120,7 +123,7 @@ func TestRegularLoggerFallback(t *testing.T) {
 	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
 
 	// Create context - should be ignored since logger doesn't support it
-	ctx := context.WithValue(context.Background(), "trace_id", "test-trace-456")
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "test-trace-456")
 
 	// Call helper methods - should fall back to regular logger
 	backend.logInfof(ctx, "test message")
@@ -150,6 +153,7 @@ func TestHelperMethodsWithNilContext(t *testing.T) {
 	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
 
 	// Call with nil context - should not panic
+	//lint:ignore SA1012 Intentionally testing nil context handling
 	backend.logInfof(nil, "test message")
 
 	assert.Equal(t, "[INFO] test message\n", stdout.String(), "Should handle nil context gracefully")
@@ -175,7 +179,7 @@ func TestLogErrorWithContext(t *testing.T) {
 	}
 
 	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
-	ctx := context.WithValue(context.Background(), "trace_id", "error-trace")
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "error-trace")
 
 	// Create a Stripe error
 	stripeErr := &Error{
@@ -282,7 +286,7 @@ func TestContextPropagationInRequest(t *testing.T) {
 	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
 
 	// Create a request with context
-	ctx := context.WithValue(context.Background(), "request_id", "req-789")
+	ctx := context.WithValue(context.Background(), contextKey("request_id"), "req-789")
 	params := &Params{Context: ctx}
 
 	req, err := backend.NewRequest(http.MethodGet, "/v1/customers/cus_123", "sk_test_123", "application/x-www-form-urlencoded", params)

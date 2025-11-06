@@ -638,6 +638,7 @@ func (s *BackendImplementation) maybeSetTelemetryHeader(req *http.Request) {
 			if err == nil {
 				req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
 			} else {
+				//lint:ignore SA1012 No context available in this code path
 				s.logWarnf(nil, "Unable to encode client telemetry: %v", err)
 			}
 		default:
@@ -678,10 +679,6 @@ func (s *BackendImplementation) logDebugf(ctx context.Context, format string, v 
 		s.contextLogger.Debugf(ctx, format, v...)
 	} else if s.regularLogger != nil {
 		s.regularLogger.Debugf(format, v...)
-	} else if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
-		logger.Debugf(ctx, format, v...)
-	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
-		logger.Debugf(format, v...)
 	}
 }
 
@@ -691,10 +688,6 @@ func (s *BackendImplementation) logInfof(ctx context.Context, format string, v .
 		s.contextLogger.Infof(ctx, format, v...)
 	} else if s.regularLogger != nil {
 		s.regularLogger.Infof(format, v...)
-	} else if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
-		logger.Infof(ctx, format, v...)
-	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
-		logger.Infof(format, v...)
 	}
 }
 
@@ -704,10 +697,6 @@ func (s *BackendImplementation) logWarnf(ctx context.Context, format string, v .
 		s.contextLogger.Warnf(ctx, format, v...)
 	} else if s.regularLogger != nil {
 		s.regularLogger.Warnf(format, v...)
-	} else if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
-		logger.Warnf(ctx, format, v...)
-	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
-		logger.Warnf(format, v...)
 	}
 }
 
@@ -717,10 +706,6 @@ func (s *BackendImplementation) logErrorf(ctx context.Context, format string, v 
 		s.contextLogger.Errorf(ctx, format, v...)
 	} else if s.regularLogger != nil {
 		s.regularLogger.Errorf(format, v...)
-	} else if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
-		logger.Errorf(ctx, format, v...)
-	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
-		logger.Errorf(format, v...)
 	}
 }
 
@@ -837,13 +822,16 @@ func (s *BackendImplementation) logError(statusCode int, err error) {
 		// Stripe API doesn't comply to the letter of the specification
 		// and uses it in a broader sense.
 		if statusCode == 402 {
+			//lint:ignore SA1012 No context available in this legacy method, use logErrorWithContext for new code
 			s.logInfof(nil, "User-compelled request error from Stripe (status %v): %v",
 				statusCode, stripeErr.redact())
 		} else {
+			//lint:ignore SA1012 No context available in this legacy method, use logErrorWithContext for new code
 			s.logErrorf(nil, "Request error from Stripe (status %v): %v",
 				statusCode, stripeErr.redact())
 		}
 	} else {
+		//lint:ignore SA1012 No context available in this legacy method, use logErrorWithContext for new code
 		s.logErrorf(nil, "Error decoding error from Stripe: %v", err)
 	}
 }
@@ -866,6 +854,7 @@ func (s *BackendImplementation) logErrorWithContext(ctx context.Context, statusC
 func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response, err error) (io.ReadCloser, error) {
 	// Some sort of connection error
 	if err != nil {
+		//lint:ignore SA1012 No context available in this code path
 		s.logErrorf(nil, "Request failed with error: %v", err)
 		return res.Body, err
 	}
@@ -1078,6 +1067,7 @@ func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte
 
 		newErr := fmt.Errorf("Couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
 			statusCode, bodySample, err)
+		//lint:ignore SA1012 No context available in this code path
 		s.logErrorf(nil, "%s", newErr.Error())
 		return newErr
 	}
