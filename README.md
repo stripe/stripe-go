@@ -390,7 +390,7 @@ for cust, err := range sc.V1Customers.List(context.TODO(), &stripe.CustomerListP
 
 #### Beta headers
 
-To access a private preview feature, you will likely need to use a special beta header. If you are using a public preview or private preview SDK version (those with a version `v83.1.0-beta.1` or `v83.1.0-alpha.1`), you can use the `stripe.AddBetaVersion` function as described in [Public Preview SDKs](public-preview-sdks). With a release version like `v83.1.0`, you can still set a beta header on a per-request basis in your request params as follows:
+To access a private preview feature, you will likely need to use a special beta header. If you are using a public preview or private preview SDK version (those with a version `v83.1.0-beta.1` or `v83.1.0-alpha.1`), you can use the `stripe.AddBetaVersion` function as described in [Public Preview SDKs](#public-preview-sdks). With a release version like `v83.1.0`, you can still set a beta header on a per-request basis in your request params as follows:
 
 ```go
 params := &stripe.CustomerCreateParams{
