@@ -15959,9 +15959,7 @@ func TestV2PaymentsOffSessionPaymentPost2Client(t *testing.T) {
 }
 
 func TestV2PaymentsOffSessionPaymentPost3Service(t *testing.T) {
-	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{
-		AmountToCapture: stripe.Int64(1374310455),
-	}
+	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{}
 	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"compartment_id\":\"compartment_id\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"object\":\"v2.payments.off_session_payment\",\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"pending\"}")
@@ -15975,9 +15973,7 @@ func TestV2PaymentsOffSessionPaymentPost3Service(t *testing.T) {
 }
 
 func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
-	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{
-		AmountToCapture: stripe.Int64(1374310455),
-	}
+	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{}
 	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"compartment_id\":\"compartment_id\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"object\":\"v2.payments.off_session_payment\",\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"pending\"}")

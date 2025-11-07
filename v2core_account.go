@@ -2282,6 +2282,15 @@ const (
 	V2CoreAccountDefaultsResponsibilitiesLossesCollectorStripe      V2CoreAccountDefaultsResponsibilitiesLossesCollector = "stripe"
 )
 
+// A value indicating responsibility for collecting requirements on this account.
+type V2CoreAccountDefaultsResponsibilitiesRequirementsCollector string
+
+// List of values that V2CoreAccountDefaultsResponsibilitiesRequirementsCollector can take
+const (
+	V2CoreAccountDefaultsResponsibilitiesRequirementsCollectorApplication V2CoreAccountDefaultsResponsibilitiesRequirementsCollector = "application"
+	V2CoreAccountDefaultsResponsibilitiesRequirementsCollectorStripe      V2CoreAccountDefaultsResponsibilitiesRequirementsCollector = "stripe"
+)
+
 // Reason for why the company is exempt from providing ownership information.
 type V2CoreAccountIdentityAttestationsPersonsProvidedOwnershipExemptionReason string
 
@@ -2608,15 +2617,6 @@ const (
 	V2CoreAccountIdentityIndividualPoliticalExposureNone     V2CoreAccountIdentityIndividualPoliticalExposure = "none"
 )
 
-// A value indicating responsibility for collecting requirements on this account.
-type V2CoreAccountRequirementsCollector string
-
-// List of values that V2CoreAccountRequirementsCollector can take
-const (
-	V2CoreAccountRequirementsCollectorApplication V2CoreAccountRequirementsCollector = "application"
-	V2CoreAccountRequirementsCollectorStripe      V2CoreAccountRequirementsCollector = "stripe"
-)
-
 // Whether the responsibility is with the integrator or with Stripe (to review info, to wait for some condition, etc.) to action the requirement.
 type V2CoreAccountRequirementsEntryAwaitingActionFrom string
 
@@ -2826,13 +2826,15 @@ const (
 	V2CoreAccountRequirementsEntryMinimumDeadlineStatusPastDue       V2CoreAccountRequirementsEntryMinimumDeadlineStatus = "past_due"
 )
 
-// The type of the reference. An additional hash is included with a name matching the type. It contains additional information specific to the type.
+// The type of the reference. If the type is "inquiry", the inquiry token can be found in the "inquiry" field.
+// Otherwise the type is an API resource, the token for which can be found in the "resource" field.
 type V2CoreAccountRequirementsEntryReferenceType string
 
 // List of values that V2CoreAccountRequirementsEntryReferenceType can take
 const (
-	V2CoreAccountRequirementsEntryReferenceTypeInquiry  V2CoreAccountRequirementsEntryReferenceType = "inquiry"
-	V2CoreAccountRequirementsEntryReferenceTypeResource V2CoreAccountRequirementsEntryReferenceType = "resource"
+	V2CoreAccountRequirementsEntryReferenceTypeInquiry       V2CoreAccountRequirementsEntryReferenceType = "inquiry"
+	V2CoreAccountRequirementsEntryReferenceTypePaymentMethod V2CoreAccountRequirementsEntryReferenceType = "payment_method"
+	V2CoreAccountRequirementsEntryReferenceTypePerson        V2CoreAccountRequirementsEntryReferenceType = "person"
 )
 
 // Machine-readable description of Stripe's reason for collecting the requirement.
@@ -4429,6 +4431,8 @@ type V2CoreAccountDefaultsResponsibilities struct {
 	FeesCollector V2CoreAccountDefaultsResponsibilitiesFeesCollector `json:"fees_collector"`
 	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
 	LossesCollector V2CoreAccountDefaultsResponsibilitiesLossesCollector `json:"losses_collector"`
+	// A value indicating responsibility for collecting requirements on this account.
+	RequirementsCollector V2CoreAccountDefaultsResponsibilitiesRequirementsCollector `json:"requirements_collector"`
 }
 
 // Default values to be used on Account Configurations.
@@ -5115,7 +5119,8 @@ type V2CoreAccountRequirementsEntryReference struct {
 	Inquiry string `json:"inquiry,omitempty"`
 	// If `resource` is the type, the resource token.
 	Resource string `json:"resource,omitempty"`
-	// The type of the reference. An additional hash is included with a name matching the type. It contains additional information specific to the type.
+	// The type of the reference. If the type is "inquiry", the inquiry token can be found in the "inquiry" field.
+	// Otherwise the type is an API resource, the token for which can be found in the "resource" field.
 	Type V2CoreAccountRequirementsEntryReferenceType `json:"type"`
 }
 
@@ -5159,8 +5164,6 @@ type V2CoreAccountRequirementsSummary struct {
 
 // Information about the requirements for the Account, including what information needs to be collected, and by when.
 type V2CoreAccountRequirements struct {
-	// A value indicating responsibility for collecting requirements on this account.
-	Collector V2CoreAccountRequirementsCollector `json:"collector"`
 	// A list of requirements for the Account.
 	Entries []*V2CoreAccountRequirementsEntry `json:"entries,omitempty"`
 	// An object containing an overview of requirements for the Account.

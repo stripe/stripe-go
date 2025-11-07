@@ -2336,8 +2336,89 @@ func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObjec
 	return relatedObj, err
 }
 
+// V2PaymentsOffSessionPaymentAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.attempt_failed" event.
+// Sent after a failed attempt if there are still retries available on the OffSessionPayment.
+type V2PaymentsOffSessionPaymentAttemptFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentAttemptFailedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentAttemptFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.attempt_failed"
+// Sent after a failed attempt if there are still retries available on the OffSessionPayment.
+type V2PaymentsOffSessionPaymentAttemptFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentAttemptFailedEvent that created this Notification
+func (n *V2PaymentsOffSessionPaymentAttemptFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAttemptFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentAttemptFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (n *V2PaymentsOffSessionPaymentAttemptFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsOffSessionPaymentAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.attempt_started" event.
+// Sent when our internal scheduling system kicks off an attempt, whether it's a
+// retry or an initial attempt.
+type V2PaymentsOffSessionPaymentAttemptStartedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentAttemptStartedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentAttemptStartedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.attempt_started"
+// Sent when our internal scheduling system kicks off an attempt, whether it's a
+// retry or an initial attempt.
+type V2PaymentsOffSessionPaymentAttemptStartedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentAttemptStartedEvent that created this Notification
+func (n *V2PaymentsOffSessionPaymentAttemptStartedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAttemptStartedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentAttemptStartedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (n *V2PaymentsOffSessionPaymentAttemptStartedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
 // Sent after a failed authorization if there are still retries available on the OffSessionPayment.
+// This event has been renamed this to attempt_failed, but we are keeping this around for backwards compatibility.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -2351,6 +2432,7 @@ func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelate
 
 // V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.authorization_attempt_failed"
 // Sent after a failed authorization if there are still retries available on the OffSessionPayment.
+// This event has been renamed this to attempt_failed, but we are keeping this around for backwards compatibility.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -2378,6 +2460,7 @@ func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification)
 // V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
 // Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
 // retry or an initial authorization.
+// This event has been renamed this to attempt_failed, but we are keeping this around for backwards compatibility.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -2392,6 +2475,7 @@ func (e *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelat
 // V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.authorization_attempt_started"
 // Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
 // retry or an initial authorization.
+// This event has been renamed this to attempt_failed, but we are keeping this around for backwards compatibility.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -2534,7 +2618,7 @@ func (n *V2PaymentsOffSessionPaymentFailedEventNotification) FetchRelatedObject(
 }
 
 // V2PaymentsOffSessionPaymentRequiresCaptureEvent is the Go struct for the "v2.payments.off_session_payment.requires_capture" event.
-// Off-Session payment requires capture event definition.
+// Sent when the off-session payment becomes available for capture.
 type V2PaymentsOffSessionPaymentRequiresCaptureEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -2547,7 +2631,7 @@ func (e *V2PaymentsOffSessionPaymentRequiresCaptureEvent) FetchRelatedObject(ctx
 }
 
 // V2PaymentsOffSessionPaymentRequiresCaptureEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.requires_capture"
-// Off-Session payment requires capture event definition.
+// Sent when the off-session payment becomes available for capture.
 type V2PaymentsOffSessionPaymentRequiresCaptureEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -3360,6 +3444,26 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.payments.off_session_payment.attempt_failed":
+		result := &V2PaymentsOffSessionPaymentAttemptFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.attempt_started":
+		result := &V2PaymentsOffSessionPaymentAttemptStartedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.payments.off_session_payment.authorization_attempt_failed":
 		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -3838,6 +3942,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.transaction.updated":
 		evt := V2MoneyManagementTransactionUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.attempt_failed":
+		evt := V2PaymentsOffSessionPaymentAttemptFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.attempt_started":
+		evt := V2PaymentsOffSessionPaymentAttemptStartedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
