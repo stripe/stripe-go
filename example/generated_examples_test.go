@@ -17967,9 +17967,7 @@ func TestV2PaymentsOffSessionPaymentPost2Client(t *testing.T) {
 }
 
 func TestV2PaymentsOffSessionPaymentPost3Service(t *testing.T) {
-	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{
-		AmountToCapture: stripe.Int64(1374310455),
-	}
+	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{}
 	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"compartment_id\":\"compartment_id\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"object\":\"v2.payments.off_session_payment\",\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"pending\"}")
@@ -17983,9 +17981,7 @@ func TestV2PaymentsOffSessionPaymentPost3Service(t *testing.T) {
 }
 
 func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
-	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{
-		AmountToCapture: stripe.Int64(1374310455),
-	}
+	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{}
 	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"compartment_id\":\"compartment_id\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"object\":\"v2.payments.off_session_payment\",\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"pending\"}")
@@ -18100,150 +18096,6 @@ func TestV2ReportingReportRunGetClient(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2ReportingReportRuns.Retrieve(
-		context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRulePostService(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleParams{
-		BillableItem: stripe.String("billable_item"),
-		TaxCode:      stripe.String("tax_code"),
-	}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/automatic_rules", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2TaxAutomaticRules.New(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRulePostClient(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleCreateParams{
-		BillableItem: stripe.String("billable_item"),
-		TaxCode:      stripe.String("tax_code"),
-	}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/automatic_rules", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2TaxAutomaticRules.Create(context.TODO(), params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRuleGetService(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleFindParams{
-		BillableItem: stripe.String("billable_item"),
-	}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/tax/automatic_rules/find", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2TaxAutomaticRules.Find(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRuleGetClient(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleFindParams{
-		BillableItem: stripe.String("billable_item"),
-	}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/tax/automatic_rules/find", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2TaxAutomaticRules.Find(context.TODO(), params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRuleGet2Service(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleParams{}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/tax/automatic_rules/id_123", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2TaxAutomaticRules.Get("id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRuleGet2Client(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleRetrieveParams{}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/tax/automatic_rules/id_123", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2TaxAutomaticRules.Retrieve(
-		context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRulePost2Service(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleParams{TaxCode: stripe.String("tax_code")}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/automatic_rules/id_123", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2TaxAutomaticRules.Update("id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRulePost2Client(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleUpdateParams{
-		TaxCode: stripe.String("tax_code"),
-	}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/automatic_rules/id_123", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2TaxAutomaticRules.Update(context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRulePost3Service(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleDeactivateParams{}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/automatic_rules/id_123/deactivate", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2TaxAutomaticRules.Deactivate("id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2TaxAutomaticRulePost3Client(t *testing.T) {
-	params := &stripe.V2TaxAutomaticRuleDeactivateParams{}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/automatic_rules/id_123/deactivate", params, "{\"billable_item\":\"billable_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.automatic_rule\",\"status\":\"active\",\"tax_code\":\"tax_code\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2TaxAutomaticRules.Deactivate(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
