@@ -1816,6 +1816,178 @@ type PaymentIntentPaymentDetailsCarRentalParams struct {
 	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+}
+
+// Distance details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentPaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentPaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
+	// Driver's full name.
+	Name *string `form:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentPaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentPaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentPaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentPaymentDetailsCarRentalDatumTotalTaxParams `form:"tax"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make"`
+	// Model of the rental vehicle.
+	Model *string `form:"model"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer"`
+	// Type of the rental vehicle.
+	Type *string `form:"type"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentPaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentPaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// Distance details for the rental.
+	Distance *PaymentIntentPaymentDetailsCarRentalDatumDistanceParams `form:"distance"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentPaymentDetailsCarRentalDatumDriverParams `form:"drivers"`
+	// Drop-off location details.
+	DropOff *PaymentIntentPaymentDetailsCarRentalDatumDropOffParams `form:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentPaymentDetailsCarRentalDatumInsuranceParams `form:"insurances"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Pickup location details.
+	Pickup *PaymentIntentPaymentDetailsCarRentalDatumPickupParams `form:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentPaymentDetailsCarRentalDatumTotalParams `form:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentPaymentDetailsCarRentalDatumVehicleParams `form:"vehicle"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentPaymentDetailsEventDetailsAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -1932,6 +2104,162 @@ type PaymentIntentPaymentDetailsFlightParams struct {
 	TicketNumber *string `form:"ticket_number"`
 }
 
+// Affiliate details if applicable.
+type PaymentIntentPaymentDetailsFlightDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+	// Code provided by the company to a travel agent authorizing ticket issuance.
+	TravelAuthorizationCode *string `form:"travel_authorization_code"`
+}
+
+// List of insurances.
+type PaymentIntentPaymentDetailsFlightDatumInsuranceParams struct {
+	// Insurance cost.
+	Amount *int64 `form:"amount"`
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Insurance company name.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// List of passengers.
+type PaymentIntentPaymentDetailsFlightDatumPassengerParams struct {
+	// Passenger's full name.
+	Name *string `form:"name"`
+}
+
+// Arrival details.
+type PaymentIntentPaymentDetailsFlightDatumSegmentArrivalParams struct {
+	// Arrival airport IATA code.
+	Airport *string `form:"airport"`
+	// Arrival date/time.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// Arrival city.
+	City *string `form:"city"`
+	// Arrival country.
+	Country *string `form:"country"`
+}
+
+// Departure details.
+type PaymentIntentPaymentDetailsFlightDatumSegmentDepartureParams struct {
+	// Departure airport IATA code.
+	Airport *string `form:"airport"`
+	// Departure city.
+	City *string `form:"city"`
+	// Departure country.
+	Country *string `form:"country"`
+	// Departure date/time.
+	DepartsAt *int64 `form:"departs_at"`
+}
+
+// List of flight segments.
+type PaymentIntentPaymentDetailsFlightDatumSegmentParams struct {
+	// Segment fare amount.
+	Amount *int64 `form:"amount"`
+	// Arrival details.
+	Arrival *PaymentIntentPaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival"`
+	// Airline carrier code.
+	CarrierCode *string `form:"carrier_code"`
+	// Carrier name.
+	CarrierName *string `form:"carrier_name"`
+	// Segment currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentPaymentDetailsFlightDatumSegmentDepartureParams `form:"departure"`
+	// Exchange ticket number.
+	ExchangeTicketNumber *string `form:"exchange_ticket_number"`
+	// Fare basis code.
+	FareBasisCode *string `form:"fare_basis_code"`
+	// Additional fees.
+	Fees *int64 `form:"fees"`
+	// Flight number.
+	FlightNumber *string `form:"flight_number"`
+	// Stopover indicator.
+	IsStopOverIndicator *bool `form:"is_stop_over_indicator"`
+	// Refundable ticket indicator.
+	Refundable *bool `form:"refundable"`
+	// Class of service.
+	ServiceClass *string `form:"service_class"`
+	// Tax amount for segment.
+	TaxAmount *int64 `form:"tax_amount"`
+	// Ticket number.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Discount details.
+type PaymentIntentPaymentDetailsFlightDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+}
+
+// Additional charges.
+type PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeParams struct {
+	// Amount of additional charges.
+	Amount *int64 `form:"amount"`
+	// Type of additional charges.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown.
+type PaymentIntentPaymentDetailsFlightDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes"`
+}
+
+// Total cost breakdown.
+type PaymentIntentPaymentDetailsFlightDatumTotalParams struct {
+	// Total flight amount.
+	Amount *int64 `form:"amount"`
+	// Reason for credit.
+	CreditReason *string `form:"credit_reason"`
+	// Total currency.
+	Currency *string `form:"currency"`
+	// Discount details.
+	Discounts *PaymentIntentPaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges.
+	ExtraCharges []*PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Tax breakdown.
+	Tax *PaymentIntentPaymentDetailsFlightDatumTotalTaxParams `form:"tax"`
+}
+
+// Flight data for this PaymentIntent.
+type PaymentIntentPaymentDetailsFlightDatumParams struct {
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentPaymentDetailsFlightDatumAffiliateParams `form:"affiliate"`
+	// Reservation reference.
+	BookingNumber *string `form:"booking_number"`
+	// Computerized reservation system used to make the reservation and purchase the ticket.
+	ComputerizedReservationSystem *string `form:"computerized_reservation_system"`
+	// Ticket restrictions.
+	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions"`
+	// List of insurances.
+	Insurances []*PaymentIntentPaymentDetailsFlightDatumInsuranceParams `form:"insurances"`
+	// List of passengers.
+	Passengers []*PaymentIntentPaymentDetailsFlightDatumPassengerParams `form:"passengers"`
+	// List of flight segments.
+	Segments []*PaymentIntentPaymentDetailsFlightDatumSegmentParams `form:"segments"`
+	// Electronic ticket indicator.
+	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator"`
+	// Total cost breakdown.
+	Total *PaymentIntentPaymentDetailsFlightDatumTotalParams `form:"total"`
+	// Type of flight transaction.
+	TransactionType *string `form:"transaction_type"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentPaymentDetailsLodgingAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -2008,6 +2336,154 @@ type PaymentIntentPaymentDetailsLodgingParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
+// Accommodation details for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type"`
+	// Bed type.
+	BedType *string `form:"bed_type"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount"`
+	// Number of nights.
+	Nights *int64 `form:"nights"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms"`
+	// Rate type.
+	RateType *string `form:"rate_type"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentPaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Affiliate partner name.
+	Name *string `form:"name"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference"`
+	// Type of host.
+	HostType *string `form:"host_type"`
+	// Name of the lodging property or host.
+	Name *string `form:"name"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code.
+	Coupon *string `form:"coupon"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Tax details.
+type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentPaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Tax details.
+	Taxes []*PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total details for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances"`
+	// Currency of the total amount.
+	Currency *string `form:"currency"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentPaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentPaymentDetailsLodgingDatumTotalTaxParams `form:"tax"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentPaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentPaymentDetailsLodgingDatumAccommodationParams `form:"accommodation"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentPaymentDetailsLodgingDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentPaymentDetailsLodgingDatumGuestParams `form:"guests"`
+	// Host details for the lodging.
+	Host *PaymentIntentPaymentDetailsLodgingDatumHostParams `form:"host"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentPaymentDetailsLodgingDatumInsuranceParams `form:"insurances"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name"`
+	// Total details for the lodging.
+	Total *PaymentIntentPaymentDetailsLodgingDatumTotalParams `form:"total"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentPaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -2042,6 +2518,8 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 type PaymentIntentPaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentPaymentDetailsCarRentalParams `form:"car_rental"`
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentPaymentDetailsCarRentalDatumParams `form:"car_rental_data"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
@@ -2050,8 +2528,12 @@ type PaymentIntentPaymentDetailsParams struct {
 	EventDetails *PaymentIntentPaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentPaymentDetailsFlightParams `form:"flight"`
+	// Flight data for this PaymentIntent.
+	FlightData []*PaymentIntentPaymentDetailsFlightDatumParams `form:"flight_data"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentPaymentDetailsLodgingParams `form:"lodging"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentPaymentDetailsLodgingDatumParams `form:"lodging_data"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
@@ -2858,6 +3340,518 @@ type PaymentIntentPaymentMethodOptionsKlarnaSubscriptionParams struct {
 	Reference *string `form:"reference"`
 }
 
+// Address of the arrival location.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary bus reservation details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the event.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// List of insurances for this event.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// Supplementary event reservation details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
+	// Indicates if the tickets are digitally checked when entering the venue.
+	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	// Address of the event.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// End timestamp of the event.
+	EndsAt *int64 `form:"ends_at"`
+	// Company selling the ticket.
+	EventCompanyName *string `form:"event_company_name"`
+	// Name of the event.
+	EventName *string `form:"event_name"`
+	// Type of the event.
+	EventType *string `form:"event_type"`
+	// List of insurances for this event.
+	Insurances []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	// Start timestamp of the event.
+	StartsAt *int64 `form:"starts_at"`
+	// Name of the venue where the event takes place.
+	VenueName *string `form:"venue_name"`
+}
+
+// Address of the arrival location.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary ferry reservation details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Supplementary insurance details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// The address of the selling or delivering merchant.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Supplementary marketplace seller details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
+	// The references to line items for purchases with multiple associated sub-sellers.
+	LineItemReferences []*string `form:"line_item_references"`
+	// The address of the selling or delivering merchant.
+	MarketplaceSellerAddress *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	// The name of the marketplace seller.
+	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	// The unique identifier for the marketplace seller.
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	// The number of transactions the sub-seller completed in the last 12 months.
+	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	// The category of the product.
+	ProductCategory *string `form:"product_category"`
+	// The date when the seller's account with the marketplace was last logged in.
+	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
+	SellerRating *string `form:"seller_rating"`
+	// The date when the seller's account with the marketplace was created.
+	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	// The date when the seller's account with the marketplace was last updated.
+	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	// The references to shipping addresses for purchases with multiple associated sub-sellers.
+	ShippingReferences []*string `form:"shipping_references"`
+	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
+	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+}
+
+// Address of the arrival location.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary round trip reservation details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the arrival location.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary train reservation details.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Voucher details, such as a gift card or discount code.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
+	// Name of associated or partner company for this voucher.
+	AffiliateName *string `form:"affiliate_name"`
+	// The voucher validity end time.
+	EndsAt *int64 `form:"ends_at"`
+	// The voucher validity start time.
+	StartsAt *int64 `form:"starts_at"`
+	// The issuer or provider of this voucher.
+	VoucherCompany *string `form:"voucher_company"`
+	// The name or reference to identify the voucher.
+	VoucherName *string `form:"voucher_name"`
+	// The type of this voucher.
+	VoucherType *string `form:"voucher_type"`
+}
+
+// Supplementary Purchase Data for the corresponding Klarna payment
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
+	// Supplementary bus reservation details.
+	BusReservationDetails []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	// Supplementary event reservation details.
+	EventReservationDetails []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	// Supplementary ferry reservation details.
+	FerryReservationDetails []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	// Supplementary insurance details.
+	Insurances []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	// Supplementary marketplace seller details.
+	MarketplaceSellers []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	// Supplementary round trip reservation details.
+	RoundTripReservationDetails []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	// Supplementary train reservation details.
+	TrainReservationDetails []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	// Voucher details, such as a gift card or discount code.
+	Vouchers []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -2882,6 +3876,8 @@ type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Subscription details if setting up or charging a subscription.
 	Subscriptions []*PaymentIntentPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	// Supplementary Purchase Data for the corresponding Klarna payment
+	SupplementaryPurchaseData *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
@@ -4051,6 +5047,178 @@ type PaymentIntentCapturePaymentDetailsCarRentalParams struct {
 	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+}
+
+// Distance details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentCapturePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
+	// Driver's full name.
+	Name *string `form:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentCapturePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make"`
+	// Model of the rental vehicle.
+	Model *string `form:"model"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer"`
+	// Type of the rental vehicle.
+	Type *string `form:"type"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentCapturePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// Distance details for the rental.
+	Distance *PaymentIntentCapturePaymentDetailsCarRentalDatumDistanceParams `form:"distance"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentCapturePaymentDetailsCarRentalDatumDriverParams `form:"drivers"`
+	// Drop-off location details.
+	DropOff *PaymentIntentCapturePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentCapturePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Pickup location details.
+	Pickup *PaymentIntentCapturePaymentDetailsCarRentalDatumPickupParams `form:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentCapturePaymentDetailsCarRentalDatumTotalParams `form:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentCapturePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCapturePaymentDetailsEventDetailsAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -4167,6 +5335,162 @@ type PaymentIntentCapturePaymentDetailsFlightParams struct {
 	TicketNumber *string `form:"ticket_number"`
 }
 
+// Affiliate details if applicable.
+type PaymentIntentCapturePaymentDetailsFlightDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+	// Code provided by the company to a travel agent authorizing ticket issuance.
+	TravelAuthorizationCode *string `form:"travel_authorization_code"`
+}
+
+// List of insurances.
+type PaymentIntentCapturePaymentDetailsFlightDatumInsuranceParams struct {
+	// Insurance cost.
+	Amount *int64 `form:"amount"`
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Insurance company name.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// List of passengers.
+type PaymentIntentCapturePaymentDetailsFlightDatumPassengerParams struct {
+	// Passenger's full name.
+	Name *string `form:"name"`
+}
+
+// Arrival details.
+type PaymentIntentCapturePaymentDetailsFlightDatumSegmentArrivalParams struct {
+	// Arrival airport IATA code.
+	Airport *string `form:"airport"`
+	// Arrival date/time.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// Arrival city.
+	City *string `form:"city"`
+	// Arrival country.
+	Country *string `form:"country"`
+}
+
+// Departure details.
+type PaymentIntentCapturePaymentDetailsFlightDatumSegmentDepartureParams struct {
+	// Departure airport IATA code.
+	Airport *string `form:"airport"`
+	// Departure city.
+	City *string `form:"city"`
+	// Departure country.
+	Country *string `form:"country"`
+	// Departure date/time.
+	DepartsAt *int64 `form:"departs_at"`
+}
+
+// List of flight segments.
+type PaymentIntentCapturePaymentDetailsFlightDatumSegmentParams struct {
+	// Segment fare amount.
+	Amount *int64 `form:"amount"`
+	// Arrival details.
+	Arrival *PaymentIntentCapturePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival"`
+	// Airline carrier code.
+	CarrierCode *string `form:"carrier_code"`
+	// Carrier name.
+	CarrierName *string `form:"carrier_name"`
+	// Segment currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentCapturePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure"`
+	// Exchange ticket number.
+	ExchangeTicketNumber *string `form:"exchange_ticket_number"`
+	// Fare basis code.
+	FareBasisCode *string `form:"fare_basis_code"`
+	// Additional fees.
+	Fees *int64 `form:"fees"`
+	// Flight number.
+	FlightNumber *string `form:"flight_number"`
+	// Stopover indicator.
+	IsStopOverIndicator *bool `form:"is_stop_over_indicator"`
+	// Refundable ticket indicator.
+	Refundable *bool `form:"refundable"`
+	// Class of service.
+	ServiceClass *string `form:"service_class"`
+	// Tax amount for segment.
+	TaxAmount *int64 `form:"tax_amount"`
+	// Ticket number.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Discount details.
+type PaymentIntentCapturePaymentDetailsFlightDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+}
+
+// Additional charges.
+type PaymentIntentCapturePaymentDetailsFlightDatumTotalExtraChargeParams struct {
+	// Amount of additional charges.
+	Amount *int64 `form:"amount"`
+	// Type of additional charges.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown.
+type PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes"`
+}
+
+// Total cost breakdown.
+type PaymentIntentCapturePaymentDetailsFlightDatumTotalParams struct {
+	// Total flight amount.
+	Amount *int64 `form:"amount"`
+	// Reason for credit.
+	CreditReason *string `form:"credit_reason"`
+	// Total currency.
+	Currency *string `form:"currency"`
+	// Discount details.
+	Discounts *PaymentIntentCapturePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges.
+	ExtraCharges []*PaymentIntentCapturePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Tax breakdown.
+	Tax *PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxParams `form:"tax"`
+}
+
+// Flight data for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsFlightDatumParams struct {
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentCapturePaymentDetailsFlightDatumAffiliateParams `form:"affiliate"`
+	// Reservation reference.
+	BookingNumber *string `form:"booking_number"`
+	// Computerized reservation system used to make the reservation and purchase the ticket.
+	ComputerizedReservationSystem *string `form:"computerized_reservation_system"`
+	// Ticket restrictions.
+	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions"`
+	// List of insurances.
+	Insurances []*PaymentIntentCapturePaymentDetailsFlightDatumInsuranceParams `form:"insurances"`
+	// List of passengers.
+	Passengers []*PaymentIntentCapturePaymentDetailsFlightDatumPassengerParams `form:"passengers"`
+	// List of flight segments.
+	Segments []*PaymentIntentCapturePaymentDetailsFlightDatumSegmentParams `form:"segments"`
+	// Electronic ticket indicator.
+	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator"`
+	// Total cost breakdown.
+	Total *PaymentIntentCapturePaymentDetailsFlightDatumTotalParams `form:"total"`
+	// Type of flight transaction.
+	TransactionType *string `form:"transaction_type"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCapturePaymentDetailsLodgingAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -4243,6 +5567,154 @@ type PaymentIntentCapturePaymentDetailsLodgingParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
+// Accommodation details for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type"`
+	// Bed type.
+	BedType *string `form:"bed_type"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount"`
+	// Number of nights.
+	Nights *int64 `form:"nights"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms"`
+	// Rate type.
+	RateType *string `form:"rate_type"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentCapturePaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Affiliate partner name.
+	Name *string `form:"name"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference"`
+	// Type of host.
+	HostType *string `form:"host_type"`
+	// Name of the lodging property or host.
+	Name *string `form:"name"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code.
+	Coupon *string `form:"coupon"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Tax details.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Tax details.
+	Taxes []*PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total details for the lodging.
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances"`
+	// Currency of the total amount.
+	Currency *string `form:"currency"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentCapturePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentCapturePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxParams `form:"tax"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentCapturePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentCapturePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentCapturePaymentDetailsLodgingDatumGuestParams `form:"guests"`
+	// Host details for the lodging.
+	Host *PaymentIntentCapturePaymentDetailsLodgingDatumHostParams `form:"host"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentCapturePaymentDetailsLodgingDatumInsuranceParams `form:"insurances"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name"`
+	// Total details for the lodging.
+	Total *PaymentIntentCapturePaymentDetailsLodgingDatumTotalParams `form:"total"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCapturePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -4277,6 +5749,8 @@ type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
 type PaymentIntentCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentCapturePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentCapturePaymentDetailsCarRentalDatumParams `form:"car_rental_data"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
@@ -4285,8 +5759,12 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 	EventDetails *PaymentIntentCapturePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentCapturePaymentDetailsFlightParams `form:"flight"`
+	// Flight data for this PaymentIntent.
+	FlightData []*PaymentIntentCapturePaymentDetailsFlightDatumParams `form:"flight_data"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentCapturePaymentDetailsLodgingParams `form:"lodging"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentCapturePaymentDetailsLodgingDatumParams `form:"lodging_data"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
@@ -4567,6 +6045,178 @@ type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
 	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+}
+
+// Distance details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentConfirmPaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
+	// Driver's full name.
+	Name *string `form:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxParams `form:"tax"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make"`
+	// Model of the rental vehicle.
+	Model *string `form:"model"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer"`
+	// Type of the rental vehicle.
+	Type *string `form:"type"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentConfirmPaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// Distance details for the rental.
+	Distance *PaymentIntentConfirmPaymentDetailsCarRentalDatumDistanceParams `form:"distance"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentConfirmPaymentDetailsCarRentalDatumDriverParams `form:"drivers"`
+	// Drop-off location details.
+	DropOff *PaymentIntentConfirmPaymentDetailsCarRentalDatumDropOffParams `form:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentConfirmPaymentDetailsCarRentalDatumInsuranceParams `form:"insurances"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Pickup location details.
+	Pickup *PaymentIntentConfirmPaymentDetailsCarRentalDatumPickupParams `form:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalParams `form:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentConfirmPaymentDetailsCarRentalDatumVehicleParams `form:"vehicle"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentConfirmPaymentDetailsEventDetailsAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -4683,6 +6333,162 @@ type PaymentIntentConfirmPaymentDetailsFlightParams struct {
 	TicketNumber *string `form:"ticket_number"`
 }
 
+// Affiliate details if applicable.
+type PaymentIntentConfirmPaymentDetailsFlightDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+	// Code provided by the company to a travel agent authorizing ticket issuance.
+	TravelAuthorizationCode *string `form:"travel_authorization_code"`
+}
+
+// List of insurances.
+type PaymentIntentConfirmPaymentDetailsFlightDatumInsuranceParams struct {
+	// Insurance cost.
+	Amount *int64 `form:"amount"`
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Insurance company name.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// List of passengers.
+type PaymentIntentConfirmPaymentDetailsFlightDatumPassengerParams struct {
+	// Passenger's full name.
+	Name *string `form:"name"`
+}
+
+// Arrival details.
+type PaymentIntentConfirmPaymentDetailsFlightDatumSegmentArrivalParams struct {
+	// Arrival airport IATA code.
+	Airport *string `form:"airport"`
+	// Arrival date/time.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// Arrival city.
+	City *string `form:"city"`
+	// Arrival country.
+	Country *string `form:"country"`
+}
+
+// Departure details.
+type PaymentIntentConfirmPaymentDetailsFlightDatumSegmentDepartureParams struct {
+	// Departure airport IATA code.
+	Airport *string `form:"airport"`
+	// Departure city.
+	City *string `form:"city"`
+	// Departure country.
+	Country *string `form:"country"`
+	// Departure date/time.
+	DepartsAt *int64 `form:"departs_at"`
+}
+
+// List of flight segments.
+type PaymentIntentConfirmPaymentDetailsFlightDatumSegmentParams struct {
+	// Segment fare amount.
+	Amount *int64 `form:"amount"`
+	// Arrival details.
+	Arrival *PaymentIntentConfirmPaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival"`
+	// Airline carrier code.
+	CarrierCode *string `form:"carrier_code"`
+	// Carrier name.
+	CarrierName *string `form:"carrier_name"`
+	// Segment currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentConfirmPaymentDetailsFlightDatumSegmentDepartureParams `form:"departure"`
+	// Exchange ticket number.
+	ExchangeTicketNumber *string `form:"exchange_ticket_number"`
+	// Fare basis code.
+	FareBasisCode *string `form:"fare_basis_code"`
+	// Additional fees.
+	Fees *int64 `form:"fees"`
+	// Flight number.
+	FlightNumber *string `form:"flight_number"`
+	// Stopover indicator.
+	IsStopOverIndicator *bool `form:"is_stop_over_indicator"`
+	// Refundable ticket indicator.
+	Refundable *bool `form:"refundable"`
+	// Class of service.
+	ServiceClass *string `form:"service_class"`
+	// Tax amount for segment.
+	TaxAmount *int64 `form:"tax_amount"`
+	// Ticket number.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Discount details.
+type PaymentIntentConfirmPaymentDetailsFlightDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+}
+
+// Additional charges.
+type PaymentIntentConfirmPaymentDetailsFlightDatumTotalExtraChargeParams struct {
+	// Amount of additional charges.
+	Amount *int64 `form:"amount"`
+	// Type of additional charges.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown.
+type PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes"`
+}
+
+// Total cost breakdown.
+type PaymentIntentConfirmPaymentDetailsFlightDatumTotalParams struct {
+	// Total flight amount.
+	Amount *int64 `form:"amount"`
+	// Reason for credit.
+	CreditReason *string `form:"credit_reason"`
+	// Total currency.
+	Currency *string `form:"currency"`
+	// Discount details.
+	Discounts *PaymentIntentConfirmPaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges.
+	ExtraCharges []*PaymentIntentConfirmPaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Tax breakdown.
+	Tax *PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxParams `form:"tax"`
+}
+
+// Flight data for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsFlightDatumParams struct {
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentConfirmPaymentDetailsFlightDatumAffiliateParams `form:"affiliate"`
+	// Reservation reference.
+	BookingNumber *string `form:"booking_number"`
+	// Computerized reservation system used to make the reservation and purchase the ticket.
+	ComputerizedReservationSystem *string `form:"computerized_reservation_system"`
+	// Ticket restrictions.
+	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions"`
+	// List of insurances.
+	Insurances []*PaymentIntentConfirmPaymentDetailsFlightDatumInsuranceParams `form:"insurances"`
+	// List of passengers.
+	Passengers []*PaymentIntentConfirmPaymentDetailsFlightDatumPassengerParams `form:"passengers"`
+	// List of flight segments.
+	Segments []*PaymentIntentConfirmPaymentDetailsFlightDatumSegmentParams `form:"segments"`
+	// Electronic ticket indicator.
+	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator"`
+	// Total cost breakdown.
+	Total *PaymentIntentConfirmPaymentDetailsFlightDatumTotalParams `form:"total"`
+	// Type of flight transaction.
+	TransactionType *string `form:"transaction_type"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentConfirmPaymentDetailsLodgingAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -4759,6 +6565,154 @@ type PaymentIntentConfirmPaymentDetailsLodgingParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
+// Accommodation details for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type"`
+	// Bed type.
+	BedType *string `form:"bed_type"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount"`
+	// Number of nights.
+	Nights *int64 `form:"nights"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms"`
+	// Rate type.
+	RateType *string `form:"rate_type"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Affiliate partner name.
+	Name *string `form:"name"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference"`
+	// Type of host.
+	HostType *string `form:"host_type"`
+	// Name of the lodging property or host.
+	Name *string `form:"name"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code.
+	Coupon *string `form:"coupon"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Tax details.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Tax details.
+	Taxes []*PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total details for the lodging.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances"`
+	// Currency of the total amount.
+	Currency *string `form:"currency"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentConfirmPaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentConfirmPaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxParams `form:"tax"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentConfirmPaymentDetailsLodgingDatumAccommodationParams `form:"accommodation"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentConfirmPaymentDetailsLodgingDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentConfirmPaymentDetailsLodgingDatumGuestParams `form:"guests"`
+	// Host details for the lodging.
+	Host *PaymentIntentConfirmPaymentDetailsLodgingDatumHostParams `form:"host"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentConfirmPaymentDetailsLodgingDatumInsuranceParams `form:"insurances"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name"`
+	// Total details for the lodging.
+	Total *PaymentIntentConfirmPaymentDetailsLodgingDatumTotalParams `form:"total"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -4793,6 +6747,8 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 type PaymentIntentConfirmPaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentConfirmPaymentDetailsCarRentalParams `form:"car_rental"`
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentConfirmPaymentDetailsCarRentalDatumParams `form:"car_rental_data"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
@@ -4801,8 +6757,12 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	EventDetails *PaymentIntentConfirmPaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight"`
+	// Flight data for this PaymentIntent.
+	FlightData []*PaymentIntentConfirmPaymentDetailsFlightDatumParams `form:"flight_data"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentConfirmPaymentDetailsLodgingParams `form:"lodging"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentConfirmPaymentDetailsLodgingDatumParams `form:"lodging_data"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
@@ -5517,6 +7477,178 @@ type PaymentIntentCreatePaymentDetailsCarRentalParams struct {
 	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+}
+
+// Distance details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentCreatePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
+	// Driver's full name.
+	Name *string `form:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentCreatePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentCreatePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make"`
+	// Model of the rental vehicle.
+	Model *string `form:"model"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer"`
+	// Type of the rental vehicle.
+	Type *string `form:"type"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentCreatePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// Distance details for the rental.
+	Distance *PaymentIntentCreatePaymentDetailsCarRentalDatumDistanceParams `form:"distance"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentCreatePaymentDetailsCarRentalDatumDriverParams `form:"drivers"`
+	// Drop-off location details.
+	DropOff *PaymentIntentCreatePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentCreatePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Pickup location details.
+	Pickup *PaymentIntentCreatePaymentDetailsCarRentalDatumPickupParams `form:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentCreatePaymentDetailsCarRentalDatumTotalParams `form:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentCreatePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCreatePaymentDetailsEventDetailsAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -5633,6 +7765,162 @@ type PaymentIntentCreatePaymentDetailsFlightParams struct {
 	TicketNumber *string `form:"ticket_number"`
 }
 
+// Affiliate details if applicable.
+type PaymentIntentCreatePaymentDetailsFlightDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+	// Code provided by the company to a travel agent authorizing ticket issuance.
+	TravelAuthorizationCode *string `form:"travel_authorization_code"`
+}
+
+// List of insurances.
+type PaymentIntentCreatePaymentDetailsFlightDatumInsuranceParams struct {
+	// Insurance cost.
+	Amount *int64 `form:"amount"`
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Insurance company name.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// List of passengers.
+type PaymentIntentCreatePaymentDetailsFlightDatumPassengerParams struct {
+	// Passenger's full name.
+	Name *string `form:"name"`
+}
+
+// Arrival details.
+type PaymentIntentCreatePaymentDetailsFlightDatumSegmentArrivalParams struct {
+	// Arrival airport IATA code.
+	Airport *string `form:"airport"`
+	// Arrival date/time.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// Arrival city.
+	City *string `form:"city"`
+	// Arrival country.
+	Country *string `form:"country"`
+}
+
+// Departure details.
+type PaymentIntentCreatePaymentDetailsFlightDatumSegmentDepartureParams struct {
+	// Departure airport IATA code.
+	Airport *string `form:"airport"`
+	// Departure city.
+	City *string `form:"city"`
+	// Departure country.
+	Country *string `form:"country"`
+	// Departure date/time.
+	DepartsAt *int64 `form:"departs_at"`
+}
+
+// List of flight segments.
+type PaymentIntentCreatePaymentDetailsFlightDatumSegmentParams struct {
+	// Segment fare amount.
+	Amount *int64 `form:"amount"`
+	// Arrival details.
+	Arrival *PaymentIntentCreatePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival"`
+	// Airline carrier code.
+	CarrierCode *string `form:"carrier_code"`
+	// Carrier name.
+	CarrierName *string `form:"carrier_name"`
+	// Segment currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentCreatePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure"`
+	// Exchange ticket number.
+	ExchangeTicketNumber *string `form:"exchange_ticket_number"`
+	// Fare basis code.
+	FareBasisCode *string `form:"fare_basis_code"`
+	// Additional fees.
+	Fees *int64 `form:"fees"`
+	// Flight number.
+	FlightNumber *string `form:"flight_number"`
+	// Stopover indicator.
+	IsStopOverIndicator *bool `form:"is_stop_over_indicator"`
+	// Refundable ticket indicator.
+	Refundable *bool `form:"refundable"`
+	// Class of service.
+	ServiceClass *string `form:"service_class"`
+	// Tax amount for segment.
+	TaxAmount *int64 `form:"tax_amount"`
+	// Ticket number.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Discount details.
+type PaymentIntentCreatePaymentDetailsFlightDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+}
+
+// Additional charges.
+type PaymentIntentCreatePaymentDetailsFlightDatumTotalExtraChargeParams struct {
+	// Amount of additional charges.
+	Amount *int64 `form:"amount"`
+	// Type of additional charges.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown.
+type PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes"`
+}
+
+// Total cost breakdown.
+type PaymentIntentCreatePaymentDetailsFlightDatumTotalParams struct {
+	// Total flight amount.
+	Amount *int64 `form:"amount"`
+	// Reason for credit.
+	CreditReason *string `form:"credit_reason"`
+	// Total currency.
+	Currency *string `form:"currency"`
+	// Discount details.
+	Discounts *PaymentIntentCreatePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges.
+	ExtraCharges []*PaymentIntentCreatePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Tax breakdown.
+	Tax *PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxParams `form:"tax"`
+}
+
+// Flight data for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsFlightDatumParams struct {
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentCreatePaymentDetailsFlightDatumAffiliateParams `form:"affiliate"`
+	// Reservation reference.
+	BookingNumber *string `form:"booking_number"`
+	// Computerized reservation system used to make the reservation and purchase the ticket.
+	ComputerizedReservationSystem *string `form:"computerized_reservation_system"`
+	// Ticket restrictions.
+	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions"`
+	// List of insurances.
+	Insurances []*PaymentIntentCreatePaymentDetailsFlightDatumInsuranceParams `form:"insurances"`
+	// List of passengers.
+	Passengers []*PaymentIntentCreatePaymentDetailsFlightDatumPassengerParams `form:"passengers"`
+	// List of flight segments.
+	Segments []*PaymentIntentCreatePaymentDetailsFlightDatumSegmentParams `form:"segments"`
+	// Electronic ticket indicator.
+	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator"`
+	// Total cost breakdown.
+	Total *PaymentIntentCreatePaymentDetailsFlightDatumTotalParams `form:"total"`
+	// Type of flight transaction.
+	TransactionType *string `form:"transaction_type"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCreatePaymentDetailsLodgingAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -5709,6 +7997,154 @@ type PaymentIntentCreatePaymentDetailsLodgingParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
+// Accommodation details for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type"`
+	// Bed type.
+	BedType *string `form:"bed_type"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount"`
+	// Number of nights.
+	Nights *int64 `form:"nights"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms"`
+	// Rate type.
+	RateType *string `form:"rate_type"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentCreatePaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Affiliate partner name.
+	Name *string `form:"name"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference"`
+	// Type of host.
+	HostType *string `form:"host_type"`
+	// Name of the lodging property or host.
+	Name *string `form:"name"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code.
+	Coupon *string `form:"coupon"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Tax details.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Tax details.
+	Taxes []*PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total details for the lodging.
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances"`
+	// Currency of the total amount.
+	Currency *string `form:"currency"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentCreatePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentCreatePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxParams `form:"tax"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentCreatePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentCreatePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentCreatePaymentDetailsLodgingDatumGuestParams `form:"guests"`
+	// Host details for the lodging.
+	Host *PaymentIntentCreatePaymentDetailsLodgingDatumHostParams `form:"host"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentCreatePaymentDetailsLodgingDatumInsuranceParams `form:"insurances"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name"`
+	// Total details for the lodging.
+	Total *PaymentIntentCreatePaymentDetailsLodgingDatumTotalParams `form:"total"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCreatePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -5743,6 +8179,8 @@ type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
 type PaymentIntentCreatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentCreatePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentCreatePaymentDetailsCarRentalDatumParams `form:"car_rental_data"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
@@ -5751,8 +8189,12 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 	EventDetails *PaymentIntentCreatePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentCreatePaymentDetailsFlightParams `form:"flight"`
+	// Flight data for this PaymentIntent.
+	FlightData []*PaymentIntentCreatePaymentDetailsFlightDatumParams `form:"flight_data"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentCreatePaymentDetailsLodgingParams `form:"lodging"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentCreatePaymentDetailsLodgingDatumParams `form:"lodging_data"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
@@ -6559,6 +9001,518 @@ type PaymentIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams struct {
 	Reference *string `form:"reference"`
 }
 
+// Address of the arrival location.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary bus reservation details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the event.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// List of insurances for this event.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// Supplementary event reservation details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
+	// Indicates if the tickets are digitally checked when entering the venue.
+	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	// Address of the event.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// End timestamp of the event.
+	EndsAt *int64 `form:"ends_at"`
+	// Company selling the ticket.
+	EventCompanyName *string `form:"event_company_name"`
+	// Name of the event.
+	EventName *string `form:"event_name"`
+	// Type of the event.
+	EventType *string `form:"event_type"`
+	// List of insurances for this event.
+	Insurances []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	// Start timestamp of the event.
+	StartsAt *int64 `form:"starts_at"`
+	// Name of the venue where the event takes place.
+	VenueName *string `form:"venue_name"`
+}
+
+// Address of the arrival location.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary ferry reservation details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Supplementary insurance details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// The address of the selling or delivering merchant.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Supplementary marketplace seller details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
+	// The references to line items for purchases with multiple associated sub-sellers.
+	LineItemReferences []*string `form:"line_item_references"`
+	// The address of the selling or delivering merchant.
+	MarketplaceSellerAddress *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	// The name of the marketplace seller.
+	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	// The unique identifier for the marketplace seller.
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	// The number of transactions the sub-seller completed in the last 12 months.
+	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	// The category of the product.
+	ProductCategory *string `form:"product_category"`
+	// The date when the seller's account with the marketplace was last logged in.
+	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
+	SellerRating *string `form:"seller_rating"`
+	// The date when the seller's account with the marketplace was created.
+	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	// The date when the seller's account with the marketplace was last updated.
+	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	// The references to shipping addresses for purchases with multiple associated sub-sellers.
+	ShippingReferences []*string `form:"shipping_references"`
+	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
+	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+}
+
+// Address of the arrival location.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary round trip reservation details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the arrival location.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary train reservation details.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Voucher details, such as a gift card or discount code.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
+	// Name of associated or partner company for this voucher.
+	AffiliateName *string `form:"affiliate_name"`
+	// The voucher validity end time.
+	EndsAt *int64 `form:"ends_at"`
+	// The voucher validity start time.
+	StartsAt *int64 `form:"starts_at"`
+	// The issuer or provider of this voucher.
+	VoucherCompany *string `form:"voucher_company"`
+	// The name or reference to identify the voucher.
+	VoucherName *string `form:"voucher_name"`
+	// The type of this voucher.
+	VoucherType *string `form:"voucher_type"`
+}
+
+// Supplementary Purchase Data for the corresponding Klarna payment
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
+	// Supplementary bus reservation details.
+	BusReservationDetails []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	// Supplementary event reservation details.
+	EventReservationDetails []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	// Supplementary ferry reservation details.
+	FerryReservationDetails []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	// Supplementary insurance details.
+	Insurances []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	// Supplementary marketplace seller details.
+	MarketplaceSellers []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	// Supplementary round trip reservation details.
+	RoundTripReservationDetails []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	// Supplementary train reservation details.
+	TrainReservationDetails []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	// Voucher details, such as a gift card or discount code.
+	Vouchers []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentCreatePaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -6583,6 +9537,8 @@ type PaymentIntentCreatePaymentMethodOptionsKlarnaParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Subscription details if setting up or charging a subscription.
 	Subscriptions []*PaymentIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	// Supplementary Purchase Data for the corresponding Klarna payment
+	SupplementaryPurchaseData *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
@@ -7733,6 +10689,178 @@ type PaymentIntentUpdatePaymentDetailsCarRentalParams struct {
 	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
+// Affiliate (such as travel agency) details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+}
+
+// Distance details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
+// Driver's date of birth.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
+	// Day of birth (1-31).
+	Day *int64 `form:"day"`
+	// Month of birth (1-12).
+	Month *int64 `form:"month"`
+	// Year of birth (must be greater than 1900).
+	Year *int64 `form:"year"`
+}
+
+// List of drivers for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumDriverParams struct {
+	// Driver's date of birth.
+	DateOfBirth *PaymentIntentUpdatePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth"`
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
+	// Driver's full name.
+	Name *string `form:"name"`
+}
+
+// Drop-off location details.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumDropOffParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Insurance details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumInsuranceParams struct {
+	// Amount of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Pickup location details.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumPickupParams struct {
+	// Address of the rental location.
+	Address *AddressParams `form:"address"`
+	// Location name.
+	LocationName *string `form:"location_name"`
+	// Timestamp for the location.
+	Time *int64 `form:"time"`
+}
+
+// Discount details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code applied to the rental.
+	Coupon *string `form:"coupon"`
+	// Maximum number of free miles or kilometers included.
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate applied.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates if the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total cost breakdown for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalParams struct {
+	// Total amount in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the amount.
+	Currency *string `form:"currency"`
+	// Discount details for the rental.
+	Discounts *PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Rate per unit for the rental.
+	RatePerUnit *int64 `form:"rate_per_unit"`
+	// Unit of measurement for the rate.
+	RateUnit *string `form:"rate_unit"`
+	// Tax breakdown for the rental.
+	Tax *PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax"`
+}
+
+// Vehicle details for the rental.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumVehicleParams struct {
+	// Make of the rental vehicle.
+	Make *string `form:"make"`
+	// Model of the rental vehicle.
+	Model *string `form:"model"`
+	// Odometer reading at the time of rental.
+	Odometer *int64 `form:"odometer"`
+	// Type of the rental vehicle.
+	Type *string `form:"type"`
+	// Class of the rental vehicle.
+	VehicleClass *string `form:"vehicle_class"`
+	// Vehicle identification number (VIN).
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+}
+
+// Car rental data for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumParams struct {
+	// Affiliate (such as travel agency) details for the rental.
+	Affiliate *PaymentIntentUpdatePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Name of the car rental company.
+	CarrierName *string `form:"carrier_name"`
+	// Customer service phone number for the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// Distance details for the rental.
+	Distance *PaymentIntentUpdatePaymentDetailsCarRentalDatumDistanceParams `form:"distance"`
+	// List of drivers for the rental.
+	Drivers []*PaymentIntentUpdatePaymentDetailsCarRentalDatumDriverParams `form:"drivers"`
+	// Drop-off location details.
+	DropOff *PaymentIntentUpdatePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off"`
+	// Insurance details for the rental.
+	Insurances []*PaymentIntentUpdatePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances"`
+	// Indicates if the customer was a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Pickup location details.
+	Pickup *PaymentIntentUpdatePaymentDetailsCarRentalDatumPickupParams `form:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName *string `form:"renter_name"`
+	// Total cost breakdown for the rental.
+	Total *PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalParams `form:"total"`
+	// Vehicle details for the rental.
+	Vehicle *PaymentIntentUpdatePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentUpdatePaymentDetailsEventDetailsAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -7849,6 +10977,162 @@ type PaymentIntentUpdatePaymentDetailsFlightParams struct {
 	TicketNumber *string `form:"ticket_number"`
 }
 
+// Affiliate details if applicable.
+type PaymentIntentUpdatePaymentDetailsFlightDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Name of affiliate partner.
+	Name *string `form:"name"`
+	// Code provided by the company to a travel agent authorizing ticket issuance.
+	TravelAuthorizationCode *string `form:"travel_authorization_code"`
+}
+
+// List of insurances.
+type PaymentIntentUpdatePaymentDetailsFlightDatumInsuranceParams struct {
+	// Insurance cost.
+	Amount *int64 `form:"amount"`
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Insurance company name.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// List of passengers.
+type PaymentIntentUpdatePaymentDetailsFlightDatumPassengerParams struct {
+	// Passenger's full name.
+	Name *string `form:"name"`
+}
+
+// Arrival details.
+type PaymentIntentUpdatePaymentDetailsFlightDatumSegmentArrivalParams struct {
+	// Arrival airport IATA code.
+	Airport *string `form:"airport"`
+	// Arrival date/time.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// Arrival city.
+	City *string `form:"city"`
+	// Arrival country.
+	Country *string `form:"country"`
+}
+
+// Departure details.
+type PaymentIntentUpdatePaymentDetailsFlightDatumSegmentDepartureParams struct {
+	// Departure airport IATA code.
+	Airport *string `form:"airport"`
+	// Departure city.
+	City *string `form:"city"`
+	// Departure country.
+	Country *string `form:"country"`
+	// Departure date/time.
+	DepartsAt *int64 `form:"departs_at"`
+}
+
+// List of flight segments.
+type PaymentIntentUpdatePaymentDetailsFlightDatumSegmentParams struct {
+	// Segment fare amount.
+	Amount *int64 `form:"amount"`
+	// Arrival details.
+	Arrival *PaymentIntentUpdatePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival"`
+	// Airline carrier code.
+	CarrierCode *string `form:"carrier_code"`
+	// Carrier name.
+	CarrierName *string `form:"carrier_name"`
+	// Segment currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentUpdatePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure"`
+	// Exchange ticket number.
+	ExchangeTicketNumber *string `form:"exchange_ticket_number"`
+	// Fare basis code.
+	FareBasisCode *string `form:"fare_basis_code"`
+	// Additional fees.
+	Fees *int64 `form:"fees"`
+	// Flight number.
+	FlightNumber *string `form:"flight_number"`
+	// Stopover indicator.
+	IsStopOverIndicator *bool `form:"is_stop_over_indicator"`
+	// Refundable ticket indicator.
+	Refundable *bool `form:"refundable"`
+	// Class of service.
+	ServiceClass *string `form:"service_class"`
+	// Tax amount for segment.
+	TaxAmount *int64 `form:"tax_amount"`
+	// Ticket number.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Discount details.
+type PaymentIntentUpdatePaymentDetailsFlightDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+}
+
+// Additional charges.
+type PaymentIntentUpdatePaymentDetailsFlightDatumTotalExtraChargeParams struct {
+	// Amount of additional charges.
+	Amount *int64 `form:"amount"`
+	// Type of additional charges.
+	Type *string `form:"type"`
+}
+
+// Array of tax details.
+type PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+	// Tax amount.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown.
+type PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxParams struct {
+	// Array of tax details.
+	Taxes []*PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes"`
+}
+
+// Total cost breakdown.
+type PaymentIntentUpdatePaymentDetailsFlightDatumTotalParams struct {
+	// Total flight amount.
+	Amount *int64 `form:"amount"`
+	// Reason for credit.
+	CreditReason *string `form:"credit_reason"`
+	// Total currency.
+	Currency *string `form:"currency"`
+	// Discount details.
+	Discounts *PaymentIntentUpdatePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges.
+	ExtraCharges []*PaymentIntentUpdatePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Tax breakdown.
+	Tax *PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxParams `form:"tax"`
+}
+
+// Flight data for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsFlightDatumParams struct {
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentUpdatePaymentDetailsFlightDatumAffiliateParams `form:"affiliate"`
+	// Reservation reference.
+	BookingNumber *string `form:"booking_number"`
+	// Computerized reservation system used to make the reservation and purchase the ticket.
+	ComputerizedReservationSystem *string `form:"computerized_reservation_system"`
+	// Ticket restrictions.
+	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions"`
+	// List of insurances.
+	Insurances []*PaymentIntentUpdatePaymentDetailsFlightDatumInsuranceParams `form:"insurances"`
+	// List of passengers.
+	Passengers []*PaymentIntentUpdatePaymentDetailsFlightDatumPassengerParams `form:"passengers"`
+	// List of flight segments.
+	Segments []*PaymentIntentUpdatePaymentDetailsFlightDatumSegmentParams `form:"segments"`
+	// Electronic ticket indicator.
+	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator"`
+	// Total cost breakdown.
+	Total *PaymentIntentUpdatePaymentDetailsFlightDatumTotalParams `form:"total"`
+	// Type of flight transaction.
+	TransactionType *string `form:"transaction_type"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentUpdatePaymentDetailsLodgingAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -7925,6 +11209,154 @@ type PaymentIntentUpdatePaymentDetailsLodgingParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
+// Accommodation details for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumAccommodationParams struct {
+	// Type of accommodation.
+	AccommodationType *string `form:"accommodation_type"`
+	// Bed type.
+	BedType *string `form:"bed_type"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount *int64 `form:"daily_rate_amount"`
+	// Number of nights.
+	Nights *int64 `form:"nights"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms *int64 `form:"number_of_rooms"`
+	// Rate type.
+	RateType *string `form:"rate_type"`
+	// Whether smoking is allowed.
+	SmokingIndicator *bool `form:"smoking_indicator"`
+}
+
+// Affiliate details if applicable.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumAffiliateParams struct {
+	// Affiliate partner code.
+	Code *string `form:"code"`
+	// Affiliate partner name.
+	Name *string `form:"name"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumGuestParams struct {
+	// Guest's full name.
+	Name *string `form:"name"`
+}
+
+// Host details for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumHostParams struct {
+	// Address of the host.
+	Address *AddressParams `form:"address"`
+	// Host's country of domicile.
+	CountryOfDomicile *string `form:"country_of_domicile"`
+	// Reference number for the host.
+	HostReference *string `form:"host_reference"`
+	// Type of host.
+	HostType *string `form:"host_type"`
+	// Name of the lodging property or host.
+	Name *string `form:"name"`
+	// Total number of reservations for the host.
+	NumberOfReservations *int64 `form:"number_of_reservations"`
+	// Property phone number.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// Host's registration date.
+	RegisteredAt *int64 `form:"registered_at"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumInsuranceParams struct {
+	// Price of the insurance coverage in cents.
+	Amount *int64 `form:"amount"`
+	// Currency of the insurance amount.
+	Currency *string `form:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType *string `form:"insurance_type"`
+}
+
+// Discount details for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalDiscountsParams struct {
+	// Corporate client discount code.
+	CorporateClientCode *string `form:"corporate_client_code"`
+	// Coupon code.
+	Coupon *string `form:"coupon"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
+	// Amount of the extra charge in cents.
+	Amount *int64 `form:"amount"`
+	// Type of extra charge.
+	Type *string `form:"type"`
+}
+
+// Tax details.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+	// Tax amount in cents.
+	Amount *int64 `form:"amount"`
+	// Tax rate.
+	Rate *int64 `form:"rate"`
+	// Type of tax applied.
+	Type *string `form:"type"`
+}
+
+// Tax breakdown for the lodging reservation.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxParams struct {
+	// Tax details.
+	Taxes []*PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes"`
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+}
+
+// Total details for the lodging.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalParams struct {
+	// Total price of the lodging reservation in cents.
+	Amount *int64 `form:"amount"`
+	// Cash advances in cents.
+	CashAdvances *int64 `form:"cash_advances"`
+	// Currency of the total amount.
+	Currency *string `form:"currency"`
+	// Discount details for the lodging.
+	Discounts *PaymentIntentUpdatePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges"`
+	// Prepaid amount in cents.
+	PrepaidAmount *int64 `form:"prepaid_amount"`
+	// Tax breakdown for the lodging reservation.
+	Tax *PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxParams `form:"tax"`
+}
+
+// Lodging data for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsLodgingDatumParams struct {
+	// Accommodation details for the lodging.
+	Accommodation *PaymentIntentUpdatePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation"`
+	// Affiliate details if applicable.
+	Affiliate *PaymentIntentUpdatePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate"`
+	// Booking confirmation number for the lodging.
+	BookingNumber *string `form:"booking_number"`
+	// Check-in date.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Check-out date.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentUpdatePaymentDetailsLodgingDatumGuestParams `form:"guests"`
+	// Host details for the lodging.
+	Host *PaymentIntentUpdatePaymentDetailsLodgingDatumHostParams `form:"host"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentUpdatePaymentDetailsLodgingDatumInsuranceParams `form:"insurances"`
+	// Whether the renter is a no-show.
+	NoShowIndicator *bool `form:"no_show_indicator"`
+	// Renter ID number for the lodging.
+	RenterIDNumber *string `form:"renter_id_number"`
+	// Renter name for the lodging.
+	RenterName *string `form:"renter_name"`
+	// Total details for the lodging.
+	Total *PaymentIntentUpdatePaymentDetailsLodgingDatumTotalParams `form:"total"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentUpdatePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -7959,6 +11391,8 @@ type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
 type PaymentIntentUpdatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentUpdatePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Car rental data for this PaymentIntent.
+	CarRentalData []*PaymentIntentUpdatePaymentDetailsCarRentalDatumParams `form:"car_rental_data"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
@@ -7967,8 +11401,12 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 	EventDetails *PaymentIntentUpdatePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentUpdatePaymentDetailsFlightParams `form:"flight"`
+	// Flight data for this PaymentIntent.
+	FlightData []*PaymentIntentUpdatePaymentDetailsFlightDatumParams `form:"flight_data"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentUpdatePaymentDetailsLodgingParams `form:"lodging"`
+	// Lodging data for this PaymentIntent.
+	LodgingData []*PaymentIntentUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
@@ -8775,6 +12213,518 @@ type PaymentIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams struct {
 	Reference *string `form:"reference"`
 }
 
+// Address of the arrival location.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary bus reservation details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the event.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// List of insurances for this event.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// Supplementary event reservation details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
+	// Indicates if the tickets are digitally checked when entering the venue.
+	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	// Address of the event.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// End timestamp of the event.
+	EndsAt *int64 `form:"ends_at"`
+	// Company selling the ticket.
+	EventCompanyName *string `form:"event_company_name"`
+	// Name of the event.
+	EventName *string `form:"event_name"`
+	// Type of the event.
+	EventType *string `form:"event_type"`
+	// List of insurances for this event.
+	Insurances []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	// Start timestamp of the event.
+	StartsAt *int64 `form:"starts_at"`
+	// Name of the venue where the event takes place.
+	VenueName *string `form:"venue_name"`
+}
+
+// Address of the arrival location.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary ferry reservation details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Supplementary insurance details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// The address of the selling or delivering merchant.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Supplementary marketplace seller details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
+	// The references to line items for purchases with multiple associated sub-sellers.
+	LineItemReferences []*string `form:"line_item_references"`
+	// The address of the selling or delivering merchant.
+	MarketplaceSellerAddress *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	// The name of the marketplace seller.
+	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	// The unique identifier for the marketplace seller.
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	// The number of transactions the sub-seller completed in the last 12 months.
+	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	// The category of the product.
+	ProductCategory *string `form:"product_category"`
+	// The date when the seller's account with the marketplace was last logged in.
+	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
+	SellerRating *string `form:"seller_rating"`
+	// The date when the seller's account with the marketplace was created.
+	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	// The date when the seller's account with the marketplace was last updated.
+	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	// The references to shipping addresses for purchases with multiple associated sub-sellers.
+	ShippingReferences []*string `form:"shipping_references"`
+	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
+	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+}
+
+// Address of the arrival location.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary round trip reservation details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the arrival location.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary train reservation details.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Voucher details, such as a gift card or discount code.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
+	// Name of associated or partner company for this voucher.
+	AffiliateName *string `form:"affiliate_name"`
+	// The voucher validity end time.
+	EndsAt *int64 `form:"ends_at"`
+	// The voucher validity start time.
+	StartsAt *int64 `form:"starts_at"`
+	// The issuer or provider of this voucher.
+	VoucherCompany *string `form:"voucher_company"`
+	// The name or reference to identify the voucher.
+	VoucherName *string `form:"voucher_name"`
+	// The type of this voucher.
+	VoucherType *string `form:"voucher_type"`
+}
+
+// Supplementary Purchase Data for the corresponding Klarna payment
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
+	// Supplementary bus reservation details.
+	BusReservationDetails []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	// Supplementary event reservation details.
+	EventReservationDetails []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	// Supplementary ferry reservation details.
+	FerryReservationDetails []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	// Supplementary insurance details.
+	Insurances []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	// Supplementary marketplace seller details.
+	MarketplaceSellers []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	// Supplementary round trip reservation details.
+	RoundTripReservationDetails []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	// Supplementary train reservation details.
+	TrainReservationDetails []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	// Voucher details, such as a gift card or discount code.
+	Vouchers []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -8799,6 +12749,8 @@ type PaymentIntentUpdatePaymentMethodOptionsKlarnaParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Subscription details if setting up or charging a subscription.
 	Subscriptions []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	// Supplementary Purchase Data for the corresponding Klarna payment
+	SupplementaryPurchaseData *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
