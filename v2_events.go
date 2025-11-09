@@ -968,6 +968,28 @@ func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx con
 	return relatedObj, err
 }
 
+// V2CoreHealthEventGenerationFailureResolvedEvent is the Go struct for the "v2.core.health.event_generation_failure.resolved" event.
+// Occurs when an event generation failure alert is resolved.
+type V2CoreHealthEventGenerationFailureResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthEventGenerationFailureResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthEventGenerationFailureResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.event_generation_failure.resolved"
+// Occurs when an event generation failure alert is resolved.
+type V2CoreHealthEventGenerationFailureResolvedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthEventGenerationFailureResolvedEvent that created this Notification
+func (n *V2CoreHealthEventGenerationFailureResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthEventGenerationFailureResolvedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthEventGenerationFailureResolvedEvent), nil
+}
+
 // V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
 // Occurs when an Adjustment is created.
 type V2MoneyManagementAdjustmentCreatedEvent struct {
@@ -2835,6 +2857,40 @@ type V2CoreAccountPersonUpdatedEventData struct {
 	AccountID string `json:"account_id"`
 }
 
+// The related object details.
+type V2CoreHealthEventGenerationFailureResolvedEventDataImpactRelatedObject struct {
+	// The ID of the related object (e.g., "pi_...").
+	ID string `json:"id"`
+	// The type of the related object (e.g., "payment_intent").
+	Type string `json:"type"`
+	// The API URL for the related object (e.g., "/v1/payment_intents/pi_...").
+	URL string `json:"url"`
+}
+
+// The user impact.
+type V2CoreHealthEventGenerationFailureResolvedEventDataImpact struct {
+	// The context the event should have been generated for. Only present when the account is a connected account.
+	Context string `json:"context,omitempty"`
+	// The type of event that Stripe failed to generate.
+	EventType string `json:"event_type"`
+	// The related object details.
+	RelatedObject *V2CoreHealthEventGenerationFailureResolvedEventDataImpactRelatedObject `json:"related_object"`
+}
+
+// Occurs when an event generation failure alert is resolved.
+type V2CoreHealthEventGenerationFailureResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthEventGenerationFailureResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventData struct {
 	// The transaction ID of the received credit.
@@ -3083,6 +3139,13 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			v := &V2CoreEventDestination{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
+		}
+		return result, nil
+	case "v2.core.health.event_generation_failure.resolved":
+		result := &V2CoreHealthEventGenerationFailureResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.adjustment.created":
@@ -3697,6 +3760,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.event_destination.ping":
 		evt := V2CoreEventDestinationPingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.health.event_generation_failure.resolved":
+		evt := V2CoreHealthEventGenerationFailureResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
