@@ -365,12 +365,13 @@ type PaymentMethodUSBankAccountStatusDetailsBlockedReason string
 
 // List of values that PaymentMethodUSBankAccountStatusDetailsBlockedReason can take
 const (
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountClosed         PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_closed"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountFrozen         PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_frozen"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountInvalidDetails PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_invalid_details"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountRestricted     PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_restricted"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountUnusable       PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_unusable"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized        PaymentMethodUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountClosed                 PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_closed"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountFrozen                 PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_frozen"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountInvalidDetails         PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_invalid_details"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountRestricted             PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_restricted"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountUnusable               PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_unusable"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized                PaymentMethodUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonTokenizedAccountNumberDeactivated PaymentMethodUSBankAccountStatusDetailsBlockedReason = "tokenized_account_number_deactivated"
 )
 
 // Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer_list) API instead.
