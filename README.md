@@ -542,6 +542,8 @@ Stripe has features in the [private preview phase](https://docs.stripe.com/relea
 
 ### Custom Request
 
+> This feature is only available from version 80 of this SDK.
+
 If you would like to send a request to an API that is:
 
 - undocumented (like a preview feature), or
