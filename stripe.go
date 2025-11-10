@@ -228,6 +228,11 @@ type BackendConfig struct {
 	// LeveledLogger is the logger that the backend will use to log errors,
 	// warnings, and informational messages.
 	//
+	// This field accepts either LeveledLoggerInterface (the traditional interface)
+	// or ContextLeveledLoggerInterface (the context-aware interface). The SDK will
+	// automatically detect which interface your logger implements and use it
+	// appropriately.
+	//
 	// LeveledLoggerInterface is implemented by LeveledLogger, and one can be
 	// initialized at the desired level of logging.  LeveledLoggerInterface
 	// also provides out-of-the-box compatibility with a Logrus Logger, but may
@@ -239,7 +244,7 @@ type BackendConfig struct {
 	// To set a logger that logs nothing, set this to a stripe.LeveledLogger
 	// with a Level of LevelNull (simply setting this field to nil will not
 	// work).
-	LeveledLogger LeveledLoggerInterface
+	LeveledLogger interface{}
 
 	// MaxNetworkRetries sets maximum number of times that the library will
 	// retry requests that appear to have failed due to an intermittent
@@ -274,7 +279,9 @@ type BackendImplementation struct {
 	Type              SupportedBackend
 	URL               string
 	HTTPClient        *http.Client
-	LeveledLogger     LeveledLoggerInterface
+
+	// LeveledLogger holds the configured logger (either LeveledLoggerInterface or ContextLeveledLoggerInterface)
+	LeveledLogger     interface{}
 	MaxNetworkRetries int64
 	StripeContext     *string
 
@@ -287,6 +294,14 @@ type BackendImplementation struct {
 	networkRetriesSleep bool
 
 	requestMetricsBuffer chan requestMetrics
+
+	// contextLogger is set if LeveledLogger implements ContextLeveledLoggerInterface.
+	// This allows us to check once at initialization rather than on every log call.
+	contextLogger ContextLeveledLoggerInterface
+
+	// regularLogger is set if LeveledLogger implements LeveledLoggerInterface.
+	// Used for fallback when contextLogger is not available.
+	regularLogger LeveledLoggerInterface
 }
 
 type metricsResponseSetter struct {
@@ -559,7 +574,11 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	// Body is set later by `Do`.
 	req, err := http.NewRequest(method, s.URL+path, nil)
 	if err != nil {
-		s.LeveledLogger.Errorf("Cannot create Stripe request: %v", err)
+		ctx := context.Background()
+		if params != nil && params.Context != nil {
+			ctx = params.Context
+		}
+		s.logErrorf(ctx, "Cannot create Stripe request: %v", err)
 		return nil, err
 	}
 
@@ -619,7 +638,8 @@ func (s *BackendImplementation) maybeSetTelemetryHeader(req *http.Request) {
 			if err == nil {
 				req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
 			} else {
-				s.LeveledLogger.Warnf("Unable to encode client telemetry: %v", err)
+				//lint:ignore SA1012 No context available in this code path
+				s.logWarnf(nil, "Unable to encode client telemetry: %v", err)
 			}
 		default:
 			// There are no metrics available, so don't send any.
@@ -650,6 +670,42 @@ func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(requestID string, r
 	select {
 	case s.requestMetricsBuffer <- metrics:
 	default:
+	}
+}
+
+// logDebugf logs a debug message, using context-aware logger if available
+func (s *BackendImplementation) logDebugf(ctx context.Context, format string, v ...interface{}) {
+	if s.contextLogger != nil {
+		s.contextLogger.Debugf(ctx, format, v...)
+	} else if s.regularLogger != nil {
+		s.regularLogger.Debugf(format, v...)
+	}
+}
+
+// logInfof logs an info message, using context-aware logger if available
+func (s *BackendImplementation) logInfof(ctx context.Context, format string, v ...interface{}) {
+	if s.contextLogger != nil {
+		s.contextLogger.Infof(ctx, format, v...)
+	} else if s.regularLogger != nil {
+		s.regularLogger.Infof(format, v...)
+	}
+}
+
+// logWarnf logs a warning message, using context-aware logger if available
+func (s *BackendImplementation) logWarnf(ctx context.Context, format string, v ...interface{}) {
+	if s.contextLogger != nil {
+		s.contextLogger.Warnf(ctx, format, v...)
+	} else if s.regularLogger != nil {
+		s.regularLogger.Warnf(format, v...)
+	}
+}
+
+// logErrorf logs an error message, using context-aware logger if available
+func (s *BackendImplementation) logErrorf(ctx context.Context, format string, v ...interface{}) {
+	if s.contextLogger != nil {
+		s.contextLogger.Errorf(ctx, format, v...)
+	} else if s.regularLogger != nil {
+		s.regularLogger.Errorf(format, v...)
 	}
 }
 
@@ -708,7 +764,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	body *bytes.Buffer,
 	handleResponse func(*http.Response, error) (interface{}, error),
 ) (*http.Response, interface{}, *time.Duration, error) {
-	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
+	s.logInfof(req.Context(), "Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
 	s.maybeSetTelemetryHeader(req)
 	var resp *http.Response
 	var err error
@@ -721,7 +777,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 		resp, err = s.HTTPClient.Do(req)
 
 		requestDuration = time.Since(start)
-		s.LeveledLogger.Infof("Request completed in %v (retry: %v)", requestDuration, retry)
+		s.logInfof(req.Context(), "Request completed in %v (retry: %v)", requestDuration, retry)
 
 		result, err = handleResponse(resp, err)
 
@@ -730,14 +786,14 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 		shouldRetry, noRetryReason := s.shouldRetry(err, req, resp, retry)
 
 		if !shouldRetry {
-			s.LeveledLogger.Infof("Not retrying request: %v", noRetryReason)
+			s.logInfof(req.Context(), "Not retrying request: %v", noRetryReason)
 			break
 		}
 
 		sleepDuration := s.sleepTime(retry)
 		retry++
 
-		s.LeveledLogger.Warnf("Initiating retry %v for request %v %v%v after sleeping %v",
+		s.logWarnf(req.Context(), "Initiating retry %v for request %v %v%v after sleeping %v",
 			retry, req.Method, req.URL.Host, req.URL.Path, sleepDuration)
 
 		time.Sleep(sleepDuration)
@@ -766,21 +822,40 @@ func (s *BackendImplementation) logError(statusCode int, err error) {
 		// Stripe API doesn't comply to the letter of the specification
 		// and uses it in a broader sense.
 		if statusCode == 402 {
-			s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
+			//lint:ignore SA1012 No context available in this legacy method, use logErrorWithContext for new code
+			s.logInfof(nil, "User-compelled request error from Stripe (status %v): %v",
 				statusCode, stripeErr.redact())
 		} else {
-			s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
+			//lint:ignore SA1012 No context available in this legacy method, use logErrorWithContext for new code
+			s.logErrorf(nil, "Request error from Stripe (status %v): %v",
 				statusCode, stripeErr.redact())
 		}
 	} else {
-		s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
+		//lint:ignore SA1012 No context available in this legacy method, use logErrorWithContext for new code
+		s.logErrorf(nil, "Error decoding error from Stripe: %v", err)
+	}
+}
+
+// logErrorWithContext logs an error using the appropriate logger with context
+func (s *BackendImplementation) logErrorWithContext(ctx context.Context, statusCode int, err error) {
+	if stripeErr, ok := err.(redacter); ok {
+		if statusCode == 402 {
+			s.logInfof(ctx, "User-compelled request error from Stripe (status %v): %v",
+				statusCode, stripeErr.redact())
+		} else {
+			s.logErrorf(ctx, "Request error from Stripe (status %v): %v",
+				statusCode, stripeErr.redact())
+		}
+	} else {
+		s.logErrorf(ctx, "Error decoding error from Stripe: %v", err)
 	}
 }
 
 func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response, err error) (io.ReadCloser, error) {
 	// Some sort of connection error
 	if err != nil {
-		s.LeveledLogger.Errorf("Request failed with error: %v", err)
+		//lint:ignore SA1012 No context available in this code path
+		s.logErrorf(nil, "Request failed with error: %v", err)
 		return res.Body, err
 	}
 
@@ -838,13 +913,13 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 
 		switch {
 		case err != nil:
-			s.LeveledLogger.Errorf("Request failed with error: %v", err)
+			s.logErrorf(req.Context(), "Request failed with error: %v", err)
 		case res.StatusCode >= 400 && ver == V1APIMode:
 			err = s.ResponseToError(res, resBody)
-			s.logError(res.StatusCode, err)
+			s.logErrorWithContext(req.Context(), res.StatusCode, err)
 		case res.StatusCode >= 400 && ver == V2APIMode:
 			err = s.responseToErrorV2(res, resBody)
-			s.logError(res.StatusCode, err)
+			s.logErrorWithContext(req.Context(), res.StatusCode, err)
 		}
 
 		return resBody, err
@@ -855,7 +930,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		return err
 	}
 	resBody := result.([]byte)
-	s.LeveledLogger.Debugf("Response: %s", string(resBody))
+	s.logDebugf(req.Context(), "Response: %s", string(resBody))
 
 	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
 	v.SetLastResponse(newAPIResponse(res, resBody, requestDuration))
@@ -992,7 +1067,8 @@ func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte
 
 		newErr := fmt.Errorf("Couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
 			statusCode, bodySample, err)
-		s.LeveledLogger.Errorf("%s", newErr.Error())
+		//lint:ignore SA1012 No context available in this code path
+		s.logErrorf(nil, "%s", newErr.Error())
 		return newErr
 	}
 
@@ -1623,6 +1699,25 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		requestMetricsBuffer = make(chan requestMetrics, telemetryBufferSize)
 	}
 
+	// Detect which logger interface is implemented
+	// Note: A type can only implement ONE of these interfaces due to conflicting
+	// method signatures (Debugf, etc. have different parameters)
+	var contextLogger ContextLeveledLoggerInterface
+	var regularLogger LeveledLoggerInterface
+
+	if cl, ok := config.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		contextLogger = cl
+	} else if rl, ok := config.LeveledLogger.(LeveledLoggerInterface); ok {
+		regularLogger = rl
+	} else if config.LeveledLogger != nil {
+		// If a non-nil logger is provided that doesn't implement either interface,
+		// this is a programming error that should be caught at initialization.
+		// This panic won't fire for manual BackendImplementation instantiation
+		// (where contextLogger and regularLogger would be nil), which is handled
+		// defensively in the log methods.
+		panic(fmt.Sprintf("LeveledLogger must implement either LeveledLoggerInterface or ContextLeveledLoggerInterface, got %T", config.LeveledLogger))
+	}
+
 	return &BackendImplementation{
 		HTTPClient:           config.HTTPClient,
 		LeveledLogger:        config.LeveledLogger,
@@ -1633,6 +1728,8 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		enableTelemetry:      enableTelemetry,
 		networkRetriesSleep:  true,
 		requestMetricsBuffer: requestMetricsBuffer,
+		contextLogger:        contextLogger,
+		regularLogger:        regularLogger,
 	}
 }
 
