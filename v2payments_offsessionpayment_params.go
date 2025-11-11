@@ -13,6 +13,56 @@ type V2PaymentsOffSessionPaymentListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
+// Contains information about the tax on the item.
+type V2PaymentsOffSessionPaymentAmountDetailsLineItemTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount,omitempty"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type V2PaymentsOffSessionPaymentAmountDetailsLineItemParams struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode *string `form:"product_code" json:"product_code,omitempty"`
+	// Name of the product. At most 100 characters long.
+	ProductName *string `form:"product_name" json:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity *int64 `form:"quantity" json:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *V2PaymentsOffSessionPaymentAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
+	// Cost of the product. Non-negative integer.
+	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+}
+
+// Contains information about the shipping portion of the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsShippingParams struct {
+	// Portion of the amount that is for shipping.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// The postal code that represents the shipping source.
+	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode *string `form:"to_postal_code" json:"to_postal_code,omitempty"`
+}
+
+// Contains information about the tax portion of the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount,omitempty"`
+}
+
+// Provides industry-specific information about the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsParams struct {
+	// The amount the total transaction was discounted for.
+	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*V2PaymentsOffSessionPaymentAmountDetailsLineItemParams `form:"line_items,flat_array" json:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *V2PaymentsOffSessionPaymentAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the tax portion of the amount.
+	Tax *V2PaymentsOffSessionPaymentAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
+}
+
 // Details about the capture configuration for the OffSessionPayment.
 type V2PaymentsOffSessionPaymentCaptureParams struct {
 	Params `form:"*"`
@@ -75,7 +125,7 @@ type V2PaymentsOffSessionPaymentRetryDetailsParams struct {
 	// The pre-configured retry policy to use for the payment.
 	RetryPolicy *string `form:"retry_policy" json:"retry_policy,omitempty"`
 	// Indicates the strategy for how you want Stripe to retry the payment.
-	RetryStrategy *string `form:"retry_strategy" json:"retry_strategy,omitempty"`
+	RetryStrategy *string `form:"retry_strategy" json:"retry_strategy"`
 }
 
 // The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.corp.stripe.com/payments/connected-accounts).
@@ -98,10 +148,14 @@ type V2PaymentsOffSessionPaymentParams struct {
 	Params `form:"*"`
 	// The “presentment amount” to be collected from the customer.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *V2PaymentsOffSessionPaymentAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
 	// Details about the capture configuration for the OffSessionPayment.
 	Capture *V2PaymentsOffSessionPaymentCaptureParams `form:"capture" json:"capture,omitempty"`
+	// Whether the OffSessionPayment should be captured automatically or manually.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Set of [key-value pairs](https://docs.corp.stripe.com/api/metadata) that you can
@@ -158,6 +212,59 @@ type V2PaymentsOffSessionPaymentCaptureTransferDataParams struct {
 	// and must be a positive integer representing how much to transfer in the smallest
 	// currency unit (e.g., 100 cents to charge $1.00).
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// The account (if any) that the payment is attributed to for tax reporting, and
+	// where funds from the payment are transferred to after payment success.
+	Destination *string `form:"destination" json:"destination"`
+}
+
+// Contains information about the tax on the item.
+type V2PaymentsOffSessionPaymentCreateAmountDetailsLineItemTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount,omitempty"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type V2PaymentsOffSessionPaymentCreateAmountDetailsLineItemParams struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode *string `form:"product_code" json:"product_code,omitempty"`
+	// Name of the product. At most 100 characters long.
+	ProductName *string `form:"product_name" json:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity *int64 `form:"quantity" json:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *V2PaymentsOffSessionPaymentCreateAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
+	// Cost of the product. Non-negative integer.
+	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+}
+
+// Contains information about the shipping portion of the amount.
+type V2PaymentsOffSessionPaymentCreateAmountDetailsShippingParams struct {
+	// Portion of the amount that is for shipping.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// The postal code that represents the shipping source.
+	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode *string `form:"to_postal_code" json:"to_postal_code,omitempty"`
+}
+
+// Contains information about the tax portion of the amount.
+type V2PaymentsOffSessionPaymentCreateAmountDetailsTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount,omitempty"`
+}
+
+// Provides industry-specific information about the amount.
+type V2PaymentsOffSessionPaymentCreateAmountDetailsParams struct {
+	// The amount the total transaction was discounted for.
+	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*V2PaymentsOffSessionPaymentCreateAmountDetailsLineItemParams `form:"line_items,flat_array" json:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *V2PaymentsOffSessionPaymentCreateAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the tax portion of the amount.
+	Tax *V2PaymentsOffSessionPaymentCreateAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Details about the capture configuration for the OffSessionPayment.
@@ -194,7 +301,7 @@ type V2PaymentsOffSessionPaymentCreateRetryDetailsParams struct {
 	// The pre-configured retry policy to use for the payment.
 	RetryPolicy *string `form:"retry_policy" json:"retry_policy,omitempty"`
 	// Indicates the strategy for how you want Stripe to retry the payment.
-	RetryStrategy *string `form:"retry_strategy" json:"retry_strategy,omitempty"`
+	RetryStrategy *string `form:"retry_strategy" json:"retry_strategy"`
 }
 
 // The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.corp.stripe.com/payments/connected-accounts).
@@ -217,10 +324,14 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	Params `form:"*"`
 	// The “presentment amount” to be collected from the customer.
 	Amount *Amount `form:"amount" json:"amount"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *V2PaymentsOffSessionPaymentCreateAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence"`
 	// Details about the capture configuration for the OffSessionPayment.
 	Capture *V2PaymentsOffSessionPaymentCreateCaptureParams `form:"capture" json:"capture,omitempty"`
+	// Whether the OffSessionPayment should be captured automatically or manually.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer *string `form:"customer" json:"customer"`
 	// Set of [key-value pairs](https://docs.corp.stripe.com/api/metadata) that you can

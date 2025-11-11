@@ -26,6 +26,15 @@ const (
 	V2PaymentsOffSessionPaymentCaptureCaptureMethodManual    V2PaymentsOffSessionPaymentCaptureCaptureMethod = "manual"
 )
 
+// Whether the OffSessionPayment should be captured automatically or manually.
+type V2PaymentsOffSessionPaymentCaptureMethod string
+
+// List of values that V2PaymentsOffSessionPaymentCaptureMethod can take
+const (
+	V2PaymentsOffSessionPaymentCaptureMethodAutomatic V2PaymentsOffSessionPaymentCaptureMethod = "automatic"
+	V2PaymentsOffSessionPaymentCaptureMethodManual    V2PaymentsOffSessionPaymentCaptureMethod = "manual"
+)
+
 // The reason why the OffSessionPayment failed.
 type V2PaymentsOffSessionPaymentFailureReason string
 
@@ -61,6 +70,56 @@ const (
 	V2PaymentsOffSessionPaymentStatusRequiresCapture V2PaymentsOffSessionPaymentStatus = "requires_capture"
 	V2PaymentsOffSessionPaymentStatusSucceeded       V2PaymentsOffSessionPaymentStatus = "succeeded"
 )
+
+// Contains information about the tax on the item.
+type V2PaymentsOffSessionPaymentAmountDetailsLineItemTax struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount int64 `json:"total_tax_amount,omitempty"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type V2PaymentsOffSessionPaymentAmountDetailsLineItem struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount int64 `json:"discount_amount,omitempty"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode string `json:"product_code,omitempty"`
+	// Name of the product. At most 100 characters long.
+	ProductName string `json:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity int64 `json:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *V2PaymentsOffSessionPaymentAmountDetailsLineItemTax `json:"tax,omitempty"`
+	// Cost of the product. Non-negative integer.
+	UnitCost int64 `json:"unit_cost"`
+}
+
+// Contains information about the shipping portion of the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsShipping struct {
+	// Portion of the amount that is for shipping.
+	Amount int64 `json:"amount,omitempty"`
+	// The postal code that represents the shipping source.
+	FromPostalCode string `json:"from_postal_code,omitempty"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode string `json:"to_postal_code,omitempty"`
+}
+
+// Contains information about the tax portion of the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsTax struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount int64 `json:"total_tax_amount,omitempty"`
+}
+
+// Provides industry-specific information about the amount.
+type V2PaymentsOffSessionPaymentAmountDetails struct {
+	// The amount the total transaction was discounted for.
+	DiscountAmount int64 `json:"discount_amount,omitempty"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*V2PaymentsOffSessionPaymentAmountDetailsLineItem `json:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *V2PaymentsOffSessionPaymentAmountDetailsShipping `json:"shipping,omitempty"`
+	// Contains information about the tax portion of the amount.
+	Tax *V2PaymentsOffSessionPaymentAmountDetailsTax `json:"tax,omitempty"`
+}
 
 // Details about the capture configuration for the OffSessionPayment.
 type V2PaymentsOffSessionPaymentCapture struct {
@@ -106,12 +165,16 @@ type V2PaymentsOffSessionPayment struct {
 	APIResource
 	// The amount available to be captured.
 	AmountCapturable Amount `json:"amount_capturable,omitempty"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
 	// The “presentment amount” to be collected from the customer.
 	AmountRequested Amount `json:"amount_requested"`
 	// The frequency of the underlying payment.
 	Cadence V2PaymentsOffSessionPaymentCadence `json:"cadence"`
 	// Details about the capture configuration for the OffSessionPayment.
 	Capture *V2PaymentsOffSessionPaymentCapture `json:"capture,omitempty"`
+	// Whether the OffSessionPayment should be captured automatically or manually.
+	CaptureMethod V2PaymentsOffSessionPaymentCaptureMethod `json:"capture_method,omitempty"`
 	// ID of the owning compartment.
 	CompartmentID string `json:"compartment_id"`
 	// Creation time of the OffSessionPayment. Represented as a RFC 3339 date & time UTC
