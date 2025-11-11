@@ -71,12 +71,6 @@ type formOptions struct {
 	// adequate solution in the vast majority of cases and has a usability
 	// benefit, so we've gone this route.
 	HighPrecision bool
-
-	// Deprecated: FlatArray is no longer used. All arrays are now
-	// encoded with indices regardless of API version.
-	// Eg. include=["foo", "bar] is always encoded as:
-	// include[0]=foo&include[1]=bar
-	FlatArray bool
 }
 
 type structEncoder struct {
@@ -461,13 +455,6 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 					t.Name(), reflectField.Name, fldTyp,
 				))
 			}
-
-			if options.FlatArray && !(k == reflect.Array || k == reflect.Slice) {
-				panic(fmt.Sprintf(
-					"Cannot specify `flat_array` for non-array field; on: %s/%s (%s)",
-					t.Name(), reflectField.Name, fldTyp,
-				))
-			}
 		}
 
 		se.fields = append(se.fields, &field{
@@ -547,12 +534,6 @@ func parseTag(tag string) (string, *formOptions) {
 				options = &formOptions{}
 			}
 			options.HighPrecision = true
-
-		case "flat_array":
-			if options == nil {
-				options = &formOptions{}
-			}
-			options.FlatArray = true
 
 		default:
 			if Strict {
