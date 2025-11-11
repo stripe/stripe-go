@@ -72,11 +72,10 @@ type formOptions struct {
 	// benefit, so we've gone this route.
 	HighPrecision bool
 
-	// Gets rid of the index and returns unindexed array when using
-	// form encoding in v2 APIs
-	// Eg. include=["foo", "bar] is encoded when:
-	// FlatArray = false as include[0]=foo&include[1]=bar
-	// FlatArray = true  as include=foo&include=bar
+	// Deprecated: FlatArray is no longer used. All arrays are now
+	// encoded with indices regardless of API version.
+	// Eg. include=["foo", "bar] is always encoded as:
+	// include[0]=foo&include[1]=bar
 	FlatArray bool
 }
 
@@ -194,10 +193,8 @@ func buildArrayOrSliceEncoder(t reflect.Type) encoderFunc {
 		var arrNames []string
 
 		for i := 0; i < v.Len(); i++ {
-			arrNames = keyParts
-			if options == nil || !options.FlatArray {
-				arrNames = append(keyParts, strconv.Itoa(i))
-			}
+			// Always use indexed format for arrays (e.g., include[0]=foo&include[1]=bar)
+			arrNames = append(keyParts, strconv.Itoa(i))
 
 			indexV := v.Index(i)
 			elemF(values, indexV, arrNames, indexV.Kind() == reflect.Ptr, nil)
