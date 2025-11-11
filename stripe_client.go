@@ -522,3 +522,7 @@ func (c *Client) ParseEventNotification(payload []byte, header string, secret st
 func (c *Client) ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
 	return ConstructEvent(payload, header, secret, opts...)
 }
+
+func (c *Client) EventHandler(webhook_secret string) *EventHandler {
+	return NewEventHandler(c, webhook_secret)
+}
