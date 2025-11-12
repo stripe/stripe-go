@@ -86,6 +86,15 @@ const (
 	QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeSelf    QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "self"
 )
 
+// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+type QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAt string
+
+// List of values that QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAt can take
+const (
+	QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAtBillingPeriodStart QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAt = "billing_period_start"
+	QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAtPhaseStart         QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAt = "phase_start"
+)
+
 // Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 type QuotePreviewSubscriptionScheduleEndBehavior string
 
@@ -261,6 +270,63 @@ const (
 	QuotePreviewSubscriptionScheduleStatusReleased   QuotePreviewSubscriptionScheduleStatus = "released"
 )
 
+// Controls which subscription items the billing schedule applies to.
+type QuotePreviewSubscriptionScheduleBillingScheduleAppliesToType string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingScheduleAppliesToType can take
+const (
+	QuotePreviewSubscriptionScheduleBillingScheduleAppliesToTypePrice QuotePreviewSubscriptionScheduleBillingScheduleAppliesToType = "price"
+)
+
+// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval can take
+const (
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalDay   QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "day"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalMonth QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "month"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalWeek  QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "week"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalYear  QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "year"
+)
+
+// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType can take
+const (
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeAmendmentEnd    QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "amendment_end"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeDuration        QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "duration"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeLineEndsAt      QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "line_ends_at"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeScheduleEnd     QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "schedule_end"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeTimestamp       QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "timestamp"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeUpcomingInvoice QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "upcoming_invoice"
+)
+
+// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeInterval string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeInterval can take
+const (
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeIntervalDay   QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeInterval = "day"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeIntervalMonth QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeInterval = "month"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeIntervalWeek  QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeInterval = "week"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeIntervalYear  QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeInterval = "year"
+)
+
+// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillFromType string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillFromType can take
+const (
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeAmendmentStart       QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "amendment_start"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeLineStartsAt         QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "line_starts_at"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeNow                  QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "now"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypePauseCollectionStart QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "pause_collection_start"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeQuoteAcceptanceDate  QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "quote_acceptance_date"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeRelative             QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "relative"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeTimestamp            QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "timestamp"
+)
+
 // Preview the schedules that would be generated by accepting the quote
 type QuotePreviewSubscriptionScheduleListParams struct {
 	ListParams `form:"*"`
@@ -368,6 +434,8 @@ type QuotePreviewSubscriptionScheduleDefaultSettings struct {
 	InvoiceSettings *QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAt `json:"phase_effective_at"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *QuotePreviewSubscriptionScheduleDefaultSettingsTransferData `json:"transfer_data"`
 }
@@ -643,6 +711,98 @@ type QuotePreviewSubscriptionSchedulePrebilling struct {
 	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 	UpdateBehavior QuotePreviewSubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior"`
 }
+
+// Specifies which subscription items the billing schedule applies to.
+type QuotePreviewSubscriptionScheduleBillingScheduleAppliesTo struct {
+	// The billing schedule will apply to the subscription item with the given price ID.
+	Price *Price `json:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type QuotePreviewSubscriptionScheduleBillingScheduleAppliesToType `json:"type"`
+}
+
+// Specifies the billing period.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDuration struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Use an index to specify the position of an amendment to end prebilling with.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilAmendmentEnd struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period ending at a particular Quote line.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilLineEndsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Specifies the billing period.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntil struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	AmendmentEnd *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
+	// The timestamp the billing schedule will apply until.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Specifies the billing period.
+	Duration *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDuration `json:"duration"`
+	// Lets you bill the period ending at a particular Quote line.
+	LineEndsAt *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
+	// If specified, the billing schedule will apply until the specified timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType `json:"type"`
+}
+
+// Use an index to specify the position of an amendment to start prebilling with.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillFromAmendmentStart struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period starting from a particular Quote line.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillFromLineStartsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Timestamp is calculated from the request time.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelative struct {
+	// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+	Interval QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Specifies the start of the billing period.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillFrom struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	AmendmentStart *QuotePreviewSubscriptionScheduleBillingScheduleBillFromAmendmentStart `json:"amendment_start"`
+	// The time the billing schedule applies from.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Lets you bill the period starting from a particular Quote line.
+	LineStartsAt *QuotePreviewSubscriptionScheduleBillingScheduleBillFromLineStartsAt `json:"line_starts_at"`
+	// Timestamp is calculated from the request time.
+	Relative *QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelative `json:"relative"`
+	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+	Type QuotePreviewSubscriptionScheduleBillingScheduleBillFromType `json:"type"`
+}
+
+// Billing schedules for this subscription schedule.
+type QuotePreviewSubscriptionScheduleBillingSchedule struct {
+	// Specifies which subscription items the billing schedule applies to.
+	AppliesTo []*QuotePreviewSubscriptionScheduleBillingScheduleAppliesTo `json:"applies_to"`
+	// Specifies the start of the billing period.
+	BillFrom *QuotePreviewSubscriptionScheduleBillingScheduleBillFrom `json:"bill_from"`
+	// Specifies the billing period.
+	BillUntil *QuotePreviewSubscriptionScheduleBillingScheduleBillUntil `json:"bill_until"`
+	// Unique identifier for the billing schedule.
+	Key string `json:"key"`
+}
 type QuotePreviewSubscriptionSchedule struct {
 	// ID of the Connect Application that created the schedule.
 	Application *Application                               `json:"application"`
@@ -651,6 +811,8 @@ type QuotePreviewSubscriptionSchedule struct {
 	BillingBehavior QuotePreviewSubscriptionScheduleBillingBehavior `json:"billing_behavior"`
 	// The billing mode of the subscription.
 	BillingMode *QuotePreviewSubscriptionScheduleBillingMode `json:"billing_mode"`
+	// Billing schedules for this subscription schedule.
+	BillingSchedules []*QuotePreviewSubscriptionScheduleBillingSchedule `json:"billing_schedules"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.
@@ -670,6 +832,8 @@ type QuotePreviewSubscriptionSchedule struct {
 	ID string `json:"id"`
 	// Details of the most recent price migration that failed for the subscription schedule.
 	LastPriceMigrationError *QuotePreviewSubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error"`
+	// The most recent invoice this subscription schedule has generated.
+	LatestInvoice *Invoice `json:"latest_invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

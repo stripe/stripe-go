@@ -14,6 +14,7 @@ const (
 	InvoiceLineItemParentTypeInvoiceItemDetails            InvoiceLineItemParentType = "invoice_item_details"
 	InvoiceLineItemParentTypeLicenseFeeSubscriptionDetails InvoiceLineItemParentType = "license_fee_subscription_details"
 	InvoiceLineItemParentTypeRateCardSubscriptionDetails   InvoiceLineItemParentType = "rate_card_subscription_details"
+	InvoiceLineItemParentTypeScheduleDetails               InvoiceLineItemParentType = "schedule_details"
 	InvoiceLineItemParentTypeSubscriptionItemDetails       InvoiceLineItemParentType = "subscription_item_details"
 )
 
@@ -521,6 +522,12 @@ type InvoiceLineItemParentSubscriptionItemDetails struct {
 	SubscriptionItem string `json:"subscription_item"`
 }
 
+// Details about the subscription schedule that generated this line item
+type InvoiceLineItemParentScheduleDetails struct {
+	// The subscription schedule that generated this line item
+	Schedule string `json:"schedule"`
+}
+
 // The parent that generated this line item.
 type InvoiceLineItemParent struct {
 	// Details about the invoice item that generated this line item
@@ -529,6 +536,8 @@ type InvoiceLineItemParent struct {
 	LicenseFeeSubscriptionDetails *InvoiceLineItemParentLicenseFeeSubscriptionDetails `json:"license_fee_subscription_details"`
 	// Details about the rate card subscription that generated this line item
 	RateCardSubscriptionDetails *InvoiceLineItemParentRateCardSubscriptionDetails `json:"rate_card_subscription_details"`
+	// Details about the subscription schedule that generated this line item
+	ScheduleDetails *InvoiceLineItemParentScheduleDetails `json:"schedule_details"`
 	// Details about the subscription item that generated this line item
 	SubscriptionItemDetails *InvoiceLineItemParentSubscriptionItemDetails `json:"subscription_item_details"`
 	// The type of parent that generated this line item

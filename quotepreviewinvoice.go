@@ -240,6 +240,7 @@ type QuotePreviewInvoiceParentType string
 const (
 	QuotePreviewInvoiceParentTypeBillingCadenceDetails QuotePreviewInvoiceParentType = "billing_cadence_details"
 	QuotePreviewInvoiceParentTypeQuoteDetails          QuotePreviewInvoiceParentType = "quote_details"
+	QuotePreviewInvoiceParentTypeScheduleDetails       QuotePreviewInvoiceParentType = "schedule_details"
 	QuotePreviewInvoiceParentTypeSubscriptionDetails   QuotePreviewInvoiceParentType = "subscription_details"
 )
 
@@ -640,12 +641,20 @@ type QuotePreviewInvoiceParentSubscriptionDetails struct {
 	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
 }
 
+// Details about the schedule that generated this invoice
+type QuotePreviewInvoiceParentScheduleDetails struct {
+	// The schedule that generated this invoice
+	Schedule string `json:"schedule"`
+}
+
 // The parent that generated this invoice
 type QuotePreviewInvoiceParent struct {
 	// Details about the billing cadence that generated this invoice
 	BillingCadenceDetails *QuotePreviewInvoiceParentBillingCadenceDetails `json:"billing_cadence_details"`
 	// Details about the quote that generated this invoice
 	QuoteDetails *QuotePreviewInvoiceParentQuoteDetails `json:"quote_details"`
+	// Details about the schedule that generated this invoice
+	ScheduleDetails *QuotePreviewInvoiceParentScheduleDetails `json:"schedule_details"`
 	// Details about the subscription that generated this invoice
 	SubscriptionDetails *QuotePreviewInvoiceParentSubscriptionDetails `json:"subscription_details"`
 	// The type of parent that generated this invoice

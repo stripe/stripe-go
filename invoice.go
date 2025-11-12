@@ -108,6 +108,7 @@ type InvoiceParentType string
 const (
 	InvoiceParentTypeBillingCadenceDetails InvoiceParentType = "billing_cadence_details"
 	InvoiceParentTypeQuoteDetails          InvoiceParentType = "quote_details"
+	InvoiceParentTypeScheduleDetails       InvoiceParentType = "schedule_details"
 	InvoiceParentTypeSubscriptionDetails   InvoiceParentType = "subscription_details"
 )
 
@@ -2290,6 +2291,42 @@ type InvoiceCreatePreviewScheduleDetailsPrebillingParams struct {
 	Iterations *int64 `form:"iterations"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type InvoiceCreatePreviewScheduleDetailsBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription schedule.
+type InvoiceCreatePreviewScheduleDetailsBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*InvoiceCreatePreviewScheduleDetailsBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
 type InvoiceCreatePreviewScheduleDetailsParams struct {
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
@@ -2298,6 +2335,8 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	BillingBehavior *string `form:"billing_behavior"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *InvoiceCreatePreviewScheduleDetailsBillingModeParams `form:"billing_mode"`
+	// Sets the billing schedules for the subscription schedule.
+	BillingSchedules []*InvoiceCreatePreviewScheduleDetailsBillingScheduleParams `form:"billing_schedules"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
@@ -3597,12 +3636,20 @@ type InvoiceParentSubscriptionDetails struct {
 	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
 }
 
+// Details about the schedule that generated this invoice
+type InvoiceParentScheduleDetails struct {
+	// The schedule that generated this invoice
+	Schedule string `json:"schedule"`
+}
+
 // The parent that generated this invoice
 type InvoiceParent struct {
 	// Details about the billing cadence that generated this invoice
 	BillingCadenceDetails *InvoiceParentBillingCadenceDetails `json:"billing_cadence_details"`
 	// Details about the quote that generated this invoice
 	QuoteDetails *InvoiceParentQuoteDetails `json:"quote_details"`
+	// Details about the schedule that generated this invoice
+	ScheduleDetails *InvoiceParentScheduleDetails `json:"schedule_details"`
 	// Details about the subscription that generated this invoice
 	SubscriptionDetails *InvoiceParentSubscriptionDetails `json:"subscription_details"`
 	// The type of parent that generated this invoice

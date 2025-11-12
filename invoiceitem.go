@@ -13,6 +13,7 @@ type InvoiceItemParentType string
 const (
 	InvoiceItemParentTypeLicenseFeeSubscriptionDetails InvoiceItemParentType = "license_fee_subscription_details"
 	InvoiceItemParentTypeRateCardSubscriptionDetails   InvoiceItemParentType = "rate_card_subscription_details"
+	InvoiceItemParentTypeScheduleDetails               InvoiceItemParentType = "schedule_details"
 	InvoiceItemParentTypeSubscriptionDetails           InvoiceItemParentType = "subscription_details"
 )
 
@@ -440,12 +441,20 @@ type InvoiceItemParentSubscriptionDetails struct {
 	SubscriptionItem string `json:"subscription_item"`
 }
 
+// Details about the subscription schedule that generated this invoice item
+type InvoiceItemParentScheduleDetails struct {
+	// The subscription schedule that generated this invoice item
+	Schedule string `json:"schedule"`
+}
+
 // The parent that generated this invoice item.
 type InvoiceItemParent struct {
 	// Details about the license fee subscription that generated this invoice item
 	LicenseFeeSubscriptionDetails *InvoiceItemParentLicenseFeeSubscriptionDetails `json:"license_fee_subscription_details"`
 	// Details about the rate card subscription that generated this invoice item
 	RateCardSubscriptionDetails *InvoiceItemParentRateCardSubscriptionDetails `json:"rate_card_subscription_details"`
+	// Details about the subscription schedule that generated this invoice item
+	ScheduleDetails *InvoiceItemParentScheduleDetails `json:"schedule_details"`
 	// Details about the subscription that generated this invoice item
 	SubscriptionDetails *InvoiceItemParentSubscriptionDetails `json:"subscription_details"`
 	// The type of parent that generated this invoice item
