@@ -254,6 +254,72 @@ const (
 	QuoteSubscriptionDataProrationBehaviorNone             QuoteSubscriptionDataProrationBehavior = "none"
 )
 
+// Controls which subscription items the billing schedule applies to.
+type QuoteSubscriptionDataBillingScheduleAppliesToType string
+
+// List of values that QuoteSubscriptionDataBillingScheduleAppliesToType can take
+const (
+	QuoteSubscriptionDataBillingScheduleAppliesToTypePrice QuoteSubscriptionDataBillingScheduleAppliesToType = "price"
+)
+
+// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+type QuoteSubscriptionDataBillingScheduleBillUntilDurationInterval string
+
+// List of values that QuoteSubscriptionDataBillingScheduleBillUntilDurationInterval can take
+const (
+	QuoteSubscriptionDataBillingScheduleBillUntilDurationIntervalDay   QuoteSubscriptionDataBillingScheduleBillUntilDurationInterval = "day"
+	QuoteSubscriptionDataBillingScheduleBillUntilDurationIntervalMonth QuoteSubscriptionDataBillingScheduleBillUntilDurationInterval = "month"
+	QuoteSubscriptionDataBillingScheduleBillUntilDurationIntervalWeek  QuoteSubscriptionDataBillingScheduleBillUntilDurationInterval = "week"
+	QuoteSubscriptionDataBillingScheduleBillUntilDurationIntervalYear  QuoteSubscriptionDataBillingScheduleBillUntilDurationInterval = "year"
+)
+
+// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+type QuoteSubscriptionDataBillingScheduleBillUntilType string
+
+// List of values that QuoteSubscriptionDataBillingScheduleBillUntilType can take
+const (
+	QuoteSubscriptionDataBillingScheduleBillUntilTypeAmendmentEnd    QuoteSubscriptionDataBillingScheduleBillUntilType = "amendment_end"
+	QuoteSubscriptionDataBillingScheduleBillUntilTypeDuration        QuoteSubscriptionDataBillingScheduleBillUntilType = "duration"
+	QuoteSubscriptionDataBillingScheduleBillUntilTypeLineEndsAt      QuoteSubscriptionDataBillingScheduleBillUntilType = "line_ends_at"
+	QuoteSubscriptionDataBillingScheduleBillUntilTypeScheduleEnd     QuoteSubscriptionDataBillingScheduleBillUntilType = "schedule_end"
+	QuoteSubscriptionDataBillingScheduleBillUntilTypeTimestamp       QuoteSubscriptionDataBillingScheduleBillUntilType = "timestamp"
+	QuoteSubscriptionDataBillingScheduleBillUntilTypeUpcomingInvoice QuoteSubscriptionDataBillingScheduleBillUntilType = "upcoming_invoice"
+)
+
+// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+type QuoteSubscriptionDataBillingScheduleBillFromRelativeInterval string
+
+// List of values that QuoteSubscriptionDataBillingScheduleBillFromRelativeInterval can take
+const (
+	QuoteSubscriptionDataBillingScheduleBillFromRelativeIntervalDay   QuoteSubscriptionDataBillingScheduleBillFromRelativeInterval = "day"
+	QuoteSubscriptionDataBillingScheduleBillFromRelativeIntervalMonth QuoteSubscriptionDataBillingScheduleBillFromRelativeInterval = "month"
+	QuoteSubscriptionDataBillingScheduleBillFromRelativeIntervalWeek  QuoteSubscriptionDataBillingScheduleBillFromRelativeInterval = "week"
+	QuoteSubscriptionDataBillingScheduleBillFromRelativeIntervalYear  QuoteSubscriptionDataBillingScheduleBillFromRelativeInterval = "year"
+)
+
+// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+type QuoteSubscriptionDataBillingScheduleBillFromType string
+
+// List of values that QuoteSubscriptionDataBillingScheduleBillFromType can take
+const (
+	QuoteSubscriptionDataBillingScheduleBillFromTypeAmendmentStart       QuoteSubscriptionDataBillingScheduleBillFromType = "amendment_start"
+	QuoteSubscriptionDataBillingScheduleBillFromTypeLineStartsAt         QuoteSubscriptionDataBillingScheduleBillFromType = "line_starts_at"
+	QuoteSubscriptionDataBillingScheduleBillFromTypeNow                  QuoteSubscriptionDataBillingScheduleBillFromType = "now"
+	QuoteSubscriptionDataBillingScheduleBillFromTypePauseCollectionStart QuoteSubscriptionDataBillingScheduleBillFromType = "pause_collection_start"
+	QuoteSubscriptionDataBillingScheduleBillFromTypeQuoteAcceptanceDate  QuoteSubscriptionDataBillingScheduleBillFromType = "quote_acceptance_date"
+	QuoteSubscriptionDataBillingScheduleBillFromTypeRelative             QuoteSubscriptionDataBillingScheduleBillFromType = "relative"
+	QuoteSubscriptionDataBillingScheduleBillFromTypeTimestamp            QuoteSubscriptionDataBillingScheduleBillFromType = "timestamp"
+)
+
+// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+type QuoteSubscriptionDataPhaseEffectiveAt string
+
+// List of values that QuoteSubscriptionDataPhaseEffectiveAt can take
+const (
+	QuoteSubscriptionDataPhaseEffectiveAtBillingPeriodStart QuoteSubscriptionDataPhaseEffectiveAt = "billing_period_start"
+	QuoteSubscriptionDataPhaseEffectiveAtPhaseStart         QuoteSubscriptionDataPhaseEffectiveAt = "phase_start"
+)
+
 // Describes whether the quote line is affecting a new schedule or an existing schedule.
 type QuoteSubscriptionDataOverrideAppliesToType string
 
@@ -324,6 +390,72 @@ const (
 	QuoteSubscriptionDataOverrideProrationBehaviorAlwaysInvoice    QuoteSubscriptionDataOverrideProrationBehavior = "always_invoice"
 	QuoteSubscriptionDataOverrideProrationBehaviorCreateProrations QuoteSubscriptionDataOverrideProrationBehavior = "create_prorations"
 	QuoteSubscriptionDataOverrideProrationBehaviorNone             QuoteSubscriptionDataOverrideProrationBehavior = "none"
+)
+
+// Controls which subscription items the billing schedule applies to.
+type QuoteSubscriptionDataOverrideBillingScheduleAppliesToType string
+
+// List of values that QuoteSubscriptionDataOverrideBillingScheduleAppliesToType can take
+const (
+	QuoteSubscriptionDataOverrideBillingScheduleAppliesToTypePrice QuoteSubscriptionDataOverrideBillingScheduleAppliesToType = "price"
+)
+
+// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationInterval string
+
+// List of values that QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationInterval can take
+const (
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationIntervalDay   QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationInterval = "day"
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationIntervalMonth QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationInterval = "month"
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationIntervalWeek  QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationInterval = "week"
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationIntervalYear  QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationInterval = "year"
+)
+
+// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntilType string
+
+// List of values that QuoteSubscriptionDataOverrideBillingScheduleBillUntilType can take
+const (
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilTypeAmendmentEnd    QuoteSubscriptionDataOverrideBillingScheduleBillUntilType = "amendment_end"
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilTypeDuration        QuoteSubscriptionDataOverrideBillingScheduleBillUntilType = "duration"
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilTypeLineEndsAt      QuoteSubscriptionDataOverrideBillingScheduleBillUntilType = "line_ends_at"
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilTypeScheduleEnd     QuoteSubscriptionDataOverrideBillingScheduleBillUntilType = "schedule_end"
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilTypeTimestamp       QuoteSubscriptionDataOverrideBillingScheduleBillUntilType = "timestamp"
+	QuoteSubscriptionDataOverrideBillingScheduleBillUntilTypeUpcomingInvoice QuoteSubscriptionDataOverrideBillingScheduleBillUntilType = "upcoming_invoice"
+)
+
+// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+type QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeInterval string
+
+// List of values that QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeInterval can take
+const (
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeIntervalDay   QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeInterval = "day"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeIntervalMonth QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeInterval = "month"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeIntervalWeek  QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeInterval = "week"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeIntervalYear  QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeInterval = "year"
+)
+
+// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+type QuoteSubscriptionDataOverrideBillingScheduleBillFromType string
+
+// List of values that QuoteSubscriptionDataOverrideBillingScheduleBillFromType can take
+const (
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromTypeAmendmentStart       QuoteSubscriptionDataOverrideBillingScheduleBillFromType = "amendment_start"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromTypeLineStartsAt         QuoteSubscriptionDataOverrideBillingScheduleBillFromType = "line_starts_at"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromTypeNow                  QuoteSubscriptionDataOverrideBillingScheduleBillFromType = "now"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromTypePauseCollectionStart QuoteSubscriptionDataOverrideBillingScheduleBillFromType = "pause_collection_start"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromTypeQuoteAcceptanceDate  QuoteSubscriptionDataOverrideBillingScheduleBillFromType = "quote_acceptance_date"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromTypeRelative             QuoteSubscriptionDataOverrideBillingScheduleBillFromType = "relative"
+	QuoteSubscriptionDataOverrideBillingScheduleBillFromTypeTimestamp            QuoteSubscriptionDataOverrideBillingScheduleBillFromType = "timestamp"
+)
+
+// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+type QuoteSubscriptionDataOverridePhaseEffectiveAt string
+
+// List of values that QuoteSubscriptionDataOverridePhaseEffectiveAt can take
+const (
+	QuoteSubscriptionDataOverridePhaseEffectiveAtBillingPeriodStart QuoteSubscriptionDataOverridePhaseEffectiveAt = "billing_period_start"
+	QuoteSubscriptionDataOverridePhaseEffectiveAtPhaseStart         QuoteSubscriptionDataOverridePhaseEffectiveAt = "phase_start"
 )
 
 // Describes whether the quote line is affecting a new schedule or an existing schedule.
@@ -913,6 +1045,72 @@ type QuoteSubscriptionDataPrebillingParams struct {
 	Iterations *int64 `form:"iterations"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type QuoteSubscriptionDataBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line to start the bill period from.
+type QuoteSubscriptionDataBillingScheduleBillFromLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataBillingScheduleBillFromParams struct {
+	// Details of a Quote line to start the bill period from.
+	LineStartsAt *QuoteSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type *string `form:"type"`
+}
+
+// Details of the duration over which to bill.
+type QuoteSubscriptionDataBillingScheduleBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details of a Quote line item from which to bill until.
+type QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteSubscriptionDataBillingScheduleBillUntilParams struct {
+	// Details of the duration over which to bill.
+	Duration *QuoteSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration"`
+	// Details of a Quote line item from which to bill until.
+	LineEndsAt *QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type *string `form:"type"`
+}
+
+// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+type QuoteSubscriptionDataBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*QuoteSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteSubscriptionDataBillingScheduleBillFromParams `form:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteSubscriptionDataParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
@@ -921,6 +1119,8 @@ type QuoteSubscriptionDataParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *QuoteSubscriptionDataBillingModeParams `form:"billing_mode"`
+	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+	BillingSchedules []*QuoteSubscriptionDataBillingScheduleParams `form:"billing_schedules"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -934,6 +1134,8 @@ type QuoteSubscriptionDataParams struct {
 	FromSubscription *string `form:"from_subscription"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteSubscriptionDataPrebillingParams `form:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
@@ -1028,12 +1230,80 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type QuoteSubscriptionDataOverrideBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line to start the bill period from.
+type QuoteSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteSubscriptionDataOverrideBillingScheduleBillFromParams struct {
+	// Details of a Quote line to start the bill period from.
+	LineStartsAt *QuoteSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type *string `form:"type"`
+}
+
+// Details of the duration over which to bill.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details of a Quote line item from which to bill until.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntilParams struct {
+	// Details of the duration over which to bill.
+	Duration *QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration"`
+	// Details of a Quote line item from which to bill until.
+	LineEndsAt *QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type *string `form:"type"`
+}
+
+// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+type QuoteSubscriptionDataOverrideBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*QuoteSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
+	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+	BillingSchedules []*QuoteSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The customer the Subscription Data override applies to. This is only relevant when `applies_to.type=new_reference`.
@@ -1042,6 +1312,8 @@ type QuoteSubscriptionDataOverrideParams struct {
 	Description *string `form:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -1798,6 +2070,72 @@ type QuoteCreateSubscriptionDataPrebillingParams struct {
 	Iterations *int64 `form:"iterations"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type QuoteCreateSubscriptionDataBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line to start the bill period from.
+type QuoteCreateSubscriptionDataBillingScheduleBillFromLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteCreateSubscriptionDataBillingScheduleBillFromParams struct {
+	// Details of a Quote line to start the bill period from.
+	LineStartsAt *QuoteCreateSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type *string `form:"type"`
+}
+
+// Details of the duration over which to bill.
+type QuoteCreateSubscriptionDataBillingScheduleBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details of a Quote line item from which to bill until.
+type QuoteCreateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteCreateSubscriptionDataBillingScheduleBillUntilParams struct {
+	// Details of the duration over which to bill.
+	Duration *QuoteCreateSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration"`
+	// Details of a Quote line item from which to bill until.
+	LineEndsAt *QuoteCreateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type *string `form:"type"`
+}
+
+// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+type QuoteCreateSubscriptionDataBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*QuoteCreateSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteCreateSubscriptionDataBillingScheduleBillFromParams `form:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteCreateSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteCreateSubscriptionDataParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
@@ -1806,6 +2144,8 @@ type QuoteCreateSubscriptionDataParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *QuoteCreateSubscriptionDataBillingModeParams `form:"billing_mode"`
+	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+	BillingSchedules []*QuoteCreateSubscriptionDataBillingScheduleParams `form:"billing_schedules"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteCreateSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -1819,6 +2159,8 @@ type QuoteCreateSubscriptionDataParams struct {
 	FromSubscription *string `form:"from_subscription"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteCreateSubscriptionDataPrebillingParams `form:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
@@ -1913,12 +2255,80 @@ type QuoteCreateSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	BillUntil *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type QuoteCreateSubscriptionDataOverrideBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line to start the bill period from.
+type QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromParams struct {
+	// Details of a Quote line to start the bill period from.
+	LineStartsAt *QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type *string `form:"type"`
+}
+
+// Details of the duration over which to bill.
+type QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details of a Quote line item from which to bill until.
+type QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilParams struct {
+	// Details of the duration over which to bill.
+	Duration *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration"`
+	// Details of a Quote line item from which to bill until.
+	LineEndsAt *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type *string `form:"type"`
+}
+
+// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+type QuoteCreateSubscriptionDataOverrideBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*QuoteCreateSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteCreateSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 	AppliesTo *QuoteCreateSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
+	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+	BillingSchedules []*QuoteCreateSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The customer the Subscription Data override applies to. This is only relevant when `applies_to.type=new_reference`.
@@ -1927,6 +2337,8 @@ type QuoteCreateSubscriptionDataOverrideParams struct {
 	Description *string `form:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -2538,12 +2950,80 @@ type QuoteUpdateSubscriptionDataPrebillingParams struct {
 	Iterations *int64 `form:"iterations"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type QuoteUpdateSubscriptionDataBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line to start the bill period from.
+type QuoteUpdateSubscriptionDataBillingScheduleBillFromLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteUpdateSubscriptionDataBillingScheduleBillFromParams struct {
+	// Details of a Quote line to start the bill period from.
+	LineStartsAt *QuoteUpdateSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type *string `form:"type"`
+}
+
+// Details of the duration over which to bill.
+type QuoteUpdateSubscriptionDataBillingScheduleBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details of a Quote line item from which to bill until.
+type QuoteUpdateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteUpdateSubscriptionDataBillingScheduleBillUntilParams struct {
+	// Details of the duration over which to bill.
+	Duration *QuoteUpdateSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration"`
+	// Details of a Quote line item from which to bill until.
+	LineEndsAt *QuoteUpdateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type *string `form:"type"`
+}
+
+// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+type QuoteUpdateSubscriptionDataBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*QuoteUpdateSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteUpdateSubscriptionDataBillingScheduleBillFromParams `form:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteUpdateSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteUpdateSubscriptionDataParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+	BillingSchedules []*QuoteUpdateSubscriptionDataBillingScheduleParams `form:"billing_schedules"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteUpdateSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -2555,6 +3035,8 @@ type QuoteUpdateSubscriptionDataParams struct {
 	EndBehavior *string `form:"end_behavior"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteUpdateSubscriptionDataPrebillingParams `form:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
@@ -2649,12 +3131,80 @@ type QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	BillUntil *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type QuoteUpdateSubscriptionDataOverrideBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Details of a Quote line to start the bill period from.
+type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The start of the period to bill from when the Quote is accepted.
+type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromParams struct {
+	// Details of a Quote line to start the bill period from.
+	LineStartsAt *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_from` time.
+	Type *string `form:"type"`
+}
+
+// Details of the duration over which to bill.
+type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details of a Quote line item from which to bill until.
+type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams struct {
+	// The ID of a quote line.
+	ID *string `form:"id"`
+	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
+	Index *int64 `form:"index"`
+}
+
+// The end of the period to bill until when the Quote is accepted.
+type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilParams struct {
+	// Details of the duration over which to bill.
+	Duration *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration"`
+	// Details of a Quote line item from which to bill until.
+	LineEndsAt *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	// A precise Unix timestamp.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of method to specify the `bill_until` time.
+	Type *string `form:"type"`
+}
+
+// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+type QuoteUpdateSubscriptionDataOverrideBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*QuoteUpdateSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to"`
+	// The start of the period to bill from when the Quote is accepted.
+	BillFrom *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from"`
+	// The end of the period to bill until when the Quote is accepted.
+	BillUntil *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteUpdateSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 	AppliesTo *QuoteUpdateSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
+	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
+	BillingSchedules []*QuoteUpdateSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The customer the Subscription Data override applies to.
@@ -2663,6 +3213,8 @@ type QuoteUpdateSubscriptionDataOverrideParams struct {
 	Description *string `form:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -3049,6 +3601,98 @@ type QuoteSubscriptionDataBillingMode struct {
 type QuoteSubscriptionDataPrebilling struct {
 	Iterations int64 `json:"iterations"`
 }
+
+// Specifies which subscription items the billing schedule applies to.
+type QuoteSubscriptionDataBillingScheduleAppliesTo struct {
+	// The billing schedule will apply to the subscription item with the given price ID.
+	Price *Price `json:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type QuoteSubscriptionDataBillingScheduleAppliesToType `json:"type"`
+}
+
+// Specifies the billing period.
+type QuoteSubscriptionDataBillingScheduleBillUntilDuration struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval QuoteSubscriptionDataBillingScheduleBillUntilDurationInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Use an index to specify the position of an amendment to end prebilling with.
+type QuoteSubscriptionDataBillingScheduleBillUntilAmendmentEnd struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period ending at a particular Quote line.
+type QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Specifies the billing period.
+type QuoteSubscriptionDataBillingScheduleBillUntil struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	AmendmentEnd *QuoteSubscriptionDataBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
+	// The timestamp the billing schedule will apply until.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Specifies the billing period.
+	Duration *QuoteSubscriptionDataBillingScheduleBillUntilDuration `json:"duration"`
+	// Lets you bill the period ending at a particular Quote line.
+	LineEndsAt *QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
+	// If specified, the billing schedule will apply until the specified timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type QuoteSubscriptionDataBillingScheduleBillUntilType `json:"type"`
+}
+
+// Use an index to specify the position of an amendment to start prebilling with.
+type QuoteSubscriptionDataBillingScheduleBillFromAmendmentStart struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period starting from a particular Quote line.
+type QuoteSubscriptionDataBillingScheduleBillFromLineStartsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Timestamp is calculated from the request time.
+type QuoteSubscriptionDataBillingScheduleBillFromRelative struct {
+	// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+	Interval QuoteSubscriptionDataBillingScheduleBillFromRelativeInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Specifies the start of the billing period.
+type QuoteSubscriptionDataBillingScheduleBillFrom struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	AmendmentStart *QuoteSubscriptionDataBillingScheduleBillFromAmendmentStart `json:"amendment_start"`
+	// The time the billing schedule applies from.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Lets you bill the period starting from a particular Quote line.
+	LineStartsAt *QuoteSubscriptionDataBillingScheduleBillFromLineStartsAt `json:"line_starts_at"`
+	// Timestamp is calculated from the request time.
+	Relative *QuoteSubscriptionDataBillingScheduleBillFromRelative `json:"relative"`
+	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+	Type QuoteSubscriptionDataBillingScheduleBillFromType `json:"type"`
+}
+
+// Billing schedules that will be applied to the subscription or subscription schedule created from this quote.
+type QuoteSubscriptionDataBillingSchedule struct {
+	// Specifies which subscription items the billing schedule applies to.
+	AppliesTo []*QuoteSubscriptionDataBillingScheduleAppliesTo `json:"applies_to"`
+	// Specifies the start of the billing period.
+	BillFrom *QuoteSubscriptionDataBillingScheduleBillFrom `json:"bill_from"`
+	// Specifies the billing period.
+	BillUntil *QuoteSubscriptionDataBillingScheduleBillUntil `json:"bill_until"`
+	// Unique identifier for the billing schedule.
+	Key string `json:"key"`
+}
 type QuoteSubscriptionData struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
@@ -3056,6 +3700,8 @@ type QuoteSubscriptionData struct {
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// The billing mode of the quote.
 	BillingMode *QuoteSubscriptionDataBillingMode `json:"billing_mode"`
+	// Billing schedules that will be applied to the subscription or subscription schedule created from this quote.
+	BillingSchedules []*QuoteSubscriptionDataBillingSchedule `json:"billing_schedules"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -3068,6 +3714,8 @@ type QuoteSubscriptionData struct {
 	FromSubscription *Subscription `json:"from_subscription"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `json:"metadata"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt QuoteSubscriptionDataPhaseEffectiveAt `json:"phase_effective_at"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteSubscriptionDataPrebilling `json:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the quote is accepted.
@@ -3138,11 +3786,105 @@ type QuoteSubscriptionDataOverrideBillOnAcceptance struct {
 	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil `json:"bill_until"`
 }
 
+// Specifies which subscription items the billing schedule applies to.
+type QuoteSubscriptionDataOverrideBillingScheduleAppliesTo struct {
+	// The billing schedule will apply to the subscription item with the given price ID.
+	Price *Price `json:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type QuoteSubscriptionDataOverrideBillingScheduleAppliesToType `json:"type"`
+}
+
+// Specifies the billing period.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntilDuration struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Use an index to specify the position of an amendment to end prebilling with.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntilAmendmentEnd struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period ending at a particular Quote line.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Specifies the billing period.
+type QuoteSubscriptionDataOverrideBillingScheduleBillUntil struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	AmendmentEnd *QuoteSubscriptionDataOverrideBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
+	// The timestamp the billing schedule will apply until.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Specifies the billing period.
+	Duration *QuoteSubscriptionDataOverrideBillingScheduleBillUntilDuration `json:"duration"`
+	// Lets you bill the period ending at a particular Quote line.
+	LineEndsAt *QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
+	// If specified, the billing schedule will apply until the specified timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type QuoteSubscriptionDataOverrideBillingScheduleBillUntilType `json:"type"`
+}
+
+// Use an index to specify the position of an amendment to start prebilling with.
+type QuoteSubscriptionDataOverrideBillingScheduleBillFromAmendmentStart struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period starting from a particular Quote line.
+type QuoteSubscriptionDataOverrideBillingScheduleBillFromLineStartsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Timestamp is calculated from the request time.
+type QuoteSubscriptionDataOverrideBillingScheduleBillFromRelative struct {
+	// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+	Interval QuoteSubscriptionDataOverrideBillingScheduleBillFromRelativeInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Specifies the start of the billing period.
+type QuoteSubscriptionDataOverrideBillingScheduleBillFrom struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	AmendmentStart *QuoteSubscriptionDataOverrideBillingScheduleBillFromAmendmentStart `json:"amendment_start"`
+	// The time the billing schedule applies from.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Lets you bill the period starting from a particular Quote line.
+	LineStartsAt *QuoteSubscriptionDataOverrideBillingScheduleBillFromLineStartsAt `json:"line_starts_at"`
+	// Timestamp is calculated from the request time.
+	Relative *QuoteSubscriptionDataOverrideBillingScheduleBillFromRelative `json:"relative"`
+	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+	Type QuoteSubscriptionDataOverrideBillingScheduleBillFromType `json:"type"`
+}
+
+// Billing schedules that will be applied to the subscription or subscription schedule created from this quote.
+type QuoteSubscriptionDataOverrideBillingSchedule struct {
+	// Specifies which subscription items the billing schedule applies to.
+	AppliesTo []*QuoteSubscriptionDataOverrideBillingScheduleAppliesTo `json:"applies_to"`
+	// Specifies the start of the billing period.
+	BillFrom *QuoteSubscriptionDataOverrideBillingScheduleBillFrom `json:"bill_from"`
+	// Specifies the billing period.
+	BillUntil *QuoteSubscriptionDataOverrideBillingScheduleBillUntil `json:"bill_until"`
+	// Unique identifier for the billing schedule.
+	Key string `json:"key"`
+}
+
 // List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteSubscriptionDataOverride struct {
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior QuoteSubscriptionDataOverrideBillingBehavior `json:"billing_behavior"`
+	// Billing schedules that will be applied to the subscription or subscription schedule created from this quote.
+	BillingSchedules []*QuoteSubscriptionDataOverrideBillingSchedule `json:"billing_schedules"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptance `json:"bill_on_acceptance"`
 	// The customer which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
@@ -3151,6 +3893,8 @@ type QuoteSubscriptionDataOverride struct {
 	Description string `json:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior QuoteSubscriptionDataOverrideEndBehavior `json:"end_behavior"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt QuoteSubscriptionDataOverridePhaseEffectiveAt `json:"phase_effective_at"`
 	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the quote is accepted.
 	ProrationBehavior QuoteSubscriptionDataOverrideProrationBehavior `json:"proration_behavior"`
 }

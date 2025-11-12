@@ -81,6 +81,7 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptio
 
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsParams struct {
+	// The customer's address.
 	Address *AddressParams `form:"address"`
 	// The customer's email address.
 	Email *string `form:"email"`
@@ -218,6 +219,7 @@ type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmen
 
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsParams struct {
+	// The customer's address.
 	Address *AddressParams `form:"address"`
 	// The customer's email address.
 	Email *string `form:"email"`
@@ -306,6 +308,7 @@ func (p *DelegatedCheckoutRequestedSessionUpdateParams) AddMetadata(key string, 
 
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionCreateFulfillmentDetailsParams struct {
+	// The customer's address.
 	Address *AddressParams `form:"address"`
 	// The customer's email address.
 	Email *string `form:"email"`

@@ -70,8 +70,37 @@ type SubscriptionBillingScheduleBillUntilType string
 
 // List of values that SubscriptionBillingScheduleBillUntilType can take
 const (
-	SubscriptionBillingScheduleBillUntilTypeDuration  SubscriptionBillingScheduleBillUntilType = "duration"
-	SubscriptionBillingScheduleBillUntilTypeTimestamp SubscriptionBillingScheduleBillUntilType = "timestamp"
+	SubscriptionBillingScheduleBillUntilTypeAmendmentEnd    SubscriptionBillingScheduleBillUntilType = "amendment_end"
+	SubscriptionBillingScheduleBillUntilTypeDuration        SubscriptionBillingScheduleBillUntilType = "duration"
+	SubscriptionBillingScheduleBillUntilTypeLineEndsAt      SubscriptionBillingScheduleBillUntilType = "line_ends_at"
+	SubscriptionBillingScheduleBillUntilTypeScheduleEnd     SubscriptionBillingScheduleBillUntilType = "schedule_end"
+	SubscriptionBillingScheduleBillUntilTypeTimestamp       SubscriptionBillingScheduleBillUntilType = "timestamp"
+	SubscriptionBillingScheduleBillUntilTypeUpcomingInvoice SubscriptionBillingScheduleBillUntilType = "upcoming_invoice"
+)
+
+// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+type SubscriptionBillingScheduleBillFromRelativeInterval string
+
+// List of values that SubscriptionBillingScheduleBillFromRelativeInterval can take
+const (
+	SubscriptionBillingScheduleBillFromRelativeIntervalDay   SubscriptionBillingScheduleBillFromRelativeInterval = "day"
+	SubscriptionBillingScheduleBillFromRelativeIntervalMonth SubscriptionBillingScheduleBillFromRelativeInterval = "month"
+	SubscriptionBillingScheduleBillFromRelativeIntervalWeek  SubscriptionBillingScheduleBillFromRelativeInterval = "week"
+	SubscriptionBillingScheduleBillFromRelativeIntervalYear  SubscriptionBillingScheduleBillFromRelativeInterval = "year"
+)
+
+// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+type SubscriptionBillingScheduleBillFromType string
+
+// List of values that SubscriptionBillingScheduleBillFromType can take
+const (
+	SubscriptionBillingScheduleBillFromTypeAmendmentStart       SubscriptionBillingScheduleBillFromType = "amendment_start"
+	SubscriptionBillingScheduleBillFromTypeLineStartsAt         SubscriptionBillingScheduleBillFromType = "line_starts_at"
+	SubscriptionBillingScheduleBillFromTypeNow                  SubscriptionBillingScheduleBillFromType = "now"
+	SubscriptionBillingScheduleBillFromTypePauseCollectionStart SubscriptionBillingScheduleBillFromType = "pause_collection_start"
+	SubscriptionBillingScheduleBillFromTypeQuoteAcceptanceDate  SubscriptionBillingScheduleBillFromType = "quote_acceptance_date"
+	SubscriptionBillingScheduleBillFromTypeRelative             SubscriptionBillingScheduleBillFromType = "relative"
+	SubscriptionBillingScheduleBillFromTypeTimestamp            SubscriptionBillingScheduleBillFromType = "timestamp"
 )
 
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
@@ -2514,22 +2543,76 @@ type SubscriptionBillingScheduleBillUntilDuration struct {
 	IntervalCount int64 `json:"interval_count"`
 }
 
+// Use an index to specify the position of an amendment to end prebilling with.
+type SubscriptionBillingScheduleBillUntilAmendmentEnd struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period ending at a particular Quote line.
+type SubscriptionBillingScheduleBillUntilLineEndsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
 // Specifies the billing period.
 type SubscriptionBillingScheduleBillUntil struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	AmendmentEnd *SubscriptionBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
 	// The timestamp the billing schedule will apply until.
 	ComputedTimestamp int64 `json:"computed_timestamp"`
 	// Specifies the billing period.
 	Duration *SubscriptionBillingScheduleBillUntilDuration `json:"duration"`
+	// Lets you bill the period ending at a particular Quote line.
+	LineEndsAt *SubscriptionBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
 	// If specified, the billing schedule will apply until the specified timestamp.
 	Timestamp int64 `json:"timestamp"`
 	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
 	Type SubscriptionBillingScheduleBillUntilType `json:"type"`
 }
 
+// Use an index to specify the position of an amendment to start prebilling with.
+type SubscriptionBillingScheduleBillFromAmendmentStart struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period starting from a particular Quote line.
+type SubscriptionBillingScheduleBillFromLineStartsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Timestamp is calculated from the request time.
+type SubscriptionBillingScheduleBillFromRelative struct {
+	// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+	Interval SubscriptionBillingScheduleBillFromRelativeInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Specifies the start of the billing period.
+type SubscriptionBillingScheduleBillFrom struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	AmendmentStart *SubscriptionBillingScheduleBillFromAmendmentStart `json:"amendment_start"`
+	// The time the billing schedule applies from.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Lets you bill the period starting from a particular Quote line.
+	LineStartsAt *SubscriptionBillingScheduleBillFromLineStartsAt `json:"line_starts_at"`
+	// Timestamp is calculated from the request time.
+	Relative *SubscriptionBillingScheduleBillFromRelative `json:"relative"`
+	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+	Type SubscriptionBillingScheduleBillFromType `json:"type"`
+}
+
 // Billing schedules for this subscription.
 type SubscriptionBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*SubscriptionBillingScheduleAppliesTo `json:"applies_to"`
+	// Specifies the start of the billing period.
+	BillFrom *SubscriptionBillingScheduleBillFrom `json:"bill_from"`
 	// Specifies the billing period.
 	BillUntil *SubscriptionBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.

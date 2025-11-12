@@ -169,6 +169,10 @@ type PersonParams struct {
 	RegisteredAddress *AddressParams `form:"registered_address"`
 	// The relationship that this person has with the account's legal entity.
 	Relationship *PersonRelationshipParams `form:"relationship"`
+	// The credit applicant's self-reported yearly income in minor units.
+	SelfReportedIncome *PersonSelfReportedIncomeParams `form:"self_reported_income"`
+	// The credit applicant's self-reported monthly housing payment in minor units.
+	SelfReportedMonthlyHousingPayment *PersonSelfReportedMonthlyHousingPaymentParams `form:"self_reported_monthly_housing_payment"`
 	// The last four digits of the person's Social Security number (U.S. only).
 	SSNLast4 *string `form:"ssn_last_4"`
 	// Demographic data related to the person.
@@ -341,6 +345,18 @@ type PersonVerificationParams struct {
 	AdditionalDocument *PersonVerificationDocumentParams `form:"additional_document"`
 	// An identifying document, either a passport or local ID card.
 	Document *PersonVerificationDocumentParams `form:"document"`
+}
+
+// The credit applicant's self-reported yearly income in minor units.
+type PersonSelfReportedIncomeParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
+// The credit applicant's self-reported monthly housing payment in minor units.
+type PersonSelfReportedMonthlyHousingPaymentParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
 }
 
 // Filters on the list of people returned based on the person's relationship to the account's company.
@@ -553,6 +569,18 @@ type PersonUpdateVerificationParams struct {
 	Document *PersonUpdateVerificationDocumentParams `form:"document"`
 }
 
+// The credit applicant's self-reported yearly income in minor units.
+type PersonUpdateSelfReportedIncomeParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
+// The credit applicant's self-reported monthly housing payment in minor units.
+type PersonUpdateSelfReportedMonthlyHousingPaymentParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
 // Updates an existing person.
 type PersonUpdateParams struct {
 	Params  `form:"*"`
@@ -609,6 +637,10 @@ type PersonUpdateParams struct {
 	RegisteredAddress *AddressParams `form:"registered_address"`
 	// The relationship that this person has with the account's legal entity.
 	Relationship *PersonUpdateRelationshipParams `form:"relationship"`
+	// The credit applicant's self-reported yearly income in minor units.
+	SelfReportedIncome *PersonUpdateSelfReportedIncomeParams `form:"self_reported_income"`
+	// The credit applicant's self-reported monthly housing payment in minor units.
+	SelfReportedMonthlyHousingPayment *PersonUpdateSelfReportedMonthlyHousingPaymentParams `form:"self_reported_monthly_housing_payment"`
 	// The last four digits of the person's Social Security number (U.S. only).
 	SSNLast4 *string `form:"ssn_last_4"`
 	// Demographic data related to the person.
@@ -791,6 +823,18 @@ type PersonCreateVerificationParams struct {
 	Document *PersonCreateVerificationDocumentParams `form:"document"`
 }
 
+// The credit applicant's self-reported yearly income in minor units.
+type PersonCreateSelfReportedIncomeParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
+// The credit applicant's self-reported monthly housing payment in minor units.
+type PersonCreateSelfReportedMonthlyHousingPaymentParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
 // Creates a new person.
 type PersonCreateParams struct {
 	Params  `form:"*"`
@@ -847,6 +891,10 @@ type PersonCreateParams struct {
 	RegisteredAddress *AddressParams `form:"registered_address"`
 	// The relationship that this person has with the account's legal entity.
 	Relationship *PersonCreateRelationshipParams `form:"relationship"`
+	// The credit applicant's self-reported yearly income in minor units.
+	SelfReportedIncome *PersonCreateSelfReportedIncomeParams `form:"self_reported_income"`
+	// The credit applicant's self-reported monthly housing payment in minor units.
+	SelfReportedMonthlyHousingPayment *PersonCreateSelfReportedMonthlyHousingPaymentParams `form:"self_reported_monthly_housing_payment"`
 	// The last four digits of the person's Social Security number (U.S. only).
 	SSNLast4 *string `form:"ssn_last_4"`
 	// Demographic data related to the person.
@@ -1051,6 +1099,18 @@ type PersonVerification struct {
 	// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://stripe.com/docs/connect/handling-api-verification) to handle verification updates.
 	Status PersonVerificationStatus `json:"status"`
 }
+type PersonSelfReportedIncome struct {
+	// Amount in the minor currency unit (e.g., cents for USD)
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+}
+type PersonSelfReportedMonthlyHousingPayment struct {
+	// Amount in the minor currency unit (e.g., cents for USD)
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+}
 
 // This is an object representing a person associated with a Stripe account.
 //
@@ -1112,7 +1172,9 @@ type Person struct {
 	RegisteredAddress *Address                `json:"registered_address"`
 	Relationship      *PersonRelationship     `json:"relationship"`
 	// Information about the requirements for this person, including what information needs to be collected, and by when.
-	Requirements *PersonRequirements `json:"requirements"`
+	Requirements                      *PersonRequirements                      `json:"requirements"`
+	SelfReportedIncome                *PersonSelfReportedIncome                `json:"self_reported_income"`
+	SelfReportedMonthlyHousingPayment *PersonSelfReportedMonthlyHousingPayment `json:"self_reported_monthly_housing_payment"`
 	// Whether the last four digits of the person's Social Security number have been provided (U.S. only).
 	SSNLast4Provided bool `json:"ssn_last_4_provided"`
 	// Demographic data related to the person.

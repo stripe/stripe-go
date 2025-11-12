@@ -9,6 +9,10 @@
   * Add support for `AllocatedFunds` on `Charge`, `PaymentIntentConfirmParams`, and `PaymentIntentParams`
   * Add support for thin events `V2ReportingReportRunCreatedEvent`, `V2ReportingReportRunFailedEvent`, `V2ReportingReportRunSucceededEvent`, and `V2ReportingReportRunUpdatedEvent` with related object `V2ReportingReportRun`
 
+## 83.2.0 - 2025-11-05
+* [#2203](https://github.com/stripe/stripe-go/pull/2203) Update generated code
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+
 ## 83.2.0-beta.1 - 2025-10-29
 
 This release changes the pinned API version to `2025-10-29.preview`.

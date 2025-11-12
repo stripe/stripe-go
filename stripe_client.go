@@ -440,8 +440,6 @@ type Client struct {
 	V2ReportingReportRuns *v2ReportingReportRunService
 	// V2ReportingReports is the service used to invoke report related APIs.
 	V2ReportingReports *v2ReportingReportService
-	// V2TaxAutomaticRules is the service used to invoke /v2/tax/automatic_rules APIs.
-	V2TaxAutomaticRules *v2TaxAutomaticRuleService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// V2TestHelpersMoneyManagements is the service used to invoke moneymanagement related APIs.
@@ -701,7 +699,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
 	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
 	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
-	client.V2TaxAutomaticRules = &v2TaxAutomaticRuleService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
