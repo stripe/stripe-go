@@ -202,6 +202,8 @@ type Client struct {
 	V1Subscriptions *v1SubscriptionService
 	// V1SubscriptionSchedules is the service used to invoke /v1/subscription_schedules APIs.
 	V1SubscriptionSchedules *v1SubscriptionScheduleService
+	// V1TaxAssociations is the service used to invoke association related APIs.
+	V1TaxAssociations *v1TaxAssociationService
 	// V1TaxCalculations is the service used to invoke /v1/tax/calculations APIs.
 	V1TaxCalculations *v1TaxCalculationService
 	// V1TaxCodes is the service used to invoke /v1/tax_codes APIs.
@@ -432,6 +434,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1SubscriptionItems = &v1SubscriptionItemService{B: backends.API, Key: key}
 	client.V1Subscriptions = &v1SubscriptionService{B: backends.API, Key: key}
 	client.V1SubscriptionSchedules = &v1SubscriptionScheduleService{B: backends.API, Key: key}
+	client.V1TaxAssociations = &v1TaxAssociationService{B: backends.API, Key: key}
 	client.V1TaxCalculations = &v1TaxCalculationService{B: backends.API, Key: key}
 	client.V1TaxCodes = &v1TaxCodeService{B: backends.API, Key: key}
 	client.V1TaxIDs = &v1TaxIDService{B: backends.API, Key: key}
