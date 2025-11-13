@@ -46,8 +46,10 @@ type Discount struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The promotion code applied to create this discount.
-	PromotionCode *PromotionCode  `json:"promotion_code"`
-	Source        *DiscountSource `json:"source"`
+	PromotionCode *PromotionCode `json:"promotion_code"`
+	// The subscription schedule that this coupon is applied to, if it is applied to a particular subscription schedule.
+	Schedule string          `json:"schedule"`
+	Source   *DiscountSource `json:"source"`
 	// Date that the coupon was applied.
 	Start int64 `json:"start"`
 	// The subscription that this coupon is applied to, if it is applied to a particular subscription.

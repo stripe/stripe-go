@@ -56,6 +56,15 @@ const (
 	SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeSelf    SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "self"
 )
 
+// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+type SubscriptionScheduleDefaultSettingsPhaseEffectiveAt string
+
+// List of values that SubscriptionScheduleDefaultSettingsPhaseEffectiveAt can take
+const (
+	SubscriptionScheduleDefaultSettingsPhaseEffectiveAtBillingPeriodStart SubscriptionScheduleDefaultSettingsPhaseEffectiveAt = "billing_period_start"
+	SubscriptionScheduleDefaultSettingsPhaseEffectiveAtPhaseStart         SubscriptionScheduleDefaultSettingsPhaseEffectiveAt = "phase_start"
+)
+
 // Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 type SubscriptionScheduleEndBehavior string
 
@@ -205,6 +214,63 @@ const (
 	SubscriptionScheduleStatusReleased   SubscriptionScheduleStatus = "released"
 )
 
+// Controls which subscription items the billing schedule applies to.
+type SubscriptionScheduleBillingScheduleAppliesToType string
+
+// List of values that SubscriptionScheduleBillingScheduleAppliesToType can take
+const (
+	SubscriptionScheduleBillingScheduleAppliesToTypePrice SubscriptionScheduleBillingScheduleAppliesToType = "price"
+)
+
+// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+type SubscriptionScheduleBillingScheduleBillUntilDurationInterval string
+
+// List of values that SubscriptionScheduleBillingScheduleBillUntilDurationInterval can take
+const (
+	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalDay   SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "day"
+	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalMonth SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "month"
+	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalWeek  SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "week"
+	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalYear  SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "year"
+)
+
+// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+type SubscriptionScheduleBillingScheduleBillUntilType string
+
+// List of values that SubscriptionScheduleBillingScheduleBillUntilType can take
+const (
+	SubscriptionScheduleBillingScheduleBillUntilTypeAmendmentEnd    SubscriptionScheduleBillingScheduleBillUntilType = "amendment_end"
+	SubscriptionScheduleBillingScheduleBillUntilTypeDuration        SubscriptionScheduleBillingScheduleBillUntilType = "duration"
+	SubscriptionScheduleBillingScheduleBillUntilTypeLineEndsAt      SubscriptionScheduleBillingScheduleBillUntilType = "line_ends_at"
+	SubscriptionScheduleBillingScheduleBillUntilTypeScheduleEnd     SubscriptionScheduleBillingScheduleBillUntilType = "schedule_end"
+	SubscriptionScheduleBillingScheduleBillUntilTypeTimestamp       SubscriptionScheduleBillingScheduleBillUntilType = "timestamp"
+	SubscriptionScheduleBillingScheduleBillUntilTypeUpcomingInvoice SubscriptionScheduleBillingScheduleBillUntilType = "upcoming_invoice"
+)
+
+// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+type SubscriptionScheduleBillingScheduleBillFromRelativeInterval string
+
+// List of values that SubscriptionScheduleBillingScheduleBillFromRelativeInterval can take
+const (
+	SubscriptionScheduleBillingScheduleBillFromRelativeIntervalDay   SubscriptionScheduleBillingScheduleBillFromRelativeInterval = "day"
+	SubscriptionScheduleBillingScheduleBillFromRelativeIntervalMonth SubscriptionScheduleBillingScheduleBillFromRelativeInterval = "month"
+	SubscriptionScheduleBillingScheduleBillFromRelativeIntervalWeek  SubscriptionScheduleBillingScheduleBillFromRelativeInterval = "week"
+	SubscriptionScheduleBillingScheduleBillFromRelativeIntervalYear  SubscriptionScheduleBillingScheduleBillFromRelativeInterval = "year"
+)
+
+// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+type SubscriptionScheduleBillingScheduleBillFromType string
+
+// List of values that SubscriptionScheduleBillingScheduleBillFromType can take
+const (
+	SubscriptionScheduleBillingScheduleBillFromTypeAmendmentStart       SubscriptionScheduleBillingScheduleBillFromType = "amendment_start"
+	SubscriptionScheduleBillingScheduleBillFromTypeLineStartsAt         SubscriptionScheduleBillingScheduleBillFromType = "line_starts_at"
+	SubscriptionScheduleBillingScheduleBillFromTypeNow                  SubscriptionScheduleBillingScheduleBillFromType = "now"
+	SubscriptionScheduleBillingScheduleBillFromTypePauseCollectionStart SubscriptionScheduleBillingScheduleBillFromType = "pause_collection_start"
+	SubscriptionScheduleBillingScheduleBillFromTypeQuoteAcceptanceDate  SubscriptionScheduleBillingScheduleBillFromType = "quote_acceptance_date"
+	SubscriptionScheduleBillingScheduleBillFromTypeRelative             SubscriptionScheduleBillingScheduleBillFromType = "relative"
+	SubscriptionScheduleBillingScheduleBillFromTypeTimestamp            SubscriptionScheduleBillingScheduleBillFromType = "timestamp"
+)
+
 // Retrieves the list of your subscription schedules.
 type SubscriptionScheduleListParams struct {
 	ListParams `form:"*"`
@@ -300,6 +366,8 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
@@ -645,6 +713,42 @@ type SubscriptionSchedulePrebillingParams struct {
 	UpdateBehavior *string `form:"update_behavior"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionScheduleBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionScheduleBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionScheduleBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription schedule.
+type SubscriptionScheduleBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionScheduleBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionScheduleBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleParams struct {
 	Params `form:"*"`
@@ -652,6 +756,8 @@ type SubscriptionScheduleParams struct {
 	BillingBehavior *string `form:"billing_behavior"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionScheduleBillingModeParams `form:"billing_mode"`
+	// Sets the billing schedules for the subscription schedule.
+	BillingSchedules []*SubscriptionScheduleBillingScheduleParams `form:"billing_schedules"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.
@@ -1177,6 +1283,8 @@ type SubscriptionScheduleCreateDefaultSettingsParams struct {
 	InvoiceSettings *SubscriptionScheduleCreateDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
@@ -1504,6 +1612,42 @@ type SubscriptionScheduleCreatePrebillingParams struct {
 	UpdateBehavior *string `form:"update_behavior"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionScheduleCreateBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleCreateBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionScheduleCreateBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionScheduleCreateBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription schedule.
+type SubscriptionScheduleCreateBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionScheduleCreateBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionScheduleCreateBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleCreateParams struct {
 	Params `form:"*"`
@@ -1511,6 +1655,8 @@ type SubscriptionScheduleCreateParams struct {
 	BillingBehavior *string `form:"billing_behavior"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionScheduleCreateBillingModeParams `form:"billing_mode"`
+	// Sets the billing schedules for the subscription schedule.
+	BillingSchedules []*SubscriptionScheduleCreateBillingScheduleParams `form:"billing_schedules"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.
@@ -1613,6 +1759,8 @@ type SubscriptionScheduleUpdateDefaultSettingsParams struct {
 	InvoiceSettings *SubscriptionScheduleUpdateDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
@@ -1958,11 +2106,49 @@ type SubscriptionScheduleUpdatePrebillingParams struct {
 	UpdateBehavior *string `form:"update_behavior"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionScheduleUpdateBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleUpdateBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionScheduleUpdateBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionScheduleUpdateBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription schedule.
+type SubscriptionScheduleUpdateBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionScheduleUpdateBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionScheduleUpdateBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // Updates an existing subscription schedule.
 type SubscriptionScheduleUpdateParams struct {
 	Params `form:"*"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
+	// Sets the billing schedules for the subscription schedule.
+	BillingSchedules []*SubscriptionScheduleUpdateBillingScheduleParams `form:"billing_schedules"`
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleUpdateDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
@@ -2054,6 +2240,8 @@ type SubscriptionScheduleDefaultSettings struct {
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettings `json:"invoice_settings"`
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	PhaseEffectiveAt SubscriptionScheduleDefaultSettingsPhaseEffectiveAt `json:"phase_effective_at"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
@@ -2306,6 +2494,98 @@ type SubscriptionSchedulePrebilling struct {
 	UpdateBehavior SubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior"`
 }
 
+// Specifies which subscription items the billing schedule applies to.
+type SubscriptionScheduleBillingScheduleAppliesTo struct {
+	// The billing schedule will apply to the subscription item with the given price ID.
+	Price *Price `json:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type SubscriptionScheduleBillingScheduleAppliesToType `json:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleBillingScheduleBillUntilDuration struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval SubscriptionScheduleBillingScheduleBillUntilDurationInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Use an index to specify the position of an amendment to end prebilling with.
+type SubscriptionScheduleBillingScheduleBillUntilAmendmentEnd struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period ending at a particular Quote line.
+type SubscriptionScheduleBillingScheduleBillUntilLineEndsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleBillingScheduleBillUntil struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	AmendmentEnd *SubscriptionScheduleBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
+	// The timestamp the billing schedule will apply until.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Specifies the billing period.
+	Duration *SubscriptionScheduleBillingScheduleBillUntilDuration `json:"duration"`
+	// Lets you bill the period ending at a particular Quote line.
+	LineEndsAt *SubscriptionScheduleBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
+	// If specified, the billing schedule will apply until the specified timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type SubscriptionScheduleBillingScheduleBillUntilType `json:"type"`
+}
+
+// Use an index to specify the position of an amendment to start prebilling with.
+type SubscriptionScheduleBillingScheduleBillFromAmendmentStart struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Lets you bill the period starting from a particular Quote line.
+type SubscriptionScheduleBillingScheduleBillFromLineStartsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Timestamp is calculated from the request time.
+type SubscriptionScheduleBillingScheduleBillFromRelative struct {
+	// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
+	Interval SubscriptionScheduleBillingScheduleBillFromRelativeInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Specifies the start of the billing period.
+type SubscriptionScheduleBillingScheduleBillFrom struct {
+	// Use an index to specify the position of an amendment to start prebilling with.
+	AmendmentStart *SubscriptionScheduleBillingScheduleBillFromAmendmentStart `json:"amendment_start"`
+	// The time the billing schedule applies from.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Lets you bill the period starting from a particular Quote line.
+	LineStartsAt *SubscriptionScheduleBillingScheduleBillFromLineStartsAt `json:"line_starts_at"`
+	// Timestamp is calculated from the request time.
+	Relative *SubscriptionScheduleBillingScheduleBillFromRelative `json:"relative"`
+	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+	Type SubscriptionScheduleBillingScheduleBillFromType `json:"type"`
+}
+
+// Billing schedules for this subscription schedule.
+type SubscriptionScheduleBillingSchedule struct {
+	// Specifies which subscription items the billing schedule applies to.
+	AppliesTo []*SubscriptionScheduleBillingScheduleAppliesTo `json:"applies_to"`
+	// Specifies the start of the billing period.
+	BillFrom *SubscriptionScheduleBillingScheduleBillFrom `json:"bill_from"`
+	// Specifies the billing period.
+	BillUntil *SubscriptionScheduleBillingScheduleBillUntil `json:"bill_until"`
+	// Unique identifier for the billing schedule.
+	Key string `json:"key"`
+}
+
 // A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
 //
 // Related guide: [Subscription schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules)
@@ -2317,6 +2597,8 @@ type SubscriptionSchedule struct {
 	BillingBehavior SubscriptionScheduleBillingBehavior `json:"billing_behavior"`
 	// The billing mode of the subscription.
 	BillingMode *SubscriptionScheduleBillingMode `json:"billing_mode"`
+	// Billing schedules for this subscription schedule.
+	BillingSchedules []*SubscriptionScheduleBillingSchedule `json:"billing_schedules"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.
@@ -2336,6 +2618,8 @@ type SubscriptionSchedule struct {
 	ID string `json:"id"`
 	// Details of the most recent price migration that failed for the subscription schedule.
 	LastPriceMigrationError *SubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error"`
+	// The most recent invoice this subscription schedule has generated.
+	LatestInvoice *Invoice `json:"latest_invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

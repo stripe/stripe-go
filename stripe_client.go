@@ -156,6 +156,8 @@ type Client struct {
 	V1IssuingPersonalizationDesigns *v1IssuingPersonalizationDesignService
 	// V1IssuingPhysicalBundles is the service used to invoke /v1/issuing/physical_bundles APIs.
 	V1IssuingPhysicalBundles *v1IssuingPhysicalBundleService
+	// V1IssuingPrograms is the service used to invoke /v1/issuing/programs APIs.
+	V1IssuingPrograms *v1IssuingProgramService
 	// V1IssuingTokens is the service used to invoke /v1/issuing/tokens APIs.
 	V1IssuingTokens *v1IssuingTokenService
 	// V1IssuingTransactions is the service used to invoke /v1/issuing/transactions APIs.
@@ -557,6 +559,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1IssuingFraudLiabilityDebits = &v1IssuingFraudLiabilityDebitService{B: backends.API, Key: key}
 	client.V1IssuingPersonalizationDesigns = &v1IssuingPersonalizationDesignService{B: backends.API, Key: key}
 	client.V1IssuingPhysicalBundles = &v1IssuingPhysicalBundleService{B: backends.API, Key: key}
+	client.V1IssuingPrograms = &v1IssuingProgramService{B: backends.API, Key: key}
 	client.V1IssuingTokens = &v1IssuingTokenService{B: backends.API, Key: key}
 	client.V1IssuingTransactions = &v1IssuingTransactionService{B: backends.API, Key: key}
 	client.V1LoginLinks = &v1LoginLinkService{B: backends.API, Key: key}
