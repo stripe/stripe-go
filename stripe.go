@@ -781,10 +781,7 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	// Some sort of connection error
 	if err != nil {
 		s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		if res != nil {
-			return res.Body, err
-		}
-		return io.NopCloser(&bytes.Buffer{}), nil
+		return nil, err
 	}
 
 	// Successful response, return the body ReadCloser
