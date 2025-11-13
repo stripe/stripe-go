@@ -1,5 +1,29 @@
 # Changelog
 
+## 83.3.0-alpha.2 - 2025-11-13
+This release changes the pinned API version to `2025-10-29.preview`.
+
+* [#2213](https://github.com/stripe/stripe-go/pull/2213) Update generated code for private-preview
+  * Add support for new resource `IssuingProgram`
+  * Add support for `Get`, `List`, `New`, and `Update` methods on resource `IssuingProgram`
+  * Add support for `Schedule` on `Discount`
+  * Add support for `ApplicableFees` on `DelegatedCheckoutRequestedSessionTotalDetails`
+  * Add support for `ScheduleDetails` on `InvoiceItemParent`, `InvoiceLineItemParent`, `InvoiceParent`, and `QuotePreviewInvoiceParent`
+  * Add support for new value `schedule_details` on enum `InvoiceItemParent.Type`
+  * Add support for `BillingSchedules` on `InvoiceCreatePreviewScheduleDetailsParams`, `QuotePreviewSubscriptionSchedule`, `SubscriptionScheduleParams`, and `SubscriptionSchedule`
+  * Add support for new value `schedule_details` on enums `InvoiceParent.Type` and `QuotePreviewInvoiceParent.Type`
+  * Add support for new value `schedule_details` on enum `InvoiceLineItemParent.Type`
+  * Add support for `LatestInvoice` on `QuotePreviewSubscriptionSchedule` and `SubscriptionSchedule`
+  * Add support for `PhaseEffectiveAt` on `QuotePreviewSubscriptionScheduleDefaultSettings`, `SubscriptionScheduleDefaultSettingsParams`, and `SubscriptionScheduleDefaultSettings`
+* [#2204](https://github.com/stripe/stripe-go/pull/2204) Update generated code for private-preview
+  * Remove support for resource `V2TaxAutomaticRule`
+  * Remove support for `Deactivate`, `Find`, `Get`, `New`, and `Update` methods on resource `V2TaxAutomaticRule`
+  * Add support for `SelfReportedIncome` and `SelfReportedMonthlyHousingPayment` on `AccountIndividualParams`, `AccountPersonParams`, `Person`, `TokenAccountIndividualParams`, and `TokenPersonParams`
+  * Add support for `BillingSchedules` and `PhaseEffectiveAt` on `QuoteSubscriptionDataOverrideParams`, `QuoteSubscriptionDataOverridesParams`, `QuoteSubscriptionDataOverrides`, `QuoteSubscriptionDataParams`, and `QuoteSubscriptionData`
+  * Add support for `BillFrom` on `SubscriptionBillingSchedule`
+  * Add support for `AmendmentEnd` and `LineEndsAt` on `SubscriptionBillingScheduleBillUntil`
+  * Add support for new values `amendment_end`, `line_ends_at`, `schedule_end`, and `upcoming_invoice` on enum `SubscriptionBillingScheduleBillUntil.Type`
+
 ## 83.3.0-alpha.1 - 2025-11-06
 * [#2200](https://github.com/stripe/stripe-go/pull/2200) Update generated code for private-preview
   * Add support for new resources `TransitBalance`, `V2ReportingReportRun`, `V2ReportingReport`
