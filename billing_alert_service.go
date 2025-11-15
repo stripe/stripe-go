@@ -79,12 +79,12 @@ func (c v1BillingAlertService) Deactivate(ctx context.Context, id string, params
 }
 
 // Lists billing active and inactive alerts
-func (c v1BillingAlertService) List(ctx context.Context, listParams *BillingAlertListParams) Seq2[*BillingAlert, error] {
+func (c v1BillingAlertService) List(ctx context.Context, listParams *BillingAlertListParams) *V1List[*BillingAlert] {
 	if listParams == nil {
 		listParams = &BillingAlertListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingAlert], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*BillingAlert], error) {
 		list := &v1Page[*BillingAlert]{}
 		if p == nil {
 			p = &Params{}
@@ -92,5 +92,5 @@ func (c v1BillingAlertService) List(ctx context.Context, listParams *BillingAler
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/alerts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

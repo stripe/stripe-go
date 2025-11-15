@@ -112,12 +112,12 @@ func (c v1IdentityVerificationSessionService) Redact(ctx context.Context, id str
 }
 
 // Returns a list of VerificationSessions
-func (c v1IdentityVerificationSessionService) List(ctx context.Context, listParams *IdentityVerificationSessionListParams) Seq2[*IdentityVerificationSession, error] {
+func (c v1IdentityVerificationSessionService) List(ctx context.Context, listParams *IdentityVerificationSessionListParams) *V1List[*IdentityVerificationSession] {
 	if listParams == nil {
 		listParams = &IdentityVerificationSessionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IdentityVerificationSession], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IdentityVerificationSession], error) {
 		list := &v1Page[*IdentityVerificationSession]{}
 		if p == nil {
 			p = &Params{}
@@ -125,5 +125,5 @@ func (c v1IdentityVerificationSessionService) List(ctx context.Context, listPara
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/identity/verification_sessions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

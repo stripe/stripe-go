@@ -68,12 +68,12 @@ func (c v1IssuingDisputeService) Submit(ctx context.Context, id string, params *
 }
 
 // Returns a list of Issuing Dispute objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1IssuingDisputeService) List(ctx context.Context, listParams *IssuingDisputeListParams) Seq2[*IssuingDispute, error] {
+func (c v1IssuingDisputeService) List(ctx context.Context, listParams *IssuingDisputeListParams) *V1List[*IssuingDispute] {
 	if listParams == nil {
 		listParams = &IssuingDisputeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingDispute], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IssuingDispute], error) {
 		list := &v1Page[*IssuingDispute]{}
 		if p == nil {
 			p = &Params{}
@@ -81,5 +81,5 @@ func (c v1IssuingDisputeService) List(ctx context.Context, listParams *IssuingDi
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/disputes", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -56,12 +56,12 @@ func (c v1ShippingRateService) Update(ctx context.Context, id string, params *Sh
 }
 
 // Returns a list of your shipping rates.
-func (c v1ShippingRateService) List(ctx context.Context, listParams *ShippingRateListParams) Seq2[*ShippingRate, error] {
+func (c v1ShippingRateService) List(ctx context.Context, listParams *ShippingRateListParams) *V1List[*ShippingRate] {
 	if listParams == nil {
 		listParams = &ShippingRateListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ShippingRate], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ShippingRate], error) {
 		list := &v1Page[*ShippingRate]{}
 		if p == nil {
 			p = &Params{}
@@ -69,5 +69,5 @@ func (c v1ShippingRateService) List(ctx context.Context, listParams *ShippingRat
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/shipping_rates", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

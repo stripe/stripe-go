@@ -20,12 +20,12 @@ type v1SetupAttemptService struct {
 }
 
 // Returns a list of SetupAttempts that associate with a provided SetupIntent.
-func (c v1SetupAttemptService) List(ctx context.Context, listParams *SetupAttemptListParams) Seq2[*SetupAttempt, error] {
+func (c v1SetupAttemptService) List(ctx context.Context, listParams *SetupAttemptListParams) *V1List[*SetupAttempt] {
 	if listParams == nil {
 		listParams = &SetupAttemptListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SetupAttempt], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*SetupAttempt], error) {
 		list := &v1Page[*SetupAttempt]{}
 		if p == nil {
 			p = &Params{}
@@ -33,5 +33,5 @@ func (c v1SetupAttemptService) List(ctx context.Context, listParams *SetupAttemp
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/setup_attempts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

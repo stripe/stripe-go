@@ -32,12 +32,12 @@ func (c v1TreasuryTransactionService) Retrieve(ctx context.Context, id string, p
 }
 
 // Retrieves a list of Transaction objects.
-func (c v1TreasuryTransactionService) List(ctx context.Context, listParams *TreasuryTransactionListParams) Seq2[*TreasuryTransaction, error] {
+func (c v1TreasuryTransactionService) List(ctx context.Context, listParams *TreasuryTransactionListParams) *V1List[*TreasuryTransaction] {
 	if listParams == nil {
 		listParams = &TreasuryTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryTransaction], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TreasuryTransaction], error) {
 		list := &v1Page[*TreasuryTransaction]{}
 		if p == nil {
 			p = &Params{}
@@ -45,5 +45,5 @@ func (c v1TreasuryTransactionService) List(ctx context.Context, listParams *Trea
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/transactions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

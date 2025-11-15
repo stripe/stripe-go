@@ -93,12 +93,12 @@ func (c v1TreasuryFinancialAccountService) UpdateFeatures(ctx context.Context, i
 }
 
 // Returns a list of FinancialAccounts.
-func (c v1TreasuryFinancialAccountService) List(ctx context.Context, listParams *TreasuryFinancialAccountListParams) Seq2[*TreasuryFinancialAccount, error] {
+func (c v1TreasuryFinancialAccountService) List(ctx context.Context, listParams *TreasuryFinancialAccountListParams) *V1List[*TreasuryFinancialAccount] {
 	if listParams == nil {
 		listParams = &TreasuryFinancialAccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryFinancialAccount], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TreasuryFinancialAccount], error) {
 		list := &v1Page[*TreasuryFinancialAccount]{}
 		if p == nil {
 			p = &Params{}
@@ -106,5 +106,5 @@ func (c v1TreasuryFinancialAccountService) List(ctx context.Context, listParams 
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/financial_accounts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

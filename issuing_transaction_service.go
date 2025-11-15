@@ -44,12 +44,12 @@ func (c v1IssuingTransactionService) Update(ctx context.Context, id string, para
 }
 
 // Returns a list of Issuing Transaction objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1IssuingTransactionService) List(ctx context.Context, listParams *IssuingTransactionListParams) Seq2[*IssuingTransaction, error] {
+func (c v1IssuingTransactionService) List(ctx context.Context, listParams *IssuingTransactionListParams) *V1List[*IssuingTransaction] {
 	if listParams == nil {
 		listParams = &IssuingTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingTransaction], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IssuingTransaction], error) {
 		list := &v1Page[*IssuingTransaction]{}
 		if p == nil {
 			p = &Params{}
@@ -57,5 +57,5 @@ func (c v1IssuingTransactionService) List(ctx context.Context, listParams *Issui
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/transactions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -104,12 +104,12 @@ func (c v1QuoteService) PDF(ctx context.Context, id string, params *QuotePDFPara
 }
 
 // Returns a list of your quotes.
-func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) Seq2[*Quote, error] {
+func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) *V1List[*Quote] {
 	if listParams == nil {
 		listParams = &QuoteListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Quote], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Quote], error) {
 		list := &v1Page[*Quote]{}
 		if p == nil {
 			p = &Params{}
@@ -117,18 +117,18 @@ func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/quotes", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
-func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listParams *QuoteListComputedUpfrontLineItemsParams) Seq2[*LineItem, error] {
+func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listParams *QuoteListComputedUpfrontLineItemsParams) *V1List[*LineItem] {
 	if listParams == nil {
 		listParams = &QuoteListComputedUpfrontLineItemsParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/quotes/%s/computed_upfront_line_items", StringValue(listParams.Quote))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*LineItem], error) {
 		list := &v1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}
@@ -136,18 +136,18 @@ func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listPa
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteListLineItemsParams) Seq2[*LineItem, error] {
+func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteListLineItemsParams) *V1List[*LineItem] {
 	if listParams == nil {
 		listParams = &QuoteListLineItemsParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/quotes/%s/line_items", StringValue(listParams.Quote))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*LineItem], error) {
 		list := &v1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}
@@ -155,5 +155,5 @@ func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteList
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

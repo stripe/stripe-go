@@ -108,7 +108,7 @@ func (c v1CardService) Delete(ctx context.Context, id string, params *CardDelete
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, card)
 	return card, err
 }
-func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq2[*Card, error] {
+func (c v1CardService) List(ctx context.Context, listParams *CardListParams) *V1List[*Card] {
 	var path string
 	var outerErr error
 
@@ -128,7 +128,7 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 			StringValue(listParams.Customer))
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Card], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Card], error) {
 		list := &v1Page[*Card]{}
 
 		if outerErr != nil {
@@ -141,5 +141,5 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

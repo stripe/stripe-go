@@ -68,12 +68,12 @@ func (c v1TerminalConfigurationService) Delete(ctx context.Context, id string, p
 }
 
 // Returns a list of Configuration objects.
-func (c v1TerminalConfigurationService) List(ctx context.Context, listParams *TerminalConfigurationListParams) Seq2[*TerminalConfiguration, error] {
+func (c v1TerminalConfigurationService) List(ctx context.Context, listParams *TerminalConfigurationListParams) *V1List[*TerminalConfiguration] {
 	if listParams == nil {
 		listParams = &TerminalConfigurationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TerminalConfiguration], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TerminalConfiguration], error) {
 		list := &v1Page[*TerminalConfiguration]{}
 		if p == nil {
 			p = &Params{}
@@ -81,5 +81,5 @@ func (c v1TerminalConfigurationService) List(ctx context.Context, listParams *Te
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/configurations", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

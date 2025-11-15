@@ -44,12 +44,12 @@ func (c v1ReportingReportRunService) Retrieve(ctx context.Context, id string, pa
 }
 
 // Returns a list of Report Runs, with the most recent appearing first.
-func (c v1ReportingReportRunService) List(ctx context.Context, listParams *ReportingReportRunListParams) Seq2[*ReportingReportRun, error] {
+func (c v1ReportingReportRunService) List(ctx context.Context, listParams *ReportingReportRunListParams) *V1List[*ReportingReportRun] {
 	if listParams == nil {
 		listParams = &ReportingReportRunListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ReportingReportRun], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ReportingReportRun], error) {
 		list := &v1Page[*ReportingReportRun]{}
 		if p == nil {
 			p = &Params{}
@@ -57,5 +57,5 @@ func (c v1ReportingReportRunService) List(ctx context.Context, listParams *Repor
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_runs", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
