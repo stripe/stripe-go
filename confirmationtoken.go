@@ -204,7 +204,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewFPXBankUob               ConfirmationTokenPaymentMethodPreviewFPXBank = "uob"
 )
 
-// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type ConfirmationTokenPaymentMethodPreviewIDEALBank string
 
 // List of values that ConfirmationTokenPaymentMethodPreviewIDEALBank can take
@@ -213,6 +213,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBankAsnBank       ConfirmationTokenPaymentMethodPreviewIDEALBank = "asn_bank"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankBunq          ConfirmationTokenPaymentMethodPreviewIDEALBank = "bunq"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankBuut          ConfirmationTokenPaymentMethodPreviewIDEALBank = "buut"
+	ConfirmationTokenPaymentMethodPreviewIDEALBankFinom         ConfirmationTokenPaymentMethodPreviewIDEALBank = "finom"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankHandelsbanken ConfirmationTokenPaymentMethodPreviewIDEALBank = "handelsbanken"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankIng           ConfirmationTokenPaymentMethodPreviewIDEALBank = "ing"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankKnab          ConfirmationTokenPaymentMethodPreviewIDEALBank = "knab"
@@ -238,6 +239,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBITSNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BITSNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBUNQNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BUNQNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBUUTNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BUUTNL2A"
+	ConfirmationTokenPaymentMethodPreviewIDEALBICFNOMNL22 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "FNOMNL22"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICFVLBNL22 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "FVLBNL22"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICHANDNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "HANDNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICINGBNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "INGBNL2A"
@@ -446,12 +448,13 @@ type ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReaso
 
 // List of values that ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason can take
 const (
-	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountClosed         ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_closed"
-	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountFrozen         ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_frozen"
-	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountInvalidDetails ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_invalid_details"
-	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountRestricted     ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_restricted"
-	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountUnusable       ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_unusable"
-	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized        ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
+	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountClosed                 ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_closed"
+	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountFrozen                 ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_frozen"
+	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountInvalidDetails         ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_invalid_details"
+	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountRestricted             ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_restricted"
+	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonBankAccountUnusable               ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "bank_account_unusable"
+	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized                ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
+	ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReasonTokenizedAccountNumberDeactivated ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetailsBlockedReason = "tokenized_account_number_deactivated"
 )
 
 // Indicates that you intend to make future payments with this ConfirmationToken's payment method.
@@ -874,7 +877,7 @@ type ConfirmationTokenPaymentMethodPreviewFPX struct {
 type ConfirmationTokenPaymentMethodPreviewGiropay struct{}
 type ConfirmationTokenPaymentMethodPreviewGrabpay struct{}
 type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
-	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank ConfirmationTokenPaymentMethodPreviewIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
 	BIC ConfirmationTokenPaymentMethodPreviewIDEALBIC `json:"bic"`

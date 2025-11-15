@@ -1394,6 +1394,24 @@ type PaymentIntentAutomaticPaymentMethodsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Tax arguments for automations
+type PaymentIntentHooksInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentHooksInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentHooksInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentHooksParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentHooksInputsParams `form:"inputs"`
+}
+
 // If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
 type PaymentIntentMandateDataCustomerAcceptanceOfflineParams struct{}
 
@@ -2829,6 +2847,8 @@ type PaymentIntentParams struct {
 	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentHooksParams `form:"hooks"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -3071,6 +3091,24 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 	Tax *PaymentIntentCaptureAmountDetailsTaxParams `form:"tax"`
 }
 
+// Tax arguments for automations
+type PaymentIntentCaptureHooksInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentCaptureHooksInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentCaptureHooksInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentCaptureHooksParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentCaptureHooksInputsParams `form:"inputs"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentCapturePaymentDetailsParams struct {
 	// A unique value to identify the customer. This field is available only for card payments.
@@ -3102,6 +3140,8 @@ type PaymentIntentCaptureParams struct {
 	Expand []*string `form:"expand"`
 	// Defaults to `true`. When capturing a PaymentIntent, setting `final_capture` to `false` notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when [multicapture](https://stripe.com/docs/payments/multicapture) is available for PaymentIntents.
 	FinalCapture *bool `form:"final_capture"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentCaptureHooksParams `form:"hooks"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
@@ -3241,6 +3281,24 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 	Tax *PaymentIntentConfirmAmountDetailsTaxParams `form:"tax"`
 }
 
+// Tax arguments for automations
+type PaymentIntentConfirmHooksInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentConfirmHooksInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentConfirmHooksInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentConfirmHooksParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentConfirmHooksInputsParams `form:"inputs"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentConfirmPaymentDetailsParams struct {
 	// A unique value to identify the customer. This field is available only for card payments.
@@ -3307,6 +3365,8 @@ type PaymentIntentConfirmParams struct {
 	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentConfirmHooksParams `form:"hooks"`
 	// ID of the mandate that's used for this payment.
 	Mandate     *string                         `form:"mandate"`
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
@@ -3464,6 +3524,24 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	Tax *PaymentIntentIncrementAuthorizationAmountDetailsTaxParams `form:"tax"`
 }
 
+// Tax arguments for automations
+type PaymentIntentIncrementAuthorizationHooksInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentIncrementAuthorizationHooksInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentIncrementAuthorizationHooksInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentIncrementAuthorizationHooksParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentIncrementAuthorizationHooksInputsParams `form:"inputs"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentIncrementAuthorizationPaymentDetailsParams struct {
 	// A unique value to identify the customer. This field is available only for card payments.
@@ -3521,6 +3599,8 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentIncrementAuthorizationHooksParams `form:"hooks"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
@@ -3680,6 +3760,24 @@ type PaymentIntentCreateAutomaticPaymentMethodsParams struct {
 	AllowRedirects *string `form:"allow_redirects"`
 	// Whether this feature is enabled.
 	Enabled *bool `form:"enabled"`
+}
+
+// Tax arguments for automations
+type PaymentIntentCreateHooksInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentCreateHooksInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentCreateHooksInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentCreateHooksParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentCreateHooksInputsParams `form:"inputs"`
 }
 
 // If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
@@ -5117,6 +5215,8 @@ type PaymentIntentCreateParams struct {
 	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentCreateHooksParams `form:"hooks"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -5316,6 +5416,24 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 	Shipping *PaymentIntentUpdateAmountDetailsShippingParams `form:"shipping"`
 	// Contains information about the tax portion of the amount.
 	Tax *PaymentIntentUpdateAmountDetailsTaxParams `form:"tax"`
+}
+
+// Tax arguments for automations
+type PaymentIntentUpdateHooksInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentUpdateHooksInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentUpdateHooksInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentUpdateHooksParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentUpdateHooksInputsParams `form:"inputs"`
 }
 
 // Provides industry-specific information about the charge.
@@ -6691,6 +6809,8 @@ type PaymentIntentUpdateParams struct {
 	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentUpdateHooksParams `form:"hooks"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
@@ -6785,6 +6905,16 @@ type PaymentIntentAutomaticPaymentMethods struct {
 	AllowRedirects PaymentIntentAutomaticPaymentMethodsAllowRedirects `json:"allow_redirects"`
 	// Automatically calculates compatible payment methods
 	Enabled bool `json:"enabled"`
+}
+type PaymentIntentHooksInputsTax struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation string `json:"calculation"`
+}
+type PaymentIntentHooksInputs struct {
+	Tax *PaymentIntentHooksInputsTax `json:"tax"`
+}
+type PaymentIntentHooks struct {
+	Inputs *PaymentIntentHooksInputs `json:"inputs"`
 }
 type PaymentIntentNextActionAlipayHandleRedirect struct {
 	// The native data to be used with Alipay SDK you must redirect your customer to in order to authenticate the payment in an Android App.
@@ -7979,6 +8109,7 @@ type PaymentIntent struct {
 	Description string `json:"description"`
 	// The list of payment method types to exclude from use with this payment.
 	ExcludedPaymentMethodTypes []PaymentIntentExcludedPaymentMethodType `json:"excluded_payment_method_types"`
+	Hooks                      *PaymentIntentHooks                      `json:"hooks"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
