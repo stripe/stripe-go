@@ -60,9 +60,9 @@ const (
 )
 
 // An advanced option 3D Secure. We strongly recommend that you rely on our SCA Engine to automatically prompt your customers
-// for authentication based on risk level and [other requirements](https://docs.corp.stripe.com/strong-customer-authentication).
+// for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
 // However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option.
-// Read our guide on [manually requesting 3D Secure](https://docs.corp.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type V2BillingCollectionSettingPaymentMethodOptionsCardRequestThreeDSecure string
 
 // List of values that V2BillingCollectionSettingPaymentMethodOptionsCardRequestThreeDSecure can take
@@ -196,9 +196,9 @@ type V2BillingCollectionSettingPaymentMethodOptionsCard struct {
 	// Selected network to process the payment on. Depends on the available networks of the card.
 	Network string `json:"network,omitempty"`
 	// An advanced option 3D Secure. We strongly recommend that you rely on our SCA Engine to automatically prompt your customers
-	// for authentication based on risk level and [other requirements](https://docs.corp.stripe.com/strong-customer-authentication).
+	// for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
 	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option.
-	// Read our guide on [manually requesting 3D Secure](https://docs.corp.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure V2BillingCollectionSettingPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure,omitempty"`
 }
 
@@ -223,12 +223,6 @@ type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalance struct {
 	// The funding method type to be used when there are not enough funds in the customer balance. Currently the only supported value is `bank_transfer`.
 	FundingType V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type,omitempty"`
 }
-
-// This sub-hash contains details about the Konbini payment method options.
-type V2BillingCollectionSettingPaymentMethodOptionsKonbini struct{}
-
-// This sub-hash contains details about the SEPA Direct Debit payment method options.
-type V2BillingCollectionSettingPaymentMethodOptionsSEPADebit struct{}
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
@@ -265,9 +259,9 @@ type V2BillingCollectionSettingPaymentMethodOptions struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalance `json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini *V2BillingCollectionSettingPaymentMethodOptionsKonbini `json:"konbini,omitempty"`
+	Konbini map[string]any `json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit *V2BillingCollectionSettingPaymentMethodOptionsSEPADebit `json:"sepa_debit,omitempty"`
+	SEPADebit map[string]any `json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccount `json:"us_bank_account,omitempty"`
 }

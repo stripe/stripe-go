@@ -45,7 +45,7 @@ type V2CoreEventDestinationParams struct {
 	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
 	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 	// Metadata.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Event destination name.
 	Name *string `form:"name" json:"name,omitempty"`
 	// If using the snapshot event payload, the API version events are rendered as.
@@ -59,10 +59,10 @@ type V2CoreEventDestinationParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreEventDestinationParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Disable an event destination.
@@ -158,7 +158,7 @@ type V2CoreEventDestinationUpdateParams struct {
 	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
 	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 	// Metadata.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Event destination name.
 	Name *string `form:"name" json:"name,omitempty"`
 	// Webhook endpoint configuration.
@@ -168,8 +168,8 @@ type V2CoreEventDestinationUpdateParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreEventDestinationUpdateParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }

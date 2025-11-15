@@ -31,6 +31,10 @@ const (
 type CustomerBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
+	// Only return customer balance transactions that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return customer balance transactions that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }

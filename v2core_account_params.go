@@ -25,7 +25,7 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxParams struct {
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
-	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to `identity_address`. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions. This behavior is now deprecated for new users.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
 	// A per-request flag that indicates when Stripe should validate the customer tax location - defaults to 'auto'.
 	ValidateLocation *string `form:"validate_location" json:"validate_location,omitempty"`
@@ -69,7 +69,7 @@ type V2CoreAccountConfigurationCustomerBillingParams struct {
 	Invoice *V2CoreAccountConfigurationCustomerBillingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
-// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions. Uses the `location_source` field.
+// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 type V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -77,7 +77,7 @@ type V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxParams st
 
 // Capabilities that have been requested on the Customer Configuration.
 type V2CoreAccountConfigurationCustomerCapabilitiesParams struct {
-	// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions. Uses the `location_source` field.
+	// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 	AutomaticIndirectTax *V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
 }
 
@@ -495,6 +495,54 @@ type V2CoreAccountConfigurationMerchantCardPaymentsParams struct {
 	DeclineOn *V2CoreAccountConfigurationMerchantCardPaymentsDeclineOnParams `form:"decline_on" json:"decline_on,omitempty"`
 }
 
+// Support hours for Konbini payments.
+type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportHoursParams struct {
+	// Support hours end time (JST time of day) for in `HH:MM` format.
+	EndTime *string `form:"end_time" json:"end_time,omitempty"`
+	// Support hours start time (JST time of day) for in `HH:MM` format.
+	StartTime *string `form:"start_time" json:"start_time,omitempty"`
+}
+
+// Support for Konbini payments.
+type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportParams struct {
+	// Support email address for Konbini payments.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Support hours for Konbini payments.
+	Hours *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportHoursParams `form:"hours" json:"hours,omitempty"`
+	// Support phone number for Konbini payments.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Settings specific to Konbini payments on the account.
+type V2CoreAccountConfigurationMerchantKonbiniPaymentsParams struct {
+	// Support for Konbini payments.
+	Support *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanaParams struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor *string `form:"descriptor" json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix *string `form:"prefix" json:"prefix,omitempty"`
+}
+
+// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanjiParams struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor *string `form:"descriptor" json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix *string `form:"prefix" json:"prefix,omitempty"`
+}
+
+// Settings for the default text that appears on statements for language variations.
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams struct {
+	// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kana *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanaParams `form:"kana" json:"kana,omitempty"`
+	// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kanji *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
+}
+
 // Statement descriptor.
 type V2CoreAccountConfigurationMerchantStatementDescriptorParams struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -545,8 +593,12 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	Capabilities *V2CoreAccountConfigurationMerchantCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Card payments settings.
 	CardPayments *V2CoreAccountConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
+	// Settings specific to Konbini payments on the account.
+	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The merchant category code for the Merchant Configuration. MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for the default text that appears on statements for language variations.
+	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Statement descriptor.
 	StatementDescriptor *V2CoreAccountConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
@@ -607,7 +659,7 @@ type V2CoreAccountConfigurationRecipientParams struct {
 	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to be requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination. For further details about creating an Outbound Destination, see [Collect recipient's payment details](https://docs.corp.stripe.com/global-payouts-private-preview/quickstart?dashboard-or-api=api#collect-bank-account-details).
+	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination. For further details about creating an Outbound Destination, see [Collect recipient's payment details](https://docs.stripe.com/global-payouts-private-preview/quickstart?dashboard-or-api=api#collect-bank-account-details).
 	DefaultOutboundDestination *string `form:"default_outbound_destination" json:"default_outbound_destination,omitempty"`
 }
 
@@ -621,6 +673,12 @@ type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsP
 type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesParams struct {
 	// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Can hold storage-type funds on Stripe in EUR.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
 // Can hold storage-type funds on Stripe in GBP.
@@ -637,6 +695,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams struct
 
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
+	// Can hold storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURParams `form:"eur" json:"eur,omitempty"`
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.
@@ -1338,7 +1398,7 @@ type V2CoreAccountIdentityIndividualParams struct {
 	// The individual's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
 	// The individual's phone number.
@@ -1358,10 +1418,10 @@ type V2CoreAccountIdentityIndividualParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountIdentityIndividualParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Information about the company, individual, and business represented by the Account.
@@ -1381,6 +1441,8 @@ type V2CoreAccountIdentityParams struct {
 // An Account is a representation of a company, individual or other entity that a user interacts with. Accounts contain identifying information about the entity, and configurations that store the features an account has access to. An account can be configured as any or all of the following configurations: Customer, Merchant and/or Recipient.
 type V2CoreAccountParams struct {
 	Params `form:"*"`
+	// The account token generated by the account token api.
+	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountConfigurationParams `form:"configuration" json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
@@ -1396,16 +1458,16 @@ type V2CoreAccountParams struct {
 	// Additional fields to include in the response.
 	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Details on the Account's acceptance of Crypto-storer-specific terms of service.
@@ -1431,7 +1493,7 @@ type V2CoreAccountCreateConfigurationCustomerAutomaticIndirectTaxParams struct {
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
-	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to `identity_address`. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions. This behavior is now deprecated for new users.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
 }
 
@@ -1471,7 +1533,7 @@ type V2CoreAccountCreateConfigurationCustomerBillingParams struct {
 	Invoice *V2CoreAccountCreateConfigurationCustomerBillingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
-// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions. Uses the `location_source` field.
+// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 type V2CoreAccountCreateConfigurationCustomerCapabilitiesAutomaticIndirectTaxParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1479,7 +1541,7 @@ type V2CoreAccountCreateConfigurationCustomerCapabilitiesAutomaticIndirectTaxPar
 
 // Capabilities that have been requested on the Customer Configuration.
 type V2CoreAccountCreateConfigurationCustomerCapabilitiesParams struct {
-	// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions. Uses the `location_source` field.
+	// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 	AutomaticIndirectTax *V2CoreAccountCreateConfigurationCustomerCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
 }
 
@@ -1895,6 +1957,54 @@ type V2CoreAccountCreateConfigurationMerchantCardPaymentsParams struct {
 	DeclineOn *V2CoreAccountCreateConfigurationMerchantCardPaymentsDeclineOnParams `form:"decline_on" json:"decline_on,omitempty"`
 }
 
+// Support hours for Konbini payments.
+type V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportHoursParams struct {
+	// Support hours end time (JST time of day) for in `HH:MM` format.
+	EndTime *string `form:"end_time" json:"end_time,omitempty"`
+	// Support hours start time (JST time of day) for in `HH:MM` format.
+	StartTime *string `form:"start_time" json:"start_time,omitempty"`
+}
+
+// Support for Konbini payments.
+type V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportParams struct {
+	// Support email address for Konbini payments.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Support hours for Konbini payments.
+	Hours *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportHoursParams `form:"hours" json:"hours,omitempty"`
+	// Support phone number for Konbini payments.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Settings specific to Konbini payments on the account.
+type V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsParams struct {
+	// Support for Konbini payments.
+	Support *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorKanaParams struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor *string `form:"descriptor" json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix *string `form:"prefix" json:"prefix,omitempty"`
+}
+
+// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorKanjiParams struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor *string `form:"descriptor" json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix *string `form:"prefix" json:"prefix,omitempty"`
+}
+
+// Settings for the default text that appears on statements for language variations.
+type V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams struct {
+	// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kana *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorKanaParams `form:"kana" json:"kana,omitempty"`
+	// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kanji *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
+}
+
 // Statement descriptor.
 type V2CoreAccountCreateConfigurationMerchantStatementDescriptorParams struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -1943,8 +2053,12 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	Capabilities *V2CoreAccountCreateConfigurationMerchantCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Card payments settings.
 	CardPayments *V2CoreAccountCreateConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
+	// Settings specific to Konbini payments on the account.
+	KonbiniPayments *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The merchant category code for the Merchant Configuration. MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for the default text that appears on statements for language variations.
+	ScriptStatementDescriptor *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Statement descriptor.
 	StatementDescriptor *V2CoreAccountCreateConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
@@ -2017,6 +2131,12 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesParams 
 	BankAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 }
 
+// Can hold storage-type funds on Stripe in EUR.
+type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can hold storage-type funds on Stripe in GBP.
 type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -2031,6 +2151,8 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams 
 
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
+	// Can hold storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesEURParams `form:"eur" json:"eur,omitempty"`
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.
@@ -2771,6 +2893,8 @@ type V2CoreAccountCreateIdentityParams struct {
 // An Account is a representation of a company, individual or other entity that a user interacts with. Accounts contain identifying information about the entity, and configurations that store the features an account has access to. An account can be configured as any or all of the following configurations: Customer, Merchant and/or Recipient.
 type V2CoreAccountCreateParams struct {
 	Params `form:"*"`
+	// The account token generated by the account token api.
+	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountCreateConfigurationParams `form:"configuration" json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
@@ -2811,7 +2935,7 @@ type V2CoreAccountUpdateConfigurationCustomerAutomaticIndirectTaxParams struct {
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
-	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to `identity_address`. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions. This behavior is now deprecated for new users.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
 	// A per-request flag that indicates when Stripe should validate the customer tax location - defaults to 'auto'.
 	ValidateLocation *string `form:"validate_location" json:"validate_location,omitempty"`
@@ -2855,7 +2979,7 @@ type V2CoreAccountUpdateConfigurationCustomerBillingParams struct {
 	Invoice *V2CoreAccountUpdateConfigurationCustomerBillingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
-// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions. Uses the `location_source` field.
+// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 type V2CoreAccountUpdateConfigurationCustomerCapabilitiesAutomaticIndirectTaxParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -2863,7 +2987,7 @@ type V2CoreAccountUpdateConfigurationCustomerCapabilitiesAutomaticIndirectTaxPar
 
 // Capabilities that have been requested on the Customer Configuration.
 type V2CoreAccountUpdateConfigurationCustomerCapabilitiesParams struct {
-	// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions. Uses the `location_source` field.
+	// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 	AutomaticIndirectTax *V2CoreAccountUpdateConfigurationCustomerCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
 }
 
@@ -3281,6 +3405,54 @@ type V2CoreAccountUpdateConfigurationMerchantCardPaymentsParams struct {
 	DeclineOn *V2CoreAccountUpdateConfigurationMerchantCardPaymentsDeclineOnParams `form:"decline_on" json:"decline_on,omitempty"`
 }
 
+// Support hours for Konbini payments.
+type V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportHoursParams struct {
+	// Support hours end time (JST time of day) for in `HH:MM` format.
+	EndTime *string `form:"end_time" json:"end_time,omitempty"`
+	// Support hours start time (JST time of day) for in `HH:MM` format.
+	StartTime *string `form:"start_time" json:"start_time,omitempty"`
+}
+
+// Support for Konbini payments.
+type V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportParams struct {
+	// Support email address for Konbini payments.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Support hours for Konbini payments.
+	Hours *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportHoursParams `form:"hours" json:"hours,omitempty"`
+	// Support phone number for Konbini payments.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Settings specific to Konbini payments on the account.
+type V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsParams struct {
+	// Support for Konbini payments.
+	Support *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportParams `form:"support" json:"support,omitempty"`
+}
+
+// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorKanaParams struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor *string `form:"descriptor" json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix *string `form:"prefix" json:"prefix,omitempty"`
+}
+
+// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorKanjiParams struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor *string `form:"descriptor" json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix *string `form:"prefix" json:"prefix,omitempty"`
+}
+
+// Settings for the default text that appears on statements for language variations.
+type V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams struct {
+	// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kana *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorKanaParams `form:"kana" json:"kana,omitempty"`
+	// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kanji *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
+}
+
 // Statement descriptor.
 type V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -3331,8 +3503,12 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	Capabilities *V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Card payments settings.
 	CardPayments *V2CoreAccountUpdateConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
+	// Settings specific to Konbini payments on the account.
+	KonbiniPayments *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The merchant category code for the merchant. MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// Settings for the default text that appears on statements for language variations.
+	ScriptStatementDescriptor *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
 	// Statement descriptor.
 	StatementDescriptor *V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
@@ -3393,7 +3569,7 @@ type V2CoreAccountUpdateConfigurationRecipientParams struct {
 	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to request on the Recipient Configuration.
 	Capabilities *V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination. For further details about creating an Outbound Destination, see [Collect recipient's payment details](https://docs.corp.stripe.com/global-payouts-private-preview/quickstart?dashboard-or-api=api#collect-bank-account-details).
+	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination. For further details about creating an Outbound Destination, see [Collect recipient's payment details](https://docs.stripe.com/global-payouts-private-preview/quickstart?dashboard-or-api=api#collect-bank-account-details).
 	DefaultOutboundDestination *string `form:"default_outbound_destination" json:"default_outbound_destination,omitempty"`
 }
 
@@ -3407,6 +3583,12 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesBankAcc
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesParams struct {
 	// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
 	BankAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Can hold storage-type funds on Stripe in EUR.
+type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
 // Can hold storage-type funds on Stripe in GBP.
@@ -3423,6 +3605,8 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams 
 
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
+	// Can hold storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesEURParams `form:"eur" json:"eur,omitempty"`
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.
@@ -4134,7 +4318,7 @@ type V2CoreAccountUpdateIdentityIndividualParams struct {
 	// The individual's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
 	// The individual's phone number.
@@ -4154,10 +4338,10 @@ type V2CoreAccountUpdateIdentityIndividualParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountUpdateIdentityIndividualParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Information about the company, individual, and business represented by the Account.
@@ -4177,6 +4361,8 @@ type V2CoreAccountUpdateIdentityParams struct {
 // Updates the details of an Account.
 type V2CoreAccountUpdateParams struct {
 	Params `form:"*"`
+	// The account token generated by the account token api.
+	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountUpdateConfigurationParams `form:"configuration" json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
@@ -4192,14 +4378,14 @@ type V2CoreAccountUpdateParams struct {
 	// Additional fields to include in the response.
 	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountUpdateParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }

@@ -304,6 +304,12 @@ type RefundDestinationDetailsJPBankTransfer struct {
 	ReferenceStatus string `json:"reference_status"`
 }
 type RefundDestinationDetailsKlarna struct{}
+type RefundDestinationDetailsMbWay struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsMultibanco struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -345,6 +351,7 @@ type RefundDestinationDetailsTHBankTransfer struct {
 	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
 	ReferenceStatus string `json:"reference_status"`
 }
+type RefundDestinationDetailsTWINT struct{}
 type RefundDestinationDetailsUSBankTransfer struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -374,6 +381,7 @@ type RefundDestinationDetails struct {
 	IDBankTransfer      *RefundDestinationDetailsIDBankTransfer      `json:"id_bank_transfer"`
 	JPBankTransfer      *RefundDestinationDetailsJPBankTransfer      `json:"jp_bank_transfer"`
 	Klarna              *RefundDestinationDetailsKlarna              `json:"klarna"`
+	MbWay               *RefundDestinationDetailsMbWay               `json:"mb_way"`
 	Multibanco          *RefundDestinationDetailsMultibanco          `json:"multibanco"`
 	MXBankTransfer      *RefundDestinationDetailsMXBankTransfer      `json:"mx_bank_transfer"`
 	NzBankTransfer      *RefundDestinationDetailsNzBankTransfer      `json:"nz_bank_transfer"`
@@ -385,6 +393,7 @@ type RefundDestinationDetails struct {
 	Sofort              *RefundDestinationDetailsSofort              `json:"sofort"`
 	Swish               *RefundDestinationDetailsSwish               `json:"swish"`
 	THBankTransfer      *RefundDestinationDetailsTHBankTransfer      `json:"th_bank_transfer"`
+	TWINT               *RefundDestinationDetailsTWINT               `json:"twint"`
 	// The type of transaction-specific details of the payment method used in the refund (e.g., `card`). An additional hash is included on `destination_details` with a name matching this value. It contains information specific to the refund transaction.
 	Type           string                                  `json:"type"`
 	USBankTransfer *RefundDestinationDetailsUSBankTransfer `json:"us_bank_transfer"`

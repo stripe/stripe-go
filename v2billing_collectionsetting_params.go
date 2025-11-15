@@ -67,9 +67,9 @@ type V2BillingCollectionSettingPaymentMethodOptionsCardParams struct {
 	// Selected network to process the payment on. Depends on the available networks of the card.
 	Network *string `form:"network" json:"network,omitempty"`
 	// An advanced option 3D Secure. We strongly recommend that you rely on our SCA Engine to automatically prompt your customers
-	// for authentication based on risk level and [other requirements](https://docs.corp.stripe.com/strong-customer-authentication).
+	// for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
 	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option.
-	// Read our guide on [manually requesting 3D Secure](https://docs.corp.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 }
 
@@ -94,12 +94,6 @@ type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceParams struct 
 	// The funding method type to be used when there are not enough funds in the customer balance. Currently the only supported value is `bank_transfer`.
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
-
-// This sub-hash contains details about the Konbini payment method options.
-type V2BillingCollectionSettingPaymentMethodOptionsKonbiniParams struct{}
-
-// This sub-hash contains details about the SEPA Direct Debit payment method options.
-type V2BillingCollectionSettingPaymentMethodOptionsSEPADebitParams struct{}
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
@@ -136,9 +130,9 @@ type V2BillingCollectionSettingPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini *V2BillingCollectionSettingPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
+	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit *V2BillingCollectionSettingPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -221,9 +215,9 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsCardParams struct {
 	// Selected network to process the payment on. Depends on the available networks of the card.
 	Network *string `form:"network" json:"network,omitempty"`
 	// An advanced option 3D Secure. We strongly recommend that you rely on our SCA Engine to automatically prompt your customers
-	// for authentication based on risk level and [other requirements](https://docs.corp.stripe.com/strong-customer-authentication).
+	// for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
 	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option.
-	// Read our guide on [manually requesting 3D Secure](https://docs.corp.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 }
 
@@ -248,12 +242,6 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsCustomerBalanceParams s
 	// The funding method type to be used when there are not enough funds in the customer balance. Currently the only supported value is `bank_transfer`.
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
-
-// This sub-hash contains details about the Konbini payment method options.
-type V2BillingCollectionSettingCreatePaymentMethodOptionsKonbiniParams struct{}
-
-// This sub-hash contains details about the SEPA Direct Debit payment method options.
-type V2BillingCollectionSettingCreatePaymentMethodOptionsSEPADebitParams struct{}
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
@@ -290,9 +278,9 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini *V2BillingCollectionSettingCreatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
+	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit *V2BillingCollectionSettingCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -375,9 +363,9 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsCardParams struct {
 	// Selected network to process the payment on. Depends on the available networks of the card.
 	Network *string `form:"network" json:"network,omitempty"`
 	// An advanced option 3D Secure. We strongly recommend that you rely on our SCA Engine to automatically prompt your customers
-	// for authentication based on risk level and [other requirements](https://docs.corp.stripe.com/strong-customer-authentication).
+	// for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication).
 	// However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option.
-	// Read our guide on [manually requesting 3D Secure](https://docs.corp.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 }
 
@@ -402,12 +390,6 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsCustomerBalanceParams s
 	// The funding method type to be used when there are not enough funds in the customer balance. Currently the only supported value is `bank_transfer`.
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
-
-// This sub-hash contains details about the Konbini payment method options.
-type V2BillingCollectionSettingUpdatePaymentMethodOptionsKonbiniParams struct{}
-
-// This sub-hash contains details about the SEPA Direct Debit payment method options.
-type V2BillingCollectionSettingUpdatePaymentMethodOptionsSEPADebitParams struct{}
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
@@ -444,9 +426,9 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingUpdatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini *V2BillingCollectionSettingUpdatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
+	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit *V2BillingCollectionSettingUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }

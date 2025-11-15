@@ -72,6 +72,7 @@ type V2CoreAccountPersonIDNumberType string
 const (
 	V2CoreAccountPersonIDNumberTypeAeEid       V2CoreAccountPersonIDNumberType = "ae_eid"
 	V2CoreAccountPersonIDNumberTypeAoNif       V2CoreAccountPersonIDNumberType = "ao_nif"
+	V2CoreAccountPersonIDNumberTypeARDni       V2CoreAccountPersonIDNumberType = "ar_dni"
 	V2CoreAccountPersonIDNumberTypeAzTin       V2CoreAccountPersonIDNumberType = "az_tin"
 	V2CoreAccountPersonIDNumberTypeBdBrc       V2CoreAccountPersonIDNumberType = "bd_brc"
 	V2CoreAccountPersonIDNumberTypeBdEtin      V2CoreAccountPersonIDNumberType = "bd_etin"

@@ -15,6 +15,32 @@ const (
 	FinancialConnectionsAccountAccountHolderTypeCustomer FinancialConnectionsAccountAccountHolderType = "customer"
 )
 
+// The type of account number associated with the account.
+type FinancialConnectionsAccountAccountNumberIdentifierType string
+
+// List of values that FinancialConnectionsAccountAccountNumberIdentifierType can take
+const (
+	FinancialConnectionsAccountAccountNumberIdentifierTypeAccountNumber          FinancialConnectionsAccountAccountNumberIdentifierType = "account_number"
+	FinancialConnectionsAccountAccountNumberIdentifierTypeTokenizedAccountNumber FinancialConnectionsAccountAccountNumberIdentifierType = "tokenized_account_number"
+)
+
+// Whether the account number is currently active and usable for transactions.
+type FinancialConnectionsAccountAccountNumberStatus string
+
+// List of values that FinancialConnectionsAccountAccountNumberStatus can take
+const (
+	FinancialConnectionsAccountAccountNumberStatusDeactivated  FinancialConnectionsAccountAccountNumberStatus = "deactivated"
+	FinancialConnectionsAccountAccountNumberStatusTransactable FinancialConnectionsAccountAccountNumberStatus = "transactable"
+)
+
+// The payment networks that the account number can be used for.
+type FinancialConnectionsAccountAccountNumberSupportedNetwork string
+
+// List of values that FinancialConnectionsAccountAccountNumberSupportedNetwork can take
+const (
+	FinancialConnectionsAccountAccountNumberSupportedNetworkACH FinancialConnectionsAccountAccountNumberSupportedNetwork = "ach"
+)
+
 // The `type` of the balance. An additional hash is included on the balance with a name matching this value.
 type FinancialConnectionsAccountBalanceType string
 
@@ -270,6 +296,18 @@ type FinancialConnectionsAccountAccountHolder struct {
 	// Type of account holder that this account belongs to.
 	Type FinancialConnectionsAccountAccountHolderType `json:"type"`
 }
+
+// Details about the account numbers.
+type FinancialConnectionsAccountAccountNumber struct {
+	// When the account number is expected to expire, if applicable.
+	ExpectedExpiryDate int64 `json:"expected_expiry_date"`
+	// The type of account number associated with the account.
+	IdentifierType FinancialConnectionsAccountAccountNumberIdentifierType `json:"identifier_type"`
+	// Whether the account number is currently active and usable for transactions.
+	Status FinancialConnectionsAccountAccountNumberStatus `json:"status"`
+	// The payment networks that the account number can be used for.
+	SupportedNetworks []FinancialConnectionsAccountAccountNumberSupportedNetwork `json:"supported_networks"`
+}
 type FinancialConnectionsAccountBalanceCash struct {
 	// The funds available to the account holder. Typically this is the current balance after subtracting any outbound pending transactions and adding any inbound pending transactions.
 	//
@@ -350,6 +388,8 @@ type FinancialConnectionsAccount struct {
 	APIResource
 	// The account holder that this account belongs to.
 	AccountHolder *FinancialConnectionsAccountAccountHolder `json:"account_holder"`
+	// Details about the account numbers.
+	AccountNumbers []*FinancialConnectionsAccountAccountNumber `json:"account_numbers"`
 	// The most recent information about the account's balance.
 	Balance *FinancialConnectionsAccountBalance `json:"balance"`
 	// The state of the most recent attempt to refresh the account balance.

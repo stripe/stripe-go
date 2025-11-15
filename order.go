@@ -980,6 +980,518 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams struct {
 	Reference *string `form:"reference"`
 }
 
+// Address of the arrival location.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary bus reservation details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the event.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// List of insurances for this event.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// Supplementary event reservation details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
+	// Indicates if the tickets are digitally checked when entering the venue.
+	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	// Address of the event.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// End timestamp of the event.
+	EndsAt *int64 `form:"ends_at"`
+	// Company selling the ticket.
+	EventCompanyName *string `form:"event_company_name"`
+	// Name of the event.
+	EventName *string `form:"event_name"`
+	// Type of the event.
+	EventType *string `form:"event_type"`
+	// List of insurances for this event.
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	// Start timestamp of the event.
+	StartsAt *int64 `form:"starts_at"`
+	// Name of the venue where the event takes place.
+	VenueName *string `form:"venue_name"`
+}
+
+// Address of the arrival location.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary ferry reservation details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Supplementary insurance details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// The address of the selling or delivering merchant.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Supplementary marketplace seller details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
+	// The references to line items for purchases with multiple associated sub-sellers.
+	LineItemReferences []*string `form:"line_item_references"`
+	// The address of the selling or delivering merchant.
+	MarketplaceSellerAddress *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	// The name of the marketplace seller.
+	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	// The unique identifier for the marketplace seller.
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	// The number of transactions the sub-seller completed in the last 12 months.
+	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	// The category of the product.
+	ProductCategory *string `form:"product_category"`
+	// The date when the seller's account with the marketplace was last logged in.
+	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
+	SellerRating *string `form:"seller_rating"`
+	// The date when the seller's account with the marketplace was created.
+	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	// The date when the seller's account with the marketplace was last updated.
+	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	// The references to shipping addresses for purchases with multiple associated sub-sellers.
+	ShippingReferences []*string `form:"shipping_references"`
+	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
+	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+}
+
+// Address of the arrival location.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary round trip reservation details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the arrival location.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary train reservation details.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Voucher details, such as a gift card or discount code.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
+	// Name of associated or partner company for this voucher.
+	AffiliateName *string `form:"affiliate_name"`
+	// The voucher validity end time.
+	EndsAt *int64 `form:"ends_at"`
+	// The voucher validity start time.
+	StartsAt *int64 `form:"starts_at"`
+	// The issuer or provider of this voucher.
+	VoucherCompany *string `form:"voucher_company"`
+	// The name or reference to identify the voucher.
+	VoucherName *string `form:"voucher_name"`
+	// The type of this voucher.
+	VoucherType *string `form:"voucher_type"`
+}
+
+// Supplementary Purchase Data for the corresponding Klarna payment
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
+	// Supplementary bus reservation details.
+	BusReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	// Supplementary event reservation details.
+	EventReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	// Supplementary ferry reservation details.
+	FerryReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	// Supplementary insurance details.
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	// Supplementary marketplace seller details.
+	MarketplaceSellers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	// Supplementary round trip reservation details.
+	RoundTripReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	// Supplementary train reservation details.
+	TrainReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	// Voucher details, such as a gift card or discount code.
+	Vouchers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+}
+
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -1004,6 +1516,8 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Subscription details if setting up or charging a subscription.
 	Subscriptions []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	// Supplementary Purchase Data for the corresponding Klarna payment
+	SupplementaryPurchaseData *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
@@ -1763,6 +2277,518 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams stru
 	Reference *string `form:"reference"`
 }
 
+// Address of the arrival location.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary bus reservation details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the event.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// List of insurances for this event.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// Supplementary event reservation details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
+	// Indicates if the tickets are digitally checked when entering the venue.
+	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	// Address of the event.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// End timestamp of the event.
+	EndsAt *int64 `form:"ends_at"`
+	// Company selling the ticket.
+	EventCompanyName *string `form:"event_company_name"`
+	// Name of the event.
+	EventName *string `form:"event_name"`
+	// Type of the event.
+	EventType *string `form:"event_type"`
+	// List of insurances for this event.
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	// Start timestamp of the event.
+	StartsAt *int64 `form:"starts_at"`
+	// Name of the venue where the event takes place.
+	VenueName *string `form:"venue_name"`
+}
+
+// Address of the arrival location.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary ferry reservation details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Supplementary insurance details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// The address of the selling or delivering merchant.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Supplementary marketplace seller details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
+	// The references to line items for purchases with multiple associated sub-sellers.
+	LineItemReferences []*string `form:"line_item_references"`
+	// The address of the selling or delivering merchant.
+	MarketplaceSellerAddress *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	// The name of the marketplace seller.
+	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	// The unique identifier for the marketplace seller.
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	// The number of transactions the sub-seller completed in the last 12 months.
+	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	// The category of the product.
+	ProductCategory *string `form:"product_category"`
+	// The date when the seller's account with the marketplace was last logged in.
+	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
+	SellerRating *string `form:"seller_rating"`
+	// The date when the seller's account with the marketplace was created.
+	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	// The date when the seller's account with the marketplace was last updated.
+	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	// The references to shipping addresses for purchases with multiple associated sub-sellers.
+	ShippingReferences []*string `form:"shipping_references"`
+	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
+	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+}
+
+// Address of the arrival location.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary round trip reservation details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the arrival location.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary train reservation details.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Voucher details, such as a gift card or discount code.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
+	// Name of associated or partner company for this voucher.
+	AffiliateName *string `form:"affiliate_name"`
+	// The voucher validity end time.
+	EndsAt *int64 `form:"ends_at"`
+	// The voucher validity start time.
+	StartsAt *int64 `form:"starts_at"`
+	// The issuer or provider of this voucher.
+	VoucherCompany *string `form:"voucher_company"`
+	// The name or reference to identify the voucher.
+	VoucherName *string `form:"voucher_name"`
+	// The type of this voucher.
+	VoucherType *string `form:"voucher_type"`
+}
+
+// Supplementary Purchase Data for the corresponding Klarna payment
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
+	// Supplementary bus reservation details.
+	BusReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	// Supplementary event reservation details.
+	EventReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	// Supplementary ferry reservation details.
+	FerryReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	// Supplementary insurance details.
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	// Supplementary marketplace seller details.
+	MarketplaceSellers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	// Supplementary round trip reservation details.
+	RoundTripReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	// Supplementary train reservation details.
+	TrainReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	// Voucher details, such as a gift card or discount code.
+	Vouchers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+}
+
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -1787,6 +2813,8 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Subscription details if setting up or charging a subscription.
 	Subscriptions []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	// Supplementary Purchase Data for the corresponding Klarna payment
+	SupplementaryPurchaseData *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
@@ -2509,6 +3537,518 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams stru
 	Reference *string `form:"reference"`
 }
 
+// Address of the arrival location.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary bus reservation details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the event.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// List of insurances for this event.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// Supplementary event reservation details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
+	// Indicates if the tickets are digitally checked when entering the venue.
+	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	// Address of the event.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// End timestamp of the event.
+	EndsAt *int64 `form:"ends_at"`
+	// Company selling the ticket.
+	EventCompanyName *string `form:"event_company_name"`
+	// Name of the event.
+	EventName *string `form:"event_name"`
+	// Type of the event.
+	EventType *string `form:"event_type"`
+	// List of insurances for this event.
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	// Start timestamp of the event.
+	StartsAt *int64 `form:"starts_at"`
+	// Name of the venue where the event takes place.
+	VenueName *string `form:"venue_name"`
+}
+
+// Address of the arrival location.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary ferry reservation details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Supplementary insurance details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// The address of the selling or delivering merchant.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Supplementary marketplace seller details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
+	// The references to line items for purchases with multiple associated sub-sellers.
+	LineItemReferences []*string `form:"line_item_references"`
+	// The address of the selling or delivering merchant.
+	MarketplaceSellerAddress *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	// The name of the marketplace seller.
+	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	// The unique identifier for the marketplace seller.
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	// The number of transactions the sub-seller completed in the last 12 months.
+	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	// The category of the product.
+	ProductCategory *string `form:"product_category"`
+	// The date when the seller's account with the marketplace was last logged in.
+	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
+	SellerRating *string `form:"seller_rating"`
+	// The date when the seller's account with the marketplace was created.
+	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	// The date when the seller's account with the marketplace was last updated.
+	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	// The references to shipping addresses for purchases with multiple associated sub-sellers.
+	ShippingReferences []*string `form:"shipping_references"`
+	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
+	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+}
+
+// Address of the arrival location.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary round trip reservation details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Address of the arrival location.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Arrival details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
+	// Address of the arrival location.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	// Identifier name or reference for the arrival location.
+	ArrivalLocation *string `form:"arrival_location"`
+}
+
+// Address of the departure location.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
+	// The city or town.
+	City *string `form:"city"`
+	// The country in ISO 3166-1 alpha-2 format.
+	Country *string `form:"country"`
+	// The postal code formatted according to country.
+	PostalCode *string `form:"postal_code"`
+	// The state, county, province, or region formatted according to country.
+	Region *string `form:"region"`
+	// Line 1 of the street address.
+	StreetAddress *string `form:"street_address"`
+	// Line 2 of the street address.
+	StreetAddress2 *string `form:"street_address2"`
+}
+
+// Departure details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
+	// Address of the departure location.
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	// Timestamp of departure.
+	DepartsAt *int64 `form:"departs_at"`
+	// Identifier name or reference for the origin location.
+	DepartureLocation *string `form:"departure_location"`
+}
+
+// List of insurances for this reservation.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
+	// Insurance currency.
+	Currency *string `form:"currency"`
+	// Name of the company providing the insurance.
+	InsuranceCompanyName *string `form:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType *string `form:"insurance_type"`
+	// Price of insurance in cents.
+	Price *int64 `form:"price"`
+}
+
+// List of passengers that this reservation applies to.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
+	// The family name of the person.
+	FamilyName *string `form:"family_name"`
+	// The given name of the person.
+	GivenName *string `form:"given_name"`
+}
+
+// Supplementary train reservation details.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
+	// Name of associated or partner company for the service.
+	AffiliateName *string `form:"affiliate_name"`
+	// Arrival details.
+	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	// Name of transportation company.
+	CarrierName *string `form:"carrier_name"`
+	// Currency.
+	Currency *string `form:"currency"`
+	// Departure details.
+	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	// List of insurances for this reservation.
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	// List of passengers that this reservation applies to.
+	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	// Price in cents.
+	Price *int64 `form:"price"`
+	// Ticket class.
+	TicketClass *string `form:"ticket_class"`
+}
+
+// Voucher details, such as a gift card or discount code.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
+	// Name of associated or partner company for this voucher.
+	AffiliateName *string `form:"affiliate_name"`
+	// The voucher validity end time.
+	EndsAt *int64 `form:"ends_at"`
+	// The voucher validity start time.
+	StartsAt *int64 `form:"starts_at"`
+	// The issuer or provider of this voucher.
+	VoucherCompany *string `form:"voucher_company"`
+	// The name or reference to identify the voucher.
+	VoucherName *string `form:"voucher_name"`
+	// The type of this voucher.
+	VoucherType *string `form:"voucher_type"`
+}
+
+// Supplementary Purchase Data for the corresponding Klarna payment
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
+	// Supplementary bus reservation details.
+	BusReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	// Supplementary event reservation details.
+	EventReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	// Supplementary ferry reservation details.
+	FerryReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	// Supplementary insurance details.
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	// Supplementary marketplace seller details.
+	MarketplaceSellers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	// Supplementary round trip reservation details.
+	RoundTripReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	// Supplementary train reservation details.
+	TrainReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	// Voucher details, such as a gift card or discount code.
+	Vouchers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+}
+
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -2533,6 +4073,8 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Subscription details if setting up or charging a subscription.
 	Subscriptions []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	// Supplementary Purchase Data for the corresponding Klarna payment
+	SupplementaryPurchaseData *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.

@@ -8,14 +8,14 @@ package stripe
 
 // An array of meter parameters to specify which meters to include in the usage data. If not specified, usage across all meters for the customer is included.
 type BillingAnalyticsMeterUsageMeterParams struct {
-	// Key-value pairs used to filter usage events by meter dimension values. If specified, usage will be filtered for matching usage events.
-	DimensionFilters map[string]string `form:"dimension_filters"`
+	// Key-value pairs used to filter usage events by meter dimension values. Each value is an array that can include multiple values for the key. If specified, usage is filtered for matching usage events.
+	DimensionFilters map[string][]*string `form:"dimension_filters"`
 	// List of meter dimension keys to group by. If specified, usage events will be grouped by the given meter dimension key's values.
 	DimensionGroupByKeys []*string `form:"dimension_group_by_keys"`
 	// Meter id to query usage for.
 	Meter *string `form:"meter"`
-	// Key-value pairs used to filter usage events by high cardinality tenant dimension values. If specified, usage will be filtered for matching usage events.
-	TenantFilters map[string]string `form:"tenant_filters"`
+	// Key-value pairs used to filter usage events by high cardinality tenant dimension values. Each value is an array that can include multiple values for the key. If specified, usage is filtered for matching usage events.
+	TenantFilters map[string][]*string `form:"tenant_filters"`
 }
 
 // Returns aggregated meter usage data for a customer within a specified time interval. The data can be grouped by various dimensions and can include multiple meters if specified.
@@ -44,14 +44,14 @@ func (p *BillingAnalyticsMeterUsageParams) AddExpand(f string) {
 
 // An array of meter parameters to specify which meters to include in the usage data. If not specified, usage across all meters for the customer is included.
 type BillingAnalyticsMeterUsageRetrieveMeterParams struct {
-	// Key-value pairs used to filter usage events by meter dimension values. If specified, usage will be filtered for matching usage events.
-	DimensionFilters map[string]string `form:"dimension_filters"`
+	// Key-value pairs used to filter usage events by meter dimension values. Each value is an array that can include multiple values for the key. If specified, usage is filtered for matching usage events.
+	DimensionFilters map[string][]*string `form:"dimension_filters"`
 	// List of meter dimension keys to group by. If specified, usage events will be grouped by the given meter dimension key's values.
 	DimensionGroupByKeys []*string `form:"dimension_group_by_keys"`
 	// Meter id to query usage for.
 	Meter *string `form:"meter"`
-	// Key-value pairs used to filter usage events by high cardinality tenant dimension values. If specified, usage will be filtered for matching usage events.
-	TenantFilters map[string]string `form:"tenant_filters"`
+	// Key-value pairs used to filter usage events by high cardinality tenant dimension values. Each value is an array that can include multiple values for the key. If specified, usage is filtered for matching usage events.
+	TenantFilters map[string][]*string `form:"tenant_filters"`
 }
 
 // Returns aggregated meter usage data for a customer within a specified time interval. The data can be grouped by various dimensions and can include multiple meters if specified.

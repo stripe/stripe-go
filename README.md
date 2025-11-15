@@ -341,7 +341,7 @@ c.Customer.Name  // Name is now also available (if it had a value)
 
 stripe-go is a typed library and it supports all public properties or parameters.
 
-Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used.
+Stripe sometimes launches private preview features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used.
 
 #### Parameters
 
@@ -385,6 +385,21 @@ for cust, err := range sc.V1Customers.List(context.TODO(), &stripe.CustomerListP
     }
     customerJSON := cust.LastResponse.RawJSON
     log.Printf("Customer JSON: %s", customerJSON) // {"id":"cus_123",...}
+}
+```
+
+#### Beta headers
+
+To access a private preview feature, you will likely need to use a special beta header. If you are using a public preview or private preview SDK version (those with a version `v83.1.0-beta.1` or `v83.1.0-alpha.1`), you can use the `stripe.AddBetaVersion` function as described in [Public Preview SDKs](#public-preview-sdks). With a release version like `v83.1.0`, you can still set a beta header on a per-request basis in your request params as follows:
+
+```go
+params := &stripe.CustomerCreateParams{
+	...
+	Params: stripe.Params{
+		Headers: http.Header{
+			"Stripe-Version": []string{"2025-10-29.preview; beta_feature_1=v3; beta_feature_2=v1"},
+		},
+	},
 }
 ```
 
@@ -526,6 +541,8 @@ stripe.AddBetaVersion("feature_beta", "v3")
 Stripe has features in the [private preview phase](https://docs.stripe.com/release-phases) that can be accessed via versions of this package that have the `-alpha.X` suffix like `82.2.0-alpha.2`. These are invite-only features. Once invited, you can install the private preview SDKs by following the same instructions as for the [public preview SDKs](https://github.com/stripe/stripe-go?tab=readme-ov-file#public-preview-sdks) above and replacing the term `beta` with `alpha`.
 
 ### Custom Request
+
+> This feature is only available from version 80 of this SDK.
 
 If you would like to send a request to an API that is:
 

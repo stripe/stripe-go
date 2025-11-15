@@ -83,33 +83,24 @@ type V2MoneyManagementInboundTransferTransferHistoryBankDebitFailed struct {
 	FailureReason V2MoneyManagementInboundTransferTransferHistoryBankDebitFailedFailureReason `json:"failure_reason"`
 }
 
-// The history entry for a processing InboundTransfer.
-type V2MoneyManagementInboundTransferTransferHistoryBankDebitProcessing struct{}
-
-// The history entry for a queued InboundTransfer.
-type V2MoneyManagementInboundTransferTransferHistoryBankDebitQueued struct{}
-
 // The history entry for a returned InboundTransfer.
 type V2MoneyManagementInboundTransferTransferHistoryBankDebitReturned struct {
 	// Open Enum. The return reason for the returned InboundTransfer.
 	ReturnReason V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReason `json:"return_reason"`
 }
 
-// The history entry for a succeeded InboundTransfer.
-type V2MoneyManagementInboundTransferTransferHistoryBankDebitSucceeded struct{}
-
 // A list of history objects, representing changes in the state of the InboundTransfer.
 type V2MoneyManagementInboundTransferTransferHistory struct {
 	// The history entry for a failed InboundTransfer.
 	BankDebitFailed *V2MoneyManagementInboundTransferTransferHistoryBankDebitFailed `json:"bank_debit_failed,omitempty"`
 	// The history entry for a processing InboundTransfer.
-	BankDebitProcessing *V2MoneyManagementInboundTransferTransferHistoryBankDebitProcessing `json:"bank_debit_processing,omitempty"`
+	BankDebitProcessing map[string]any `json:"bank_debit_processing,omitempty"`
 	// The history entry for a queued InboundTransfer.
-	BankDebitQueued *V2MoneyManagementInboundTransferTransferHistoryBankDebitQueued `json:"bank_debit_queued,omitempty"`
+	BankDebitQueued map[string]any `json:"bank_debit_queued,omitempty"`
 	// The history entry for a returned InboundTransfer.
 	BankDebitReturned *V2MoneyManagementInboundTransferTransferHistoryBankDebitReturned `json:"bank_debit_returned,omitempty"`
 	// The history entry for a succeeded InboundTransfer.
-	BankDebitSucceeded *V2MoneyManagementInboundTransferTransferHistoryBankDebitSucceeded `json:"bank_debit_succeeded,omitempty"`
+	BankDebitSucceeded map[string]any `json:"bank_debit_succeeded,omitempty"`
 	// Creation time of the HistoryEntry in RFC 3339 format and UTC.
 	Created time.Time `json:"created"`
 	// Effective at time of the HistoryEntry in RFC 3339 format and UTC.

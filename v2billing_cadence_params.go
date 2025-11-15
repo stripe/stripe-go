@@ -223,7 +223,7 @@ type V2BillingCadenceParams struct {
 	// A lookup key used to retrieve cadences dynamically from a static string. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
 	Payer *V2BillingCadencePayerParams `form:"payer" json:"payer,omitempty"`
 	// The settings associated with the cadence.
@@ -233,10 +233,10 @@ type V2BillingCadenceParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2BillingCadenceParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Cancel the Billing Cadence.
@@ -494,7 +494,7 @@ type V2BillingCadenceUpdateParams struct {
 	// A lookup key used to retrieve cadences dynamically from a static string. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
 	Payer *V2BillingCadenceUpdatePayerParams `form:"payer" json:"payer,omitempty"`
 	// The settings associated with the cadence.
@@ -504,8 +504,8 @@ type V2BillingCadenceUpdateParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2BillingCadenceUpdateParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }

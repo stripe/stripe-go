@@ -186,6 +186,8 @@ import (
 	v2coreaccount "github.com/stripe/stripe-go/v83/v2/core/account"
 	v2coreaccountlink "github.com/stripe/stripe-go/v83/v2/core/accountlink"
 	v2coreaccountsperson "github.com/stripe/stripe-go/v83/v2/core/accounts/person"
+	v2coreaccountspersontoken "github.com/stripe/stripe-go/v83/v2/core/accounts/persontoken"
+	v2coreaccounttoken "github.com/stripe/stripe-go/v83/v2/core/accounttoken"
 	v2coreevent "github.com/stripe/stripe-go/v83/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v83/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v83/v2/core/vault/gbbankaccount"
@@ -204,7 +206,6 @@ import (
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v83/v2/moneymanagement/receiveddebit"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v83/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v83/v2/moneymanagement/transactionentry"
-	v2paymentsoffsessionpayment "github.com/stripe/stripe-go/v83/v2/payments/offsessionpayment"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v83/v2/testhelpers/financialaddress"
 	"github.com/stripe/stripe-go/v83/webhookendpoint"
 )
@@ -561,6 +562,10 @@ type API struct {
 	V2CoreAccounts *v2coreaccount.Client
 	// V2CoreAccountsPersons is the client used to invoke /v2/core/accounts/{account_id}/persons APIs.
 	V2CoreAccountsPersons *v2coreaccountsperson.Client
+	// V2CoreAccountsPersonTokens is the client used to invoke /v2/core/accounts/{account_id}/person_tokens APIs.
+	V2CoreAccountsPersonTokens *v2coreaccountspersontoken.Client
+	// V2CoreAccountTokens is the client used to invoke /v2/core/account_tokens APIs.
+	V2CoreAccountTokens *v2coreaccounttoken.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2coreeventdestination.Client
 	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
@@ -597,8 +602,6 @@ type API struct {
 	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
 	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
 	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
-	// V2PaymentsOffSessionPayments is the client used to invoke /v2/payments/off_session_payments APIs.
-	V2PaymentsOffSessionPayments *v2paymentsoffsessionpayment.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
@@ -792,6 +795,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
 	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
+	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
+	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
@@ -810,7 +815,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
-	a.V2PaymentsOffSessionPayments = &v2paymentsoffsessionpayment.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }

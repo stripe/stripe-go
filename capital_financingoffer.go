@@ -123,16 +123,16 @@ func (p *CapitalFinancingOfferRetrieveParams) AddExpand(f string) {
 // the terms accepted by the Connected account, which may differ from those
 // offered.
 type CapitalFinancingOfferAcceptedTerms struct {
-	// Amount of financing offered, in minor units. For example, $1,000 USD will be represented as 100000.
+	// Amount of financing offered, in minor units. For example, 1,000 USD is represented as 100000.
 	AdvanceAmount int64 `json:"advance_amount"`
 	// Currency that the financing offer is transacted in. For example, `usd`.
 	Currency Currency `json:"currency"`
-	// Fixed fee amount, in minor units. For example, $100 USD will be represented as 10000.
+	// Fixed fee amount, in minor units. For example, 100 USD is represented as 10000.
 	FeeAmount int64 `json:"fee_amount"`
 	// Populated when the `product_type` of the `financingoffer` is `refill`.
 	// Represents the discount amount on remaining premium for the existing loan at payout time.
 	PreviousFinancingFeeDiscountAmount int64 `json:"previous_financing_fee_discount_amount"`
-	// Per-transaction rate at which Stripe will withhold funds to repay the financing.
+	// Per-transaction rate at which Stripe withholds funds to repay the financing.
 	WithholdRate float64 `json:"withhold_rate"`
 }
 
@@ -140,20 +140,20 @@ type CapitalFinancingOfferAcceptedTerms struct {
 // Stripe Capital to a Connected account. This resource represents
 // both the terms offered to the Connected account.
 type CapitalFinancingOfferOfferedTerms struct {
-	// Amount of financing offered, in minor units. For example, $1,000 USD will be represented as 100000.
+	// Amount of financing offered, in minor units. For example, 1,000 USD is represented as 100000.
 	AdvanceAmount int64 `json:"advance_amount"`
 	// Describes the type of user the offer is being extended to.
 	CampaignType CapitalFinancingOfferOfferedTermsCampaignType `json:"campaign_type"`
 	// Currency that the financing offer is transacted in. For example, `usd`.
 	Currency Currency `json:"currency"`
-	// Fixed fee amount, in minor units. For example, $100 USD will be represented as 10000.
+	// Fixed fee amount, in minor units. For example, 100 USD is represented as 10000.
 	FeeAmount int64 `json:"fee_amount"`
 	// Populated when the `product_type` of the `financingoffer` is `refill`.
 	// Represents the discount rate percentage on remaining fee on the existing loan. When the `financing_offer`
 	// is paid out, the `previous_financing_fee_discount_amount` will be computed as the multiple of this rate
 	// and the remaining fee.
 	PreviousFinancingFeeDiscountRate float64 `json:"previous_financing_fee_discount_rate"`
-	// Per-transaction rate at which Stripe will withhold funds to repay the financing.
+	// Per-transaction rate at which Stripe withholds funds to repay the financing.
 	WithholdRate float64 `json:"withhold_rate"`
 }
 

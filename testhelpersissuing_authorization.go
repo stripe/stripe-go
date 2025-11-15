@@ -122,6 +122,14 @@ type TestHelpersIssuingAuthorizationRiskAssessmentCardTestingRiskParams struct {
 	RiskLevel *string `form:"risk_level"`
 }
 
+// Stripe's assessment of this authorization's likelihood to be fraudulent.
+type TestHelpersIssuingAuthorizationRiskAssessmentFraudRiskParams struct {
+	// Stripe's assessment of the likelihood of fraud on an authorization.
+	Level *string `form:"level"`
+	// Stripe's numerical model score assessing the likelihood of fraudulent activity. A higher score means a higher likelihood of fraudulent activity, and anything above 25 is considered high risk.
+	Score *float64 `form:"score"`
+}
+
 // The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
 type TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams struct {
 	// The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
@@ -134,6 +142,8 @@ type TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams stru
 type TestHelpersIssuingAuthorizationRiskAssessmentParams struct {
 	// Stripe's assessment of this authorization's likelihood of being card testing activity.
 	CardTestingRisk *TestHelpersIssuingAuthorizationRiskAssessmentCardTestingRiskParams `form:"card_testing_risk"`
+	// Stripe's assessment of this authorization's likelihood to be fraudulent.
+	FraudRisk *TestHelpersIssuingAuthorizationRiskAssessmentFraudRiskParams `form:"fraud_risk"`
 	// The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
 	MerchantDisputeRisk *TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams `form:"merchant_dispute_risk"`
 }
@@ -622,6 +632,14 @@ type TestHelpersIssuingAuthorizationCreateRiskAssessmentCardTestingRiskParams st
 	RiskLevel *string `form:"risk_level"`
 }
 
+// Stripe's assessment of this authorization's likelihood to be fraudulent.
+type TestHelpersIssuingAuthorizationCreateRiskAssessmentFraudRiskParams struct {
+	// Stripe's assessment of the likelihood of fraud on an authorization.
+	Level *string `form:"level"`
+	// Stripe's numerical model score assessing the likelihood of fraudulent activity. A higher score means a higher likelihood of fraudulent activity, and anything above 25 is considered high risk.
+	Score *float64 `form:"score"`
+}
+
 // The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
 type TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParams struct {
 	// The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
@@ -634,6 +652,8 @@ type TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParam
 type TestHelpersIssuingAuthorizationCreateRiskAssessmentParams struct {
 	// Stripe's assessment of this authorization's likelihood of being card testing activity.
 	CardTestingRisk *TestHelpersIssuingAuthorizationCreateRiskAssessmentCardTestingRiskParams `form:"card_testing_risk"`
+	// Stripe's assessment of this authorization's likelihood to be fraudulent.
+	FraudRisk *TestHelpersIssuingAuthorizationCreateRiskAssessmentFraudRiskParams `form:"fraud_risk"`
 	// The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
 	MerchantDisputeRisk *TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParams `form:"merchant_dispute_risk"`
 }
