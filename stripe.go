@@ -781,7 +781,7 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	// Some sort of connection error
 	if err != nil {
 		s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		return res.Body, err
+		return nil, err
 	}
 
 	// Successful response, return the body ReadCloser
@@ -1469,7 +1469,7 @@ func TimeValue(v *time.Time) time.Time {
 //
 
 // clientversion is the binding version
-const clientversion = "83.2.0"
+const clientversion = "83.2.1"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

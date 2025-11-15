@@ -1,5 +1,9 @@
 # Changelog
 
+## 83.2.1 - 2025-11-13
+* [#2212](https://github.com/stripe/stripe-go/pull/2212) Fix segfault in `BackendImplementation.handleResponseBufferingErrors`
+  * Fixes [#2111](https://github.com/stripe/stripe-go/issues/2211) where a network issue during a RawRequest was causing a segfault.
+
 ## 83.2.0 - 2025-11-05
 * [#2203](https://github.com/stripe/stripe-go/pull/2203) Update generated code
   * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
