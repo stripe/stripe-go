@@ -31,7 +31,7 @@ type V2BillingMeterEventStreamEventParams struct {
 type V2BillingMeterEventStreamParams struct {
 	Params `form:"*"`
 	// List of meter events to include in the request. Supports up to 100 events per request.
-	Events []*V2BillingMeterEventStreamEventParams `form:"events,flat_array" json:"events"`
+	Events []*V2BillingMeterEventStreamEventParams `form:"events" json:"events"`
 }
 
 // List of meter events to include in the request. Supports up to 100 events per request.
@@ -57,5 +57,5 @@ type V2BillingMeterEventStreamCreateEventParams struct {
 type V2BillingMeterEventStreamCreateParams struct {
 	Params `form:"*"`
 	// List of meter events to include in the request. Supports up to 100 events per request.
-	Events []*V2BillingMeterEventStreamCreateEventParams `form:"events,flat_array" json:"events"`
+	Events []*V2BillingMeterEventStreamCreateEventParams `form:"events" json:"events"`
 }

@@ -16,6 +16,5 @@ func TestV2CoreEventDestinationParams_AppendTo(t *testing.T) {
 	}
 	body := &form.Values{}
 	form.AppendTo(body, params)
-	assert.Equal(t, []string{"foo", "bar"}, body.Get("include"))
-	assert.Equal(t, "include=foo&include=bar", body.Encode())
+	assert.Equal(t, "include[0]=foo&include[1]=bar", body.Encode())
 }
