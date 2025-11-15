@@ -1861,3 +1861,25 @@ func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
 	assert.True(t, ok)
 	assert.Equal(t, "Some message", stripeErr.Message)
 }
+
+// TestHandleResponseBufferingErrors_NilResponse tests the segmentation fault
+// described in https://github.com/stripe/stripe-go/issues/2211
+// When http.Client.Do returns an error, the *http.Response may be nil.
+// The handleResponseBufferingErrors method should handle this case without panicking.
+func TestHandleResponseBufferingErrors_NilResponse(t *testing.T) {
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     nullLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+		},
+	).(*BackendImplementation)
+
+	// Simulate a timeout error where http.Client.Do returns nil response
+	var resp *http.Response = nil
+	timeoutErr := fmt.Errorf("timeout error")
+
+	_, err := backend.handleResponseBufferingErrors(resp, timeoutErr)
+	assert.Error(t, err)
+	assert.Equal(t, timeoutErr, err)
+}
