@@ -1804,12 +1804,12 @@ type V2CoreAccountIdentityIndividualParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreAccountIdentityIndividualParams) AddMetadata(key string, value string) {
+func (p *V2CoreAccountIdentityIndividualParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Information about the company, individual, and business represented by the Account.
@@ -1848,12 +1848,12 @@ type V2CoreAccountParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreAccountParams) AddMetadata(key string, value string) {
+func (p *V2CoreAccountParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Removes access to the Account and its associated resources. Closed Accounts can no longer be operated on, but limited information can still be retrieved through the API in order to be able to track their history.
@@ -5476,12 +5476,12 @@ type V2CoreAccountUpdateIdentityIndividualParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreAccountUpdateIdentityIndividualParams) AddMetadata(key string, value string) {
+func (p *V2CoreAccountUpdateIdentityIndividualParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Information about the company, individual, and business represented by the Account.
@@ -5520,10 +5520,10 @@ type V2CoreAccountUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreAccountUpdateParams) AddMetadata(key string, value string) {
+func (p *V2CoreAccountUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }

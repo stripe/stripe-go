@@ -63,12 +63,12 @@ type V2BillingPricingPlansComponentParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingPricingPlansComponentParams) AddMetadata(key string, value string) {
+func (p *V2BillingPricingPlansComponentParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Details if this component is a License Fee.
@@ -147,10 +147,10 @@ type V2BillingPricingPlansComponentUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingPricingPlansComponentUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingPricingPlansComponentUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }

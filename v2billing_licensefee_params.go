@@ -82,12 +82,12 @@ type V2BillingLicenseFeeParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingLicenseFeeParams) AddMetadata(key string, value string) {
+func (p *V2BillingLicenseFeeParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
@@ -214,10 +214,10 @@ type V2BillingLicenseFeeUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingLicenseFeeUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingLicenseFeeUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }

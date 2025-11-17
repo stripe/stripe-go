@@ -43,12 +43,12 @@ type V2BillingLicensedItemParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingLicensedItemParams) AddMetadata(key string, value string) {
+func (p *V2BillingLicensedItemParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Stripe Tax details.
@@ -118,10 +118,10 @@ type V2BillingLicensedItemUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingLicensedItemUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingLicensedItemUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }

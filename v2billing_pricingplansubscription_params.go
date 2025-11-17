@@ -41,12 +41,12 @@ type V2BillingPricingPlanSubscriptionParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingPricingPlanSubscriptionParams) AddMetadata(key string, value string) {
+func (p *V2BillingPricingPlanSubscriptionParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Retrieve a Pricing Plan Subscription object.
@@ -64,10 +64,10 @@ type V2BillingPricingPlanSubscriptionUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingPricingPlanSubscriptionUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingPricingPlanSubscriptionUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }

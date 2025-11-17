@@ -59,12 +59,12 @@ type V2BillingMeteredItemParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingMeteredItemParams) AddMetadata(key string, value string) {
+func (p *V2BillingMeteredItemParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Optional array of Meter segments to filter event dimension keys for billing.
@@ -151,10 +151,10 @@ type V2BillingMeteredItemUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingMeteredItemUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingMeteredItemUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
