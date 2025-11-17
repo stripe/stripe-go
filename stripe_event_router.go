@@ -42,9 +42,19 @@ func (r *EventRouter) register(eventType string, callback HandlerFunc) error {
 	return nil
 }
 
-func (r *EventRouter) On_V1BillingMeterErrorCompleted(handler func(notification V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error) error {
-	return r.register("V1BillingMeterErrorCompleted", handler)
+func (r *EventRouter) On_V1BillingMeterErrorReportTriggeredEventNotification(handler func(notification *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error) error {
+	wrapper := func(notif EventNotificationContainer, client *Client) error {
+		typedNotif, ok := notif.(*V1BillingMeterErrorReportTriggeredEventNotification)
+		if !ok {
+			return fmt.Errorf("failed to cast notification to V1BillingMeterErrorReportTriggeredEventNotification")
+		}
+		return handler(typedNotif, client)
+	}
+	return r.register("v1.billing.meter.error_report_triggered", wrapper)
 }
+
+// event-router-methods: The beginning of the section generated from our OpenAPI spec
+// event-router-methods: The end of the section generated from our OpenAPI spec
 
 // // pre-setup
 // client := stripe.NewClient("sk_test_...")
