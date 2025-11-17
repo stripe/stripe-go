@@ -285,7 +285,7 @@ type V2CoreAccountsPersonParams struct {
 	// The person's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The nationalities (countries) this person is associated with.
 	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
 	// The phone number for this person.
@@ -305,10 +305,10 @@ type V2CoreAccountsPersonParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountsPersonParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Additional addresses associated with the person.
@@ -887,7 +887,7 @@ type V2CoreAccountsPersonUpdateParams struct {
 	// The person's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The nationalities (countries) this person is associated with.
 	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
 	// The phone number for this person.
@@ -907,8 +907,8 @@ type V2CoreAccountsPersonUpdateParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountsPersonUpdateParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }

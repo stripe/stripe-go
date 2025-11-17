@@ -1786,7 +1786,7 @@ type V2CoreAccountIdentityIndividualParams struct {
 	// The individual's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
 	// The individual's phone number.
@@ -1806,10 +1806,10 @@ type V2CoreAccountIdentityIndividualParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountIdentityIndividualParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Information about the company, individual, and business represented by the Account.
@@ -1844,16 +1844,16 @@ type V2CoreAccountParams struct {
 	// Additional fields to include in the response.
 	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Removes access to the Account and its associated resources. Closed Accounts can no longer be operated on, but limited information can still be retrieved through the API in order to be able to track their history.
@@ -5458,7 +5458,7 @@ type V2CoreAccountUpdateIdentityIndividualParams struct {
 	// The individual's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
 	// The individual's phone number.
@@ -5478,10 +5478,10 @@ type V2CoreAccountUpdateIdentityIndividualParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountUpdateIdentityIndividualParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Information about the company, individual, and business represented by the Account.
@@ -5516,14 +5516,14 @@ type V2CoreAccountUpdateParams struct {
 	// Additional fields to include in the response.
 	Include []*string `form:"include,flat_array" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2CoreAccountUpdateParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }

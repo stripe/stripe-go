@@ -23,6 +23,7 @@ import (
 	"github.com/stripe/stripe-go/v83/balance"
 	"github.com/stripe/stripe-go/v83/balancesettings"
 	"github.com/stripe/stripe-go/v83/balancetransaction"
+	"github.com/stripe/stripe-go/v83/balancetransfer"
 	"github.com/stripe/stripe-go/v83/bankaccount"
 	billingalert "github.com/stripe/stripe-go/v83/billing/alert"
 	billinganalyticsmeterusage "github.com/stripe/stripe-go/v83/billing/analytics/meterusage"
@@ -117,6 +118,7 @@ import (
 	"github.com/stripe/stripe-go/v83/quote"
 	"github.com/stripe/stripe-go/v83/quotepreviewinvoice"
 	"github.com/stripe/stripe-go/v83/quotepreviewsubscriptionschedule"
+	radaraccountevaluation "github.com/stripe/stripe-go/v83/radar/accountevaluation"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v83/radar/earlyfraudwarning"
 	radarvaluelist "github.com/stripe/stripe-go/v83/radar/valuelist"
 	radarvaluelistitem "github.com/stripe/stripe-go/v83/radar/valuelistitem"
@@ -262,6 +264,8 @@ type API struct {
 	BalanceSettings *balancesettings.Client
 	// BalanceTransactions is the client used to invoke /v1/balance_transactions APIs.
 	BalanceTransactions *balancetransaction.Client
+	// BalanceTransfers is the client used to invoke /v1/balance_transfers APIs.
+	BalanceTransfers *balancetransfer.Client
 	// BankAccounts is the client used to invoke /v1/accounts/{account}/external_accounts APIs.
 	BankAccounts *bankaccount.Client
 	// BillingAlerts is the client used to invoke /v1/billing/alerts APIs.
@@ -450,6 +454,8 @@ type API struct {
 	QuotePreviewSubscriptionSchedules *quotepreviewsubscriptionschedule.Client
 	// Quotes is the client used to invoke /v1/quotes APIs.
 	Quotes *quote.Client
+	// RadarAccountEvaluations is the client used to invoke /v1/radar/account_evaluations APIs.
+	RadarAccountEvaluations *radaraccountevaluation.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
 	RadarEarlyFraudWarnings *radarearlyfraudwarning.Client
 	// RadarValueListItems is the client used to invoke /v1/radar/value_list_items APIs.
@@ -710,6 +716,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceSettings = &balancesettings.Client{B: backends.API, Key: key}
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
+	a.BalanceTransfers = &balancetransfer.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingAlerts = &billingalert.Client{B: backends.API, Key: key}
 	a.BillingAnalyticsMeterUsage = &billinganalyticsmeterusage.Client{B: backends.API, Key: key}
@@ -804,6 +811,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.QuotePreviewInvoices = &quotepreviewinvoice.Client{B: backends.API, Key: key}
 	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
+	a.RadarAccountEvaluations = &radaraccountevaluation.Client{B: backends.API, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &radarvaluelistitem.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &radarvaluelist.Client{B: backends.API, Key: key}

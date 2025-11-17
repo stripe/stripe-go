@@ -53,7 +53,7 @@ type V2BillingPricingPlansComponentParams struct {
 	// An identifier that can be used to find this component. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Details if this component is a Rate Card.
 	RateCard *V2BillingPricingPlansComponentRateCardParams `form:"rate_card" json:"rate_card,omitempty"`
 	// Details if this component is a Service Action.
@@ -65,10 +65,10 @@ type V2BillingPricingPlansComponentParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2BillingPricingPlansComponentParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Details if this component is a License Fee.
@@ -143,14 +143,14 @@ type V2BillingPricingPlansComponentUpdateParams struct {
 	// An identifier that can be used to find this component. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2BillingPricingPlansComponentUpdateParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }

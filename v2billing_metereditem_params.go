@@ -43,7 +43,7 @@ type V2BillingMeteredItemParams struct {
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// ID of the Meter that measures usage for this Metered Item.
 	Meter *string `form:"meter" json:"meter,omitempty"`
 	// Optional array of Meter segments to filter event dimension keys for billing.
@@ -61,10 +61,10 @@ type V2BillingMeteredItemParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2BillingMeteredItemParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }
 
 // Optional array of Meter segments to filter event dimension keys for billing.
@@ -139,7 +139,7 @@ type V2BillingMeteredItemUpdateParams struct {
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Stripe Tax details.
 	TaxDetails *V2BillingMeteredItemUpdateTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// The unit to use when displaying prices for this billable item in places like Checkout. For example, set this field
@@ -153,8 +153,8 @@ type V2BillingMeteredItemUpdateParams struct {
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *V2BillingMeteredItemUpdateParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = value
+	p.Metadata[key] = &value
 }

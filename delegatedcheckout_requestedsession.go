@@ -492,27 +492,6 @@ type DelegatedCheckoutRequestedSessionOrderDetails struct {
 	// The URL to the order status.
 	OrderStatusURL string `json:"order_status_url"`
 }
-type DelegatedCheckoutRequestedSessionSellerDetails struct{}
-
-// The applicable fees of the total details.
-type DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee struct {
-	// The amount of the applicable fee.
-	Amount int64 `json:"amount"`
-	// The description of the applicable fee.
-	Description string `json:"description"`
-	// The display name of the applicable fee.
-	DisplayName string `json:"display_name"`
-}
-type DelegatedCheckoutRequestedSessionTotalDetails struct {
-	// The amount discount of the total details.
-	AmountDiscount int64 `json:"amount_discount"`
-	// The amount fulfillment of the total details.
-	AmountFulfillment int64 `json:"amount_fulfillment"`
-	// The amount tax of the total details.
-	AmountTax int64 `json:"amount_tax"`
-	// The applicable fees of the total details.
-	ApplicableFees []*DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee `json:"applicable_fees"`
-}
 
 // The billing details of the payment method.
 type DelegatedCheckoutRequestedSessionPaymentMethodPreviewBillingDetails struct {
@@ -544,6 +523,27 @@ type DelegatedCheckoutRequestedSessionPaymentMethodPreview struct {
 	Card *DelegatedCheckoutRequestedSessionPaymentMethodPreviewCard `json:"card"`
 	// The type of the payment method.
 	Type string `json:"type"`
+}
+type DelegatedCheckoutRequestedSessionSellerDetails struct{}
+
+// The applicable fees of the total details.
+type DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee struct {
+	// The amount of the applicable fee.
+	Amount int64 `json:"amount"`
+	// The description of the applicable fee.
+	Description string `json:"description"`
+	// The display name of the applicable fee.
+	DisplayName string `json:"display_name"`
+}
+type DelegatedCheckoutRequestedSessionTotalDetails struct {
+	// The amount discount of the total details.
+	AmountDiscount int64 `json:"amount_discount"`
+	// The amount fulfillment of the total details.
+	AmountFulfillment int64 `json:"amount_fulfillment"`
+	// The amount tax of the total details.
+	AmountTax int64 `json:"amount_tax"`
+	// The applicable fees of the total details.
+	ApplicableFees []*DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee `json:"applicable_fees"`
 }
 
 // A requested session is a session that has been requested by a customer.
