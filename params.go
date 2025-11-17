@@ -244,6 +244,10 @@ type Params struct {
 	// the request is made. It is preferred to using StripeAccount in new code.
 	StripeContext *string `form:"-" json:"-"` // Passed as header
 
+	// URLTemplate contains the URL template (e.g., "/v1/charges/{id}") for OpenTelemetry instrumentation.
+	// This is used internally for telemetry and is not sent to the Stripe API.
+	URLTemplate *string `form:"-" json:"-"` // Used for OpenTelemetry
+
 	usage []string `form:"-" json:"-"` // Tracked behaviors
 }
 
