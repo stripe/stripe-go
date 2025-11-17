@@ -16,7 +16,7 @@ type V2CoreEventListParams struct {
 	// Primary object ID used to retrieve related events.
 	ObjectID *string `form:"object_id" json:"object_id,omitempty"`
 	// An array of up to 20 strings containing specific event names.
-	Types []*string `form:"types" json:"types,omitempty"`
+	Types []*string `form:"types,flat_array" json:"types,omitempty"`
 }
 
 // Retrieves the details of an event.
