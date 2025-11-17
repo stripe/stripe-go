@@ -1,5 +1,13 @@
 # Changelog
 
+## 83.2.1 - 2025-11-13
+* [#2212](https://github.com/stripe/stripe-go/pull/2212) Fix segfault in `BackendImplementation.handleResponseBufferingErrors`
+  * Fixes [#2111](https://github.com/stripe/stripe-go/issues/2211) where a network issue during a RawRequest was causing a segfault.
+
+## 83.2.0 - 2025-11-05
+* [#2203](https://github.com/stripe/stripe-go/pull/2203) Update generated code
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+
 ## 83.2.0-beta.1 - 2025-10-29
 
 This release changes the pinned API version to `2025-10-29.preview`.
@@ -30,6 +38,9 @@ This release changes the pinned API version to `2025-10-29.preview`.
   * Add support for error codes `blocked_payout_method_crypto_wallet` and `unsupported_payout_method_crypto_wallet` on `BlockedByStripeError`
   * Add support for error code `outbound_flow_from_closed_financial_account_unsupported` on `FeatureNotEnabledError`
   * Add support for error code `limit_payout_method_crypto_wallet` on `QuotaExceededError`
+
+## 83.1.1 - 2025-11-04
+* [#2202](https://github.com/stripe/stripe-go/pull/2202) Add support for value `payment_record` to enum `InvoicePaymentPayment.Type`
 
 ## 83.1.0 - 2025-10-29
 

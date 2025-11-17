@@ -9,9 +9,9 @@ package stripe
 // Usage status filter.
 type V2MoneyManagementPayoutMethodListUsageStatusParams struct {
 	// List of payments status to filter by.
-	Payments []*string `form:"payments,flat_array" json:"payments,omitempty"`
+	Payments []*string `form:"payments" json:"payments,omitempty"`
 	// List of transfers status to filter by.
-	Transfers []*string `form:"transfers,flat_array" json:"transfers,omitempty"`
+	Transfers []*string `form:"transfers" json:"transfers,omitempty"`
 }
 
 // List objects that adhere to the PayoutMethod interface.

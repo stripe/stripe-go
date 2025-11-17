@@ -2514,7 +2514,7 @@ type SubscriptionBillingScheduleBillUntilDuration struct {
 	IntervalCount int64 `json:"interval_count"`
 }
 
-// Specifies the billing period.
+// Specifies the end of billing period.
 type SubscriptionBillingScheduleBillUntil struct {
 	// The timestamp the billing schedule will apply until.
 	ComputedTimestamp int64 `json:"computed_timestamp"`
@@ -2530,7 +2530,7 @@ type SubscriptionBillingScheduleBillUntil struct {
 type SubscriptionBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*SubscriptionBillingScheduleAppliesTo `json:"applies_to"`
-	// Specifies the billing period.
+	// Specifies the end of billing period.
 	BillUntil *SubscriptionBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.
 	Key string `json:"key"`
