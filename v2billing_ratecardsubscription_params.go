@@ -39,7 +39,7 @@ type V2BillingRateCardSubscriptionParams struct {
 	// The ID of the Billing Cadence.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the Rate Card.
 	RateCard *string `form:"rate_card" json:"rate_card,omitempty"`
 	// The ID of the Rate Card Version. If not specified, defaults to the "live_version" of the Rate Card at the time of creation.
@@ -47,9 +47,9 @@ type V2BillingRateCardSubscriptionParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingRateCardSubscriptionParams) AddMetadata(key string, value string) {
+func (p *V2BillingRateCardSubscriptionParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -91,13 +91,13 @@ type V2BillingRateCardSubscriptionRetrieveParams struct {
 type V2BillingRateCardSubscriptionUpdateParams struct {
 	Params `form:"*"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingRateCardSubscriptionUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingRateCardSubscriptionUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value

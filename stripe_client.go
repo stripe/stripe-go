@@ -26,6 +26,8 @@ type Client struct {
 	V1BalanceSettings *v1BalanceSettingsService
 	// V1BalanceTransactions is the service used to invoke /v1/balance_transactions APIs.
 	V1BalanceTransactions *v1BalanceTransactionService
+	// V1BalanceTransfers is the service used to invoke /v1/balance_transfers APIs.
+	V1BalanceTransfers *v1BalanceTransferService
 	// V1BankAccounts is the service used to invoke /v1/accounts/{account}/external_accounts APIs.
 	V1BankAccounts *v1BankAccountService
 	// V1BillingAlerts is the service used to invoke /v1/billing/alerts APIs.
@@ -212,6 +214,8 @@ type Client struct {
 	V1QuotePreviewSubscriptionSchedules *v1QuotePreviewSubscriptionScheduleService
 	// V1Quotes is the service used to invoke /v1/quotes APIs.
 	V1Quotes *v1QuoteService
+	// V1RadarAccountEvaluations is the service used to invoke /v1/radar/account_evaluations APIs.
+	V1RadarAccountEvaluations *v1RadarAccountEvaluationService
 	// V1RadarEarlyFraudWarnings is the service used to invoke /v1/radar/early_fraud_warnings APIs.
 	V1RadarEarlyFraudWarnings *v1RadarEarlyFraudWarningService
 	// V1RadarValueListItems is the service used to invoke /v1/radar/value_list_items APIs.
@@ -494,6 +498,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Balance = &v1BalanceService{B: backends.API, Key: key}
 	client.V1BalanceSettings = &v1BalanceSettingsService{B: backends.API, Key: key}
 	client.V1BalanceTransactions = &v1BalanceTransactionService{B: backends.API, Key: key}
+	client.V1BalanceTransfers = &v1BalanceTransferService{B: backends.API, Key: key}
 	client.V1BankAccounts = &v1BankAccountService{B: backends.API, Key: key}
 	client.V1BillingAlerts = &v1BillingAlertService{B: backends.API, Key: key}
 	client.V1BillingAnalyticsMeterUsage = &v1BillingAnalyticsMeterUsageService{B: backends.API, Key: key}
@@ -587,6 +592,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1QuotePreviewInvoices = &v1QuotePreviewInvoiceService{B: backends.API, Key: key}
 	client.V1QuotePreviewSubscriptionSchedules = &v1QuotePreviewSubscriptionScheduleService{B: backends.API, Key: key}
 	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
+	client.V1RadarAccountEvaluations = &v1RadarAccountEvaluationService{B: backends.API, Key: key}
 	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
 	client.V1RadarValueListItems = &v1RadarValueListItemService{B: backends.API, Key: key}
 	client.V1RadarValueLists = &v1RadarValueListService{B: backends.API, Key: key}

@@ -15,7 +15,7 @@ type V2BillingRateCardListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Filter by lookup keys.
 	// You can specify up to 10 lookup keys.
-	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 }
 
 // Create a Rate Card object.
@@ -35,7 +35,7 @@ type V2BillingRateCardParams struct {
 	// An internal key you can use to search for a particular RateCard. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The interval for assessing service. For example, a monthly RateCard with a rate of $1 for the first 10 "workloads"
 	// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
 	// distinct from billing interval; the service interval deals with the rate at which the customer accumulates fees,
@@ -49,9 +49,9 @@ type V2BillingRateCardParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingRateCardParams) AddMetadata(key string, value string) {
+func (p *V2BillingRateCardParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -111,13 +111,13 @@ type V2BillingRateCardUpdateParams struct {
 	// An internal key you can use to search for a particular RateCard. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingRateCardUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingRateCardUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value

@@ -13,7 +13,7 @@ type V2BillingMeteredItemListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Filter by lookup keys.
 	// You can specify up to 10 lookup keys.
-	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 }
 
 // Optional array of Meter segments to filter event dimension keys for billing.
@@ -37,17 +37,17 @@ type V2BillingMeteredItemParams struct {
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Optional array of Meter dimensions to group event dimension keys for invoice line items.
-	InvoicePresentationDimensions []*string `form:"invoice_presentation_dimensions,flat_array" json:"invoice_presentation_dimensions,omitempty"`
+	InvoicePresentationDimensions []*string `form:"invoice_presentation_dimensions" json:"invoice_presentation_dimensions,omitempty"`
 	// An internal key you can use to search for a particular billable item.
 	// Maximum length of 200 characters.
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// ID of the Meter that measures usage for this Metered Item.
 	Meter *string `form:"meter" json:"meter,omitempty"`
 	// Optional array of Meter segments to filter event dimension keys for billing.
-	MeterSegmentConditions []*V2BillingMeteredItemMeterSegmentConditionParams `form:"meter_segment_conditions,flat_array" json:"meter_segment_conditions,omitempty"`
+	MeterSegmentConditions []*V2BillingMeteredItemMeterSegmentConditionParams `form:"meter_segment_conditions" json:"meter_segment_conditions,omitempty"`
 	// Stripe Tax details.
 	TaxDetails *V2BillingMeteredItemTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// The unit to use when displaying prices for this billable item in places like Checkout. For example, set this field
@@ -59,9 +59,9 @@ type V2BillingMeteredItemParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingMeteredItemParams) AddMetadata(key string, value string) {
+func (p *V2BillingMeteredItemParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -88,7 +88,7 @@ type V2BillingMeteredItemCreateParams struct {
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
 	// Optional array of Meter dimensions to group event dimension keys for invoice line items.
-	InvoicePresentationDimensions []*string `form:"invoice_presentation_dimensions,flat_array" json:"invoice_presentation_dimensions,omitempty"`
+	InvoicePresentationDimensions []*string `form:"invoice_presentation_dimensions" json:"invoice_presentation_dimensions,omitempty"`
 	// An internal key you can use to search for a particular billable item.
 	// Must be unique among billable items.
 	// Maximum length of 200 characters.
@@ -98,7 +98,7 @@ type V2BillingMeteredItemCreateParams struct {
 	// ID of the Meter that measures usage for this Metered Item.
 	Meter *string `form:"meter" json:"meter"`
 	// Optional array of Meter segments to filter event dimension keys for billing.
-	MeterSegmentConditions []*V2BillingMeteredItemCreateMeterSegmentConditionParams `form:"meter_segment_conditions,flat_array" json:"meter_segment_conditions,omitempty"`
+	MeterSegmentConditions []*V2BillingMeteredItemCreateMeterSegmentConditionParams `form:"meter_segment_conditions" json:"meter_segment_conditions,omitempty"`
 	// Stripe Tax details.
 	TaxDetails *V2BillingMeteredItemCreateTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// The unit to use when displaying prices for this billable item in places like Checkout. For example, set this field
@@ -139,7 +139,7 @@ type V2BillingMeteredItemUpdateParams struct {
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Stripe Tax details.
 	TaxDetails *V2BillingMeteredItemUpdateTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// The unit to use when displaying prices for this billable item in places like Checkout. For example, set this field
@@ -151,9 +151,9 @@ type V2BillingMeteredItemUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingMeteredItemUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingMeteredItemUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value

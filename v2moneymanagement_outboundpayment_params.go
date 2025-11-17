@@ -31,7 +31,7 @@ type V2MoneyManagementOutboundPaymentListParams struct {
 	// Only return OutboundPayments sent to this recipient.
 	Recipient *string `form:"recipient" json:"recipient,omitempty"`
 	// Closed Enum. Only return OutboundPayments with this status.
-	Status []*string `form:"status,flat_array" json:"status,omitempty"`
+	Status []*string `form:"status" json:"status,omitempty"`
 }
 
 // Delivery options to be used to send the OutboundPayment.

@@ -394,19 +394,24 @@ type PaymentMethodUSBankAccountStatusDetailsBlockedReason string
 
 // List of values that PaymentMethodUSBankAccountStatusDetailsBlockedReason can take
 const (
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountClosed         PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_closed"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountFrozen         PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_frozen"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountInvalidDetails PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_invalid_details"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountRestricted     PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_restricted"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountUnusable       PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_unusable"
-	PaymentMethodUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized        PaymentMethodUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountClosed                 PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_closed"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountFrozen                 PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_frozen"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountInvalidDetails         PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_invalid_details"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountRestricted             PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_restricted"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonBankAccountUnusable               PaymentMethodUSBankAccountStatusDetailsBlockedReason = "bank_account_unusable"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized                PaymentMethodUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
+	PaymentMethodUSBankAccountStatusDetailsBlockedReasonTokenizedAccountNumberDeactivated PaymentMethodUSBankAccountStatusDetailsBlockedReason = "tokenized_account_number_deactivated"
 )
 
 // Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer_list) API instead.
 type PaymentMethodListParams struct {
 	ListParams `form:"*"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
+	AllowRedisplay *string `form:"allow_redisplay"`
 	// The ID of the customer whose PaymentMethods will be retrieved.
 	Customer *string `form:"customer"`
+	// The ID of the Account whose PaymentMethods will be retrieved.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Filters the list by the object `type` field. Unfiltered, the list returns all payment method types except `custom`. If your integration expects only one type of payment method in the response, specify that type value in the request to reduce your payload.
@@ -1896,7 +1901,7 @@ type PaymentMethodIDBankTransfer struct {
 	DisplayName string                          `json:"display_name"`
 }
 type PaymentMethodIDEAL struct {
-	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank string `json:"bank"`
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
 	BIC string `json:"bic"`

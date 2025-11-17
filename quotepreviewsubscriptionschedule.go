@@ -278,30 +278,6 @@ const (
 	QuotePreviewSubscriptionScheduleBillingScheduleAppliesToTypePrice QuotePreviewSubscriptionScheduleBillingScheduleAppliesToType = "price"
 )
 
-// Specifies billing duration. Either `day`, `week`, `month` or `year`.
-type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval string
-
-// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval can take
-const (
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalDay   QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "day"
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalMonth QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "month"
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalWeek  QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "week"
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalYear  QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "year"
-)
-
-// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
-type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType string
-
-// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType can take
-const (
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeAmendmentEnd    QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "amendment_end"
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeDuration        QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "duration"
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeLineEndsAt      QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "line_ends_at"
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeScheduleEnd     QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "schedule_end"
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeTimestamp       QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "timestamp"
-	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeUpcomingInvoice QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "upcoming_invoice"
-)
-
 // Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
 type QuotePreviewSubscriptionScheduleBillingScheduleBillFromRelativeInterval string
 
@@ -325,6 +301,30 @@ const (
 	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeQuoteAcceptanceDate  QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "quote_acceptance_date"
 	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeRelative             QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "relative"
 	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeTimestamp            QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "timestamp"
+)
+
+// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval can take
+const (
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalDay   QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "day"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalMonth QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "month"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalWeek  QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "week"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationIntervalYear  QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval = "year"
+)
+
+// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType can take
+const (
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeAmendmentEnd    QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "amendment_end"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeDuration        QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "duration"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeLineEndsAt      QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "line_ends_at"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeScheduleEnd     QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "schedule_end"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeTimestamp       QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "timestamp"
+	QuotePreviewSubscriptionScheduleBillingScheduleBillUntilTypeUpcomingInvoice QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType = "upcoming_invoice"
 )
 
 // Preview the schedules that would be generated by accepting the quote
@@ -720,42 +720,6 @@ type QuotePreviewSubscriptionScheduleBillingScheduleAppliesTo struct {
 	Type QuotePreviewSubscriptionScheduleBillingScheduleAppliesToType `json:"type"`
 }
 
-// Specifies the billing period.
-type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDuration struct {
-	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
-	Interval QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval `json:"interval"`
-	// The multiplier applied to the interval.
-	IntervalCount int64 `json:"interval_count"`
-}
-
-// Use an index to specify the position of an amendment to end prebilling with.
-type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilAmendmentEnd struct {
-	// Use an index to specify the position of an amendment to end prebilling with.
-	Index int64 `json:"index"`
-}
-
-// Lets you bill the period ending at a particular Quote line.
-type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilLineEndsAt struct {
-	// Unique identifier for the object.
-	ID string `json:"id"`
-}
-
-// Specifies the billing period.
-type QuotePreviewSubscriptionScheduleBillingScheduleBillUntil struct {
-	// Use an index to specify the position of an amendment to end prebilling with.
-	AmendmentEnd *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
-	// The timestamp the billing schedule will apply until.
-	ComputedTimestamp int64 `json:"computed_timestamp"`
-	// Specifies the billing period.
-	Duration *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDuration `json:"duration"`
-	// Lets you bill the period ending at a particular Quote line.
-	LineEndsAt *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
-	// If specified, the billing schedule will apply until the specified timestamp.
-	Timestamp int64 `json:"timestamp"`
-	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
-	Type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType `json:"type"`
-}
-
 // Use an index to specify the position of an amendment to start prebilling with.
 type QuotePreviewSubscriptionScheduleBillingScheduleBillFromAmendmentStart struct {
 	// Use an index to specify the position of an amendment to start prebilling with.
@@ -792,13 +756,49 @@ type QuotePreviewSubscriptionScheduleBillingScheduleBillFrom struct {
 	Type QuotePreviewSubscriptionScheduleBillingScheduleBillFromType `json:"type"`
 }
 
+// Use an index to specify the position of an amendment to end prebilling with.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilAmendmentEnd struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	Index int64 `json:"index"`
+}
+
+// Specifies the billing period.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDuration struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Lets you bill the period ending at a particular Quote line.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilLineEndsAt struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
+
+// Specifies the end of billing period.
+type QuotePreviewSubscriptionScheduleBillingScheduleBillUntil struct {
+	// Use an index to specify the position of an amendment to end prebilling with.
+	AmendmentEnd *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
+	// The timestamp the billing schedule will apply until.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Specifies the billing period.
+	Duration *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDuration `json:"duration"`
+	// Lets you bill the period ending at a particular Quote line.
+	LineEndsAt *QuotePreviewSubscriptionScheduleBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
+	// If specified, the billing schedule will apply until the specified timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilType `json:"type"`
+}
+
 // Billing schedules for this subscription schedule.
 type QuotePreviewSubscriptionScheduleBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*QuotePreviewSubscriptionScheduleBillingScheduleAppliesTo `json:"applies_to"`
 	// Specifies the start of the billing period.
 	BillFrom *QuotePreviewSubscriptionScheduleBillingScheduleBillFrom `json:"bill_from"`
-	// Specifies the billing period.
+	// Specifies the end of billing period.
 	BillUntil *QuotePreviewSubscriptionScheduleBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.
 	Key string `json:"key"`

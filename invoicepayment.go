@@ -29,6 +29,10 @@ type InvoicePaymentListPaymentParams struct {
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 type InvoicePaymentListParams struct {
 	ListParams `form:"*"`
+	// Only return invoice payments that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return invoice payments that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The identifier of the invoice whose payments to return.

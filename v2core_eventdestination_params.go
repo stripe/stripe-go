@@ -10,7 +10,7 @@ package stripe
 type V2CoreEventDestinationListParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// The page size.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
@@ -37,15 +37,15 @@ type V2CoreEventDestinationParams struct {
 	// An optional description of what the event destination is used for.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The list of events to enable for this endpoint.
-	EnabledEvents []*string `form:"enabled_events,flat_array" json:"enabled_events,omitempty"`
+	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
 	// Payload type of events being subscribed to.
 	EventPayload *string `form:"event_payload" json:"event_payload,omitempty"`
 	// Where events should be routed from.
-	EventsFrom []*string `form:"events_from,flat_array" json:"events_from,omitempty"`
+	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
 	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Metadata.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Event destination name.
 	Name *string `form:"name" json:"name,omitempty"`
 	// If using the snapshot event payload, the API version events are rendered as.
@@ -57,9 +57,9 @@ type V2CoreEventDestinationParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreEventDestinationParams) AddMetadata(key string, value string) {
+func (p *V2CoreEventDestinationParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -102,13 +102,13 @@ type V2CoreEventDestinationCreateParams struct {
 	// An optional description of what the event destination is used for.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The list of events to enable for this endpoint.
-	EnabledEvents []*string `form:"enabled_events,flat_array" json:"enabled_events"`
+	EnabledEvents []*string `form:"enabled_events" json:"enabled_events"`
 	// Payload type of events being subscribed to.
 	EventPayload *string `form:"event_payload" json:"event_payload"`
 	// Where events should be routed from.
-	EventsFrom []*string `form:"events_from,flat_array" json:"events_from,omitempty"`
+	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
 	// Additional fields to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Metadata.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Event destination name.
@@ -139,7 +139,7 @@ type V2CoreEventDestinationDeleteParams struct {
 type V2CoreEventDestinationRetrieveParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Webhook endpoint configuration.
@@ -154,11 +154,11 @@ type V2CoreEventDestinationUpdateParams struct {
 	// An optional description of what the event destination is used for.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The list of events to enable for this endpoint.
-	EnabledEvents []*string `form:"enabled_events,flat_array" json:"enabled_events,omitempty"`
+	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
 	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Metadata.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Event destination name.
 	Name *string `form:"name" json:"name,omitempty"`
 	// Webhook endpoint configuration.
@@ -166,9 +166,9 @@ type V2CoreEventDestinationUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreEventDestinationUpdateParams) AddMetadata(key string, value string) {
+func (p *V2CoreEventDestinationUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value

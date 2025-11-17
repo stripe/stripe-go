@@ -12,7 +12,7 @@ package stripe
 type V2MoneyManagementPayoutMethodsBankAccountSpecParams struct {
 	Params `form:"*"`
 	// The countries to fetch the bank account spec for.
-	Countries []*string `form:"countries,flat_array" json:"countries,omitempty"`
+	Countries []*string `form:"countries" json:"countries,omitempty"`
 }
 
 // Fetch the specifications for a set of countries to know which
@@ -21,5 +21,5 @@ type V2MoneyManagementPayoutMethodsBankAccountSpecParams struct {
 type V2MoneyManagementPayoutMethodsBankAccountSpecRetrieveParams struct {
 	Params `form:"*"`
 	// The countries to fetch the bank account spec for.
-	Countries []*string `form:"countries,flat_array" json:"countries,omitempty"`
+	Countries []*string `form:"countries" json:"countries,omitempty"`
 }

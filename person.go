@@ -305,6 +305,18 @@ type PersonRelationshipParams struct {
 	Title *string `form:"title"`
 }
 
+// The credit applicant's self-reported yearly income in minor units.
+type PersonSelfReportedIncomeParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
+// The credit applicant's self-reported monthly housing payment in minor units.
+type PersonSelfReportedMonthlyHousingPaymentParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
 // The persons ethnicity details
 type PersonUSCfpbDataEthnicityDetailsParams struct {
 	// The persons ethnicity
@@ -345,18 +357,6 @@ type PersonVerificationParams struct {
 	AdditionalDocument *PersonVerificationDocumentParams `form:"additional_document"`
 	// An identifying document, either a passport or local ID card.
 	Document *PersonVerificationDocumentParams `form:"document"`
-}
-
-// The credit applicant's self-reported yearly income in minor units.
-type PersonSelfReportedIncomeParams struct {
-	Amount   *int64  `form:"amount"`
-	Currency *string `form:"currency"`
-}
-
-// The credit applicant's self-reported monthly housing payment in minor units.
-type PersonSelfReportedMonthlyHousingPaymentParams struct {
-	Amount   *int64  `form:"amount"`
-	Currency *string `form:"currency"`
 }
 
 // Filters on the list of people returned based on the person's relationship to the account's company.
@@ -519,6 +519,18 @@ type PersonUpdateRelationshipParams struct {
 	Title *string `form:"title"`
 }
 
+// The credit applicant's self-reported yearly income in minor units.
+type PersonUpdateSelfReportedIncomeParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
+// The credit applicant's self-reported monthly housing payment in minor units.
+type PersonUpdateSelfReportedMonthlyHousingPaymentParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
 // The persons ethnicity details
 type PersonUpdateUSCfpbDataEthnicityDetailsParams struct {
 	// The persons ethnicity
@@ -567,18 +579,6 @@ type PersonUpdateVerificationParams struct {
 	AdditionalDocument *PersonUpdateVerificationAdditionalDocumentParams `form:"additional_document"`
 	// An identifying document, either a passport or local ID card.
 	Document *PersonUpdateVerificationDocumentParams `form:"document"`
-}
-
-// The credit applicant's self-reported yearly income in minor units.
-type PersonUpdateSelfReportedIncomeParams struct {
-	Amount   *int64  `form:"amount"`
-	Currency *string `form:"currency"`
-}
-
-// The credit applicant's self-reported monthly housing payment in minor units.
-type PersonUpdateSelfReportedMonthlyHousingPaymentParams struct {
-	Amount   *int64  `form:"amount"`
-	Currency *string `form:"currency"`
 }
 
 // Updates an existing person.
@@ -773,6 +773,18 @@ type PersonCreateRelationshipParams struct {
 	Title *string `form:"title"`
 }
 
+// The credit applicant's self-reported yearly income in minor units.
+type PersonCreateSelfReportedIncomeParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
+// The credit applicant's self-reported monthly housing payment in minor units.
+type PersonCreateSelfReportedMonthlyHousingPaymentParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
 // The persons ethnicity details
 type PersonCreateUSCfpbDataEthnicityDetailsParams struct {
 	// The persons ethnicity
@@ -821,18 +833,6 @@ type PersonCreateVerificationParams struct {
 	AdditionalDocument *PersonCreateVerificationAdditionalDocumentParams `form:"additional_document"`
 	// An identifying document, either a passport or local ID card.
 	Document *PersonCreateVerificationDocumentParams `form:"document"`
-}
-
-// The credit applicant's self-reported yearly income in minor units.
-type PersonCreateSelfReportedIncomeParams struct {
-	Amount   *int64  `form:"amount"`
-	Currency *string `form:"currency"`
-}
-
-// The credit applicant's self-reported monthly housing payment in minor units.
-type PersonCreateSelfReportedMonthlyHousingPaymentParams struct {
-	Amount   *int64  `form:"amount"`
-	Currency *string `form:"currency"`
 }
 
 // Creates a new person.
@@ -1050,6 +1050,18 @@ type PersonRequirements struct {
 	// Fields that might become required depending on the results of verification or review. It's an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due`, `currently_due`, or `past_due`. Fields might appear in `eventually_due`, `currently_due`, or `past_due` and in `pending_verification` if verification fails but another verification is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
+type PersonSelfReportedIncome struct {
+	// Amount in the minor currency unit (e.g., cents for USD)
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+}
+type PersonSelfReportedMonthlyHousingPayment struct {
+	// Amount in the minor currency unit (e.g., cents for USD)
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+}
 
 // The persons ethnicity details
 type PersonUSCfpbDataEthnicityDetails struct {
@@ -1098,18 +1110,6 @@ type PersonVerification struct {
 	Document    *PersonVerificationDocument   `json:"document"`
 	// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://stripe.com/docs/connect/handling-api-verification) to handle verification updates.
 	Status PersonVerificationStatus `json:"status"`
-}
-type PersonSelfReportedIncome struct {
-	// Amount in the minor currency unit (e.g., cents for USD)
-	Amount int64 `json:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-}
-type PersonSelfReportedMonthlyHousingPayment struct {
-	// Amount in the minor currency unit (e.g., cents for USD)
-	Amount int64 `json:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
 }
 
 // This is an object representing a person associated with a Stripe account.

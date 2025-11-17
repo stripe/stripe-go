@@ -15,7 +15,7 @@ type V2BillingPricingPlansComponentListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Filter by lookup keys. Mutually exclusive with `pricing_plan_version`.
 	// You can specify up to 10 lookup keys.
-	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 	// The ID of the Pricing Plan Version to list components for. Will use the latest version if not provided.
 	// Mutually exclusive with `lookup_keys`.
 	PricingPlanVersion *string `form:"pricing_plan_version" json:"pricing_plan_version,omitempty"`
@@ -53,7 +53,7 @@ type V2BillingPricingPlansComponentParams struct {
 	// An identifier that can be used to find this component. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Details if this component is a Rate Card.
 	RateCard *V2BillingPricingPlansComponentRateCardParams `form:"rate_card" json:"rate_card,omitempty"`
 	// Details if this component is a Service Action.
@@ -63,9 +63,9 @@ type V2BillingPricingPlansComponentParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingPricingPlansComponentParams) AddMetadata(key string, value string) {
+func (p *V2BillingPricingPlansComponentParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -143,13 +143,13 @@ type V2BillingPricingPlansComponentUpdateParams struct {
 	// An identifier that can be used to find this component. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingPricingPlansComponentUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingPricingPlansComponentUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value

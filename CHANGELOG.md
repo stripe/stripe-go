@@ -33,6 +33,10 @@ This release changes the pinned API version to `2025-10-29.preview`.
   * Add support for `AllocatedFunds` on `Charge`, `PaymentIntentConfirmParams`, and `PaymentIntentParams`
   * Add support for thin events `V2ReportingReportRunCreatedEvent`, `V2ReportingReportRunFailedEvent`, `V2ReportingReportRunSucceededEvent`, and `V2ReportingReportRunUpdatedEvent` with related object `V2ReportingReportRun`
 
+## 83.2.1 - 2025-11-13
+* [#2212](https://github.com/stripe/stripe-go/pull/2212) Fix segfault in `BackendImplementation.handleResponseBufferingErrors`
+  * Fixes [#2111](https://github.com/stripe/stripe-go/issues/2211) where a network issue during a RawRequest was causing a segfault.
+
 ## 83.2.0 - 2025-11-05
 * [#2203](https://github.com/stripe/stripe-go/pull/2203) Update generated code
   * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
