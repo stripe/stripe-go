@@ -27,7 +27,7 @@ type V2BillingServiceActionCreditGrantAmountParams struct {
 // The applicability scope of the credit grant.
 type V2BillingServiceActionCreditGrantApplicabilityConfigScopeParams struct {
 	// The billable items to apply the credit grant to.
-	BillableItems []*string `form:"billable_items,flat_array" json:"billable_items,omitempty"`
+	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
@@ -81,7 +81,7 @@ type V2BillingServiceActionCreditGrantPerTenantAmountParams struct {
 // The applicability scope of the credit grant.
 type V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopeParams struct {
 	// The billable items to apply the credit grant to.
-	BillableItems []*string `form:"billable_items,flat_array" json:"billable_items,omitempty"`
+	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
@@ -117,7 +117,7 @@ type V2BillingServiceActionCreditGrantPerTenantGrantConditionMeterEventFirstPerP
 // The grant condition for the meter event first per period.
 type V2BillingServiceActionCreditGrantPerTenantGrantConditionMeterEventFirstPerPeriodParams struct {
 	// The meter segment conditions for the grant condition.
-	MeterSegmentConditions []*V2BillingServiceActionCreditGrantPerTenantGrantConditionMeterEventFirstPerPeriodMeterSegmentConditionParams `form:"meter_segment_conditions,flat_array" json:"meter_segment_conditions"`
+	MeterSegmentConditions []*V2BillingServiceActionCreditGrantPerTenantGrantConditionMeterEventFirstPerPeriodMeterSegmentConditionParams `form:"meter_segment_conditions" json:"meter_segment_conditions"`
 }
 
 // The grant condition for the credit grant.
@@ -184,7 +184,7 @@ type V2BillingServiceActionCreateCreditGrantAmountParams struct {
 // The applicability scope of the credit grant.
 type V2BillingServiceActionCreateCreditGrantApplicabilityConfigScopeParams struct {
 	// The billable items to apply the credit grant to.
-	BillableItems []*string `form:"billable_items,flat_array" json:"billable_items,omitempty"`
+	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
@@ -238,7 +238,7 @@ type V2BillingServiceActionCreateCreditGrantPerTenantAmountParams struct {
 // The applicability scope of the credit grant.
 type V2BillingServiceActionCreateCreditGrantPerTenantApplicabilityConfigScopeParams struct {
 	// The billable items to apply the credit grant to.
-	BillableItems []*string `form:"billable_items,flat_array" json:"billable_items,omitempty"`
+	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
@@ -274,7 +274,7 @@ type V2BillingServiceActionCreateCreditGrantPerTenantGrantConditionMeterEventFir
 // The grant condition for the meter event first per period.
 type V2BillingServiceActionCreateCreditGrantPerTenantGrantConditionMeterEventFirstPerPeriodParams struct {
 	// The meter segment conditions for the grant condition.
-	MeterSegmentConditions []*V2BillingServiceActionCreateCreditGrantPerTenantGrantConditionMeterEventFirstPerPeriodMeterSegmentConditionParams `form:"meter_segment_conditions,flat_array" json:"meter_segment_conditions"`
+	MeterSegmentConditions []*V2BillingServiceActionCreateCreditGrantPerTenantGrantConditionMeterEventFirstPerPeriodMeterSegmentConditionParams `form:"meter_segment_conditions" json:"meter_segment_conditions"`
 }
 
 // The grant condition for the credit grant.

@@ -106,7 +106,7 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsComponentConfigura
 // Details for modifying a pricing plan subscription.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsParams struct {
 	// New configurations for the components of the pricing plan.
-	ComponentConfigurations []*V2BillingIntentActionModifyPricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations,flat_array" json:"component_configurations,omitempty"`
+	ComponentConfigurations []*V2BillingIntentActionModifyPricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
 	// The ID of the new Pricing Plan, if changing plans.
 	NewPricingPlan *string `form:"new_pricing_plan" json:"new_pricing_plan,omitempty"`
 	// The ID of the new Pricing Plan Version to use.
@@ -162,7 +162,7 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfig
 // Details for subscribing to a pricing plan.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsParams struct {
 	// Configurations for the components of the pricing plan.
-	ComponentConfigurations []*V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations,flat_array" json:"component_configurations,omitempty"`
+	ComponentConfigurations []*V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// ID of the Pricing Plan to subscribe to.
@@ -205,7 +205,7 @@ type V2BillingIntentActionSubscribeV1SubscriptionDetailsParams struct {
 	// Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description" json:"description,omitempty"`
 	// A list of up to 20 subscription items, each with an attached price.
-	Items []*V2BillingIntentActionSubscribeV1SubscriptionDetailsItemParams `form:"items,flat_array" json:"items"`
+	Items []*V2BillingIntentActionSubscribeV1SubscriptionDetailsItemParams `form:"items" json:"items"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 }
@@ -253,7 +253,7 @@ type V2BillingIntentActionParams struct {
 type V2BillingIntentParams struct {
 	Params `form:"*"`
 	// Actions to be performed by this Billing Intent.
-	Actions []*V2BillingIntentActionParams `form:"actions,flat_array" json:"actions,omitempty"`
+	Actions []*V2BillingIntentActionParams `form:"actions" json:"actions,omitempty"`
 	// ID of an existing Cadence to use.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
@@ -373,7 +373,7 @@ type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsComponentCon
 // Details for modifying a pricing plan subscription.
 type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsParams struct {
 	// New configurations for the components of the pricing plan.
-	ComponentConfigurations []*V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations,flat_array" json:"component_configurations,omitempty"`
+	ComponentConfigurations []*V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
 	// The ID of the new Pricing Plan, if changing plans.
 	NewPricingPlan *string `form:"new_pricing_plan" json:"new_pricing_plan,omitempty"`
 	// The ID of the new Pricing Plan Version to use.
@@ -429,7 +429,7 @@ type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsComponent
 // Details for subscribing to a pricing plan.
 type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsParams struct {
 	// Configurations for the components of the pricing plan.
-	ComponentConfigurations []*V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations,flat_array" json:"component_configurations,omitempty"`
+	ComponentConfigurations []*V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// ID of the Pricing Plan to subscribe to.
@@ -472,7 +472,7 @@ type V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsParams struct {
 	// Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description" json:"description,omitempty"`
 	// A list of up to 20 subscription items, each with an attached price.
-	Items []*V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsItemParams `form:"items,flat_array" json:"items"`
+	Items []*V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsItemParams `form:"items" json:"items"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 }
@@ -520,7 +520,7 @@ type V2BillingIntentCreateActionParams struct {
 type V2BillingIntentCreateParams struct {
 	Params `form:"*"`
 	// Actions to be performed by this Billing Intent.
-	Actions []*V2BillingIntentCreateActionParams `form:"actions,flat_array" json:"actions"`
+	Actions []*V2BillingIntentCreateActionParams `form:"actions" json:"actions"`
 	// ID of an existing Cadence to use.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.

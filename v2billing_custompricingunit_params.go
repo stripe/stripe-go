@@ -15,7 +15,7 @@ type V2BillingCustomPricingUnitListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Filter by lookup keys. Mutually exclusive with `active`.
 	// You can specify up to 10 lookup keys.
-	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 }
 
 // Create a Custom Pricing Unit object.
