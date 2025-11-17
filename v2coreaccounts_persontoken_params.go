@@ -288,12 +288,12 @@ type V2CoreAccountsPersonTokenParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreAccountsPersonTokenParams) AddMetadata(key string, value string) {
+func (p *V2CoreAccountsPersonTokenParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Additional addresses associated with the person.
@@ -578,12 +578,12 @@ type V2CoreAccountsPersonTokenCreateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreAccountsPersonTokenCreateParams) AddMetadata(key string, value string) {
+func (p *V2CoreAccountsPersonTokenCreateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Retrieves a Person Token associated with an Account.

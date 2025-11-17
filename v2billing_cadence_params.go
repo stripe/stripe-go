@@ -231,12 +231,12 @@ type V2BillingCadenceParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingCadenceParams) AddMetadata(key string, value string) {
+func (p *V2BillingCadenceParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Cancel the Billing Cadence.
@@ -502,10 +502,10 @@ type V2BillingCadenceUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingCadenceUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingCadenceUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }

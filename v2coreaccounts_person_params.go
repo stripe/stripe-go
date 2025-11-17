@@ -305,12 +305,12 @@ type V2CoreAccountsPersonParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreAccountsPersonParams) AddMetadata(key string, value string) {
+func (p *V2CoreAccountsPersonParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Additional addresses associated with the person.
@@ -911,10 +911,10 @@ type V2CoreAccountsPersonUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2CoreAccountsPersonUpdateParams) AddMetadata(key string, value string) {
+func (p *V2CoreAccountsPersonUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }

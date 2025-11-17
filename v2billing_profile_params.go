@@ -46,12 +46,12 @@ type V2BillingProfileParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingProfileParams) AddMetadata(key string, value string) {
+func (p *V2BillingProfileParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
 
 // Create a BillingProfile object.
@@ -103,10 +103,10 @@ type V2BillingProfileUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingProfileUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingProfileUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]*string)
 	}
 
-	p.Metadata[key] = &value
+	p.Metadata[key] = value
 }
