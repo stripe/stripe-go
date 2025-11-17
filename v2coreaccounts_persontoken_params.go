@@ -81,7 +81,7 @@ type V2CoreAccountsPersonTokenDateOfBirthParams struct {
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountsPersonTokenDocumentsCompanyAuthorizationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -89,7 +89,7 @@ type V2CoreAccountsPersonTokenDocumentsCompanyAuthorizationParams struct {
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountsPersonTokenDocumentsPassportParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -129,7 +129,7 @@ type V2CoreAccountsPersonTokenDocumentsSecondaryVerificationParams struct {
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountsPersonTokenDocumentsVisaParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -250,9 +250,9 @@ type V2CoreAccountsPersonTokenParams struct {
 	// The Account the Person is associated with.
 	AccountID *string `form:"-" json:"-"` // Included in URL
 	// Additional addresses associated with the person.
-	AdditionalAddresses []*V2CoreAccountsPersonTokenAdditionalAddressParams `form:"additional_addresses,flat_array" json:"additional_addresses,omitempty"`
+	AdditionalAddresses []*V2CoreAccountsPersonTokenAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// Additional names (e.g. aliases) associated with the person.
-	AdditionalNames []*V2CoreAccountsPersonTokenAdditionalNameParams `form:"additional_names,flat_array" json:"additional_names,omitempty"`
+	AdditionalNames []*V2CoreAccountsPersonTokenAdditionalNameParams `form:"additional_names" json:"additional_names,omitempty"`
 	// Attestations of accepted terms of service agreements.
 	AdditionalTermsOfService *V2CoreAccountsPersonTokenAdditionalTermsOfServiceParams `form:"additional_terms_of_service" json:"additional_terms_of_service,omitempty"`
 	// The person's residential address.
@@ -266,13 +266,13 @@ type V2CoreAccountsPersonTokenParams struct {
 	// The person's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// The identification numbers (e.g., SSN) associated with the person.
-	IDNumbers []*V2CoreAccountsPersonTokenIDNumberParams `form:"id_numbers,flat_array" json:"id_numbers,omitempty"`
+	IDNumbers []*V2CoreAccountsPersonTokenIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
 	// The person's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The nationalities (countries) this person is associated with.
-	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
+	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
 	// The phone number for this person.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The person's political exposure.
@@ -371,7 +371,7 @@ type V2CoreAccountsPersonTokenCreateDateOfBirthParams struct {
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountsPersonTokenCreateDocumentsCompanyAuthorizationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -379,7 +379,7 @@ type V2CoreAccountsPersonTokenCreateDocumentsCompanyAuthorizationParams struct {
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountsPersonTokenCreateDocumentsPassportParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -419,7 +419,7 @@ type V2CoreAccountsPersonTokenCreateDocumentsSecondaryVerificationParams struct 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountsPersonTokenCreateDocumentsVisaParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -540,9 +540,9 @@ type V2CoreAccountsPersonTokenCreateParams struct {
 	// The Account the Person is associated with.
 	AccountID *string `form:"-" json:"-"` // Included in URL
 	// Additional addresses associated with the person.
-	AdditionalAddresses []*V2CoreAccountsPersonTokenCreateAdditionalAddressParams `form:"additional_addresses,flat_array" json:"additional_addresses,omitempty"`
+	AdditionalAddresses []*V2CoreAccountsPersonTokenCreateAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// Additional names (e.g. aliases) associated with the person.
-	AdditionalNames []*V2CoreAccountsPersonTokenCreateAdditionalNameParams `form:"additional_names,flat_array" json:"additional_names,omitempty"`
+	AdditionalNames []*V2CoreAccountsPersonTokenCreateAdditionalNameParams `form:"additional_names" json:"additional_names,omitempty"`
 	// Attestations of accepted terms of service agreements.
 	AdditionalTermsOfService *V2CoreAccountsPersonTokenCreateAdditionalTermsOfServiceParams `form:"additional_terms_of_service" json:"additional_terms_of_service,omitempty"`
 	// The person's residential address.
@@ -556,13 +556,13 @@ type V2CoreAccountsPersonTokenCreateParams struct {
 	// The person's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// The identification numbers (e.g., SSN) associated with the person.
-	IDNumbers []*V2CoreAccountsPersonTokenCreateIDNumberParams `form:"id_numbers,flat_array" json:"id_numbers,omitempty"`
+	IDNumbers []*V2CoreAccountsPersonTokenCreateIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
 	// The person's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The nationalities (countries) this person is associated with.
-	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
+	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
 	// The phone number for this person.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The person's political exposure.

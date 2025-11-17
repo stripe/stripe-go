@@ -39,7 +39,7 @@ type V2CoreVaultUSBankAccountArchiveParams struct {
 type V2CoreVaultUSBankAccountConfirmMicrodepositsParams struct {
 	Params `form:"*"`
 	// Two amounts received through Send Microdeposits must match the input to Confirm Microdeposits to verify US Bank Account.
-	Amounts []*int64 `form:"amounts,flat_array" json:"amounts,omitempty"`
+	Amounts []*int64 `form:"amounts" json:"amounts,omitempty"`
 	// Descriptor code received through Send Microdeposits must match the input to Confirm Microdeposits to verify US Bank Account.
 	DescriptorCode *string `form:"descriptor_code" json:"descriptor_code,omitempty"`
 }

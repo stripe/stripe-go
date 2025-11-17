@@ -20,7 +20,7 @@ type V2BillingProfileListParams struct {
 	// Filter billing profiles by lookup keys. Mutually exclusive
 	// with `customer` and `default_payment_method`.
 	// You can specify up to 10 lookup_keys.
-	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys"`
 	// Filter billing profiles by status. Can be combined
 	// with all other filters. If not provided, all billing profiles will be returned.
 	Status *string `form:"status" json:"status,omitempty"`

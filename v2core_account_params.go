@@ -12,7 +12,7 @@ import "time"
 type V2CoreAccountListParams struct {
 	Params `form:"*"`
 	// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
-	AppliedConfigurations []*string `form:"applied_configurations,flat_array" json:"applied_configurations,omitempty"`
+	AppliedConfigurations []*string `form:"applied_configurations" json:"applied_configurations,omitempty"`
 	// Filter by whether the account is closed. If omitted, returns only Accounts that are not closed.
 	Closed *bool `form:"closed" json:"closed,omitempty"`
 	// The upper limit on the number of accounts returned by the List Account request.
@@ -50,7 +50,7 @@ type V2CoreAccountConfigurationCustomerBillingInvoiceRenderingParams struct {
 // Default settings used on invoices for this customer.
 type V2CoreAccountConfigurationCustomerBillingInvoiceParams struct {
 	// The list of up to 4 default custom fields to be displayed on invoices for this customer.
-	CustomFields []*V2CoreAccountConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields,flat_array" json:"custom_fields,omitempty"`
+	CustomFields []*V2CoreAccountConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer *string `form:"footer" json:"footer,omitempty"`
 	// The sequence to be used on the customer's next invoice. Defaults to 1.
@@ -820,7 +820,7 @@ type V2CoreAccountDefaultsParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
-	Locales []*string `form:"locales,flat_array" json:"locales,omitempty"`
+	Locales []*string `form:"locales" json:"locales,omitempty"`
 	// Account profile information.
 	Profile *V2CoreAccountDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
@@ -942,7 +942,7 @@ type V2CoreAccountIdentityBusinessDetailsAnnualRevenueParams struct {
 // One or more documents that support the bank account ownership verification requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type V2CoreAccountIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -950,7 +950,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificati
 // One or more documents that demonstrate proof of a company's license to operate.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyLicenseParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -958,7 +958,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyLicenseParams struct {
 // One or more documents showing the company's Memorandum of Association.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -966,7 +966,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociation
 // Certain countries only: One or more documents showing the ministerial decree legalizing the company's establishment.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -974,7 +974,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyRegistrationVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -982,7 +982,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyRegistrationVerificatio
 // One or more documents that demonstrate proof of a company's tax ID.
 type V2CoreAccountIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -1006,7 +1006,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationParams stru
 // One or more documents that demonstrate proof of address.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -1014,7 +1014,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -1022,7 +1022,7 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationParams stru
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -1142,7 +1142,7 @@ type V2CoreAccountIdentityBusinessDetailsParams struct {
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
-	IDNumbers []*V2CoreAccountIdentityBusinessDetailsIDNumberParams `form:"id_numbers,flat_array" json:"id_numbers,omitempty"`
+	IDNumbers []*V2CoreAccountIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
 	// An estimate of the monthly revenue of the business.
 	MonthlyEstimatedRevenue *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue" json:"monthly_estimated_revenue,omitempty"`
 	// The phone number of the Business Entity.
@@ -1220,7 +1220,7 @@ type V2CoreAccountIdentityIndividualDateOfBirthParams struct {
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountIdentityIndividualDocumentsCompanyAuthorizationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -1228,7 +1228,7 @@ type V2CoreAccountIdentityIndividualDocumentsCompanyAuthorizationParams struct {
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountIdentityIndividualDocumentsPassportParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -1268,7 +1268,7 @@ type V2CoreAccountIdentityIndividualDocumentsSecondaryVerificationParams struct 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountIdentityIndividualDocumentsVisaParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -1380,9 +1380,9 @@ type V2CoreAccountIdentityIndividualScriptNamesParams struct {
 // Information about the person represented by the account.
 type V2CoreAccountIdentityIndividualParams struct {
 	// Additional addresses associated with the individual.
-	AdditionalAddresses []*V2CoreAccountIdentityIndividualAdditionalAddressParams `form:"additional_addresses,flat_array" json:"additional_addresses,omitempty"`
+	AdditionalAddresses []*V2CoreAccountIdentityIndividualAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// Additional names (e.g. aliases) associated with the individual.
-	AdditionalNames []*V2CoreAccountIdentityIndividualAdditionalNameParams `form:"additional_names,flat_array" json:"additional_names,omitempty"`
+	AdditionalNames []*V2CoreAccountIdentityIndividualAdditionalNameParams `form:"additional_names" json:"additional_names,omitempty"`
 	// The individual's residential address.
 	Address *V2CoreAccountIdentityIndividualAddressParams `form:"address" json:"address,omitempty"`
 	// The individual's date of birth.
@@ -1394,13 +1394,13 @@ type V2CoreAccountIdentityIndividualParams struct {
 	// The individual's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// The identification numbers (e.g., SSN) associated with the individual.
-	IDNumbers []*V2CoreAccountIdentityIndividualIDNumberParams `form:"id_numbers,flat_array" json:"id_numbers,omitempty"`
+	IDNumbers []*V2CoreAccountIdentityIndividualIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
 	// The individual's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
+	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
 	// The individual's phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The individual's political exposure.
@@ -1456,7 +1456,7 @@ type V2CoreAccountParams struct {
 	// Information about the company, individual, and business represented by the Account.
 	Identity *V2CoreAccountIdentityParams `form:"identity" json:"identity,omitempty"`
 	// Additional fields to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
@@ -1484,7 +1484,7 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
 type V2CoreAccountCloseParams struct {
 	Params `form:"*"`
 	// Configurations on the Account to be closed. All configurations on the Account must be passed in for this request to succeed.
-	AppliedConfigurations []*string `form:"applied_configurations,flat_array" json:"applied_configurations,omitempty"`
+	AppliedConfigurations []*string `form:"applied_configurations" json:"applied_configurations,omitempty"`
 }
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
@@ -1516,7 +1516,7 @@ type V2CoreAccountCreateConfigurationCustomerBillingInvoiceRenderingParams struc
 // Default settings used on invoices for this customer.
 type V2CoreAccountCreateConfigurationCustomerBillingInvoiceParams struct {
 	// The list of up to 4 default custom fields to be displayed on invoices for this customer.
-	CustomFields []*V2CoreAccountCreateConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields,flat_array" json:"custom_fields,omitempty"`
+	CustomFields []*V2CoreAccountCreateConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer *string `form:"footer" json:"footer,omitempty"`
 	// The sequence to be used on the customer's next invoice. Defaults to 1.
@@ -2274,7 +2274,7 @@ type V2CoreAccountCreateDefaultsParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
-	Locales []*string `form:"locales,flat_array" json:"locales,omitempty"`
+	Locales []*string `form:"locales" json:"locales,omitempty"`
 	// Account profile information.
 	Profile *V2CoreAccountCreateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
@@ -2394,7 +2394,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueParams struct {
 // One or more documents that support the bank account ownership verification requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2402,7 +2402,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsBankAccountOwnershipVeri
 // One or more documents that demonstrate proof of a company's license to operate.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyLicenseParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2410,7 +2410,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyLicenseParams str
 // One or more documents showing the company's Memorandum of Association.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2418,7 +2418,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssoc
 // Certain countries only: One or more documents showing the ministerial decree legalizing the company's establishment.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2426,7 +2426,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyMinisterialDecree
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyRegistrationVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2434,7 +2434,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyRegistrationVerif
 // One or more documents that demonstrate proof of a company's tax ID.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2458,7 +2458,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsPrimaryVerificationParam
 // One or more documents that demonstrate proof of address.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2466,7 +2466,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfAddressParams str
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2474,7 +2474,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParam
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2594,7 +2594,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
-	IDNumbers []*V2CoreAccountCreateIdentityBusinessDetailsIDNumberParams `form:"id_numbers,flat_array" json:"id_numbers,omitempty"`
+	IDNumbers []*V2CoreAccountCreateIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
 	// An estimate of the monthly revenue of the business.
 	MonthlyEstimatedRevenue *V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue" json:"monthly_estimated_revenue,omitempty"`
 	// The phone number of the Business Entity.
@@ -2672,7 +2672,7 @@ type V2CoreAccountCreateIdentityIndividualDateOfBirthParams struct {
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountCreateIdentityIndividualDocumentsCompanyAuthorizationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2680,7 +2680,7 @@ type V2CoreAccountCreateIdentityIndividualDocumentsCompanyAuthorizationParams st
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountCreateIdentityIndividualDocumentsPassportParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2720,7 +2720,7 @@ type V2CoreAccountCreateIdentityIndividualDocumentsSecondaryVerificationParams s
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountCreateIdentityIndividualDocumentsVisaParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -2832,9 +2832,9 @@ type V2CoreAccountCreateIdentityIndividualScriptNamesParams struct {
 // Information about the person represented by the account.
 type V2CoreAccountCreateIdentityIndividualParams struct {
 	// Additional addresses associated with the individual.
-	AdditionalAddresses []*V2CoreAccountCreateIdentityIndividualAdditionalAddressParams `form:"additional_addresses,flat_array" json:"additional_addresses,omitempty"`
+	AdditionalAddresses []*V2CoreAccountCreateIdentityIndividualAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// Additional names (e.g. aliases) associated with the individual.
-	AdditionalNames []*V2CoreAccountCreateIdentityIndividualAdditionalNameParams `form:"additional_names,flat_array" json:"additional_names,omitempty"`
+	AdditionalNames []*V2CoreAccountCreateIdentityIndividualAdditionalNameParams `form:"additional_names" json:"additional_names,omitempty"`
 	// The individual's residential address.
 	Address *V2CoreAccountCreateIdentityIndividualAddressParams `form:"address" json:"address,omitempty"`
 	// The individual's date of birth.
@@ -2846,13 +2846,13 @@ type V2CoreAccountCreateIdentityIndividualParams struct {
 	// The individual's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// The identification numbers (e.g., SSN) associated with the individual.
-	IDNumbers []*V2CoreAccountCreateIdentityIndividualIDNumberParams `form:"id_numbers,flat_array" json:"id_numbers,omitempty"`
+	IDNumbers []*V2CoreAccountCreateIdentityIndividualIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
 	// The individual's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
+	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
 	// The individual's phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The individual's political exposure.
@@ -2908,7 +2908,7 @@ type V2CoreAccountCreateParams struct {
 	// Information about the company, individual, and business represented by the Account.
 	Identity *V2CoreAccountCreateIdentityParams `form:"identity" json:"identity,omitempty"`
 	// Additional fields to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 }
@@ -2926,7 +2926,7 @@ func (p *V2CoreAccountCreateParams) AddMetadata(key string, value string) {
 type V2CoreAccountRetrieveParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
@@ -2960,7 +2960,7 @@ type V2CoreAccountUpdateConfigurationCustomerBillingInvoiceRenderingParams struc
 // Default settings used on invoices for this customer.
 type V2CoreAccountUpdateConfigurationCustomerBillingInvoiceParams struct {
 	// The list of up to 4 default custom fields to be displayed on invoices for this customer.
-	CustomFields []*V2CoreAccountUpdateConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields,flat_array" json:"custom_fields,omitempty"`
+	CustomFields []*V2CoreAccountUpdateConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer *string `form:"footer" json:"footer,omitempty"`
 	// The sequence to be used on the customer's next invoice. Defaults to 1.
@@ -3730,7 +3730,7 @@ type V2CoreAccountUpdateDefaultsParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
-	Locales []*string `form:"locales,flat_array" json:"locales,omitempty"`
+	Locales []*string `form:"locales" json:"locales,omitempty"`
 	// Account profile information.
 	Profile *V2CoreAccountUpdateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
@@ -3862,7 +3862,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueParams struct {
 // One or more documents that support the bank account ownership verification requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -3870,7 +3870,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsBankAccountOwnershipVeri
 // One or more documents that demonstrate proof of a company's license to operate.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyLicenseParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -3878,7 +3878,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyLicenseParams str
 // One or more documents showing the company's Memorandum of Association.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -3886,7 +3886,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssoc
 // Certain countries only: One or more documents showing the ministerial decree legalizing the company's establishment.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -3894,7 +3894,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyMinisterialDecree
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyRegistrationVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -3902,7 +3902,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyRegistrationVerif
 // One or more documents that demonstrate proof of a company's tax ID.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -3926,7 +3926,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationParam
 // One or more documents that demonstrate proof of address.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -3934,7 +3934,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfAddressParams str
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -3942,7 +3942,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationParam
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -4062,7 +4062,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
-	IDNumbers []*V2CoreAccountUpdateIdentityBusinessDetailsIDNumberParams `form:"id_numbers,flat_array" json:"id_numbers,omitempty"`
+	IDNumbers []*V2CoreAccountUpdateIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
 	// An estimate of the monthly revenue of the business.
 	MonthlyEstimatedRevenue *V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue" json:"monthly_estimated_revenue,omitempty"`
 	// The phone number of the Business Entity.
@@ -4140,7 +4140,7 @@ type V2CoreAccountUpdateIdentityIndividualDateOfBirthParams struct {
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type V2CoreAccountUpdateIdentityIndividualDocumentsCompanyAuthorizationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -4148,7 +4148,7 @@ type V2CoreAccountUpdateIdentityIndividualDocumentsCompanyAuthorizationParams st
 // One or more documents showing the person's passport page with photo and personal data.
 type V2CoreAccountUpdateIdentityIndividualDocumentsPassportParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -4188,7 +4188,7 @@ type V2CoreAccountUpdateIdentityIndividualDocumentsSecondaryVerificationParams s
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type V2CoreAccountUpdateIdentityIndividualDocumentsVisaParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
-	Files []*string `form:"files,flat_array" json:"files"`
+	Files []*string `form:"files" json:"files"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -4300,9 +4300,9 @@ type V2CoreAccountUpdateIdentityIndividualScriptNamesParams struct {
 // Information about the individual represented by the Account. This property is `null` unless `entity_type` is set to `individual`.
 type V2CoreAccountUpdateIdentityIndividualParams struct {
 	// Additional addresses associated with the individual.
-	AdditionalAddresses []*V2CoreAccountUpdateIdentityIndividualAdditionalAddressParams `form:"additional_addresses,flat_array" json:"additional_addresses,omitempty"`
+	AdditionalAddresses []*V2CoreAccountUpdateIdentityIndividualAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// Additional names (e.g. aliases) associated with the individual.
-	AdditionalNames []*V2CoreAccountUpdateIdentityIndividualAdditionalNameParams `form:"additional_names,flat_array" json:"additional_names,omitempty"`
+	AdditionalNames []*V2CoreAccountUpdateIdentityIndividualAdditionalNameParams `form:"additional_names" json:"additional_names,omitempty"`
 	// The individual's residential address.
 	Address *V2CoreAccountUpdateIdentityIndividualAddressParams `form:"address" json:"address,omitempty"`
 	// The individual's date of birth.
@@ -4314,13 +4314,13 @@ type V2CoreAccountUpdateIdentityIndividualParams struct {
 	// The individual's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// The identification numbers (e.g., SSN) associated with the individual.
-	IDNumbers []*V2CoreAccountUpdateIdentityIndividualIDNumberParams `form:"id_numbers,flat_array" json:"id_numbers,omitempty"`
+	IDNumbers []*V2CoreAccountUpdateIdentityIndividualIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
 	// The individual's gender (International regulations require either "male" or "female").
 	LegalGender *string `form:"legal_gender" json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Nationalities []*string `form:"nationalities,flat_array" json:"nationalities,omitempty"`
+	Nationalities []*string `form:"nationalities" json:"nationalities,omitempty"`
 	// The individual's phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The individual's political exposure.
@@ -4376,7 +4376,7 @@ type V2CoreAccountUpdateParams struct {
 	// Information about the company, individual, and business represented by the Account.
 	Identity *V2CoreAccountUpdateIdentityParams `form:"identity" json:"identity,omitempty"`
 	// Additional fields to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
