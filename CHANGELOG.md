@@ -1,5 +1,33 @@
 # Changelog
 
+## 84.0.0 - 2025-11-18
+This release changes the pinned API version to `2025-11-17.clover`.
+
+* [#2216](https://github.com/stripe/stripe-go/pull/2216) Update generated code
+  * ⚠️ Change the type of `V2CoreEventDestinationParams.Metadata` and `V2CoreEventDestinationUpdateParams.Metadata` to `map[string]*string` from `map[string]string`. This supports the ability to remove a key from a `Metadata` map by setting its value to `nil`.
+  * ⚠️ A corresponding change was made to the `V2CoreEventDestinationParams.AddMetadata` method to set its second argument to `*string` from `string`.
+* [#2215](https://github.com/stripe/stripe-go/pull/2215) Update generated code
+  * ⚠️ Remove support for `GTE`, `Gt`, `LT`, and `Lte` on `V2CoreEventListParams` in favor of `Created`.
+* [#2210](https://github.com/stripe/stripe-go/pull/2210) Update v2 array parameter serialization to use indexed format
+  - `Retrieve` and `List` calls for `/v2` endpoints now use indexed format (e.g., `?include[0]=foo&include[1]=bar`) instead of repeated parameter format (e.g., `?include=foo&include=bar`) when communicating with the Stripe API. This may break any unit tests that expect the latter behavior when setting up a mock server. Instead, they should now expect the former.
+* [#2206](https://github.com/stripe/stripe-go/pull/2206) Update generated code
+  * Add support for new resources `TaxAssociation` and `TerminalOnboardingLink`
+  * Add support for `Find` method on resource `TaxAssociation`
+  * Add support for `New` method on resource `TerminalOnboardingLink`
+  * Add support for `PaymentMethodConfiguration` on `BillingPortalConfigurationFeaturesPaymentMethodUpdate`
+  * Add support for `TransactionID` on `ChargePaymentMethodDetailsIdeal`, `PaymentAttemptRecordPaymentMethodDetailsIdeal`, and `PaymentRecordPaymentMethodDetailsIdeal`
+  * Add support for new value `finom` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.Bank`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.Bank`, and `PaymentRecordPaymentMethodDetailsIdeal.Bank`
+  * Add support for new value `FNOMNL22` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.BIC`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.BIC`, and `PaymentRecordPaymentMethodDetailsIdeal.BIC`
+  * Add support for new value `tokenized_account_number_deactivated` on enums `ConfirmationTokenPaymentMethodPreviewUsBankAccountStatusDetailsBlocked.Reason` and `PaymentMethodUsBankAccountStatusDetailsBlocked.Reason`
+  * Add support for `Created` on `CustomerCustomerBalanceTransactionListParams` and `InvoicePaymentListParams`
+  * Add support for new values `financial_connections.account.account_numbers_updated` and `financial_connections.account.upcoming_account_number_expiry` on enum `Event.Type`
+  * Add support for `AccountNumbers` on `FinancialConnectionsAccount`
+  * Add support for `FraudRisk` on `IssuingAuthorizationRiskAssessmentParams`
+  * Add support for `LatestFraudWarning` on `IssuingCard`
+  * Add support for `Hooks` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentIncrementAuthorizationParams`, `PaymentIntentParams`, and `PaymentIntent`
+  * Add support for `MbWay` and `TWINT` on `RefundDestinationDetails`
+  * Add support for snapshot events `EventTypeFinancialConnectionsAccountAccountNumbersUpdated` and `EventTypeFinancialConnectionsAccountUpcomingAccountNumberExpiry` with resource `FinancialConnectionsAccount`
+
 ## 83.2.1 - 2025-11-13
 * [#2212](https://github.com/stripe/stripe-go/pull/2212) Fix segfault in `BackendImplementation.handleResponseBufferingErrors`
   * Fixes [#2111](https://github.com/stripe/stripe-go/issues/2211) where a network issue during a RawRequest was causing a segfault.
