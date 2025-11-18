@@ -912,7 +912,11 @@ func (r *EventRouter) Handle(webhook_body []byte, sig_header string) error {
 		originalContext := backend.StripeContext
 
 		// Set new context from event notification
-		backend.StripeContext = n.Context.StringPtr()
+		if n.Context == nil {
+			backend.StripeContext = nil
+		} else {
+			backend.StripeContext = n.Context.StringPtr()
+		}
 
 		// Restore original context after handler completes
 		defer func() {
