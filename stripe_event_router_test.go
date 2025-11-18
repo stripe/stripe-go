@@ -95,7 +95,7 @@ func TestEventRouter_RoutesEventToRegisteredHandler(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	var handlerCalled bool
 	var receivedEvent *V1BillingMeterErrorReportTriggeredEventNotification
@@ -138,7 +138,7 @@ func TestEventRouter_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	var billingHandlerCalled, noMeterHandlerCalled bool
 	var billingEvent *V1BillingMeterErrorReportTriggeredEventNotification
@@ -190,7 +190,7 @@ func TestEventRouter_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	var receivedEvent *V1BillingMeterErrorReportTriggeredEventNotification
 	var receivedClient *Client
@@ -225,7 +225,7 @@ func TestEventRouter_CannotRegisterHandlerAfterHandling(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
@@ -258,7 +258,7 @@ func TestEventRouter_CannotRegisterDuplicateHandler(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	handler1 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
@@ -287,7 +287,7 @@ func TestEventRouter_HandlerUsesEventStripeContext(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	var receivedContext *string
 
@@ -325,7 +325,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		// Verify context is event context during handler
@@ -360,7 +360,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerError(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		// Verify context is event context during handler
@@ -396,7 +396,7 @@ func TestEventRouter_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	var receivedContext *string
 
@@ -442,7 +442,7 @@ func TestEventRouter_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	payload := unknownEventPayload()
 	sigHeader := generateTestSignature(payload)
@@ -479,7 +479,7 @@ func TestEventRouter_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	// Don't register a handler for this known event type
 	payload := v1BillingMeterPayload()
@@ -510,7 +510,7 @@ func TestEventRouter_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	var handlerCalled bool
 	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
@@ -542,7 +542,7 @@ func TestEventRouter_HandlerClientRetainsConfiguration(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	var receivedAPIKey string
 	var receivedContext *string
@@ -578,7 +578,7 @@ func TestEventRouter_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	payload := unknownEventPayload()
 	sigHeader := generateTestSignature(payload)
@@ -599,7 +599,7 @@ func TestEventRouter_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *testi
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
@@ -618,7 +618,7 @@ func TestEventRouter_ValidatesWebhookSignature(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	payload := v1BillingMeterPayload()
 	err := router.Handle([]byte(payload), "invalid_signature")
@@ -637,7 +637,7 @@ func TestEventRouter_RegisteredEventTypesEmpty(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	types := router.RegisteredEventTypes()
 	assert.Empty(t, types)
@@ -652,7 +652,7 @@ func TestEventRouter_RegisteredEventTypesSingle(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
@@ -674,7 +674,7 @@ func TestEventRouter_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventHandler(client, testWebhookSecret, onUnhandled)
+	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
 
 	handler1 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil

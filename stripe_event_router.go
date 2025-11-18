@@ -2,7 +2,7 @@ package stripe
 
 import (
 	"fmt"
-	"slices"
+	"sort"
 )
 
 type HandlerFunc = func(EventNotificationContainer, *Client) error
@@ -20,7 +20,7 @@ type EventRouter struct {
 	onUnhandledHandler UnhandledHandlerFunc
 }
 
-func NewEventHandler(client *Client, webhook_secret string, onUnhandledHandler UnhandledHandlerFunc) *EventRouter {
+func NewEventRouter(client *Client, webhook_secret string, onUnhandledHandler UnhandledHandlerFunc) *EventRouter {
 	return &EventRouter{
 		client:             client,
 		webhookSecret:      webhook_secret,
@@ -49,7 +49,7 @@ func (r *EventRouter) RegisteredEventTypes() []string {
 	for eventType := range r.eventHandlers {
 		types = append(types, eventType)
 	}
-	slices.Sort(types)
+	sort.Strings(types)
 	return types
 }
 
