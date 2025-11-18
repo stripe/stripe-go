@@ -1088,6 +1088,22 @@ type SubscriptionScheduleAmendAmendmentTrialSettingsParams struct {
 	EndBehavior *SubscriptionScheduleAmendAmendmentTrialSettingsEndBehaviorParams `form:"end_behavior"`
 }
 
+// Specify which subscription items the billing schedule applies to.
+type SubscriptionScheduleAmendAmendmentBillingSchedulesActionAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Actions to apply to the billing schedules.
+type SubscriptionScheduleAmendAmendmentBillingSchedulesActionParams struct {
+	// Specify which subscription items the billing schedule applies to.
+	AppliesTo []*SubscriptionScheduleAmendAmendmentBillingSchedulesActionAppliesToParams `form:"applies_to"`
+	// Select the action.
+	Type *string `form:"type"`
+}
+
 // Changes to apply to the phases of the subscription schedule, in the order provided.
 type SubscriptionScheduleAmendAmendmentParams struct {
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the amendment is considered a point-in-time operation that only affects the exact timestamp at `amendment_start`, and a restricted set of attributes is supported on the amendment.
@@ -1096,6 +1112,8 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	AmendmentStart *SubscriptionScheduleAmendAmendmentAmendmentStartParams `form:"amendment_start"`
 	// For point-in-time amendments (having no `amendment_end`), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the `amendment_start` timestamp.For time-span based amendments (having both `amendment_start` and `amendment_end`), the only value valid is `automatic`, which removes any previously configured billing cycle anchor resets scheduled to occur during the window of time spanned by the amendment.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Actions to apply to the billing schedules.
+	BillingSchedulesActions []*SubscriptionScheduleAmendAmendmentBillingSchedulesActionParams `form:"billing_schedules_actions"`
 	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
 	DiscountActions []*SubscriptionScheduleAmendAmendmentDiscountActionParams `form:"discount_actions"`
 	// Changes to the subscription items during the amendment time span.
