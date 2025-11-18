@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v83/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1IssuingProgramService is used to invoke /v1/issuing/programs APIs.

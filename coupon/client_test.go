@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v83"
-	"github.com/stripe/stripe-go/v83/client"
-	. "github.com/stripe/stripe-go/v83/testing"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/client"
+	. "github.com/stripe/stripe-go/v84/testing"
 )
 
 func TestCouponDel(t *testing.T) {

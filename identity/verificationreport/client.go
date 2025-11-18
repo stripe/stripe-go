@@ -10,8 +10,8 @@ package verificationreport
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v83"
-	"github.com/stripe/stripe-go/v83/form"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // Client is used to invoke /v1/identity/verification_reports APIs.

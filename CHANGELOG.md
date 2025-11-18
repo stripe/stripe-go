@@ -1,5 +1,69 @@
 # Changelog
 
+## 84.1.0-alpha.1 - 2025-11-18
+This release changes the pinned API version to `2025-11-17.preview`.
+
+* [#2217](https://github.com/stripe/stripe-go/pull/2217) Update generated code for private-preview
+  * Add support for `BillingSchedulesActions` on `InvoiceCreatePreviewScheduleDetailsAmendmentParams` and `SubscriptionScheduleAmendAmendmentParams`
+* [#2214](https://github.com/stripe/stripe-go/pull/2214) Update generated code for private-preview
+  * Add support for new resources `BalanceTransfer` and `RadarAccountEvaluation`
+  * Add support for `New` method on resource `BalanceTransfer`
+  * Add support for `Get`, `New`, and `Update` methods on resource `RadarAccountEvaluation`
+  * Add support for `SpecifiedCommercialTransactionsActURL` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
+  * Add support for `PaypayPayments` on `AccountSettingsParams` and `AccountSettings`
+  * Change type of `BillingAnalyticsMeterUsageMeterParams.DimensionFilters` from `string` to `array(string)`
+  * Change type of `BillingAnalyticsMeterUsageMeterParams.TenantFilters` from `string` to `array(string)`
+  * Add support for `PaymentMethodConfiguration` on `BillingPortalConfigurationFeaturesPaymentMethodUpdate`
+  * Add support for `CarRentalData`, `FlightData`, and `LodgingData` on `ChargeCapturePaymentDetailsParams`, `ChargePaymentDetailsParams`, `PaymentIntentCapturePaymentDetailsParams`, `PaymentIntentConfirmPaymentDetailsParams`, and `PaymentIntentPaymentDetailsParams`
+  * Add support for `TransactionID` on `ChargePaymentMethodDetailsIdeal`, `PaymentAttemptRecordPaymentMethodDetailsIdeal`, and `PaymentRecordPaymentMethodDetailsIdeal`
+  * Add support for new value `finom` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.Bank`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.Bank`, and `PaymentRecordPaymentMethodDetailsIdeal.Bank`
+  * Add support for new value `FNOMNL22` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.BIC`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.BIC`, and `PaymentRecordPaymentMethodDetailsIdeal.BIC`
+  * Add support for new value `tokenized_account_number_deactivated` on enums `ConfirmationTokenPaymentMethodPreviewUsBankAccountStatusDetailsBlocked.Reason` and `PaymentMethodUsBankAccountStatusDetailsBlocked.Reason`
+  * Add support for `Created` on `CustomerCustomerBalanceTransactionListParams` and `InvoicePaymentListParams`
+  * Add support for new values `capital.financing_offer.accepted_other_offer`, `financial_connections.account.account_numbers_updated`, and `financial_connections.account.upcoming_account_number_expiry` on enum `Event.Type`
+  * Add support for `AccountNumbers` on `FinancialConnectionsAccount`
+  * Add support for `FraudRisk` on `IssuingAuthorizationRiskAssessmentParams`
+  * Add support for `LatestFraudWarning` on `IssuingCard`
+  * Add support for `SupplementaryPurchaseData` on `OrderPaymentSettingsPaymentMethodOptionsKlarnaParams`, `PaymentIntentConfirmPaymentMethodOptionsKlarnaParams`, and `PaymentIntentPaymentMethodOptionsKlarnaParams`
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+  * Add support for `AllowRedisplay` and `CustomerAccount` on `PaymentMethodListParams`
+  * Add support for `MbWay` and `TWINT` on `RefundDestinationDetails`
+  * Change type of `SubscriptionScheduleParams.BillingSchedules` from `array(billing_schedules_update_params)` to `emptyable(array(billing_schedules_update_params))`
+  * Add support for snapshot events `EventTypeFinancialConnectionsAccountAccountNumbersUpdated` and `EventTypeFinancialConnectionsAccountUpcomingAccountNumberExpiry` with resource `FinancialConnectionsAccount`
+
+## 84.1.0-beta.1 - 2025-11-18
+This release changes the pinned API version to `2025-11-17.preview`.
+
+* [#2199](https://github.com/stripe/stripe-go/pull/2199) Update generated code for beta
+  * Add support for new resources `V2CoreAccountPersonToken` and `V2CoreAccountToken`
+  * Remove support for resource `V2PaymentsOffSessionPayment`
+  * Add support for `Get` and `New` methods on resources `V2CoreAccountPersonToken` and `V2CoreAccountToken`
+  * Remove support for `Cancel`, `Capture`, `Get`, `List`, and `New` methods on resource `V2PaymentsOffSessionPayment`
+  * Add support for `SpecifiedCommercialTransactionsActURL` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
+  * Add support for `PaypayPayments` on `AccountSettingsParams` and `AccountSettings`
+  * Change type of `BillingAnalyticsMeterUsageMeterParams.DimensionFilters` from `string` to `array(string)`
+  * Change type of `BillingAnalyticsMeterUsageMeterParams.TenantFilters` from `string` to `array(string)`
+  * Add support for `CarRentalData`, `FlightData`, and `LodgingData` on `ChargeCapturePaymentDetailsParams`, `ChargePaymentDetailsParams`, `PaymentIntentCapturePaymentDetailsParams`, `PaymentIntentConfirmPaymentDetailsParams`, and `PaymentIntentPaymentDetailsParams`
+  * Add support for `SupplementaryPurchaseData` on `OrderPaymentSettingsPaymentMethodOptionsKlarnaParams`, `PaymentIntentConfirmPaymentMethodOptionsKlarnaParams`, and `PaymentIntentPaymentMethodOptionsKlarnaParams`
+  * Add support for `AllowRedisplay` and `CustomerAccount` on `PaymentMethodListParams`
+  * Add support for `FutureRequirements` on `V2CoreAccount`
+  * Add support for `KonbiniPayments` and `ScriptStatementDescriptor` on `V2CoreAccountConfigurationMerchantParams` and `V2CoreAccountConfigurationMerchant`
+  * Add support for `EUR` on `V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesParams` and `V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrencies`
+  * Add support for `RequirementsCollector` on `V2CoreAccountDefaultsResponsibilities`
+  * Add support for new value `ar_cuit` on enum `V2CoreAccountIdentityBusinessDetailsIdNumber.Type`
+  * Add support for new value `ar_dni` on enums `V2CoreAccountIdentityIndividualIdNumber.Type` and `V2CoreAccountPersonIdNumber.Type`
+  * Remove support for `Collector` on `V2CoreAccountRequirements`
+  * Add support for new value `holds_currencies.eur` on enum `V2CoreAccountRequirementsEntryImpactRestrictsCapability.Capability`
+  * Add support for new values `payment_method` and `person` on enum `V2CoreAccountRequirementsEntryReference.Type`
+  * Remove support for value `resource` from enum `V2CoreAccountRequirementsEntryReference.Type`
+  * Remove support for value `future_requirements` from enum `V2CoreAccountRequirementsEntryRequestedReason.Code`
+  * Add support for `Changes` on `V2CoreEvent`
+  * Remove support for value `sepa_bank_account` from enum `V2MoneyManagementFinancialAddressCredentials.Type`
+  * Add support for `AccountToken` on `V2CoreAccountParams`
+  * Add support for `PersonToken` on `V2CoreAccountPersonParams`
+  * Add support for thin event `V2CoreHealthEventGenerationFailureResolvedEvent`
+  * Remove support for thin events `V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent`, `V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent`, `V2PaymentsOffSessionPaymentCanceledEvent`, `V2PaymentsOffSessionPaymentCreatedEvent`, `V2PaymentsOffSessionPaymentFailedEvent`, `V2PaymentsOffSessionPaymentRequiresCaptureEvent`, and `V2PaymentsOffSessionPaymentSucceededEvent` with related object `V2PaymentsOffSessionPayment`
+
 ## 84.0.0 - 2025-11-18
 This release changes the pinned API version to `2025-11-17.clover`.
 

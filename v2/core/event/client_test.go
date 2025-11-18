@@ -9,8 +9,8 @@ import (
 	"fmt"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v83"
-	"github.com/stripe/stripe-go/v83/mock"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/mock"
 )
 
 func TestEventGet(t *testing.T) {
