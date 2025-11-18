@@ -230,7 +230,7 @@ const (
 	AccountRiskControlsRejectedReasonTermsOfService           AccountRiskControlsRejectedReason = "terms_of_service"
 )
 
-// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 type AccountSettingsInvoicesHostedPaymentMethodSave string
 
 // List of values that AccountSettingsInvoicesHostedPaymentMethodSave can take
@@ -261,6 +261,15 @@ const (
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayThursday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "thursday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayTuesday   AccountSettingsPayoutsScheduleWeeklyPayoutDay = "tuesday"
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayWednesday AccountSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
+)
+
+// Whether your business sells digital content or not.
+type AccountSettingsPaypayPaymentsGoodsType string
+
+// List of values that AccountSettingsPaypayPaymentsGoodsType can take
+const (
+	AccountSettingsPaypayPaymentsGoodsTypeDigitalContent AccountSettingsPaypayPaymentsGoodsType = "digital_content"
+	AccountSettingsPaypayPaymentsGoodsTypeOther          AccountSettingsPaypayPaymentsGoodsType = "other"
 )
 
 // The user's service agreement type
@@ -389,6 +398,8 @@ type AccountBusinessProfileParams struct {
 	Name *string `form:"name"`
 	// Internal-only description of the product sold by, or service provided by, the business. Used by Stripe for risk and underwriting purposes.
 	ProductDescription *string `form:"product_description"`
+	// A link to the business's publicly available terms related to the Specified Commercial Transaction Act. Used by the Checkout product and for Japanese payment methods.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url"`
 	// A publicly available mailing address for sending support issues to.
 	SupportAddress *AddressParams `form:"support_address"`
 	// A publicly available email address for sending support issues to.
@@ -1358,7 +1369,7 @@ type AccountSettingsCardPaymentsParams struct {
 type AccountSettingsInvoicesParams struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
-	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
 }
 
@@ -1406,6 +1417,12 @@ type AccountSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Settings specific to the PayPay payments method.
+type AccountSettingsPaypayPaymentsParams struct {
+	// Whether your business sells digital content or not.
+	GoodsType *string `form:"goods_type"`
+}
+
 // Settings specific to the account's tax forms.
 type AccountSettingsTaxFormsParams struct {
 	// Whether the account opted out of receiving their tax forms by postal delivery.
@@ -1448,6 +1465,8 @@ type AccountSettingsParams struct {
 	Payments *AccountSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
 	Payouts *AccountSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the PayPay payments method.
+	PaypayPayments *AccountSettingsPaypayPaymentsParams `form:"paypay_payments"`
 	// Settings specific to the account's tax forms.
 	TaxForms *AccountSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
@@ -1605,6 +1624,8 @@ type AccountUpdateBusinessProfileParams struct {
 	Name *string `form:"name"`
 	// Internal-only description of the product sold by, or service provided by, the business. Used by Stripe for risk and underwriting purposes.
 	ProductDescription *string `form:"product_description"`
+	// A link to the business's publicly available terms related to the Specified Commercial Transaction Act. Only used for accounts in Japan.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url"`
 	// A publicly available mailing address for sending support issues to.
 	SupportAddress *AddressParams `form:"support_address"`
 	// A publicly available email address for sending support issues to.
@@ -2578,7 +2599,7 @@ type AccountUpdateSettingsCardPaymentsParams struct {
 type AccountUpdateSettingsInvoicesParams struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
-	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
 }
 
@@ -2626,6 +2647,12 @@ type AccountUpdateSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Settings specific to the PayPay payments method.
+type AccountUpdateSettingsPaypayPaymentsParams struct {
+	// Whether your business sells digital content or not.
+	GoodsType *string `form:"goods_type"`
+}
+
 // Settings specific to the account's tax forms.
 type AccountUpdateSettingsTaxFormsParams struct {
 	// Whether the account opted out of receiving their tax forms by postal delivery.
@@ -2668,6 +2695,8 @@ type AccountUpdateSettingsParams struct {
 	Payments *AccountUpdateSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
 	Payouts *AccountUpdateSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the PayPay payments method.
+	PaypayPayments *AccountUpdateSettingsPaypayPaymentsParams `form:"paypay_payments"`
 	// Settings specific to the account's tax forms.
 	TaxForms *AccountUpdateSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
@@ -2792,6 +2821,8 @@ type AccountCreateBusinessProfileParams struct {
 	Name *string `form:"name"`
 	// Internal-only description of the product sold by, or service provided by, the business. Used by Stripe for risk and underwriting purposes.
 	ProductDescription *string `form:"product_description"`
+	// A link to the business's publicly available terms related to the Specified Commercial Transaction Act. Used by the Checkout product and for Japanese payment methods.
+	SpecifiedCommercialTransactionsActURL *string `form:"specified_commercial_transactions_act_url"`
 	// A publicly available mailing address for sending support issues to.
 	SupportAddress *AddressParams `form:"support_address"`
 	// A publicly available email address for sending support issues to.
@@ -3817,7 +3848,7 @@ type AccountCreateSettingsCardPaymentsParams struct {
 
 // Settings specific to the account's use of Invoices.
 type AccountCreateSettingsInvoicesParams struct {
-	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
 }
 
@@ -3865,6 +3896,12 @@ type AccountCreateSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Settings specific to the PayPay payments method.
+type AccountCreateSettingsPaypayPaymentsParams struct {
+	// Whether your business sells digital content or not.
+	GoodsType *string `form:"goods_type"`
+}
+
 // Settings specific to the account's tax forms.
 type AccountCreateSettingsTaxFormsParams struct {
 	// Whether the account opted out of receiving their tax forms by postal delivery.
@@ -3907,6 +3944,8 @@ type AccountCreateSettingsParams struct {
 	Payments *AccountCreateSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
 	Payouts *AccountCreateSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the PayPay payments method.
+	PaypayPayments *AccountCreateSettingsPaypayPaymentsParams `form:"paypay_payments"`
 	// Settings specific to the account's tax forms.
 	TaxForms *AccountCreateSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
@@ -4027,6 +4066,8 @@ type AccountBusinessProfile struct {
 	Name string `json:"name"`
 	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
 	ProductDescription string `json:"product_description"`
+	// A link to the business's publicly available terms related to the Specified Commercial Transaction Act. Only used for accounts in Japan.
+	SpecifiedCommercialTransactionsActURL string `json:"specified_commercial_transactions_act_url"`
 	// A publicly available mailing address for sending support issues to.
 	SupportAddress *Address `json:"support_address"`
 	// A publicly available email address for sending support issues to.
@@ -4513,7 +4554,7 @@ type AccountSettingsDashboard struct {
 type AccountSettingsInvoices struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*TaxID `json:"default_account_tax_ids"`
-	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
 	HostedPaymentMethodSave AccountSettingsInvoicesHostedPaymentMethodSave `json:"hosted_payment_method_save"`
 }
 type AccountSettingsPayments struct {
@@ -4549,6 +4590,10 @@ type AccountSettingsPayouts struct {
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor string `json:"statement_descriptor"`
 }
+type AccountSettingsPaypayPayments struct {
+	// Whether your business sells digital content or not.
+	GoodsType AccountSettingsPaypayPaymentsGoodsType `json:"goods_type"`
+}
 type AccountSettingsSEPADebitPayments struct {
 	// SEPA creditor identifier that identifies the company making the payment.
 	CreditorID string `json:"creditor_id"`
@@ -4581,6 +4626,7 @@ type AccountSettings struct {
 	Invoices          *AccountSettingsInvoices          `json:"invoices"`
 	Payments          *AccountSettingsPayments          `json:"payments"`
 	Payouts           *AccountSettingsPayouts           `json:"payouts"`
+	PaypayPayments    *AccountSettingsPaypayPayments    `json:"paypay_payments"`
 	SEPADebitPayments *AccountSettingsSEPADebitPayments `json:"sepa_debit_payments"`
 	TaxForms          *AccountSettingsTaxForms          `json:"tax_forms"`
 	Treasury          *AccountSettingsTreasury          `json:"treasury"`

@@ -45,9 +45,9 @@ type CapitalFinancingSummaryDetailsCurrentRepaymentInterval struct {
 	// The time at which the minimum payment amount will be due. If not met through withholding, the Connected account's linked bank account or account balance will be debited.
 	// Given in seconds since unix epoch.
 	DueAt float64 `json:"due_at"`
-	// The amount that has already been paid in the current repayment interval, in minor units. For example, $100 USD will be represented as 10000.
+	// The amount that has already been paid in the current repayment interval, in minor units. For example, 100 USD is represented as 10000.
 	PaidAmount int64 `json:"paid_amount"`
-	// The amount that is yet to be paid in the current repayment interval, in minor units. For example, $100 USD will be represented as 10000.
+	// The amount that is yet to be paid in the current repayment interval, in minor units. For example, 100 USD is represented as 10000.
 	RemainingAmount int64 `json:"remaining_amount"`
 }
 
@@ -55,7 +55,7 @@ type CapitalFinancingSummaryDetailsCurrentRepaymentInterval struct {
 // fee amount, withhold rate, remaining amount, paid amount, current repayment interval,
 // repayment start date, and advance payout date.
 type CapitalFinancingSummaryDetails struct {
-	// Amount of financing offered, in minor units. For example, $1,000 USD will be represented as 100000.
+	// Amount of financing offered, in minor units. For example, 1,000 USD is represented as 100000.
 	AdvanceAmount int64 `json:"advance_amount"`
 	// The time at which the funds were paid out to the connected account's Stripe balance. Given in milliseconds since unix epoch.
 	AdvancePaidOutAt float64 `json:"advance_paid_out_at"`
@@ -63,15 +63,15 @@ type CapitalFinancingSummaryDetails struct {
 	Currency Currency `json:"currency"`
 	// The chronologically current repayment interval for the financing offer.
 	CurrentRepaymentInterval *CapitalFinancingSummaryDetailsCurrentRepaymentInterval `json:"current_repayment_interval"`
-	// Fixed fee amount, in minor units. For example, $100 USD will be represented as 10000.
+	// Fixed fee amount, in minor units. For example, 100 USD is represented as 10000.
 	FeeAmount int64 `json:"fee_amount"`
-	// The amount the Connected account has paid toward the financing debt so far, in minor units. For example, $1,000 USD will be represented as 100000.
+	// The amount the Connected account has paid toward the financing debt so far, in minor units. For example, 1,000 USD is represented as 100000.
 	PaidAmount int64 `json:"paid_amount"`
-	// The balance remaining to be paid on the financing, in minor units. For example, $1,000 USD will be represented as 100000.
+	// The balance remaining to be paid on the financing, in minor units. For example, 1,000 USD is represented as 100000.
 	RemainingAmount int64 `json:"remaining_amount"`
 	// The time at which Capital will begin withholding from payments. Given in seconds since unix epoch.
 	RepaymentsBeginAt float64 `json:"repayments_begin_at"`
-	// Per-transaction rate at which Stripe will withhold funds to repay the financing.
+	// Per-transaction rate at which Stripe withholds funds to repay the financing.
 	WithholdRate float64 `json:"withhold_rate"`
 }
 

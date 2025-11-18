@@ -20,7 +20,7 @@ type V2BillingProfileListParams struct {
 	// Filter billing profiles by lookup keys. Mutually exclusive
 	// with `customer` and `default_payment_method`.
 	// You can specify up to 10 lookup_keys.
-	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys"`
 	// Filter billing profiles by status. Can be combined
 	// with all other filters. If not provided, all billing profiles will be returned.
 	Status *string `form:"status" json:"status,omitempty"`
@@ -42,13 +42,13 @@ type V2BillingProfileParams struct {
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingProfileParams) AddMetadata(key string, value string) {
+func (p *V2BillingProfileParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -99,13 +99,13 @@ type V2BillingProfileUpdateParams struct {
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingProfileUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingProfileUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value

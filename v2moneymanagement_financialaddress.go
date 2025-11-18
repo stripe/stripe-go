@@ -13,9 +13,8 @@ type V2MoneyManagementFinancialAddressCredentialsType string
 
 // List of values that V2MoneyManagementFinancialAddressCredentialsType can take
 const (
-	V2MoneyManagementFinancialAddressCredentialsTypeGBBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "gb_bank_account"
-	V2MoneyManagementFinancialAddressCredentialsTypeSEPABankAccount V2MoneyManagementFinancialAddressCredentialsType = "sepa_bank_account"
-	V2MoneyManagementFinancialAddressCredentialsTypeUSBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "us_bank_account"
+	V2MoneyManagementFinancialAddressCredentialsTypeGBBankAccount V2MoneyManagementFinancialAddressCredentialsType = "gb_bank_account"
+	V2MoneyManagementFinancialAddressCredentialsTypeUSBankAccount V2MoneyManagementFinancialAddressCredentialsType = "us_bank_account"
 )
 
 // Closed Enum. An enum representing the status of the FinancialAddress. This indicates whether or not the FinancialAddress can be used for any money movement flows.

@@ -18,12 +18,12 @@ type V2BillingCadenceListPayerParams struct {
 type V2BillingCadenceListParams struct {
 	Params `form:"*"`
 	// Additional resource to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Only return the cadences with these lookup_keys, if any exist. You can specify up to 10 lookup_keys.
 	// Mutually exclusive with `test_clock` and `payer`.
-	LookupKeys []*string `form:"lookup_keys,flat_array" json:"lookup_keys,omitempty"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 	// If provided, only cadences that specifically reference the payer will be returned. Mutually exclusive with `test_clock` and `lookup_keys`.
 	Payer *V2BillingCadenceListPayerParams `form:"payer" json:"payer,omitempty"`
 	// If provided, only cadences that specifically reference the provided test clock ID (via the
@@ -219,11 +219,11 @@ type V2BillingCadenceParams struct {
 	// The billing cycle is the object that defines future billing cycle dates.
 	BillingCycle *V2BillingCadenceBillingCycleParams `form:"billing_cycle" json:"billing_cycle,omitempty"`
 	// Additional resource to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 	// A lookup key used to retrieve cadences dynamically from a static string. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
 	Payer *V2BillingCadencePayerParams `form:"payer" json:"payer,omitempty"`
 	// The settings associated with the cadence.
@@ -231,9 +231,9 @@ type V2BillingCadenceParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingCadenceParams) AddMetadata(key string, value string) {
+func (p *V2BillingCadenceParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -449,7 +449,7 @@ func (p *V2BillingCadenceCreateParams) AddMetadata(key string, value string) {
 type V2BillingCadenceRetrieveParams struct {
 	Params `form:"*"`
 	// Additional resource to include in the response.
-	Include []*string `form:"include,flat_array" json:"include,omitempty"`
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // The payer determines the entity financially responsible for the bill.
@@ -494,7 +494,7 @@ type V2BillingCadenceUpdateParams struct {
 	// A lookup key used to retrieve cadences dynamically from a static string. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The payer determines the entity financially responsible for the bill.
 	Payer *V2BillingCadenceUpdatePayerParams `form:"payer" json:"payer,omitempty"`
 	// The settings associated with the cadence.
@@ -502,9 +502,9 @@ type V2BillingCadenceUpdateParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingCadenceUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingCadenceUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value

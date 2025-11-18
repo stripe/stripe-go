@@ -352,6 +352,10 @@ type Client struct {
 	V2CoreAccounts *v2CoreAccountService
 	// V2CoreAccountsPersons is the service used to invoke /v2/core/accounts/{account_id}/persons APIs.
 	V2CoreAccountsPersons *v2CoreAccountsPersonService
+	// V2CoreAccountsPersonTokens is the service used to invoke /v2/core/accounts/{account_id}/person_tokens APIs.
+	V2CoreAccountsPersonTokens *v2CoreAccountsPersonTokenService
+	// V2CoreAccountTokens is the service used to invoke /v2/core/account_tokens APIs.
+	V2CoreAccountTokens *v2CoreAccountTokenService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
@@ -388,8 +392,6 @@ type Client struct {
 	V2MoneyManagementTransactionEntries *v2MoneyManagementTransactionEntryService
 	// V2MoneyManagementTransactions is the service used to invoke /v2/money_management/transactions APIs.
 	V2MoneyManagementTransactions *v2MoneyManagementTransactionService
-	// V2PaymentsOffSessionPayments is the service used to invoke /v2/payments/off_session_payments APIs.
-	V2PaymentsOffSessionPayments *v2PaymentsOffSessionPaymentService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
@@ -603,6 +605,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
+	client.V2CoreAccountsPersonTokens = &v2CoreAccountsPersonTokenService{B: backends.API, Key: key}
+	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
@@ -621,7 +625,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementReceivedDebits = &v2MoneyManagementReceivedDebitService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
-	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }

@@ -18,7 +18,7 @@ type V2MoneyManagementFinancialAccountListParams struct {
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorageParams struct {
 	// The currencies that this FinancialAccount can hold.
-	HoldsCurrencies []*string `form:"holds_currencies,flat_array" json:"holds_currencies"`
+	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }
 
 // Creates a new FinancialAccount.
@@ -27,7 +27,7 @@ type V2MoneyManagementFinancialAccountParams struct {
 	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Metadata associated with the FinancialAccount.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters specific to creating `storage` type FinancialAccounts.
 	Storage *V2MoneyManagementFinancialAccountStorageParams `form:"storage" json:"storage,omitempty"`
 	// The type of FinancialAccount to create.
@@ -35,9 +35,9 @@ type V2MoneyManagementFinancialAccountParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2MoneyManagementFinancialAccountParams) AddMetadata(key string, value string) {
+func (p *V2MoneyManagementFinancialAccountParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -61,7 +61,7 @@ type V2MoneyManagementFinancialAccountCloseParams struct {
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountCreateStorageParams struct {
 	// The currencies that this FinancialAccount can hold.
-	HoldsCurrencies []*string `form:"holds_currencies,flat_array" json:"holds_currencies"`
+	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }
 
 // Creates a new FinancialAccount.
@@ -97,13 +97,13 @@ type V2MoneyManagementFinancialAccountUpdateParams struct {
 	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Metadata associated with the FinancialAccount.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2MoneyManagementFinancialAccountUpdateParams) AddMetadata(key string, value string) {
+func (p *V2MoneyManagementFinancialAccountUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value

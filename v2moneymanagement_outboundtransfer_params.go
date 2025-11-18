@@ -29,7 +29,7 @@ type V2MoneyManagementOutboundTransferListParams struct {
 	// The maximum number of results to return.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Closed Enum. Only return OutboundTransfers with this status.
-	Status []*string `form:"status,flat_array" json:"status,omitempty"`
+	Status []*string `form:"status" json:"status,omitempty"`
 }
 
 // Delivery options to be used to send the OutboundTransfer.
