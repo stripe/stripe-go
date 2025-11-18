@@ -905,9 +905,23 @@ func (r *EventRouter) Handle(webhook_body []byte, sig_header string) error {
 	n := notif.GetEventNotification()
 	eventType := n.Type
 
+	// Temporarily bind the event's context to the client
+	backend, ok := r.client.backend.(*BackendImplementation)
+	if ok {
+		// Save original context
+		originalContext := backend.StripeContext
+
+		// Set new context from event notification
+		backend.StripeContext = n.Context.StringPtr()
+
+		// Restore original context after handler completes
+		defer func() {
+			backend.StripeContext = originalContext
+		}()
+	}
+
 	callback, exists := r.eventHandlers[eventType]
 
-	// todo: Bind event context to client; reset after
 	if exists {
 		return callback(notif, r.client)
 	}
