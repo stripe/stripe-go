@@ -331,6 +331,19 @@ func (r *EventRouter) On_V2CoreEventDestinationPingEventNotification(handler fun
 	return r.register("v2.core.event_destination.ping", wrapper)
 }
 
+// On_V2CoreHealthEventGenerationFailureResolvedEventNotification registers a handler for the "v2.core.health.event_generation_failure.resolved" event.
+func (r *EventRouter) On_V2CoreHealthEventGenerationFailureResolvedEventNotification(handler func(notif *V2CoreHealthEventGenerationFailureResolvedEventNotification, client *Client) error) error {
+	wrapper := func(notif EventNotificationContainer, client *Client) error {
+		typedNotif, ok := notif.(*V2CoreHealthEventGenerationFailureResolvedEventNotification)
+		if !ok {
+			return fmt.Errorf(
+				"failed to cast notification to V2CoreHealthEventGenerationFailureResolvedEventNotification")
+		}
+		return handler(typedNotif, client)
+	}
+	return r.register("v2.core.health.event_generation_failure.resolved", wrapper)
+}
+
 // On_V2MoneyManagementAdjustmentCreatedEventNotification registers a handler for the "v2.money_management.adjustment.created" event.
 func (r *EventRouter) On_V2MoneyManagementAdjustmentCreatedEventNotification(handler func(notif *V2MoneyManagementAdjustmentCreatedEventNotification, client *Client) error) error {
 	wrapper := func(notif EventNotificationContainer, client *Client) error {
@@ -789,99 +802,6 @@ func (r *EventRouter) On_V2MoneyManagementTransactionUpdatedEventNotification(ha
 		return handler(typedNotif, client)
 	}
 	return r.register("v2.money_management.transaction.updated", wrapper)
-}
-
-// On_V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification registers a handler for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
-func (r *EventRouter) On_V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification(handler func(notif *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.payments.off_session_payment.authorization_attempt_failed", wrapper)
-}
-
-// On_V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification registers a handler for the "v2.payments.off_session_payment.authorization_attempt_started" event.
-func (r *EventRouter) On_V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification(handler func(notif *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.payments.off_session_payment.authorization_attempt_started", wrapper)
-}
-
-// On_V2PaymentsOffSessionPaymentCanceledEventNotification registers a handler for the "v2.payments.off_session_payment.canceled" event.
-func (r *EventRouter) On_V2PaymentsOffSessionPaymentCanceledEventNotification(handler func(notif *V2PaymentsOffSessionPaymentCanceledEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2PaymentsOffSessionPaymentCanceledEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2PaymentsOffSessionPaymentCanceledEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.payments.off_session_payment.canceled", wrapper)
-}
-
-// On_V2PaymentsOffSessionPaymentCreatedEventNotification registers a handler for the "v2.payments.off_session_payment.created" event.
-func (r *EventRouter) On_V2PaymentsOffSessionPaymentCreatedEventNotification(handler func(notif *V2PaymentsOffSessionPaymentCreatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2PaymentsOffSessionPaymentCreatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2PaymentsOffSessionPaymentCreatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.payments.off_session_payment.created", wrapper)
-}
-
-// On_V2PaymentsOffSessionPaymentFailedEventNotification registers a handler for the "v2.payments.off_session_payment.failed" event.
-func (r *EventRouter) On_V2PaymentsOffSessionPaymentFailedEventNotification(handler func(notif *V2PaymentsOffSessionPaymentFailedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2PaymentsOffSessionPaymentFailedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2PaymentsOffSessionPaymentFailedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.payments.off_session_payment.failed", wrapper)
-}
-
-// On_V2PaymentsOffSessionPaymentRequiresCaptureEventNotification registers a handler for the "v2.payments.off_session_payment.requires_capture" event.
-func (r *EventRouter) On_V2PaymentsOffSessionPaymentRequiresCaptureEventNotification(handler func(notif *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2PaymentsOffSessionPaymentRequiresCaptureEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2PaymentsOffSessionPaymentRequiresCaptureEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.payments.off_session_payment.requires_capture", wrapper)
-}
-
-// On_V2PaymentsOffSessionPaymentSucceededEventNotification registers a handler for the "v2.payments.off_session_payment.succeeded" event.
-func (r *EventRouter) On_V2PaymentsOffSessionPaymentSucceededEventNotification(handler func(notif *V2PaymentsOffSessionPaymentSucceededEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2PaymentsOffSessionPaymentSucceededEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2PaymentsOffSessionPaymentSucceededEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.payments.off_session_payment.succeeded", wrapper)
 }
 
 // event-router-methods: The end of the section generated from our OpenAPI spec
