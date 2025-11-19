@@ -806,18 +806,10 @@ func (r *EventRouter) On_V2MoneyManagementTransactionUpdatedEventNotification(ha
 
 // event-router-methods: The end of the section generated from our OpenAPI spec
 
-// // pre-setup
-// client := stripe.NewClient("sk_test_...")
-// handler := stripe.NewEventHandler(client, "whsec_...")
-// handler.Register[stripe.V1](func (notif, client){})
-
-// // per-webhook
-// handler.Handle(webhook_body, sig_header)
-
-func (r *EventRouter) Handle(webhook_body []byte, sig_header string) error {
+func (r *EventRouter) Handle(webhookBody []byte, sigHeader string) error {
 	r.hasHandledEvent = true
 
-	notif, err := r.client.ParseEventNotification(webhook_body, sig_header, r.webhookSecret)
+	notif, err := r.client.ParseEventNotification(webhookBody, sigHeader, r.webhookSecret)
 	if err != nil {
 		return err
 	}
