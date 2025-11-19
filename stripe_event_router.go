@@ -56,6 +56,7 @@ func (r *EventRouter) RegisteredEventTypes() []string {
 }
 
 // event-router-methods: The beginning of the section generated from our OpenAPI spec
+
 // On_V1BillingMeterErrorReportTriggeredEventNotification registers a handler for the "v1.billing.meter.error_report_triggered" event.
 func (r *EventRouter) On_V1BillingMeterErrorReportTriggeredEventNotification(handler func(notif *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error) error {
 	wrapper := func(notif EventNotificationContainer, client *Client) error {
