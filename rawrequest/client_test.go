@@ -8,8 +8,8 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v83"
-	_ "github.com/stripe/stripe-go/v83/testing"
+	stripe "github.com/stripe/stripe-go/v84"
+	_ "github.com/stripe/stripe-go/v84/testing"
 )
 
 func createTestClient(testServer *httptest.Server) Client {

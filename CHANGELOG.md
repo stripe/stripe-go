@@ -1,5 +1,66 @@
 # Changelog
 
+## 84.1.0-beta.1 - 2025-11-18
+This release changes the pinned API version to `2025-11-17.preview`.
+
+* [#2199](https://github.com/stripe/stripe-go/pull/2199) Update generated code for beta
+  * Add support for new resources `V2CoreAccountPersonToken` and `V2CoreAccountToken`
+  * Remove support for resource `V2PaymentsOffSessionPayment`
+  * Add support for `Get` and `New` methods on resources `V2CoreAccountPersonToken` and `V2CoreAccountToken`
+  * Remove support for `Cancel`, `Capture`, `Get`, `List`, and `New` methods on resource `V2PaymentsOffSessionPayment`
+  * Add support for `SpecifiedCommercialTransactionsActURL` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
+  * Add support for `PaypayPayments` on `AccountSettingsParams` and `AccountSettings`
+  * Change type of `BillingAnalyticsMeterUsageMeterParams.DimensionFilters` from `string` to `array(string)`
+  * Change type of `BillingAnalyticsMeterUsageMeterParams.TenantFilters` from `string` to `array(string)`
+  * Add support for `CarRentalData`, `FlightData`, and `LodgingData` on `ChargeCapturePaymentDetailsParams`, `ChargePaymentDetailsParams`, `PaymentIntentCapturePaymentDetailsParams`, `PaymentIntentConfirmPaymentDetailsParams`, and `PaymentIntentPaymentDetailsParams`
+  * Add support for `SupplementaryPurchaseData` on `OrderPaymentSettingsPaymentMethodOptionsKlarnaParams`, `PaymentIntentConfirmPaymentMethodOptionsKlarnaParams`, and `PaymentIntentPaymentMethodOptionsKlarnaParams`
+  * Add support for `AllowRedisplay` and `CustomerAccount` on `PaymentMethodListParams`
+  * Add support for `FutureRequirements` on `V2CoreAccount`
+  * Add support for `KonbiniPayments` and `ScriptStatementDescriptor` on `V2CoreAccountConfigurationMerchantParams` and `V2CoreAccountConfigurationMerchant`
+  * Add support for `EUR` on `V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesParams` and `V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrencies`
+  * Add support for `RequirementsCollector` on `V2CoreAccountDefaultsResponsibilities`
+  * Add support for new value `ar_cuit` on enum `V2CoreAccountIdentityBusinessDetailsIdNumber.Type`
+  * Add support for new value `ar_dni` on enums `V2CoreAccountIdentityIndividualIdNumber.Type` and `V2CoreAccountPersonIdNumber.Type`
+  * Remove support for `Collector` on `V2CoreAccountRequirements`
+  * Add support for new value `holds_currencies.eur` on enum `V2CoreAccountRequirementsEntryImpactRestrictsCapability.Capability`
+  * Add support for new values `payment_method` and `person` on enum `V2CoreAccountRequirementsEntryReference.Type`
+  * Remove support for value `resource` from enum `V2CoreAccountRequirementsEntryReference.Type`
+  * Remove support for value `future_requirements` from enum `V2CoreAccountRequirementsEntryRequestedReason.Code`
+  * Add support for `Changes` on `V2CoreEvent`
+  * Remove support for value `sepa_bank_account` from enum `V2MoneyManagementFinancialAddressCredentials.Type`
+  * Add support for `AccountToken` on `V2CoreAccountParams`
+  * Add support for `PersonToken` on `V2CoreAccountPersonParams`
+  * Add support for thin event `V2CoreHealthEventGenerationFailureResolvedEvent`
+  * Remove support for thin events `V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent`, `V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent`, `V2PaymentsOffSessionPaymentCanceledEvent`, `V2PaymentsOffSessionPaymentCreatedEvent`, `V2PaymentsOffSessionPaymentFailedEvent`, `V2PaymentsOffSessionPaymentRequiresCaptureEvent`, and `V2PaymentsOffSessionPaymentSucceededEvent` with related object `V2PaymentsOffSessionPayment`
+
+## 84.0.0 - 2025-11-18
+This release changes the pinned API version to `2025-11-17.clover`.
+
+* [#2216](https://github.com/stripe/stripe-go/pull/2216) Update generated code
+  * ⚠️ Change the type of `V2CoreEventDestinationParams.Metadata` and `V2CoreEventDestinationUpdateParams.Metadata` to `map[string]*string` from `map[string]string`. This supports the ability to remove a key from a `Metadata` map by setting its value to `nil`.
+  * ⚠️ A corresponding change was made to the `V2CoreEventDestinationParams.AddMetadata` method to set its second argument to `*string` from `string`.
+* [#2215](https://github.com/stripe/stripe-go/pull/2215) Update generated code
+  * ⚠️ Remove support for `GTE`, `Gt`, `LT`, and `Lte` on `V2CoreEventListParams` in favor of `Created`.
+* [#2210](https://github.com/stripe/stripe-go/pull/2210) Update v2 array parameter serialization to use indexed format
+  - `Retrieve` and `List` calls for `/v2` endpoints now use indexed format (e.g., `?include[0]=foo&include[1]=bar`) instead of repeated parameter format (e.g., `?include=foo&include=bar`) when communicating with the Stripe API. This may break any unit tests that expect the latter behavior when setting up a mock server. Instead, they should now expect the former.
+* [#2206](https://github.com/stripe/stripe-go/pull/2206) Update generated code
+  * Add support for new resources `TaxAssociation` and `TerminalOnboardingLink`
+  * Add support for `Find` method on resource `TaxAssociation`
+  * Add support for `New` method on resource `TerminalOnboardingLink`
+  * Add support for `PaymentMethodConfiguration` on `BillingPortalConfigurationFeaturesPaymentMethodUpdate`
+  * Add support for `TransactionID` on `ChargePaymentMethodDetailsIdeal`, `PaymentAttemptRecordPaymentMethodDetailsIdeal`, and `PaymentRecordPaymentMethodDetailsIdeal`
+  * Add support for new value `finom` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.Bank`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.Bank`, and `PaymentRecordPaymentMethodDetailsIdeal.Bank`
+  * Add support for new value `FNOMNL22` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.BIC`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.BIC`, and `PaymentRecordPaymentMethodDetailsIdeal.BIC`
+  * Add support for new value `tokenized_account_number_deactivated` on enums `ConfirmationTokenPaymentMethodPreviewUsBankAccountStatusDetailsBlocked.Reason` and `PaymentMethodUsBankAccountStatusDetailsBlocked.Reason`
+  * Add support for `Created` on `CustomerCustomerBalanceTransactionListParams` and `InvoicePaymentListParams`
+  * Add support for new values `financial_connections.account.account_numbers_updated` and `financial_connections.account.upcoming_account_number_expiry` on enum `Event.Type`
+  * Add support for `AccountNumbers` on `FinancialConnectionsAccount`
+  * Add support for `FraudRisk` on `IssuingAuthorizationRiskAssessmentParams`
+  * Add support for `LatestFraudWarning` on `IssuingCard`
+  * Add support for `Hooks` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentIncrementAuthorizationParams`, `PaymentIntentParams`, and `PaymentIntent`
+  * Add support for `MbWay` and `TWINT` on `RefundDestinationDetails`
+  * Add support for snapshot events `EventTypeFinancialConnectionsAccountAccountNumbersUpdated` and `EventTypeFinancialConnectionsAccountUpcomingAccountNumberExpiry` with resource `FinancialConnectionsAccount`
+
 ## 83.2.1 - 2025-11-13
 * [#2212](https://github.com/stripe/stripe-go/pull/2212) Fix segfault in `BackendImplementation.handleResponseBufferingErrors`
   * Fixes [#2111](https://github.com/stripe/stripe-go/issues/2211) where a network issue during a RawRequest was causing a segfault.
