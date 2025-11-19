@@ -5,6 +5,8 @@ import (
 	"sort"
 )
 
+//lint:file-ignore ST1003 Allow _ in method names - they're named very specifically
+
 type HandlerFunc = func(EventNotificationContainer, *Client) error
 type UnhandledHandlerFunc = func(EventNotificationContainer, *Client, UnhandledNotificationDetails) error
 
