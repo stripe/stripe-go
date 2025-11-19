@@ -1710,6 +1710,8 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1779,6 +1781,8 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 	Trial *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1868,6 +1872,8 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
 	BillingSchedulesActions []*InvoiceCreatePreviewScheduleDetailsAmendmentBillingSchedulesActionParams `form:"billing_schedules_actions"`
 	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
 	DiscountActions []*InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionParams `form:"discount_actions"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	EffectiveAt *string `form:"effective_at"`
 	// Changes to the subscription items during the amendment time span.
 	ItemActions []*InvoiceCreatePreviewScheduleDetailsAmendmentItemActionParams `form:"item_actions"`
 	// Instructions for how to modify phase metadata
@@ -2159,6 +2165,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *InvoiceCreatePreviewScheduleDetailsPhaseItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2477,12 +2485,22 @@ type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The trial offer to apply to this subscription item.
+type InvoiceCreatePreviewSubscriptionDetailsItemCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
+}
+
 // A list of up to 20 subscription items, each with an attached price.
 type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *InvoiceCreatePreviewSubscriptionDetailsItemCurrentTrialParams `form:"current_trial"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
 	// The coupons to redeem into discounts for the subscription item.

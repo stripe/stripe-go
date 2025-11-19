@@ -194,6 +194,15 @@ const (
 	QuoteLineTrialSettingsEndBehaviorProrateUpFrontInclude QuoteLineTrialSettingsEndBehaviorProrateUpFront = "include"
 )
 
+// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+type QuoteLineEffectiveAt string
+
+// List of values that QuoteLineEffectiveAt can take
+const (
+	QuoteLineEffectiveAtBillingPeriodStart QuoteLineEffectiveAt = "billing_period_start"
+	QuoteLineEffectiveAtLineStart          QuoteLineEffectiveAt = "line_start"
+)
+
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionAddDiscountDiscountEnd struct {
 	// The discount end type.
@@ -256,6 +265,8 @@ type QuoteLineActionAddItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *QuoteLineActionAddItemTrial `json:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer string `json:"trial_offer"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -346,6 +357,8 @@ type QuoteLineActionSetItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *QuoteLineActionSetItemTrial `json:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer string `json:"trial_offer"`
 }
 
 // A list of items the customer is being quoted for.
@@ -482,6 +495,8 @@ type QuoteLine struct {
 	BillingCycleAnchor QuoteLineBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionSchedule `json:"cancel_subscription_schedule"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	EffectiveAt QuoteLineEffectiveAt `json:"effective_at"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 	EndsAt *QuoteLineEndsAt `json:"ends_at"`
 	// Unique identifier for the object.

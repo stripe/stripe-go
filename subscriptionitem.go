@@ -22,6 +22,8 @@ type SubscriptionItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemCurrentTrialParams `form:"current_trial"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
@@ -133,6 +135,14 @@ type SubscriptionItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionItemCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
+}
+
 // Returns a list of your subscription items for a given subscription.
 type SubscriptionItemListParams struct {
 	ListParams `form:"*"`
@@ -238,11 +248,21 @@ type SubscriptionItemUpdatePriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionItemUpdateCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
+}
+
 // Updates the plan or quantity of an item on a current subscription.
 type SubscriptionItemUpdateParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemUpdateBillingThresholdsParams `form:"billing_thresholds"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemUpdateCurrentTrialParams `form:"current_trial"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
@@ -357,11 +377,21 @@ type SubscriptionItemCreateTrialParams struct {
 	Type *string `form:"type"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionItemCreateCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
+}
+
 // Adds a new item to an existing subscription. No existing items will be changed or replaced.
 type SubscriptionItemCreateParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemCreateBillingThresholdsParams `form:"billing_thresholds"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemCreateCurrentTrialParams `form:"current_trial"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemCreateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
@@ -424,6 +454,13 @@ type SubscriptionItemTrial struct {
 	Type SubscriptionItemTrialType `json:"type"`
 }
 
+// The current trial that is applied to this subscription item.
+type SubscriptionItemCurrentTrial struct {
+	EndDate    int64  `json:"end_date"`
+	StartDate  int64  `json:"start_date"`
+	TrialOffer string `json:"trial_offer"`
+}
+
 // Subscription items allow you to create customer subscriptions with more than
 // one plan, making it easy to represent complex billing relationships.
 type SubscriptionItem struct {
@@ -438,7 +475,9 @@ type SubscriptionItem struct {
 	CurrentPeriodEnd int64 `json:"current_period_end"`
 	// The start time of this subscription item's current billing period.
 	CurrentPeriodStart int64 `json:"current_period_start"`
-	Deleted            bool  `json:"deleted"`
+	// The current trial that is applied to this subscription item.
+	CurrentTrial *SubscriptionItemCurrentTrial `json:"current_trial"`
+	Deleted      bool                          `json:"deleted"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.

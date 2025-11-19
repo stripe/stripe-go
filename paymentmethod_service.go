@@ -81,7 +81,7 @@ func (c v1PaymentMethodService) Attach(ctx context.Context, id string, params *P
 	return paymentmethod, err
 }
 
-// Retrieves a payment method's balance.
+// Retrieves a PaymentMethod's Balance.
 func (c v1PaymentMethodService) CheckBalance(ctx context.Context, id string, params *PaymentMethodCheckBalanceParams) (*PaymentMethodBalance, error) {
 	if params == nil {
 		params = &PaymentMethodCheckBalanceParams{}
