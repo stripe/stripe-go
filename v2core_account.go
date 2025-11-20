@@ -4886,10 +4886,18 @@ type V2CoreAccountIdentityBusinessDetailsAddress struct {
 	Town string `json:"town,omitempty"`
 }
 
+// A non-negative integer representing the amount in the smallest currency unit.
+type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenue struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount Amount `json:"amount,omitempty"`
+	Amount *V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount `json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd string `json:"fiscal_year_end,omitempty"`
 }
@@ -5014,10 +5022,18 @@ type V2CoreAccountIdentityBusinessDetailsIDNumber struct {
 	Type V2CoreAccountIdentityBusinessDetailsIDNumberType `json:"type"`
 }
 
+// A non-negative integer representing the amount in the smallest currency unit.
+type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount Amount `json:"amount,omitempty"`
+	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount `json:"amount,omitempty"`
 }
 
 // Kana Address.
