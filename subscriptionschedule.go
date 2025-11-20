@@ -193,6 +193,15 @@ const (
 	SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFrontInclude SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront = "include"
 )
 
+// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+type SubscriptionSchedulePhaseEffectiveAt string
+
+// List of values that SubscriptionSchedulePhaseEffectiveAt can take
+const (
+	SubscriptionSchedulePhaseEffectiveAtBillingPeriodStart SubscriptionSchedulePhaseEffectiveAt = "billing_period_start"
+	SubscriptionSchedulePhaseEffectiveAtPhaseStart         SubscriptionSchedulePhaseEffectiveAt = "phase_start"
+)
+
 // Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 type SubscriptionSchedulePrebillingUpdateBehavior string
 
@@ -222,29 +231,12 @@ const (
 	SubscriptionScheduleBillingScheduleAppliesToTypePrice SubscriptionScheduleBillingScheduleAppliesToType = "price"
 )
 
-// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
-type SubscriptionScheduleBillingScheduleBillFromRelativeInterval string
-
-// List of values that SubscriptionScheduleBillingScheduleBillFromRelativeInterval can take
-const (
-	SubscriptionScheduleBillingScheduleBillFromRelativeIntervalDay   SubscriptionScheduleBillingScheduleBillFromRelativeInterval = "day"
-	SubscriptionScheduleBillingScheduleBillFromRelativeIntervalMonth SubscriptionScheduleBillingScheduleBillFromRelativeInterval = "month"
-	SubscriptionScheduleBillingScheduleBillFromRelativeIntervalWeek  SubscriptionScheduleBillingScheduleBillFromRelativeInterval = "week"
-	SubscriptionScheduleBillingScheduleBillFromRelativeIntervalYear  SubscriptionScheduleBillingScheduleBillFromRelativeInterval = "year"
-)
-
-// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
 type SubscriptionScheduleBillingScheduleBillFromType string
 
 // List of values that SubscriptionScheduleBillingScheduleBillFromType can take
 const (
-	SubscriptionScheduleBillingScheduleBillFromTypeAmendmentStart       SubscriptionScheduleBillingScheduleBillFromType = "amendment_start"
-	SubscriptionScheduleBillingScheduleBillFromTypeLineStartsAt         SubscriptionScheduleBillingScheduleBillFromType = "line_starts_at"
-	SubscriptionScheduleBillingScheduleBillFromTypeNow                  SubscriptionScheduleBillingScheduleBillFromType = "now"
-	SubscriptionScheduleBillingScheduleBillFromTypePauseCollectionStart SubscriptionScheduleBillingScheduleBillFromType = "pause_collection_start"
-	SubscriptionScheduleBillingScheduleBillFromTypeQuoteAcceptanceDate  SubscriptionScheduleBillingScheduleBillFromType = "quote_acceptance_date"
-	SubscriptionScheduleBillingScheduleBillFromTypeRelative             SubscriptionScheduleBillingScheduleBillFromType = "relative"
-	SubscriptionScheduleBillingScheduleBillFromTypeTimestamp            SubscriptionScheduleBillingScheduleBillFromType = "timestamp"
+	SubscriptionScheduleBillingScheduleBillFromTypeTimestamp SubscriptionScheduleBillingScheduleBillFromType = "timestamp"
 )
 
 // Specifies billing duration. Either `day`, `week`, `month` or `year`.
@@ -263,12 +255,8 @@ type SubscriptionScheduleBillingScheduleBillUntilType string
 
 // List of values that SubscriptionScheduleBillingScheduleBillUntilType can take
 const (
-	SubscriptionScheduleBillingScheduleBillUntilTypeAmendmentEnd    SubscriptionScheduleBillingScheduleBillUntilType = "amendment_end"
-	SubscriptionScheduleBillingScheduleBillUntilTypeDuration        SubscriptionScheduleBillingScheduleBillUntilType = "duration"
-	SubscriptionScheduleBillingScheduleBillUntilTypeLineEndsAt      SubscriptionScheduleBillingScheduleBillUntilType = "line_ends_at"
-	SubscriptionScheduleBillingScheduleBillUntilTypeScheduleEnd     SubscriptionScheduleBillingScheduleBillUntilType = "schedule_end"
-	SubscriptionScheduleBillingScheduleBillUntilTypeTimestamp       SubscriptionScheduleBillingScheduleBillUntilType = "timestamp"
-	SubscriptionScheduleBillingScheduleBillUntilTypeUpcomingInvoice SubscriptionScheduleBillingScheduleBillUntilType = "upcoming_invoice"
+	SubscriptionScheduleBillingScheduleBillUntilTypeDuration  SubscriptionScheduleBillingScheduleBillUntilType = "duration"
+	SubscriptionScheduleBillingScheduleBillUntilTypeTimestamp SubscriptionScheduleBillingScheduleBillUntilType = "timestamp"
 )
 
 // Retrieves the list of your subscription schedules.
@@ -597,6 +585,8 @@ type SubscriptionSchedulePhaseItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionSchedulePhaseItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -652,6 +642,8 @@ type SubscriptionSchedulePhaseParams struct {
 	Discounts []*SubscriptionSchedulePhaseDiscountParams `form:"discounts"`
 	// The number of intervals the phase should last. If set, `end_date` must not be set.
 	Duration *SubscriptionSchedulePhaseDurationParams `form:"duration"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	EffectiveAt *string `form:"effective_at"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
@@ -958,6 +950,8 @@ type SubscriptionScheduleAmendAmendmentItemActionAddParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionScheduleAmendAmendmentItemActionAddTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1027,6 +1021,8 @@ type SubscriptionScheduleAmendAmendmentItemActionSetParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 	Trial *SubscriptionScheduleAmendAmendmentItemActionSetTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1116,6 +1112,8 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	BillingSchedulesActions []*SubscriptionScheduleAmendAmendmentBillingSchedulesActionParams `form:"billing_schedules_actions"`
 	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
 	DiscountActions []*SubscriptionScheduleAmendAmendmentDiscountActionParams `form:"discount_actions"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	EffectiveAt *string `form:"effective_at"`
 	// Changes to the subscription items during the amendment time span.
 	ItemActions []*SubscriptionScheduleAmendAmendmentItemActionParams `form:"item_actions"`
 	// Instructions for how to modify phase metadata
@@ -1532,6 +1530,8 @@ type SubscriptionScheduleCreatePhaseItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionScheduleCreatePhaseItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1587,6 +1587,8 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	Discounts []*SubscriptionScheduleCreatePhaseDiscountParams `form:"discounts"`
 	// The number of intervals the phase should last. If set, `end_date` must not be set.
 	Duration *SubscriptionScheduleCreatePhaseDurationParams `form:"duration"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	EffectiveAt *string `form:"effective_at"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate *int64 `form:"end_date"`
 	// All invoices will be billed using the specified settings.
@@ -2008,6 +2010,8 @@ type SubscriptionScheduleUpdatePhaseItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionScheduleUpdatePhaseItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2063,6 +2067,8 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	Discounts []*SubscriptionScheduleUpdatePhaseDiscountParams `form:"discounts"`
 	// The number of intervals the phase should last. If set, `end_date` must not be set.
 	Duration *SubscriptionScheduleUpdatePhaseDurationParams `form:"duration"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	EffectiveAt *string `form:"effective_at"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
@@ -2431,6 +2437,8 @@ type SubscriptionSchedulePhaseItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionSchedulePhaseItemTrial `json:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer string `json:"trial_offer"`
 }
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
@@ -2474,6 +2482,8 @@ type SubscriptionSchedulePhase struct {
 	Description string `json:"description"`
 	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 	Discounts []*SubscriptionSchedulePhaseDiscount `json:"discounts"`
+	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	EffectiveAt SubscriptionSchedulePhaseEffectiveAt `json:"effective_at"`
 	// The end of this phase of the subscription schedule.
 	EndDate int64 `json:"end_date"`
 	// The invoice settings applicable during this phase.
@@ -2520,46 +2530,14 @@ type SubscriptionScheduleBillingScheduleAppliesTo struct {
 	Type SubscriptionScheduleBillingScheduleAppliesToType `json:"type"`
 }
 
-// Use an index to specify the position of an amendment to start prebilling with.
-type SubscriptionScheduleBillingScheduleBillFromAmendmentStart struct {
-	// Use an index to specify the position of an amendment to start prebilling with.
-	Index int64 `json:"index"`
-}
-
-// Lets you bill the period starting from a particular Quote line.
-type SubscriptionScheduleBillingScheduleBillFromLineStartsAt struct {
-	// Unique identifier for the object.
-	ID string `json:"id"`
-}
-
-// Timestamp is calculated from the request time.
-type SubscriptionScheduleBillingScheduleBillFromRelative struct {
-	// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
-	Interval SubscriptionScheduleBillingScheduleBillFromRelativeInterval `json:"interval"`
-	// The multiplier applied to the interval.
-	IntervalCount int64 `json:"interval_count"`
-}
-
 // Specifies the start of the billing period.
 type SubscriptionScheduleBillingScheduleBillFrom struct {
-	// Use an index to specify the position of an amendment to start prebilling with.
-	AmendmentStart *SubscriptionScheduleBillingScheduleBillFromAmendmentStart `json:"amendment_start"`
 	// The time the billing schedule applies from.
 	ComputedTimestamp int64 `json:"computed_timestamp"`
-	// Lets you bill the period starting from a particular Quote line.
-	LineStartsAt *SubscriptionScheduleBillingScheduleBillFromLineStartsAt `json:"line_starts_at"`
-	// Timestamp is calculated from the request time.
-	Relative *SubscriptionScheduleBillingScheduleBillFromRelative `json:"relative"`
 	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
 	Timestamp int64 `json:"timestamp"`
-	// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+	// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
 	Type SubscriptionScheduleBillingScheduleBillFromType `json:"type"`
-}
-
-// Use an index to specify the position of an amendment to end prebilling with.
-type SubscriptionScheduleBillingScheduleBillUntilAmendmentEnd struct {
-	// Use an index to specify the position of an amendment to end prebilling with.
-	Index int64 `json:"index"`
 }
 
 // Specifies the billing period.
@@ -2570,22 +2548,12 @@ type SubscriptionScheduleBillingScheduleBillUntilDuration struct {
 	IntervalCount int64 `json:"interval_count"`
 }
 
-// Lets you bill the period ending at a particular Quote line.
-type SubscriptionScheduleBillingScheduleBillUntilLineEndsAt struct {
-	// Unique identifier for the object.
-	ID string `json:"id"`
-}
-
 // Specifies the end of billing period.
 type SubscriptionScheduleBillingScheduleBillUntil struct {
-	// Use an index to specify the position of an amendment to end prebilling with.
-	AmendmentEnd *SubscriptionScheduleBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
 	// The timestamp the billing schedule will apply until.
 	ComputedTimestamp int64 `json:"computed_timestamp"`
 	// Specifies the billing period.
 	Duration *SubscriptionScheduleBillingScheduleBillUntilDuration `json:"duration"`
-	// Lets you bill the period ending at a particular Quote line.
-	LineEndsAt *SubscriptionScheduleBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
 	// If specified, the billing schedule will apply until the specified timestamp.
 	Timestamp int64 `json:"timestamp"`
 	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.

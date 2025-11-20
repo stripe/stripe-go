@@ -400,6 +400,10 @@ type Client struct {
 	V2CoreAccounts *v2CoreAccountService
 	// V2CoreAccountsPersons is the service used to invoke /v2/core/accounts/{account_id}/persons APIs.
 	V2CoreAccountsPersons *v2CoreAccountsPersonService
+	// V2CoreAccountsPersonTokens is the service used to invoke /v2/core/accounts/{account_id}/person_tokens APIs.
+	V2CoreAccountsPersonTokens *v2CoreAccountsPersonTokenService
+	// V2CoreAccountTokens is the service used to invoke /v2/core/account_tokens APIs.
+	V2CoreAccountTokens *v2CoreAccountTokenService
 	// V2CoreClaimableSandboxes is the service used to invoke /v2/core/claimable_sandboxes APIs.
 	V2CoreClaimableSandboxes *v2CoreClaimableSandboxService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
@@ -412,6 +416,8 @@ type Client struct {
 	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
 	// V2MoneyManagementAdjustments is the service used to invoke /v2/money_management/adjustments APIs.
 	V2MoneyManagementAdjustments *v2MoneyManagementAdjustmentService
+	// V2MoneyManagementCurrencyConversions is the service used to invoke /v2/money_management/currency_conversions APIs.
+	V2MoneyManagementCurrencyConversions *v2MoneyManagementCurrencyConversionService
 	// V2MoneyManagementFinancialAccounts is the service used to invoke /v2/money_management/financial_accounts APIs.
 	V2MoneyManagementFinancialAccounts *v2MoneyManagementFinancialAccountService
 	// V2MoneyManagementFinancialAddresses is the service used to invoke /v2/money_management/financial_addresses APIs.
@@ -685,12 +691,15 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
+	client.V2CoreAccountsPersonTokens = &v2CoreAccountsPersonTokenService{B: backends.API, Key: key}
+	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
 	client.V2CoreClaimableSandboxes = &v2CoreClaimableSandboxService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
 	client.V2MoneyManagementAdjustments = &v2MoneyManagementAdjustmentService{B: backends.API, Key: key}
+	client.V2MoneyManagementCurrencyConversions = &v2MoneyManagementCurrencyConversionService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccounts = &v2MoneyManagementFinancialAccountService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAddresses = &v2MoneyManagementFinancialAddressService{B: backends.API, Key: key}
 	client.V2MoneyManagementInboundTransfers = &v2MoneyManagementInboundTransferService{B: backends.API, Key: key}

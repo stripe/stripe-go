@@ -119,12 +119,12 @@ func (c Client) Attach(id string, params *stripe.PaymentMethodAttachParams) (*st
 	return paymentmethod, err
 }
 
-// Retrieves a payment method's balance.
+// Retrieves a PaymentMethod's Balance.
 func CheckBalance(id string, params *stripe.PaymentMethodCheckBalanceParams) (*stripe.PaymentMethodBalance, error) {
 	return getC().CheckBalance(id, params)
 }
 
-// Retrieves a payment method's balance.
+// Retrieves a PaymentMethod's Balance.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

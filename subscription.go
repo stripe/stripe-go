@@ -54,29 +54,12 @@ const (
 	SubscriptionBillingScheduleAppliesToTypePrice SubscriptionBillingScheduleAppliesToType = "price"
 )
 
-// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
-type SubscriptionBillingScheduleBillFromRelativeInterval string
-
-// List of values that SubscriptionBillingScheduleBillFromRelativeInterval can take
-const (
-	SubscriptionBillingScheduleBillFromRelativeIntervalDay   SubscriptionBillingScheduleBillFromRelativeInterval = "day"
-	SubscriptionBillingScheduleBillFromRelativeIntervalMonth SubscriptionBillingScheduleBillFromRelativeInterval = "month"
-	SubscriptionBillingScheduleBillFromRelativeIntervalWeek  SubscriptionBillingScheduleBillFromRelativeInterval = "week"
-	SubscriptionBillingScheduleBillFromRelativeIntervalYear  SubscriptionBillingScheduleBillFromRelativeInterval = "year"
-)
-
-// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
 type SubscriptionBillingScheduleBillFromType string
 
 // List of values that SubscriptionBillingScheduleBillFromType can take
 const (
-	SubscriptionBillingScheduleBillFromTypeAmendmentStart       SubscriptionBillingScheduleBillFromType = "amendment_start"
-	SubscriptionBillingScheduleBillFromTypeLineStartsAt         SubscriptionBillingScheduleBillFromType = "line_starts_at"
-	SubscriptionBillingScheduleBillFromTypeNow                  SubscriptionBillingScheduleBillFromType = "now"
-	SubscriptionBillingScheduleBillFromTypePauseCollectionStart SubscriptionBillingScheduleBillFromType = "pause_collection_start"
-	SubscriptionBillingScheduleBillFromTypeQuoteAcceptanceDate  SubscriptionBillingScheduleBillFromType = "quote_acceptance_date"
-	SubscriptionBillingScheduleBillFromTypeRelative             SubscriptionBillingScheduleBillFromType = "relative"
-	SubscriptionBillingScheduleBillFromTypeTimestamp            SubscriptionBillingScheduleBillFromType = "timestamp"
+	SubscriptionBillingScheduleBillFromTypeTimestamp SubscriptionBillingScheduleBillFromType = "timestamp"
 )
 
 // Specifies billing duration. Either `day`, `week`, `month` or `year`.
@@ -95,12 +78,8 @@ type SubscriptionBillingScheduleBillUntilType string
 
 // List of values that SubscriptionBillingScheduleBillUntilType can take
 const (
-	SubscriptionBillingScheduleBillUntilTypeAmendmentEnd    SubscriptionBillingScheduleBillUntilType = "amendment_end"
-	SubscriptionBillingScheduleBillUntilTypeDuration        SubscriptionBillingScheduleBillUntilType = "duration"
-	SubscriptionBillingScheduleBillUntilTypeLineEndsAt      SubscriptionBillingScheduleBillUntilType = "line_ends_at"
-	SubscriptionBillingScheduleBillUntilTypeScheduleEnd     SubscriptionBillingScheduleBillUntilType = "schedule_end"
-	SubscriptionBillingScheduleBillUntilTypeTimestamp       SubscriptionBillingScheduleBillUntilType = "timestamp"
-	SubscriptionBillingScheduleBillUntilTypeUpcomingInvoice SubscriptionBillingScheduleBillUntilType = "upcoming_invoice"
+	SubscriptionBillingScheduleBillUntilTypeDuration  SubscriptionBillingScheduleBillUntilType = "duration"
+	SubscriptionBillingScheduleBillUntilTypeTimestamp SubscriptionBillingScheduleBillUntilType = "timestamp"
 )
 
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
@@ -783,6 +762,8 @@ type SubscriptionItemsParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemCurrentTrialParams `form:"current_trial"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
 	// The coupons to redeem into discounts for the subscription item.
@@ -1448,12 +1429,22 @@ type SubscriptionUpdateItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionUpdateItemCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
+}
+
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionUpdateItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionUpdateItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionUpdateItemCurrentTrialParams `form:"current_trial"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
 	// The coupons to redeem into discounts for the subscription item.
@@ -2112,10 +2103,20 @@ type SubscriptionCreateItemTrialParams struct {
 	Type *string `form:"type"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionCreateItemCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
+}
+
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionCreateItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionCreateItemBillingThresholdsParams `form:"billing_thresholds"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionCreateItemCurrentTrialParams `form:"current_trial"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionCreateItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -2535,46 +2536,14 @@ type SubscriptionBillingScheduleAppliesTo struct {
 	Type SubscriptionBillingScheduleAppliesToType `json:"type"`
 }
 
-// Use an index to specify the position of an amendment to start prebilling with.
-type SubscriptionBillingScheduleBillFromAmendmentStart struct {
-	// Use an index to specify the position of an amendment to start prebilling with.
-	Index int64 `json:"index"`
-}
-
-// Lets you bill the period starting from a particular Quote line.
-type SubscriptionBillingScheduleBillFromLineStartsAt struct {
-	// Unique identifier for the object.
-	ID string `json:"id"`
-}
-
-// Timestamp is calculated from the request time.
-type SubscriptionBillingScheduleBillFromRelative struct {
-	// Specifies billing duration. Possible values are `day`, `week`, `month`, or `year`.
-	Interval SubscriptionBillingScheduleBillFromRelativeInterval `json:"interval"`
-	// The multiplier applied to the interval.
-	IntervalCount int64 `json:"interval_count"`
-}
-
 // Specifies the start of the billing period.
 type SubscriptionBillingScheduleBillFrom struct {
-	// Use an index to specify the position of an amendment to start prebilling with.
-	AmendmentStart *SubscriptionBillingScheduleBillFromAmendmentStart `json:"amendment_start"`
 	// The time the billing schedule applies from.
 	ComputedTimestamp int64 `json:"computed_timestamp"`
-	// Lets you bill the period starting from a particular Quote line.
-	LineStartsAt *SubscriptionBillingScheduleBillFromLineStartsAt `json:"line_starts_at"`
-	// Timestamp is calculated from the request time.
-	Relative *SubscriptionBillingScheduleBillFromRelative `json:"relative"`
 	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
 	Timestamp int64 `json:"timestamp"`
-	// Describes how the billing schedule determines the start date. Possible values are `timestamp`, `relative`, `amendment_start`, `now`, `quote_acceptance_date`, `line_starts_at`, or `pause_collection_start`.
+	// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
 	Type SubscriptionBillingScheduleBillFromType `json:"type"`
-}
-
-// Use an index to specify the position of an amendment to end prebilling with.
-type SubscriptionBillingScheduleBillUntilAmendmentEnd struct {
-	// Use an index to specify the position of an amendment to end prebilling with.
-	Index int64 `json:"index"`
 }
 
 // Specifies the billing period.
@@ -2585,22 +2554,12 @@ type SubscriptionBillingScheduleBillUntilDuration struct {
 	IntervalCount int64 `json:"interval_count"`
 }
 
-// Lets you bill the period ending at a particular Quote line.
-type SubscriptionBillingScheduleBillUntilLineEndsAt struct {
-	// Unique identifier for the object.
-	ID string `json:"id"`
-}
-
 // Specifies the end of billing period.
 type SubscriptionBillingScheduleBillUntil struct {
-	// Use an index to specify the position of an amendment to end prebilling with.
-	AmendmentEnd *SubscriptionBillingScheduleBillUntilAmendmentEnd `json:"amendment_end"`
 	// The timestamp the billing schedule will apply until.
 	ComputedTimestamp int64 `json:"computed_timestamp"`
 	// Specifies the billing period.
 	Duration *SubscriptionBillingScheduleBillUntilDuration `json:"duration"`
-	// Lets you bill the period ending at a particular Quote line.
-	LineEndsAt *SubscriptionBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
 	// If specified, the billing schedule will apply until the specified timestamp.
 	Timestamp int64 `json:"timestamp"`
 	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.

@@ -26,15 +26,6 @@ const (
 	V2PaymentsOffSessionPaymentCaptureCaptureMethodManual    V2PaymentsOffSessionPaymentCaptureCaptureMethod = "manual"
 )
 
-// Whether the OffSessionPayment should be captured automatically or manually.
-type V2PaymentsOffSessionPaymentCaptureMethod string
-
-// List of values that V2PaymentsOffSessionPaymentCaptureMethod can take
-const (
-	V2PaymentsOffSessionPaymentCaptureMethodAutomatic V2PaymentsOffSessionPaymentCaptureMethod = "automatic"
-	V2PaymentsOffSessionPaymentCaptureMethodManual    V2PaymentsOffSessionPaymentCaptureMethod = "manual"
-)
-
 // The reason why the OffSessionPayment failed.
 type V2PaymentsOffSessionPaymentFailureReason string
 
@@ -71,54 +62,20 @@ const (
 	V2PaymentsOffSessionPaymentStatusSucceeded       V2PaymentsOffSessionPaymentStatus = "succeeded"
 )
 
-// Contains information about the tax on the item.
-type V2PaymentsOffSessionPaymentAmountDetailsLineItemTax struct {
-	// Total portion of the amount that is for tax.
-	TotalTaxAmount int64 `json:"total_tax_amount,omitempty"`
+// The amount available to be captured.
+type V2PaymentsOffSessionPaymentAmountCapturable struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
-type V2PaymentsOffSessionPaymentAmountDetailsLineItem struct {
-	// The amount an item was discounted for. Positive integer.
-	DiscountAmount int64 `json:"discount_amount,omitempty"`
-	// Unique identifier of the product. At most 12 characters long.
-	ProductCode string `json:"product_code,omitempty"`
-	// Name of the product. At most 100 characters long.
-	ProductName string `json:"product_name"`
-	// Number of items of the product. Positive integer.
-	Quantity int64 `json:"quantity"`
-	// Contains information about the tax on the item.
-	Tax *V2PaymentsOffSessionPaymentAmountDetailsLineItemTax `json:"tax,omitempty"`
-	// Cost of the product. Non-negative integer.
-	UnitCost int64 `json:"unit_cost"`
-}
-
-// Contains information about the shipping portion of the amount.
-type V2PaymentsOffSessionPaymentAmountDetailsShipping struct {
-	// Portion of the amount that is for shipping.
-	Amount int64 `json:"amount,omitempty"`
-	// The postal code that represents the shipping source.
-	FromPostalCode string `json:"from_postal_code,omitempty"`
-	// The postal code that represents the shipping destination.
-	ToPostalCode string `json:"to_postal_code,omitempty"`
-}
-
-// Contains information about the tax portion of the amount.
-type V2PaymentsOffSessionPaymentAmountDetailsTax struct {
-	// Total portion of the amount that is for tax.
-	TotalTaxAmount int64 `json:"total_tax_amount,omitempty"`
-}
-
-// Provides industry-specific information about the amount.
-type V2PaymentsOffSessionPaymentAmountDetails struct {
-	// The amount the total transaction was discounted for.
-	DiscountAmount int64 `json:"discount_amount,omitempty"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
-	LineItems []*V2PaymentsOffSessionPaymentAmountDetailsLineItem `json:"line_items"`
-	// Contains information about the shipping portion of the amount.
-	Shipping *V2PaymentsOffSessionPaymentAmountDetailsShipping `json:"shipping,omitempty"`
-	// Contains information about the tax portion of the amount.
-	Tax *V2PaymentsOffSessionPaymentAmountDetailsTax `json:"tax,omitempty"`
+// The “presentment amount” to be collected from the customer.
+type V2PaymentsOffSessionPaymentAmountRequested struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
 }
 
 // Details about the capture configuration for the OffSessionPayment.
@@ -145,13 +102,13 @@ type V2PaymentsOffSessionPaymentRetryDetails struct {
 	RetryStrategy V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy `json:"retry_strategy"`
 }
 
-// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.corp.stripe.com/payments/connected-accounts).
+// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type V2PaymentsOffSessionPaymentTransferData struct {
 	// The amount transferred to the destination account. This transfer will occur
 	// automatically after the payment succeeds. If no amount is specified, by default
 	// the entire payment amount is transferred to the destination account. The amount
 	// must be less than or equal to the
-	// [amount_requested](https://docs.corp.stripe.com/api/v2/off-session-payments/object?api-version=2025-05-28.preview#v2_off_session_payment_object-amount_requested),
+	// [amount_requested](https://docs.stripe.com/api/v2/off-session-payments/object?api-version=2025-05-28.preview#v2_off_session_payment_object-amount_requested),
 	// and must be a positive integer representing how much to transfer in the smallest
 	// currency unit (e.g., 100 cents to charge $1.00).
 	Amount int64 `json:"amount,omitempty"`
@@ -164,17 +121,13 @@ type V2PaymentsOffSessionPaymentTransferData struct {
 type V2PaymentsOffSessionPayment struct {
 	APIResource
 	// The amount available to be captured.
-	AmountCapturable Amount `json:"amount_capturable,omitempty"`
-	// Provides industry-specific information about the amount.
-	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
+	AmountCapturable *V2PaymentsOffSessionPaymentAmountCapturable `json:"amount_capturable,omitempty"`
 	// The “presentment amount” to be collected from the customer.
-	AmountRequested Amount `json:"amount_requested"`
+	AmountRequested *V2PaymentsOffSessionPaymentAmountRequested `json:"amount_requested"`
 	// The frequency of the underlying payment.
 	Cadence V2PaymentsOffSessionPaymentCadence `json:"cadence"`
 	// Details about the capture configuration for the OffSessionPayment.
 	Capture *V2PaymentsOffSessionPaymentCapture `json:"capture,omitempty"`
-	// Whether the OffSessionPayment should be captured automatically or manually.
-	CaptureMethod V2PaymentsOffSessionPaymentCaptureMethod `json:"capture_method,omitempty"`
 	// ID of the owning compartment.
 	CompartmentID string `json:"compartment_id"`
 	// Creation time of the OffSessionPayment. Represented as a RFC 3339 date & time UTC
@@ -192,10 +145,10 @@ type V2PaymentsOffSessionPayment struct {
 	LatestPaymentAttemptRecord string `json:"latest_payment_attempt_record,omitempty"`
 	// Has the value true if the object exists in live mode or the value false if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://docs.corp.stripe.com/api/metadata) that you can
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can
 	// attach to an object. This can be useful for storing additional information about
 	// the object in a structured format. Learn more about
-	// [storing information in metadata](https://docs.corp.stripe.com/payments/payment-intents#storing-information-in-metadata).
+	// [storing information in metadata](https://docs.stripe.com/payments/payment-intents#storing-information-in-metadata).
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
@@ -223,6 +176,6 @@ type V2PaymentsOffSessionPayment struct {
 	Status V2PaymentsOffSessionPaymentStatus `json:"status"`
 	// Test clock that can be used to advance the retry attempts in a sandbox.
 	TestClock string `json:"test_clock,omitempty"`
-	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.corp.stripe.com/payments/connected-accounts).
+	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *V2PaymentsOffSessionPaymentTransferData `json:"transfer_data,omitempty"`
 }

@@ -933,7 +933,7 @@ func (p *PaymentMethodAttachParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves a payment method's balance.
+// Retrieves a PaymentMethod's Balance.
 type PaymentMethodCheckBalanceParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

@@ -49,24 +49,48 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatusNone    V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatus = "none"
 )
 
+// The "presentment amount" for the OutboundPaymentQuote.
+type V2MoneyManagementOutboundPaymentQuoteAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
 // Delivery options to be used to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentQuoteDeliveryOptions struct {
 	// Open Enum. Method for bank account.
 	BankAccount V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsBankAccount `json:"bank_account,omitempty"`
 }
 
+// The fee amount for corresponding fee type.
+type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
 // The estimated fees for the OutboundPaymentQuote.
 type V2MoneyManagementOutboundPaymentQuoteEstimatedFee struct {
 	// The fee amount for corresponding fee type.
-	Amount Amount `json:"amount"`
+	Amount *V2MoneyManagementOutboundPaymentQuoteEstimatedFeeAmount `json:"amount"`
 	// The fee type.
 	Type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType `json:"type"`
+}
+
+// The monetary amount debited from the sender, only set on responses.
+type V2MoneyManagementOutboundPaymentQuoteFromDebited struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
 }
 
 // Details about the sender of an OutboundPaymentQuote.
 type V2MoneyManagementOutboundPaymentQuoteFrom struct {
 	// The monetary amount debited from the sender, only set on responses.
-	Debited Amount `json:"debited"`
+	Debited *V2MoneyManagementOutboundPaymentQuoteFromDebited `json:"debited"`
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount string `json:"financial_account"`
 }
@@ -91,10 +115,18 @@ type V2MoneyManagementOutboundPaymentQuoteFxQuote struct {
 	ToCurrency Currency `json:"to_currency"`
 }
 
+// The monetary amount being credited to the destination.
+type V2MoneyManagementOutboundPaymentQuoteToCredited struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
 // Details about the recipient of an OutboundPaymentQuote.
 type V2MoneyManagementOutboundPaymentQuoteTo struct {
 	// The monetary amount being credited to the destination.
-	Credited Amount `json:"credited"`
+	Credited *V2MoneyManagementOutboundPaymentQuoteToCredited `json:"credited"`
 	// The payout method which the OutboundPayment uses to send payout.
 	PayoutMethod string `json:"payout_method"`
 	// To which account the OutboundPayment is sent.
@@ -105,7 +137,7 @@ type V2MoneyManagementOutboundPaymentQuoteTo struct {
 type V2MoneyManagementOutboundPaymentQuote struct {
 	APIResource
 	// The "presentment amount" for the OutboundPaymentQuote.
-	Amount Amount `json:"amount"`
+	Amount *V2MoneyManagementOutboundPaymentQuoteAmount `json:"amount"`
 	// Time at which the OutboundPaymentQuote was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`

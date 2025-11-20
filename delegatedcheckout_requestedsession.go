@@ -469,6 +469,14 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetails struct {
 
 // The line items to be purchased.
 type DelegatedCheckoutRequestedSessionLineItemDetail struct {
+	// The total discount for this line item. If no discount were applied, defaults to 0.
+	AmountDiscount int64 `json:"amount_discount"`
+	// The total before any discounts or taxes are applied.
+	AmountSubtotal int64 `json:"amount_subtotal"`
+	// The total after discounts but before taxes are applied.
+	AmountSubtotalAfterDiscount int64 `json:"amount_subtotal_after_discount"`
+	// The total after discounts and taxes.
+	AmountTotal int64 `json:"amount_total"`
 	// The description of the line item.
 	Description string `json:"description"`
 	// The images of the line item.
@@ -481,8 +489,12 @@ type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	Quantity int64 `json:"quantity"`
 	// The SKU ID of the line item.
 	SKUID string `json:"sku_id"`
-	// The unit amount of the line item.
+	// The per-unit amount of the item before any discounts or taxes are applied.
 	UnitAmount int64 `json:"unit_amount"`
+	// The per-unit amount of the item after discounts but before taxes are applied.
+	UnitAmountAfterDiscount int64 `json:"unit_amount_after_discount"`
+	// The per-unit discount amount. If no discount were applied, defaults to 0.
+	UnitDiscount int64 `json:"unit_discount"`
 }
 
 // The details of the order.
@@ -540,6 +552,8 @@ type DelegatedCheckoutRequestedSessionTotalDetails struct {
 	AmountDiscount int64 `json:"amount_discount"`
 	// The amount fulfillment of the total details.
 	AmountFulfillment int64 `json:"amount_fulfillment"`
+	// Total of all items after discounts but before taxes are applied.
+	AmountSubtotalAfterDiscount int64 `json:"amount_subtotal_after_discount"`
 	// The amount tax of the total details.
 	AmountTax int64 `json:"amount_tax"`
 	// The applicable fees of the total details.
