@@ -210,12 +210,15 @@ import (
 	v2coreaccount "github.com/stripe/stripe-go/v84/v2/core/account"
 	v2coreaccountlink "github.com/stripe/stripe-go/v84/v2/core/accountlink"
 	v2coreaccountsperson "github.com/stripe/stripe-go/v84/v2/core/accounts/person"
+	v2coreaccountspersontoken "github.com/stripe/stripe-go/v84/v2/core/accounts/persontoken"
+	v2coreaccounttoken "github.com/stripe/stripe-go/v84/v2/core/accounttoken"
 	v2coreclaimablesandbox "github.com/stripe/stripe-go/v84/v2/core/claimablesandbox"
 	v2coreevent "github.com/stripe/stripe-go/v84/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v84/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v84/v2/core/vault/gbbankaccount"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v84/v2/core/vault/usbankaccount"
 	v2moneymanagementadjustment "github.com/stripe/stripe-go/v84/v2/moneymanagement/adjustment"
+	v2moneymanagementcurrencyconversion "github.com/stripe/stripe-go/v84/v2/moneymanagement/currencyconversion"
 	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v84/v2/moneymanagement/financialaccount"
 	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v84/v2/moneymanagement/financialaddress"
 	v2moneymanagementinboundtransfer "github.com/stripe/stripe-go/v84/v2/moneymanagement/inboundtransfer"
@@ -638,6 +641,10 @@ type API struct {
 	V2CoreAccounts *v2coreaccount.Client
 	// V2CoreAccountsPersons is the client used to invoke /v2/core/accounts/{account_id}/persons APIs.
 	V2CoreAccountsPersons *v2coreaccountsperson.Client
+	// V2CoreAccountsPersonTokens is the client used to invoke /v2/core/accounts/{account_id}/person_tokens APIs.
+	V2CoreAccountsPersonTokens *v2coreaccountspersontoken.Client
+	// V2CoreAccountTokens is the client used to invoke /v2/core/account_tokens APIs.
+	V2CoreAccountTokens *v2coreaccounttoken.Client
 	// V2CoreClaimableSandboxes is the client used to invoke /v2/core/claimable_sandboxes APIs.
 	V2CoreClaimableSandboxes *v2coreclaimablesandbox.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
@@ -650,6 +657,8 @@ type API struct {
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
 	// V2MoneyManagementAdjustments is the client used to invoke /v2/money_management/adjustments APIs.
 	V2MoneyManagementAdjustments *v2moneymanagementadjustment.Client
+	// V2MoneyManagementCurrencyConversions is the client used to invoke /v2/money_management/currency_conversions APIs.
+	V2MoneyManagementCurrencyConversions *v2moneymanagementcurrencyconversion.Client
 	// V2MoneyManagementFinancialAccounts is the client used to invoke /v2/money_management/financial_accounts APIs.
 	V2MoneyManagementFinancialAccounts *v2moneymanagementfinancialaccount.Client
 	// V2MoneyManagementFinancialAddresses is the client used to invoke /v2/money_management/financial_addresses APIs.
@@ -903,12 +912,15 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
 	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
+	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
+	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
 	a.V2CoreClaimableSandboxes = &v2coreclaimablesandbox.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementCurrencyConversions = &v2moneymanagementcurrencyconversion.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementInboundTransfers = &v2moneymanagementinboundtransfer.Client{B: backends.API, Key: key}

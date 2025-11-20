@@ -275,7 +275,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExemptReverse V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt = "reverse"
 )
 
-// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+// The data source used to identify the customer's tax location. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource can take
@@ -2254,6 +2254,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusActive      V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusPending     V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatus string
 
 // List of values that V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatus can take
@@ -2729,6 +2764,264 @@ const (
 	V2CoreAccountDefaultsResponsibilitiesLossesCollectorStripe      V2CoreAccountDefaultsResponsibilitiesLossesCollector = "stripe"
 )
 
+// A value indicating responsibility for collecting requirements on this account.
+type V2CoreAccountDefaultsResponsibilitiesRequirementsCollector string
+
+// List of values that V2CoreAccountDefaultsResponsibilitiesRequirementsCollector can take
+const (
+	V2CoreAccountDefaultsResponsibilitiesRequirementsCollectorApplication V2CoreAccountDefaultsResponsibilitiesRequirementsCollector = "application"
+	V2CoreAccountDefaultsResponsibilitiesRequirementsCollectorStripe      V2CoreAccountDefaultsResponsibilitiesRequirementsCollector = "stripe"
+)
+
+// Whether the responsibility is with the integrator or with Stripe (to review info, to wait for some condition, etc.) to action the requirement.
+type V2CoreAccountFutureRequirementsEntryAwaitingActionFrom string
+
+// List of values that V2CoreAccountFutureRequirementsEntryAwaitingActionFrom can take
+const (
+	V2CoreAccountFutureRequirementsEntryAwaitingActionFromStripe V2CoreAccountFutureRequirementsEntryAwaitingActionFrom = "stripe"
+	V2CoreAccountFutureRequirementsEntryAwaitingActionFromUser   V2CoreAccountFutureRequirementsEntryAwaitingActionFrom = "user"
+)
+
+// Machine-readable code describing the error.
+type V2CoreAccountFutureRequirementsEntryErrorCode string
+
+// List of values that V2CoreAccountFutureRequirementsEntryErrorCode can take
+const (
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressCityStatePostalCode                      V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_city_state_postal_code"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressHighwayContractBox                       V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_highway_contract_box"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidAddressPrivateMailbox                           V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_address_private_mailbox"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidBusinessProfileName                             V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_business_profile_name"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidBusinessProfileNameDenylisted                   V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_business_profile_name_denylisted"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidCompanyNameDenylisted                           V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_company_name_denylisted"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidDOBAgeOverMaximum                               V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_dob_age_over_maximum"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidDOBAgeUnder18                                   V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_dob_age_under_18"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidDOBAgeUnderMinimum                              V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_dob_age_under_minimum"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidProductDescriptionLength                        V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_product_description_length"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidProductDescriptionURLMatch                      V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_product_description_url_match"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidRepresentativeCountry                           V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_representative_country"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidStatementDescriptorBusinessMismatch             V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_statement_descriptor_business_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidStatementDescriptorDenylisted                   V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_statement_descriptor_denylisted"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidStatementDescriptorLength                       V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_statement_descriptor_length"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidStatementDescriptorPrefixDenylisted             V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_statement_descriptor_prefix_denylisted"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidStatementDescriptorPrefixMismatch               V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_statement_descriptor_prefix_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidStreetAddress                                   V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_street_address"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidTaxID                                           V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_tax_id"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidTaxIDFormat                                     V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_tax_id_format"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidTOSAcceptance                                   V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_tos_acceptance"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLDenylisted                                   V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_denylisted"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLFormat                                       V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_format"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteBusinessInformationMismatch           V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_business_information_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteEmpty                                 V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_empty"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteInaccessible                          V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_inaccessible"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteInaccessibleGeoblocked                V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_inaccessible_geoblocked"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteInaccessiblePasswordProtected         V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_inaccessible_password_protected"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteIncomplete                            V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_incomplete"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteIncompleteCancellationPolicy          V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_incomplete_cancellation_policy"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteIncompleteCustomerServiceDetails      V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_incomplete_customer_service_details"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteIncompleteLegalRestrictions           V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_incomplete_legal_restrictions"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteIncompleteRefundPolicy                V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_incomplete_refund_policy"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteIncompleteReturnPolicy                V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_incomplete_return_policy"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteIncompleteTermsAndConditions          V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_incomplete_terms_and_conditions"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteIncompleteUnderConstruction           V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_incomplete_under_construction"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebsiteOther                                 V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_website_other"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidURLWebPresenceDetected                          V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_url_web_presence_detected"
+	V2CoreAccountFutureRequirementsEntryErrorCodeInvalidValueOther                                      V2CoreAccountFutureRequirementsEntryErrorCode = "invalid_value_other"
+	V2CoreAccountFutureRequirementsEntryErrorCodeUnresolvableIPAddress                                  V2CoreAccountFutureRequirementsEntryErrorCode = "unresolvable_ip_address"
+	V2CoreAccountFutureRequirementsEntryErrorCodeUnresolvablePostalCode                                 V2CoreAccountFutureRequirementsEntryErrorCode = "unresolvable_postal_code"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDirectorsMismatch                          V2CoreAccountFutureRequirementsEntryErrorCode = "verification_directors_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentAddressMismatch                    V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_address_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentAddressMissing                     V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_address_missing"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentCorrupt                            V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_corrupt"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentCountryNotSupported                V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_country_not_supported"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentDirectorsMismatch                  V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_directors_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentDOBMismatch                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_dob_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentDuplicateType                      V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_duplicate_type"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentExpired                            V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_expired"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentFailedCopy                         V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_failed_copy"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentFailedGreyscale                    V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_failed_greyscale"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentFailedOther                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_failed_other"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentFailedTestMode                     V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_failed_test_mode"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentFraudulent                         V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_fraudulent"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentIDNumberMismatch                   V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_id_number_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentIDNumberMissing                    V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_id_number_missing"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentIncomplete                         V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_incomplete"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentInvalid                            V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_invalid"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentIssueOrExpiryDateMissing           V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_issue_or_expiry_date_missing"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentManipulated                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_manipulated"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentMissingBack                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_missing_back"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentMissingFront                       V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_missing_front"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentNameMismatch                       V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_name_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentNameMissing                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_name_missing"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentNationalityMismatch                V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_nationality_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentNotReadable                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_not_readable"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentNotSigned                          V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_not_signed"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentNotUploaded                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_not_uploaded"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentPhotoMismatch                      V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_photo_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentTooLarge                           V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_too_large"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationDocumentTypeNotSupported                   V2CoreAccountFutureRequirementsEntryErrorCode = "verification_document_type_not_supported"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationExtraneousDirectors                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_extraneous_directors"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedAddressMatch                         V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_address_match"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedBusinessIecNumber                    V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_business_iec_number"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedDocumentMatch                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_document_match"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedIDNumberMatch                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_id_number_match"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedKeyedIdentity                        V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_keyed_identity"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedKeyedMatch                           V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_keyed_match"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedNameMatch                            V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_name_match"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedOther                                V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_other"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedRepresentativeAuthority              V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_representative_authority"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedResidentialAddress                   V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_residential_address"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedTaxIDMatch                           V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_tax_id_match"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationFailedTaxIDNotIssued                       V2CoreAccountFutureRequirementsEntryErrorCode = "verification_failed_tax_id_not_issued"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationMissingDirectors                           V2CoreAccountFutureRequirementsEntryErrorCode = "verification_missing_directors"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationMissingExecutives                          V2CoreAccountFutureRequirementsEntryErrorCode = "verification_missing_executives"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationMissingOwners                              V2CoreAccountFutureRequirementsEntryErrorCode = "verification_missing_owners"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations V2CoreAccountFutureRequirementsEntryErrorCode = "verification_requires_additional_memorandum_of_associations"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationRequiresAdditionalProofOfRegistration      V2CoreAccountFutureRequirementsEntryErrorCode = "verification_requires_additional_proof_of_registration"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationSelfieDocumentMissingPhoto                 V2CoreAccountFutureRequirementsEntryErrorCode = "verification_selfie_document_missing_photo"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationSelfieFaceMismatch                         V2CoreAccountFutureRequirementsEntryErrorCode = "verification_selfie_face_mismatch"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationSelfieManipulated                          V2CoreAccountFutureRequirementsEntryErrorCode = "verification_selfie_manipulated"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationSelfieUnverifiedOther                      V2CoreAccountFutureRequirementsEntryErrorCode = "verification_selfie_unverified_other"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationSupportability                             V2CoreAccountFutureRequirementsEntryErrorCode = "verification_supportability"
+	V2CoreAccountFutureRequirementsEntryErrorCodeVerificationTokenStale                                 V2CoreAccountFutureRequirementsEntryErrorCode = "verification_token_stale"
+)
+
+// The name of the Capability which will be restricted.
+type V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability string
+
+// List of values that V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability can take
+const (
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityACHDebitPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "ach_debit_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityACSSDebitPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "acss_debit_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityAffirmPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "affirm_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityAfterpayClearpayPayments           V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "afterpay_clearpay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityAlmaPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "alma_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityAmazonPayPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "amazon_pay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityAutomaticIndirectTax               V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "automatic_indirect_tax"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityAUBECSDebitPayments                V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "au_becs_debit_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBACSDebitPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bacs_debit_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBancontactPayments                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bancontact_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsLocal                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.local"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsWire                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.wire"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBLIKPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "blik_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBoletoPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "boleto_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCards                              V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "cards"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCardPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "card_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCartesBancairesPayments            V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "cartes_bancaires_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCashAppPayments                    V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "cashapp_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialCelticChargeCard         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.celtic.charge_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialCelticSpendCard          V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.celtic.spend_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialCrossRiverBankChargeCard V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.cross_river_bank.charge_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialCrossRiverBankSpendCard  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.cross_river_bank.spend_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialLeadPrepaidCard          V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.lead.prepaid_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripeChargeCard         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.charge_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripePrepaidCard        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.prepaid_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCrypto                             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "crypto"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityFinancialAddressesBankAccounts     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "financial_addresses.bank_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityFPXPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "fpx_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityGBBankTransferPayments             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "gb_bank_transfer_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityGrabpayPayments                    V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "grabpay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesEUR                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.eur"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesGBP                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.gbp"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesUSD                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.usd"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityIDEALPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "ideal_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityInboundTransfersFinancialAccounts  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "inbound_transfers.financial_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityJCBPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "jcb_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityJPBankTransferPayments             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "jp_bank_transfer_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityKakaoPayPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "kakao_pay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityKlarnaPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "klarna_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityKonbiniPayments                    V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "konbini_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityKrCardPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "kr_card_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityLinkPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "link_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityMobilepayPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "mobilepay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityMultibancoPayments                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "multibanco_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityMXBankTransferPayments             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "mx_bank_transfer_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityNaverPayPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "naver_pay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsBankAccounts       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.bank_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsCards              V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.cards"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.financial_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersBankAccounts      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.bank_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersFinancialAccounts V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.financial_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOXXOPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "oxxo_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityP24Payments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "p24_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPromptPayPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "promptpay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityRevolutPayPayments                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "revolut_pay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilitySamsungPayPayments                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "samsung_pay_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilitySEPABankTransferPayments           V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "sepa_bank_transfer_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilitySEPADebitPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "sepa_debit_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityStripeBalancePayouts               V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "stripe_balance.payouts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityStripeBalanceStripeTransfers       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "stripe_balance.stripe_transfers"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilitySwishPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "swish_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityTWINTPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "twint_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityUSBankTransferPayments             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "us_bank_transfer_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityZipPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "zip_payments"
+)
+
+// The configuration which specifies the Capability which will be restricted.
+type V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration string
+
+// List of values that V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration can take
+const (
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationCardCreator V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "card_creator"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationCustomer    V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "customer"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationMerchant    V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "merchant"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationRecipient   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "recipient"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfigurationStorer      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration = "storer"
+)
+
+// The current status of the requirement's impact.
+type V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatus string
+
+// List of values that V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatus can take
+const (
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatusCurrentlyDue  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatus = "currently_due"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatusEventuallyDue V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatus = "eventually_due"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatusPastDue       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatus = "past_due"
+)
+
+// The current status of the requirement's impact.
+type V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatus string
+
+// List of values that V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatus can take
+const (
+	V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatusCurrentlyDue  V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatus = "currently_due"
+	V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatusEventuallyDue V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatus = "eventually_due"
+	V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatusPastDue       V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatus = "past_due"
+)
+
+// The type of the reference. If the type is "inquiry", the inquiry token can be found in the "inquiry" field.
+// Otherwise the type is an API resource, the token for which can be found in the "resource" field.
+type V2CoreAccountFutureRequirementsEntryReferenceType string
+
+// List of values that V2CoreAccountFutureRequirementsEntryReferenceType can take
+const (
+	V2CoreAccountFutureRequirementsEntryReferenceTypeInquiry       V2CoreAccountFutureRequirementsEntryReferenceType = "inquiry"
+	V2CoreAccountFutureRequirementsEntryReferenceTypePaymentMethod V2CoreAccountFutureRequirementsEntryReferenceType = "payment_method"
+	V2CoreAccountFutureRequirementsEntryReferenceTypePerson        V2CoreAccountFutureRequirementsEntryReferenceType = "person"
+)
+
+// Machine-readable description of Stripe's reason for collecting the requirement.
+type V2CoreAccountFutureRequirementsEntryRequestedReasonCode string
+
+// List of values that V2CoreAccountFutureRequirementsEntryRequestedReasonCode can take
+const (
+	V2CoreAccountFutureRequirementsEntryRequestedReasonCodeRoutineOnboarding   V2CoreAccountFutureRequirementsEntryRequestedReasonCode = "routine_onboarding"
+	V2CoreAccountFutureRequirementsEntryRequestedReasonCodeRoutineVerification V2CoreAccountFutureRequirementsEntryRequestedReasonCode = "routine_verification"
+)
+
+// The current strictest status of all requirements on the Account.
+type V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatus string
+
+// List of values that V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatus can take
+const (
+	V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatusCurrentlyDue  V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatus = "currently_due"
+	V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatusEventuallyDue V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatus = "eventually_due"
+	V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatusPastDue       V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatus = "past_due"
+)
+
 // Reason for why the company is exempt from providing ownership information.
 type V2CoreAccountIdentityAttestationsPersonsProvidedOwnershipExemptionReason string
 
@@ -2826,6 +3119,7 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAoNif   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ao_nif"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeARCUIT  V2CoreAccountIdentityBusinessDetailsIDNumberType = "ar_cuit"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAtFn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "at_fn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAUABN   V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_abn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuAcn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_acn"
@@ -3006,6 +3300,7 @@ type V2CoreAccountIdentityIndividualIDNumberType string
 const (
 	V2CoreAccountIdentityIndividualIDNumberTypeAeEid       V2CoreAccountIdentityIndividualIDNumberType = "ae_eid"
 	V2CoreAccountIdentityIndividualIDNumberTypeAoNif       V2CoreAccountIdentityIndividualIDNumberType = "ao_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeARDni       V2CoreAccountIdentityIndividualIDNumberType = "ar_dni"
 	V2CoreAccountIdentityIndividualIDNumberTypeAzTin       V2CoreAccountIdentityIndividualIDNumberType = "az_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeBdBrc       V2CoreAccountIdentityIndividualIDNumberType = "bd_brc"
 	V2CoreAccountIdentityIndividualIDNumberTypeBdEtin      V2CoreAccountIdentityIndividualIDNumberType = "bd_etin"
@@ -3053,15 +3348,6 @@ type V2CoreAccountIdentityIndividualPoliticalExposure string
 const (
 	V2CoreAccountIdentityIndividualPoliticalExposureExisting V2CoreAccountIdentityIndividualPoliticalExposure = "existing"
 	V2CoreAccountIdentityIndividualPoliticalExposureNone     V2CoreAccountIdentityIndividualPoliticalExposure = "none"
-)
-
-// A value indicating responsibility for collecting requirements on this account.
-type V2CoreAccountRequirementsCollector string
-
-// List of values that V2CoreAccountRequirementsCollector can take
-const (
-	V2CoreAccountRequirementsCollectorApplication V2CoreAccountRequirementsCollector = "application"
-	V2CoreAccountRequirementsCollectorStripe      V2CoreAccountRequirementsCollector = "stripe"
 )
 
 // Whether the responsibility is with the integrator or with Stripe (to review info, to wait for some condition, etc.) to action the requirement.
@@ -3212,6 +3498,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityFPXPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "fpx_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityGBBankTransferPayments             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "gb_bank_transfer_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityGrabpayPayments                    V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "grabpay_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesEUR                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.eur"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesGBP                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.gbp"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityHoldsCurrenciesUSD                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "holds_currencies.usd"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityIDEALPayments                      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "ideal_payments"
@@ -3282,13 +3569,15 @@ const (
 	V2CoreAccountRequirementsEntryMinimumDeadlineStatusPastDue       V2CoreAccountRequirementsEntryMinimumDeadlineStatus = "past_due"
 )
 
-// The type of the reference. An additional hash is included with a name matching the type. It contains additional information specific to the type.
+// The type of the reference. If the type is "inquiry", the inquiry token can be found in the "inquiry" field.
+// Otherwise the type is an API resource, the token for which can be found in the "resource" field.
 type V2CoreAccountRequirementsEntryReferenceType string
 
 // List of values that V2CoreAccountRequirementsEntryReferenceType can take
 const (
-	V2CoreAccountRequirementsEntryReferenceTypeInquiry  V2CoreAccountRequirementsEntryReferenceType = "inquiry"
-	V2CoreAccountRequirementsEntryReferenceTypeResource V2CoreAccountRequirementsEntryReferenceType = "resource"
+	V2CoreAccountRequirementsEntryReferenceTypeInquiry       V2CoreAccountRequirementsEntryReferenceType = "inquiry"
+	V2CoreAccountRequirementsEntryReferenceTypePaymentMethod V2CoreAccountRequirementsEntryReferenceType = "payment_method"
+	V2CoreAccountRequirementsEntryReferenceTypePerson        V2CoreAccountRequirementsEntryReferenceType = "person"
 )
 
 // Machine-readable description of Stripe's reason for collecting the requirement.
@@ -3296,7 +3585,6 @@ type V2CoreAccountRequirementsEntryRequestedReasonCode string
 
 // List of values that V2CoreAccountRequirementsEntryRequestedReasonCode can take
 const (
-	V2CoreAccountRequirementsEntryRequestedReasonCodeFutureRequirements  V2CoreAccountRequirementsEntryRequestedReasonCode = "future_requirements"
 	V2CoreAccountRequirementsEntryRequestedReasonCodeRoutineOnboarding   V2CoreAccountRequirementsEntryRequestedReasonCode = "routine_onboarding"
 	V2CoreAccountRequirementsEntryRequestedReasonCodeRoutineVerification V2CoreAccountRequirementsEntryRequestedReasonCode = "routine_verification"
 )
@@ -3493,7 +3781,7 @@ type V2CoreAccountConfigurationCardCreator struct {
 	Capabilities *V2CoreAccountConfigurationCardCreatorCapabilities `json:"capabilities,omitempty"`
 }
 
-// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+// The [identified](https://docs.stripe.com/tax/customer-locations#address-hierarchy-other) tax location of the customer. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation struct {
 	// The identified tax country of the customer.
 	Country string `json:"country,omitempty"`
@@ -3507,9 +3795,9 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTax struct {
 	Exempt V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt `json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress string `json:"ip_address,omitempty"`
-	// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+	// The [identified](https://docs.stripe.com/tax/customer-locations#address-hierarchy-other) tax location of the customer. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 	Location *V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation `json:"location,omitempty"`
-	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource `json:"location_source,omitempty"`
 }
 
@@ -3559,7 +3847,7 @@ type V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDet
 	Resolution V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailResolution `json:"resolution"`
 }
 
-// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions. Uses the `location_source` field.
+// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 type V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTax struct {
 	// Whether the Capability has been requested.
 	Requested bool `json:"requested"`
@@ -3571,7 +3859,7 @@ type V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTax struct {
 
 // Capabilities that have been requested on the Customer Configuration.
 type V2CoreAccountConfigurationCustomerCapabilities struct {
-	// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions. Uses the `location_source` field.
+	// Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 	AutomaticIndirectTax *V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTax `json:"automatic_indirect_tax,omitempty"`
 }
 
@@ -4545,6 +4833,54 @@ type V2CoreAccountConfigurationMerchantCardPayments struct {
 	DeclineOn *V2CoreAccountConfigurationMerchantCardPaymentsDeclineOn `json:"decline_on,omitempty"`
 }
 
+// Support hours for Konbini payments.
+type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportHours struct {
+	// Support hours end time (JST time of day) for in `HH:MM` format.
+	EndTime string `json:"end_time,omitempty"`
+	// Support hours start time (JST time of day) for in `HH:MM` format.
+	StartTime string `json:"start_time,omitempty"`
+}
+
+// Support for Konbini payments.
+type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupport struct {
+	// Support email address for Konbini payments.
+	Email string `json:"email,omitempty"`
+	// Support hours for Konbini payments.
+	Hours *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportHours `json:"hours,omitempty"`
+	// Support phone number for Konbini payments.
+	Phone string `json:"phone,omitempty"`
+}
+
+// Settings specific to Konbini payments on the account.
+type V2CoreAccountConfigurationMerchantKonbiniPayments struct {
+	// Support for Konbini payments.
+	Support *V2CoreAccountConfigurationMerchantKonbiniPaymentsSupport `json:"support,omitempty"`
+}
+
+// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptorKana struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor string `json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix string `json:"prefix,omitempty"`
+}
+
+// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanji struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Descriptor string `json:"descriptor,omitempty"`
+	// Default text that appears on statements for card charges outside of Japan, prefixing any dynamic statement_descriptor_suffix specified on the charge. To maximize space for the dynamic part of the descriptor, keep this text short. If you don't specify this value, statement_descriptor is used as the prefix. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
+	Prefix string `json:"prefix,omitempty"`
+}
+
+// Settings for the default text that appears on statements for language variations.
+type V2CoreAccountConfigurationMerchantScriptStatementDescriptor struct {
+	// The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kana *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKana `json:"kana,omitempty"`
+	// The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	Kanji *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanji `json:"kanji,omitempty"`
+}
+
 // Settings used for SEPA debit payments.
 type V2CoreAccountConfigurationMerchantSEPADebitPayments struct {
 	// Creditor ID for SEPA debit payments.
@@ -4601,8 +4937,12 @@ type V2CoreAccountConfigurationMerchant struct {
 	Capabilities *V2CoreAccountConfigurationMerchantCapabilities `json:"capabilities,omitempty"`
 	// Card payments settings.
 	CardPayments *V2CoreAccountConfigurationMerchantCardPayments `json:"card_payments,omitempty"`
+	// Settings specific to Konbini payments on the account.
+	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPayments `json:"konbini_payments,omitempty"`
 	// The merchant category code for the merchant. MCCs are used to classify businesses based on the goods or services they provide.
 	MCC string `json:"mcc,omitempty"`
+	// Settings for the default text that appears on statements for language variations.
+	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptor `json:"script_statement_descriptor,omitempty"`
 	// Settings used for SEPA debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantSEPADebitPayments `json:"sepa_debit_payments,omitempty"`
 	// Statement descriptor.
@@ -4810,6 +5150,24 @@ type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddresses struct {
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailResolution `json:"resolution"`
+}
+
+// Can hold storage-type funds on Stripe in EUR.
+type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEUR struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetailCode `json:"code"`
@@ -4865,6 +5223,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUsdc struct {
 
 // Can hold storage-type funds on Stripe.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrencies struct {
+	// Can hold storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEUR `json:"eur,omitempty"`
 	// Can hold storage-type funds on Stripe in GBP.
 	GBP *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBP `json:"gbp,omitempty"`
 	// Can hold storage-type funds on Stripe in USD.
@@ -5129,6 +5489,8 @@ type V2CoreAccountDefaultsResponsibilities struct {
 	FeesCollector V2CoreAccountDefaultsResponsibilitiesFeesCollector `json:"fees_collector"`
 	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
 	LossesCollector V2CoreAccountDefaultsResponsibilitiesLossesCollector `json:"losses_collector"`
+	// A value indicating responsibility for collecting requirements on this account.
+	RequirementsCollector V2CoreAccountDefaultsResponsibilitiesRequirementsCollector `json:"requirements_collector"`
 }
 
 // Default values to be used on Account Configurations.
@@ -5141,6 +5503,101 @@ type V2CoreAccountDefaults struct {
 	Profile *V2CoreAccountDefaultsProfile `json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountDefaultsResponsibilities `json:"responsibilities,omitempty"`
+}
+
+// Descriptions of why the requirement must be collected, or why the collected information isn't satisfactory to Stripe.
+type V2CoreAccountFutureRequirementsEntryError struct {
+	// Machine-readable code describing the error.
+	Code V2CoreAccountFutureRequirementsEntryErrorCode `json:"code"`
+	// Human-readable description of the error.
+	Description string `json:"description"`
+}
+
+// Details about when in the account lifecycle the requirement must be collected by the avoid the Capability restriction.
+type V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadline struct {
+	// The current status of the requirement's impact.
+	Status V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadlineStatus `json:"status"`
+}
+
+// The Capabilities that will be restricted if the requirement is not collected and satisfactory to Stripe.
+type V2CoreAccountFutureRequirementsEntryImpactRestrictsCapability struct {
+	// The name of the Capability which will be restricted.
+	Capability V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability `json:"capability"`
+	// The configuration which specifies the Capability which will be restricted.
+	Configuration V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityConfiguration `json:"configuration"`
+	// Details about when in the account lifecycle the requirement must be collected by the avoid the Capability restriction.
+	Deadline *V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityDeadline `json:"deadline"`
+}
+
+// A hash describing the impact of not collecting the requirement, or Stripe not being able to verify the collected information.
+type V2CoreAccountFutureRequirementsEntryImpact struct {
+	// The Capabilities that will be restricted if the requirement is not collected and satisfactory to Stripe.
+	RestrictsCapabilities []*V2CoreAccountFutureRequirementsEntryImpactRestrictsCapability `json:"restricts_capabilities,omitempty"`
+}
+
+// The soonest point when the account will be impacted by not providing the requirement.
+type V2CoreAccountFutureRequirementsEntryMinimumDeadline struct {
+	// The current status of the requirement's impact.
+	Status V2CoreAccountFutureRequirementsEntryMinimumDeadlineStatus `json:"status"`
+}
+
+// A reference to the location of the requirement.
+type V2CoreAccountFutureRequirementsEntryReference struct {
+	// If `inquiry` is the type, the inquiry token.
+	Inquiry string `json:"inquiry,omitempty"`
+	// If `resource` is the type, the resource token.
+	Resource string `json:"resource,omitempty"`
+	// The type of the reference. If the type is "inquiry", the inquiry token can be found in the "inquiry" field.
+	// Otherwise the type is an API resource, the token for which can be found in the "resource" field.
+	Type V2CoreAccountFutureRequirementsEntryReferenceType `json:"type"`
+}
+
+// A list of reasons why Stripe is collecting the requirement.
+type V2CoreAccountFutureRequirementsEntryRequestedReason struct {
+	// Machine-readable description of Stripe's reason for collecting the requirement.
+	Code V2CoreAccountFutureRequirementsEntryRequestedReasonCode `json:"code"`
+}
+
+// A list of requirements for the Account.
+type V2CoreAccountFutureRequirementsEntry struct {
+	// Whether the responsibility is with the integrator or with Stripe (to review info, to wait for some condition, etc.) to action the requirement.
+	AwaitingActionFrom V2CoreAccountFutureRequirementsEntryAwaitingActionFrom `json:"awaiting_action_from"`
+	// Machine-readable string describing the requirement.
+	Description string `json:"description"`
+	// Descriptions of why the requirement must be collected, or why the collected information isn't satisfactory to Stripe.
+	Errors []*V2CoreAccountFutureRequirementsEntryError `json:"errors"`
+	// A hash describing the impact of not collecting the requirement, or Stripe not being able to verify the collected information.
+	Impact *V2CoreAccountFutureRequirementsEntryImpact `json:"impact"`
+	// The soonest point when the account will be impacted by not providing the requirement.
+	MinimumDeadline *V2CoreAccountFutureRequirementsEntryMinimumDeadline `json:"minimum_deadline"`
+	// A reference to the location of the requirement.
+	Reference *V2CoreAccountFutureRequirementsEntryReference `json:"reference,omitempty"`
+	// A list of reasons why Stripe is collecting the requirement.
+	RequestedReasons []*V2CoreAccountFutureRequirementsEntryRequestedReason `json:"requested_reasons"`
+}
+
+// The soonest date and time a requirement on the Account will become `past due`. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
+type V2CoreAccountFutureRequirementsSummaryMinimumDeadline struct {
+	// The current strictest status of all requirements on the Account.
+	Status V2CoreAccountFutureRequirementsSummaryMinimumDeadlineStatus `json:"status"`
+	// The soonest RFC3339 date & time UTC value a requirement can impact the Account.
+	Time time.Time `json:"time,omitempty"`
+}
+
+// An object containing an overview of requirements for the Account.
+type V2CoreAccountFutureRequirementsSummary struct {
+	// The soonest date and time a requirement on the Account will become `past due`. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
+	MinimumDeadline *V2CoreAccountFutureRequirementsSummaryMinimumDeadline `json:"minimum_deadline,omitempty"`
+}
+
+// Information about the future requirements for the Account that will eventually come into effect, including what information needs to be collected, and by when.
+type V2CoreAccountFutureRequirements struct {
+	// A list of requirements for the Account.
+	Entries []*V2CoreAccountFutureRequirementsEntry `json:"entries,omitempty"`
+	// The time at which the future requirements become effective.
+	MinimumTransitionDate time.Time `json:"minimum_transition_date,omitempty"`
+	// An object containing an overview of requirements for the Account.
+	Summary *V2CoreAccountFutureRequirementsSummary `json:"summary,omitempty"`
 }
 
 // This hash is used to attest that the directors information provided to Stripe is both current and correct.
@@ -5555,10 +6012,18 @@ type V2CoreAccountIdentityBusinessDetailsAddress struct {
 	Town string `json:"town,omitempty"`
 }
 
+// A non-negative integer representing the amount in the smallest currency unit.
+type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenue struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount Amount `json:"amount,omitempty"`
+	Amount *V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount `json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd string `json:"fiscal_year_end,omitempty"`
 }
@@ -5683,10 +6148,18 @@ type V2CoreAccountIdentityBusinessDetailsIDNumber struct {
 	Type V2CoreAccountIdentityBusinessDetailsIDNumberType `json:"type"`
 }
 
+// A non-negative integer representing the amount in the smallest currency unit.
+type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount Amount `json:"amount,omitempty"`
+	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount `json:"amount,omitempty"`
 }
 
 // Kana Address.
@@ -6127,7 +6600,8 @@ type V2CoreAccountRequirementsEntryReference struct {
 	Inquiry string `json:"inquiry,omitempty"`
 	// If `resource` is the type, the resource token.
 	Resource string `json:"resource,omitempty"`
-	// The type of the reference. An additional hash is included with a name matching the type. It contains additional information specific to the type.
+	// The type of the reference. If the type is "inquiry", the inquiry token can be found in the "inquiry" field.
+	// Otherwise the type is an API resource, the token for which can be found in the "resource" field.
 	Type V2CoreAccountRequirementsEntryReferenceType `json:"type"`
 }
 
@@ -6169,10 +6643,8 @@ type V2CoreAccountRequirementsSummary struct {
 	MinimumDeadline *V2CoreAccountRequirementsSummaryMinimumDeadline `json:"minimum_deadline,omitempty"`
 }
 
-// Information about the requirements for the Account, including what information needs to be collected, and by when.
+// Information about the active requirements for the Account, including what information needs to be collected, and by when.
 type V2CoreAccountRequirements struct {
-	// A value indicating responsibility for collecting requirements on this account.
-	Collector V2CoreAccountRequirementsCollector `json:"collector"`
 	// A list of requirements for the Account.
 	Entries []*V2CoreAccountRequirementsEntry `json:"entries,omitempty"`
 	// An object containing an overview of requirements for the Account.
@@ -6198,6 +6670,8 @@ type V2CoreAccount struct {
 	Defaults *V2CoreAccountDefaults `json:"defaults,omitempty"`
 	// A descriptive name for the Account. This name will be surfaced in the Stripe Dashboard and on any invoices sent to the Account.
 	DisplayName string `json:"display_name,omitempty"`
+	// Information about the future requirements for the Account that will eventually come into effect, including what information needs to be collected, and by when.
+	FutureRequirements *V2CoreAccountFutureRequirements `json:"future_requirements,omitempty"`
 	// Unique identifier for the Account.
 	ID string `json:"id"`
 	// Information about the company, individual, and business represented by the Account.
@@ -6208,6 +6682,6 @@ type V2CoreAccount struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// Information about the requirements for the Account, including what information needs to be collected, and by when.
+	// Information about the active requirements for the Account, including what information needs to be collected, and by when.
 	Requirements *V2CoreAccountRequirements `json:"requirements,omitempty"`
 }
