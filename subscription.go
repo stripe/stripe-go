@@ -755,14 +755,6 @@ type SubscriptionInvoiceSettingsParams struct {
 	Issuer *SubscriptionInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
-// The trial offer to apply to this subscription item.
-type SubscriptionItemCurrentTrialParams struct {
-	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
-	TrialEnd *int64 `form:"trial_end"`
-	// The ID of the trial offer to apply to the subscription item.
-	TrialOffer *string `form:"trial_offer"`
-}
-
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionItemsParams struct {
 	Params `form:"*"`
