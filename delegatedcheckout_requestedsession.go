@@ -473,10 +473,6 @@ type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	AmountDiscount int64 `json:"amount_discount"`
 	// The total before any discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
-	// The total after discounts but before taxes are applied.
-	AmountSubtotalAfterDiscount int64 `json:"amount_subtotal_after_discount"`
-	// The total after discounts and taxes.
-	AmountTotal int64 `json:"amount_total"`
 	// The description of the line item.
 	Description string `json:"description"`
 	// The images of the line item.
@@ -491,10 +487,6 @@ type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	SKUID string `json:"sku_id"`
 	// The per-unit amount of the item before any discounts or taxes are applied.
 	UnitAmount int64 `json:"unit_amount"`
-	// The per-unit amount of the item after discounts but before taxes are applied.
-	UnitAmountAfterDiscount int64 `json:"unit_amount_after_discount"`
-	// The per-unit discount amount. If no discount were applied, defaults to 0.
-	UnitDiscount int64 `json:"unit_discount"`
 }
 
 // The details of the order.
@@ -548,12 +540,12 @@ type DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee struct {
 	DisplayName string `json:"display_name"`
 }
 type DelegatedCheckoutRequestedSessionTotalDetails struct {
-	// The amount discount of the total details.
-	AmountDiscount int64 `json:"amount_discount"`
+	// The amount of order-level discounts applied to the cart. The total discount amount for this session can be computed by summing the cart discount and the item discounts.
+	AmountCartDiscount int64 `json:"amount_cart_discount"`
 	// The amount fulfillment of the total details.
 	AmountFulfillment int64 `json:"amount_fulfillment"`
-	// Total of all items after discounts but before taxes are applied.
-	AmountSubtotalAfterDiscount int64 `json:"amount_subtotal_after_discount"`
+	// The amount of item-level discounts applied to the cart. The total discount amount for this session can be computed by summing the cart discount and the item discounts.
+	AmountItemsDiscount int64 `json:"amount_items_discount"`
 	// The amount tax of the total details.
 	AmountTax int64 `json:"amount_tax"`
 	// The applicable fees of the total details.

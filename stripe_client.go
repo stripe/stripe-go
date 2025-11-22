@@ -202,6 +202,8 @@ type Client struct {
 	V1PrivacyRedactionJobs *v1PrivacyRedactionJobService
 	// V1PrivacyRedactionJobValidationErrors is the service used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
 	V1PrivacyRedactionJobValidationErrors *v1PrivacyRedactionJobValidationErrorService
+	// V1ProductCatalogTrialOffers is the service used to invoke /v1/product_catalog/trial_offers APIs.
+	V1ProductCatalogTrialOffers *v1ProductCatalogTrialOfferService
 	// V1ProductFeatures is the service used to invoke /v1/products/{product}/features APIs.
 	V1ProductFeatures *v1ProductFeatureService
 	// V1Products is the service used to invoke /v1/products APIs.
@@ -592,6 +594,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Prices = &v1PriceService{B: backends.API, Key: key}
 	client.V1PrivacyRedactionJobs = &v1PrivacyRedactionJobService{B: backends.API, Key: key}
 	client.V1PrivacyRedactionJobValidationErrors = &v1PrivacyRedactionJobValidationErrorService{B: backends.API, Key: key}
+	client.V1ProductCatalogTrialOffers = &v1ProductCatalogTrialOfferService{B: backends.API, Key: key}
 	client.V1ProductFeatures = &v1ProductFeatureService{B: backends.API, Key: key}
 	client.V1Products = &v1ProductService{B: backends.API, Key: key}
 	client.V1PromotionCodes = &v1PromotionCodeService{B: backends.API, Key: key}
