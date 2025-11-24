@@ -1,5 +1,15 @@
 # Changelog
 
+## 84.1.0-alpha.3 - 2025-11-24
+* [#2224](https://github.com/stripe/stripe-go/pull/2224) Update generated code for private-preview
+  * Add support for new resource `ProductCatalogTrialOffer`
+  * Add support for `New` method on resource `ProductCatalogTrialOffer`
+  * Remove support for `AmountSubtotalAfterDiscount` on `DelegatedCheckoutRequestedSessionLineItemDetail` and `DelegatedCheckoutRequestedSessionTotalDetails`
+  * Remove support for `AmountTotal`, `UnitAmountAfterDiscount`, and `UnitDiscount` on `DelegatedCheckoutRequestedSessionLineItemDetail`
+  * Add support for `AmountCartDiscount` and `AmountItemsDiscount` on `DelegatedCheckoutRequestedSessionTotalDetails`
+  * Remove support for `AmountDiscount` on `DelegatedCheckoutRequestedSessionTotalDetails`
+  * Add support for `PaymentsOrchestration` on `PaymentIntentParams` and `PaymentIntent`
+
 ## 84.1.0-alpha.2 - 2025-11-20
 This release changes the pinned API version to `2025-11-17.preview`.
 
