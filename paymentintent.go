@@ -4655,6 +4655,12 @@ type PaymentIntentTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
+// When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
+type PaymentIntentPaymentsOrchestrationParams struct {
+	// Whether this feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
 // Creates a PaymentIntent object.
 //
 // After the PaymentIntent is created, attach a payment method and [confirm](https://docs.stripe.com/docs/api/payment_intents/confirm)
@@ -4739,6 +4745,8 @@ type PaymentIntentParams struct {
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
+	// When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
+	PaymentsOrchestration *PaymentIntentPaymentsOrchestrationParams `form:"payments_orchestration"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentRadarOptionsParams `form:"radar_options"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
@@ -10360,6 +10368,12 @@ type PaymentIntentCreateTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
+// When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
+type PaymentIntentCreatePaymentsOrchestrationParams struct {
+	// Whether this feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
 // Creates a PaymentIntent object.
 //
 // After the PaymentIntent is created, attach a payment method and [confirm](https://docs.stripe.com/docs/api/payment_intents/confirm)
@@ -10446,6 +10460,8 @@ type PaymentIntentCreateParams struct {
 	PaymentMethodOptions *PaymentIntentCreatePaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
+	// When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
+	PaymentsOrchestration *PaymentIntentCreatePaymentsOrchestrationParams `form:"payments_orchestration"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentCreateRadarOptionsParams `form:"radar_options"`
 	// Email address to send the receipt to. If you specify `receipt_email` for a payment in live mode, you send a receipt regardless of your [email settings](https://dashboard.stripe.com/account/emails).
@@ -15170,6 +15186,12 @@ type PaymentIntentTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
+// When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
+type PaymentIntentPaymentsOrchestration struct {
+	// Whether this feature is enabled.
+	Enabled bool `json:"enabled"`
+}
+
 // A PaymentIntent guides you through the process of collecting a payment from your customer.
 // We recommend that you create exactly one PaymentIntent for each order or
 // customer session in your system. You can reference the PaymentIntent later to
@@ -15259,8 +15281,10 @@ type PaymentIntent struct {
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. A comprehensive list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []string                         `json:"payment_method_types"`
-	PresentmentDetails *PaymentIntentPresentmentDetails `json:"presentment_details"`
+	PaymentMethodTypes []string `json:"payment_method_types"`
+	// When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
+	PaymentsOrchestration *PaymentIntentPaymentsOrchestration `json:"payments_orchestration"`
+	PresentmentDetails    *PaymentIntentPresentmentDetails    `json:"presentment_details"`
 	// If present, this property tells you about the processing state of the payment.
 	Processing *PaymentIntentProcessing `json:"processing"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
