@@ -11,6 +11,8 @@ type V2CoreEventListParams struct {
 	Params `form:"*"`
 	// Set of filters to query events within a range of `created` timestamps.
 	Created *RangeQueryParams `form:"created" json:"created,omitempty"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// The page size.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Primary object ID used to retrieve related events.
@@ -22,9 +24,13 @@ type V2CoreEventListParams struct {
 // Retrieves the details of an event.
 type V2CoreEventParams struct {
 	Params `form:"*"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Retrieves the details of an event.
 type V2CoreEventRetrieveParams struct {
 	Params `form:"*"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 }

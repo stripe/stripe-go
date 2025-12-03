@@ -43,9 +43,10 @@ type V2MoneyManagementReceivedCreditType string
 
 // List of values that V2MoneyManagementReceivedCreditType can take
 const (
-	V2MoneyManagementReceivedCreditTypeBalanceTransfer V2MoneyManagementReceivedCreditType = "balance_transfer"
-	V2MoneyManagementReceivedCreditTypeBankTransfer    V2MoneyManagementReceivedCreditType = "bank_transfer"
-	V2MoneyManagementReceivedCreditTypeExternalCredit  V2MoneyManagementReceivedCreditType = "external_credit"
+	V2MoneyManagementReceivedCreditTypeBalanceTransfer      V2MoneyManagementReceivedCreditType = "balance_transfer"
+	V2MoneyManagementReceivedCreditTypeBankTransfer         V2MoneyManagementReceivedCreditType = "bank_transfer"
+	V2MoneyManagementReceivedCreditTypeExternalCredit       V2MoneyManagementReceivedCreditType = "external_credit"
+	V2MoneyManagementReceivedCreditTypeStripeBalancePayment V2MoneyManagementReceivedCreditType = "stripe_balance_payment"
 )
 
 // Open Enum. The type of Stripe Money Movement that originated the ReceivedCredit.
@@ -215,6 +216,12 @@ type V2MoneyManagementReceivedCreditBankTransfer struct {
 	USBankAccount *V2MoneyManagementReceivedCreditBankTransferUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
+// This object stores details about the stripe balance pay refund that resulted in the ReceivedCredit. Present if `type` field value is `stripe_balance_payment`.
+type V2MoneyManagementReceivedCreditStripeBalancePayment struct {
+	// Statement descriptor for the Stripe Balance Payment.
+	StatementDescriptor string `json:"statement_descriptor,omitempty"`
+}
+
 // Use ReceivedCredits API to retrieve information on when, where, and how funds are sent into your FinancialAccount.
 type V2MoneyManagementReceivedCredit struct {
 	APIResource
@@ -247,6 +254,8 @@ type V2MoneyManagementReceivedCredit struct {
 	StatusDetails *V2MoneyManagementReceivedCreditStatusDetails `json:"status_details,omitempty"`
 	// Hash containing timestamps of when the object transitioned to a particular status.
 	StatusTransitions *V2MoneyManagementReceivedCreditStatusTransitions `json:"status_transitions,omitempty"`
+	// This object stores details about the stripe balance pay refund that resulted in the ReceivedCredit. Present if `type` field value is `stripe_balance_payment`.
+	StripeBalancePayment *V2MoneyManagementReceivedCreditStripeBalancePayment `json:"stripe_balance_payment,omitempty"`
 	// Open Enum. The type of flow that caused the ReceivedCredit.
 	Type V2MoneyManagementReceivedCreditType `json:"type"`
 }

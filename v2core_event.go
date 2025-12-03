@@ -16,8 +16,48 @@ const (
 	V2CoreEventReasonTypeRequest V2CoreEventReasonType = "request"
 )
 
+// The type of the client.
+type V2CoreEventReasonRequestClientType string
+
+// List of values that V2CoreEventReasonRequestClientType can take
+const (
+	V2CoreEventReasonRequestClientTypeAPIKey        V2CoreEventReasonRequestClientType = "api_key"
+	V2CoreEventReasonRequestClientTypeDashboardUser V2CoreEventReasonRequestClientType = "dashboard_user"
+	V2CoreEventReasonRequestClientTypeStripeAction  V2CoreEventReasonRequestClientType = "stripe_action"
+)
+
+// API key that triggered the event.
+type V2CoreEventReasonRequestClientAPIKey struct {
+	// The ID of the API key.
+	ID string `json:"id"`
+}
+
+// Dashboard user that triggered the event.
+type V2CoreEventReasonRequestClientDashboardUser struct {
+	// The email of the dashboard user.
+	Email string `json:"email"`
+	// The IP address of the user.
+	IPAddress string `json:"ip_address"`
+	// The machine identifier of the user.
+	MachineIdentifier string `json:"machine_identifier"`
+}
+
+// The client details that made the request.
+type V2CoreEventReasonRequestClient struct {
+	// API key that triggered the event.
+	APIKey *V2CoreEventReasonRequestClientAPIKey `json:"api_key,omitempty"`
+	// Dashboard user that triggered the event.
+	DashboardUser *V2CoreEventReasonRequestClientDashboardUser `json:"dashboard_user,omitempty"`
+	// Stripe action that triggered the event.
+	StripeAction map[string]any `json:"stripe_action,omitempty"`
+	// The type of the client.
+	Type V2CoreEventReasonRequestClientType `json:"type"`
+}
+
 // Information on the API request that instigated the event.
 type V2CoreEventReasonRequest struct {
+	// The client details that made the request.
+	Client *V2CoreEventReasonRequestClient `json:"client,omitempty"`
 	// ID of the API request that caused the event.
 	ID string `json:"id"`
 	// The idempotency key transmitted during the request.
