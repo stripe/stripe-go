@@ -1326,13 +1326,23 @@ type AccountSessionComponentsTaxSettings struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
 }
+type AccountSessionComponentsCheckScanningFeatures struct{}
+
+// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+type AccountSessionComponentsCheckScanning struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                           `json:"enabled"`
+	Features *AccountSessionComponentsCheckScanningFeatures `json:"features"`
+}
 type AccountSessionComponents struct {
-	AccountManagement            *AccountSessionComponentsAccountManagement            `json:"account_management"`
-	AccountOnboarding            *AccountSessionComponentsAccountOnboarding            `json:"account_onboarding"`
-	Balances                     *AccountSessionComponentsBalances                     `json:"balances"`
-	CapitalFinancing             *AccountSessionComponentsCapitalFinancing             `json:"capital_financing"`
-	CapitalFinancingApplication  *AccountSessionComponentsCapitalFinancingApplication  `json:"capital_financing_application"`
-	CapitalFinancingPromotion    *AccountSessionComponentsCapitalFinancingPromotion    `json:"capital_financing_promotion"`
+	AccountManagement           *AccountSessionComponentsAccountManagement           `json:"account_management"`
+	AccountOnboarding           *AccountSessionComponentsAccountOnboarding           `json:"account_onboarding"`
+	Balances                    *AccountSessionComponentsBalances                    `json:"balances"`
+	CapitalFinancing            *AccountSessionComponentsCapitalFinancing            `json:"capital_financing"`
+	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplication `json:"capital_financing_application"`
+	CapitalFinancingPromotion   *AccountSessionComponentsCapitalFinancingPromotion   `json:"capital_financing_promotion"`
+	// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+	CheckScanning                *AccountSessionComponentsCheckScanning                `json:"check_scanning"`
 	DisputesList                 *AccountSessionComponentsDisputesList                 `json:"disputes_list"`
 	Documents                    *AccountSessionComponentsDocuments                    `json:"documents"`
 	FinancialAccount             *AccountSessionComponentsFinancialAccount             `json:"financial_account"`
