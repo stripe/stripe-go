@@ -1,5 +1,17 @@
 # Changelog
 
+## 84.1.0-alpha.4 - 2025-12-04
+* [#2231](https://github.com/stripe/stripe-go/pull/2231) Update generated code for private-preview
+  * Add support for event notifications `V2IamApiKeyCreatedEvent`, `V2IamApiKeyDefaultSecretRevealedEvent`, `V2IamApiKeyExpiredEvent`, `V2IamApiKeyPermissionsUpdatedEvent`, `V2IamApiKeyRotatedEvent`, and `V2IamApiKeyUpdatedEvent`
+* [#2230](https://github.com/stripe/stripe-go/pull/2230) Update generated code for private-preview
+  * Add support for `CheckScanning` on `AccountSessionComponents`
+  * Add support for `Client` on `V2CoreEventReasonRequest`
+  * Add support for `StripeBalancePayment` on `V2MoneyManagementReceivedCredit` and `V2MoneyManagementReceivedDebit`
+  * Add support for new value `stripe_balance_payment` on enum `V2MoneyManagementReceivedCredit.Type`
+  * Add support for `BalanceTransfer` on `V2MoneyManagementReceivedDebit`
+  * Add support for new values `balance_transfer` and `stripe_balance_payment` on enum `V2MoneyManagementReceivedDebit.Type`
+  * Add support for `Include` on `V2CoreEventListParams` and `V2CoreEventParams`
+
 ## 84.1.0-alpha.3 - 2025-11-24
 * [#2224](https://github.com/stripe/stripe-go/pull/2224) Update generated code for private-preview
   * Add support for new resource `ProductCatalogTrialOffer`
