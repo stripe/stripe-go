@@ -36,8 +36,8 @@ build:
 # install dependencies (including those needed for development). Mostly called by other recipes
 install:
     go get -t
-    go install honnef.co/go/tools/cmd/staticcheck@v0.4.7
-    go install golang.org/x/tools/cmd/goimports@v0.24.0
+    go install honnef.co/go/tools/cmd/staticcheck@v0.6.1
+    go install golang.org/x/tools/cmd/goimports@v0.39.0
 
 # run benchmarking to check for performance regressions
 bench:
