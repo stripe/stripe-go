@@ -30,13 +30,23 @@ const (
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonStripeRejected           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "stripe_rejected"
 )
 
-// Open Enum. The type of the ReceivedDebit.
+// Open enum, the type of the received debit.
 type V2MoneyManagementReceivedDebitType string
 
 // List of values that V2MoneyManagementReceivedDebitType can take
 const (
-	V2MoneyManagementReceivedDebitTypeBankTransfer  V2MoneyManagementReceivedDebitType = "bank_transfer"
-	V2MoneyManagementReceivedDebitTypeExternalDebit V2MoneyManagementReceivedDebitType = "external_debit"
+	V2MoneyManagementReceivedDebitTypeBalanceTransfer      V2MoneyManagementReceivedDebitType = "balance_transfer"
+	V2MoneyManagementReceivedDebitTypeBankTransfer         V2MoneyManagementReceivedDebitType = "bank_transfer"
+	V2MoneyManagementReceivedDebitTypeExternalDebit        V2MoneyManagementReceivedDebitType = "external_debit"
+	V2MoneyManagementReceivedDebitTypeStripeBalancePayment V2MoneyManagementReceivedDebitType = "stripe_balance_payment"
+)
+
+// Open Enum. The type of balance transfer that originated the ReceivedDebit.
+type V2MoneyManagementReceivedDebitBalanceTransferType string
+
+// List of values that V2MoneyManagementReceivedDebitBalanceTransferType can take
+const (
+	V2MoneyManagementReceivedDebitBalanceTransferTypeTopup V2MoneyManagementReceivedDebitBalanceTransferType = "topup"
 )
 
 // Open Enum. Indicates the origin type through which this debit was initiated.
@@ -106,6 +116,14 @@ type V2MoneyManagementReceivedDebitStatusTransitions struct {
 	SucceededAt time.Time `json:"succeeded_at,omitempty"`
 }
 
+// This object stores details about the balance transfer object that resulted in the ReceivedDebit.
+type V2MoneyManagementReceivedDebitBalanceTransfer struct {
+	// The ID of the topup object that originated the ReceivedDebit.
+	Topup string `json:"topup,omitempty"`
+	// Open Enum. The type of balance transfer that originated the ReceivedDebit.
+	Type V2MoneyManagementReceivedDebitBalanceTransferType `json:"type"`
+}
+
 // The payment method used to originate the debit.
 type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
 	// The name of the bank the debit originated from.
@@ -130,11 +148,21 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account"`
 }
 
+// This object stores details about the Stripe Balance Payment that resulted in the ReceivedDebit.
+type V2MoneyManagementReceivedDebitStripeBalancePayment struct {
+	// ID of the debit agreement associated with this payment.
+	DebitAgreement string `json:"debit_agreement,omitempty"`
+	// Statement descriptor for the Stripe Balance Payment.
+	StatementDescriptor string `json:"statement_descriptor,omitempty"`
+}
+
 // ReceivedDebit resource
 type V2MoneyManagementReceivedDebit struct {
 	APIResource
 	// Amount and currency of the ReceivedDebit.
 	Amount *V2MoneyManagementReceivedDebitAmount `json:"amount"`
+	// This object stores details about the balance transfer object that resulted in the ReceivedDebit.
+	BalanceTransfer *V2MoneyManagementReceivedDebitBalanceTransfer `json:"balance_transfer,omitempty"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedDebit. Present if `type` field value is `bank_transfer`.
 	BankTransfer *V2MoneyManagementReceivedDebitBankTransfer `json:"bank_transfer,omitempty"`
 	// The time at which the ReceivedDebit was created.
@@ -160,6 +188,8 @@ type V2MoneyManagementReceivedDebit struct {
 	StatusDetails *V2MoneyManagementReceivedDebitStatusDetails `json:"status_details,omitempty"`
 	// The time at which the ReceivedDebit transitioned to a particular status.
 	StatusTransitions *V2MoneyManagementReceivedDebitStatusTransitions `json:"status_transitions,omitempty"`
-	// Open Enum. The type of the ReceivedDebit.
+	// This object stores details about the Stripe Balance Payment that resulted in the ReceivedDebit.
+	StripeBalancePayment *V2MoneyManagementReceivedDebitStripeBalancePayment `json:"stripe_balance_payment,omitempty"`
+	// Open enum, the type of the received debit.
 	Type V2MoneyManagementReceivedDebitType `json:"type"`
 }

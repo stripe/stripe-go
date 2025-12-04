@@ -307,13 +307,17 @@ type PersonRelationshipParams struct {
 
 // The credit applicant's self-reported yearly income in minor units.
 type PersonSelfReportedIncomeParams struct {
-	Amount   *int64  `form:"amount"`
+	// The amount in the minor currency unit (for example, cents for USD).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 }
 
 // The credit applicant's self-reported monthly housing payment in minor units.
 type PersonSelfReportedMonthlyHousingPaymentParams struct {
-	Amount   *int64  `form:"amount"`
+	// The amount in the minor currency unit (for example, cents for USD).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 }
 
@@ -521,13 +525,17 @@ type PersonUpdateRelationshipParams struct {
 
 // The credit applicant's self-reported yearly income in minor units.
 type PersonUpdateSelfReportedIncomeParams struct {
-	Amount   *int64  `form:"amount"`
+	// The amount in the minor currency unit (for example, cents for USD).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 }
 
 // The credit applicant's self-reported monthly housing payment in minor units.
 type PersonUpdateSelfReportedMonthlyHousingPaymentParams struct {
-	Amount   *int64  `form:"amount"`
+	// The amount in the minor currency unit (for example, cents for USD).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 }
 
@@ -775,13 +783,17 @@ type PersonCreateRelationshipParams struct {
 
 // The credit applicant's self-reported yearly income in minor units.
 type PersonCreateSelfReportedIncomeParams struct {
-	Amount   *int64  `form:"amount"`
+	// The amount in the minor currency unit (for example, cents for USD).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 }
 
 // The credit applicant's self-reported monthly housing payment in minor units.
 type PersonCreateSelfReportedMonthlyHousingPaymentParams struct {
-	Amount   *int64  `form:"amount"`
+	// The amount in the minor currency unit (for example, cents for USD).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 }
 
@@ -1051,13 +1063,13 @@ type PersonRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 type PersonSelfReportedIncome struct {
-	// Amount in the minor currency unit (e.g., cents for USD)
+	// The amount in the minor currency unit (for example, cents for USD).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 }
 type PersonSelfReportedMonthlyHousingPayment struct {
-	// Amount in the minor currency unit (e.g., cents for USD)
+	// The amount in the minor currency unit (for example, cents for USD).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
