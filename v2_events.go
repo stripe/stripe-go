@@ -3496,6 +3496,115 @@ func (n *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx con
 	return evt.(*V2CoreHealthWebhookLatencyResolvedEvent), nil
 }
 
+// V2IamAPIKeyCreatedEvent is the Go struct for the "v2.iam.api_key.created" event.
+// Occurs when an API Key is created.
+type V2IamAPIKeyCreatedEvent struct{ V2BaseEvent }
+
+// V2IamAPIKeyCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.created"
+// Occurs when an API Key is created.
+type V2IamAPIKeyCreatedEventNotification struct{ V2CoreEventNotification }
+
+// FetchEvent retrieves the V2IamAPIKeyCreatedEvent that created this Notification
+func (n *V2IamAPIKeyCreatedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamAPIKeyCreatedEvent), nil
+}
+
+// V2IamAPIKeyDefaultSecretRevealedEvent is the Go struct for the "v2.iam.api_key.default_secret_revealed" event.
+// Occurs when the default API Key's secret is revealed.
+type V2IamAPIKeyDefaultSecretRevealedEvent struct{ V2BaseEvent }
+
+// V2IamAPIKeyDefaultSecretRevealedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.default_secret_revealed"
+// Occurs when the default API Key's secret is revealed.
+type V2IamAPIKeyDefaultSecretRevealedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2IamAPIKeyDefaultSecretRevealedEvent that created this Notification
+func (n *V2IamAPIKeyDefaultSecretRevealedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyDefaultSecretRevealedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamAPIKeyDefaultSecretRevealedEvent), nil
+}
+
+// V2IamAPIKeyExpiredEvent is the Go struct for the "v2.iam.api_key.expired" event.
+// Occurs when an API Key is expired.
+type V2IamAPIKeyExpiredEvent struct{ V2BaseEvent }
+
+// V2IamAPIKeyExpiredEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.expired"
+// Occurs when an API Key is expired.
+type V2IamAPIKeyExpiredEventNotification struct{ V2CoreEventNotification }
+
+// FetchEvent retrieves the V2IamAPIKeyExpiredEvent that created this Notification
+func (n *V2IamAPIKeyExpiredEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyExpiredEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamAPIKeyExpiredEvent), nil
+}
+
+// V2IamAPIKeyPermissionsUpdatedEvent is the Go struct for the "v2.iam.api_key.permissions_updated" event.
+// Occurs when an API Key's permissions are updated.
+type V2IamAPIKeyPermissionsUpdatedEvent struct{ V2BaseEvent }
+
+// V2IamAPIKeyPermissionsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.permissions_updated"
+// Occurs when an API Key's permissions are updated.
+type V2IamAPIKeyPermissionsUpdatedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2IamAPIKeyPermissionsUpdatedEvent that created this Notification
+func (n *V2IamAPIKeyPermissionsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyPermissionsUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamAPIKeyPermissionsUpdatedEvent), nil
+}
+
+// V2IamAPIKeyRotatedEvent is the Go struct for the "v2.iam.api_key.rotated" event.
+// Occurs when an API Key is rotated.
+type V2IamAPIKeyRotatedEvent struct {
+	V2BaseEvent
+	Data V2IamAPIKeyRotatedEventData `json:"data"`
+}
+
+// V2IamAPIKeyRotatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.rotated"
+// Occurs when an API Key is rotated.
+type V2IamAPIKeyRotatedEventNotification struct{ V2CoreEventNotification }
+
+// FetchEvent retrieves the V2IamAPIKeyRotatedEvent that created this Notification
+func (n *V2IamAPIKeyRotatedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyRotatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamAPIKeyRotatedEvent), nil
+}
+
+// V2IamAPIKeyUpdatedEvent is the Go struct for the "v2.iam.api_key.updated" event.
+// Occurs when an API Key is updated.
+type V2IamAPIKeyUpdatedEvent struct{ V2BaseEvent }
+
+// V2IamAPIKeyUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.updated"
+// Occurs when an API Key is updated.
+type V2IamAPIKeyUpdatedEventNotification struct{ V2CoreEventNotification }
+
+// FetchEvent retrieves the V2IamAPIKeyUpdatedEvent that created this Notification
+func (n *V2IamAPIKeyUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamAPIKeyUpdatedEvent), nil
+}
+
 // V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
 // Occurs when an Adjustment is created.
 type V2MoneyManagementAdjustmentCreatedEvent struct {
@@ -6225,6 +6334,12 @@ type V2CoreHealthWebhookLatencyResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// Occurs when an API Key is rotated.
+type V2IamAPIKeyRotatedEventData struct {
+	// ID of the new key that was created due to rotation.
+	NewAPIKey string `json:"new_api_key"`
+}
+
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventData struct {
 	// The transaction ID of the received credit.
@@ -7070,6 +7185,33 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
+		return result, nil
+	case "v2.iam.api_key.created":
+		result := &V2IamAPIKeyCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.api_key.default_secret_revealed":
+		result := &V2IamAPIKeyDefaultSecretRevealedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.api_key.expired":
+		result := &V2IamAPIKeyExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.api_key.permissions_updated":
+		result := &V2IamAPIKeyPermissionsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.api_key.rotated":
+		result := &V2IamAPIKeyRotatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.iam.api_key.updated":
+		result := &V2IamAPIKeyUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
 		return result, nil
 	case "v2.money_management.adjustment.created":
 		result := &V2MoneyManagementAdjustmentCreatedEvent{}
@@ -8177,6 +8319,48 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.health.webhook_latency.resolved":
 		evt := V2CoreHealthWebhookLatencyResolvedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.api_key.created":
+		evt := V2IamAPIKeyCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.api_key.default_secret_revealed":
+		evt := V2IamAPIKeyDefaultSecretRevealedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.api_key.expired":
+		evt := V2IamAPIKeyExpiredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.api_key.permissions_updated":
+		evt := V2IamAPIKeyPermissionsUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.api_key.rotated":
+		evt := V2IamAPIKeyRotatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.api_key.updated":
+		evt := V2IamAPIKeyUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
