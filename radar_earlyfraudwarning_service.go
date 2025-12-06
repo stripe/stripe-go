@@ -34,12 +34,12 @@ func (c v1RadarEarlyFraudWarningService) Retrieve(ctx context.Context, id string
 }
 
 // Returns a list of early fraud warnings.
-func (c v1RadarEarlyFraudWarningService) List(ctx context.Context, listParams *RadarEarlyFraudWarningListParams) Seq2[*RadarEarlyFraudWarning, error] {
+func (c v1RadarEarlyFraudWarningService) List(ctx context.Context, listParams *RadarEarlyFraudWarningListParams) *V1List[*RadarEarlyFraudWarning] {
 	if listParams == nil {
 		listParams = &RadarEarlyFraudWarningListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*RadarEarlyFraudWarning], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*RadarEarlyFraudWarning], error) {
 		list := &v1Page[*RadarEarlyFraudWarning]{}
 		if p == nil {
 			p = &Params{}
@@ -47,5 +47,5 @@ func (c v1RadarEarlyFraudWarningService) List(ctx context.Context, listParams *R
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/radar/early_fraud_warnings", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -68,12 +68,12 @@ func (c v1RadarValueListService) Delete(ctx context.Context, id string, params *
 }
 
 // Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1RadarValueListService) List(ctx context.Context, listParams *RadarValueListListParams) Seq2[*RadarValueList, error] {
+func (c v1RadarValueListService) List(ctx context.Context, listParams *RadarValueListListParams) *V1List[*RadarValueList] {
 	if listParams == nil {
 		listParams = &RadarValueListListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*RadarValueList], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*RadarValueList], error) {
 		list := &v1Page[*RadarValueList]{}
 		if p == nil {
 			p = &Params{}
@@ -81,5 +81,5 @@ func (c v1RadarValueListService) List(ctx context.Context, listParams *RadarValu
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_lists", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

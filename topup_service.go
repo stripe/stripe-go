@@ -67,12 +67,12 @@ func (c v1TopupService) Cancel(ctx context.Context, id string, params *TopupCanc
 }
 
 // Returns a list of top-ups.
-func (c v1TopupService) List(ctx context.Context, listParams *TopupListParams) Seq2[*Topup, error] {
+func (c v1TopupService) List(ctx context.Context, listParams *TopupListParams) *V1List[*Topup] {
 	if listParams == nil {
 		listParams = &TopupListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Topup], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Topup], error) {
 		list := &v1Page[*Topup]{}
 		if p == nil {
 			p = &Params{}
@@ -80,5 +80,5 @@ func (c v1TopupService) List(ctx context.Context, listParams *TopupListParams) S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/topups", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

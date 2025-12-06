@@ -32,12 +32,12 @@ func (c v1ClimateProductService) Retrieve(ctx context.Context, id string, params
 }
 
 // Lists all available Climate product objects.
-func (c v1ClimateProductService) List(ctx context.Context, listParams *ClimateProductListParams) Seq2[*ClimateProduct, error] {
+func (c v1ClimateProductService) List(ctx context.Context, listParams *ClimateProductListParams) *V1List[*ClimateProduct] {
 	if listParams == nil {
 		listParams = &ClimateProductListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ClimateProduct], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ClimateProduct], error) {
 		list := &v1Page[*ClimateProduct]{}
 		if p == nil {
 			p = &Params{}
@@ -45,5 +45,5 @@ func (c v1ClimateProductService) List(ctx context.Context, listParams *ClimatePr
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/climate/products", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

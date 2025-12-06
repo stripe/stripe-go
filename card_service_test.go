@@ -48,7 +48,7 @@ func TestCardRetrieve_ByCustomer(t *testing.T) {
 func TestCardList_ByCustomer(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	i := sc.V1Cards.List(context.TODO(), &stripe.CardListParams{Customer: stripe.String("cus_123")})
-	i(func(card *stripe.Card, err error) bool {
+	i.All(context.TODO())(func(card *stripe.Card, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, card)
 		return true
@@ -58,7 +58,7 @@ func TestCardList_ByCustomer(t *testing.T) {
 func TestCardList_ByAccount(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	i := sc.V1Cards.List(context.TODO(), &stripe.CardListParams{Account: stripe.String("acct_123")})
-	i(func(card *stripe.Card, err error) bool {
+	i.All(context.TODO())(func(card *stripe.Card, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, card)
 		return true

@@ -56,12 +56,12 @@ func (c v1PaymentLinkService) Update(ctx context.Context, id string, params *Pay
 }
 
 // Returns a list of your payment links.
-func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkListParams) Seq2[*PaymentLink, error] {
+func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkListParams) *V1List[*PaymentLink] {
 	if listParams == nil {
 		listParams = &PaymentLinkListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentLink], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentLink], error) {
 		list := &v1Page[*PaymentLink]{}
 		if p == nil {
 			p = &Params{}
@@ -69,18 +69,18 @@ func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkL
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_links", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *PaymentLinkListLineItemsParams) Seq2[*LineItem, error] {
+func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *PaymentLinkListLineItemsParams) *V1List[*LineItem] {
 	if listParams == nil {
 		listParams = &PaymentLinkListLineItemsParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/payment_links/%s/line_items", StringValue(listParams.PaymentLink))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*LineItem], error) {
 		list := &v1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}
@@ -88,5 +88,5 @@ func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *Pay
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -55,12 +55,12 @@ func (c v1PriceService) Update(ctx context.Context, id string, params *PriceUpda
 }
 
 // Returns a list of your active prices, excluding [inline prices](https://docs.stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
-func (c v1PriceService) List(ctx context.Context, listParams *PriceListParams) Seq2[*Price, error] {
+func (c v1PriceService) List(ctx context.Context, listParams *PriceListParams) *V1List[*Price] {
 	if listParams == nil {
 		listParams = &PriceListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Price], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Price], error) {
 		list := &v1Page[*Price]{}
 		if p == nil {
 			p = &Params{}
@@ -68,19 +68,19 @@ func (c v1PriceService) List(ctx context.Context, listParams *PriceListParams) S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for prices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
-func (c v1PriceService) Search(ctx context.Context, params *PriceSearchParams) Seq2[*Price, error] {
+func (c v1PriceService) Search(ctx context.Context, params *PriceSearchParams) *V1SearchList[*Price] {
 	if params == nil {
 		params = &PriceSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Price], error) {
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*Price], error) {
 		list := &v1SearchPage[*Price]{}
 		if p == nil {
 			p = &Params{}
@@ -88,5 +88,5 @@ func (c v1PriceService) Search(ctx context.Context, params *PriceSearchParams) S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/prices/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

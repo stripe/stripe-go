@@ -44,12 +44,12 @@ func (c v1ReviewService) Approve(ctx context.Context, id string, params *ReviewA
 }
 
 // Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1ReviewService) List(ctx context.Context, listParams *ReviewListParams) Seq2[*Review, error] {
+func (c v1ReviewService) List(ctx context.Context, listParams *ReviewListParams) *V1List[*Review] {
 	if listParams == nil {
 		listParams = &ReviewListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Review], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Review], error) {
 		list := &v1Page[*Review]{}
 		if p == nil {
 			p = &Params{}
@@ -57,5 +57,5 @@ func (c v1ReviewService) List(ctx context.Context, listParams *ReviewListParams)
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/reviews", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -57,5 +57,5 @@ func (c Client) All(listParams *stripe.V2CoreEventListParams) stripe.Seq2[stripe
 			}
 		}
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

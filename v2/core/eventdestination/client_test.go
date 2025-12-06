@@ -295,7 +295,7 @@ func TestEventDestinationList_MultiplePages(t *testing.T) {
 		switch page {
 		case "", "page_1":
 			data, err = json.Marshal(stripe.V2Page[stripe.V2CoreEventDestination]{
-				NextPageURL: fmt.Sprintf("/v2/core/event_destinations?limit=1&page=page_%d", cnt),
+				V2ListMeta: stripe.V2ListMeta{NextPageURL: fmt.Sprintf("/v2/core/event_destinations?limit=1&page=page_%d", cnt)},
 				Data: []stripe.V2CoreEventDestination{
 					{
 						Description:   fmt.Sprintf("Event destination %d", cnt),

@@ -90,12 +90,12 @@ func (c v1CreditNoteService) VoidCreditNote(ctx context.Context, id string, para
 }
 
 // Returns a list of credit notes.
-func (c v1CreditNoteService) List(ctx context.Context, listParams *CreditNoteListParams) Seq2[*CreditNote, error] {
+func (c v1CreditNoteService) List(ctx context.Context, listParams *CreditNoteListParams) *V1List[*CreditNote] {
 	if listParams == nil {
 		listParams = &CreditNoteListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNote], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CreditNote], error) {
 		list := &v1Page[*CreditNote]{}
 		if p == nil {
 			p = &Params{}
@@ -103,18 +103,18 @@ func (c v1CreditNoteService) List(ctx context.Context, listParams *CreditNoteLis
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNoteListLinesParams) Seq2[*CreditNoteLineItem, error] {
+func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNoteListLinesParams) *V1List[*CreditNoteLineItem] {
 	if listParams == nil {
 		listParams = &CreditNoteListLinesParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/credit_notes/%s/lines", StringValue(listParams.CreditNote))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
 		list := &v1Page[*CreditNoteLineItem]{}
 		if p == nil {
 			p = &Params{}
@@ -122,16 +122,16 @@ func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNo
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
-func (c v1CreditNoteService) PreviewLines(ctx context.Context, listParams *CreditNotePreviewLinesParams) Seq2[*CreditNoteLineItem, error] {
+func (c v1CreditNoteService) PreviewLines(ctx context.Context, listParams *CreditNotePreviewLinesParams) *V1List[*CreditNoteLineItem] {
 	if listParams == nil {
 		listParams = &CreditNotePreviewLinesParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
 		list := &v1Page[*CreditNoteLineItem]{}
 		if p == nil {
 			p = &Params{}
@@ -139,5 +139,5 @@ func (c v1CreditNoteService) PreviewLines(ctx context.Context, listParams *Credi
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

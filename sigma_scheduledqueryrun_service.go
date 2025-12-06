@@ -32,12 +32,12 @@ func (c v1SigmaScheduledQueryRunService) Retrieve(ctx context.Context, id string
 }
 
 // Returns a list of scheduled query runs.
-func (c v1SigmaScheduledQueryRunService) List(ctx context.Context, listParams *SigmaScheduledQueryRunListParams) Seq2[*SigmaScheduledQueryRun, error] {
+func (c v1SigmaScheduledQueryRunService) List(ctx context.Context, listParams *SigmaScheduledQueryRunListParams) *V1List[*SigmaScheduledQueryRun] {
 	if listParams == nil {
 		listParams = &SigmaScheduledQueryRunListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SigmaScheduledQueryRun], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*SigmaScheduledQueryRun], error) {
 		list := &v1Page[*SigmaScheduledQueryRun]{}
 		if p == nil {
 			p = &Params{}
@@ -45,5 +45,5 @@ func (c v1SigmaScheduledQueryRunService) List(ctx context.Context, listParams *S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/sigma/scheduled_query_runs", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

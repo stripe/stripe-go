@@ -15,7 +15,7 @@ func TestCustomerList_HasLastResponse(t *testing.T) {
 	i := sc.V1Customers.List(context.TODO(), &stripe.CustomerListParams{
 		Email: stripe.String("test@example.com"),
 	})
-	i(func(customer *stripe.Customer, err error) bool {
+	i.All(context.TODO())(func(customer *stripe.Customer, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, customer)
 		assert.NotNil(t, customer.LastResponse)
@@ -34,7 +34,7 @@ func TestCustomerSearch_HasLastResponse(t *testing.T) {
 	params := &stripe.CustomerSearchParams{}
 	params.Query = "email:'test@example.com'"
 	i := sc.V1Customers.Search(context.TODO(), params)
-	i(func(customer *stripe.Customer, err error) bool {
+	i.All(context.TODO())(func(customer *stripe.Customer, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, customer)
 		assert.NotNil(t, customer.LastResponse)

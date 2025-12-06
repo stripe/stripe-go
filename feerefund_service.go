@@ -76,14 +76,14 @@ func (c v1FeeRefundService) Update(ctx context.Context, id string, params *FeeRe
 }
 
 // You can see a list of the refunds belonging to a specific application fee. Note that the 10 most recent refunds are always available by default on the application fee object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional refunds.
-func (c v1FeeRefundService) List(ctx context.Context, listParams *FeeRefundListParams) Seq2[*FeeRefund, error] {
+func (c v1FeeRefundService) List(ctx context.Context, listParams *FeeRefundListParams) *V1List[*FeeRefund] {
 	if listParams == nil {
 		listParams = &FeeRefundListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/application_fees/%s/refunds", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FeeRefund], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FeeRefund], error) {
 		list := &v1Page[*FeeRefund]{}
 		if p == nil {
 			p = &Params{}
@@ -91,5 +91,5 @@ func (c v1FeeRefundService) List(ctx context.Context, listParams *FeeRefundListP
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

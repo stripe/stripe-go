@@ -80,12 +80,12 @@ func (c v1FinancialConnectionsAccountService) Unsubscribe(ctx context.Context, i
 }
 
 // Returns a list of Financial Connections Account objects.
-func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listParams *FinancialConnectionsAccountListParams) Seq2[*FinancialConnectionsAccount, error] {
+func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listParams *FinancialConnectionsAccountListParams) *V1List[*FinancialConnectionsAccount] {
 	if listParams == nil {
 		listParams = &FinancialConnectionsAccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccount], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccount], error) {
 		list := &v1Page[*FinancialConnectionsAccount]{}
 		if p == nil {
 			p = &Params{}
@@ -93,11 +93,11 @@ func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listPara
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/accounts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Lists all owners for a given Account
-func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, listParams *FinancialConnectionsAccountListOwnersParams) Seq2[*FinancialConnectionsAccountOwner, error] {
+func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, listParams *FinancialConnectionsAccountListOwnersParams) *V1List[*FinancialConnectionsAccountOwner] {
 	if listParams == nil {
 		listParams = &FinancialConnectionsAccountListOwnersParams{}
 	}
@@ -105,7 +105,7 @@ func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, li
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/owners", StringValue(
 			listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountOwner], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountOwner], error) {
 		list := &v1Page[*FinancialConnectionsAccountOwner]{}
 		if p == nil {
 			p = &Params{}
@@ -113,5 +113,5 @@ func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, li
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

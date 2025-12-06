@@ -44,7 +44,7 @@ func TestBankAccountRetrieve_ByCustomer(t *testing.T) {
 func TestBankAccountList_ByAccount(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	i := sc.V1BankAccounts.List(context.TODO(), &stripe.BankAccountListParams{Account: stripe.String("acct_123")})
-	i(func(ba *stripe.BankAccount, err error) bool {
+	i.All(context.TODO())(func(ba *stripe.BankAccount, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, ba)
 		return true
@@ -54,7 +54,7 @@ func TestBankAccountList_ByAccount(t *testing.T) {
 func TestBankAccountList_ByCustomer(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	i := sc.V1BankAccounts.List(context.TODO(), &stripe.BankAccountListParams{Customer: stripe.String("cus_123")})
-	i(func(ba *stripe.BankAccount, err error) bool {
+	i.All(context.TODO())(func(ba *stripe.BankAccount, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, ba)
 		return true
