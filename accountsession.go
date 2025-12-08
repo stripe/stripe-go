@@ -463,6 +463,17 @@ type AccountSessionComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsCheckScanningFeaturesParams struct{}
+
+// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+type AccountSessionComponentsCheckScanningParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsCheckScanningFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
@@ -483,6 +494,8 @@ type AccountSessionComponentsParams struct {
 	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
 	// Configuration for the [Capital overview](https://docs.stripe.com/connect/supported-embedded-components/capital-overview/) embedded component.
 	CapitalOverview *AccountSessionComponentsCapitalOverviewParams `form:"capital_overview"`
+	// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+	CheckScanning *AccountSessionComponentsCheckScanningParams `form:"check_scanning"`
 	// Configuration for the [disputes list](https://docs.stripe.com/connect/supported-embedded-components/disputes-list/) embedded component.
 	DisputesList *AccountSessionComponentsDisputesListParams `form:"disputes_list"`
 	// Configuration for the [documents](https://docs.stripe.com/connect/supported-embedded-components/documents/) embedded component.
@@ -1002,6 +1015,17 @@ type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionCreateComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsCheckScanningFeaturesParams struct{}
+
+// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+type AccountSessionCreateComponentsCheckScanningParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsCheckScanningFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionCreateComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
@@ -1022,6 +1046,8 @@ type AccountSessionCreateComponentsParams struct {
 	CapitalFinancingPromotion *AccountSessionCreateComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
 	// Configuration for the [Capital overview](https://docs.stripe.com/connect/supported-embedded-components/capital-overview/) embedded component.
 	CapitalOverview *AccountSessionCreateComponentsCapitalOverviewParams `form:"capital_overview"`
+	// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+	CheckScanning *AccountSessionCreateComponentsCheckScanningParams `form:"check_scanning"`
 	// Configuration for the [disputes list](https://docs.stripe.com/connect/supported-embedded-components/disputes-list/) embedded component.
 	DisputesList *AccountSessionCreateComponentsDisputesListParams `form:"disputes_list"`
 	// Configuration for the [documents](https://docs.stripe.com/connect/supported-embedded-components/documents/) embedded component.

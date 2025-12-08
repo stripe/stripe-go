@@ -36,7 +36,7 @@ type BalanceTransferParams struct {
 	DestinationBalance *BalanceTransferDestinationBalanceParams `form:"destination_balance"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The balance from which funds are transferred, including details specific to the balance you choose.
 	SourceBalance *BalanceTransferSourceBalanceParams `form:"source_balance"`
@@ -86,7 +86,7 @@ type BalanceTransferCreateParams struct {
 	DestinationBalance *BalanceTransferCreateDestinationBalanceParams `form:"destination_balance"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The balance from which funds are transferred, including details specific to the balance you choose.
 	SourceBalance *BalanceTransferCreateSourceBalanceParams `form:"source_balance"`
@@ -142,7 +142,7 @@ type BalanceTransferSourceBalance struct {
 }
 
 // Balance transfers represent funds moving between balance types on your Stripe account.
-// They currently support moving funds between your Stripe balance and your [Issuing](https://stripe.com/docs/issuing) balance and between your [Allocated Funds](https://stripe.com/docs/connect/funds-segregation) balance and your Stripe balance.
+// They currently support moving funds between your Stripe balance and your [Issuing](https://docs.stripe.com/issuing) balance and between your [Allocated Funds](https://docs.stripe.com/connect/funds-segregation) balance and your Stripe balance.
 type BalanceTransfer struct {
 	APIResource
 	// A positive integer representing how much was transferred in the smallest currency unit.
@@ -153,13 +153,13 @@ type BalanceTransfer struct {
 	Currency Currency `json:"currency"`
 	// The balance that funds were transferred to.
 	DestinationBalance *BalanceTransferDestinationBalance `json:"destination_balance"`
-	// A [hosted transaction receipt](https://stripe.com/docs/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
+	// A [hosted transaction receipt](https://docs.stripe.com/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
 	HostedRegulatoryReceiptURL string `json:"hosted_regulatory_receipt_url"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

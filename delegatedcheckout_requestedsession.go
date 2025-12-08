@@ -6,6 +6,24 @@
 
 package stripe
 
+// The content type of the disclosure.
+type DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentType string
+
+// List of values that DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentType can take
+const (
+	DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentTypeLink     DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentType = "link"
+	DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentTypeMarkdown DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentType = "markdown"
+	DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentTypePlain    DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentType = "plain"
+)
+
+// The type of disclosure.
+type DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureType string
+
+// List of values that DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureType can take
+const (
+	DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureTypeDisclaimer DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureType = "disclaimer"
+)
+
 // Whether or not the payment method should be saved for future use.
 type DelegatedCheckoutRequestedSessionSetupFutureUsage string
 
@@ -163,6 +181,40 @@ type DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams struct {
 	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
 }
 
+// The billing details for the payment method data.
+type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams struct {
+	// The address for the billing details.
+	Address *AddressParams `form:"address"`
+	// The email for the billing details.
+	Email *string `form:"email"`
+	// The name for the billing details.
+	Name *string `form:"name"`
+	// The phone for the billing details.
+	Phone *string `form:"phone"`
+}
+
+// The card for the payment method data.
+type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataCardParams struct {
+	// The CVC of the card.
+	CVC *string `form:"cvc"`
+	// The expiration month of the card.
+	ExpMonth *int64 `form:"exp_month"`
+	// The expiration year of the card.
+	ExpYear *int64 `form:"exp_year"`
+	// The number of the card.
+	Number *string `form:"number"`
+}
+
+// The payment method data for this requested session.
+type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataParams struct {
+	// The billing details for the payment method data.
+	BillingDetails *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details"`
+	// The card for the payment method data.
+	Card *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataCardParams `form:"card"`
+	// The type of the payment method data.
+	Type *string `form:"type"`
+}
+
 // Confirms a requested session
 type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Params `form:"*"`
@@ -170,6 +222,8 @@ type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Expand []*string `form:"expand"`
 	// The PaymentMethod to use with the requested session.
 	PaymentMethod *string `form:"payment_method"`
+	// The payment method data for this requested session.
+	PaymentMethodData *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataParams `form:"payment_method_data"`
 	// Risk details/signals associated with the requested session
 	RiskDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams `form:"risk_details"`
 }
@@ -467,6 +521,36 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetails struct {
 	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOption `json:"selected_fulfillment_option"`
 }
 
+// Custom attributes for the product.
+type DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsCustomAttribute struct {
+	// The display name of the custom attribute.
+	DisplayName string `json:"display_name"`
+	// The value of the custom attribute.
+	Value string `json:"value"`
+}
+
+// Disclosures for the product.
+type DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosure struct {
+	// The content of the disclosure.
+	Content string `json:"content"`
+	// The content type of the disclosure.
+	ContentType DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentType `json:"content_type"`
+	// The type of disclosure.
+	Type DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureType `json:"type"`
+}
+type DelegatedCheckoutRequestedSessionLineItemDetailProductDetails struct {
+	// Custom attributes for the product.
+	CustomAttributes []*DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsCustomAttribute `json:"custom_attributes"`
+	// The description of the product.
+	Description string `json:"description"`
+	// Disclosures for the product.
+	Disclosures []*DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosure `json:"disclosures"`
+	// The images of the product.
+	Images []string `json:"images"`
+	// The title of the product.
+	Title string `json:"title"`
+}
+
 // The line items to be purchased.
 type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	// The total discount for this line item. If no discount were applied, defaults to 0.
@@ -480,7 +564,8 @@ type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	// The key of the line item.
 	Key string `json:"key"`
 	// The name of the line item.
-	Name string `json:"name"`
+	Name           string                                                         `json:"name"`
+	ProductDetails *DelegatedCheckoutRequestedSessionLineItemDetailProductDetails `json:"product_details"`
 	// The quantity of the line item.
 	Quantity int64 `json:"quantity"`
 	// The SKU ID of the line item.
@@ -575,7 +660,7 @@ type DelegatedCheckoutRequestedSession struct {
 	LineItemDetails []*DelegatedCheckoutRequestedSessionLineItemDetail `json:"line_item_details"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

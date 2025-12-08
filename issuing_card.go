@@ -156,6 +156,26 @@ const (
 	IssuingCardWalletsGooglePayIneligibleReasonUnsupportedRegion        IssuingCardWalletsGooglePayIneligibleReason = "unsupported_region"
 )
 
+// Filter cards by Apple Pay wallet details.
+type IssuingCardListWalletsApplePayParams struct {
+	// Query by Apple Pay primary account identifier.
+	PrimaryAccountIdentifier *string `form:"primary_account_identifier"`
+}
+
+// Filter cards by Google Pay wallet details.
+type IssuingCardListWalletsGooglePayParams struct {
+	// Query by Google Pay primary account identifier.
+	PrimaryAccountIdentifier *string `form:"primary_account_identifier"`
+}
+
+// Filter cards by wallet settings.
+type IssuingCardListWalletsParams struct {
+	// Filter cards by Apple Pay wallet details.
+	ApplePay *IssuingCardListWalletsApplePayParams `form:"apple_pay"`
+	// Filter cards by Google Pay wallet details.
+	GooglePay *IssuingCardListWalletsGooglePayParams `form:"google_pay"`
+}
+
 // Returns a list of Issuing Card objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingCardListParams struct {
 	ListParams `form:"*"`
@@ -178,6 +198,8 @@ type IssuingCardListParams struct {
 	Status *string `form:"status"`
 	// Only return cards that have the given type. One of `virtual` or `physical`.
 	Type *string `form:"type"`
+	// Filter cards by wallet settings.
+	Wallets *IssuingCardListWalletsParams `form:"wallets"`
 }
 
 // AddExpand appends a new field to expand.
@@ -603,12 +625,16 @@ type IssuingCardWalletsApplePay struct {
 	Eligible bool `json:"eligible"`
 	// Reason the card is ineligible for Apple Pay
 	IneligibleReason IssuingCardWalletsApplePayIneligibleReason `json:"ineligible_reason"`
+	// Unique identifier for the card in Apple Pay
+	PrimaryAccountIdentifier string `json:"primary_account_identifier"`
 }
 type IssuingCardWalletsGooglePay struct {
 	// Google Pay Eligibility
 	Eligible bool `json:"eligible"`
 	// Reason the card is ineligible for Google Pay
 	IneligibleReason IssuingCardWalletsGooglePayIneligibleReason `json:"ineligible_reason"`
+	// Unique identifier for the card in Google Pay
+	PrimaryAccountIdentifier string `json:"primary_account_identifier"`
 }
 
 // Information relating to digital wallets (like Apple Pay and Google Pay).
