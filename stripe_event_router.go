@@ -5,34 +5,34 @@ import (
 	"sort"
 )
 
-//lint:file-ignore ST1003 Allow _ in method names - they're named very specifically
-
-type HandlerFunc = func(EventNotificationContainer, *Client) error
-type UnhandledHandlerFunc = func(EventNotificationContainer, *Client, UnhandledNotificationDetails) error
+type CallbackFunc = func(EventNotificationContainer, *Client) error
+type FallbackCallbackFunc = func(EventNotificationContainer, *Client, UnhandledNotificationDetails) error
 
 type UnhandledNotificationDetails struct {
 	IsKnownType bool
 }
 
 type EventRouter struct {
-	client             *Client
-	webhookSecret      string
-	eventHandlers      map[string]HandlerFunc
-	hasHandledEvent    bool
-	onUnhandledHandler UnhandledHandlerFunc
+	client           *Client
+	webhookSecret    string
+	eventHandlers    map[string]CallbackFunc
+	hasHandledEvent  bool
+	fallbackCallback FallbackCallbackFunc
 }
 
-func NewEventRouter(client *Client, webhook_secret string, onUnhandledHandler UnhandledHandlerFunc) *EventRouter {
+func NewEventRouter(client *Client, webhookSecret string, fallbackCallback FallbackCallbackFunc) *EventRouter {
 	return &EventRouter{
-		client:             client,
-		webhookSecret:      webhook_secret,
-		eventHandlers:      make(map[string]HandlerFunc),
-		hasHandledEvent:    false,
-		onUnhandledHandler: onUnhandledHandler,
+		client:           client,
+		webhookSecret:    webhookSecret,
+		eventHandlers:    make(map[string]CallbackFunc),
+		hasHandledEvent:  false,
+		fallbackCallback: fallbackCallback,
 	}
 }
 
-func (r *EventRouter) register(eventType string, callback HandlerFunc) error {
+func (r *EventRouter) register(eventType string, callback CallbackFunc) error {
+	// intentionally not worried about concurrency because we expect all registrations to happen
+	// synchronously on startup, so it'll only be read after it's done being written.
 	if r.hasHandledEvent {
 		return fmt.Errorf("cannot register new event handlers after handling an event. This is indicative of a bug.")
 	}
@@ -55,761 +55,361 @@ func (r *EventRouter) RegisteredEventTypes() []string {
 	return types
 }
 
+func registerTypedHandler[T EventNotificationContainer](
+	r *EventRouter,
+	eventType string,
+	handler func(T, *Client) error,
+) error {
+	wrapper := func(notif EventNotificationContainer, client *Client) error {
+		typedNotif, ok := notif.(T)
+		if !ok {
+			// Use a zero value to get the type name for the error message
+			var zero T
+			return fmt.Errorf("failed to cast notification to %T", zero)
+		}
+		return handler(typedNotif, client)
+	}
+	return r.register(eventType, wrapper)
+}
+
 // event-router-methods: The beginning of the section generated from our OpenAPI spec
 
-// On_V1BillingMeterErrorReportTriggeredEventNotification registers a handler for the "v1.billing.meter.error_report_triggered" event.
-func (r *EventRouter) On_V1BillingMeterErrorReportTriggeredEventNotification(handler func(notif *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V1BillingMeterErrorReportTriggeredEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V1BillingMeterErrorReportTriggeredEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v1.billing.meter.error_report_triggered", wrapper)
+// OnV1BillingMeterErrorReportTriggered registers a callback to handle notifications about the "v1.billing.meter.error_report_triggered" event.
+func (r *EventRouter) OnV1BillingMeterErrorReportTriggered(callback func(notif *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v1.billing.meter.error_report_triggered", callback)
 }
 
-// On_V1BillingMeterNoMeterFoundEventNotification registers a handler for the "v1.billing.meter.no_meter_found" event.
-func (r *EventRouter) On_V1BillingMeterNoMeterFoundEventNotification(handler func(notif *V1BillingMeterNoMeterFoundEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V1BillingMeterNoMeterFoundEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V1BillingMeterNoMeterFoundEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v1.billing.meter.no_meter_found", wrapper)
+// OnV1BillingMeterNoMeterFound registers a callback to handle notifications about the "v1.billing.meter.no_meter_found" event.
+func (r *EventRouter) OnV1BillingMeterNoMeterFound(callback func(notif *V1BillingMeterNoMeterFoundEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v1.billing.meter.no_meter_found", callback)
 }
 
-// On_V2CoreAccountClosedEventNotification registers a handler for the "v2.core.account.closed" event.
-func (r *EventRouter) On_V2CoreAccountClosedEventNotification(handler func(notif *V2CoreAccountClosedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountClosedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountClosedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account.closed", wrapper)
+// OnV2CoreAccountClosed registers a callback to handle notifications about the "v2.core.account.closed" event.
+func (r *EventRouter) OnV2CoreAccountClosed(callback func(notif *V2CoreAccountClosedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account.closed", callback)
 }
 
-// On_V2CoreAccountCreatedEventNotification registers a handler for the "v2.core.account.created" event.
-func (r *EventRouter) On_V2CoreAccountCreatedEventNotification(handler func(notif *V2CoreAccountCreatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountCreatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountCreatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account.created", wrapper)
+// OnV2CoreAccountCreated registers a callback to handle notifications about the "v2.core.account.created" event.
+func (r *EventRouter) OnV2CoreAccountCreated(callback func(notif *V2CoreAccountCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account.created", callback)
 }
 
-// On_V2CoreAccountUpdatedEventNotification registers a handler for the "v2.core.account.updated" event.
-func (r *EventRouter) On_V2CoreAccountUpdatedEventNotification(handler func(notif *V2CoreAccountUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account.updated", wrapper)
+// OnV2CoreAccountUpdated registers a callback to handle notifications about the "v2.core.account.updated" event.
+func (r *EventRouter) OnV2CoreAccountUpdated(callback func(notif *V2CoreAccountUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account.updated", callback)
 }
 
-// On_V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification registers a handler for the "v2.core.account[configuration.customer].capability_status_updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.core.account[configuration.customer].capability_status_updated", wrapper)
+// OnV2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdated registers a callback to handle notifications about the "v2.core.account[configuration.customer].capability_status_updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdated(callback func(notif *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[configuration.customer].capability_status_updated", callback)
 }
 
-// On_V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification registers a handler for the "v2.core.account[configuration.customer].updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account[configuration.customer].updated", wrapper)
+// OnV2CoreAccountIncludingConfigurationCustomerUpdated registers a callback to handle notifications about the "v2.core.account[configuration.customer].updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingConfigurationCustomerUpdated(callback func(notif *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[configuration.customer].updated", callback)
 }
 
-// On_V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification registers a handler for the "v2.core.account[configuration.merchant].capability_status_updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.core.account[configuration.merchant].capability_status_updated", wrapper)
+// OnV2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdated registers a callback to handle notifications about the "v2.core.account[configuration.merchant].capability_status_updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdated(callback func(notif *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[configuration.merchant].capability_status_updated", callback)
 }
 
-// On_V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification registers a handler for the "v2.core.account[configuration.merchant].updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account[configuration.merchant].updated", wrapper)
+// OnV2CoreAccountIncludingConfigurationMerchantUpdated registers a callback to handle notifications about the "v2.core.account[configuration.merchant].updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingConfigurationMerchantUpdated(callback func(notif *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[configuration.merchant].updated", callback)
 }
 
-// On_V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification registers a handler for the "v2.core.account[configuration.recipient].capability_status_updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.core.account[configuration.recipient].capability_status_updated", wrapper)
+// OnV2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdated registers a callback to handle notifications about the "v2.core.account[configuration.recipient].capability_status_updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdated(callback func(notif *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[configuration.recipient].capability_status_updated", callback)
 }
 
-// On_V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification registers a handler for the "v2.core.account[configuration.recipient].updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account[configuration.recipient].updated", wrapper)
+// OnV2CoreAccountIncludingConfigurationRecipientUpdated registers a callback to handle notifications about the "v2.core.account[configuration.recipient].updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingConfigurationRecipientUpdated(callback func(notif *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[configuration.recipient].updated", callback)
 }
 
-// On_V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification registers a handler for the "v2.core.account[configuration.storer].capability_status_updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.core.account[configuration.storer].capability_status_updated", wrapper)
+// OnV2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdated registers a callback to handle notifications about the "v2.core.account[configuration.storer].capability_status_updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdated(callback func(notif *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[configuration.storer].capability_status_updated", callback)
 }
 
-// On_V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification registers a handler for the "v2.core.account[configuration.storer].updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account[configuration.storer].updated", wrapper)
+// OnV2CoreAccountIncludingConfigurationStorerUpdated registers a callback to handle notifications about the "v2.core.account[configuration.storer].updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingConfigurationStorerUpdated(callback func(notif *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[configuration.storer].updated", callback)
 }
 
-// On_V2CoreAccountIncludingDefaultsUpdatedEventNotification registers a handler for the "v2.core.account[defaults].updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingDefaultsUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingDefaultsUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingDefaultsUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingDefaultsUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account[defaults].updated", wrapper)
+// OnV2CoreAccountIncludingDefaultsUpdated registers a callback to handle notifications about the "v2.core.account[defaults].updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingDefaultsUpdated(callback func(notif *V2CoreAccountIncludingDefaultsUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account[defaults].updated", callback)
 }
 
-// On_V2CoreAccountIncludingIdentityUpdatedEventNotification registers a handler for the "v2.core.account[identity].updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingIdentityUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingIdentityUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingIdentityUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingIdentityUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account[identity].updated", wrapper)
+// OnV2CoreAccountIncludingIdentityUpdated registers a callback to handle notifications about the "v2.core.account[identity].updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingIdentityUpdated(callback func(notif *V2CoreAccountIncludingIdentityUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account[identity].updated", callback)
 }
 
-// On_V2CoreAccountIncludingRequirementsUpdatedEventNotification registers a handler for the "v2.core.account[requirements].updated" event.
-func (r *EventRouter) On_V2CoreAccountIncludingRequirementsUpdatedEventNotification(handler func(notif *V2CoreAccountIncludingRequirementsUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountIncludingRequirementsUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountIncludingRequirementsUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account[requirements].updated", wrapper)
+// OnV2CoreAccountIncludingRequirementsUpdated registers a callback to handle notifications about the "v2.core.account[requirements].updated" event.
+func (r *EventRouter) OnV2CoreAccountIncludingRequirementsUpdated(callback func(notif *V2CoreAccountIncludingRequirementsUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.account[requirements].updated", callback)
 }
 
-// On_V2CoreAccountLinkReturnedEventNotification registers a handler for the "v2.core.account_link.returned" event.
-func (r *EventRouter) On_V2CoreAccountLinkReturnedEventNotification(handler func(notif *V2CoreAccountLinkReturnedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountLinkReturnedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountLinkReturnedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account_link.returned", wrapper)
+// OnV2CoreAccountLinkReturned registers a callback to handle notifications about the "v2.core.account_link.returned" event.
+func (r *EventRouter) OnV2CoreAccountLinkReturned(callback func(notif *V2CoreAccountLinkReturnedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account_link.returned", callback)
 }
 
-// On_V2CoreAccountPersonCreatedEventNotification registers a handler for the "v2.core.account_person.created" event.
-func (r *EventRouter) On_V2CoreAccountPersonCreatedEventNotification(handler func(notif *V2CoreAccountPersonCreatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountPersonCreatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountPersonCreatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account_person.created", wrapper)
+// OnV2CoreAccountPersonCreated registers a callback to handle notifications about the "v2.core.account_person.created" event.
+func (r *EventRouter) OnV2CoreAccountPersonCreated(callback func(notif *V2CoreAccountPersonCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account_person.created", callback)
 }
 
-// On_V2CoreAccountPersonDeletedEventNotification registers a handler for the "v2.core.account_person.deleted" event.
-func (r *EventRouter) On_V2CoreAccountPersonDeletedEventNotification(handler func(notif *V2CoreAccountPersonDeletedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountPersonDeletedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountPersonDeletedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account_person.deleted", wrapper)
+// OnV2CoreAccountPersonDeleted registers a callback to handle notifications about the "v2.core.account_person.deleted" event.
+func (r *EventRouter) OnV2CoreAccountPersonDeleted(callback func(notif *V2CoreAccountPersonDeletedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account_person.deleted", callback)
 }
 
-// On_V2CoreAccountPersonUpdatedEventNotification registers a handler for the "v2.core.account_person.updated" event.
-func (r *EventRouter) On_V2CoreAccountPersonUpdatedEventNotification(handler func(notif *V2CoreAccountPersonUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreAccountPersonUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreAccountPersonUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.account_person.updated", wrapper)
+// OnV2CoreAccountPersonUpdated registers a callback to handle notifications about the "v2.core.account_person.updated" event.
+func (r *EventRouter) OnV2CoreAccountPersonUpdated(callback func(notif *V2CoreAccountPersonUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.account_person.updated", callback)
 }
 
-// On_V2CoreEventDestinationPingEventNotification registers a handler for the "v2.core.event_destination.ping" event.
-func (r *EventRouter) On_V2CoreEventDestinationPingEventNotification(handler func(notif *V2CoreEventDestinationPingEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreEventDestinationPingEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreEventDestinationPingEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.event_destination.ping", wrapper)
+// OnV2CoreEventDestinationPing registers a callback to handle notifications about the "v2.core.event_destination.ping" event.
+func (r *EventRouter) OnV2CoreEventDestinationPing(callback func(notif *V2CoreEventDestinationPingEventNotification, client *Client) error) error {
+	return registerTypedHandler(r, "v2.core.event_destination.ping", callback)
 }
 
-// On_V2CoreHealthEventGenerationFailureResolvedEventNotification registers a handler for the "v2.core.health.event_generation_failure.resolved" event.
-func (r *EventRouter) On_V2CoreHealthEventGenerationFailureResolvedEventNotification(handler func(notif *V2CoreHealthEventGenerationFailureResolvedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2CoreHealthEventGenerationFailureResolvedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2CoreHealthEventGenerationFailureResolvedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.core.health.event_generation_failure.resolved", wrapper)
+// OnV2CoreHealthEventGenerationFailureResolved registers a callback to handle notifications about the "v2.core.health.event_generation_failure.resolved" event.
+func (r *EventRouter) OnV2CoreHealthEventGenerationFailureResolved(callback func(notif *V2CoreHealthEventGenerationFailureResolvedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.core.health.event_generation_failure.resolved", callback)
 }
 
-// On_V2MoneyManagementAdjustmentCreatedEventNotification registers a handler for the "v2.money_management.adjustment.created" event.
-func (r *EventRouter) On_V2MoneyManagementAdjustmentCreatedEventNotification(handler func(notif *V2MoneyManagementAdjustmentCreatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementAdjustmentCreatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementAdjustmentCreatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.adjustment.created", wrapper)
+// OnV2MoneyManagementAdjustmentCreated registers a callback to handle notifications about the "v2.money_management.adjustment.created" event.
+func (r *EventRouter) OnV2MoneyManagementAdjustmentCreated(callback func(notif *V2MoneyManagementAdjustmentCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.adjustment.created", callback)
 }
 
-// On_V2MoneyManagementFinancialAccountCreatedEventNotification registers a handler for the "v2.money_management.financial_account.created" event.
-func (r *EventRouter) On_V2MoneyManagementFinancialAccountCreatedEventNotification(handler func(notif *V2MoneyManagementFinancialAccountCreatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementFinancialAccountCreatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementFinancialAccountCreatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.financial_account.created", wrapper)
+// OnV2MoneyManagementFinancialAccountCreated registers a callback to handle notifications about the "v2.money_management.financial_account.created" event.
+func (r *EventRouter) OnV2MoneyManagementFinancialAccountCreated(callback func(notif *V2MoneyManagementFinancialAccountCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.financial_account.created", callback)
 }
 
-// On_V2MoneyManagementFinancialAccountUpdatedEventNotification registers a handler for the "v2.money_management.financial_account.updated" event.
-func (r *EventRouter) On_V2MoneyManagementFinancialAccountUpdatedEventNotification(handler func(notif *V2MoneyManagementFinancialAccountUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementFinancialAccountUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementFinancialAccountUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.financial_account.updated", wrapper)
+// OnV2MoneyManagementFinancialAccountUpdated registers a callback to handle notifications about the "v2.money_management.financial_account.updated" event.
+func (r *EventRouter) OnV2MoneyManagementFinancialAccountUpdated(callback func(notif *V2MoneyManagementFinancialAccountUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.financial_account.updated", callback)
 }
 
-// On_V2MoneyManagementFinancialAddressActivatedEventNotification registers a handler for the "v2.money_management.financial_address.activated" event.
-func (r *EventRouter) On_V2MoneyManagementFinancialAddressActivatedEventNotification(handler func(notif *V2MoneyManagementFinancialAddressActivatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementFinancialAddressActivatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementFinancialAddressActivatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.financial_address.activated", wrapper)
+// OnV2MoneyManagementFinancialAddressActivated registers a callback to handle notifications about the "v2.money_management.financial_address.activated" event.
+func (r *EventRouter) OnV2MoneyManagementFinancialAddressActivated(callback func(notif *V2MoneyManagementFinancialAddressActivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.financial_address.activated", callback)
 }
 
-// On_V2MoneyManagementFinancialAddressFailedEventNotification registers a handler for the "v2.money_management.financial_address.failed" event.
-func (r *EventRouter) On_V2MoneyManagementFinancialAddressFailedEventNotification(handler func(notif *V2MoneyManagementFinancialAddressFailedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementFinancialAddressFailedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementFinancialAddressFailedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.financial_address.failed", wrapper)
+// OnV2MoneyManagementFinancialAddressFailed registers a callback to handle notifications about the "v2.money_management.financial_address.failed" event.
+func (r *EventRouter) OnV2MoneyManagementFinancialAddressFailed(callback func(notif *V2MoneyManagementFinancialAddressFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.financial_address.failed", callback)
 }
 
-// On_V2MoneyManagementInboundTransferAvailableEventNotification registers a handler for the "v2.money_management.inbound_transfer.available" event.
-func (r *EventRouter) On_V2MoneyManagementInboundTransferAvailableEventNotification(handler func(notif *V2MoneyManagementInboundTransferAvailableEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementInboundTransferAvailableEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementInboundTransferAvailableEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.inbound_transfer.available", wrapper)
+// OnV2MoneyManagementInboundTransferAvailable registers a callback to handle notifications about the "v2.money_management.inbound_transfer.available" event.
+func (r *EventRouter) OnV2MoneyManagementInboundTransferAvailable(callback func(notif *V2MoneyManagementInboundTransferAvailableEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.inbound_transfer.available", callback)
 }
 
-// On_V2MoneyManagementInboundTransferBankDebitFailedEventNotification registers a handler for the "v2.money_management.inbound_transfer.bank_debit_failed" event.
-func (r *EventRouter) On_V2MoneyManagementInboundTransferBankDebitFailedEventNotification(handler func(notif *V2MoneyManagementInboundTransferBankDebitFailedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementInboundTransferBankDebitFailedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementInboundTransferBankDebitFailedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.money_management.inbound_transfer.bank_debit_failed", wrapper)
+// OnV2MoneyManagementInboundTransferBankDebitFailed registers a callback to handle notifications about the "v2.money_management.inbound_transfer.bank_debit_failed" event.
+func (r *EventRouter) OnV2MoneyManagementInboundTransferBankDebitFailed(callback func(notif *V2MoneyManagementInboundTransferBankDebitFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.inbound_transfer.bank_debit_failed", callback)
 }
 
-// On_V2MoneyManagementInboundTransferBankDebitProcessingEventNotification registers a handler for the "v2.money_management.inbound_transfer.bank_debit_processing" event.
-func (r *EventRouter) On_V2MoneyManagementInboundTransferBankDebitProcessingEventNotification(handler func(notif *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementInboundTransferBankDebitProcessingEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementInboundTransferBankDebitProcessingEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.money_management.inbound_transfer.bank_debit_processing", wrapper)
+// OnV2MoneyManagementInboundTransferBankDebitProcessing registers a callback to handle notifications about the "v2.money_management.inbound_transfer.bank_debit_processing" event.
+func (r *EventRouter) OnV2MoneyManagementInboundTransferBankDebitProcessing(callback func(notif *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.inbound_transfer.bank_debit_processing", callback)
 }
 
-// On_V2MoneyManagementInboundTransferBankDebitQueuedEventNotification registers a handler for the "v2.money_management.inbound_transfer.bank_debit_queued" event.
-func (r *EventRouter) On_V2MoneyManagementInboundTransferBankDebitQueuedEventNotification(handler func(notif *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementInboundTransferBankDebitQueuedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementInboundTransferBankDebitQueuedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.money_management.inbound_transfer.bank_debit_queued", wrapper)
+// OnV2MoneyManagementInboundTransferBankDebitQueued registers a callback to handle notifications about the "v2.money_management.inbound_transfer.bank_debit_queued" event.
+func (r *EventRouter) OnV2MoneyManagementInboundTransferBankDebitQueued(callback func(notif *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.inbound_transfer.bank_debit_queued", callback)
 }
 
-// On_V2MoneyManagementInboundTransferBankDebitReturnedEventNotification registers a handler for the "v2.money_management.inbound_transfer.bank_debit_returned" event.
-func (r *EventRouter) On_V2MoneyManagementInboundTransferBankDebitReturnedEventNotification(handler func(notif *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementInboundTransferBankDebitReturnedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementInboundTransferBankDebitReturnedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.money_management.inbound_transfer.bank_debit_returned", wrapper)
+// OnV2MoneyManagementInboundTransferBankDebitReturned registers a callback to handle notifications about the "v2.money_management.inbound_transfer.bank_debit_returned" event.
+func (r *EventRouter) OnV2MoneyManagementInboundTransferBankDebitReturned(callback func(notif *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.inbound_transfer.bank_debit_returned", callback)
 }
 
-// On_V2MoneyManagementInboundTransferBankDebitSucceededEventNotification registers a handler for the "v2.money_management.inbound_transfer.bank_debit_succeeded" event.
-func (r *EventRouter) On_V2MoneyManagementInboundTransferBankDebitSucceededEventNotification(handler func(notif *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementInboundTransferBankDebitSucceededEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementInboundTransferBankDebitSucceededEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register(
-		"v2.money_management.inbound_transfer.bank_debit_succeeded", wrapper)
+// OnV2MoneyManagementInboundTransferBankDebitSucceeded registers a callback to handle notifications about the "v2.money_management.inbound_transfer.bank_debit_succeeded" event.
+func (r *EventRouter) OnV2MoneyManagementInboundTransferBankDebitSucceeded(callback func(notif *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.inbound_transfer.bank_debit_succeeded", callback)
 }
 
-// On_V2MoneyManagementOutboundPaymentCanceledEventNotification registers a handler for the "v2.money_management.outbound_payment.canceled" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundPaymentCanceledEventNotification(handler func(notif *V2MoneyManagementOutboundPaymentCanceledEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundPaymentCanceledEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundPaymentCanceledEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_payment.canceled", wrapper)
+// OnV2MoneyManagementOutboundPaymentCanceled registers a callback to handle notifications about the "v2.money_management.outbound_payment.canceled" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundPaymentCanceled(callback func(notif *V2MoneyManagementOutboundPaymentCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_payment.canceled", callback)
 }
 
-// On_V2MoneyManagementOutboundPaymentCreatedEventNotification registers a handler for the "v2.money_management.outbound_payment.created" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundPaymentCreatedEventNotification(handler func(notif *V2MoneyManagementOutboundPaymentCreatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundPaymentCreatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundPaymentCreatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_payment.created", wrapper)
+// OnV2MoneyManagementOutboundPaymentCreated registers a callback to handle notifications about the "v2.money_management.outbound_payment.created" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundPaymentCreated(callback func(notif *V2MoneyManagementOutboundPaymentCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_payment.created", callback)
 }
 
-// On_V2MoneyManagementOutboundPaymentFailedEventNotification registers a handler for the "v2.money_management.outbound_payment.failed" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundPaymentFailedEventNotification(handler func(notif *V2MoneyManagementOutboundPaymentFailedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundPaymentFailedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundPaymentFailedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_payment.failed", wrapper)
+// OnV2MoneyManagementOutboundPaymentFailed registers a callback to handle notifications about the "v2.money_management.outbound_payment.failed" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundPaymentFailed(callback func(notif *V2MoneyManagementOutboundPaymentFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_payment.failed", callback)
 }
 
-// On_V2MoneyManagementOutboundPaymentPostedEventNotification registers a handler for the "v2.money_management.outbound_payment.posted" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundPaymentPostedEventNotification(handler func(notif *V2MoneyManagementOutboundPaymentPostedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundPaymentPostedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundPaymentPostedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_payment.posted", wrapper)
+// OnV2MoneyManagementOutboundPaymentPosted registers a callback to handle notifications about the "v2.money_management.outbound_payment.posted" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundPaymentPosted(callback func(notif *V2MoneyManagementOutboundPaymentPostedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_payment.posted", callback)
 }
 
-// On_V2MoneyManagementOutboundPaymentReturnedEventNotification registers a handler for the "v2.money_management.outbound_payment.returned" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundPaymentReturnedEventNotification(handler func(notif *V2MoneyManagementOutboundPaymentReturnedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundPaymentReturnedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundPaymentReturnedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_payment.returned", wrapper)
+// OnV2MoneyManagementOutboundPaymentReturned registers a callback to handle notifications about the "v2.money_management.outbound_payment.returned" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundPaymentReturned(callback func(notif *V2MoneyManagementOutboundPaymentReturnedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_payment.returned", callback)
 }
 
-// On_V2MoneyManagementOutboundPaymentUpdatedEventNotification registers a handler for the "v2.money_management.outbound_payment.updated" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundPaymentUpdatedEventNotification(handler func(notif *V2MoneyManagementOutboundPaymentUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundPaymentUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundPaymentUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_payment.updated", wrapper)
+// OnV2MoneyManagementOutboundPaymentUpdated registers a callback to handle notifications about the "v2.money_management.outbound_payment.updated" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundPaymentUpdated(callback func(notif *V2MoneyManagementOutboundPaymentUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_payment.updated", callback)
 }
 
-// On_V2MoneyManagementOutboundTransferCanceledEventNotification registers a handler for the "v2.money_management.outbound_transfer.canceled" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundTransferCanceledEventNotification(handler func(notif *V2MoneyManagementOutboundTransferCanceledEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundTransferCanceledEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundTransferCanceledEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_transfer.canceled", wrapper)
+// OnV2MoneyManagementOutboundTransferCanceled registers a callback to handle notifications about the "v2.money_management.outbound_transfer.canceled" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundTransferCanceled(callback func(notif *V2MoneyManagementOutboundTransferCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_transfer.canceled", callback)
 }
 
-// On_V2MoneyManagementOutboundTransferCreatedEventNotification registers a handler for the "v2.money_management.outbound_transfer.created" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundTransferCreatedEventNotification(handler func(notif *V2MoneyManagementOutboundTransferCreatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundTransferCreatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundTransferCreatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_transfer.created", wrapper)
+// OnV2MoneyManagementOutboundTransferCreated registers a callback to handle notifications about the "v2.money_management.outbound_transfer.created" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundTransferCreated(callback func(notif *V2MoneyManagementOutboundTransferCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_transfer.created", callback)
 }
 
-// On_V2MoneyManagementOutboundTransferFailedEventNotification registers a handler for the "v2.money_management.outbound_transfer.failed" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundTransferFailedEventNotification(handler func(notif *V2MoneyManagementOutboundTransferFailedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundTransferFailedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundTransferFailedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_transfer.failed", wrapper)
+// OnV2MoneyManagementOutboundTransferFailed registers a callback to handle notifications about the "v2.money_management.outbound_transfer.failed" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundTransferFailed(callback func(notif *V2MoneyManagementOutboundTransferFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_transfer.failed", callback)
 }
 
-// On_V2MoneyManagementOutboundTransferPostedEventNotification registers a handler for the "v2.money_management.outbound_transfer.posted" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundTransferPostedEventNotification(handler func(notif *V2MoneyManagementOutboundTransferPostedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundTransferPostedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundTransferPostedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_transfer.posted", wrapper)
+// OnV2MoneyManagementOutboundTransferPosted registers a callback to handle notifications about the "v2.money_management.outbound_transfer.posted" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundTransferPosted(callback func(notif *V2MoneyManagementOutboundTransferPostedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_transfer.posted", callback)
 }
 
-// On_V2MoneyManagementOutboundTransferReturnedEventNotification registers a handler for the "v2.money_management.outbound_transfer.returned" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundTransferReturnedEventNotification(handler func(notif *V2MoneyManagementOutboundTransferReturnedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundTransferReturnedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundTransferReturnedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_transfer.returned", wrapper)
+// OnV2MoneyManagementOutboundTransferReturned registers a callback to handle notifications about the "v2.money_management.outbound_transfer.returned" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundTransferReturned(callback func(notif *V2MoneyManagementOutboundTransferReturnedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_transfer.returned", callback)
 }
 
-// On_V2MoneyManagementOutboundTransferUpdatedEventNotification registers a handler for the "v2.money_management.outbound_transfer.updated" event.
-func (r *EventRouter) On_V2MoneyManagementOutboundTransferUpdatedEventNotification(handler func(notif *V2MoneyManagementOutboundTransferUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementOutboundTransferUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementOutboundTransferUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.outbound_transfer.updated", wrapper)
+// OnV2MoneyManagementOutboundTransferUpdated registers a callback to handle notifications about the "v2.money_management.outbound_transfer.updated" event.
+func (r *EventRouter) OnV2MoneyManagementOutboundTransferUpdated(callback func(notif *V2MoneyManagementOutboundTransferUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.outbound_transfer.updated", callback)
 }
 
-// On_V2MoneyManagementPayoutMethodUpdatedEventNotification registers a handler for the "v2.money_management.payout_method.updated" event.
-func (r *EventRouter) On_V2MoneyManagementPayoutMethodUpdatedEventNotification(handler func(notif *V2MoneyManagementPayoutMethodUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementPayoutMethodUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementPayoutMethodUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.payout_method.updated", wrapper)
+// OnV2MoneyManagementPayoutMethodUpdated registers a callback to handle notifications about the "v2.money_management.payout_method.updated" event.
+func (r *EventRouter) OnV2MoneyManagementPayoutMethodUpdated(callback func(notif *V2MoneyManagementPayoutMethodUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.payout_method.updated", callback)
 }
 
-// On_V2MoneyManagementReceivedCreditAvailableEventNotification registers a handler for the "v2.money_management.received_credit.available" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedCreditAvailableEventNotification(handler func(notif *V2MoneyManagementReceivedCreditAvailableEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedCreditAvailableEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedCreditAvailableEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_credit.available", wrapper)
+// OnV2MoneyManagementReceivedCreditAvailable registers a callback to handle notifications about the "v2.money_management.received_credit.available" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedCreditAvailable(callback func(notif *V2MoneyManagementReceivedCreditAvailableEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_credit.available", callback)
 }
 
-// On_V2MoneyManagementReceivedCreditFailedEventNotification registers a handler for the "v2.money_management.received_credit.failed" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedCreditFailedEventNotification(handler func(notif *V2MoneyManagementReceivedCreditFailedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedCreditFailedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedCreditFailedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_credit.failed", wrapper)
+// OnV2MoneyManagementReceivedCreditFailed registers a callback to handle notifications about the "v2.money_management.received_credit.failed" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedCreditFailed(callback func(notif *V2MoneyManagementReceivedCreditFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_credit.failed", callback)
 }
 
-// On_V2MoneyManagementReceivedCreditReturnedEventNotification registers a handler for the "v2.money_management.received_credit.returned" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedCreditReturnedEventNotification(handler func(notif *V2MoneyManagementReceivedCreditReturnedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedCreditReturnedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedCreditReturnedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_credit.returned", wrapper)
+// OnV2MoneyManagementReceivedCreditReturned registers a callback to handle notifications about the "v2.money_management.received_credit.returned" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedCreditReturned(callback func(notif *V2MoneyManagementReceivedCreditReturnedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_credit.returned", callback)
 }
 
-// On_V2MoneyManagementReceivedCreditSucceededEventNotification registers a handler for the "v2.money_management.received_credit.succeeded" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedCreditSucceededEventNotification(handler func(notif *V2MoneyManagementReceivedCreditSucceededEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedCreditSucceededEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedCreditSucceededEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_credit.succeeded", wrapper)
+// OnV2MoneyManagementReceivedCreditSucceeded registers a callback to handle notifications about the "v2.money_management.received_credit.succeeded" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedCreditSucceeded(callback func(notif *V2MoneyManagementReceivedCreditSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_credit.succeeded", callback)
 }
 
-// On_V2MoneyManagementReceivedDebitCanceledEventNotification registers a handler for the "v2.money_management.received_debit.canceled" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedDebitCanceledEventNotification(handler func(notif *V2MoneyManagementReceivedDebitCanceledEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedDebitCanceledEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedDebitCanceledEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_debit.canceled", wrapper)
+// OnV2MoneyManagementReceivedDebitCanceled registers a callback to handle notifications about the "v2.money_management.received_debit.canceled" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedDebitCanceled(callback func(notif *V2MoneyManagementReceivedDebitCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_debit.canceled", callback)
 }
 
-// On_V2MoneyManagementReceivedDebitFailedEventNotification registers a handler for the "v2.money_management.received_debit.failed" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedDebitFailedEventNotification(handler func(notif *V2MoneyManagementReceivedDebitFailedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedDebitFailedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedDebitFailedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_debit.failed", wrapper)
+// OnV2MoneyManagementReceivedDebitFailed registers a callback to handle notifications about the "v2.money_management.received_debit.failed" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedDebitFailed(callback func(notif *V2MoneyManagementReceivedDebitFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_debit.failed", callback)
 }
 
-// On_V2MoneyManagementReceivedDebitPendingEventNotification registers a handler for the "v2.money_management.received_debit.pending" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedDebitPendingEventNotification(handler func(notif *V2MoneyManagementReceivedDebitPendingEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedDebitPendingEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedDebitPendingEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_debit.pending", wrapper)
+// OnV2MoneyManagementReceivedDebitPending registers a callback to handle notifications about the "v2.money_management.received_debit.pending" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedDebitPending(callback func(notif *V2MoneyManagementReceivedDebitPendingEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_debit.pending", callback)
 }
 
-// On_V2MoneyManagementReceivedDebitSucceededEventNotification registers a handler for the "v2.money_management.received_debit.succeeded" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedDebitSucceededEventNotification(handler func(notif *V2MoneyManagementReceivedDebitSucceededEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedDebitSucceededEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedDebitSucceededEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_debit.succeeded", wrapper)
+// OnV2MoneyManagementReceivedDebitSucceeded registers a callback to handle notifications about the "v2.money_management.received_debit.succeeded" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedDebitSucceeded(callback func(notif *V2MoneyManagementReceivedDebitSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_debit.succeeded", callback)
 }
 
-// On_V2MoneyManagementReceivedDebitUpdatedEventNotification registers a handler for the "v2.money_management.received_debit.updated" event.
-func (r *EventRouter) On_V2MoneyManagementReceivedDebitUpdatedEventNotification(handler func(notif *V2MoneyManagementReceivedDebitUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementReceivedDebitUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementReceivedDebitUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.received_debit.updated", wrapper)
+// OnV2MoneyManagementReceivedDebitUpdated registers a callback to handle notifications about the "v2.money_management.received_debit.updated" event.
+func (r *EventRouter) OnV2MoneyManagementReceivedDebitUpdated(callback func(notif *V2MoneyManagementReceivedDebitUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.received_debit.updated", callback)
 }
 
-// On_V2MoneyManagementTransactionCreatedEventNotification registers a handler for the "v2.money_management.transaction.created" event.
-func (r *EventRouter) On_V2MoneyManagementTransactionCreatedEventNotification(handler func(notif *V2MoneyManagementTransactionCreatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementTransactionCreatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementTransactionCreatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.transaction.created", wrapper)
+// OnV2MoneyManagementTransactionCreated registers a callback to handle notifications about the "v2.money_management.transaction.created" event.
+func (r *EventRouter) OnV2MoneyManagementTransactionCreated(callback func(notif *V2MoneyManagementTransactionCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.transaction.created", callback)
 }
 
-// On_V2MoneyManagementTransactionUpdatedEventNotification registers a handler for the "v2.money_management.transaction.updated" event.
-func (r *EventRouter) On_V2MoneyManagementTransactionUpdatedEventNotification(handler func(notif *V2MoneyManagementTransactionUpdatedEventNotification, client *Client) error) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
-		typedNotif, ok := notif.(*V2MoneyManagementTransactionUpdatedEventNotification)
-		if !ok {
-			return fmt.Errorf(
-				"failed to cast notification to V2MoneyManagementTransactionUpdatedEventNotification")
-		}
-		return handler(typedNotif, client)
-	}
-	return r.register("v2.money_management.transaction.updated", wrapper)
+// OnV2MoneyManagementTransactionUpdated registers a callback to handle notifications about the "v2.money_management.transaction.updated" event.
+func (r *EventRouter) OnV2MoneyManagementTransactionUpdated(callback func(notif *V2MoneyManagementTransactionUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		r, "v2.money_management.transaction.updated", callback)
 }
 
 // event-router-methods: The end of the section generated from our OpenAPI spec
 
 func (r *EventRouter) Handle(webhookBody []byte, sigHeader string) error {
+	// intentionally not worried about concurrency because we expect all registrations to happen
+	// synchronously on startup, so it'll only be read after it's done being written.
 	r.hasHandledEvent = true
 
 	notif, err := r.client.ParseEventNotification(webhookBody, sigHeader, r.webhookSecret)
@@ -839,15 +439,15 @@ func (r *EventRouter) Handle(webhookBody []byte, sigHeader string) error {
 		}()
 	}
 
-	callback, exists := r.eventHandlers[eventType]
-
-	if exists {
+	callback, ok := r.eventHandlers[eventType]
+	if ok {
 		return callback(notif, r.client)
 	}
+
 	_, isUnknownEventType := notif.(*UnknownEventNotification)
 	details := UnhandledNotificationDetails{
 		IsKnownType: !isUnknownEventType,
 	}
-	return r.onUnhandledHandler(notif, r.client, details)
+	return r.fallbackCallback(notif, r.client, details)
 
 }

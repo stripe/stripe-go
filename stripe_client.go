@@ -657,10 +657,6 @@ func (c *Client) ParseEventNotification(payload []byte, header string, secret st
 	return EventNotificationFromJSON(payload, *c)
 }
 
-func (c *Client) NewEventRouter(webhookSecret string, onUnhandledHandler UnhandledHandlerFunc) *EventRouter {
-	return NewEventRouter(c, webhookSecret, onUnhandledHandler)
-}
-
 // ConstructEvent initializes an Event object from a JSON webhook payload, validating
 // the Stripe-Signature header using the specified signing secret. Returns an error
 // if the body or Stripe-Signature header provided are unreadable, if the
