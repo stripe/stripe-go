@@ -108,7 +108,7 @@ func TestEventRouter_RoutesEventToRegisteredHandler(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	// Execute
@@ -156,9 +156,9 @@ func TestEventRouter_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(billingHandler)
+	err := router.OnV1BillingMeterErrorReportTriggered(billingHandler)
 	assert.NoError(t, err)
-	err = router.On_V1BillingMeterNoMeterFoundEventNotification(noMeterHandler)
+	err = router.OnV1BillingMeterNoMeterFound(noMeterHandler)
 	assert.NoError(t, err)
 
 	// Execute first event
@@ -201,7 +201,7 @@ func TestEventRouter_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	payload := v1BillingMeterPayload()
@@ -231,7 +231,7 @@ func TestEventRouter_CannotRegisterHandlerAfterHandling(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	payload := v1BillingMeterPayload()
@@ -244,7 +244,7 @@ func TestEventRouter_CannotRegisterHandlerAfterHandling(t *testing.T) {
 		return nil
 	}
 
-	err = router.On_V1BillingMeterNoMeterFoundEventNotification(handler2)
+	err = router.OnV1BillingMeterNoMeterFound(handler2)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "cannot register new event handlers after handling an event")
 }
@@ -268,10 +268,10 @@ func TestEventRouter_CannotRegisterDuplicateHandler(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler1)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler1)
 	assert.NoError(t, err)
 
-	err = router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler2)
+	err = router.OnV1BillingMeterErrorReportTriggered(handler2)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "handler for event type v1.billing.meter.error_report_triggered is already registered")
 }
@@ -297,7 +297,7 @@ func TestEventRouter_HandlerUsesEventStripeContext(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	// Verify original context
@@ -334,7 +334,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	// Verify original context before handle
@@ -370,7 +370,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerError(t *testing.T) {
 		return fmt.Errorf("handler error")
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	// Verify original context before handle
@@ -406,7 +406,7 @@ func TestEventRouter_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	// Verify original context
@@ -424,7 +424,7 @@ func TestEventRouter_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 	assert.Equal(t, "original_context_123", *backend.(*BackendImplementation).StripeContext)
 }
 
-// Test: Unknown event routes to on_unhandled
+// Test: Unknown event Oout
 func TestEventRouter_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
@@ -461,7 +461,7 @@ func TestEventRouter_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 	assert.False(t, unhandledDetails.IsKnownType, "Unknown event should have IsKnownType=false")
 }
 
-// Test: Known unregistered event routes to on_unhandled
+// Test: Known unregistered event Oout
 func TestEventRouter_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
@@ -499,7 +499,7 @@ func TestEventRouter_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 	assert.True(t, unhandledDetails.IsKnownType, "Known event should have IsKnownType=true")
 }
 
-// Test: Registered event does not call on_unhandled
+// Test: Registered event does Oot
 func TestEventRouter_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
@@ -518,7 +518,7 @@ func TestEventRouter_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	payload := v1BillingMeterPayload()
@@ -554,7 +554,7 @@ func TestEventRouter_HandlerClientRetainsConfiguration(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	payload := v1BillingMeterPayload()
@@ -658,7 +658,7 @@ func TestEventRouter_RegisteredEventTypesSingle(t *testing.T) {
 		return nil
 	}
 
-	err := router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler)
+	err := router.OnV1BillingMeterErrorReportTriggered(handler)
 	assert.NoError(t, err)
 
 	types := router.RegisteredEventTypes()
@@ -687,11 +687,11 @@ func TestEventRouter_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
 	}
 
 	// Register in non-alphabetical order
-	err := router.On_V2CoreAccountCreatedEventNotification(handler3)
+	err := router.OnV2CoreAccountCreated(handler3)
 	assert.NoError(t, err)
-	err = router.On_V1BillingMeterErrorReportTriggeredEventNotification(handler1)
+	err = router.OnV1BillingMeterErrorReportTriggered(handler1)
 	assert.NoError(t, err)
-	err = router.On_V1BillingMeterNoMeterFoundEventNotification(handler2)
+	err = router.OnV1BillingMeterNoMeterFound(handler2)
 	assert.NoError(t, err)
 
 	types := router.RegisteredEventTypes()

@@ -18,15 +18,29 @@ type EventRouter struct {
 	eventHandlers    map[string]CallbackFunc
 	hasHandledEvent  bool
 	fallbackCallback FallbackCallbackFunc
+	baseBackend      *BackendImplementation
+	key              string
 }
 
 func NewEventRouter(client *Client, webhookSecret string, fallbackCallback FallbackCallbackFunc) *EventRouter {
+	// Extract the base API backend to clone it for each request
+	var baseBackend *BackendImplementation
+	if usageBackend, ok := client.backend.(*UsageBackend); ok {
+		if impl, ok := usageBackend.B.(*BackendImplementation); ok {
+			baseBackend = impl
+		}
+	} else if impl, ok := client.backend.(*BackendImplementation); ok {
+		baseBackend = impl
+	}
+
 	return &EventRouter{
 		client:           client,
 		webhookSecret:    webhookSecret,
 		eventHandlers:    make(map[string]CallbackFunc),
 		hasHandledEvent:  false,
 		fallbackCallback: fallbackCallback,
+		baseBackend:      baseBackend,
+		key:              client.key,
 	}
 }
 
@@ -407,6 +421,58 @@ func (r *EventRouter) OnV2MoneyManagementTransactionUpdated(callback func(notif 
 
 // event-router-methods: The end of the section generated from our OpenAPI spec
 
+// createClientWithContext creates a new Client with a custom stripe_context.
+// It reuses the HTTPClient and other expensive resources from the base backend
+// to avoid re-establishing TLS connections (Flyweight pattern).
+func (r *EventRouter) createClientWithContext(stripeContext *string) *Client {
+	if r.baseBackend == nil {
+		// If we couldn't extract the base backend, fall back to using the original client
+		return r.client
+	}
+
+	// Create a new BackendImplementation that shares all fields with the base backend
+	// except for the StripeContext (Flyweight pattern)
+	newAPIBackend := &BackendImplementation{
+		Type:                 r.baseBackend.Type,
+		URL:                  r.baseBackend.URL,
+		HTTPClient:           r.baseBackend.HTTPClient, // Reuse the HTTP client (avoids TLS handshake)
+		LeveledLogger:        r.baseBackend.LeveledLogger,
+		MaxNetworkRetries:    r.baseBackend.MaxNetworkRetries,
+		StripeContext:        stripeContext, // Only field that's different
+		enableTelemetry:      r.baseBackend.enableTelemetry,
+		networkRetriesSleep:  r.baseBackend.networkRetriesSleep,
+		requestMetricsBuffer: r.baseBackend.requestMetricsBuffer,
+	}
+
+	// Wrap in UsageBackend to match the original client's backend type
+	var wrappedAPIBackend Backend = newAPIBackend
+	if usageBackend, ok := r.client.backend.(*UsageBackend); ok {
+		wrappedAPIBackend = &UsageBackend{
+			B:     newAPIBackend,
+			Usage: usageBackend.Usage,
+		}
+	}
+
+	// Create a new Backends struct where only the API backend has a custom StripeContext
+	// All other backends use the default global backends via GetBackend
+	newBackends := &Backends{
+		API:         wrappedAPIBackend,
+		Connect:     GetBackend(ConnectBackend),
+		Uploads:     GetBackend(UploadsBackend),
+		MeterEvents: GetBackend(MeterEventsBackend),
+	}
+
+	// Create a new client with the new backends
+	newClient := &Client{}
+	cfg := clientConfig{
+		key:      r.key,
+		backends: newBackends,
+	}
+	initClient(newClient, cfg)
+
+	return newClient
+}
+
 func (r *EventRouter) Handle(webhookBody []byte, sigHeader string) error {
 	// intentionally not worried about concurrency because we expect all registrations to happen
 	// synchronously on startup, so it'll only be read after it's done being written.
@@ -420,34 +486,24 @@ func (r *EventRouter) Handle(webhookBody []byte, sigHeader string) error {
 	n := notif.GetEventNotification()
 	eventType := n.Type
 
-	// Temporarily bind the event's context to the client
-	backend, ok := r.client.backend.(*BackendImplementation)
-	if ok {
-		// Save original context
-		originalContext := backend.StripeContext
-
-		// Set new context from event notification
-		if n.Context == nil {
-			backend.StripeContext = nil
-		} else {
-			backend.StripeContext = n.Context.StringPtr()
-		}
-
-		// Restore original context after handler completes
-		defer func() {
-			backend.StripeContext = originalContext
-		}()
+	// Create a new client with the event's context instead of modifying the shared backend
+	// This makes the code thread-safe for parallel webhook processing
+	var clientWithContext *Client
+	if n.Context == nil {
+		clientWithContext = r.createClientWithContext(nil)
+	} else {
+		clientWithContext = r.createClientWithContext(n.Context.StringPtr())
 	}
 
 	callback, ok := r.eventHandlers[eventType]
 	if ok {
-		return callback(notif, r.client)
+		return callback(notif, clientWithContext)
 	}
 
 	_, isUnknownEventType := notif.(*UnknownEventNotification)
 	details := UnhandledNotificationDetails{
 		IsKnownType: !isUnknownEventType,
 	}
-	return r.fallbackCallback(notif, r.client, details)
+	return r.fallbackCallback(notif, clientWithContext, details)
 
 }
