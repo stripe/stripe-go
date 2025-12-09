@@ -5,13 +5,17 @@ import (
 	"sort"
 )
 
+// a CallbackFunc is run when an event of a registered type is received.
 type CallbackFunc = func(EventNotificationContainer, *Client) error
+
+// a FallbackCallbackFunc is run when an event is received that does not match any registered type. It contains additional details about the unhandled event (as compared to a CallbackFunc).
 type FallbackCallbackFunc = func(EventNotificationContainer, *Client, UnhandledNotificationDetails) error
 
 type UnhandledNotificationDetails struct {
 	IsKnownType bool
 }
 
+// EventRouter routes incoming Stripe event notifications to registered handlers based on event type.
 type EventRouter struct {
 	client           *Client
 	webhookSecret    string
@@ -473,6 +477,7 @@ func (r *EventRouter) createClientWithContext(stripeContext *string) *Client {
 	return newClient
 }
 
+// Handle processes an incoming webhook payload and routes it to the appropriate registered handler (or the fallback if none is available).
 func (r *EventRouter) Handle(webhookBody []byte, sigHeader string) error {
 	// intentionally not worried about concurrency because we expect all registrations to happen
 	// synchronously on startup, so it'll only be read after it's done being written.
@@ -488,22 +493,16 @@ func (r *EventRouter) Handle(webhookBody []byte, sigHeader string) error {
 
 	// Create a new client with the event's context instead of modifying the shared backend
 	// This makes the code thread-safe for parallel webhook processing
-	var clientWithContext *Client
-	if n.Context == nil {
-		clientWithContext = r.createClientWithContext(nil)
-	} else {
-		clientWithContext = r.createClientWithContext(n.Context.StringPtr())
-	}
+	clientWithContext := r.createClientWithContext(n.Context.StringPtr())
 
 	callback, ok := r.eventHandlers[eventType]
-	if ok {
-		return callback(notif, clientWithContext)
+	if !ok {
+		_, isUnknownEventType := notif.(*UnknownEventNotification)
+		details := UnhandledNotificationDetails{
+			IsKnownType: !isUnknownEventType,
+		}
+		return r.fallbackCallback(notif, clientWithContext, details)
 	}
 
-	_, isUnknownEventType := notif.(*UnknownEventNotification)
-	details := UnhandledNotificationDetails{
-		IsKnownType: !isUnknownEventType,
-	}
-	return r.fallbackCallback(notif, clientWithContext, details)
-
+	return callback(notif, clientWithContext)
 }
