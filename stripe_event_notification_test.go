@@ -79,7 +79,7 @@ func unknownEventPayload() string {
 }
 
 // Test: Event is routed to registered handler
-func TestEventRouter_RoutesEventToRegisteredHandler(t *testing.T) {
+func TestEventHandler_RoutesEventToRegisteredHandler(t *testing.T) {
 	// Setup
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	backend.(*BackendImplementation).StripeContext = String("original_context_123")
@@ -95,26 +95,26 @@ func TestEventRouter_RoutesEventToRegisteredHandler(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	var handlerCalled bool
 	var receivedEvent *V1BillingMeterErrorReportTriggeredEventNotification
 	var receivedClient *Client
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		handlerCalled = true
 		receivedEvent = event
 		receivedClient = client
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	// Execute
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 
 	// Assert
 	assert.NoError(t, err)
@@ -128,7 +128,7 @@ func TestEventRouter_RoutesEventToRegisteredHandler(t *testing.T) {
 }
 
 // Test: Different events route to correct handlers
-func TestEventRouter_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
+func TestEventHandler_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -138,51 +138,51 @@ func TestEventRouter_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	var billingHandlerCalled, noMeterHandlerCalled bool
+	var billingCallbackCalled, noMeterCallbackCalled bool
 	var billingEvent *V1BillingMeterErrorReportTriggeredEventNotification
 	var noMeterEvent *V1BillingMeterNoMeterFoundEventNotification
 
-	billingHandler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
-		billingHandlerCalled = true
+	billingCallback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		billingCallbackCalled = true
 		billingEvent = event
 		return nil
 	}
 
-	noMeterHandler := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
-		noMeterHandlerCalled = true
+	noMeterCallback := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
+		noMeterCallbackCalled = true
 		noMeterEvent = event
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(billingHandler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(billingCallback)
 	assert.NoError(t, err)
-	err = router.OnV1BillingMeterNoMeterFound(noMeterHandler)
+	err = handler.OnV1BillingMeterNoMeterFound(noMeterCallback)
 	assert.NoError(t, err)
 
 	// Execute first event
 	payload1 := v1BillingMeterPayload()
 	sigHeader1 := generateTestSignature(payload1)
-	err = router.Handle([]byte(payload1), sigHeader1)
+	err = handler.Handle([]byte(payload1), sigHeader1)
 	assert.NoError(t, err)
 
 	// Execute second event
 	payload2 := v1BillingMeterNoMeterFoundPayload()
 	sigHeader2 := generateTestSignature(payload2)
-	err = router.Handle([]byte(payload2), sigHeader2)
+	err = handler.Handle([]byte(payload2), sigHeader2)
 	assert.NoError(t, err)
 
 	// Assert
-	assert.True(t, billingHandlerCalled, "Billing handler should have been called")
-	assert.True(t, noMeterHandlerCalled, "NoMeter handler should have been called")
+	assert.True(t, billingCallbackCalled, "Billing handler should have been called")
+	assert.True(t, noMeterCallbackCalled, "NoMeter handler should have been called")
 	assert.Equal(t, "v1.billing.meter.error_report_triggered", billingEvent.Type)
 	assert.Equal(t, "v1.billing.meter.no_meter_found", noMeterEvent.Type)
 	assert.False(t, unhandledCalled, "Unhandled handler should not be called")
 }
 
 // Test: Handler receives correct runtime type
-func TestEventRouter_HandlerReceivesCorrectRuntimeType(t *testing.T) {
+func TestEventHandler_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -190,23 +190,23 @@ func TestEventRouter_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	var receivedEvent *V1BillingMeterErrorReportTriggeredEventNotification
 	var receivedClient *Client
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		receivedEvent = event
 		receivedClient = client
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, receivedEvent)
@@ -217,7 +217,7 @@ func TestEventRouter_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 }
 
 // Test: Cannot register handler after handling
-func TestEventRouter_CannotRegisterHandlerAfterHandling(t *testing.T) {
+func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -225,32 +225,32 @@ func TestEventRouter_CannotRegisterHandlerAfterHandling(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 	assert.NoError(t, err)
 
 	// Try to register another handler after handling
-	handler2 := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
+	callback2 := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
 		return nil
 	}
 
-	err = router.OnV1BillingMeterNoMeterFound(handler2)
+	err = handler.OnV1BillingMeterNoMeterFound(callback2)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "cannot register new event handlers after handling an event")
 }
 
 // Test: Cannot register duplicate handler
-func TestEventRouter_CannotRegisterDuplicateHandler(t *testing.T) {
+func TestEventHandler_CannotRegisterDuplicateHandler(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -258,26 +258,26 @@ func TestEventRouter_CannotRegisterDuplicateHandler(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	handler1 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback1 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
 
-	handler2 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback2 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler1)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback1)
 	assert.NoError(t, err)
 
-	err = router.OnV1BillingMeterErrorReportTriggered(handler2)
+	err = handler.OnV1BillingMeterErrorReportTriggered(callback2)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "handler for event type v1.billing.meter.error_report_triggered is already registered")
 }
 
 // Test: Handler uses event stripe context
-func TestEventRouter_HandlerUsesEventStripeContext(t *testing.T) {
+func TestEventHandler_HandlerUsesEventStripeContext(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	backend.(*BackendImplementation).StripeContext = String("original_context_123")
 
@@ -287,17 +287,17 @@ func TestEventRouter_HandlerUsesEventStripeContext(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	var receivedContext *string
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		backendImpl := client.backend.(*BackendImplementation)
 		receivedContext = backendImpl.StripeContext
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	// Verify original context
@@ -306,7 +306,7 @@ func TestEventRouter_HandlerUsesEventStripeContext(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 	assert.NoError(t, err)
 
 	// Assert handler received event context
@@ -315,7 +315,7 @@ func TestEventRouter_HandlerUsesEventStripeContext(t *testing.T) {
 }
 
 // Test: Stripe context restored after handler success
-func TestEventRouter_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
+func TestEventHandler_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	backend.(*BackendImplementation).StripeContext = String("original_context_123")
 
@@ -325,16 +325,16 @@ func TestEventRouter_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		// Verify context is event context during handler
 		backendImpl := client.backend.(*BackendImplementation)
 		assert.Equal(t, "event_context_456", *backendImpl.StripeContext)
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	// Verify original context before handle
@@ -342,7 +342,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 	assert.NoError(t, err)
 
 	// Verify context is restored after handle
@@ -350,7 +350,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 }
 
 // Test: Stripe context restored after handler error
-func TestEventRouter_StripeContextRestoredAfterHandlerError(t *testing.T) {
+func TestEventHandler_StripeContextRestoredAfterHandlerError(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	backend.(*BackendImplementation).StripeContext = String("original_context_123")
 
@@ -360,9 +360,9 @@ func TestEventRouter_StripeContextRestoredAfterHandlerError(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		// Verify context is event context during handler
 		backendImpl := client.backend.(*BackendImplementation)
 		assert.Equal(t, "event_context_456", *backendImpl.StripeContext)
@@ -370,7 +370,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerError(t *testing.T) {
 		return fmt.Errorf("handler error")
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	// Verify original context before handle
@@ -378,7 +378,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerError(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 	assert.Error(t, err) // Handler returned an error
 
 	// Verify context is still restored after handler error
@@ -386,7 +386,7 @@ func TestEventRouter_StripeContextRestoredAfterHandlerError(t *testing.T) {
 }
 
 // Test: Stripe context set to nil when event has no context
-func TestEventRouter_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
+func TestEventHandler_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	backend.(*BackendImplementation).StripeContext = String("original_context_123")
 
@@ -396,17 +396,17 @@ func TestEventRouter_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	var receivedContext *string
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		backendImpl := client.backend.(*BackendImplementation)
 		receivedContext = backendImpl.StripeContext
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	// Verify original context
@@ -414,7 +414,7 @@ func TestEventRouter_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 
 	payload := v1BillingMeterPayloadWithNilContext()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 	assert.NoError(t, err)
 
 	// Assert handler received nil context
@@ -425,7 +425,7 @@ func TestEventRouter_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 }
 
 // Test: Unknown event Oout
-func TestEventRouter_UnknownEventRoutesToOnUnhandled(t *testing.T) {
+func TestEventHandler_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -442,11 +442,11 @@ func TestEventRouter_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	payload := unknownEventPayload()
 	sigHeader := generateTestSignature(payload)
-	err := router.Handle([]byte(payload), sigHeader)
+	err := handler.Handle([]byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.True(t, unhandledCalled, "Unhandled handler should have been called")
@@ -462,7 +462,7 @@ func TestEventRouter_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 }
 
 // Test: Known unregistered event Oout
-func TestEventRouter_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
+func TestEventHandler_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -479,12 +479,12 @@ func TestEventRouter_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	// Don't register a handler for this known event type
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err := router.Handle([]byte(payload), sigHeader)
+	err := handler.Handle([]byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.True(t, unhandledCalled, "Unhandled handler should have been called")
@@ -500,7 +500,7 @@ func TestEventRouter_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 }
 
 // Test: Registered event does Oot
-func TestEventRouter_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
+func TestEventHandler_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -510,28 +510,28 @@ func TestEventRouter_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	var handlerCalled bool
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
-		handlerCalled = true
+	var callbackCalled bool
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		callbackCalled = true
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 
 	assert.NoError(t, err)
-	assert.True(t, handlerCalled, "Handler should have been called")
+	assert.True(t, callbackCalled, "Handler should have been called")
 	assert.False(t, unhandledCalled, "Unhandled handler should not be called")
 }
 
 // Test: Handler client retains configuration
-func TestEventRouter_HandlerClientRetainsConfiguration(t *testing.T) {
+func TestEventHandler_HandlerClientRetainsConfiguration(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	backend.(*BackendImplementation).StripeContext = String("original_context_xyz")
 
@@ -542,24 +542,24 @@ func TestEventRouter_HandlerClientRetainsConfiguration(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	var receivedAPIKey string
 	var receivedContext *string
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		receivedAPIKey = client.key
 		backendImpl := client.backend.(*BackendImplementation)
 		receivedContext = backendImpl.StripeContext
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = router.Handle([]byte(payload), sigHeader)
+	err = handler.Handle([]byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.Equal(t, apiKey, receivedAPIKey, "Handler should receive client with original API key")
@@ -568,7 +568,7 @@ func TestEventRouter_HandlerClientRetainsConfiguration(t *testing.T) {
 }
 
 // Test: on_unhandled receives correct info for unknown
-func TestEventRouter_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
+func TestEventHandler_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -578,18 +578,18 @@ func TestEventRouter_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	payload := unknownEventPayload()
 	sigHeader := generateTestSignature(payload)
-	err := router.Handle([]byte(payload), sigHeader)
+	err := handler.Handle([]byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.False(t, details.IsKnownType)
 }
 
 // Test: on_unhandled receives correct info for known unregistered
-func TestEventRouter_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *testing.T) {
+func TestEventHandler_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -599,18 +599,18 @@ func TestEventRouter_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *testi
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err := router.Handle([]byte(payload), sigHeader)
+	err := handler.Handle([]byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.True(t, details.IsKnownType)
 }
 
 // Test: Validates webhook signature
-func TestEventRouter_ValidatesWebhookSignature(t *testing.T) {
+func TestEventHandler_ValidatesWebhookSignature(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -618,10 +618,10 @@ func TestEventRouter_ValidatesWebhookSignature(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	payload := v1BillingMeterPayload()
-	err := router.Handle([]byte(payload), "invalid_signature")
+	err := handler.Handle([]byte(payload), "invalid_signature")
 
 	assert.Error(t, err)
 	// Check if error is related to signature verification
@@ -629,7 +629,7 @@ func TestEventRouter_ValidatesWebhookSignature(t *testing.T) {
 }
 
 // Test: RegisteredEventTypes returns empty list
-func TestEventRouter_RegisteredEventTypesEmpty(t *testing.T) {
+func TestEventHandler_RegisteredEventTypesEmpty(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -637,14 +637,14 @@ func TestEventRouter_RegisteredEventTypesEmpty(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	types := router.RegisteredEventTypes()
+	types := handler.RegisteredEventTypes()
 	assert.Empty(t, types)
 }
 
 // Test: RegisteredEventTypes returns single event type
-func TestEventRouter_RegisteredEventTypesSingle(t *testing.T) {
+func TestEventHandler_RegisteredEventTypesSingle(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -652,21 +652,21 @@ func TestEventRouter_RegisteredEventTypesSingle(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	handler := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
 
-	err := router.OnV1BillingMeterErrorReportTriggered(handler)
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
 	assert.NoError(t, err)
 
-	types := router.RegisteredEventTypes()
+	types := handler.RegisteredEventTypes()
 	assert.Equal(t, []string{"v1.billing.meter.error_report_triggered"}, types)
 }
 
 // Test: RegisteredEventTypes returns multiple event types in alphabetical order
-func TestEventRouter_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
+func TestEventHandler_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
 	client := &Client{backend: backend, key: "sk_test_1234"}
 
@@ -674,27 +674,27 @@ func TestEventRouter_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
 		return nil
 	}
 
-	router := NewEventRouter(client, testWebhookSecret, onUnhandled)
+	callback := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	handler1 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback1 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
-	handler2 := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
+	callback2 := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
 		return nil
 	}
-	handler3 := func(event *V2CoreAccountCreatedEventNotification, client *Client) error {
+	callback3 := func(event *V2CoreAccountCreatedEventNotification, client *Client) error {
 		return nil
 	}
 
 	// Register in non-alphabetical order
-	err := router.OnV2CoreAccountCreated(handler3)
+	err := callback.OnV2CoreAccountCreated(callback3)
 	assert.NoError(t, err)
-	err = router.OnV1BillingMeterErrorReportTriggered(handler1)
+	err = callback.OnV1BillingMeterErrorReportTriggered(callback1)
 	assert.NoError(t, err)
-	err = router.OnV1BillingMeterNoMeterFound(handler2)
+	err = callback.OnV1BillingMeterNoMeterFound(callback2)
 	assert.NoError(t, err)
 
-	types := router.RegisteredEventTypes()
+	types := callback.RegisteredEventTypes()
 	expected := []string{
 		"v1.billing.meter.error_report_triggered",
 		"v1.billing.meter.no_meter_found",
