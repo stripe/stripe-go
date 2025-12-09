@@ -27,12 +27,12 @@ jobs:
 
     steps:
       - uses: extractions/setup-just@v2
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v6
 
       - name: Setup go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v6
         with:
-          go-version: "1.19"
+          go-version: "1.25"
 
       - name: lint
         run: |
@@ -42,11 +42,11 @@ jobs:
     name: govulncheck
     runs-on: "ubuntu-24.04"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
-          go-version: '1.24'
+          go-version: "1.25"
           check-latest: true
       - name: Install govulncheck
         run: go install golang.org/x/vuln/cmd/govulncheck@latest
@@ -69,9 +69,9 @@ jobs:
     name: "Test: go v${{ matrix.go }}"
     steps:
       - uses: extractions/setup-just@v2
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - name: Setup go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go }}
       - uses: stripe/openapi/actions/stripe-mock@master
@@ -86,7 +86,7 @@ jobs:
       endsWith(github.actor, '-stripe')
     runs-on: "ubuntu-24.04"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - uses: stripe/openapi/actions/notify-release@master
         if: always()
         with:
