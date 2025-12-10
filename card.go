@@ -349,7 +349,7 @@ type CardUpdateParams struct {
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
@@ -549,7 +549,7 @@ type CardNetworks struct {
 // later. You can also store multiple debit cards on a recipient in order to
 // transfer to those cards later.
 //
-// Related guide: [Card payments with Sources](https://stripe.com/docs/sources/cards)
+// Related guide: [Card payments with Sources](https://docs.stripe.com/sources/cards)
 type Card struct {
 	APIResource
 	Account *Account `json:"account"`
@@ -622,7 +622,7 @@ type Card struct {
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Cardholder name.
 	Name     string        `json:"name"`

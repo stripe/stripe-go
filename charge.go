@@ -25,7 +25,7 @@ const (
 	ChargeFraudUserReportSafe       ChargeFraudUserReport = "safe"
 )
 
-// An enumerated value providing a more detailed explanation on [how to proceed with an error](https://stripe.com/docs/declines#retrying-issuer-declines).
+// An enumerated value providing a more detailed explanation on [how to proceed with an error](https://docs.stripe.com/declines#retrying-issuer-declines).
 type ChargeOutcomeAdviceCode string
 
 // List of values that ChargeOutcomeAdviceCode can take
@@ -387,7 +387,7 @@ const (
 	ChargePaymentMethodDetailsStripeBalanceSourceTypeFPX         ChargePaymentMethodDetailsStripeBalanceSourceType = "fpx"
 )
 
-// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
+// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 // An additional hash is included on `payment_method_details` with a name matching this value.
 // It contains information specific to the payment method.
 type ChargePaymentMethodDetailsType string
@@ -476,13 +476,13 @@ type ChargeDestinationParams struct {
 	Amount *int64 `form:"amount"`
 }
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
-// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
 	Amount *int64 `form:"amount"`
@@ -512,12 +512,12 @@ type ChargeLevel3Params struct {
 // object used to request payment.
 type ChargeParams struct {
 	Params `form:"*"`
-	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount         *int64 `form:"amount"`
 	ApplicationFee *int64 `form:"application_fee"`
-	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/connect/direct-charges#collect-fees).
+	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://stripe.com/docs/api#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://stripe.com/docs/charges/placing-a-hold) documentation.
+	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
 	Capture *bool `form:"capture"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -532,15 +532,15 @@ type ChargeParams struct {
 	// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 	FraudDetails *ChargeFraudDetailsParams `form:"fraud_details"`
 	Level3       *ChargeLevel3Params       `form:"level3"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The Stripe account ID for which these funds are intended. Automatically set if you use the `destination` parameter. For details, see [Creating Separate Charges and Transfers](https://stripe.com/docs/connect/separate-charges-and-transfers#settlement-merchant).
+	// The Stripe account ID for which these funds are intended. You can specify the business of record as the connected account using the `on_behalf_of` attribute on the charge. For details, see [Creating Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant).
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *ChargePaymentDetailsParams `form:"payment_details"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *ChargeRadarOptionsParams `form:"radar_options"`
-	// The email address to which this charge's [receipt](https://stripe.com/docs/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://stripe.com/docs/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams     `form:"shipping"`
@@ -551,9 +551,9 @@ type ChargeParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 	TransferData *ChargeTransferDataParams `form:"transfer_data"`
-	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
+	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -2246,7 +2246,7 @@ type ChargeCapturePaymentDetailsParams struct {
 	Subscription *ChargeCapturePaymentDetailsSubscriptionParams `form:"subscription"`
 }
 
-// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeCaptureTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
 	Amount *int64 `form:"amount"`
@@ -2278,9 +2278,9 @@ type ChargeCaptureParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 	TransferData *ChargeCaptureTransferDataParams `form:"transfer_data"`
-	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
+	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -2296,13 +2296,13 @@ type ChargeCreateDestinationParams struct {
 	Amount *int64 `form:"amount"`
 }
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeCreateRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
-// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeCreateTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
 	Amount *int64 `form:"amount"`
@@ -2331,12 +2331,12 @@ type ChargeCreateLevel3Params struct {
 // object used to request payment.
 type ChargeCreateParams struct {
 	Params `form:"*"`
-	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount         *int64 `form:"amount"`
 	ApplicationFee *int64 `form:"application_fee"`
-	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/connect/direct-charges#collect-fees).
+	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://stripe.com/docs/api#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://stripe.com/docs/charges/placing-a-hold) documentation.
+	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
 	Capture *bool `form:"capture"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -2349,13 +2349,13 @@ type ChargeCreateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string                 `form:"expand"`
 	Level3 *ChargeCreateLevel3Params `form:"level3"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The Stripe account ID for which these funds are intended. Automatically set if you use the `destination` parameter. For details, see [Creating Separate Charges and Transfers](https://stripe.com/docs/connect/separate-charges-and-transfers#settlement-merchant).
+	// The Stripe account ID for which these funds are intended. You can specify the business of record as the connected account using the `on_behalf_of` attribute on the charge. For details, see [Creating Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant).
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *ChargeCreateRadarOptionsParams `form:"radar_options"`
-	// The email address to which this charge's [receipt](https://stripe.com/docs/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://stripe.com/docs/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams     `form:"shipping"`
@@ -2366,9 +2366,9 @@ type ChargeCreateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 	TransferData *ChargeCreateTransferDataParams `form:"transfer_data"`
-	// A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options).
+	// A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options).
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -3245,7 +3245,7 @@ type ChargeUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 	FraudDetails *ChargeUpdateFraudDetailsParams `form:"fraud_details"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *ChargeUpdatePaymentDetailsParams `form:"payment_details"`
@@ -3253,7 +3253,7 @@ type ChargeUpdateParams struct {
 	ReceiptEmail *string `form:"receipt_email"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams `form:"shipping"`
-	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
+	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -3318,17 +3318,17 @@ type ChargeOutcomeRule struct {
 	Predicate string `json:"predicate"`
 }
 
-// Details about whether the payment was accepted, and why. See [understanding declines](https://stripe.com/docs/declines) for details.
+// Details about whether the payment was accepted, and why. See [understanding declines](https://docs.stripe.com/declines) for details.
 type ChargeOutcome struct {
-	// An enumerated value providing a more detailed explanation on [how to proceed with an error](https://stripe.com/docs/declines#retrying-issuer-declines).
+	// An enumerated value providing a more detailed explanation on [how to proceed with an error](https://docs.stripe.com/declines#retrying-issuer-declines).
 	AdviceCode ChargeOutcomeAdviceCode `json:"advice_code"`
 	// For charges declined by the network, a 2 digit code which indicates the advice returned by the network on how to proceed with an error.
 	NetworkAdviceCode string `json:"network_advice_code"`
 	// For charges declined by the network, an alphanumeric code which indicates the reason the charge failed.
 	NetworkDeclineCode string `json:"network_decline_code"`
-	// Possible values are `approved_by_network`, `declined_by_network`, `not_sent_to_network`, and `reversed_after_approval`. The value `reversed_after_approval` indicates the payment was [blocked by Stripe](https://stripe.com/docs/declines#blocked-payments) after bank authorization, and may temporarily appear as "pending" on a cardholder's statement.
+	// Possible values are `approved_by_network`, `declined_by_network`, `not_sent_to_network`, and `reversed_after_approval`. The value `reversed_after_approval` indicates the payment was [blocked by Stripe](https://docs.stripe.com/declines#blocked-payments) after bank authorization, and may temporarily appear as "pending" on a cardholder's statement.
 	NetworkStatus string `json:"network_status"`
-	// An enumerated value providing a more detailed explanation of the outcome's `type`. Charges blocked by Radar's default block rule have the value `highest_risk_level`. Charges placed in review by Radar's default review rule have the value `elevated_risk_level`. Charges blocked because the payment is unlikely to be authorized have the value `low_probability_of_authorization`. Charges authorized, blocked, or placed in review by custom rules have the value `rule`. See [understanding declines](https://stripe.com/docs/declines) for more details.
+	// An enumerated value providing a more detailed explanation of the outcome's `type`. Charges blocked by Radar's default block rule have the value `highest_risk_level`. Charges placed in review by Radar's default review rule have the value `elevated_risk_level`. Charges blocked because the payment is unlikely to be authorized have the value `low_probability_of_authorization`. Charges authorized, blocked, or placed in review by custom rules have the value `rule`. See [understanding declines](https://docs.stripe.com/declines) for more details.
 	Reason string `json:"reason"`
 	// Stripe Radar's evaluation of the riskiness of the payment. Possible values for evaluated payments are `normal`, `elevated`, `highest`. For non-card payments, and card-based payments predating the public assignment of risk levels, this field will have the value `not_assessed`. In the event of an error in the evaluation, this field will have the value `unknown`. This field is only available with Radar.
 	RiskLevel string `json:"risk_level"`
@@ -3338,7 +3338,7 @@ type ChargeOutcome struct {
 	Rule *ChargeOutcomeRule `json:"rule"`
 	// A human-readable description of the outcome type and reason, designed for you (the recipient of the payment), not your customer.
 	SellerMessage string `json:"seller_message"`
-	// Possible values are `authorized`, `manual_review`, `issuer_declined`, `blocked`, and `invalid`. See [understanding declines](https://stripe.com/docs/declines) and [Radar reviews](https://stripe.com/docs/radar/reviews) for details.
+	// Possible values are `authorized`, `manual_review`, `issuer_declined`, `blocked`, and `invalid`. See [understanding declines](https://docs.stripe.com/declines) and [Radar reviews](https://docs.stripe.com/radar/reviews) for details.
 	Type string `json:"type"`
 }
 
@@ -3398,9 +3398,9 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 	TransitNumber string `json:"transit_number"`
 }
 type ChargePaymentMethodDetailsAffirm struct {
-	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
 	Location string `json:"location"`
-	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
 	Reader string `json:"reader"`
 	// The Affirm transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
@@ -3531,7 +3531,7 @@ type ChargePaymentMethodDetailsCardIncrementalAuthorization struct {
 
 // Installment details for this payment.
 //
-// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 type ChargePaymentMethodDetailsCardInstallments struct {
 	// Installment plan selected for the payment.
 	Plan *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"plan"`
@@ -3651,7 +3651,7 @@ type ChargePaymentMethodDetailsCard struct {
 	IncrementalAuthorization *ChargePaymentMethodDetailsCardIncrementalAuthorization `json:"incremental_authorization"`
 	// Installment details for this payment.
 	//
-	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+	// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 	Installments *ChargePaymentMethodDetailsCardInstallments `json:"installments"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
@@ -3744,7 +3744,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	Funding CardFunding `json:"funding"`
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
 	GeneratedCard string `json:"generated_card"`
-	// Whether this [PaymentIntent](https://stripe.com/docs/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
+	// Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
 	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
@@ -3837,7 +3837,7 @@ type ChargePaymentMethodDetailsIDBankTransfer struct {
 	DisplayName string `json:"display_name"`
 }
 type ChargePaymentMethodDetailsIDEAL struct {
-	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank string `json:"bank"`
 	// The Bank Identifier Code of the customer's bank.
 	BIC string `json:"bic"`
@@ -4037,9 +4037,9 @@ type ChargePaymentMethodDetailsPayco struct {
 	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsPayNow struct {
-	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
 	Location string `json:"location"`
-	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
 	Reader string `json:"reader"`
 	// Reference number associated with this PayNow payment
 	Reference string `json:"reference"`
@@ -4163,7 +4163,7 @@ type ChargePaymentMethodDetailsSEPADebit struct {
 	Fingerprint string `json:"fingerprint"`
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
-	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://stripe.com/docs/api/mandates/retrieve).
+	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
 type ChargePaymentMethodDetailsShopeepay struct{}
@@ -4227,9 +4227,9 @@ type ChargePaymentMethodDetailsWeChat struct{}
 type ChargePaymentMethodDetailsWeChatPay struct {
 	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
 	Fingerprint string `json:"fingerprint"`
-	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
 	Location string `json:"location"`
-	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
 	Reader string `json:"reader"`
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
@@ -4298,7 +4298,7 @@ type ChargePaymentMethodDetails struct {
 	StripeBalance      *ChargePaymentMethodDetailsStripeBalance      `json:"stripe_balance"`
 	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish"`
 	TWINT              *ChargePaymentMethodDetailsTWINT              `json:"twint"`
-	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
+	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          ChargePaymentMethodDetailsType           `json:"type"`
@@ -4314,13 +4314,13 @@ type ChargePresentmentDetails struct {
 	PresentmentCurrency Currency `json:"presentment_currency"`
 }
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeRadarOptions struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session string `json:"session"`
 }
 
-// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeTransferData struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
 	Amount int64 `json:"amount"`
@@ -4329,11 +4329,11 @@ type ChargeTransferData struct {
 }
 
 // The `Charge` object represents a single attempt to move money into your Stripe account.
-// PaymentIntent confirmation is the most common way to create Charges, but [Account Debits](https://stripe.com/docs/connect/account-debits) may also create Charges.
+// PaymentIntent confirmation is the most common way to create Charges, but [Account Debits](https://docs.stripe.com/connect/account-debits) may also create Charges.
 // Some legacy payment flows create Charges directly, which is not recommended for new integrations.
 type Charge struct {
 	APIResource
-	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount int64 `json:"amount"`
 	// Amount in cents (or local equivalent) captured (can be less than the amount attribute on the charge if a partial capture was made).
 	AmountCaptured int64 `json:"amount_captured"`
@@ -4341,9 +4341,9 @@ type Charge struct {
 	AmountRefunded int64 `json:"amount_refunded"`
 	// ID of the Connect application that created the charge.
 	Application *Application `json:"application"`
-	// The application fee (if any) for the charge. [See the Connect documentation](https://stripe.com/docs/connect/direct-charges#collect-fees) for details.
+	// The application fee (if any) for the charge. [See the Connect documentation](https://docs.stripe.com/connect/direct-charges#collect-fees) for details.
 	ApplicationFee *ApplicationFee `json:"application_fee"`
-	// The amount of the application fee (if any) requested for the charge. [See the Connect documentation](https://stripe.com/docs/connect/direct-charges#collect-fees) for details.
+	// The amount of the application fee (if any) requested for the charge. [See the Connect documentation](https://docs.stripe.com/connect/direct-charges#collect-fees) for details.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`
@@ -4366,7 +4366,7 @@ type Charge struct {
 	Disputed bool `json:"disputed"`
 	// ID of the balance transaction that describes the reversal of the balance on your account due to payment failure.
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
-	// Error code explaining reason for charge failure if available (see [the errors section](https://stripe.com/docs/error-codes) for a list of codes).
+	// Error code explaining reason for charge failure if available (see [the errors section](https://docs.stripe.com/error-codes) for a list of codes).
 	FailureCode string `json:"failure_code"`
 	// Message to user further explaining reason for charge failure if available.
 	FailureMessage string `json:"failure_message"`
@@ -4377,13 +4377,13 @@ type Charge struct {
 	Level3 *ChargeLevel3 `json:"level3"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The account (if any) the charge was made on behalf of without triggering an automatic transfer. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	// The account (if any) the charge was made on behalf of without triggering an automatic transfer. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// Details about whether the payment was accepted, and why. See [understanding declines](https://stripe.com/docs/declines) for details.
+	// Details about whether the payment was accepted, and why. See [understanding declines](https://docs.stripe.com/declines) for details.
 	Outcome *ChargeOutcome `json:"outcome"`
 	// `true` if the charge succeeded, or was successfully authorized for later capture.
 	Paid bool `json:"paid"`
@@ -4394,7 +4394,7 @@ type Charge struct {
 	// Details about the payment method at the time of the transaction.
 	PaymentMethodDetails *ChargePaymentMethodDetails `json:"payment_method_details"`
 	PresentmentDetails   *ChargePresentmentDetails   `json:"presentment_details"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *ChargeRadarOptions `json:"radar_options"`
 	// This is the email address that the receipt for this charge was sent to.
 	ReceiptEmail string `json:"receipt_email"`
@@ -4424,9 +4424,9 @@ type Charge struct {
 	Status ChargeStatus `json:"status"`
 	// ID of the transfer to the `destination` account (only applicable if the charge was created using the `destination` parameter).
 	Transfer *Transfer `json:"transfer"`
-	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 	TransferData *ChargeTransferData `json:"transfer_data"`
-	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
+	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup string `json:"transfer_group"`
 }
 

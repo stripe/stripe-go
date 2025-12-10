@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
+// The configurations that have been applied to this account.
 type V2CoreAccountAppliedConfiguration string
 
 // List of values that V2CoreAccountAppliedConfiguration can take
@@ -19,7 +19,7 @@ const (
 	V2CoreAccountAppliedConfigurationStorer    V2CoreAccountAppliedConfiguration = "storer"
 )
 
-// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: “Reverse charge”.
+// The customer account's tax exemption status: `none`, `exempt`, or `reverse`. When `reverse`, invoice and receipt PDFs include "Reverse charge".
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt can take
@@ -29,7 +29,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExemptReverse V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt = "reverse"
 )
 
-// The data source used to identify the customer's tax location. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+// Data source used to identify the customer account's tax location. Defaults to `identity_address`. Used for automatic indirect tax calculation.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource can take
@@ -40,7 +40,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSourceShippingAddress V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource = "shipping_address"
 )
 
-// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of exclude_tax or include_inclusive_tax. include_inclusive_tax will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. exclude_tax will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+// Indicates whether displayed line item prices and amounts on invoice PDFs include inclusive tax amounts. Must be either `include_inclusive_tax` or `exclude_tax`.
 type V2CoreAccountConfigurationCustomerBillingInvoiceRenderingAmountTaxDisplay string
 
 // List of values that V2CoreAccountConfigurationCustomerBillingInvoiceRenderingAmountTaxDisplay can take
@@ -1839,13 +1839,17 @@ type V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType string
 
 // List of values that V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType can take
 const (
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAlBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "al_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAmBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "am_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAtBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "at_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAuBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "au_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ba_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBeBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "be_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBGBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bg_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBjBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bj_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBnBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bn_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBsBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bs_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBwBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bw_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCard          V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "card"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ca_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeChBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ch_bank_account"
@@ -1855,6 +1859,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDEBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "de_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDkBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "dk_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "dz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeEcBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ec_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeEeBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ee_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeESBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "es_bank_account"
@@ -1863,6 +1868,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeFRBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "fr_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeGBBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "gb_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeGrBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "gr_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeGyBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "gy_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeHRBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "hr_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeHUBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "hu_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeIDBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "id_bank_account"
@@ -1871,11 +1877,16 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeInBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "in_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeIsBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "is_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeITBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "it_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeJmBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "jm_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeJoBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "jo_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeKeBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ke_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeKwBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "kw_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeLiBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "li_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeLkBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "lk_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeLTBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "lt_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeLuBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "lu_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeLVBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "lv_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ma_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMnBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mn_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMTBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mt_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMuBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mu_bank_account"
@@ -1884,6 +1895,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeNLBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "nl_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeNoBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "no_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeNzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "nz_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeOmBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "om_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "pa_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePhBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ph_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePLBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "pl_bank_account"
@@ -1898,6 +1910,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeSVBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "sv_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeTnBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "tn_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeTRBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "tr_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeTzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "tz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeUSBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "us_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeZaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "za_bank_account"
 )
@@ -2262,7 +2275,7 @@ const (
 	V2CoreAccountDashboardNone    V2CoreAccountDashboard = "none"
 )
 
-// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this Account.
+// Indicates whether the platform or connected account is responsible for paying Stripe fees for pricing-control-eligible products.
 type V2CoreAccountDefaultsResponsibilitiesFeesCollector string
 
 // List of values that V2CoreAccountDefaultsResponsibilitiesFeesCollector can take
@@ -2273,7 +2286,7 @@ const (
 	V2CoreAccountDefaultsResponsibilitiesFeesCollectorStripe             V2CoreAccountDefaultsResponsibilitiesFeesCollector = "stripe"
 )
 
-// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
+// A value indicating responsibility for collecting requirements on this account.
 type V2CoreAccountDefaultsResponsibilitiesLossesCollector string
 
 // List of values that V2CoreAccountDefaultsResponsibilitiesLossesCollector can take
@@ -2291,7 +2304,7 @@ const (
 	V2CoreAccountDefaultsResponsibilitiesRequirementsCollectorStripe      V2CoreAccountDefaultsResponsibilitiesRequirementsCollector = "stripe"
 )
 
-// Whether the responsibility is with the integrator or with Stripe (to review info, to wait for some condition, etc.) to action the requirement.
+// Indicates whether the platform or Stripe is currently responsible for taking action on the requirement. Value can be `user` or `stripe`.
 type V2CoreAccountFutureRequirementsEntryAwaitingActionFrom string
 
 // List of values that V2CoreAccountFutureRequirementsEntryAwaitingActionFrom can take
@@ -2625,79 +2638,120 @@ type V2CoreAccountIdentityBusinessDetailsIDNumberType string
 
 // List of values that V2CoreAccountIdentityBusinessDetailsIDNumberType can take
 const (
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_crn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_vat"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAoNif   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ao_nif"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeARCUIT  V2CoreAccountIdentityBusinessDetailsIDNumberType = "ar_cuit"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAtFn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "at_fn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAUABN   V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_abn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuAcn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_acn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuIn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_in"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAzTin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "az_tin"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBdEtin  V2CoreAccountIdentityBusinessDetailsIDNumberType = "bd_etin"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBeCbe   V2CoreAccountIdentityBusinessDetailsIDNumberType = "be_cbe"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBGUIC   V2CoreAccountIdentityBusinessDetailsIDNumberType = "bg_uic"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBRCNPJ  V2CoreAccountIdentityBusinessDetailsIDNumberType = "br_cnpj"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaCn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_cn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaCrarr V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_crarr"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaNeq   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_neq"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaRid   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_rid"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeChChid  V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_chid"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCHUID   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_uid"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrCpj   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_cpj"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrNite  V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_nite"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyTic   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_tic"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCzIco   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cz_ico"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDEHrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "de_hrn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDEVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "de_vat"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDkCvr   V2CoreAccountIdentityBusinessDetailsIDNumberType = "dk_cvr"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDORCN   V2CoreAccountIdentityBusinessDetailsIDNumberType = "do_rcn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEeRk    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ee_rk"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeESCIF   V2CoreAccountIdentityBusinessDetailsIDNumberType = "es_cif"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFIYt    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fi_yt"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRSiren V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_siren"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_vat"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_crn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGiCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gi_crn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrGemi  V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_gemi"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGtNit   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gt_nit"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHKBR    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_br"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHkCr    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_cr"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHkMbs   V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_mbs"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHUCjs   V2CoreAccountIdentityBusinessDetailsIDNumberType = "hu_cjs"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIeCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ie_crn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITRea   V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_rea"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_vat"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeJPCN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "jp_cn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKzBin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "kz_bin"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLIUID   V2CoreAccountIdentityBusinessDetailsIDNumberType = "li_uid"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLTCcrn  V2CoreAccountIdentityBusinessDetailsIDNumberType = "lt_ccrn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuRcs   V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_rcs"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLVUrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "lv_urn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_crn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMXRFC   V2CoreAccountIdentityBusinessDetailsIDNumberType = "mx_rfc"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyBrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_brn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyCoid  V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_coid"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMYSST   V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_sst"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMzNuit  V2CoreAccountIdentityBusinessDetailsIDNumberType = "mz_nuit"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLKvk   V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_kvk"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNoOrgnr V2CoreAccountIdentityBusinessDetailsIDNumberType = "no_orgnr"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNzBn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nz_bn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypePERUC   V2CoreAccountIdentityBusinessDetailsIDNumberType = "pe_ruc"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypePkNtn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "pk_ntn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLRegon V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_regon"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypePTVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "pt_vat"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROCui   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_cui"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSaCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "sa_crn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSaTin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "sa_tin"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSeOrgnr V2CoreAccountIdentityBusinessDetailsIDNumberType = "se_orgnr"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSGUEN   V2CoreAccountIdentityBusinessDetailsIDNumberType = "sg_uen"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSiMsp   V2CoreAccountIdentityBusinessDetailsIDNumberType = "si_msp"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKIco   V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_ico"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_crn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHPrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_prn"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHTin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_tin"
-	V2CoreAccountIdentityBusinessDetailsIDNumberTypeUSEIN   V2CoreAccountIdentityBusinessDetailsIDNumberType = "us_ein"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAoNif    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ao_nif"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeARCUIT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ar_cuit"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAtFn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "at_fn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAtStn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "at_stn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAtVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "at_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAUABN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_abn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuAcn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_acn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuIn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_in"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAzTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "az_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBdEtin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "bd_etin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBeCbe    V2CoreAccountIdentityBusinessDetailsIDNumberType = "be_cbe"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "be_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBGUIC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bg_uic"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBGVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bg_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBRCNPJ   V2CoreAccountIdentityBusinessDetailsIDNumberType = "br_cnpj"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaCn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_cn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaCrarr  V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_crarr"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCAGSTHST V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_gst_hst"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaNeq    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_neq"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaRid    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_rid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeChChid   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_chid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCHUID    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_uid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrCpj    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_cpj"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrNite   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_nite"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyHE     V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_he"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyTic    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_tic"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCzIco    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cz_ico"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCzVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cz_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDEHrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "de_hrn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDEStn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "de_stn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDEVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "de_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDkCvr    V2CoreAccountIdentityBusinessDetailsIDNumberType = "dk_cvr"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDkVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "dk_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDORCN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "do_rcn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEeRk     V2CoreAccountIdentityBusinessDetailsIDNumberType = "ee_rk"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ee_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeESCIF    V2CoreAccountIdentityBusinessDetailsIDNumberType = "es_cif"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeESVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "es_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFIVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fi_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFIYt     V2CoreAccountIdentityBusinessDetailsIDNumberType = "fi_yt"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRRna    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_rna"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRSiren  V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_siren"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGiCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gi_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrAfm    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_afm"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrGemi   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_gemi"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGtNit    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gt_nit"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHKBR     V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_br"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHkCr     V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_cr"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHRMbs    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hr_mbs"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHROIB    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hr_oib"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHRVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hr_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHUCjs    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hu_cjs"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHUTIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hu_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHUVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hu_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIeCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ie_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIeTrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ie_trn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ie_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITRea    V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_rea"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeJPCN     V2CoreAccountIdentityBusinessDetailsIDNumberType = "jp_cn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKzBin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "kz_bin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLIUID    V2CoreAccountIdentityBusinessDetailsIDNumberType = "li_uid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLTCcrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "lt_ccrn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lt_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuNif    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_nif"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuRcs    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_rcs"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLVUrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lv_urn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLVVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lv_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMXRFC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mx_rfc"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyBrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_brn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyCoid   V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_coid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMYITN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_itn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMYSST    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_sst"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMzNuit   V2CoreAccountIdentityBusinessDetailsIDNumberType = "mz_nuit"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLKvk    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_kvk"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLRsin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_rsin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNoOrgnr  V2CoreAccountIdentityBusinessDetailsIDNumberType = "no_orgnr"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNzBn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "nz_bn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNzIrd    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nz_ird"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePERUC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pe_ruc"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePkNtn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pk_ntn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLNip    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_nip"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLRegon  V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_regon"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pt_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROCui    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_cui"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROOrc    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_orc"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSaCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sa_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSaTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sa_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSeOrgnr  V2CoreAccountIdentityBusinessDetailsIDNumberType = "se_orgnr"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "se_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSGUEN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sg_uen"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSiMsp    V2CoreAccountIdentityBusinessDetailsIDNumberType = "si_msp"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSITIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "si_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSiVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "si_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKDic    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_dic"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKIco    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_ico"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHPrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_prn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeUSEIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "us_ein"
 )
 
 // The category identifying the legal structure of the business.
@@ -2809,36 +2863,81 @@ type V2CoreAccountIdentityIndividualIDNumberType string
 const (
 	V2CoreAccountIdentityIndividualIDNumberTypeAeEid       V2CoreAccountIdentityIndividualIDNumberType = "ae_eid"
 	V2CoreAccountIdentityIndividualIDNumberTypeAoNif       V2CoreAccountIdentityIndividualIDNumberType = "ao_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeARCuil      V2CoreAccountIdentityIndividualIDNumberType = "ar_cuil"
 	V2CoreAccountIdentityIndividualIDNumberTypeARDni       V2CoreAccountIdentityIndividualIDNumberType = "ar_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypeAtStn       V2CoreAccountIdentityIndividualIDNumberType = "at_stn"
 	V2CoreAccountIdentityIndividualIDNumberTypeAzTin       V2CoreAccountIdentityIndividualIDNumberType = "az_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeBdBrc       V2CoreAccountIdentityIndividualIDNumberType = "bd_brc"
 	V2CoreAccountIdentityIndividualIDNumberTypeBdEtin      V2CoreAccountIdentityIndividualIDNumberType = "bd_etin"
 	V2CoreAccountIdentityIndividualIDNumberTypeBdNid       V2CoreAccountIdentityIndividualIDNumberType = "bd_nid"
+	V2CoreAccountIdentityIndividualIDNumberTypeBeNrn       V2CoreAccountIdentityIndividualIDNumberType = "be_nrn"
+	V2CoreAccountIdentityIndividualIDNumberTypeBGUcn       V2CoreAccountIdentityIndividualIDNumberType = "bg_ucn"
+	V2CoreAccountIdentityIndividualIDNumberTypeBnNric      V2CoreAccountIdentityIndividualIDNumberType = "bn_nric"
 	V2CoreAccountIdentityIndividualIDNumberTypeBRCPF       V2CoreAccountIdentityIndividualIDNumberType = "br_cpf"
+	V2CoreAccountIdentityIndividualIDNumberTypeCaSin       V2CoreAccountIdentityIndividualIDNumberType = "ca_sin"
+	V2CoreAccountIdentityIndividualIDNumberTypeChOasi      V2CoreAccountIdentityIndividualIDNumberType = "ch_oasi"
+	V2CoreAccountIdentityIndividualIDNumberTypeClRut       V2CoreAccountIdentityIndividualIDNumberType = "cl_rut"
+	V2CoreAccountIdentityIndividualIDNumberTypeCnPp        V2CoreAccountIdentityIndividualIDNumberType = "cn_pp"
+	V2CoreAccountIdentityIndividualIDNumberTypeCoNuip      V2CoreAccountIdentityIndividualIDNumberType = "co_nuip"
+	V2CoreAccountIdentityIndividualIDNumberTypeCrCi        V2CoreAccountIdentityIndividualIDNumberType = "cr_ci"
 	V2CoreAccountIdentityIndividualIDNumberTypeCrCpf       V2CoreAccountIdentityIndividualIDNumberType = "cr_cpf"
 	V2CoreAccountIdentityIndividualIDNumberTypeCrDimex     V2CoreAccountIdentityIndividualIDNumberType = "cr_dimex"
 	V2CoreAccountIdentityIndividualIDNumberTypeCrNite      V2CoreAccountIdentityIndividualIDNumberType = "cr_nite"
+	V2CoreAccountIdentityIndividualIDNumberTypeCyTic       V2CoreAccountIdentityIndividualIDNumberType = "cy_tic"
+	V2CoreAccountIdentityIndividualIDNumberTypeCzRc        V2CoreAccountIdentityIndividualIDNumberType = "cz_rc"
 	V2CoreAccountIdentityIndividualIDNumberTypeDEStn       V2CoreAccountIdentityIndividualIDNumberType = "de_stn"
+	V2CoreAccountIdentityIndividualIDNumberTypeDkCpr       V2CoreAccountIdentityIndividualIDNumberType = "dk_cpr"
+	V2CoreAccountIdentityIndividualIDNumberTypeDoCie       V2CoreAccountIdentityIndividualIDNumberType = "do_cie"
 	V2CoreAccountIdentityIndividualIDNumberTypeDORCN       V2CoreAccountIdentityIndividualIDNumberType = "do_rcn"
+	V2CoreAccountIdentityIndividualIDNumberTypeEcCi        V2CoreAccountIdentityIndividualIDNumberType = "ec_ci"
+	V2CoreAccountIdentityIndividualIDNumberTypeEeIk        V2CoreAccountIdentityIndividualIDNumberType = "ee_ik"
+	V2CoreAccountIdentityIndividualIDNumberTypeESNif       V2CoreAccountIdentityIndividualIDNumberType = "es_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeFIHetu      V2CoreAccountIdentityIndividualIDNumberType = "fi_hetu"
+	V2CoreAccountIdentityIndividualIDNumberTypeFRNir       V2CoreAccountIdentityIndividualIDNumberType = "fr_nir"
+	V2CoreAccountIdentityIndividualIDNumberTypeGBNino      V2CoreAccountIdentityIndividualIDNumberType = "gb_nino"
+	V2CoreAccountIdentityIndividualIDNumberTypeGrAfm       V2CoreAccountIdentityIndividualIDNumberType = "gr_afm"
 	V2CoreAccountIdentityIndividualIDNumberTypeGtNit       V2CoreAccountIdentityIndividualIDNumberType = "gt_nit"
 	V2CoreAccountIdentityIndividualIDNumberTypeHkID        V2CoreAccountIdentityIndividualIDNumberType = "hk_id"
+	V2CoreAccountIdentityIndividualIDNumberTypeHROIB       V2CoreAccountIdentityIndividualIDNumberType = "hr_oib"
+	V2CoreAccountIdentityIndividualIDNumberTypeHUAd        V2CoreAccountIdentityIndividualIDNumberType = "hu_ad"
+	V2CoreAccountIdentityIndividualIDNumberTypeIDNik       V2CoreAccountIdentityIndividualIDNumberType = "id_nik"
+	V2CoreAccountIdentityIndividualIDNumberTypeIePpsn      V2CoreAccountIdentityIndividualIDNumberType = "ie_ppsn"
+	V2CoreAccountIdentityIndividualIDNumberTypeIsKt        V2CoreAccountIdentityIndividualIDNumberType = "is_kt"
+	V2CoreAccountIdentityIndividualIDNumberTypeITCf        V2CoreAccountIdentityIndividualIDNumberType = "it_cf"
+	V2CoreAccountIdentityIndividualIDNumberTypeJPInc       V2CoreAccountIdentityIndividualIDNumberType = "jp_inc"
+	V2CoreAccountIdentityIndividualIDNumberTypeKEPIN       V2CoreAccountIdentityIndividualIDNumberType = "ke_pin"
 	V2CoreAccountIdentityIndividualIDNumberTypeKzIIN       V2CoreAccountIdentityIndividualIDNumberType = "kz_iin"
+	V2CoreAccountIdentityIndividualIDNumberTypeLiPeid      V2CoreAccountIdentityIndividualIDNumberType = "li_peid"
+	V2CoreAccountIdentityIndividualIDNumberTypeLTAk        V2CoreAccountIdentityIndividualIDNumberType = "lt_ak"
+	V2CoreAccountIdentityIndividualIDNumberTypeLuNif       V2CoreAccountIdentityIndividualIDNumberType = "lu_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeLVPk        V2CoreAccountIdentityIndividualIDNumberType = "lv_pk"
 	V2CoreAccountIdentityIndividualIDNumberTypeMXRFC       V2CoreAccountIdentityIndividualIDNumberType = "mx_rfc"
 	V2CoreAccountIdentityIndividualIDNumberTypeMyNric      V2CoreAccountIdentityIndividualIDNumberType = "my_nric"
 	V2CoreAccountIdentityIndividualIDNumberTypeMzNuit      V2CoreAccountIdentityIndividualIDNumberType = "mz_nuit"
+	V2CoreAccountIdentityIndividualIDNumberTypeNgNin       V2CoreAccountIdentityIndividualIDNumberType = "ng_nin"
 	V2CoreAccountIdentityIndividualIDNumberTypeNLBsn       V2CoreAccountIdentityIndividualIDNumberType = "nl_bsn"
+	V2CoreAccountIdentityIndividualIDNumberTypeNoNin       V2CoreAccountIdentityIndividualIDNumberType = "no_nin"
+	V2CoreAccountIdentityIndividualIDNumberTypeNzIrd       V2CoreAccountIdentityIndividualIDNumberType = "nz_ird"
 	V2CoreAccountIdentityIndividualIDNumberTypePeDni       V2CoreAccountIdentityIndividualIDNumberType = "pe_dni"
 	V2CoreAccountIdentityIndividualIDNumberTypePkCnic      V2CoreAccountIdentityIndividualIDNumberType = "pk_cnic"
 	V2CoreAccountIdentityIndividualIDNumberTypePkSnic      V2CoreAccountIdentityIndividualIDNumberType = "pk_snic"
+	V2CoreAccountIdentityIndividualIDNumberTypePLPesel     V2CoreAccountIdentityIndividualIDNumberType = "pl_pesel"
+	V2CoreAccountIdentityIndividualIDNumberTypePTNif       V2CoreAccountIdentityIndividualIDNumberType = "pt_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeROCnp       V2CoreAccountIdentityIndividualIDNumberType = "ro_cnp"
 	V2CoreAccountIdentityIndividualIDNumberTypeSaTin       V2CoreAccountIdentityIndividualIDNumberType = "sa_tin"
+	V2CoreAccountIdentityIndividualIDNumberTypeSePIN       V2CoreAccountIdentityIndividualIDNumberType = "se_pin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSgFin       V2CoreAccountIdentityIndividualIDNumberType = "sg_fin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSGNRIC      V2CoreAccountIdentityIndividualIDNumberType = "sg_nric"
+	V2CoreAccountIdentityIndividualIDNumberTypeSKDic       V2CoreAccountIdentityIndividualIDNumberType = "sk_dic"
 	V2CoreAccountIdentityIndividualIDNumberTypeTHLc        V2CoreAccountIdentityIndividualIDNumberType = "th_lc"
 	V2CoreAccountIdentityIndividualIDNumberTypeTHPIN       V2CoreAccountIdentityIndividualIDNumberType = "th_pin"
+	V2CoreAccountIdentityIndividualIDNumberTypeTRTIN       V2CoreAccountIdentityIndividualIDNumberType = "tr_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSItin      V2CoreAccountIdentityIndividualIDNumberType = "us_itin"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSItinLast4 V2CoreAccountIdentityIndividualIDNumberType = "us_itin_last_4"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSSSN       V2CoreAccountIdentityIndividualIDNumberType = "us_ssn"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSSSNLast4  V2CoreAccountIdentityIndividualIDNumberType = "us_ssn_last_4"
+	V2CoreAccountIdentityIndividualIDNumberTypeUyDni       V2CoreAccountIdentityIndividualIDNumberType = "uy_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypeZaID        V2CoreAccountIdentityIndividualIDNumberType = "za_id"
 )
 
 // The individual's gender (International regulations require either "male” or "female").
@@ -2859,7 +2958,7 @@ const (
 	V2CoreAccountIdentityIndividualPoliticalExposureNone     V2CoreAccountIdentityIndividualPoliticalExposure = "none"
 )
 
-// Whether the responsibility is with the integrator or with Stripe (to review info, to wait for some condition, etc.) to action the requirement.
+// Indicates whether the platform or Stripe is currently responsible for taking action on the requirement. Value can be `user` or `stripe`.
 type V2CoreAccountRequirementsEntryAwaitingActionFrom string
 
 // List of values that V2CoreAccountRequirementsEntryAwaitingActionFrom can take
@@ -3099,7 +3198,7 @@ const (
 	V2CoreAccountRequirementsSummaryMinimumDeadlineStatusPastDue       V2CoreAccountRequirementsSummaryMinimumDeadlineStatus = "past_due"
 )
 
-// The [identified](https://docs.stripe.com/tax/customer-locations#address-hierarchy-other) tax location of the customer. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+// The customer account's identified tax location, derived from `location_source`. Only rendered if the `automatic_indirect_tax` feature is requested and `active`.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation struct {
 	// The identified tax country of the customer.
 	Country string `json:"country,omitempty"`
@@ -3107,15 +3206,15 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation struct {
 	State string `json:"state,omitempty"`
 }
 
-// Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
+// Settings for automatic indirect tax calculation on the customer's invoices, subscriptions, Checkout Sessions, and Payment Links. Available when automatic tax calculation is available for the customer account's location.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTax struct {
-	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: “Reverse charge”.
+	// The customer account's tax exemption status: `none`, `exempt`, or `reverse`. When `reverse`, invoice and receipt PDFs include "Reverse charge".
 	Exempt V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt `json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress string `json:"ip_address,omitempty"`
-	// The [identified](https://docs.stripe.com/tax/customer-locations#address-hierarchy-other) tax location of the customer. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+	// The customer account's identified tax location, derived from `location_source`. Only rendered if the `automatic_indirect_tax` feature is requested and `active`.
 	Location *V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation `json:"location,omitempty"`
-	// The data source used to identify the customer's tax location. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// Data source used to identify the customer account's tax location. Defaults to `identity_address`. Used for automatic indirect tax calculation.
 	LocationSource V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource `json:"location_source,omitempty"`
 }
 
@@ -3127,37 +3226,37 @@ type V2CoreAccountConfigurationCustomerBillingInvoiceCustomField struct {
 	Value string `json:"value"`
 }
 
-// Default options for invoice PDF rendering for this customer.
+// Default invoice PDF rendering options.
 type V2CoreAccountConfigurationCustomerBillingInvoiceRendering struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of exclude_tax or include_inclusive_tax. include_inclusive_tax will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. exclude_tax will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	// Indicates whether displayed line item prices and amounts on invoice PDFs include inclusive tax amounts. Must be either `include_inclusive_tax` or `exclude_tax`.
 	AmountTaxDisplay V2CoreAccountConfigurationCustomerBillingInvoiceRenderingAmountTaxDisplay `json:"amount_tax_display,omitempty"`
 	// ID of the invoice rendering template to use for future invoices.
 	Template string `json:"template,omitempty"`
 }
 
-// Default settings used on invoices for this customer.
+// Default invoice settings for the customer account.
 type V2CoreAccountConfigurationCustomerBillingInvoice struct {
 	// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
 	CustomFields []*V2CoreAccountConfigurationCustomerBillingInvoiceCustomField `json:"custom_fields"`
-	// Default footer to be displayed on invoices for this customer.
+	// Default invoice footer.
 	Footer string `json:"footer,omitempty"`
-	// The sequence to be used on the customer's next invoice. Defaults to 1.
+	// Sequence number to use on the customer account's next invoice. Defaults to 1.
 	NextSequence int64 `json:"next_sequence,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// Prefix used to generate unique invoice numbers. Must be 3-12 uppercase letters or numbers.
 	Prefix string `json:"prefix,omitempty"`
-	// Default options for invoice PDF rendering for this customer.
+	// Default invoice PDF rendering options.
 	Rendering *V2CoreAccountConfigurationCustomerBillingInvoiceRendering `json:"rendering,omitempty"`
 }
 
-// Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
+// Default Billing settings for the customer account, used in Invoices and Subscriptions.
 type V2CoreAccountConfigurationCustomerBilling struct {
-	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for invoices and subscriptions.
+	// ID of a PaymentMethod attached to the customer account to use as the default for invoices and subscriptions.
 	DefaultPaymentMethod string `json:"default_payment_method,omitempty"`
-	// Default settings used on invoices for this customer.
+	// Default invoice settings for the customer account.
 	Invoice *V2CoreAccountConfigurationCustomerBillingInvoice `json:"invoice,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCode `json:"code"`
@@ -3167,11 +3266,9 @@ type V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDet
 
 // Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
 type V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTax struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetail `json:"status_details"`
 }
 
@@ -3193,11 +3290,11 @@ type V2CoreAccountConfigurationCustomerShipping struct {
 
 // The Customer Configuration allows the Account to be used in inbound payment flows.
 type V2CoreAccountConfigurationCustomer struct {
-	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	// Indicates whether the customer configuration is active. You can deactivate or reactivate the customer configuration by updating this property. Deactivating the configuration by setting this value to false will unrequest all capabilities within the configuration. It will not delete any of the configuration's other properties.
 	Applied bool `json:"applied"`
-	// Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
+	// Settings for automatic indirect tax calculation on the customer's invoices, subscriptions, Checkout Sessions, and Payment Links. Available when automatic tax calculation is available for the customer account's location.
 	AutomaticIndirectTax *V2CoreAccountConfigurationCustomerAutomaticIndirectTax `json:"automatic_indirect_tax,omitempty"`
-	// Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
+	// Default Billing settings for the customer account, used in Invoices and Subscriptions.
 	Billing *V2CoreAccountConfigurationCustomerBilling `json:"billing,omitempty"`
 	// Capabilities that have been requested on the Customer Configuration.
 	Capabilities *V2CoreAccountConfigurationCustomerCapabilities `json:"capabilities,omitempty"`
@@ -3207,11 +3304,11 @@ type V2CoreAccountConfigurationCustomer struct {
 	TestClock string `json:"test_clock,omitempty"`
 }
 
-// Settings used for Bacs debit payments.
+// Settings for Bacs Direct Debit payments.
 type V2CoreAccountConfigurationMerchantBACSDebitPayments struct {
-	// Display name for Bacs debit payments.
+	// Display name for Bacs Direct Debit payments.
 	DisplayName string `json:"display_name,omitempty"`
-	// Service user number for Bacs debit payments.
+	// Service User Number (SUN) for Bacs Direct Debit payments.
 	ServiceUserNumber string `json:"service_user_number,omitempty"`
 }
 
@@ -3227,7 +3324,7 @@ type V2CoreAccountConfigurationMerchantBranding struct {
 	SecondaryColor string `json:"secondary_color,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCode `json:"code"`
@@ -3237,15 +3334,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetail 
 
 // Allow the merchant to process ACH debit payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCode `json:"code"`
@@ -3255,15 +3350,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetail
 
 // Allow the merchant to process ACSS debit payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCode `json:"code"`
@@ -3273,15 +3366,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetail st
 
 // Allow the merchant to process Affirm payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesAffirmPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCode `json:"code"`
@@ -3291,15 +3382,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatu
 
 // Allow the merchant to process Afterpay/Clearpay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCode `json:"code"`
@@ -3309,15 +3398,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetail stru
 
 // Allow the merchant to process Alma payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesAlmaPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCode `json:"code"`
@@ -3327,15 +3414,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetail
 
 // Allow the merchant to process Amazon Pay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCode `json:"code"`
@@ -3345,15 +3430,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDeta
 
 // Allow the merchant to process Australian BECS Direct Debit payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCode `json:"code"`
@@ -3363,15 +3446,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetail
 
 // Allow the merchant to process BACS Direct Debit payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCode `json:"code"`
@@ -3381,15 +3462,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetai
 
 // Allow the merchant to process Bancontact payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesBancontactPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCode `json:"code"`
@@ -3399,15 +3478,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetail stru
 
 // Allow the merchant to process BLIK payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCode `json:"code"`
@@ -3417,15 +3494,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetail st
 
 // Allow the merchant to process Boleto payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesBoletoPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCode `json:"code"`
@@ -3435,15 +3510,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetail stru
 
 // Allow the merchant to collect card payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesCardPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCode `json:"code"`
@@ -3453,15 +3526,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatus
 
 // Allow the merchant to process Cartes Bancaires payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCode `json:"code"`
@@ -3471,15 +3542,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetail s
 
 // Allow the merchant to process Cash App payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesCashAppPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCode `json:"code"`
@@ -3489,15 +3558,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetail struc
 
 // Allow the merchant to process EPS payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesEPSPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCode `json:"code"`
@@ -3507,15 +3574,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetail struc
 
 // Allow the merchant to process FPX payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesFPXPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCode `json:"code"`
@@ -3525,15 +3590,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusD
 
 // Allow the merchant to process UK bank transfer payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCode `json:"code"`
@@ -3543,15 +3606,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetail s
 
 // Allow the merchant to process GrabPay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCode `json:"code"`
@@ -3561,15 +3622,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetail str
 
 // Allow the merchant to process iDEAL payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesIDEALPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCode `json:"code"`
@@ -3579,15 +3638,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetail struc
 
 // Allow the merchant to process JCB card payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesJCBPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCode `json:"code"`
@@ -3597,15 +3654,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusD
 
 // Allow the merchant to process Japanese bank transfer payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCode `json:"code"`
@@ -3615,15 +3670,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetail 
 
 // Allow the merchant to process Kakao Pay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCode `json:"code"`
@@ -3633,15 +3686,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetail st
 
 // Allow the merchant to process Klarna payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCode `json:"code"`
@@ -3651,15 +3702,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetail s
 
 // Allow the merchant to process Konbini convenience store payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCode `json:"code"`
@@ -3669,15 +3718,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetail st
 
 // Allow the merchant to process Korean card payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesKrCardPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCode `json:"code"`
@@ -3687,15 +3734,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetail stru
 
 // Allow the merchant to process Link payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesLinkPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCode `json:"code"`
@@ -3705,15 +3750,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetail
 
 // Allow the merchant to process MobilePay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCode `json:"code"`
@@ -3723,15 +3766,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetai
 
 // Allow the merchant to process Multibanco payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCode `json:"code"`
@@ -3741,15 +3782,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusD
 
 // Allow the merchant to process Mexican bank transfer payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCode `json:"code"`
@@ -3759,15 +3798,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetail 
 
 // Allow the merchant to process Naver Pay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCode `json:"code"`
@@ -3777,15 +3814,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetail stru
 
 // Allow the merchant to process OXXO payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesOXXOPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCode `json:"code"`
@@ -3795,15 +3830,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetail struc
 
 // Allow the merchant to process Przelewy24 (P24) payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesP24Payments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCode `json:"code"`
@@ -3813,15 +3846,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetail
 
 // Allow the merchant to process Pay by Bank payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCode `json:"code"`
@@ -3831,15 +3862,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetail str
 
 // Allow the merchant to process PAYCO payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesPaycoPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCode `json:"code"`
@@ -3849,15 +3878,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetail st
 
 // Allow the merchant to process PayNow payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesPayNowPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCode `json:"code"`
@@ -3867,15 +3894,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetail
 
 // Allow the merchant to process PromptPay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCode `json:"code"`
@@ -3885,15 +3910,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetai
 
 // Allow the merchant to process Revolut Pay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCode `json:"code"`
@@ -3903,15 +3926,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetai
 
 // Allow the merchant to process Samsung Pay payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCode `json:"code"`
@@ -3921,15 +3942,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatu
 
 // Allow the merchant to process SEPA bank transfer payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCode `json:"code"`
@@ -3939,15 +3958,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetail
 
 // Allow the merchant to process SEPA Direct Debit payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode `json:"code"`
@@ -3955,23 +3972,21 @@ type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDet
 	Resolution V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolution `json:"resolution"`
 }
 
-// Allows the account to do payouts using their Stripe Balance (/v1/balance).
+// Enables this Account to complete payouts from their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayouts struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetail `json:"status_details"`
 }
 
 // Capabilities that enable the merchant to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalance struct {
-	// Allows the account to do payouts using their Stripe Balance (/v1/balance).
+	// Enables this Account to complete payouts from their Stripe Balance (/v1/balance).
 	Payouts *V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayouts `json:"payouts,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCode `json:"code"`
@@ -3981,15 +3996,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetail str
 
 // Allow the merchant to process Swish payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesSwishPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCode `json:"code"`
@@ -3999,15 +4012,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetail str
 
 // Allow the merchant to process TWINT payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesTWINTPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCode `json:"code"`
@@ -4017,15 +4028,13 @@ type V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusD
 
 // Allow the merchant to process US bank transfer payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCode `json:"code"`
@@ -4035,11 +4044,9 @@ type V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetail struc
 
 // Allow the merchant to process Zip payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesZipPayments struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetail `json:"status_details"`
 }
 
@@ -4199,9 +4206,9 @@ type V2CoreAccountConfigurationMerchantScriptStatementDescriptor struct {
 	Kanji *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanji `json:"kanji,omitempty"`
 }
 
-// Settings used for SEPA debit payments.
+// Settings for SEPA Direct Debit payments.
 type V2CoreAccountConfigurationMerchantSEPADebitPayments struct {
-	// Creditor ID for SEPA debit payments.
+	// Creditor ID for SEPA Direct Debit payments.
 	CreditorID string `json:"creditor_id,omitempty"`
 }
 
@@ -4227,7 +4234,7 @@ type V2CoreAccountConfigurationMerchantSupportAddress struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town string `json:"town,omitempty"`
 }
 
@@ -4243,11 +4250,11 @@ type V2CoreAccountConfigurationMerchantSupport struct {
 	URL string `json:"url,omitempty"`
 }
 
-// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
+// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 type V2CoreAccountConfigurationMerchant struct {
-	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	// Indicates whether the merchant configuration is active. You can deactivate or reactivate the merchant configuration by updating this property. Deactivating the configuration by setting this value to false doesn't delete the configuration's properties.
 	Applied bool `json:"applied"`
-	// Settings used for Bacs debit payments.
+	// Settings for Bacs Direct Debit payments.
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantBACSDebitPayments `json:"bacs_debit_payments,omitempty"`
 	// Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
 	Branding *V2CoreAccountConfigurationMerchantBranding `json:"branding,omitempty"`
@@ -4257,11 +4264,11 @@ type V2CoreAccountConfigurationMerchant struct {
 	CardPayments *V2CoreAccountConfigurationMerchantCardPayments `json:"card_payments,omitempty"`
 	// Settings specific to Konbini payments on the account.
 	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPayments `json:"konbini_payments,omitempty"`
-	// The merchant category code for the merchant. MCCs are used to classify businesses based on the goods or services they provide.
+	// The Merchant Category Code (MCC) for the merchant. MCCs classify businesses based on the goods or services they provide.
 	MCC string `json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptor `json:"script_statement_descriptor,omitempty"`
-	// Settings used for SEPA debit payments.
+	// Settings for SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantSEPADebitPayments `json:"sepa_debit_payments,omitempty"`
 	// Statement descriptor.
 	StatementDescriptor *V2CoreAccountConfigurationMerchantStatementDescriptor `json:"statement_descriptor,omitempty"`
@@ -4269,7 +4276,7 @@ type V2CoreAccountConfigurationMerchant struct {
 	Support *V2CoreAccountConfigurationMerchantSupport `json:"support,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCode `json:"code"`
@@ -4279,15 +4286,13 @@ type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetai
 
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocal struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCode `json:"code"`
@@ -4297,11 +4302,9 @@ type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetail
 
 // Enables this Account to receive OutboundPayments to linked bank accounts over wire.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWire struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetail `json:"status_details"`
 }
 
@@ -4313,7 +4316,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesBankAccounts struct {
 	Wire *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWire `json:"wire,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCode `json:"code"`
@@ -4321,17 +4324,15 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetail struct {
 	Resolution V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailResolution `json:"resolution"`
 }
 
-// Capability that enable OutboundPayments to a debit card linked to this Account.
+// Enables this Account to receive OutboundPayments to a linked debit card.
 type V2CoreAccountConfigurationRecipientCapabilitiesCards struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationRecipientCapabilitiesCardsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode `json:"code"`
@@ -4339,17 +4340,15 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDe
 	Resolution V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolution `json:"resolution"`
 }
 
-// Allows the account to do payouts using their Stripe Balance (/v1/balance).
+// Enables this Account to complete payouts from their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayouts struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCode `json:"code"`
@@ -4357,21 +4356,19 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers
 	Resolution V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailResolution `json:"resolution"`
 }
 
-// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetail `json:"status_details"`
 }
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance struct {
-	// Allows the account to do payouts using their Stripe Balance (/v1/balance).
+	// Enables this Account to complete payouts from their Stripe Balance (/v1/balance).
 	Payouts *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayouts `json:"payouts,omitempty"`
-	// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 	StripeTransfers *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers `json:"stripe_transfers,omitempty"`
 }
 
@@ -4379,7 +4376,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance struct {
 type V2CoreAccountConfigurationRecipientCapabilities struct {
 	// Capabilities that enable OutboundPayments to a bank account linked to this Account.
 	BankAccounts *V2CoreAccountConfigurationRecipientCapabilitiesBankAccounts `json:"bank_accounts,omitempty"`
-	// Capability that enable OutboundPayments to a debit card linked to this Account.
+	// Enables this Account to receive OutboundPayments to a linked debit card.
 	Cards *V2CoreAccountConfigurationRecipientCapabilitiesCards `json:"cards,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance `json:"stripe_balance,omitempty"`
@@ -4393,9 +4390,9 @@ type V2CoreAccountConfigurationRecipientDefaultOutboundDestination struct {
 	Type V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType `json:"type"`
 }
 
-// The Recipient Configuration allows the Account to receive funds.
+// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountConfigurationRecipient struct {
-	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	// Indicates whether the recipient configuration is active. You can deactivate or reactivate the recipient configuration by updating this property. Deactivating the configuration by setting this value to false  unrequest all capabilities within the configuration. It will not delete any of the configuration's other properties.
 	Applied bool `json:"applied"`
 	// Capabilities that have been requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilities `json:"capabilities,omitempty"`
@@ -4403,7 +4400,7 @@ type V2CoreAccountConfigurationRecipient struct {
 	DefaultOutboundDestination *V2CoreAccountConfigurationRecipientDefaultOutboundDestination `json:"default_outbound_destination,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsStatusDetailCode `json:"code"`
@@ -4413,11 +4410,9 @@ type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsS
 
 // Can provision a bank-account like financial address (VBAN) to credit/debit a FinancialAccount.
 type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccounts struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsStatusDetail `json:"status_details"`
 }
 
@@ -4427,7 +4422,7 @@ type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddresses struct {
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccounts `json:"bank_accounts,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetailCode `json:"code"`
@@ -4437,15 +4432,13 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetail 
 
 // Can hold storage-type funds on Stripe in EUR.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEUR struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetailCode `json:"code"`
@@ -4455,15 +4448,13 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetail 
 
 // Can hold storage-type funds on Stripe in GBP.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBP struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetailCode `json:"code"`
@@ -4473,11 +4464,9 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetail 
 
 // Can hold storage-type funds on Stripe in USD.
 type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSD struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDStatusDetail `json:"status_details"`
 }
 
@@ -4491,7 +4480,7 @@ type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrencies struct {
 	USD *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSD `json:"usd,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsStatusDetailCode `json:"code"`
@@ -4499,23 +4488,21 @@ type V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsSta
 	Resolution V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsStatusDetailResolution `json:"resolution"`
 }
 
-// Can pull funds from an external bank account, owned by yourself, to a FinancialAccount.
+// Can pull funds into a FinancialAccount from an external bank account owned by the user.
 type V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccounts struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsStatusDetail `json:"status_details"`
 }
 
-// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
+// Hash containing capabilities related to InboundTransfers.
 type V2CoreAccountConfigurationStorerCapabilitiesInboundTransfers struct {
-	// Can pull funds from an external bank account, owned by yourself, to a FinancialAccount.
+	// Can pull funds into a FinancialAccount from an external bank account owned by the user.
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccounts `json:"bank_accounts,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsStatusDetailCode `json:"code"`
@@ -4523,17 +4510,15 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsSta
 	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsStatusDetailResolution `json:"resolution"`
 }
 
-// Can send funds from a FinancialAccount to a bank account, owned by someone else.
+// Can send funds from a FinancialAccount to a bank account owned by a different entity.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccounts struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsStatusDetailCode `json:"code"`
@@ -4541,17 +4526,15 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsStatusDeta
 	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsStatusDetailResolution `json:"resolution"`
 }
 
-// Can send funds from a FinancialAccount to a debit card, owned by someone else.
+// Can send funds from a FinancialAccount to a debit card owned by a different entity.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCards struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetailCode `json:"code"`
@@ -4559,27 +4542,25 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccoun
 	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetailResolution `json:"resolution"`
 }
 
-// Can send funds from a FinancialAccount to another FinancialAccount, owned by someone else.
+// Can send funds from a FinancialAccount to a FinancialAccount owned by a different entity.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccounts struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetail `json:"status_details"`
 }
 
-// Can send funds from a FinancialAccount to a destination owned by someone else.
+// Hash containing capabilities related to [OutboundPayments](https://docs.stripe.com/api/treasury/outbound_payments?api-version=preview).
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPayments struct {
-	// Can send funds from a FinancialAccount to a bank account, owned by someone else.
+	// Can send funds from a FinancialAccount to a bank account owned by a different entity.
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccounts `json:"bank_accounts,omitempty"`
-	// Can send funds from a FinancialAccount to a debit card, owned by someone else.
+	// Can send funds from a FinancialAccount to a debit card owned by a different entity.
 	Cards *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCards `json:"cards,omitempty"`
-	// Can send funds from a FinancialAccount to another FinancialAccount, owned by someone else.
+	// Can send funds from a FinancialAccount to a FinancialAccount owned by a different entity.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccounts `json:"financial_accounts,omitempty"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatusDetailCode `json:"code"`
@@ -4587,17 +4568,15 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsSt
 	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatusDetailResolution `json:"resolution"`
 }
 
-// Can send funds from a FinancialAccount, to a bank account, owned by yourself.
+// Can send funds from a FinancialAccount to a bank account belonging to the same user.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccounts struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatusDetail `json:"status_details"`
 }
 
-// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetailCode `json:"code"`
@@ -4605,21 +4584,19 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccou
 	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetailResolution `json:"resolution"`
 }
 
-// Can send funds from a FinancialAccount to another FinancialAccount, owned by yourself.
+// Can send funds from a FinancialAccount to another FinancialAccount belonging to the same user.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccounts struct {
-	// Whether the Capability has been requested.
-	Requested bool `json:"requested"`
 	// The status of the Capability.
 	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatus `json:"status"`
-	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsStatusDetail `json:"status_details"`
 }
 
-// Can send funds from a FinancialAccount to a destination owned by yourself.
+// Hash containing capabilities related to [OutboundTransfers](https://docs.stripe.com/api/treasury/outbound_transfers?api-version=preview).
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfers struct {
-	// Can send funds from a FinancialAccount, to a bank account, owned by yourself.
+	// Can send funds from a FinancialAccount to a bank account belonging to the same user.
 	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccounts `json:"bank_accounts,omitempty"`
-	// Can send funds from a FinancialAccount to another FinancialAccount, owned by yourself.
+	// Can send funds from a FinancialAccount to another FinancialAccount belonging to the same user.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccounts `json:"financial_accounts,omitempty"`
 }
 
@@ -4629,29 +4606,29 @@ type V2CoreAccountConfigurationStorerCapabilities struct {
 	FinancialAddresses *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddresses `json:"financial_addresses,omitempty"`
 	// Can hold storage-type funds on Stripe.
 	HoldsCurrencies *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrencies `json:"holds_currencies,omitempty"`
-	// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
+	// Hash containing capabilities related to InboundTransfers.
 	InboundTransfers *V2CoreAccountConfigurationStorerCapabilitiesInboundTransfers `json:"inbound_transfers,omitempty"`
-	// Can send funds from a FinancialAccount to a destination owned by someone else.
+	// Hash containing capabilities related to [OutboundPayments](https://docs.stripe.com/api/treasury/outbound_payments?api-version=preview).
 	OutboundPayments *V2CoreAccountConfigurationStorerCapabilitiesOutboundPayments `json:"outbound_payments,omitempty"`
-	// Can send funds from a FinancialAccount to a destination owned by yourself.
+	// Hash containing capabilities related to [OutboundTransfers](https://docs.stripe.com/api/treasury/outbound_transfers?api-version=preview).
 	OutboundTransfers *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfers `json:"outbound_transfers,omitempty"`
 }
 
 // The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 type V2CoreAccountConfigurationStorer struct {
-	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	// Indicates whether the storer configuration is active. You cannot deactivate (or reactivate) the storer configuration by updating this property.
 	Applied bool `json:"applied"`
 	// Capabilities that have been requested on the Storer Configuration.
 	Capabilities *V2CoreAccountConfigurationStorerCapabilities `json:"capabilities,omitempty"`
 }
 
-// An Account Configuration which allows the Account to take on a key persona across Stripe products.
+// An Account represents a company, individual, or other entity that a user interacts with. Accounts store identity information and one or more configurations that enable product-specific capabilities. You can assign configurations at creation or add them later.
 type V2CoreAccountConfiguration struct {
 	// The Customer Configuration allows the Account to be used in inbound payment flows.
 	Customer *V2CoreAccountConfigurationCustomer `json:"customer,omitempty"`
-	// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
+	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountConfigurationMerchant `json:"merchant,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds.
+	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	Recipient *V2CoreAccountConfigurationRecipient `json:"recipient,omitempty"`
 	// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 	Storer *V2CoreAccountConfigurationStorer `json:"storer,omitempty"`
@@ -4661,7 +4638,7 @@ type V2CoreAccountConfiguration struct {
 type V2CoreAccountDefaultsProfile struct {
 	// The business's publicly-available website.
 	BusinessURL string `json:"business_url,omitempty"`
-	// The company's legal name.
+	// The customer-facing business name.
 	DoingBusinessAs string `json:"doing_business_as,omitempty"`
 	// Internal-only description of the product sold or service provided by the business. It's used by Stripe for risk and underwriting purposes.
 	ProductDescription string `json:"product_description,omitempty"`
@@ -4669,15 +4646,15 @@ type V2CoreAccountDefaultsProfile struct {
 
 // Default responsibilities held by either Stripe or the platform.
 type V2CoreAccountDefaultsResponsibilities struct {
-	// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this Account.
-	FeesCollector V2CoreAccountDefaultsResponsibilitiesFeesCollector `json:"fees_collector"`
-	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
-	LossesCollector V2CoreAccountDefaultsResponsibilitiesLossesCollector `json:"losses_collector"`
+	// Indicates whether the platform or connected account is responsible for paying Stripe fees for pricing-control-eligible products.
+	FeesCollector V2CoreAccountDefaultsResponsibilitiesFeesCollector `json:"fees_collector,omitempty"`
+	// A value indicating responsibility for collecting requirements on this account.
+	LossesCollector V2CoreAccountDefaultsResponsibilitiesLossesCollector `json:"losses_collector,omitempty"`
 	// A value indicating responsibility for collecting requirements on this account.
 	RequirementsCollector V2CoreAccountDefaultsResponsibilitiesRequirementsCollector `json:"requirements_collector"`
 }
 
-// Default values to be used on Account Configurations.
+// Default values for settings shared across Account configurations.
 type V2CoreAccountDefaults struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency,omitempty"`
@@ -4686,7 +4663,7 @@ type V2CoreAccountDefaults struct {
 	// Account profile information.
 	Profile *V2CoreAccountDefaultsProfile `json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
-	Responsibilities *V2CoreAccountDefaultsResponsibilities `json:"responsibilities,omitempty"`
+	Responsibilities *V2CoreAccountDefaultsResponsibilities `json:"responsibilities"`
 }
 
 // Descriptions of why the requirement must be collected, or why the collected information isn't satisfactory to Stripe.
@@ -4744,7 +4721,7 @@ type V2CoreAccountFutureRequirementsEntryRequestedReason struct {
 
 // A list of requirements for the Account.
 type V2CoreAccountFutureRequirementsEntry struct {
-	// Whether the responsibility is with the integrator or with Stripe (to review info, to wait for some condition, etc.) to action the requirement.
+	// Indicates whether the platform or Stripe is currently responsible for taking action on the requirement. Value can be `user` or `stripe`.
 	AwaitingActionFrom V2CoreAccountFutureRequirementsEntryAwaitingActionFrom `json:"awaiting_action_from"`
 	// Machine-readable string describing the requirement.
 	Description string `json:"description"`
@@ -4882,11 +4859,11 @@ type V2CoreAccountIdentityBusinessDetailsAddress struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town string `json:"town,omitempty"`
 }
 
-// A non-negative integer representing the amount in the smallest currency unit.
+// Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency,omitempty"`
@@ -4896,7 +4873,7 @@ type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount struct {
 
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenue struct {
-	// A non-negative integer representing the amount in the smallest currency unit.
+	// Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
 	Amount *V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount `json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd string `json:"fiscal_year_end,omitempty"`
@@ -5022,7 +4999,7 @@ type V2CoreAccountIdentityBusinessDetailsIDNumber struct {
 	Type V2CoreAccountIdentityBusinessDetailsIDNumberType `json:"type"`
 }
 
-// A non-negative integer representing the amount in the smallest currency unit.
+// Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency,omitempty"`
@@ -5030,9 +5007,9 @@ type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount struct {
 	Value int64 `json:"value,omitempty"`
 }
 
-// An estimate of the monthly revenue of the business.
+// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue struct {
-	// A non-negative integer representing the amount in the smallest currency unit.
+	// Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
 	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount `json:"amount,omitempty"`
 }
 
@@ -5050,7 +5027,7 @@ type V2CoreAccountIdentityBusinessDetailsScriptAddressesKana struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town string `json:"town,omitempty"`
 }
 
@@ -5068,7 +5045,7 @@ type V2CoreAccountIdentityBusinessDetailsScriptAddressesKanji struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town string `json:"town,omitempty"`
 }
 
@@ -5108,11 +5085,11 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	AnnualRevenue *V2CoreAccountIdentityBusinessDetailsAnnualRevenue `json:"annual_revenue,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountIdentityBusinessDetailsDocuments `json:"documents,omitempty"`
-	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	// Estimated maximum number of workers currently engaged by the business (including employees, contractors, and vendors).
 	EstimatedWorkerCount int64 `json:"estimated_worker_count,omitempty"`
 	// The provided ID numbers of a business entity.
 	IDNumbers []*V2CoreAccountIdentityBusinessDetailsIDNumber `json:"id_numbers,omitempty"`
-	// An estimate of the monthly revenue of the business.
+	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 	MonthlyEstimatedRevenue *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue `json:"monthly_estimated_revenue,omitempty"`
 	// The company's phone number (used for verification).
 	Phone string `json:"phone,omitempty"`
@@ -5142,7 +5119,7 @@ type V2CoreAccountIdentityIndividualAdditionalAddress struct {
 	Purpose V2CoreAccountIdentityIndividualAdditionalAddressPurpose `json:"purpose"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town string `json:"town,omitempty"`
 }
 
@@ -5188,7 +5165,7 @@ type V2CoreAccountIdentityIndividualAddress struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town string `json:"town,omitempty"`
 }
 
@@ -5280,17 +5257,17 @@ type V2CoreAccountIdentityIndividualIDNumber struct {
 
 // The relationship that this individual has with the Account's identity.
 type V2CoreAccountIdentityIndividualRelationship struct {
-	// Whether the individual is an authorizer of the Account's legal entity.
+	// Whether the individual is an authorizer of the Account's identity.
 	Authorizer bool `json:"authorizer,omitempty"`
-	// Whether the individual is a director of the Account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
+	// Whether the individual is a director of the Account's identity. Directors are typically members of the governing board of the company or are responsible for making sure that the company meets its regulatory obligations.
 	Director bool `json:"director,omitempty"`
 	// Whether the individual has significant responsibility to control, manage, or direct the organization.
 	Executive bool `json:"executive,omitempty"`
 	// Whether the individual is the legal guardian of the Account's representative.
 	LegalGuardian bool `json:"legal_guardian,omitempty"`
-	// Whether the individual is an owner of the Account's legal entity.
+	// Whether the individual is an owner of the Account's identity.
 	Owner bool `json:"owner,omitempty"`
-	// The percent owned by the individual of the Account's legal entity.
+	// The percentage of the Account's identity that the individual owns.
 	PercentOwnership string `json:"percent_ownership,omitempty"`
 	// Whether the individual is authorized as the primary representative of the Account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
 	Representative bool `json:"representative,omitempty"`
@@ -5312,7 +5289,7 @@ type V2CoreAccountIdentityIndividualScriptAddressesKana struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town string `json:"town,omitempty"`
 }
 
@@ -5330,7 +5307,7 @@ type V2CoreAccountIdentityIndividualScriptAddressesKanji struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town string `json:"town,omitempty"`
 }
 
@@ -5485,7 +5462,7 @@ type V2CoreAccountRequirementsEntryRequestedReason struct {
 
 // A list of requirements for the Account.
 type V2CoreAccountRequirementsEntry struct {
-	// Whether the responsibility is with the integrator or with Stripe (to review info, to wait for some condition, etc.) to action the requirement.
+	// Indicates whether the platform or Stripe is currently responsible for taking action on the requirement. Value can be `user` or `stripe`.
 	AwaitingActionFrom V2CoreAccountRequirementsEntryAwaitingActionFrom `json:"awaiting_action_from"`
 	// Machine-readable string describing the requirement.
 	Description string `json:"description"`
@@ -5526,11 +5503,11 @@ type V2CoreAccountRequirements struct {
 // A V2 Account is a representation of a company or individual that a Stripe user does business with. Accounts contain the contact details, Legal Entity information, and configuration required to enable the Account for use across Stripe products.
 type V2CoreAccount struct {
 	APIResource
-	// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
+	// The configurations that have been applied to this account.
 	AppliedConfigurations []V2CoreAccountAppliedConfiguration `json:"applied_configurations"`
-	// A value indicating if the Account has been closed.
+	// Indicates whether the account has been closed.
 	Closed bool `json:"closed,omitempty"`
-	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
+	// An Account represents a company, individual, or other entity that a user interacts with. Accounts store identity information and one or more configurations that enable product-specific capabilities. You can assign configurations at creation or add them later.
 	Configuration *V2CoreAccountConfiguration `json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail string `json:"contact_email,omitempty"`
@@ -5538,7 +5515,7 @@ type V2CoreAccount struct {
 	Created time.Time `json:"created"`
 	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
 	Dashboard V2CoreAccountDashboard `json:"dashboard,omitempty"`
-	// Default values to be used on Account Configurations.
+	// Default values for settings shared across Account configurations.
 	Defaults *V2CoreAccountDefaults `json:"defaults,omitempty"`
 	// A descriptive name for the Account. This name will be surfaced in the Stripe Dashboard and on any invoices sent to the Account.
 	DisplayName string `json:"display_name,omitempty"`

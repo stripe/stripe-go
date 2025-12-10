@@ -224,9 +224,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataPromptPayParams struct{}
 // If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataQrisParams struct{}
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
@@ -368,7 +368,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Link *TestHelpersConfirmationTokenPaymentMethodDataLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *TestHelpersConfirmationTokenPaymentMethodDataMbWayParams `form:"mb_way"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *TestHelpersConfirmationTokenPaymentMethodDataMobilepayParams `form:"mobilepay"`
@@ -400,7 +400,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	PromptPay *TestHelpersConfirmationTokenPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 	Qris *TestHelpersConfirmationTokenPaymentMethodDataQrisParams `form:"qris"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *TestHelpersConfirmationTokenPaymentMethodDataRechnungParams `form:"rechnung"`
@@ -497,7 +497,7 @@ type TestHelpersConfirmationTokenParams struct {
 	ReturnURL *string `form:"return_url"`
 	// Indicates that you intend to make future payments with this ConfirmationToken's payment method.
 	//
-	// The presence of this property will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete.
+	// The presence of this property will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Shipping information for this ConfirmationToken.
 	Shipping *TestHelpersConfirmationTokenShippingParams `form:"shipping"`
@@ -726,9 +726,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataPromptPayParams struct{}
 // If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataQrisParams struct{}
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
@@ -870,7 +870,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Link *TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *TestHelpersConfirmationTokenCreatePaymentMethodDataMbWayParams `form:"mb_way"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *TestHelpersConfirmationTokenCreatePaymentMethodDataMobilepayParams `form:"mobilepay"`
@@ -902,7 +902,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	PromptPay *TestHelpersConfirmationTokenCreatePaymentMethodDataPromptPayParams `form:"promptpay"`
 	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 	Qris *TestHelpersConfirmationTokenCreatePaymentMethodDataQrisParams `form:"qris"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *TestHelpersConfirmationTokenCreatePaymentMethodDataRechnungParams `form:"rechnung"`
@@ -999,7 +999,7 @@ type TestHelpersConfirmationTokenCreateParams struct {
 	ReturnURL *string `form:"return_url"`
 	// Indicates that you intend to make future payments with this ConfirmationToken's payment method.
 	//
-	// The presence of this property will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete.
+	// The presence of this property will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Shipping information for this ConfirmationToken.
 	Shipping *TestHelpersConfirmationTokenCreateShippingParams `form:"shipping"`

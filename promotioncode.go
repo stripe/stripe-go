@@ -31,7 +31,7 @@ type PromotionCodeListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return promotion codes that are restricted to this customer.
 	Customer *string `form:"customer"`
-	// Only return promotion codes that are restricted to this account.
+	// Only return promotion codes that are restricted to this account representing the customer.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -77,9 +77,9 @@ type PromotionCodeParams struct {
 	//
 	// If left blank, we will generate one automatically.
 	Code *string `form:"code"`
-	// The customer that this promotion code can be used by. If not set, the promotion code can be used by all customers.
+	// The customer who can use this promotion code. If not set, all customers can use the promotion code.
 	Customer *string `form:"customer"`
-	// The account that this promotion code can be used by. If not set, the promotion code can be used by all accounts.
+	// The account representing the customer who can use this promotion code. If not set, all customers can use the promotion code.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -87,7 +87,7 @@ type PromotionCodeParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// A positive integer specifying the number of times the promotion code can be redeemed. If the coupon has specified a `max_redemptions`, then this value cannot be greater than the coupon's `max_redemptions`.
 	MaxRedemptions *int64 `form:"max_redemptions"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The promotion referenced by this promotion code.
 	Promotion *PromotionCodePromotionParams `form:"promotion"`
@@ -144,9 +144,9 @@ type PromotionCodeCreateParams struct {
 	//
 	// If left blank, we will generate one automatically.
 	Code *string `form:"code"`
-	// The customer that this promotion code can be used by. If not set, the promotion code can be used by all customers.
+	// The customer who can use this promotion code. If not set, all customers can use the promotion code.
 	Customer *string `form:"customer"`
-	// The account that this promotion code can be used by. If not set, the promotion code can be used by all accounts.
+	// The account representing the customer who can use this promotion code. If not set, all customers can use the promotion code.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -154,7 +154,7 @@ type PromotionCodeCreateParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// A positive integer specifying the number of times the promotion code can be redeemed. If the coupon has specified a `max_redemptions`, then this value cannot be greater than the coupon's `max_redemptions`.
 	MaxRedemptions *int64 `form:"max_redemptions"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The promotion referenced by this promotion code.
 	Promotion *PromotionCodeCreatePromotionParams `form:"promotion"`
@@ -207,7 +207,7 @@ type PromotionCodeUpdateParams struct {
 	Active *bool `form:"active"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Settings that restrict the redemption of the promotion code.
 	Restrictions *PromotionCodeUpdateRestrictionsParams `form:"restrictions"`
@@ -253,7 +253,7 @@ type PromotionCodeRestrictions struct {
 // A Promotion Code represents a customer-redeemable code for an underlying promotion.
 // You can create multiple codes for a single promotion.
 //
-// If you enable promotion codes in your [customer portal configuration](https://stripe.com/docs/customer-management/configure-portal), then customers can redeem a code themselves when updating a subscription in the portal.
+// If you enable promotion codes in your [customer portal configuration](https://docs.stripe.com/customer-management/configure-portal), then customers can redeem a code themselves when updating a subscription in the portal.
 // Customers can also view the currently active promotion codes and coupons on each of their subscriptions in the portal.
 type PromotionCode struct {
 	APIResource
@@ -263,9 +263,9 @@ type PromotionCode struct {
 	Code string `json:"code"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// The customer that this promotion code can be used by.
+	// The customer who can use this promotion code.
 	Customer *Customer `json:"customer"`
-	// The account that this promotion code can be used by.
+	// The account representing the customer who can use this promotion code.
 	CustomerAccount string `json:"customer_account"`
 	// Date at which the promotion code can no longer be redeemed.
 	ExpiresAt int64 `json:"expires_at"`
@@ -275,7 +275,7 @@ type PromotionCode struct {
 	Livemode bool `json:"livemode"`
 	// Maximum number of times this promotion code can be redeemed.
 	MaxRedemptions int64 `json:"max_redemptions"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object       string                     `json:"object"`

@@ -27,7 +27,7 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxParams struct {
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// The data source used to identify the customer's tax location - defaults to `identity_address`. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions. This behavior is now deprecated for new users.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
-	// A per-request flag that indicates when Stripe should validate the customer tax location - defaults to 'auto'.
+	// A per-request flag that indicates when Stripe should validate the customer tax location - defaults to `auto`.
 	ValidateLocation *string `form:"validate_location" json:"validate_location,omitempty"`
 }
 
@@ -39,33 +39,33 @@ type V2CoreAccountConfigurationCustomerBillingInvoiceCustomFieldParams struct {
 	Value *string `form:"value" json:"value"`
 }
 
-// Default options for invoice PDF rendering for this customer.
+// Default invoice PDF rendering options.
 type V2CoreAccountConfigurationCustomerBillingInvoiceRenderingParams struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of exclude_tax or include_inclusive_tax. include_inclusive_tax will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. exclude_tax will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	// Indicates whether displayed line item prices and amounts on invoice PDFs include inclusive tax amounts. Must be either `include_inclusive_tax` or `exclude_tax`.
 	AmountTaxDisplay *string `form:"amount_tax_display" json:"amount_tax_display,omitempty"`
 	// ID of the invoice rendering template to use for future invoices.
 	Template *string `form:"template" json:"template,omitempty"`
 }
 
-// Default settings used on invoices for this customer.
+// Default invoice settings for the customer account.
 type V2CoreAccountConfigurationCustomerBillingInvoiceParams struct {
 	// The list of up to 4 default custom fields to be displayed on invoices for this customer.
 	CustomFields []*V2CoreAccountConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Default footer to be displayed on invoices for this customer.
+	// Default invoice footer.
 	Footer *string `form:"footer" json:"footer,omitempty"`
-	// The sequence to be used on the customer's next invoice. Defaults to 1.
+	// Sequence number to use on the customer account's next invoice. Defaults to 1.
 	NextSequence *int64 `form:"next_sequence" json:"next_sequence,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// Prefix used to generate unique invoice numbers. Must be 3-12 uppercase letters or numbers.
 	Prefix *string `form:"prefix" json:"prefix,omitempty"`
-	// Default options for invoice PDF rendering for this customer.
+	// Default invoice PDF rendering options.
 	Rendering *V2CoreAccountConfigurationCustomerBillingInvoiceRenderingParams `form:"rendering" json:"rendering,omitempty"`
 }
 
 // Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
 type V2CoreAccountConfigurationCustomerBillingParams struct {
-	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for invoices and subscriptions.
+	// ID of a PaymentMethod attached to the customer account to use as the default for invoices and subscriptions.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
-	// Default settings used on invoices for this customer.
+	// Default invoice settings for the customer account.
 	Invoice *V2CoreAccountConfigurationCustomerBillingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
@@ -109,7 +109,7 @@ type V2CoreAccountConfigurationCustomerParams struct {
 
 // Settings used for Bacs debit payments.
 type V2CoreAccountConfigurationMerchantBACSDebitPaymentsParams struct {
-	// Display name for Bacs debit payments.
+	// Display name for Bacs Direct Debit payments.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 }
 
@@ -565,7 +565,7 @@ type V2CoreAccountConfigurationMerchantSupportAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -581,11 +581,11 @@ type V2CoreAccountConfigurationMerchantSupportParams struct {
 	URL *string `form:"url" json:"url,omitempty"`
 }
 
-// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
+// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 type V2CoreAccountConfigurationMerchantParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
-	// Settings used for Bacs debit payments.
+	// Settings for Bacs Direct Debit payments.
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
 	Branding *V2CoreAccountConfigurationMerchantBrandingParams `form:"branding" json:"branding,omitempty"`
@@ -595,11 +595,11 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	CardPayments *V2CoreAccountConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
 	// Settings specific to Konbini payments on the account.
 	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
-	// The merchant category code for the Merchant Configuration. MCCs are used to classify businesses based on the goods or services they provide.
+	// The Merchant Category Code (MCC) for the Merchant Configuration. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
-	// Statement descriptor.
+	// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
 	StatementDescriptor *V2CoreAccountConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
 	Support *V2CoreAccountConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
@@ -631,7 +631,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -639,7 +639,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 	StripeTransfers *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -653,7 +653,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds.
+// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountConfigurationRecipientParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
@@ -789,9 +789,9 @@ type V2CoreAccountConfigurationStorerParams struct {
 type V2CoreAccountConfigurationParams struct {
 	// The Customer Configuration allows the Account to be used in inbound payment flows.
 	Customer *V2CoreAccountConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
-	// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
+	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds.
+	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	Recipient *V2CoreAccountConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 	// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 	Storer *V2CoreAccountConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
@@ -927,7 +927,7 @@ type V2CoreAccountIdentityBusinessDetailsAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1097,7 +1097,7 @@ type V2CoreAccountIdentityBusinessDetailsScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1115,7 +1115,7 @@ type V2CoreAccountIdentityBusinessDetailsScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1155,7 +1155,7 @@ type V2CoreAccountIdentityBusinessDetailsParams struct {
 	AnnualRevenue *V2CoreAccountIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	// Estimated maximum number of workers currently engaged by the business (including employees, contractors, and vendors).
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
 	IDNumbers []*V2CoreAccountIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
@@ -1189,7 +1189,7 @@ type V2CoreAccountIdentityIndividualAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1219,7 +1219,7 @@ type V2CoreAccountIdentityIndividualAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1339,7 +1339,7 @@ type V2CoreAccountIdentityIndividualScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1357,7 +1357,7 @@ type V2CoreAccountIdentityIndividualScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1521,31 +1521,31 @@ type V2CoreAccountCreateConfigurationCustomerBillingInvoiceCustomFieldParams str
 	Value *string `form:"value" json:"value"`
 }
 
-// Default options for invoice PDF rendering for this customer.
+// Default invoice PDF rendering options.
 type V2CoreAccountCreateConfigurationCustomerBillingInvoiceRenderingParams struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of exclude_tax or include_inclusive_tax. include_inclusive_tax will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. exclude_tax will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	// Indicates whether displayed line item prices and amounts on invoice PDFs include inclusive tax amounts. Must be either `include_inclusive_tax` or `exclude_tax`.
 	AmountTaxDisplay *string `form:"amount_tax_display" json:"amount_tax_display,omitempty"`
 	// ID of the invoice rendering template to use for future invoices.
 	Template *string `form:"template" json:"template,omitempty"`
 }
 
-// Default settings used on invoices for this customer.
+// Default invoice settings for the customer account.
 type V2CoreAccountCreateConfigurationCustomerBillingInvoiceParams struct {
 	// The list of up to 4 default custom fields to be displayed on invoices for this customer.
 	CustomFields []*V2CoreAccountCreateConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Default footer to be displayed on invoices for this customer.
+	// Default invoice footer.
 	Footer *string `form:"footer" json:"footer,omitempty"`
-	// The sequence to be used on the customer's next invoice. Defaults to 1.
+	// Sequence number to use on the customer account's next invoice. Defaults to 1.
 	NextSequence *int64 `form:"next_sequence" json:"next_sequence,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// Prefix used to generate unique invoice numbers. Must be 3-12 uppercase letters or numbers.
 	Prefix *string `form:"prefix" json:"prefix,omitempty"`
-	// Default options for invoice PDF rendering for this customer.
+	// Default invoice PDF rendering options.
 	Rendering *V2CoreAccountCreateConfigurationCustomerBillingInvoiceRenderingParams `form:"rendering" json:"rendering,omitempty"`
 }
 
 // Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
 type V2CoreAccountCreateConfigurationCustomerBillingParams struct {
-	// Default settings used on invoices for this customer.
+	// Default invoice settings for the customer account.
 	Invoice *V2CoreAccountCreateConfigurationCustomerBillingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
@@ -1587,7 +1587,7 @@ type V2CoreAccountCreateConfigurationCustomerParams struct {
 
 // Settings used for Bacs debit payments.
 type V2CoreAccountCreateConfigurationMerchantBACSDebitPaymentsParams struct {
-	// Display name for Bacs debit payments.
+	// Display name for Bacs Direct Debit payments.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 }
 
@@ -2043,7 +2043,7 @@ type V2CoreAccountCreateConfigurationMerchantSupportAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -2059,7 +2059,7 @@ type V2CoreAccountCreateConfigurationMerchantSupportParams struct {
 	URL *string `form:"url" json:"url,omitempty"`
 }
 
-// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
+// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 type V2CoreAccountCreateConfigurationMerchantParams struct {
 	// Settings used for Bacs debit payments.
 	BACSDebitPayments *V2CoreAccountCreateConfigurationMerchantBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
@@ -2071,7 +2071,7 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	CardPayments *V2CoreAccountCreateConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
 	// Settings specific to Konbini payments on the account.
 	KonbiniPayments *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
-	// The merchant category code for the Merchant Configuration. MCCs are used to classify businesses based on the goods or services they provide.
+	// The Merchant Category Code (MCC) for the Merchant Configuration. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
@@ -2107,7 +2107,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested"`
 }
 
-// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
@@ -2115,7 +2115,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTra
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 	StripeTransfers *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -2129,7 +2129,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds.
+// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountCreateConfigurationRecipientParams struct {
 	// Capabilities to be requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountCreateConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
@@ -2259,9 +2259,9 @@ type V2CoreAccountCreateConfigurationStorerParams struct {
 type V2CoreAccountCreateConfigurationParams struct {
 	// The Customer Configuration allows the Account to be used in inbound payment flows.
 	Customer *V2CoreAccountCreateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
-	// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
+	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountCreateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds.
+	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	Recipient *V2CoreAccountCreateConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 	// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 	Storer *V2CoreAccountCreateConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
@@ -2395,7 +2395,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -2565,7 +2565,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsScriptAddressesKanaParams struct 
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -2583,7 +2583,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsScriptAddressesKanjiParams struct
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -2623,7 +2623,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
 	AnnualRevenue *V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountCreateIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	// Estimated maximum number of workers currently engaged by the business (including employees, contractors, and vendors).
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
 	IDNumbers []*V2CoreAccountCreateIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
@@ -2657,7 +2657,7 @@ type V2CoreAccountCreateIdentityIndividualAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -2687,7 +2687,7 @@ type V2CoreAccountCreateIdentityIndividualAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -2807,7 +2807,7 @@ type V2CoreAccountCreateIdentityIndividualScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -2825,7 +2825,7 @@ type V2CoreAccountCreateIdentityIndividualScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -2963,13 +2963,13 @@ type V2CoreAccountRetrieveParams struct {
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 type V2CoreAccountUpdateConfigurationCustomerAutomaticIndirectTaxParams struct {
-	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: “Reverse charge”.
+	// The customer account's tax exemption status: `none`, `exempt`, or `reverse`. When `reverse`, invoice and receipt PDFs include "Reverse charge".
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
-	// The data source used to identify the customer's tax location - defaults to `identity_address`. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions. This behavior is now deprecated for new users.
+	// Data source used to identify the customer account's tax location. Defaults to `identity_address`. Used for automatic indirect tax calculation.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
-	// A per-request flag that indicates when Stripe should validate the customer tax location - defaults to 'auto'.
+	// A per-request flag that indicates when Stripe should validate the customer tax location - defaults to `auto`.
 	ValidateLocation *string `form:"validate_location" json:"validate_location,omitempty"`
 }
 
@@ -2981,33 +2981,33 @@ type V2CoreAccountUpdateConfigurationCustomerBillingInvoiceCustomFieldParams str
 	Value *string `form:"value" json:"value"`
 }
 
-// Default options for invoice PDF rendering for this customer.
+// Default invoice PDF rendering options.
 type V2CoreAccountUpdateConfigurationCustomerBillingInvoiceRenderingParams struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of exclude_tax or include_inclusive_tax. include_inclusive_tax will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. exclude_tax will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	// Indicates whether displayed line item prices and amounts on invoice PDFs include inclusive tax amounts. Must be either `include_inclusive_tax` or `exclude_tax`.
 	AmountTaxDisplay *string `form:"amount_tax_display" json:"amount_tax_display,omitempty"`
 	// ID of the invoice rendering template to use for future invoices.
 	Template *string `form:"template" json:"template,omitempty"`
 }
 
-// Default settings used on invoices for this customer.
+// Default invoice settings for the customer account.
 type V2CoreAccountUpdateConfigurationCustomerBillingInvoiceParams struct {
 	// The list of up to 4 default custom fields to be displayed on invoices for this customer.
 	CustomFields []*V2CoreAccountUpdateConfigurationCustomerBillingInvoiceCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
-	// Default footer to be displayed on invoices for this customer.
+	// Default invoice footer.
 	Footer *string `form:"footer" json:"footer,omitempty"`
-	// The sequence to be used on the customer's next invoice. Defaults to 1.
+	// Sequence number to use on the customer account's next invoice. Defaults to 1.
 	NextSequence *int64 `form:"next_sequence" json:"next_sequence,omitempty"`
-	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	// Prefix used to generate unique invoice numbers. Must be 3-12 uppercase letters or numbers.
 	Prefix *string `form:"prefix" json:"prefix,omitempty"`
-	// Default options for invoice PDF rendering for this customer.
+	// Default invoice PDF rendering options.
 	Rendering *V2CoreAccountUpdateConfigurationCustomerBillingInvoiceRenderingParams `form:"rendering" json:"rendering,omitempty"`
 }
 
 // Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
 type V2CoreAccountUpdateConfigurationCustomerBillingParams struct {
-	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for invoices and subscriptions.
+	// ID of a PaymentMethod attached to the customer account to use as the default for invoices and subscriptions.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
-	// Default settings used on invoices for this customer.
+	// Default invoice settings for the customer account.
 	Invoice *V2CoreAccountUpdateConfigurationCustomerBillingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
@@ -3049,9 +3049,9 @@ type V2CoreAccountUpdateConfigurationCustomerParams struct {
 	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
 }
 
-// Settings used for Bacs debit payments.
+// Settings for Bacs Direct Debit payments.
 type V2CoreAccountUpdateConfigurationMerchantBACSDebitPaymentsParams struct {
-	// Display name for Bacs debit payments.
+	// Display name for Bacs Direct Debit payments.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 }
 
@@ -3485,7 +3485,7 @@ type V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams str
 	Kanji *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
-// Statement descriptor.
+// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
 type V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
 	Descriptor *string `form:"descriptor" json:"descriptor,omitempty"`
@@ -3507,7 +3507,7 @@ type V2CoreAccountUpdateConfigurationMerchantSupportAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -3523,11 +3523,11 @@ type V2CoreAccountUpdateConfigurationMerchantSupportParams struct {
 	URL *string `form:"url" json:"url,omitempty"`
 }
 
-// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
+// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
-	// Settings used for Bacs debit payments.
+	// Settings for Bacs Direct Debit payments.
 	BACSDebitPayments *V2CoreAccountUpdateConfigurationMerchantBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
 	Branding *V2CoreAccountUpdateConfigurationMerchantBrandingParams `form:"branding" json:"branding,omitempty"`
@@ -3537,11 +3537,11 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	CardPayments *V2CoreAccountUpdateConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
 	// Settings specific to Konbini payments on the account.
 	KonbiniPayments *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
-	// The merchant category code for the merchant. MCCs are used to classify businesses based on the goods or services they provide.
+	// The Merchant Category Code (MCC) for the merchant. MCCs classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
-	// Statement descriptor.
+	// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
 	StatementDescriptor *V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
 	Support *V2CoreAccountUpdateConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
@@ -3573,7 +3573,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -3581,7 +3581,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTra
 
 // Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 	StripeTransfers *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -3595,7 +3595,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams struct {
 	StripeBalance *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
-// The Recipient Configuration allows the Account to receive funds.
+// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 type V2CoreAccountUpdateConfigurationRecipientParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
@@ -3731,9 +3731,9 @@ type V2CoreAccountUpdateConfigurationStorerParams struct {
 type V2CoreAccountUpdateConfigurationParams struct {
 	// The Customer Configuration allows the Account to be charged.
 	Customer *V2CoreAccountUpdateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
-	// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
+	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountUpdateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
-	// The Recipient Configuration allows the Account to receive funds.
+	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	Recipient *V2CoreAccountUpdateConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
 	// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 	Storer *V2CoreAccountUpdateConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
@@ -3879,7 +3879,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -4049,7 +4049,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsScriptAddressesKanaParams struct 
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -4067,7 +4067,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsScriptAddressesKanjiParams struct
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -4107,7 +4107,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
 	AnnualRevenue *V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	// Estimated maximum number of workers currently engaged by the business (including employees, contractors, and vendors).
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
 	IDNumbers []*V2CoreAccountUpdateIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
@@ -4141,7 +4141,7 @@ type V2CoreAccountUpdateIdentityIndividualAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -4171,7 +4171,7 @@ type V2CoreAccountUpdateIdentityIndividualAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -4291,7 +4291,7 @@ type V2CoreAccountUpdateIdentityIndividualScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -4309,7 +4309,7 @@ type V2CoreAccountUpdateIdentityIndividualScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 

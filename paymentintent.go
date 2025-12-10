@@ -10,7 +10,7 @@ import "encoding/json"
 
 // Controls whether this PaymentIntent will accept redirect-based payment methods.
 //
-// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://stripe.com/docs/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
+// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
 type PaymentIntentAutomaticPaymentMethodsAllowRedirects string
 
 // List of values that PaymentIntentAutomaticPaymentMethodsAllowRedirects can take
@@ -528,7 +528,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkVisa            PaymentIntentPaymentMethodOptionsCardNetwork = "visa"
 )
 
-// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization can take
@@ -537,7 +537,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization = "never"
 )
 
-// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
+// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization can take
@@ -546,7 +546,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization = "never"
 )
 
-// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+// Request ability to [increment the authorization](https://docs.stripe.com/payments/incremental-authorization) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization can take
@@ -555,7 +555,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization = "never"
 )
 
-// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
+// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestMulticapture string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestMulticapture can take
@@ -564,7 +564,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestMulticaptureNever       PaymentIntentPaymentMethodOptionsCardRequestMulticapture = "never"
 )
 
-// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
+// Request ability to [overcapture](https://docs.stripe.com/payments/overcapture) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestOvercapture string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestOvercapture can take
@@ -582,7 +582,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization = "never"
 )
 
-// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure can take
@@ -1521,7 +1521,7 @@ const (
 	PaymentIntentSetupFutureUsageOnSession  PaymentIntentSetupFutureUsage = "on_session"
 )
 
-// Status of this PaymentIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `requires_capture`, `canceled`, or `succeeded`. Read more about each PaymentIntent [status](https://stripe.com/docs/payments/intents#intent-statuses).
+// Status of this PaymentIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `requires_capture`, `canceled`, or `succeeded`. Read more about each PaymentIntent [status](https://docs.stripe.com/payments/intents#intent-statuses).
 type PaymentIntentStatus string
 
 // List of values that PaymentIntentStatus can take
@@ -1544,7 +1544,7 @@ type PaymentIntentListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return PaymentIntents for the customer that this customer ID specifies.
 	Customer *string `form:"customer"`
-	// Only return PaymentIntents for the account that this ID specifies.
+	// Only return PaymentIntents for the account representing the customer that this ID specifies.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -1603,7 +1603,7 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsParams struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentAmountDetailsLineItemTaxParams struct {
-	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -1611,7 +1611,7 @@ type PaymentIntentAmountDetailsLineItemTaxParams struct {
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentAmountDetailsLineItemParams struct {
-	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -1627,7 +1627,7 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentAmountDetailsLineItemTaxParams `form:"tax"`
-	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -1635,7 +1635,7 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentAmountDetailsShippingParams struct {
-	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
 	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
@@ -1645,7 +1645,7 @@ type PaymentIntentAmountDetailsShippingParams struct {
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentAmountDetailsTaxParams struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -1653,7 +1653,7 @@ type PaymentIntentAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentAmountDetailsParams struct {
-	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -1669,7 +1669,7 @@ type PaymentIntentAmountDetailsParams struct {
 type PaymentIntentAutomaticPaymentMethodsParams struct {
 	// Controls whether this PaymentIntent will accept redirect-based payment methods.
 	//
-	// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://stripe.com/docs/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
+	// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
 	AllowRedirects *string `form:"allow_redirects"`
 	// Whether this feature is enabled.
 	Enabled *bool `form:"enabled"`
@@ -1677,7 +1677,7 @@ type PaymentIntentAutomaticPaymentMethodsParams struct {
 
 // Tax arguments for automations
 type PaymentIntentHooksInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
@@ -1716,7 +1716,7 @@ type PaymentIntentMandateDataCustomerAcceptanceParams struct {
 	Type *string `form:"type"`
 }
 
-// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 type PaymentIntentMandateDataParams struct {
 	// This hash contains details about the customer acceptance of the Mandate.
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
@@ -2558,14 +2558,14 @@ type PaymentIntentPaymentMethodDataBillingDetailsParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type PaymentIntentPaymentMethodDataRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
 // If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
-// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
+// in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
 // property on the PaymentIntent.
 type PaymentIntentPaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -2630,7 +2630,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Link *PaymentMethodLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *PaymentMethodMobilepayParams `form:"mobilepay"`
@@ -2662,7 +2662,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 	Qris *PaymentMethodQrisParams `form:"qris"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
@@ -2936,7 +2936,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
 
 // Installment configuration for payments attempted on this PaymentIntent.
 //
-// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 type PaymentIntentPaymentMethodOptionsCardInstallmentsParams struct {
 	// Setting to true enables installments for this PaymentIntent.
 	// This will cause the response to contain a list of available installment plans.
@@ -3042,7 +3042,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	CVCToken *string `form:"cvc_token"`
 	// Installment configuration for payments attempted on this PaymentIntent.
 	//
-	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+	// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 	Installments *PaymentIntentPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *PaymentIntentPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options"`
@@ -3052,19 +3052,19 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network"`
-	// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+	// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
 	RequestDecrementalAuthorization *string `form:"request_decremental_authorization"`
-	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
+	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
-	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	// Request ability to [increment the authorization](https://docs.stripe.com/payments/incremental-authorization) for this PaymentIntent.
 	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
-	// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
 	RequestMulticapture *string `form:"request_multicapture"`
-	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
+	// Request ability to [overcapture](https://docs.stripe.com/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture *string `form:"request_overcapture"`
 	// Request partial authorization on this PaymentIntent.
 	RequestPartialAuthorization *string `form:"request_partial_authorization"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection *bool `form:"require_cvc_recollection"`
@@ -3103,9 +3103,9 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
-	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
+	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
-	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
+	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
 	Routing *PaymentIntentPaymentMethodOptionsCardPresentRoutingParams `form:"routing"`
@@ -4118,7 +4118,7 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// The line items purchased by the customer.
 	LineItems []*PaymentIntentPaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
-	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
+	// [Preferred locale](https://docs.stripe.com/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
 	Reference *string `form:"reference"`
@@ -4611,21 +4611,21 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Zip *PaymentIntentPaymentMethodOptionsZipParams `form:"zip"`
 }
 
-// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
+// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
 // The parameters that you can use to automatically create a Transfer.
-// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
 	// The amount is capped at the total transaction amount and if no amount is set,
 	// the full amount is transferred.
 	//
 	// If you intend to collect a fee and you need a more robust reporting experience, using
-	// [application_fee_amount](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-application_fee_amount)
+	// [application_fee_amount](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-application_fee_amount)
 	// might be a better fit for your integration.
 	Amount *int64 `form:"amount"`
 	// If specified, successful charges will be attributed to the destination
@@ -4647,11 +4647,11 @@ type PaymentIntentTransferDataParams struct {
 // confirm=true.
 type PaymentIntentParams struct {
 	Params `form:"*"`
-	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *PaymentIntentAmountDetailsParams `form:"amount_details"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 	AutomaticPaymentMethods *PaymentIntentAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
@@ -4659,7 +4659,7 @@ type PaymentIntentParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// The client secret of the PaymentIntent. We require it if you use a publishable key to retrieve the source.
 	ClientSecret *string `form:"client_secret"`
-	// Set to `true` to attempt to [confirm this PaymentIntent](https://stripe.com/docs/api/payment_intents/confirm) immediately. This parameter defaults to `false`. When creating and confirming a PaymentIntent at the same time, you can also provide the parameters available in the [Confirm API](https://stripe.com/docs/api/payment_intents/confirm).
+	// Set to `true` to attempt to [confirm this PaymentIntent](https://docs.stripe.com/api/payment_intents/confirm) immediately. This parameter defaults to `false`. When creating and confirming a PaymentIntent at the same time, you can also provide the parameters available in the [Confirm API](https://docs.stripe.com/api/payment_intents/confirm).
 	Confirm *bool `form:"confirm"`
 	// Describes whether we can confirm this PaymentIntent automatically, or if it requires customer action to confirm the payment.
 	ConfirmationMethod *string `form:"confirmation_method"`
@@ -4673,13 +4673,13 @@ type PaymentIntentParams struct {
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.
 	//
-	// If [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead.
+	// If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead.
 	Customer *string `form:"customer"`
-	// ID of the Account this PaymentIntent belongs to, if one exists.
+	// ID of the Account representing the customer that this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Accounts cannot be used with this PaymentIntent.
 	//
-	// If [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead.
+	// If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead.
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
@@ -4691,37 +4691,37 @@ type PaymentIntentParams struct {
 	FxQuote *string `form:"fx_quote"`
 	// Automations to be run during the PaymentIntent lifecycle
 	Hooks *PaymentIntentHooksParams `form:"hooks"`
-	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
-	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The Stripe account ID that these funds are intended for. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The Stripe account ID that these funds are intended for. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentPaymentDetailsParams `form:"payment_details"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
-	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://stripe.com/docs/api#create_payment_intent-customer) parameter of this PaymentIntent.
+	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://api.stripe.com#create_payment_intent-customer) parameter of this PaymentIntent.
 	// end
 	PaymentMethod *string `form:"payment_method"`
-	// The ID of the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) to use with this PaymentIntent.
+	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
-	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
+	// in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
 	// property on the PaymentIntent.
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
-	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
+	// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 	RadarOptions *PaymentIntentRadarOptionsParams `form:"radar_options"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
-	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	ReturnURL *string `form:"return_url"`
 	// Indicates whether confirmation for this PaymentIntent using a secret key is `required` or `optional`.
 	SecretKeyConfirmation *string `form:"secret_key_confirmation"`
@@ -4743,14 +4743,14 @@ type PaymentIntentParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
-	// A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferGroup *string `form:"transfer_group"`
 	// These parameters apply only for paymentIntent.New with `confirm=true`
-	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://docs.stripe.com/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
-	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards). This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://docs.stripe.com/payments/cards/charging-saved-cards). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	OffSession *bool `form:"off_session"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
@@ -4792,7 +4792,7 @@ type PaymentIntentApplyCustomerBalanceParams struct {
 	Params `form:"*"`
 	// Amount that you intend to apply to this PaymentIntent from the customer's cash balance. If the PaymentIntent was created by an Invoice, the full amount of the PaymentIntent is applied regardless of this parameter.
 	//
-	// A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency). The maximum amount is the amount of the PaymentIntent.
+	// A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency). The maximum amount is the amount of the PaymentIntent.
 	//
 	// When you omit the amount, it defaults to the remaining amount requested on the PaymentIntent.
 	Amount *int64 `form:"amount"`
@@ -4873,7 +4873,7 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsParams struct 
 
 // Contains information about the tax on the item.
 type PaymentIntentCaptureAmountDetailsLineItemTaxParams struct {
-	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -4881,7 +4881,7 @@ type PaymentIntentCaptureAmountDetailsLineItemTaxParams struct {
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentCaptureAmountDetailsLineItemParams struct {
-	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -4897,7 +4897,7 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentCaptureAmountDetailsLineItemTaxParams `form:"tax"`
-	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -4905,7 +4905,7 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentCaptureAmountDetailsShippingParams struct {
-	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
 	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
@@ -4915,7 +4915,7 @@ type PaymentIntentCaptureAmountDetailsShippingParams struct {
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentCaptureAmountDetailsTaxParams struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -4923,7 +4923,7 @@ type PaymentIntentCaptureAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentCaptureAmountDetailsParams struct {
-	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -4937,7 +4937,7 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 
 // Tax arguments for automations
 type PaymentIntentCaptureHooksInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
@@ -5786,15 +5786,15 @@ type PaymentIntentCaptureParams struct {
 	AmountDetails *PaymentIntentCaptureAmountDetailsParams `form:"amount_details"`
 	// The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Defaults to the full `amount_capturable` if it's not provided.
 	AmountToCapture *int64 `form:"amount_to_capture"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Defaults to `true`. When capturing a PaymentIntent, setting `final_capture` to `false` notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when [multicapture](https://stripe.com/docs/payments/multicapture) is available for PaymentIntents.
+	// Defaults to `true`. When capturing a PaymentIntent, setting `final_capture` to `false` notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when [multicapture](https://docs.stripe.com/payments/multicapture) is available for PaymentIntents.
 	FinalCapture *bool `form:"final_capture"`
 	// Automations to be run during the PaymentIntent lifecycle
 	Hooks *PaymentIntentCaptureHooksParams `form:"hooks"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentCapturePaymentDetailsParams `form:"payment_details"`
@@ -5805,7 +5805,7 @@ type PaymentIntentCaptureParams struct {
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// The parameters that you can use to automatically create a transfer after the payment
-	// is captured. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// is captured. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
 }
 
@@ -5871,7 +5871,7 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsParams struct 
 
 // Contains information about the tax on the item.
 type PaymentIntentConfirmAmountDetailsLineItemTaxParams struct {
-	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -5879,7 +5879,7 @@ type PaymentIntentConfirmAmountDetailsLineItemTaxParams struct {
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentConfirmAmountDetailsLineItemParams struct {
-	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -5895,7 +5895,7 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentConfirmAmountDetailsLineItemTaxParams `form:"tax"`
-	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -5903,7 +5903,7 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentConfirmAmountDetailsShippingParams struct {
-	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
 	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
@@ -5913,7 +5913,7 @@ type PaymentIntentConfirmAmountDetailsShippingParams struct {
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentConfirmAmountDetailsTaxParams struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -5921,7 +5921,7 @@ type PaymentIntentConfirmAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentConfirmAmountDetailsParams struct {
-	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -5935,7 +5935,7 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 
 // Tax arguments for automations
 type PaymentIntentConfirmHooksInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
@@ -6773,9 +6773,9 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	Subscription *PaymentIntentConfirmPaymentDetailsSubscriptionParams `form:"subscription"`
 }
 
-// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
+// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentConfirmRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
@@ -6813,7 +6813,7 @@ type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *PaymentIntentConfirmAmountDetailsParams `form:"amount_details"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
@@ -6821,7 +6821,7 @@ type PaymentIntentConfirmParams struct {
 	//
 	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
 	ConfirmationToken *string `form:"confirmation_token"`
-	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication).
+	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https://docs.stripe.com/payments/save-card-without-authentication).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// The list of payment method types to exclude from use with this payment.
 	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
@@ -6834,22 +6834,22 @@ type PaymentIntentConfirmParams struct {
 	// ID of the mandate that's used for this payment.
 	Mandate     *string                         `form:"mandate"`
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
-	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards).
+	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://docs.stripe.com/payments/cards/charging-saved-cards).
 	OffSession *bool `form:"off_session"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
-	// If the payment method is attached to a Customer, it must match the [customer](https://stripe.com/docs/api#create_payment_intent-customer) that is set on this PaymentIntent.
+	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+	// If the payment method is attached to a Customer, it must match the [customer](https://api.stripe.com#create_payment_intent-customer) that is set on this PaymentIntent.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
-	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
+	// in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
 	// property on the PaymentIntent.
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (for example, a card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
-	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
+	// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
@@ -6880,7 +6880,7 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 
 // Tax arguments for automations
 type PaymentIntentDecrementAuthorizationHooksInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
@@ -6897,7 +6897,7 @@ type PaymentIntentDecrementAuthorizationHooksParams struct {
 }
 
 // The parameters used to automatically create a transfer after the payment is captured.
-// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentDecrementAuthorizationTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
 	Amount *int64 `form:"amount"`
@@ -6923,7 +6923,7 @@ type PaymentIntentDecrementAuthorizationParams struct {
 	Params `form:"*"`
 	// The updated total amount that you intend to collect from the cardholder. This amount must be smaller than the currently authorized amount and greater than the already captured amount.
 	Amount *int64 `form:"amount"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
@@ -6931,10 +6931,10 @@ type PaymentIntentDecrementAuthorizationParams struct {
 	Expand []*string `form:"expand"`
 	// Automations to be run during the PaymentIntent lifecycle
 	Hooks *PaymentIntentDecrementAuthorizationHooksParams `form:"hooks"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The parameters used to automatically create a transfer after the payment is captured.
-	// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentDecrementAuthorizationTransferDataParams `form:"transfer_data"`
 }
 
@@ -7000,7 +7000,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 
 // Contains information about the tax on the item.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams struct {
-	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -7008,7 +7008,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams struct {
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
-	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -7024,7 +7024,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax"`
-	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -7032,7 +7032,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsShippingParams struct {
-	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
 	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
@@ -7042,7 +7042,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsShippingParams struct {
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsTaxParams struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -7050,7 +7050,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
-	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -7064,7 +7064,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 
 // Tax arguments for automations
 type PaymentIntentIncrementAuthorizationHooksInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
@@ -7107,7 +7107,7 @@ type PaymentIntentIncrementAuthorizationPaymentMethodOptionsParams struct {
 }
 
 // The parameters used to automatically create a transfer after the payment is captured.
-// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentIncrementAuthorizationTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
 	Amount *int64 `form:"amount"`
@@ -7143,7 +7143,7 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Amount *int64 `form:"amount"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *PaymentIntentIncrementAuthorizationAmountDetailsParams `form:"amount_details"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
@@ -7151,7 +7151,7 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Expand []*string `form:"expand"`
 	// Automations to be run during the PaymentIntent lifecycle
 	Hooks *PaymentIntentIncrementAuthorizationHooksParams `form:"hooks"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentIncrementAuthorizationPaymentDetailsParams `form:"payment_details"`
@@ -7160,7 +7160,7 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	// Text that appears on the customer's statement as the statement descriptor for a non-card or card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The parameters used to automatically create a transfer after the payment is captured.
-	// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentIncrementAuthorizationTransferDataParams `form:"transfer_data"`
 }
 
@@ -7264,7 +7264,7 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsParams struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentCreateAmountDetailsLineItemTaxParams struct {
-	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -7272,7 +7272,7 @@ type PaymentIntentCreateAmountDetailsLineItemTaxParams struct {
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentCreateAmountDetailsLineItemParams struct {
-	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -7288,7 +7288,7 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentCreateAmountDetailsLineItemTaxParams `form:"tax"`
-	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -7296,7 +7296,7 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentCreateAmountDetailsShippingParams struct {
-	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
 	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
@@ -7306,7 +7306,7 @@ type PaymentIntentCreateAmountDetailsShippingParams struct {
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentCreateAmountDetailsTaxParams struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -7314,7 +7314,7 @@ type PaymentIntentCreateAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentCreateAmountDetailsParams struct {
-	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -7330,7 +7330,7 @@ type PaymentIntentCreateAmountDetailsParams struct {
 type PaymentIntentCreateAutomaticPaymentMethodsParams struct {
 	// Controls whether this PaymentIntent will accept redirect-based payment methods.
 	//
-	// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://stripe.com/docs/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
+	// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
 	AllowRedirects *string `form:"allow_redirects"`
 	// Whether this feature is enabled.
 	Enabled *bool `form:"enabled"`
@@ -7338,7 +7338,7 @@ type PaymentIntentCreateAutomaticPaymentMethodsParams struct {
 
 // Tax arguments for automations
 type PaymentIntentCreateHooksInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
@@ -7377,7 +7377,7 @@ type PaymentIntentCreateMandateDataCustomerAcceptanceParams struct {
 	Type *string `form:"type"`
 }
 
-// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 type PaymentIntentCreateMandateDataParams struct {
 	// This hash contains details about the customer acceptance of the Mandate.
 	CustomerAcceptance *PaymentIntentCreateMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
@@ -8219,14 +8219,14 @@ type PaymentIntentCreatePaymentMethodDataBillingDetailsParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type PaymentIntentCreatePaymentMethodDataRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
 // If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
-// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
+// in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
 // property on the PaymentIntent.
 type PaymentIntentCreatePaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -8291,7 +8291,7 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Link *PaymentMethodLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *PaymentMethodMobilepayParams `form:"mobilepay"`
@@ -8323,7 +8323,7 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 	Qris *PaymentMethodQrisParams `form:"qris"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentCreatePaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
@@ -8597,7 +8597,7 @@ type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 
 // Installment configuration for payments attempted on this PaymentIntent.
 //
-// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsParams struct {
 	// Setting to true enables installments for this PaymentIntent.
 	// This will cause the response to contain a list of available installment plans.
@@ -8703,7 +8703,7 @@ type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	CVCToken *string `form:"cvc_token"`
 	// Installment configuration for payments attempted on this PaymentIntent.
 	//
-	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+	// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 	Installments *PaymentIntentCreatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *PaymentIntentCreatePaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options"`
@@ -8713,19 +8713,19 @@ type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network"`
-	// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+	// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
 	RequestDecrementalAuthorization *string `form:"request_decremental_authorization"`
-	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
+	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
-	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	// Request ability to [increment the authorization](https://docs.stripe.com/payments/incremental-authorization) for this PaymentIntent.
 	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
-	// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
 	RequestMulticapture *string `form:"request_multicapture"`
-	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
+	// Request ability to [overcapture](https://docs.stripe.com/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture *string `form:"request_overcapture"`
 	// Request partial authorization on this PaymentIntent.
 	RequestPartialAuthorization *string `form:"request_partial_authorization"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection *bool `form:"require_cvc_recollection"`
@@ -8764,9 +8764,9 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
-	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
+	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
-	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
+	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
 	Routing *PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams `form:"routing"`
@@ -9779,7 +9779,7 @@ type PaymentIntentCreatePaymentMethodOptionsPaypalParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// The line items purchased by the customer.
 	LineItems []*PaymentIntentCreatePaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
-	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
+	// [Preferred locale](https://docs.stripe.com/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
 	Reference *string `form:"reference"`
@@ -10272,21 +10272,21 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Zip *PaymentIntentCreatePaymentMethodOptionsZipParams `form:"zip"`
 }
 
-// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
+// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentCreateRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
 // The parameters that you can use to automatically create a Transfer.
-// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentCreateTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
 	// The amount is capped at the total transaction amount and if no amount is set,
 	// the full amount is transferred.
 	//
 	// If you intend to collect a fee and you need a more robust reporting experience, using
-	// [application_fee_amount](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-application_fee_amount)
+	// [application_fee_amount](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-application_fee_amount)
 	// might be a better fit for your integration.
 	Amount *int64 `form:"amount"`
 	// If specified, successful charges will be attributed to the destination
@@ -10308,17 +10308,17 @@ type PaymentIntentCreateTransferDataParams struct {
 // confirm=true.
 type PaymentIntentCreateParams struct {
 	Params `form:"*"`
-	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *PaymentIntentCreateAmountDetailsParams `form:"amount_details"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 	AutomaticPaymentMethods *PaymentIntentCreateAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
-	// Set to `true` to attempt to [confirm this PaymentIntent](https://stripe.com/docs/api/payment_intents/confirm) immediately. This parameter defaults to `false`. When creating and confirming a PaymentIntent at the same time, you can also provide the parameters available in the [Confirm API](https://stripe.com/docs/api/payment_intents/confirm).
+	// Set to `true` to attempt to [confirm this PaymentIntent](https://docs.stripe.com/api/payment_intents/confirm) immediately. This parameter defaults to `false`. When creating and confirming a PaymentIntent at the same time, you can also provide the parameters available in the [Confirm API](https://docs.stripe.com/api/payment_intents/confirm).
 	Confirm *bool `form:"confirm"`
 	// Describes whether we can confirm this PaymentIntent automatically, or if it requires customer action to confirm the payment.
 	ConfirmationMethod *string `form:"confirmation_method"`
@@ -10332,17 +10332,17 @@ type PaymentIntentCreateParams struct {
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.
 	//
-	// If [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead.
+	// If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead.
 	Customer *string `form:"customer"`
-	// ID of the Account this PaymentIntent belongs to, if one exists.
+	// ID of the Account representing the customer that this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Accounts cannot be used with this PaymentIntent.
 	//
-	// If [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead.
+	// If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead.
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://docs.stripe.com/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// The list of payment method types to exclude from use with this payment.
 	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
@@ -10352,39 +10352,39 @@ type PaymentIntentCreateParams struct {
 	FxQuote *string `form:"fx_quote"`
 	// Automations to be run during the PaymentIntent lifecycle
 	Hooks *PaymentIntentCreateHooksParams `form:"hooks"`
-	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
-	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	MandateData *PaymentIntentCreateMandateDataParams `form:"mandate_data"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://stripe.com/docs/payments/cards/charging-saved-cards). This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://docs.stripe.com/payments/cards/charging-saved-cards). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	OffSession *bool `form:"off_session"`
-	// The Stripe account ID that these funds are intended for. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The Stripe account ID that these funds are intended for. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentCreatePaymentDetailsParams `form:"payment_details"`
-	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
+	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://docs.stripe.com/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
-	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://stripe.com/docs/api#create_payment_intent-customer) parameter of this PaymentIntent.
+	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://api.stripe.com#create_payment_intent-customer) parameter of this PaymentIntent.
 	// end
 	PaymentMethod *string `form:"payment_method"`
-	// The ID of the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) to use with this PaymentIntent.
+	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
-	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
+	// in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
 	// property on the PaymentIntent.
 	PaymentMethodData *PaymentIntentCreatePaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentCreatePaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
-	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
+	// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 	RadarOptions *PaymentIntentCreateRadarOptionsParams `form:"radar_options"`
 	// Email address to send the receipt to. If you specify `receipt_email` for a payment in live mode, you send a receipt regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
-	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	ReturnURL *string `form:"return_url"`
 	// Indicates whether confirmation for this PaymentIntent using a secret key is `required` or `optional`.
 	SecretKeyConfirmation *string `form:"secret_key_confirmation"`
@@ -10405,9 +10405,9 @@ type PaymentIntentCreateParams struct {
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// The parameters that you can use to automatically create a Transfer.
-	// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentCreateTransferDataParams `form:"transfer_data"`
-	// A string that identifies the resulting payment as part of a group. Learn more about the [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers).
+	// A string that identifies the resulting payment as part of a group. Learn more about the [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers).
 	TransferGroup *string `form:"transfer_group"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
@@ -10493,7 +10493,7 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsParams struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentUpdateAmountDetailsLineItemTaxParams struct {
-	// The total amount of tax on a single line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -10501,7 +10501,7 @@ type PaymentIntentUpdateAmountDetailsLineItemTaxParams struct {
 
 // A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
 type PaymentIntentUpdateAmountDetailsLineItemParams struct {
-	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -10517,7 +10517,7 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentUpdateAmountDetailsLineItemTaxParams `form:"tax"`
-	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost *int64 `form:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc.
 	UnitOfMeasure *string `form:"unit_of_measure"`
@@ -10525,7 +10525,7 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 
 // Contains information about the shipping portion of the amount.
 type PaymentIntentUpdateAmountDetailsShippingParams struct {
-	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount"`
 	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
@@ -10535,7 +10535,7 @@ type PaymentIntentUpdateAmountDetailsShippingParams struct {
 
 // Contains information about the tax portion of the amount.
 type PaymentIntentUpdateAmountDetailsTaxParams struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
@@ -10543,7 +10543,7 @@ type PaymentIntentUpdateAmountDetailsTaxParams struct {
 
 // Provides industry-specific information about the amount.
 type PaymentIntentUpdateAmountDetailsParams struct {
-	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
@@ -10557,7 +10557,7 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 
 // Tax arguments for automations
 type PaymentIntentUpdateHooksInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
@@ -11431,14 +11431,14 @@ type PaymentIntentUpdatePaymentMethodDataBillingDetailsParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type PaymentIntentUpdatePaymentMethodDataRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
 // If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
-// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
+// in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
 // property on the PaymentIntent.
 type PaymentIntentUpdatePaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -11503,7 +11503,7 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Link *PaymentMethodLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *PaymentMethodMobilepayParams `form:"mobilepay"`
@@ -11535,7 +11535,7 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 	Qris *PaymentMethodQrisParams `form:"qris"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentUpdatePaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
@@ -11809,7 +11809,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 
 // Installment configuration for payments attempted on this PaymentIntent.
 //
-// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsParams struct {
 	// Setting to true enables installments for this PaymentIntent.
 	// This will cause the response to contain a list of available installment plans.
@@ -11915,7 +11915,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	CVCToken *string `form:"cvc_token"`
 	// Installment configuration for payments attempted on this PaymentIntent.
 	//
-	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+	// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 	Installments *PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *PaymentIntentUpdatePaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options"`
@@ -11925,19 +11925,19 @@ type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network"`
-	// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+	// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
 	RequestDecrementalAuthorization *string `form:"request_decremental_authorization"`
-	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
+	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
-	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	// Request ability to [increment the authorization](https://docs.stripe.com/payments/incremental-authorization) for this PaymentIntent.
 	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
-	// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
 	RequestMulticapture *string `form:"request_multicapture"`
-	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
+	// Request ability to [overcapture](https://docs.stripe.com/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture *string `form:"request_overcapture"`
 	// Request partial authorization on this PaymentIntent.
 	RequestPartialAuthorization *string `form:"request_partial_authorization"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection *bool `form:"require_cvc_recollection"`
@@ -11976,9 +11976,9 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
-	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
+	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
-	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
+	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
 	Routing *PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams `form:"routing"`
@@ -12991,7 +12991,7 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypalParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// The line items purchased by the customer.
 	LineItems []*PaymentIntentUpdatePaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
-	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
+	// [Preferred locale](https://docs.stripe.com/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
 	Reference *string `form:"reference"`
@@ -13484,7 +13484,7 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Zip *PaymentIntentUpdatePaymentMethodOptionsZipParams `form:"zip"`
 }
 
-// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentUpdateTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
 	Amount *int64 `form:"amount"`
@@ -13499,11 +13499,11 @@ type PaymentIntentUpdateTransferDataParams struct {
 // the [confirm API](https://docs.stripe.com/docs/api/payment_intents/confirm) instead.
 type PaymentIntentUpdateParams struct {
 	Params `form:"*"`
-	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *PaymentIntentUpdateAmountDetailsParams `form:"amount_details"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
@@ -13513,13 +13513,13 @@ type PaymentIntentUpdateParams struct {
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.
 	//
-	// If [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead.
+	// If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead.
 	Customer *string `form:"customer"`
-	// ID of the Account this PaymentIntent belongs to, if one exists.
+	// ID of the Account representing the customer that this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Accounts cannot be used with this PaymentIntent.
 	//
-	// If [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead.
+	// If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead.
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
@@ -13533,15 +13533,15 @@ type PaymentIntentUpdateParams struct {
 	Hooks *PaymentIntentUpdateHooksParams `form:"hooks"`
 	// This hash contains details about the Mandate to create.
 	MandateData *PaymentIntentUpdateMandateDataParams `form:"mandate_data"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentUpdatePaymentDetailsParams `form:"payment_details"`
 	PaymentMethod  *string                                  `form:"payment_method"`
-	// The ID of the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) to use with this PaymentIntent.
+	// The ID of the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
-	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
+	// in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method)
 	// property on the PaymentIntent.
 	PaymentMethodData *PaymentIntentUpdatePaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
@@ -13568,9 +13568,9 @@ type PaymentIntentUpdateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentUpdateTransferDataParams `form:"transfer_data"`
-	// A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -13589,7 +13589,7 @@ func (p *PaymentIntentUpdateParams) AddMetadata(key string, value string) {
 }
 
 type PaymentIntentAmountDetailsShipping struct {
-	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than or equal to 0.
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount int64 `json:"amount"`
 	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode string `json:"from_postal_code"`
@@ -13597,7 +13597,7 @@ type PaymentIntentAmountDetailsShipping struct {
 	ToPostalCode string `json:"to_postal_code"`
 }
 type PaymentIntentAmountDetailsTax struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount int64 `json:"total_tax_amount"`
@@ -13607,7 +13607,7 @@ type PaymentIntentAmountDetailsTip struct {
 	Amount int64 `json:"amount"`
 }
 type PaymentIntentAmountDetails struct {
-	// The total discount applied on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount int64 `json:"discount_amount"`
@@ -13617,18 +13617,28 @@ type PaymentIntentAmountDetails struct {
 	Tax       *PaymentIntentAmountDetailsTax          `json:"tax"`
 	Tip       *PaymentIntentAmountDetailsTip          `json:"tip"`
 }
+type PaymentIntentAsyncWorkflowsInputsTax struct {
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
+	Calculation string `json:"calculation"`
+}
+type PaymentIntentAsyncWorkflowsInputs struct {
+	Tax *PaymentIntentAsyncWorkflowsInputsTax `json:"tax"`
+}
+type PaymentIntentAsyncWorkflows struct {
+	Inputs *PaymentIntentAsyncWorkflowsInputs `json:"inputs"`
+}
 
 // Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 type PaymentIntentAutomaticPaymentMethods struct {
 	// Controls whether this PaymentIntent will accept redirect-based payment methods.
 	//
-	// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://stripe.com/docs/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
+	// Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
 	AllowRedirects PaymentIntentAutomaticPaymentMethodsAllowRedirects `json:"allow_redirects"`
 	// Automatically calculates compatible payment methods
 	Enabled bool `json:"enabled"`
 }
 type PaymentIntentHooksInputsTax struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
 	Calculation string `json:"calculation"`
 }
 type PaymentIntentHooksInputs struct {
@@ -14142,7 +14152,7 @@ type PaymentIntentPaymentDetails struct {
 	Subscription   *PaymentIntentPaymentDetailsSubscription `json:"subscription"`
 }
 
-// Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this PaymentIntent.
+// Information about the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) used for this PaymentIntent.
 type PaymentIntentPaymentMethodConfigurationDetails struct {
 	// ID of the payment method configuration used.
 	ID string `json:"id"`
@@ -14310,7 +14320,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlan struct {
 
 // Installment details for this payment.
 //
-// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 type PaymentIntentPaymentMethodOptionsCardInstallments struct {
 	// Installment plans that may be selected for this PaymentIntent.
 	AvailablePlans []*PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"available_plans"`
@@ -14351,25 +14361,25 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardCaptureMethod `json:"capture_method"`
 	// Installment details for this payment.
 	//
-	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
+	// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
 	Installments *PaymentIntentPaymentMethodOptionsCardInstallments `json:"installments"`
 	// Configuration options for setting up an eMandate for cards issued in India.
 	MandateOptions *PaymentIntentPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
 	// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
 	Network PaymentIntentPaymentMethodOptionsCardNetwork `json:"network"`
-	// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+	// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
 	RequestDecrementalAuthorization PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization `json:"request_decremental_authorization"`
-	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
+	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization `json:"request_extended_authorization"`
-	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	// Request ability to [increment the authorization](https://docs.stripe.com/payments/incremental-authorization) for this PaymentIntent.
 	RequestIncrementalAuthorization PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization `json:"request_incremental_authorization"`
-	// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
 	RequestMulticapture PaymentIntentPaymentMethodOptionsCardRequestMulticapture `json:"request_multicapture"`
-	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
+	// Request ability to [overcapture](https://docs.stripe.com/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture PaymentIntentPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
 	// Request partial authorization on this PaymentIntent.
 	RequestPartialAuthorization PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization `json:"request_partial_authorization"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection bool `json:"require_cvc_recollection"`
@@ -14394,9 +14404,9 @@ type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod `json:"capture_method"`
-	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
+	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
-	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
+	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport bool                                                 `json:"request_incremental_authorization_support"`
 	Routing                                *PaymentIntentPaymentMethodOptionsCardPresentRouting `json:"routing"`
 }
@@ -15059,10 +15069,10 @@ type PaymentIntentProcessing struct {
 	Type PaymentIntentProcessingType `json:"type"`
 }
 
-// The data that automatically creates a Transfer after the payment finalizes. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+// The data that automatically creates a Transfer after the payment finalizes. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentTransferData struct {
 	// The amount transferred to the destination account. This transfer will occur automatically after the payment succeeds. If no amount is specified, by default the entire payment amount is transferred to the destination account.
-	//  The amount must be less than or equal to the [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount), and must be a positive integer
+	//  The amount must be less than or equal to the [amount](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-amount), and must be a positive integer
 	//  representing how much to transfer in the smallest currency unit (e.g., 100 cents to charge $1.00).
 	Amount int64 `json:"amount"`
 	// The account (if any) that the payment is attributed to for tax reporting, and where funds from the payment are transferred to after payment success.
@@ -15075,14 +15085,14 @@ type PaymentIntentTransferData struct {
 // see the history of payment attempts for a particular session.
 //
 // A PaymentIntent transitions through
-// [multiple statuses](https://stripe.com/docs/payments/intents#intent-statuses)
+// [multiple statuses](https://docs.stripe.com/payments/intents#intent-statuses)
 // throughout its lifetime as it interfaces with Stripe.js to perform
 // authentication flows and ultimately creates at most one successful charge.
 //
-// Related guide: [Payment Intents API](https://stripe.com/docs/payments/payment-intents)
+// Related guide: [Payment Intents API](https://docs.stripe.com/payments/payment-intents)
 type PaymentIntent struct {
 	APIResource
-	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount int64 `json:"amount"`
 	// Amount that can be captured from this PaymentIntent.
 	AmountCapturable int64                       `json:"amount_capturable"`
@@ -15091,8 +15101,9 @@ type PaymentIntent struct {
 	AmountReceived int64 `json:"amount_received"`
 	// ID of the Connect application that created the PaymentIntent.
 	Application *Application `json:"application"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
-	ApplicationFeeAmount int64 `json:"application_fee_amount"`
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
+	ApplicationFeeAmount int64                        `json:"application_fee_amount"`
+	AsyncWorkflows       *PaymentIntentAsyncWorkflows `json:"async_workflows"`
 	// Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 	AutomaticPaymentMethods *PaymentIntentAutomaticPaymentMethods `json:"automatic_payment_methods"`
 	// Populated when `status` is `canceled`, this is the time at which the PaymentIntent was canceled. Measured in seconds since the Unix epoch.
@@ -15105,7 +15116,7 @@ type PaymentIntent struct {
 	//
 	// The client secret can be used to complete a payment from your frontend. It should not be stored, logged, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
 	//
-	// Refer to our docs to [accept a payment](https://stripe.com/docs/payments/accept-a-payment?ui=elements) and learn about how `client_secret` should be handled.
+	// Refer to our docs to [accept a payment](https://docs.stripe.com/payments/accept-a-payment?ui=elements) and learn about how `client_secret` should be handled.
 	ClientSecret string `json:"client_secret"`
 	// Describes whether we can confirm this PaymentIntent automatically, or if it requires customer action to confirm the payment.
 	ConfirmationMethod PaymentIntentConfirmationMethod `json:"confirmation_method"`
@@ -15117,13 +15128,13 @@ type PaymentIntent struct {
 	//
 	// Payment methods attached to other Customers cannot be used with this PaymentIntent.
 	//
-	// If [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead.
+	// If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Customer after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Customer instead.
 	Customer *Customer `json:"customer"`
-	// ID of the Account this PaymentIntent belongs to, if one exists.
+	// ID of the Account representing the customer that this PaymentIntent belongs to, if one exists.
 	//
 	// Payment methods attached to other Accounts cannot be used with this PaymentIntent.
 	//
-	// If [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead.
+	// If [setup_future_usage](https://api.stripe.com#payment_intent_object-setup_future_usage) is set and this PaymentIntent's payment method is not `card_present`, then the payment method attaches to the Account after the PaymentIntent has been confirmed and any required actions from the user are complete. If the payment method is `card_present` and isn't a digital wallet, then a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card is created and attached to the Account instead.
 	CustomerAccount string `json:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
@@ -15136,22 +15147,23 @@ type PaymentIntent struct {
 	ID string `json:"id"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
 	LastPaymentError *Error `json:"last_payment_error"`
-	// ID of the latest [Charge object](https://stripe.com/docs/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted.
+	// ID of the latest [Charge object](https://docs.stripe.com/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted.
 	LatestCharge *Charge `json:"latest_charge"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Learn more about [storing information in metadata](https://stripe.com/docs/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Learn more about [storing information in metadata](https://docs.stripe.com/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
 	Metadata map[string]string `json:"metadata"`
 	// If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
 	NextAction *PaymentIntentNextAction `json:"next_action"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The account (if any) for which the funds of the PaymentIntent are intended. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts) for details.
+	// You can specify the settlement merchant as the
+	// connected account using the `on_behalf_of` attribute on the charge. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts) for details.
 	OnBehalfOf     *Account                     `json:"on_behalf_of"`
 	PaymentDetails *PaymentIntentPaymentDetails `json:"payment_details"`
 	// ID of the payment method used in this PaymentIntent.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
-	// Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this PaymentIntent.
+	// Information about the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) used for this PaymentIntent.
 	PaymentMethodConfigurationDetails *PaymentIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
@@ -15184,11 +15196,11 @@ type PaymentIntent struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix string `json:"statement_descriptor_suffix"`
-	// Status of this PaymentIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `requires_capture`, `canceled`, or `succeeded`. Read more about each PaymentIntent [status](https://stripe.com/docs/payments/intents#intent-statuses).
+	// Status of this PaymentIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `requires_capture`, `canceled`, or `succeeded`. Read more about each PaymentIntent [status](https://docs.stripe.com/payments/intents#intent-statuses).
 	Status PaymentIntentStatus `json:"status"`
-	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentTransferData `json:"transfer_data"`
-	// A string that identifies the resulting payment as part of a group. Learn more about the [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers).
+	// A string that identifies the resulting payment as part of a group. Learn more about the [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers).
 	TransferGroup string `json:"transfer_group"`
 }
 

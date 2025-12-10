@@ -26,7 +26,7 @@ const (
 	IssuingSettlementStatusPending  IssuingSettlementStatus = "pending"
 )
 
-// When a non-stripe BIN is used, any use of an [issued card](https://stripe.com/docs/issuing) must be settled directly with the card network. The net amount owed is represented by an Issuing `Settlement` object.
+// When a non-stripe BIN is used, any use of an [issued card](https://docs.stripe.com/issuing) must be settled directly with the card network. The net amount owed is represented by an Issuing `Settlement` object.
 type IssuingSettlement struct {
 	// The Bank Identification Number reflecting this settlement record.
 	Bin string `json:"bin"`
@@ -42,7 +42,7 @@ type IssuingSettlement struct {
 	InterchangeFeesAmount int64 `json:"interchange_fees_amount"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The total net amount required to settle with the network.
 	NetTotalAmount int64 `json:"net_total_amount"`

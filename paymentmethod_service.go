@@ -93,7 +93,7 @@ func (c v1PaymentMethodService) Detach(ctx context.Context, id string, params *P
 	return paymentmethod, err
 }
 
-// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer_list) API instead.
+// Returns a list of all PaymentMethods.
 func (c v1PaymentMethodService) List(ctx context.Context, listParams *PaymentMethodListParams) Seq2[*PaymentMethod, error] {
 	if listParams == nil {
 		listParams = &PaymentMethodListParams{}

@@ -151,7 +151,7 @@ type TreasuryReceivedDebitInitiatingPaymentMethodDetails struct {
 	Balance          TreasuryReceivedDebitInitiatingPaymentMethodDetailsBalance           `json:"balance"`
 	BillingDetails   *TreasuryReceivedDebitInitiatingPaymentMethodDetailsBillingDetails   `json:"billing_details"`
 	FinancialAccount *TreasuryReceivedDebitInitiatingPaymentMethodDetailsFinancialAccount `json:"financial_account"`
-	// Set when `type` is `issuing_card`. This is an [Issuing Card](https://stripe.com/docs/api#issuing_cards) ID.
+	// Set when `type` is `issuing_card`. This is an [Issuing Card](https://api.stripe.com#issuing_cards) ID.
 	IssuingCard string `json:"issuing_card"`
 	// Polymorphic type matching the originating money movement's source. This can be an external account, a Stripe balance, or a FinancialAccount.
 	Type          TreasuryReceivedDebitInitiatingPaymentMethodDetailsType           `json:"type"`
@@ -162,11 +162,11 @@ type TreasuryReceivedDebitLinkedFlows struct {
 	DebitReversal string `json:"debit_reversal"`
 	// Set if the ReceivedDebit is associated with an InboundTransfer's return of funds.
 	InboundTransfer string `json:"inbound_transfer"`
-	// Set if the ReceivedDebit was created due to an [Issuing Authorization](https://stripe.com/docs/api#issuing_authorizations) object.
+	// Set if the ReceivedDebit was created due to an [Issuing Authorization](https://api.stripe.com#issuing_authorizations) object.
 	IssuingAuthorization string `json:"issuing_authorization"`
-	// Set if the ReceivedDebit is also viewable as an [Issuing Dispute](https://stripe.com/docs/api#issuing_disputes) object.
+	// Set if the ReceivedDebit is also viewable as an [Issuing Dispute](https://api.stripe.com#issuing_disputes) object.
 	IssuingTransaction string `json:"issuing_transaction"`
-	// Set if the ReceivedDebit was created due to a [Payout](https://stripe.com/docs/api#payouts) object.
+	// Set if the ReceivedDebit was created due to a [Payout](https://api.stripe.com#payouts) object.
 	Payout string `json:"payout"`
 	// The ReceivedCredit that Capital withheld from
 	ReceivedCreditCapitalWithholding string `json:"received_credit_capital_withholding"`
@@ -194,7 +194,7 @@ type TreasuryReceivedDebitReversalDetails struct {
 	RestrictedReason TreasuryReceivedDebitReversalDetailsRestrictedReason `json:"restricted_reason"`
 }
 
-// ReceivedDebits represent funds pulled from a [FinancialAccount](https://stripe.com/docs/api#financial_accounts). These are not initiated from the FinancialAccount.
+// ReceivedDebits represent funds pulled from a [FinancialAccount](https://api.stripe.com#financial_accounts). These are not initiated from the FinancialAccount.
 type TreasuryReceivedDebit struct {
 	APIResource
 	// Amount (in cents) transferred.
@@ -209,7 +209,7 @@ type TreasuryReceivedDebit struct {
 	FailureCode TreasuryReceivedDebitFailureCode `json:"failure_code"`
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount string `json:"financial_account"`
-	// A [hosted transaction receipt](https://stripe.com/docs/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
+	// A [hosted transaction receipt](https://docs.stripe.com/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
 	HostedRegulatoryReceiptURL string `json:"hosted_regulatory_receipt_url"`
 	// Unique identifier for the object.
 	ID                             string                                               `json:"id"`

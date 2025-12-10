@@ -55,6 +55,7 @@ type V2MoneyManagementReceivedCreditBalanceTransferType string
 const (
 	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundPayment  V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_payment"
 	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundTransfer V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_transfer"
+	V2MoneyManagementReceivedCreditBalanceTransferTypeTransfer         V2MoneyManagementReceivedCreditBalanceTransferType = "transfer"
 	V2MoneyManagementReceivedCreditBalanceTransferTypePayoutV1         V2MoneyManagementReceivedCreditBalanceTransferType = "payout_v1"
 )
 
@@ -145,6 +146,8 @@ type V2MoneyManagementReceivedCreditBalanceTransfer struct {
 	OutboundTransfer string `json:"outbound_transfer,omitempty"`
 	// The ID of the payout object that originated the ReceivedCredit.
 	PayoutV1 string `json:"payout_v1,omitempty"`
+	// The ID of the v1 transfer object that originated the ReceivedCredit.
+	Transfer string `json:"transfer,omitempty"`
 	// Open Enum. The type of Stripe Money Movement that originated the ReceivedCredit.
 	Type V2MoneyManagementReceivedCreditBalanceTransferType `json:"type"`
 }

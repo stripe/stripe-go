@@ -32,7 +32,7 @@ type RadarValueListParams struct {
 	Expand []*string `form:"expand"`
 	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Use `string` if the item type is unknown or mixed.
 	ItemType *string `form:"item_type"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The human-readable name of the value list.
 	Name *string `form:"name"`
@@ -96,7 +96,7 @@ type RadarValueListUpdateParams struct {
 	Alias *string `form:"alias"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The human-readable name of the value list.
 	Name *string `form:"name"`
@@ -125,7 +125,7 @@ type RadarValueListCreateParams struct {
 	Expand []*string `form:"expand"`
 	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Use `string` if the item type is unknown or mixed.
 	ItemType *string `form:"item_type"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The human-readable name of the value list.
 	Name *string `form:"name"`
@@ -147,7 +147,7 @@ func (p *RadarValueListCreateParams) AddMetadata(key string, value string) {
 
 // Value lists allow you to group values together which can then be referenced in rules.
 //
-// Related guide: [Default Stripe lists](https://stripe.com/docs/radar/lists#managing-list-items)
+// Related guide: [Default Stripe lists](https://docs.stripe.com/radar/lists#managing-list-items)
 type RadarValueList struct {
 	APIResource
 	// The name of the value list for use in rules.
@@ -165,7 +165,7 @@ type RadarValueList struct {
 	ListItems *RadarValueListItemList `json:"list_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The name of the value list.
 	Name string `json:"name"`

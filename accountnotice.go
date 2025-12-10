@@ -6,7 +6,7 @@
 
 package stripe
 
-// Reason the notice is being sent. The reason determines what copy the notice must contain. See the [regulated customer notices](https://stripe.com/docs/issuing/compliance-us/issuing-regulated-customer-notices) guide. All reasons might not apply to your integration, and Stripe might add new reasons in the future, so we recommend an internal warning when you receive an unknown reason.
+// Reason the notice is being sent. The reason determines what copy the notice must contain. See the [regulated customer notices](https://docs.stripe.com/issuing/compliance-us/issuing-regulated-customer-notices) guide. All reasons might not apply to your integration, and Stripe might add new reasons in the future, so we recommend an internal warning when you receive an unknown reason.
 type AccountNoticeReason string
 
 // List of values that AccountNoticeReason can take
@@ -47,7 +47,7 @@ type AccountNoticeParams struct {
 	Email *AccountNoticeEmailParams `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Date when you sent the notice.
 	SentAt *int64 `form:"sent_at"`
@@ -106,7 +106,7 @@ type AccountNoticeUpdateParams struct {
 	Email *AccountNoticeUpdateEmailParams `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Date when you sent the notice.
 	SentAt *int64 `form:"sent_at"`
@@ -138,17 +138,17 @@ type AccountNoticeEmail struct {
 
 // Information about objects related to the notice.
 type AccountNoticeLinkedObjects struct {
-	// Associated [Capability](https://stripe.com/docs/api/capabilities)
+	// Associated [Capability](https://docs.stripe.com/api/capabilities)
 	Capability string `json:"capability"`
-	// Associated [Credit Underwriting Record](https://stripe.com/docs/api/issuing/credit_underwriting_record)
+	// Associated [Credit Underwriting Record](https://docs.stripe.com/api/issuing/credit_underwriting_record)
 	IssuingCreditUnderwritingRecord string `json:"issuing_credit_underwriting_record"`
-	// Associated [Issuing Dispute](https://stripe.com/docs/api/issuing/disputes)
+	// Associated [Issuing Dispute](https://docs.stripe.com/api/issuing/disputes)
 	IssuingDispute string `json:"issuing_dispute"`
 }
 
 // A notice to a Connected account. Notice can be sent by Stripe on your behalf or you can opt to send the notices yourself.
 //
-// See the [guide to send notices](https://stripe.com/docs/issuing/compliance-us/issuing-regulated-customer-notices) to your connected accounts.
+// See the [guide to send notices](https://docs.stripe.com/issuing/compliance-us/issuing-regulated-customer-notices) to your connected accounts.
 type AccountNotice struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -163,11 +163,11 @@ type AccountNotice struct {
 	LinkedObjects *AccountNoticeLinkedObjects `json:"linked_objects"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Reason the notice is being sent. The reason determines what copy the notice must contain. See the [regulated customer notices](https://stripe.com/docs/issuing/compliance-us/issuing-regulated-customer-notices) guide. All reasons might not apply to your integration, and Stripe might add new reasons in the future, so we recommend an internal warning when you receive an unknown reason.
+	// Reason the notice is being sent. The reason determines what copy the notice must contain. See the [regulated customer notices](https://docs.stripe.com/issuing/compliance-us/issuing-regulated-customer-notices) guide. All reasons might not apply to your integration, and Stripe might add new reasons in the future, so we recommend an internal warning when you receive an unknown reason.
 	Reason AccountNoticeReason `json:"reason"`
 	// Date when the notice was sent. When absent, you must send the notice, update the content of the email and date when it was sent.
 	SentAt int64 `json:"sent_at"`
