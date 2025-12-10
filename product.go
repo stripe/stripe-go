@@ -54,6 +54,8 @@ type ProductParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *ProductTaxDetailsParams `form:"tax_details"`
 	// The type of the product. Defaults to `service` if not explicitly specified, enabling use of this product with Subscriptions and Plans. Set this parameter to `good` to use this product with Orders and SKUs. On API versions before `2018-02-05`, this field defaults to `good` for compatibility reasons.
 	Type *string `form:"type"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
@@ -92,6 +94,12 @@ type ProductPackageDimensionsParams struct {
 	Weight *float64 `form:"weight"`
 	// Width, in inches. Maximum precision is 2 decimal places.
 	Width *float64 `form:"width"`
+}
+
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type ProductTaxDetailsParams struct {
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
 }
 
 // Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
@@ -269,6 +277,12 @@ type ProductUpdatePackageDimensionsParams struct {
 	Width *float64 `form:"width"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type ProductUpdateTaxDetailsParams struct {
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
+
 // Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 type ProductUpdateParams struct {
 	Params `form:"*"`
@@ -299,6 +313,8 @@ type ProductUpdateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *ProductUpdateTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
 	UnitLabel *string `form:"unit_label"`
 	// A URL of a publicly-accessible webpage for this product.
@@ -434,6 +450,12 @@ type ProductCreatePackageDimensionsParams struct {
 	Width *float64 `form:"width"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type ProductCreateTaxDetailsParams struct {
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
+
 // Creates a new product object.
 type ProductCreateParams struct {
 	Params `form:"*"`
@@ -466,6 +488,8 @@ type ProductCreateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *ProductCreateTaxDetailsParams `form:"tax_details"`
 	// The type of the product. Defaults to `service` if not explicitly specified, enabling use of this product with Subscriptions and Plans. Set this parameter to `good` to use this product with Orders and SKUs. On API versions before `2018-02-05`, this field defaults to `good` for compatibility reasons.
 	Type *string `form:"type"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
