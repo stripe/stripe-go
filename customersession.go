@@ -253,6 +253,8 @@ type CustomerSessionParams struct {
 	Components *CustomerSessionComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the Customer Session.
 	Customer *string `form:"customer"`
+	// The ID of an existing Account for which to create the Customer Session.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -377,6 +379,8 @@ type CustomerSessionCreateParams struct {
 	Components *CustomerSessionCreateComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the Customer Session.
 	Customer *string `form:"customer"`
+	// The ID of an existing Account for which to create the Customer Session.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -512,6 +516,8 @@ type CustomerSession struct {
 	Created int64 `json:"created"`
 	// The Customer the Customer Session was created for.
 	Customer *Customer `json:"customer"`
+	// The Account that the Customer Session was created for.
+	CustomerAccount string `json:"customer_account"`
 	// The timestamp at which this Customer Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

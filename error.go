@@ -43,6 +43,7 @@ const (
 	ErrorCodeAccountInformationMismatch                                  ErrorCode = "account_information_mismatch"
 	ErrorCodeAccountInvalid                                              ErrorCode = "account_invalid"
 	ErrorCodeAccountNumberInvalid                                        ErrorCode = "account_number_invalid"
+	ErrorCodeAccountTokenRequiredForV2Account                            ErrorCode = "account_token_required_for_v2_account"
 	ErrorCodeAlipayUpgradeRequired                                       ErrorCode = "alipay_upgrade_required"
 	ErrorCodeAmountTooLarge                                              ErrorCode = "amount_too_large"
 	ErrorCodeAmountTooSmall                                              ErrorCode = "amount_too_small"

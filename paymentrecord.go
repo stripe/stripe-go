@@ -106,6 +106,24 @@ const (
 	PaymentRecordPaymentMethodDetailsCardFundingUnknown PaymentRecordPaymentMethodDetailsCardFunding = "unknown"
 )
 
+// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card. One of `month`.
+type PaymentRecordPaymentMethodDetailsCardInstallmentsPlanInterval string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardInstallmentsPlanInterval can take
+const (
+	PaymentRecordPaymentMethodDetailsCardInstallmentsPlanIntervalMonth PaymentRecordPaymentMethodDetailsCardInstallmentsPlanInterval = "month"
+)
+
+// Type of installment plan, one of `fixed_count`, `revolving`, or `bonus`.
+type PaymentRecordPaymentMethodDetailsCardInstallmentsPlanType string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardInstallmentsPlanType can take
+const (
+	PaymentRecordPaymentMethodDetailsCardInstallmentsPlanTypeBonus      PaymentRecordPaymentMethodDetailsCardInstallmentsPlanType = "bonus"
+	PaymentRecordPaymentMethodDetailsCardInstallmentsPlanTypeFixedCount PaymentRecordPaymentMethodDetailsCardInstallmentsPlanType = "fixed_count"
+	PaymentRecordPaymentMethodDetailsCardInstallmentsPlanTypeRevolving  PaymentRecordPaymentMethodDetailsCardInstallmentsPlanType = "revolving"
+)
+
 // Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type PaymentRecordPaymentMethodDetailsCardNetwork string
 
@@ -123,6 +141,15 @@ const (
 	PaymentRecordPaymentMethodDetailsCardNetworkUnionpay        PaymentRecordPaymentMethodDetailsCardNetwork = "unionpay"
 	PaymentRecordPaymentMethodDetailsCardNetworkUnknown         PaymentRecordPaymentMethodDetailsCardNetwork = "unknown"
 	PaymentRecordPaymentMethodDetailsCardNetworkVisa            PaymentRecordPaymentMethodDetailsCardNetwork = "visa"
+)
+
+// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+type PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage can take
+const (
+	PaymentRecordPaymentMethodDetailsCardStoredCredentialUsageRecurring   PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage = "recurring"
+	PaymentRecordPaymentMethodDetailsCardStoredCredentialUsageUnscheduled PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
 )
 
 type PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -303,7 +330,7 @@ const (
 	PaymentRecordPaymentMethodDetailsFPXBankUob               PaymentRecordPaymentMethodDetailsFPXBank = "uob"
 )
 
-// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type PaymentRecordPaymentMethodDetailsIDEALBank string
 
 // List of values that PaymentRecordPaymentMethodDetailsIDEALBank can take
@@ -316,6 +343,7 @@ const (
 	PaymentRecordPaymentMethodDetailsIDEALBankHandelsbanken PaymentRecordPaymentMethodDetailsIDEALBank = "handelsbanken"
 	PaymentRecordPaymentMethodDetailsIDEALBankIng           PaymentRecordPaymentMethodDetailsIDEALBank = "ing"
 	PaymentRecordPaymentMethodDetailsIDEALBankKnab          PaymentRecordPaymentMethodDetailsIDEALBank = "knab"
+	PaymentRecordPaymentMethodDetailsIDEALBankMollie        PaymentRecordPaymentMethodDetailsIDEALBank = "mollie"
 	PaymentRecordPaymentMethodDetailsIDEALBankMoneyou       PaymentRecordPaymentMethodDetailsIDEALBank = "moneyou"
 	PaymentRecordPaymentMethodDetailsIDEALBankN26           PaymentRecordPaymentMethodDetailsIDEALBank = "n26"
 	PaymentRecordPaymentMethodDetailsIDEALBankNn            PaymentRecordPaymentMethodDetailsIDEALBank = "nn"
@@ -343,6 +371,7 @@ const (
 	PaymentRecordPaymentMethodDetailsIDEALBICHANDNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "HANDNL2A"
 	PaymentRecordPaymentMethodDetailsIDEALBICINGBNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "INGBNL2A"
 	PaymentRecordPaymentMethodDetailsIDEALBICKNABNL2H PaymentRecordPaymentMethodDetailsIDEALBIC = "KNABNL2H"
+	PaymentRecordPaymentMethodDetailsIDEALBICMLLENL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "MLLENL2A"
 	PaymentRecordPaymentMethodDetailsIDEALBICMOYONL21 PaymentRecordPaymentMethodDetailsIDEALBIC = "MOYONL21"
 	PaymentRecordPaymentMethodDetailsIDEALBICNNBANL2G PaymentRecordPaymentMethodDetailsIDEALBIC = "NNBANL2G"
 	PaymentRecordPaymentMethodDetailsIDEALBICNTSBDEB1 PaymentRecordPaymentMethodDetailsIDEALBIC = "NTSBDEB1"
@@ -517,6 +546,15 @@ const (
 	PaymentRecordProcessorDetailsTypeCustom PaymentRecordProcessorDetailsType = "custom"
 )
 
+// Indicates who reported the payment.
+type PaymentRecordReportedBy string
+
+// List of values that PaymentRecordReportedBy can take
+const (
+	PaymentRecordReportedBySelf   PaymentRecordReportedBy = "self"
+	PaymentRecordReportedByStripe PaymentRecordReportedBy = "stripe"
+)
+
 // Retrieves a Payment Record with the given ID
 type PaymentRecordParams struct {
 	Params `form:"*"`
@@ -634,7 +672,7 @@ type PaymentRecordReportPaymentAttemptParams struct {
 	Guaranteed *PaymentRecordReportPaymentAttemptGuaranteedParams `form:"guaranteed"`
 	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
 	InitiatedAt *int64 `form:"initiated_at"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The outcome of the reported payment.
 	Outcome *string `form:"outcome"`
@@ -715,7 +753,7 @@ type PaymentRecordReportPaymentAttemptInformationalParams struct {
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordReportPaymentAttemptInformationalShippingDetailsParams `form:"shipping_details"`
@@ -735,11 +773,11 @@ func (p *PaymentRecordReportPaymentAttemptInformationalParams) AddMetadata(key s
 	p.Metadata[key] = value
 }
 
-// A positive integer in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment.
+// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment.
 type PaymentRecordReportRefundAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value *int64 `form:"value"`
 }
 
@@ -768,13 +806,13 @@ type PaymentRecordReportRefundRefundedParams struct {
 //	was refunded.
 type PaymentRecordReportRefundParams struct {
 	Params `form:"*"`
-	// A positive integer in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment.
+	// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment.
 	Amount *PaymentRecordReportRefundAmountParams `form:"amount"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// When the reported refund was initiated. Measured in seconds since the Unix epoch.
 	InitiatedAt *int64 `form:"initiated_at"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The outcome of the reported refund.
 	Outcome *string `form:"outcome"`
@@ -802,7 +840,7 @@ func (p *PaymentRecordReportRefundParams) AddMetadata(key string, value string) 
 type PaymentRecordReportPaymentAmountRequestedParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value *int64 `form:"value"`
 }
 
@@ -908,7 +946,7 @@ type PaymentRecordReportPaymentParams struct {
 	Guaranteed *PaymentRecordReportPaymentGuaranteedParams `form:"guaranteed"`
 	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
 	InitiatedAt *int64 `form:"initiated_at"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The outcome of the reported payment.
 	Outcome *string `form:"outcome"`
@@ -950,7 +988,7 @@ func (p *PaymentRecordRetrieveParams) AddExpand(f string) {
 type PaymentRecordAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -958,7 +996,7 @@ type PaymentRecordAmount struct {
 type PaymentRecordAmountAuthorized struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -966,7 +1004,7 @@ type PaymentRecordAmountAuthorized struct {
 type PaymentRecordAmountCanceled struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -974,7 +1012,7 @@ type PaymentRecordAmountCanceled struct {
 type PaymentRecordAmountFailed struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -982,7 +1020,7 @@ type PaymentRecordAmountFailed struct {
 type PaymentRecordAmountGuaranteed struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -990,7 +1028,7 @@ type PaymentRecordAmountGuaranteed struct {
 type PaymentRecordAmountRefunded struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -998,7 +1036,7 @@ type PaymentRecordAmountRefunded struct {
 type PaymentRecordAmountRequested struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -1052,9 +1090,9 @@ type PaymentRecordPaymentMethodDetailsACSSDebit struct {
 	TransitNumber string `json:"transit_number"`
 }
 type PaymentRecordPaymentMethodDetailsAffirm struct {
-	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
 	Location string `json:"location"`
-	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
 	Reader string `json:"reader"`
 	// The Affirm transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
@@ -1177,6 +1215,19 @@ type PaymentRecordPaymentMethodDetailsCardChecks struct {
 	AddressPostalCodeCheck PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
 	CVCCheck               PaymentRecordPaymentMethodDetailsCardChecksCVCCheck               `json:"cvc_check"`
 }
+type PaymentRecordPaymentMethodDetailsCardInstallmentsPlan struct {
+	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
+	Count int64 `json:"count"`
+	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card. One of `month`.
+	Interval PaymentRecordPaymentMethodDetailsCardInstallmentsPlanInterval `json:"interval"`
+	// Type of installment plan, one of `fixed_count`, `revolving`, or `bonus`.
+	Type PaymentRecordPaymentMethodDetailsCardInstallmentsPlanType `json:"type"`
+}
+
+// Installment details for this payment.
+type PaymentRecordPaymentMethodDetailsCardInstallments struct {
+	Plan *PaymentRecordPaymentMethodDetailsCardInstallmentsPlan `json:"plan"`
+}
 
 // If this card has network token credentials, this contains the details of the network token credentials.
 type PaymentRecordPaymentMethodDetailsCardNetworkToken struct {
@@ -1209,6 +1260,8 @@ type PaymentRecordPaymentMethodDetailsCardWallet struct {
 
 // Details of the card used for this payment attempt.
 type PaymentRecordPaymentMethodDetailsCard struct {
+	// The authorization code of the payment.
+	AuthorizationCode string `json:"authorization_code"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentRecordPaymentMethodDetailsCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
@@ -1217,6 +1270,8 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	Checks *PaymentRecordPaymentMethodDetailsCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
+	// A high-level description of the type of cards issued in this range.
+	Description string `json:"description"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -1227,16 +1282,28 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	Fingerprint string `json:"fingerprint"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding PaymentRecordPaymentMethodDetailsCardFunding `json:"funding"`
+	// Issuer identification number of the card.
+	IIN string `json:"iin"`
+	// Installment details for this payment.
+	Installments *PaymentRecordPaymentMethodDetailsCardInstallments `json:"installments"`
+	// The name of the card's issuing bank.
+	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
 	MOTO bool `json:"moto"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network PaymentRecordPaymentMethodDetailsCardNetwork `json:"network"`
+	// Advice code from the card network for the failed payment.
+	NetworkAdviceCode string `json:"network_advice_code"`
+	// Decline code from the card network for the failed payment.
+	NetworkDeclineCode string `json:"network_decline_code"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
 	NetworkToken *PaymentRecordPaymentMethodDetailsCardNetworkToken `json:"network_token"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
+	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
+	StoredCredentialUsage PaymentRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -1307,7 +1374,7 @@ type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	GeneratedCard string `json:"generated_card"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
 	IIN string `json:"iin"`
-	// Whether this [PaymentIntent](https://stripe.com/docs/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
+	// Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
 	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer"`
@@ -1391,7 +1458,7 @@ type PaymentRecordPaymentMethodDetailsGrabpay struct {
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsIDEAL struct {
-	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank PaymentRecordPaymentMethodDetailsIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank.
 	BIC PaymentRecordPaymentMethodDetailsIDEALBIC `json:"bic"`
@@ -1589,9 +1656,9 @@ type PaymentRecordPaymentMethodDetailsPayco struct {
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsPayNow struct {
-	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
 	Location string `json:"location"`
-	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
 	Reader string `json:"reader"`
 	// Reference number associated with this PayNow payment
 	Reference string `json:"reference"`
@@ -1619,6 +1686,16 @@ type PaymentRecordPaymentMethodDetailsPaypal struct {
 	SellerProtection *PaymentRecordPaymentMethodDetailsPaypalSellerProtection `json:"seller_protection"`
 	// A unique ID generated by PayPal for this transaction.
 	TransactionID string `json:"transaction_id"`
+}
+type PaymentRecordPaymentMethodDetailsPayto struct {
+	// Bank-State-Branch number of the bank account.
+	BSBNumber string `json:"bsb_number"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// ID of the mandate used to make this payment.
+	Mandate string `json:"mandate"`
+	// The PayID alias for the bank account.
+	PayID string `json:"pay_id"`
 }
 type PaymentRecordPaymentMethodDetailsPix struct {
 	// Unique transaction id generated by BCB
@@ -1681,7 +1758,7 @@ type PaymentRecordPaymentMethodDetailsSEPADebit struct {
 	Fingerprint string `json:"fingerprint"`
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
-	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://stripe.com/docs/api/mandates/retrieve).
+	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
 type PaymentRecordPaymentMethodDetailsSofort struct {
@@ -1738,9 +1815,9 @@ type PaymentRecordPaymentMethodDetailsWeChat struct{}
 type PaymentRecordPaymentMethodDetailsWeChatPay struct {
 	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
 	Fingerprint string `json:"fingerprint"`
-	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
 	Location string `json:"location"`
-	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
 	Reader string `json:"reader"`
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
@@ -1799,6 +1876,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	PaymentMethod      string                                               `json:"payment_method"`
 	PayNow             *PaymentRecordPaymentMethodDetailsPayNow             `json:"paynow"`
 	Paypal             *PaymentRecordPaymentMethodDetailsPaypal             `json:"paypal"`
+	Payto              *PaymentRecordPaymentMethodDetailsPayto              `json:"payto"`
 	Pix                *PaymentRecordPaymentMethodDetailsPix                `json:"pix"`
 	PromptPay          *PaymentRecordPaymentMethodDetailsPromptPay          `json:"promptpay"`
 	RevolutPay         *PaymentRecordPaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
@@ -1810,7 +1888,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	StripeAccount      *PaymentRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account"`
 	Swish              *PaymentRecordPaymentMethodDetailsSwish              `json:"swish"`
 	TWINT              *PaymentRecordPaymentMethodDetailsTWINT              `json:"twint"`
-	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
+	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          string                                          `json:"type"`
@@ -1884,7 +1962,7 @@ type PaymentRecord struct {
 	LatestPaymentAttemptRecord string `json:"latest_payment_attempt_record"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
@@ -1892,6 +1970,8 @@ type PaymentRecord struct {
 	PaymentMethodDetails *PaymentRecordPaymentMethodDetails `json:"payment_method_details"`
 	// Processor information associated with this payment.
 	ProcessorDetails *PaymentRecordProcessorDetails `json:"processor_details"`
+	// Indicates who reported the payment.
+	ReportedBy PaymentRecordReportedBy `json:"reported_by"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordShippingDetails `json:"shipping_details"`
 }

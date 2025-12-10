@@ -157,6 +157,11 @@ import (
 	v2billingmetereventadjustment "github.com/stripe/stripe-go/v84/v2/billing/metereventadjustment"
 	v2billingmetereventsession "github.com/stripe/stripe-go/v84/v2/billing/metereventsession"
 	v2billingmetereventstream "github.com/stripe/stripe-go/v84/v2/billing/metereventstream"
+	v2coreaccount "github.com/stripe/stripe-go/v84/v2/core/account"
+	v2coreaccountlink "github.com/stripe/stripe-go/v84/v2/core/accountlink"
+	v2coreaccountsperson "github.com/stripe/stripe-go/v84/v2/core/accounts/person"
+	v2coreaccountspersontoken "github.com/stripe/stripe-go/v84/v2/core/accounts/persontoken"
+	v2coreaccounttoken "github.com/stripe/stripe-go/v84/v2/core/accounttoken"
 	v2coreevent "github.com/stripe/stripe-go/v84/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v84/v2/core/eventdestination"
 	"github.com/stripe/stripe-go/v84/webhookendpoint"
@@ -456,6 +461,16 @@ type API struct {
 	V2BillingMeterEventSessions *v2billingmetereventsession.Client
 	// V2BillingMeterEventStreams is the client used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2billingmetereventstream.Client
+	// V2CoreAccountLinks is the client used to invoke /v2/core/account_links APIs.
+	V2CoreAccountLinks *v2coreaccountlink.Client
+	// V2CoreAccounts is the client used to invoke /v2/core/accounts APIs.
+	V2CoreAccounts *v2coreaccount.Client
+	// V2CoreAccountsPersons is the client used to invoke /v2/core/accounts/{account_id}/persons APIs.
+	V2CoreAccountsPersons *v2coreaccountsperson.Client
+	// V2CoreAccountsPersonTokens is the client used to invoke /v2/core/accounts/{account_id}/person_tokens APIs.
+	V2CoreAccountsPersonTokens *v2coreaccountspersontoken.Client
+	// V2CoreAccountTokens is the client used to invoke /v2/core/account_tokens APIs.
+	V2CoreAccountTokens *v2coreaccounttoken.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2coreeventdestination.Client
 	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
@@ -622,6 +637,11 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingMeterEvents = &v2billingmeterevent.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventSessions = &v2billingmetereventsession.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventStreams = &v2billingmetereventstream.Client{BMeterEvents: backends.MeterEvents, Key: key}
+	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
+	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
+	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
+	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
+	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}

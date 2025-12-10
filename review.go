@@ -130,7 +130,7 @@ type ReviewSession struct {
 // Reviews can be used to supplement automated fraud detection with human expertise.
 //
 // Learn more about [Radar](https://docs.stripe.com/radar) and reviewing payments
-// [here](https://stripe.com/docs/radar/reviews).
+// [here](https://docs.stripe.com/radar/reviews).
 type Review struct {
 	APIResource
 	// The ZIP or postal code of the card used, if applicable.

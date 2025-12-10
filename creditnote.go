@@ -59,7 +59,7 @@ const (
 	CreditNoteShippingCostTaxTaxabilityReasonZeroRated            CreditNoteShippingCostTaxTaxabilityReason = "zero_rated"
 )
 
-// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://docs.stripe.com/billing/invoices/credit-notes#voiding).
 type CreditNoteStatus string
 
 // List of values that CreditNoteStatus can take
@@ -127,6 +127,8 @@ type CreditNoteListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return credit notes for the customer specified by this customer ID.
 	Customer *string `form:"customer"`
+	// Only return credit notes for the account representing the customer specified by this account ID.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Only return credit notes for the invoice specified by this invoice ID.
@@ -225,7 +227,7 @@ type CreditNoteParams struct {
 	Lines []*CreditNoteLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
@@ -330,7 +332,7 @@ type CreditNotePreviewParams struct {
 	Lines []*CreditNotePreviewLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
@@ -435,7 +437,7 @@ type CreditNotePreviewLinesParams struct {
 	Lines []*CreditNotePreviewLinesLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
@@ -575,7 +577,7 @@ type CreditNoteCreateParams struct {
 	Lines []*CreditNoteCreateLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
@@ -622,7 +624,7 @@ type CreditNoteUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Credit note memo.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -710,6 +712,7 @@ type CreditNoteShippingCost struct {
 
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type CreditNoteTotalTaxTaxRateDetails struct {
+	// ID of the tax rate
 	TaxRate string `json:"tax_rate"`
 }
 
@@ -731,7 +734,7 @@ type CreditNoteTotalTax struct {
 
 // Issue a credit note to adjust an invoice's amount after the invoice is finalized.
 //
-// Related guide: [Credit notes](https://stripe.com/docs/billing/invoices/credit-notes)
+// Related guide: [Credit notes](https://docs.stripe.com/billing/invoices/credit-notes)
 type CreditNote struct {
 	APIResource
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note, including tax.
@@ -744,6 +747,8 @@ type CreditNote struct {
 	Currency Currency `json:"currency"`
 	// ID of the customer.
 	Customer *Customer `json:"customer"`
+	// ID of the account representing the customer.
+	CustomerAccount string `json:"customer_account"`
 	// Customer balance transaction related to this credit note.
 	CustomerBalanceTransaction *CustomerBalanceTransaction `json:"customer_balance_transaction"`
 	// The integer amount in cents (or local equivalent) representing the total amount of discount that was credited.
@@ -762,7 +767,7 @@ type CreditNote struct {
 	Livemode bool `json:"livemode"`
 	// Customer-facing text that appears on the credit note PDF.
 	Memo string `json:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// A unique number that identifies this particular credit note and appears on the PDF of the credit note and its associated invoice.
 	Number string `json:"number"`
@@ -784,7 +789,7 @@ type CreditNote struct {
 	Refunds []*CreditNoteRefund `json:"refunds"`
 	// The details of the cost of shipping, including the ShippingRate applied to the invoice.
 	ShippingCost *CreditNoteShippingCost `json:"shipping_cost"`
-	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://docs.stripe.com/billing/invoices/credit-notes#voiding).
 	Status CreditNoteStatus `json:"status"`
 	// The integer amount in cents (or local equivalent) representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
 	Subtotal int64 `json:"subtotal"`

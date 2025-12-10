@@ -53,7 +53,7 @@ const (
 	AccountCompanyOwnershipExemptionReasonQualifiesAsFinancialInstitution          AccountCompanyOwnershipExemptionReason = "qualifies_as_financial_institution"
 )
 
-// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
 // List of values that AccountCompanyStructure can take
@@ -182,7 +182,7 @@ const (
 	AccountFutureRequirementsDisabledReasonUnderReview                         AccountFutureRequirementsDisabledReason = "under_review"
 )
 
-// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification).
+// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://docs.stripe.com/connect/handling-api-verification).
 type AccountRequirementsDisabledReason string
 
 // List of values that AccountRequirementsDisabledReason can take
@@ -266,7 +266,7 @@ const (
 // If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
 type AccountParams struct {
 	Params `form:"*"`
-	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.
+	// An [account token](https://api.stripe.com#create_account_token), used to securely provide details to the account.
 	AccountToken *string `form:"account_token"`
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
@@ -303,7 +303,7 @@ type AccountParams struct {
 	Groups *AccountGroupsParams `form:"groups"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountSettingsParams `form:"settings"`
@@ -631,6 +631,12 @@ type AccountCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The payto_payments capability.
+type AccountCapabilitiesPaytoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The pix_payments capability.
 type AccountCapabilitiesPixPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -828,6 +834,8 @@ type AccountCapabilitiesParams struct {
 	PaycoPayments *AccountCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The payto_payments capability.
+	PaytoPayments *AccountCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
 	PixPayments *AccountCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
@@ -942,9 +950,9 @@ type AccountCompanyRepresentativeDeclarationParams struct {
 
 // A document verifying the business.
 type AccountCompanyVerificationDocumentParams struct {
-	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back"`
-	// The front of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front"`
 }
 
@@ -1008,56 +1016,66 @@ type AccountCompanyParams struct {
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type AccountDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type AccountDocumentsCompanyLicenseParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the company's Memorandum of Association.
 type AccountDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 type AccountDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type AccountDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type AccountDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of address.
 type AccountDocumentsProofOfAddressParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
+}
+type AccountDocumentsProofOfRegistrationSignerParams struct {
+	// The token of the person signing the document, if applicable.
+	Person *string `form:"person"`
 }
 
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountDocumentsProofOfRegistrationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	Files  []*string                                        `form:"files"`
+	Signer *AccountDocumentsProofOfRegistrationSignerParams `form:"signer"`
+}
+type AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
+	// The token of the person signing the document, if applicable.
+	Person *string `form:"person"`
 }
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	Files  []*string                                                       `form:"files"`
+	Signer *AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
@@ -1118,7 +1136,7 @@ func (p *AccountExternalAccountParams) AddMetadata(key string, value string) {
 
 // A hash of account group type to tokens. These are account groups this account should be added to.
 type AccountGroupsParams struct {
-	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://docs.stripe.com/connect/platform-pricing-tools) for details.
 	PaymentsPricing *string `form:"payments_pricing"`
 }
 
@@ -1665,6 +1683,12 @@ type AccountUpdateCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The payto_payments capability.
+type AccountUpdateCapabilitiesPaytoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The pix_payments capability.
 type AccountUpdateCapabilitiesPixPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -1862,6 +1886,8 @@ type AccountUpdateCapabilitiesParams struct {
 	PaycoPayments *AccountUpdateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountUpdateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The payto_payments capability.
+	PaytoPayments *AccountUpdateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
 	PixPayments *AccountUpdateCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
@@ -1974,9 +2000,9 @@ type AccountUpdateCompanyRepresentativeDeclarationParams struct {
 
 // A document verifying the business.
 type AccountUpdateCompanyVerificationDocumentParams struct {
-	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back"`
-	// The front of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front"`
 }
 
@@ -2037,56 +2063,66 @@ type AccountUpdateCompanyParams struct {
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type AccountUpdateDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type AccountUpdateDocumentsCompanyLicenseParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the company's Memorandum of Association.
 type AccountUpdateDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 type AccountUpdateDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type AccountUpdateDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type AccountUpdateDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of address.
 type AccountUpdateDocumentsProofOfAddressParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
+}
+type AccountUpdateDocumentsProofOfRegistrationSignerParams struct {
+	// The token of the person signing the document, if applicable.
+	Person *string `form:"person"`
 }
 
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountUpdateDocumentsProofOfRegistrationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	Files  []*string                                              `form:"files"`
+	Signer *AccountUpdateDocumentsProofOfRegistrationSignerParams `form:"signer"`
+}
+type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
+	// The token of the person signing the document, if applicable.
+	Person *string `form:"person"`
 }
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	Files  []*string                                                             `form:"files"`
+	Signer *AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
@@ -2156,7 +2192,7 @@ func (p *AccountUpdateExternalAccountParams) AddMetadata(key string, value strin
 
 // A hash of account group type to tokens. These are account groups this account should be added to.
 type AccountUpdateGroupsParams struct {
-	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://docs.stripe.com/connect/platform-pricing-tools) for details.
 	PaymentsPricing *string `form:"payments_pricing"`
 }
 
@@ -2329,7 +2365,7 @@ type AccountUpdateTOSAcceptanceParams struct {
 // [Connect](https://docs.stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
 type AccountUpdateParams struct {
 	Params `form:"*"`
-	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.
+	// An [account token](https://api.stripe.com#create_account_token), used to securely provide details to the account.
 	AccountToken *string `form:"account_token"`
 	// Business information about the account.
 	BusinessProfile *AccountUpdateBusinessProfileParams `form:"business_profile"`
@@ -2362,7 +2398,7 @@ type AccountUpdateParams struct {
 	Groups *AccountUpdateGroupsParams `form:"groups"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountUpdateSettingsParams `form:"settings"`
@@ -2688,6 +2724,12 @@ type AccountCreateCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The payto_payments capability.
+type AccountCreateCapabilitiesPaytoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The pix_payments capability.
 type AccountCreateCapabilitiesPixPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2885,6 +2927,8 @@ type AccountCreateCapabilitiesParams struct {
 	PaycoPayments *AccountCreateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCreateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The payto_payments capability.
+	PaytoPayments *AccountCreateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The pix_payments capability.
 	PixPayments *AccountCreateCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
@@ -2999,9 +3043,9 @@ type AccountCreateCompanyRepresentativeDeclarationParams struct {
 
 // A document verifying the business.
 type AccountCreateCompanyVerificationDocumentParams struct {
-	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back"`
-	// The front of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front"`
 }
 
@@ -3094,56 +3138,66 @@ type AccountCreateControllerParams struct {
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
 type AccountCreateDocumentsBankAccountOwnershipVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's license to operate.
 type AccountCreateDocumentsCompanyLicenseParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the company's Memorandum of Association.
 type AccountCreateDocumentsCompanyMemorandumOfAssociationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 type AccountCreateDocumentsCompanyMinisterialDecreeParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type AccountCreateDocumentsCompanyRegistrationVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of a company's tax ID.
 type AccountCreateDocumentsCompanyTaxIDVerificationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents that demonstrate proof of address.
 type AccountCreateDocumentsProofOfAddressParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
+}
+type AccountCreateDocumentsProofOfRegistrationSignerParams struct {
+	// The token of the person signing the document, if applicable.
+	Person *string `form:"person"`
 }
 
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountCreateDocumentsProofOfRegistrationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	Files  []*string                                              `form:"files"`
+	Signer *AccountCreateDocumentsProofOfRegistrationSignerParams `form:"signer"`
+}
+type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
+	// The token of the person signing the document, if applicable.
+	Person *string `form:"person"`
 }
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
+	Files  []*string                                                             `form:"files"`
+	Signer *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
@@ -3213,7 +3267,7 @@ func (p *AccountCreateExternalAccountParams) AddMetadata(key string, value strin
 
 // A hash of account group type to tokens. These are account groups this account should be added to.
 type AccountCreateGroupsParams struct {
-	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://docs.stripe.com/connect/platform-pricing-tools) for details.
 	PaymentsPricing *string `form:"payments_pricing"`
 }
 
@@ -3377,7 +3431,7 @@ type AccountCreateTOSAcceptanceParams struct {
 // You can prefill any information on the account.
 type AccountCreateParams struct {
 	Params `form:"*"`
-	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.
+	// An [account token](https://api.stripe.com#create_account_token), used to securely provide details to the account.
 	AccountToken *string `form:"account_token"`
 	// Business information about the account.
 	BusinessProfile *AccountCreateBusinessProfileParams `form:"business_profile"`
@@ -3414,7 +3468,7 @@ type AccountCreateParams struct {
 	Groups *AccountCreateGroupsParams `form:"groups"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountCreateSettingsParams `form:"settings"`
@@ -3567,6 +3621,8 @@ type AccountCapabilities struct {
 	PaycoPayments AccountCapabilityStatus `json:"payco_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
+	// The status of the PayTo capability of the account, or whether the account can directly process PayTo charges.
+	PaytoPayments AccountCapabilityStatus `json:"payto_payments"`
 	// The status of the pix payments capability of the account, or whether the account can directly process pix charges.
 	PixPayments AccountCapabilityStatus `json:"pix_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
@@ -3677,13 +3733,13 @@ type AccountCompanyRepresentativeDeclaration struct {
 	UserAgent string `json:"user_agent"`
 }
 type AccountCompanyVerificationDocument struct {
-	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
+	// The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
 	Back *File `json:"back"`
 	// A user-displayable string describing the verification state of this document.
 	Details string `json:"details"`
 	// One of `document_corrupt`, `document_expired`, `document_failed_copy`, `document_failed_greyscale`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_not_readable`, `document_not_uploaded`, `document_type_not_supported`, or `document_too_large`. A machine-readable code specifying the verification state for this document.
 	DetailsCode AccountCompanyVerificationDocumentDetailsCode `json:"details_code"`
-	// The front of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
+	// The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://docs.stripe.com/file-upload#uploading-a-file).
 	Front *File `json:"front"`
 }
 
@@ -3699,9 +3755,9 @@ type AccountCompany struct {
 	AddressKanji *AccountCompanyAddressKanji `json:"address_kanji"`
 	// This hash is used to attest that the director information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCompanyDirectorshipDeclaration `json:"directorship_declaration"`
-	// Whether the company's directors have been provided. This Boolean will be `true` if you've manually indicated that all directors are provided via [the `directors_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-directors_provided).
+	// Whether the company's directors have been provided. This Boolean will be `true` if you've manually indicated that all directors are provided via [the `directors_provided` parameter](https://docs.stripe.com/api/accounts/update#update_account-company-directors_provided).
 	DirectorsProvided bool `json:"directors_provided"`
-	// Whether the company's executives have been provided. This Boolean will be `true` if you've manually indicated that all executives are provided via [the `executives_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-executives_provided), or if Stripe determined that sufficient executives were provided.
+	// Whether the company's executives have been provided. This Boolean will be `true` if you've manually indicated that all executives are provided via [the `executives_provided` parameter](https://docs.stripe.com/api/accounts/update#update_account-company-executives_provided), or if Stripe determined that sufficient executives were provided.
 	ExecutivesProvided bool `json:"executives_provided"`
 	// The export license ID number of the company, also referred as Import Export Code (India only).
 	ExportLicenseID string `json:"export_license_id"`
@@ -3717,14 +3773,14 @@ type AccountCompany struct {
 	OwnershipDeclaration *AccountCompanyOwnershipDeclaration `json:"ownership_declaration"`
 	// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
 	OwnershipExemptionReason AccountCompanyOwnershipExemptionReason `json:"ownership_exemption_reason"`
-	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
+	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://docs.stripe.com/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
 	OwnersProvided bool `json:"owners_provided"`
 	// The company's phone number (used for verification).
 	Phone            string                          `json:"phone"`
 	RegistrationDate *AccountCompanyRegistrationDate `json:"registration_date"`
 	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
 	RepresentativeDeclaration *AccountCompanyRepresentativeDeclaration `json:"representative_declaration"`
-	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details.
 	Structure AccountCompanyStructure `json:"structure"`
 	// Whether the company's business ID number was provided.
 	TaxIDProvided bool `json:"tax_id_provided"`
@@ -3749,7 +3805,7 @@ type AccountControllerStripeDashboard struct {
 }
 type AccountController struct {
 	Fees *AccountControllerFees `json:"fees"`
-	// `true` if the Connect application retrieving the resource controls the account and can therefore exercise [platform controls](https://stripe.com/docs/connect/platform-controls-for-standard-accounts). Otherwise, this field is null.
+	// `true` if the Connect application retrieving the resource controls the account and can therefore exercise [platform controls](https://docs.stripe.com/connect/platform-controls-for-standard-accounts). Otherwise, this field is null.
 	IsController bool                     `json:"is_controller"`
 	Losses       *AccountControllerLosses `json:"losses"`
 	// A value indicating responsibility for collecting requirements on this account. Only returned when the Connect application retrieving the resource controls the account.
@@ -3759,15 +3815,15 @@ type AccountController struct {
 	Type AccountControllerType `json:"type"`
 }
 
-// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+// Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again.
 type AccountFutureRequirementsAlternative struct {
-	// Fields that can be provided to satisfy all fields in `original_fields_due`.
+	// Fields that can be provided to resolve all fields in `original_fields_due`.
 	AlternativeFieldsDue []string `json:"alternative_fields_due"`
-	// Fields that are due and can be satisfied by providing all fields in `alternative_fields_due`.
+	// Fields that are due and can be resolved by providing all fields in `alternative_fields_due`.
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+// Details about validation and verification failures for `due` requirements that must be resolved.
 type AccountFutureRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -3777,39 +3833,39 @@ type AccountFutureRequirementsError struct {
 	Requirement string `json:"requirement"`
 }
 type AccountFutureRequirements struct {
-	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+	// Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again.
 	Alternatives []*AccountFutureRequirementsAlternative `json:"alternatives"`
 	// Date on which `future_requirements` becomes the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on its enablement state prior to transitioning.
 	CurrentDeadline int64 `json:"current_deadline"`
-	// Fields that need to be collected to keep the account enabled. If not collected by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
+	// Fields that need to be resolved to keep the account enabled. If not resolved by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`
 	// This is typed as an enum for consistency with `requirements.disabled_reason`.
 	DisabledReason AccountFutureRequirementsDisabledReason `json:"disabled_reason"`
-	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+	// Details about validation and verification failures for `due` requirements that must be resolved.
 	Errors []*AccountFutureRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well.
 	EventuallyDue []string `json:"eventually_due"`
-	// Fields that weren't collected by `requirements.current_deadline`. These fields need to be collected to enable the capability on the account. New fields will never appear here; `future_requirements.past_due` will always be a subset of `requirements.past_due`.
+	// Fields that haven't been resolved by `requirements.current_deadline`. These fields need to be resolved to enable the capability on the account. `future_requirements.past_due` is a subset of `requirements.past_due`.
 	PastDue []string `json:"past_due"`
-	// Fields that might become required depending on the results of verification or review. It's an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due` or `currently_due`. Fields might appear in `eventually_due` or `currently_due` and in `pending_verification` if verification fails but another verification is still pending.
+	// Fields that are being reviewed, or might become required depending on the results of a review. If the review fails, these fields can move to `eventually_due`, `currently_due`, `past_due` or `alternatives`. Fields might appear in `eventually_due`, `currently_due`, `past_due` or `alternatives` and in `pending_verification` if one verification fails but another is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
 
 // The groups associated with the account.
 type AccountGroups struct {
-	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://docs.stripe.com/connect/platform-pricing-tools) for details.
 	PaymentsPricing string `json:"payments_pricing"`
 }
 
-// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+// Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again.
 type AccountRequirementsAlternative struct {
-	// Fields that can be provided to satisfy all fields in `original_fields_due`.
+	// Fields that can be provided to resolve all fields in `original_fields_due`.
 	AlternativeFieldsDue []string `json:"alternative_fields_due"`
-	// Fields that are due and can be satisfied by providing all fields in `alternative_fields_due`.
+	// Fields that are due and can be resolved by providing all fields in `alternative_fields_due`.
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+// Details about validation and verification failures for `due` requirements that must be resolved.
 type AccountRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -3819,21 +3875,21 @@ type AccountRequirementsError struct {
 	Requirement string `json:"requirement"`
 }
 type AccountRequirements struct {
-	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+	// Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again.
 	Alternatives []*AccountRequirementsAlternative `json:"alternatives"`
 	// Date by which the fields in `currently_due` must be collected to keep the account enabled. These fields may disable the account sooner if the next threshold is reached before they are collected.
 	CurrentDeadline int64 `json:"current_deadline"`
-	// Fields that need to be collected to keep the account enabled. If not collected by `current_deadline`, these fields appear in `past_due` as well, and the account is disabled.
+	// Fields that need to be resolved to keep the account enabled. If not resolved by `current_deadline`, these fields will appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification).
+	// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://docs.stripe.com/connect/handling-api-verification).
 	DisabledReason AccountRequirementsDisabledReason `json:"disabled_reason"`
-	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+	// Details about validation and verification failures for `due` requirements that must be resolved.
 	Errors []*AccountRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
-	// Fields that weren't collected by `current_deadline`. These fields need to be collected to enable the account.
+	// Fields that haven't been resolved by `current_deadline`. These fields need to be resolved to enable the account.
 	PastDue []string `json:"past_due"`
-	// Fields that might become required depending on the results of verification or review. It's an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due`, `currently_due`, or `past_due`. Fields might appear in `eventually_due`, `currently_due`, or `past_due` and in `pending_verification` if verification fails but another verification is still pending.
+	// Fields that are being reviewed, or might become required depending on the results of a review. If the review fails, these fields can move to `eventually_due`, `currently_due`, `past_due` or `alternatives`. Fields might appear in `eventually_due`, `currently_due`, `past_due` or `alternatives` and in `pending_verification` if one verification fails but another is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
 type AccountSettingsBACSDebitPayments struct {
@@ -4010,7 +4066,7 @@ type Account struct {
 	//
 	// See the [Standard onboarding](https://docs.stripe.com/connect/standard-accounts) or [Express onboarding](https://docs.stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://docs.stripe.com/connect/handling-api-verification#person-information).
 	Individual *Person `json:"individual"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

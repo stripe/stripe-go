@@ -27,7 +27,7 @@ type TokenParams struct {
 	BankAccount *BankAccountParams `form:"bank_account"`
 	// The card this token will represent. If you also pass in a customer, the card must be the ID of a card belonging to the customer. Otherwise, if you do not pass in a customer, this is a dictionary containing a user's credit card details, with the options described below.
 	Card *CardParams `form:"card"`
-	// Create a token for the customer, which is owned by the application's account. You can only use this with an [OAuth access token](https://stripe.com/docs/connect/standard-accounts) or [Stripe-Account header](https://stripe.com/docs/connect/authentication). Learn more about [cloning saved payment methods](https://stripe.com/docs/connect/cloning-saved-payment-methods).
+	// Create a token for the customer, which is owned by the application's account. You can only use this with an [OAuth access token](https://docs.stripe.com/connect/standard-accounts) or [Stripe-Account header](https://docs.stripe.com/connect/authentication). Learn more about [cloning saved payment methods](https://docs.stripe.com/connect/cloning-saved-payment-methods).
 	Customer *string `form:"customer"`
 	// The updated CVC value this token represents.
 	CVCUpdate *TokenCVCUpdateParams `form:"cvc_update"`
@@ -114,7 +114,7 @@ type TokenCreateParams struct {
 	BankAccount *BankAccountParams `form:"bank_account"`
 	// The card this token will represent. If you also pass in a customer, the card must be the ID of a card belonging to the customer. Otherwise, if you do not pass in a customer, this is a dictionary containing a user's credit card details, with the options described below.
 	Card *CardParams `form:"card"`
-	// Create a token for the customer, which is owned by the application's account. You can only use this with an [OAuth access token](https://stripe.com/docs/connect/standard-accounts) or [Stripe-Account header](https://stripe.com/docs/connect/authentication). Learn more about [cloning saved payment methods](https://stripe.com/docs/connect/cloning-saved-payment-methods).
+	// Create a token for the customer, which is owned by the application's account. You can only use this with an [OAuth access token](https://docs.stripe.com/connect/standard-accounts) or [Stripe-Account header](https://docs.stripe.com/connect/authentication). Learn more about [cloning saved payment methods](https://docs.stripe.com/connect/cloning-saved-payment-methods).
 	Customer *string `form:"customer"`
 	// The updated CVC value this token represents.
 	CVCUpdate *TokenCreateCVCUpdateParams `form:"cvc_update"`
@@ -135,7 +135,7 @@ func (p *TokenCreateParams) AddExpand(f string) {
 // account details, or personally identifiable information (PII), directly from
 // your customers in a secure manner. A token representing this information is
 // returned to your server to use. Use our
-// [recommended payments integrations](https://stripe.com/docs/payments) to perform this process
+// [recommended payments integrations](https://docs.stripe.com/payments) to perform this process
 // on the client-side. This guarantees that no sensitive card data touches your server,
 // and allows your integration to operate in a PCI-compliant way.
 //
@@ -147,9 +147,9 @@ func (p *TokenCreateParams) AddExpand(f string) {
 // Stripe, so we can't determine how it's handled or stored.
 //
 // You can't store or use tokens more than once. To store card or bank account
-// information for later use, create [Customer](https://stripe.com/docs/api#customers)
+// information for later use, create [Customer](https://docs.stripe.com/api#customers)
 // objects or [External accounts](https://docs.stripe.com/api#external_accounts).
-// [Radar](https://stripe.com/docs/radar), our integrated solution for automatic fraud protection,
+// [Radar](https://docs.stripe.com/radar), our integrated solution for automatic fraud protection,
 // performs best with integrations that use client-side tokenization.
 type Token struct {
 	APIResource
@@ -165,7 +165,7 @@ type Token struct {
 	// later. You can also store multiple debit cards on a recipient in order to
 	// transfer to those cards later.
 	//
-	// Related guide: [Card payments with Sources](https://stripe.com/docs/sources/cards)
+	// Related guide: [Card payments with Sources](https://docs.stripe.com/sources/cards)
 	Card *Card `json:"card"`
 	// IP address of the client that generates the token.
 	ClientIP string `json:"client_ip"`

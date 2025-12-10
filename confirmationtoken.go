@@ -204,7 +204,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewFPXBankUob               ConfirmationTokenPaymentMethodPreviewFPXBank = "uob"
 )
 
-// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type ConfirmationTokenPaymentMethodPreviewIDEALBank string
 
 // List of values that ConfirmationTokenPaymentMethodPreviewIDEALBank can take
@@ -217,6 +217,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBankHandelsbanken ConfirmationTokenPaymentMethodPreviewIDEALBank = "handelsbanken"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankIng           ConfirmationTokenPaymentMethodPreviewIDEALBank = "ing"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankKnab          ConfirmationTokenPaymentMethodPreviewIDEALBank = "knab"
+	ConfirmationTokenPaymentMethodPreviewIDEALBankMollie        ConfirmationTokenPaymentMethodPreviewIDEALBank = "mollie"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankMoneyou       ConfirmationTokenPaymentMethodPreviewIDEALBank = "moneyou"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankN26           ConfirmationTokenPaymentMethodPreviewIDEALBank = "n26"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankNn            ConfirmationTokenPaymentMethodPreviewIDEALBank = "nn"
@@ -244,6 +245,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBICHANDNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "HANDNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICINGBNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "INGBNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICKNABNL2H ConfirmationTokenPaymentMethodPreviewIDEALBIC = "KNABNL2H"
+	ConfirmationTokenPaymentMethodPreviewIDEALBICMLLENL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "MLLENL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICMOYONL21 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "MOYONL21"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICNNBANL2G ConfirmationTokenPaymentMethodPreviewIDEALBIC = "NNBANL2G"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICNTSBDEB1 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "NTSBDEB1"
@@ -383,6 +385,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypePayco            ConfirmationTokenPaymentMethodPreviewType = "payco"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
+	ConfirmationTokenPaymentMethodPreviewTypePayto            ConfirmationTokenPaymentMethodPreviewType = "payto"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
@@ -459,7 +462,7 @@ const (
 
 // Indicates that you intend to make future payments with this ConfirmationToken's payment method.
 //
-// The presence of this property will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete.
+// The presence of this property will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete.
 type ConfirmationTokenSetupFutureUsage string
 
 // List of values that ConfirmationTokenSetupFutureUsage can take
@@ -668,7 +671,7 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	GeneratedCard string `json:"generated_card"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
 	IIN string `json:"iin"`
-	// Whether this [PaymentIntent](https://stripe.com/docs/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
+	// Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
 	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer"`
@@ -877,7 +880,7 @@ type ConfirmationTokenPaymentMethodPreviewFPX struct {
 type ConfirmationTokenPaymentMethodPreviewGiropay struct{}
 type ConfirmationTokenPaymentMethodPreviewGrabpay struct{}
 type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
-	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank ConfirmationTokenPaymentMethodPreviewIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
 	BIC ConfirmationTokenPaymentMethodPreviewIDEALBIC `json:"bic"`
@@ -991,6 +994,14 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
 	PayerID string `json:"payer_id"`
 }
+type ConfirmationTokenPaymentMethodPreviewPayto struct {
+	// Bank-State-Branch number of the bank account.
+	BSBNumber string `json:"bsb_number"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The PayID alias for the bank account.
+	PayID string `json:"pay_id"`
+}
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
@@ -1089,6 +1100,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Crypto         *ConfirmationTokenPaymentMethodPreviewCrypto         `json:"crypto"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
 	Customer        *Customer                                             `json:"customer"`
+	CustomerAccount string                                                `json:"customer_account"`
 	CustomerBalance *ConfirmationTokenPaymentMethodPreviewCustomerBalance `json:"customer_balance"`
 	EPS             *ConfirmationTokenPaymentMethodPreviewEPS             `json:"eps"`
 	FPX             *ConfirmationTokenPaymentMethodPreviewFPX             `json:"fpx"`
@@ -1112,6 +1124,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Payco           *ConfirmationTokenPaymentMethodPreviewPayco           `json:"payco"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
 	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal"`
+	Payto           *ConfirmationTokenPaymentMethodPreviewPayto           `json:"payto"`
 	Pix             *ConfirmationTokenPaymentMethodPreviewPix             `json:"pix"`
 	PromptPay       *ConfirmationTokenPaymentMethodPreviewPromptPay       `json:"promptpay"`
 	RevolutPay      *ConfirmationTokenPaymentMethodPreviewRevolutPay      `json:"revolut_pay"`
@@ -1142,8 +1155,8 @@ type ConfirmationTokenShipping struct {
 // is successful, values present on the ConfirmationToken are written onto the Intent.
 //
 // To learn more about how to use ConfirmationToken, visit the related guides:
-// - [Finalize payments on the server](https://stripe.com/docs/payments/finalize-payments-on-the-server)
-// - [Build two-step confirmation](https://stripe.com/docs/payments/build-a-two-step-confirmation).
+// - [Finalize payments on the server](https://docs.stripe.com/payments/finalize-payments-on-the-server)
+// - [Build two-step confirmation](https://docs.stripe.com/payments/build-a-two-step-confirmation).
 type ConfirmationToken struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -1168,7 +1181,7 @@ type ConfirmationToken struct {
 	ReturnURL string `json:"return_url"`
 	// Indicates that you intend to make future payments with this ConfirmationToken's payment method.
 	//
-	// The presence of this property will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete.
+	// The presence of this property will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete.
 	SetupFutureUsage ConfirmationTokenSetupFutureUsage `json:"setup_future_usage"`
 	// ID of the SetupIntent that this ConfirmationToken was used to confirm, or null if this ConfirmationToken has not yet been used.
 	SetupIntent string `json:"setup_intent"`

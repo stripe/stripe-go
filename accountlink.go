@@ -95,7 +95,7 @@ func (p *AccountLinkCreateParams) AddExpand(f string) {
 // Account Links are the means by which a Connect platform grants a connected account permission to access
 // Stripe-hosted applications, such as Connect Onboarding.
 //
-// Related guide: [Connect Onboarding](https://stripe.com/docs/connect/custom/hosted-onboarding)
+// Related guide: [Connect Onboarding](https://docs.stripe.com/connect/custom/hosted-onboarding)
 type AccountLink struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
