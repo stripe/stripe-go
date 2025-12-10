@@ -103,7 +103,7 @@ const (
 	PersonVerificationDetailsCodeDocumentNationalityMismatch PersonVerificationDetailsCode = "document_nationality_mismatch"
 )
 
-// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://stripe.com/docs/connect/handling-api-verification) to handle verification updates.
+// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://docs.stripe.com/connect/handling-api-verification) to handle verification updates.
 type PersonVerificationStatus string
 
 // List of values that PersonVerificationStatus can take
@@ -155,7 +155,7 @@ type PersonParams struct {
 	LastNameKanji *string `form:"last_name_kanji"`
 	// The person's maiden name.
 	MaidenName *string `form:"maiden_name"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
 	Nationality *string `form:"nationality"`
@@ -259,19 +259,19 @@ type PersonDOBParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type PersonDocumentsCompanyAuthorizationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the person's passport page with photo and personal data.
 type PersonDocumentsPassportParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type PersonDocumentsVisaParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
@@ -349,9 +349,9 @@ type PersonUSCfpbDataParams struct {
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonVerificationDocumentParams struct {
-	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back"`
-	// The front of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front"`
 }
 
@@ -477,19 +477,19 @@ type PersonUpdateDOBParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type PersonUpdateDocumentsCompanyAuthorizationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the person's passport page with photo and personal data.
 type PersonUpdateDocumentsPassportParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type PersonUpdateDocumentsVisaParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
@@ -567,17 +567,17 @@ type PersonUpdateUSCfpbDataParams struct {
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonUpdateVerificationAdditionalDocumentParams struct {
-	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back"`
-	// The front of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front"`
 }
 
 // An identifying document, either a passport or local ID card.
 type PersonUpdateVerificationDocumentParams struct {
-	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back"`
-	// The front of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front"`
 }
 
@@ -631,7 +631,7 @@ type PersonUpdateParams struct {
 	LastNameKanji *string `form:"last_name_kanji"`
 	// The person's maiden name.
 	MaidenName *string `form:"maiden_name"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
 	Nationality *string `form:"nationality"`
@@ -735,19 +735,19 @@ type PersonCreateDOBParams struct {
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type PersonCreateDocumentsCompanyAuthorizationParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the person's passport page with photo and personal data.
 type PersonCreateDocumentsPassportParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type PersonCreateDocumentsVisaParams struct {
-	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
 
@@ -825,17 +825,17 @@ type PersonCreateUSCfpbDataParams struct {
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonCreateVerificationAdditionalDocumentParams struct {
-	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back"`
-	// The front of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front"`
 }
 
 // An identifying document, either a passport or local ID card.
 type PersonCreateVerificationDocumentParams struct {
-	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Back *string `form:"back"`
-	// The front of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
 	Front *string `form:"front"`
 }
 
@@ -889,7 +889,7 @@ type PersonCreateParams struct {
 	LastNameKanji *string `form:"last_name_kanji"`
 	// The person's maiden name.
 	MaidenName *string `form:"maiden_name"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
 	Nationality *string `form:"nationality"`
@@ -987,15 +987,15 @@ type PersonDOB struct {
 	Year int64 `json:"year"`
 }
 
-// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+// Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again.
 type PersonFutureRequirementsAlternative struct {
-	// Fields that can be provided to satisfy all fields in `original_fields_due`.
+	// Fields that can be provided to resolve all fields in `original_fields_due`.
 	AlternativeFieldsDue []string `json:"alternative_fields_due"`
-	// Fields that are due and can be satisfied by providing all fields in `alternative_fields_due`.
+	// Fields that are due and can be resolved by providing all fields in `alternative_fields_due`.
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+// Details about validation and verification failures for `due` requirements that must be resolved.
 type PersonFutureRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -1005,19 +1005,19 @@ type PersonFutureRequirementsError struct {
 	Requirement string `json:"requirement"`
 }
 
-// Information about the [upcoming new requirements for this person](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
+// Information about the [upcoming new requirements for this person](https://docs.stripe.com/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 type PersonFutureRequirements struct {
-	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+	// Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again.
 	Alternatives []*PersonFutureRequirementsAlternative `json:"alternatives"`
-	// Fields that need to be collected to keep the person's account enabled. If not collected by the account's `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash, and may immediately become `past_due`, but the account may also be given a grace period depending on the account's enablement state prior to transition.
+	// Fields that need to be resolved to keep the person's account enabled. If not resolved by the account's `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash, and may immediately become `past_due`, but the account may also be given a grace period depending on the account's enablement state prior to transition.
 	CurrentlyDue []string `json:"currently_due"`
-	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+	// Details about validation and verification failures for `due` requirements that must be resolved.
 	Errors []*PersonFutureRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `future_requirements[current_deadline]` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
-	// Fields that weren't collected by the account's `requirements.current_deadline`. These fields need to be collected to enable the person's account. New fields will never appear here; `future_requirements.past_due` will always be a subset of `requirements.past_due`.
+	// Fields that haven't been resolved by the account's `requirements.current_deadline`. These fields need to be resolved to enable the person's account. `future_requirements.past_due` is a subset of `requirements.past_due`.
 	PastDue []string `json:"past_due"`
-	// Fields that might become required depending on the results of verification or review. It's an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due` or `currently_due`. Fields might appear in `eventually_due` or `currently_due` and in `pending_verification` if verification fails but another verification is still pending.
+	// Fields that are being reviewed, or might become required depending on the results of a review. If the review fails, these fields can move to `eventually_due`, `currently_due`, `past_due` or `alternatives`. Fields might appear in `eventually_due`, `currently_due`, `past_due` or `alternatives` and in `pending_verification` if one verification fails but another is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
 type PersonRelationship struct {
@@ -1039,27 +1039,27 @@ type PersonRelationship struct {
 	Title string `json:"title"`
 }
 
-// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+// Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again.
 type PersonRequirementsAlternative struct {
-	// Fields that can be provided to satisfy all fields in `original_fields_due`.
+	// Fields that can be provided to resolve all fields in `original_fields_due`.
 	AlternativeFieldsDue []string `json:"alternative_fields_due"`
-	// Fields that are due and can be satisfied by providing all fields in `alternative_fields_due`.
+	// Fields that are due and can be resolved by providing all fields in `alternative_fields_due`.
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
 // Information about the requirements for this person, including what information needs to be collected, and by when.
 type PersonRequirements struct {
-	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+	// Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again.
 	Alternatives []*PersonRequirementsAlternative `json:"alternatives"`
-	// Fields that need to be collected to keep the person's account enabled. If not collected by the account's `current_deadline`, these fields appear in `past_due` as well, and the account is disabled.
+	// Fields that need to be resolved to keep the person's account enabled. If not resolved by the account's `current_deadline`, these fields will appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+	// Details about validation and verification failures for `due` requirements that must be resolved.
 	Errors []*AccountRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
-	// Fields that weren't collected by the account's `current_deadline`. These fields need to be collected to enable the person's account.
+	// Fields that haven't been resolved by `current_deadline`. These fields need to be resolved to enable the person's account.
 	PastDue []string `json:"past_due"`
-	// Fields that might become required depending on the results of verification or review. It's an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due`, `currently_due`, or `past_due`. Fields might appear in `eventually_due`, `currently_due`, or `past_due` and in `pending_verification` if verification fails but another verification is still pending.
+	// Fields that are being reviewed, or might become required depending on the results of a review. If the review fails, these fields can move to `eventually_due`, `currently_due`, `past_due` or `alternatives`. Fields might appear in `eventually_due`, `currently_due`, `past_due` or `alternatives` and in `pending_verification` if one verification fails but another is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
 type PersonSelfReportedIncome struct {
@@ -1103,13 +1103,13 @@ type PersonUSCfpbData struct {
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonVerificationDocument struct {
-	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
+	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
 	Back *File `json:"back"`
 	// A user-displayable string describing the verification state of this document. For example, if a document is uploaded and the picture is too fuzzy, this may say "Identity document is too unclear to read".
 	Details string `json:"details"`
 	// One of `document_corrupt`, `document_country_not_supported`, `document_expired`, `document_failed_copy`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_failed_greyscale`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_missing_back`, `document_missing_front`, `document_not_readable`, `document_not_uploaded`, `document_photo_mismatch`, `document_too_large`, or `document_type_not_supported`. A machine-readable code specifying the verification state for this document.
 	DetailsCode PersonVerificationDocumentDetailsCode `json:"details_code"`
-	// The front of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
+	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
 	Front *File `json:"front"`
 }
 type PersonVerification struct {
@@ -1120,7 +1120,7 @@ type PersonVerification struct {
 	// One of `document_address_mismatch`, `document_dob_mismatch`, `document_duplicate_type`, `document_id_number_mismatch`, `document_name_mismatch`, `document_nationality_mismatch`, `failed_keyed_identity`, or `failed_other`. A machine-readable code specifying the verification state for the person.
 	DetailsCode PersonVerificationDetailsCode `json:"details_code"`
 	Document    *PersonVerificationDocument   `json:"document"`
-	// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://stripe.com/docs/connect/handling-api-verification) to handle verification updates.
+	// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://docs.stripe.com/connect/handling-api-verification) to handle verification updates.
 	Status PersonVerificationStatus `json:"status"`
 }
 
@@ -1153,7 +1153,7 @@ type Person struct {
 	FirstNameKanji string `json:"first_name_kanji"`
 	// A list of alternate names or aliases that the person is known by. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FullNameAliases []string `json:"full_name_aliases"`
-	// Information about the [upcoming new requirements for this person](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
+	// Information about the [upcoming new requirements for this person](https://docs.stripe.com/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 	FutureRequirements *PersonFutureRequirements `json:"future_requirements"`
 	// The person's gender.
 	Gender string `json:"gender"`
@@ -1171,7 +1171,7 @@ type Person struct {
 	LastNameKanji string `json:"last_name_kanji"`
 	// The person's maiden name.
 	MaidenName string `json:"maiden_name"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The country where the person is a national.
 	Nationality string `json:"nationality"`

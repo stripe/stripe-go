@@ -59,9 +59,9 @@ type BillingCreditBalanceSummaryFilterParams struct {
 // Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryParams struct {
 	Params `form:"*"`
-	// The customer for which to fetch credit balance summary.
+	// The customer whose credit balance summary you're retrieving.
 	Customer *string `form:"customer"`
-	// The account for which to fetch credit balance summary.
+	// The account representing the customer whose credit balance summary you're retrieving.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -109,9 +109,9 @@ type BillingCreditBalanceSummaryRetrieveFilterParams struct {
 // Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryRetrieveParams struct {
 	Params `form:"*"`
-	// The customer for which to fetch credit balance summary.
+	// The customer whose credit balance summary you're retrieving.
 	Customer *string `form:"customer"`
-	// The account for which to fetch credit balance summary.
+	// The account representing the customer whose credit balance summary you're retrieving.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

@@ -561,6 +561,14 @@ const (
 	V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodTypeZip                  V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType = "zip"
 )
 
+// Open Enum. The `errored` status reason.
+type V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode string
+
+// List of values that V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode can take
+const (
+	V2PaymentsSettlementAllocationIntentErroredEventDataReasonCodeAmountMismatch V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode = "amount_mismatch"
+)
+
 // V2CoreEvent is the interface implemented by V2 Events. To get the underlying Event,
 // use a type switch or type assertion to one of the concrete event types.
 type V2CoreEvent interface {
@@ -3408,6 +3416,50 @@ func (n *V2CoreHealthPaymentMethodErrorResolvedEventNotification) FetchEvent(ctx
 	return evt.(*V2CoreHealthPaymentMethodErrorResolvedEvent), nil
 }
 
+// V2CoreHealthSEPADebitDelayedFiringEvent is the Go struct for the "v2.core.health.sepa_debit_delayed.firing" event.
+// Occurs when a SEPA debit delayed alert is firing.
+type V2CoreHealthSEPADebitDelayedFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthSEPADebitDelayedFiringEventData `json:"data"`
+}
+
+// V2CoreHealthSEPADebitDelayedFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.sepa_debit_delayed.firing"
+// Occurs when a SEPA debit delayed alert is firing.
+type V2CoreHealthSEPADebitDelayedFiringEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthSEPADebitDelayedFiringEvent that created this Notification
+func (n *V2CoreHealthSEPADebitDelayedFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthSEPADebitDelayedFiringEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthSEPADebitDelayedFiringEvent), nil
+}
+
+// V2CoreHealthSEPADebitDelayedResolvedEvent is the Go struct for the "v2.core.health.sepa_debit_delayed.resolved" event.
+// Occurs when a SEPA debit delayed alert is resolved.
+type V2CoreHealthSEPADebitDelayedResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthSEPADebitDelayedResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthSEPADebitDelayedResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.sepa_debit_delayed.resolved"
+// Occurs when a SEPA debit delayed alert is resolved.
+type V2CoreHealthSEPADebitDelayedResolvedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthSEPADebitDelayedResolvedEvent that created this Notification
+func (n *V2CoreHealthSEPADebitDelayedResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthSEPADebitDelayedResolvedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthSEPADebitDelayedResolvedEvent), nil
+}
+
 // V2CoreHealthTrafficVolumeDropFiringEvent is the Go struct for the "v2.core.health.traffic_volume_drop.firing" event.
 // Occurs when a traffic volume drop alert is firing.
 type V2CoreHealthTrafficVolumeDropFiringEvent struct {
@@ -4503,6 +4555,45 @@ func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelated
 	return relatedObj, err
 }
 
+// V2MoneyManagementPayoutMethodCreatedEvent is the Go struct for the "v2.money_management.payout_method.created" event.
+// Occurs when a PayoutMethod is created.
+type V2MoneyManagementPayoutMethodCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutMethod, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
+func (e *V2MoneyManagementPayoutMethodCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutMethodCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_method.created"
+// Occurs when a PayoutMethod is created.
+type V2MoneyManagementPayoutMethodCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutMethodCreatedEvent that created this Notification
+func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutMethodCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
+func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2MoneyManagementPayoutMethod{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementPayoutMethodUpdatedEvent is the Go struct for the "v2.money_management.payout_method.updated" event.
 // Occurs when a PayoutMethod is updated.
 type V2MoneyManagementPayoutMethodUpdatedEvent struct {
@@ -5410,6 +5501,422 @@ func (n *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchRelatedObje
 	return relatedObj, err
 }
 
+// V2PaymentsSettlementAllocationIntentCanceledEvent is the Go struct for the "v2.payments.settlement_allocation_intent.canceled" event.
+// Occurs when a settlement allocation intent is canceled.
+type V2PaymentsSettlementAllocationIntentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntent, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (e *V2PaymentsSettlementAllocationIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.canceled"
+// Occurs when a settlement allocation intent is canceled.
+type V2PaymentsSettlementAllocationIntentCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentCanceledEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentCanceledEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (n *V2PaymentsSettlementAllocationIntentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntent{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentCreatedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.created" event.
+// Occurs when a settlement allocation intent is created.
+type V2PaymentsSettlementAllocationIntentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntent, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (e *V2PaymentsSettlementAllocationIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.created"
+// Occurs when a settlement allocation intent is created.
+type V2PaymentsSettlementAllocationIntentCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentCreatedEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (n *V2PaymentsSettlementAllocationIntentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntent{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentErroredEvent is the Go struct for the "v2.payments.settlement_allocation_intent.errored" event.
+// Occurs when an error occurs in reconciling a settlement allocation intent.
+type V2PaymentsSettlementAllocationIntentErroredEvent struct {
+	V2BaseEvent
+	Data               V2PaymentsSettlementAllocationIntentErroredEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                             `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntent, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (e *V2PaymentsSettlementAllocationIntentErroredEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentErroredEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.errored"
+// Occurs when an error occurs in reconciling a settlement allocation intent.
+type V2PaymentsSettlementAllocationIntentErroredEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentErroredEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentErroredEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentErroredEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentErroredEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (n *V2PaymentsSettlementAllocationIntentErroredEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntent{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.funds_not_received" event.
+// Occurs when no received credit exists for a settlement allocation intent.
+type V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntent, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (e *V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.funds_not_received"
+// Occurs when no received credit exists for a settlement allocation intent.
+type V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (n *V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntent{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentMatchedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.matched" event.
+// Occurs when a settlement allocation intent is matched.
+type V2PaymentsSettlementAllocationIntentMatchedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntent, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (e *V2PaymentsSettlementAllocationIntentMatchedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentMatchedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.matched"
+// Occurs when a settlement allocation intent is matched.
+type V2PaymentsSettlementAllocationIntentMatchedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentMatchedEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentMatchedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentMatchedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentMatchedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (n *V2PaymentsSettlementAllocationIntentMatchedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntent{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentNotFoundEvent is the Go struct for the "v2.payments.settlement_allocation_intent.not_found" event.
+// Occurs when a ReceivedCredit has no settlement intent matching it.
+type V2PaymentsSettlementAllocationIntentNotFoundEvent struct {
+	V2BaseEvent
+	Data V2PaymentsSettlementAllocationIntentNotFoundEventData `json:"data"`
+}
+
+// V2PaymentsSettlementAllocationIntentNotFoundEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.not_found"
+// Occurs when a ReceivedCredit has no settlement intent matching it.
+type V2PaymentsSettlementAllocationIntentNotFoundEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentNotFoundEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentNotFoundEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentNotFoundEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentNotFoundEvent), nil
+}
+
+// V2PaymentsSettlementAllocationIntentSettledEvent is the Go struct for the "v2.payments.settlement_allocation_intent.settled" event.
+// Occurs when a settlement allocation intent is settled.
+type V2PaymentsSettlementAllocationIntentSettledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntent, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (e *V2PaymentsSettlementAllocationIntentSettledEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentSettledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.settled"
+// Occurs when a settlement allocation intent is settled.
+type V2PaymentsSettlementAllocationIntentSettledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSettledEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentSettledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSettledEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentSettledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (n *V2PaymentsSettlementAllocationIntentSettledEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntent{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentSubmittedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.submitted" event.
+// Occurs when a settlement allocation intent is submitted.
+type V2PaymentsSettlementAllocationIntentSubmittedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntent, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (e *V2PaymentsSettlementAllocationIntentSubmittedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentSubmittedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.submitted"
+// Occurs when a settlement allocation intent is submitted.
+type V2PaymentsSettlementAllocationIntentSubmittedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSubmittedEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentSubmittedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSubmittedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentSubmittedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntent related to the event.
+func (n *V2PaymentsSettlementAllocationIntentSubmittedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntent{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentSplitCanceledEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.canceled" event.
+// Occurs when a settlement allocation intent split is canceled.
+type V2PaymentsSettlementAllocationIntentSplitCanceledEvent struct {
+	V2BaseEvent
+	Data               V2PaymentsSettlementAllocationIntentSplitCanceledEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                   `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntentSplit, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntentSplit related to the event.
+func (e *V2PaymentsSettlementAllocationIntentSplitCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplit, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent_split.canceled"
+// Occurs when a settlement allocation intent split is canceled.
+type V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSplitCanceledEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplitCanceledEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentSplitCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntentSplit related to the event.
+func (n *V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntentSplit{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentSplitCreatedEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.created" event.
+// Occurs when a settlement allocation intent split is created.
+type V2PaymentsSettlementAllocationIntentSplitCreatedEvent struct {
+	V2BaseEvent
+	Data               V2PaymentsSettlementAllocationIntentSplitCreatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                  `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntentSplit, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntentSplit related to the event.
+func (e *V2PaymentsSettlementAllocationIntentSplitCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplit, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent_split.created"
+// Occurs when a settlement allocation intent split is created.
+type V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSplitCreatedEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplitCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentSplitCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntentSplit related to the event.
+func (n *V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntentSplit{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsSettlementAllocationIntentSplitSettledEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.settled" event.
+// Occurs when a settlement allocation intent split is settled.
+type V2PaymentsSettlementAllocationIntentSplitSettledEvent struct {
+	V2BaseEvent
+	Data               V2PaymentsSettlementAllocationIntentSplitSettledEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                  `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsSettlementAllocationIntentSplit, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntentSplit related to the event.
+func (e *V2PaymentsSettlementAllocationIntentSplitSettledEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplit, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsSettlementAllocationIntentSplitSettledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent_split.settled"
+// Occurs when a settlement allocation intent split is settled.
+type V2PaymentsSettlementAllocationIntentSplitSettledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSplitSettledEvent that created this Notification
+func (n *V2PaymentsSettlementAllocationIntentSplitSettledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplitSettledEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsSettlementAllocationIntentSplitSettledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsSettlementAllocationIntentSplit related to the event.
+func (n *V2PaymentsSettlementAllocationIntentSplitSettledEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2PaymentsSettlementAllocationIntentSplit{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2ReportingReportRunCreatedEvent is the Go struct for the "v2.reporting.report_run.created" event.
 // Occurs when a ReportRun is created.
 type V2ReportingReportRunCreatedEvent struct {
@@ -5772,6 +6279,16 @@ type V2CoreAccountPersonUpdatedEventData struct {
 	AccountID string `json:"account_id"`
 }
 
+// The top impacted connected accounts (only for platforms).
+type V2CoreHealthAPIErrorFiringEventDataImpactTopImpactedAccount struct {
+	// The account ID of the impacted connected account.
+	Account string `json:"account"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// The percentage of impacted requests.
+	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+}
+
 // The user impact.
 type V2CoreHealthAPIErrorFiringEventDataImpact struct {
 	// The canonical path.
@@ -5786,6 +6303,8 @@ type V2CoreHealthAPIErrorFiringEventDataImpact struct {
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
 	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	// The top impacted connected accounts (only for platforms).
+	TopImpactedAccounts []*V2CoreHealthAPIErrorFiringEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
 
 // Occurs when an API error alert is firing.
@@ -5802,6 +6321,16 @@ type V2CoreHealthAPIErrorFiringEventData struct {
 	Summary string `json:"summary"`
 }
 
+// The top impacted connected accounts (only for platforms).
+type V2CoreHealthAPIErrorResolvedEventDataImpactTopImpactedAccount struct {
+	// The account ID of the impacted connected account.
+	Account string `json:"account"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// The percentage of impacted requests.
+	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+}
+
 // The user impact.
 type V2CoreHealthAPIErrorResolvedEventDataImpact struct {
 	// The canonical path.
@@ -5816,6 +6345,8 @@ type V2CoreHealthAPIErrorResolvedEventDataImpact struct {
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
 	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	// The top impacted connected accounts (only for platforms).
+	TopImpactedAccounts []*V2CoreHealthAPIErrorResolvedEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
 
 // Occurs when an API error alert is resolved.
@@ -5832,6 +6363,16 @@ type V2CoreHealthAPIErrorResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// The top impacted connected accounts (only for platforms).
+type V2CoreHealthAPILatencyFiringEventDataImpactTopImpactedAccount struct {
+	// The account ID of the impacted connected account.
+	Account string `json:"account"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// The percentage of impacted requests.
+	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+}
+
 // The user impact.
 type V2CoreHealthAPILatencyFiringEventDataImpact struct {
 	// The canonical path.
@@ -5844,6 +6385,8 @@ type V2CoreHealthAPILatencyFiringEventDataImpact struct {
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
 	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	// The top impacted connected accounts (only for platforms).
+	TopImpactedAccounts []*V2CoreHealthAPILatencyFiringEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
 
 // Occurs when an API latency alert is firing.
@@ -5860,6 +6403,16 @@ type V2CoreHealthAPILatencyFiringEventData struct {
 	Summary string `json:"summary"`
 }
 
+// The top impacted connected accounts (only for platforms).
+type V2CoreHealthAPILatencyResolvedEventDataImpactTopImpactedAccount struct {
+	// The account ID of the impacted connected account.
+	Account string `json:"account"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// The percentage of impacted requests.
+	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+}
+
 // The user impact.
 type V2CoreHealthAPILatencyResolvedEventDataImpact struct {
 	// The canonical path.
@@ -5872,6 +6425,8 @@ type V2CoreHealthAPILatencyResolvedEventDataImpact struct {
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
 	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	// The top impacted connected accounts (only for platforms).
+	TopImpactedAccounts []*V2CoreHealthAPILatencyResolvedEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
 
 // Occurs when an API latency alert is resolved.
@@ -6194,6 +6749,16 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// The top impacted connected accounts (only for platforms).
+type V2CoreHealthPaymentMethodErrorFiringEventDataImpactTopImpactedAccount struct {
+	// The account ID of the impacted connected account.
+	Account string `json:"account"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// The percentage of impacted requests.
+	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+}
+
 // The user impact.
 type V2CoreHealthPaymentMethodErrorFiringEventDataImpact struct {
 	// The returned error code.
@@ -6204,6 +6769,8 @@ type V2CoreHealthPaymentMethodErrorFiringEventDataImpact struct {
 	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType `json:"payment_method_type"`
+	// The top impacted connected accounts (only for platforms).
+	TopImpactedAccounts []*V2CoreHealthPaymentMethodErrorFiringEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
 
 // Occurs when a payment method error alert is firing.
@@ -6220,6 +6787,16 @@ type V2CoreHealthPaymentMethodErrorFiringEventData struct {
 	Summary string `json:"summary"`
 }
 
+// The top impacted connected accounts (only for platforms).
+type V2CoreHealthPaymentMethodErrorResolvedEventDataImpactTopImpactedAccount struct {
+	// The account ID of the impacted connected account.
+	Account string `json:"account"`
+	// The number of impacted requests.
+	ImpactedRequests int64 `json:"impacted_requests"`
+	// The percentage of impacted requests.
+	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+}
+
 // The user impact.
 type V2CoreHealthPaymentMethodErrorResolvedEventDataImpact struct {
 	// The returned error code.
@@ -6230,6 +6807,8 @@ type V2CoreHealthPaymentMethodErrorResolvedEventDataImpact struct {
 	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType `json:"payment_method_type"`
+	// The top impacted connected accounts (only for platforms).
+	TopImpactedAccounts []*V2CoreHealthPaymentMethodErrorResolvedEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
 
 // Occurs when a payment method error alert is resolved.
@@ -6238,6 +6817,48 @@ type V2CoreHealthPaymentMethodErrorResolvedEventData struct {
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
 	Impact *V2CoreHealthPaymentMethodErrorResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthSEPADebitDelayedFiringEventDataImpact struct {
+	// The number of impacted payments.
+	ImpactedPayments int64 `json:"impacted_payments"`
+	// The percentage of impacted payments.
+	ImpactedPaymentsPercentage string `json:"impacted_payments_percentage"`
+}
+
+// Occurs when a SEPA debit delayed alert is firing.
+type V2CoreHealthSEPADebitDelayedFiringEventData struct {
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthSEPADebitDelayedFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthSEPADebitDelayedResolvedEventDataImpact struct {
+	// The number of impacted payments.
+	ImpactedPayments int64 `json:"impacted_payments"`
+	// The percentage of impacted payments.
+	ImpactedPaymentsPercentage string `json:"impacted_payments_percentage"`
+}
+
+// Occurs when a SEPA debit delayed alert is resolved.
+type V2CoreHealthSEPADebitDelayedResolvedEventData struct {
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthSEPADebitDelayedResolvedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at"`
 	// The time when impact on the user experience was first detected.
@@ -6356,6 +6977,40 @@ type V2MoneyManagementReceivedCreditAvailableEventData struct {
 type V2MoneyManagementTransactionCreatedEventData struct {
 	// Id of the v1 Transaction corresponding to this Transaction.
 	V1ID string `json:"v1_id,omitempty"`
+}
+
+// Occurs when an error occurs in reconciling a settlement allocation intent.
+type V2PaymentsSettlementAllocationIntentErroredEventData struct {
+	// Stripe doc link to debug the issue.
+	DocURL string `json:"doc_url,omitempty"`
+	// User Message detailing the reason code and possible resolution .
+	Message string `json:"message"`
+	// Open Enum. The `errored` status reason.
+	ReasonCode V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode `json:"reason_code"`
+}
+
+// Occurs when a ReceivedCredit has no settlement intent matching it.
+type V2PaymentsSettlementAllocationIntentNotFoundEventData struct {
+	// The ID of the ReceivedCredit.
+	ReceivedCreditID string `json:"received_credit_id"`
+}
+
+// Occurs when a settlement allocation intent split is canceled.
+type V2PaymentsSettlementAllocationIntentSplitCanceledEventData struct {
+	// The ID of the SettlementAllocationIntent this split belongs to.
+	SettlementAllocationIntentID string `json:"settlement_allocation_intent_id"`
+}
+
+// Occurs when a settlement allocation intent split is created.
+type V2PaymentsSettlementAllocationIntentSplitCreatedEventData struct {
+	// The ID of the SettlementAllocationIntent this split belongs to.
+	SettlementAllocationIntentID string `json:"settlement_allocation_intent_id"`
+}
+
+// Occurs when a settlement allocation intent split is settled.
+type V2PaymentsSettlementAllocationIntentSplitSettledEventData struct {
+	// The ID of the SettlementAllocationIntent this split belongs to.
+	SettlementAllocationIntentID string `json:"settlement_allocation_intent_id"`
 }
 
 // ConvertRawEvent converts a raw event to a concrete event type.
@@ -7158,6 +7813,20 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.health.sepa_debit_delayed.firing":
+		result := &V2CoreHealthSEPADebitDelayedFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.sepa_debit_delayed.resolved":
+		result := &V2CoreHealthSEPADebitDelayedResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.core.health.traffic_volume_drop.firing":
 		result := &V2CoreHealthTrafficVolumeDropFiringEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -7446,6 +8115,16 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.money_management.payout_method.created":
+		result := &V2MoneyManagementPayoutMethodCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
+			v := &V2MoneyManagementPayoutMethod{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.money_management.payout_method.updated":
 		result := &V2MoneyManagementPayoutMethodUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -7680,6 +8359,125 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			v := &V2PaymentsOffSessionPayment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent.canceled":
+		result := &V2PaymentsSettlementAllocationIntentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
+			v := &V2PaymentsSettlementAllocationIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent.created":
+		result := &V2PaymentsSettlementAllocationIntentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
+			v := &V2PaymentsSettlementAllocationIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent.errored":
+		result := &V2PaymentsSettlementAllocationIntentErroredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
+			v := &V2PaymentsSettlementAllocationIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent.funds_not_received":
+		result := &V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
+			v := &V2PaymentsSettlementAllocationIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent.matched":
+		result := &V2PaymentsSettlementAllocationIntentMatchedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
+			v := &V2PaymentsSettlementAllocationIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent.not_found":
+		result := &V2PaymentsSettlementAllocationIntentNotFoundEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent.settled":
+		result := &V2PaymentsSettlementAllocationIntentSettledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
+			v := &V2PaymentsSettlementAllocationIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent.submitted":
+		result := &V2PaymentsSettlementAllocationIntentSubmittedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntent, error) {
+			v := &V2PaymentsSettlementAllocationIntent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent_split.canceled":
+		result := &V2PaymentsSettlementAllocationIntentSplitCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntentSplit, error) {
+			v := &V2PaymentsSettlementAllocationIntentSplit{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent_split.created":
+		result := &V2PaymentsSettlementAllocationIntentSplitCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntentSplit, error) {
+			v := &V2PaymentsSettlementAllocationIntentSplit{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.payments.settlement_allocation_intent_split.settled":
+		result := &V2PaymentsSettlementAllocationIntentSplitSettledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsSettlementAllocationIntentSplit, error) {
+			v := &V2PaymentsSettlementAllocationIntentSplit{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
 		}
 		return result, nil
 	case "v2.reporting.report_run.created":
@@ -8296,6 +9094,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.core.health.sepa_debit_delayed.firing":
+		evt := V2CoreHealthSEPADebitDelayedFiringEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.health.sepa_debit_delayed.resolved":
+		evt := V2CoreHealthSEPADebitDelayedResolvedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.core.health.traffic_volume_drop.firing":
 		evt := V2CoreHealthTrafficVolumeDropFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -8527,6 +9339,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.payout_method.created":
+		evt := V2MoneyManagementPayoutMethodCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.payout_method.updated":
 		evt := V2MoneyManagementPayoutMethodUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -8683,6 +9502,83 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.payments.off_session_payment.succeeded":
 		evt := V2PaymentsOffSessionPaymentSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent.canceled":
+		evt := V2PaymentsSettlementAllocationIntentCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent.created":
+		evt := V2PaymentsSettlementAllocationIntentCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent.errored":
+		evt := V2PaymentsSettlementAllocationIntentErroredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent.funds_not_received":
+		evt := V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent.matched":
+		evt := V2PaymentsSettlementAllocationIntentMatchedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent.not_found":
+		evt := V2PaymentsSettlementAllocationIntentNotFoundEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent.settled":
+		evt := V2PaymentsSettlementAllocationIntentSettledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent.submitted":
+		evt := V2PaymentsSettlementAllocationIntentSubmittedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent_split.canceled":
+		evt := V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent_split.created":
+		evt := V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.settlement_allocation_intent_split.settled":
+		evt := V2PaymentsSettlementAllocationIntentSplitSettledEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

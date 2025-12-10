@@ -211,7 +211,7 @@ type IssuingAuthorizationParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -233,11 +233,11 @@ func (p *IssuingAuthorizationParams) AddMetadata(key string, value string) {
 // This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://docs.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 type IssuingAuthorizationApproveParams struct {
 	Params `form:"*"`
-	// If the authorization's `pending_request.is_amount_controllable` property is `true`, you may provide this value to control how much to hold for the authorization. Must be positive (use [`decline`](https://stripe.com/docs/api/issuing/authorizations/decline) to decline an authorization request).
+	// If the authorization's `pending_request.is_amount_controllable` property is `true`, you may provide this value to control how much to hold for the authorization. Must be positive (use [`decline`](https://docs.stripe.com/api/issuing/authorizations/decline) to decline an authorization request).
 	Amount *int64 `form:"amount"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -261,7 +261,7 @@ type IssuingAuthorizationDeclineParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -296,7 +296,7 @@ type IssuingAuthorizationUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -314,7 +314,7 @@ func (p *IssuingAuthorizationUpdateParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
-// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 type IssuingAuthorizationAmountDetails struct {
 	// The fee charged by the ATM for the cash withdrawal.
 	ATMFee int64 `json:"atm_fee"`
@@ -405,7 +405,7 @@ type IssuingAuthorizationFuel struct {
 	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
 }
 type IssuingAuthorizationMerchantData struct {
-	// A categorization of the seller's type of business. See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
+	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
 	Category string `json:"category"`
 	// The merchant category code for the seller's business
 	CategoryCode string `json:"category_code"`
@@ -441,15 +441,15 @@ type IssuingAuthorizationNetworkData struct {
 
 // The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
 type IssuingAuthorizationPendingRequest struct {
-	// The additional amount Stripe will hold if the authorization is approved, in the card's [currency](https://stripe.com/docs/api#issuing_authorization_object-pending-request-currency) and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The additional amount Stripe will hold if the authorization is approved, in the card's [currency](https://docs.stripe.com/api#issuing_authorization_object-pending-request-currency) and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
-	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountDetails *IssuingAuthorizationAmountDetails `json:"amount_details"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
+	// If set `true`, you may provide [amount](https://docs.stripe.com/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
 	IsAmountControllable bool `json:"is_amount_controllable"`
-	// The amount the merchant is requesting to be authorized in the `merchant_currency`. The amount is in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount the merchant is requesting to be authorized in the `merchant_currency`. The amount is in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	MerchantAmount int64 `json:"merchant_amount"`
 	// The local currency the merchant is requesting to authorize.
 	MerchantCurrency Currency `json:"merchant_currency"`
@@ -459,9 +459,9 @@ type IssuingAuthorizationPendingRequest struct {
 
 // History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.
 type IssuingAuthorizationRequestHistory struct {
-	// The `pending_request.amount` at the time of the request, presented in your card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Stripe held this amount from your account to fund the authorization if the request was approved.
+	// The `pending_request.amount` at the time of the request, presented in your card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Stripe held this amount from your account to fund the authorization if the request was approved.
 	Amount int64 `json:"amount"`
-	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountDetails *IssuingAuthorizationAmountDetails `json:"amount_details"`
 	// Whether this request was approved.
 	Approved bool `json:"approved"`
@@ -471,7 +471,7 @@ type IssuingAuthorizationRequestHistory struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// The `pending_request.merchant_amount` at the time of the request, presented in the `merchant_currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The `pending_request.merchant_amount` at the time of the request, presented in the `merchant_currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	MerchantAmount int64 `json:"merchant_amount"`
 	// The currency that was collected by the merchant and presented to the cardholder for the authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency Currency `json:"merchant_currency"`
@@ -485,13 +485,13 @@ type IssuingAuthorizationRequestHistory struct {
 	RequestedAt int64 `json:"requested_at"`
 }
 
-// [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
+// [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).
 type IssuingAuthorizationTreasury struct {
-	// The array of [ReceivedCredits](https://stripe.com/docs/api/treasury/received_credits) associated with this authorization
+	// The array of [ReceivedCredits](https://docs.stripe.com/api/treasury/received_credits) associated with this authorization
 	ReceivedCredits []string `json:"received_credits"`
-	// The array of [ReceivedDebits](https://stripe.com/docs/api/treasury/received_debits) associated with this authorization
+	// The array of [ReceivedDebits](https://docs.stripe.com/api/treasury/received_debits) associated with this authorization
 	ReceivedDebits []string `json:"received_debits"`
-	// The Treasury [Transaction](https://stripe.com/docs/api/treasury/transactions) associated with this authorization
+	// The Treasury [Transaction](https://docs.stripe.com/api/treasury/transactions) associated with this authorization
 	Transaction string `json:"transaction"`
 }
 
@@ -525,16 +525,16 @@ type IssuingAuthorizationVerificationData struct {
 	ThreeDSecure *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
 }
 
-// When an [issued card](https://stripe.com/docs/issuing) is used to make a purchase, an Issuing `Authorization`
-// object is created. [Authorizations](https://stripe.com/docs/issuing/purchases/authorizations) must be approved for the
+// When an [issued card](https://docs.stripe.com/issuing) is used to make a purchase, an Issuing `Authorization`
+// object is created. [Authorizations](https://docs.stripe.com/issuing/purchases/authorizations) must be approved for the
 // purchase to be completed successfully.
 //
-// Related guide: [Issued card authorizations](https://stripe.com/docs/issuing/purchases/authorizations)
+// Related guide: [Issued card authorizations](https://docs.stripe.com/issuing/purchases/authorizations)
 type IssuingAuthorization struct {
 	APIResource
 	// The total amount that was authorized or rejected. This amount is in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). `amount` should be the same as `merchant_amount`, unless `currency` and `merchant_currency` are different.
 	Amount int64 `json:"amount"`
-	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountDetails *IssuingAuthorizationAmountDetails `json:"amount_details"`
 	// Whether the authorization has been approved.
 	Approved bool `json:"approved"`
@@ -542,7 +542,7 @@ type IssuingAuthorization struct {
 	AuthorizationMethod IssuingAuthorizationAuthorizationMethod `json:"authorization_method"`
 	// List of balance transactions associated with this authorization.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
-	// You can [create physical or virtual cards](https://stripe.com/docs/issuing) that are issued to cardholders.
+	// You can [create physical or virtual cards](https://docs.stripe.com/issuing) that are issued to cardholders.
 	Card *IssuingCard `json:"card"`
 	// The cardholder to whom this authorization belongs.
 	Cardholder *IssuingCardholder `json:"cardholder"`
@@ -565,7 +565,7 @@ type IssuingAuthorization struct {
 	// The local currency that was presented to the cardholder for the authorization. This currency can be different from the cardholder currency and the `currency` field on this authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency Currency                          `json:"merchant_currency"`
 	MerchantData     *IssuingAuthorizationMerchantData `json:"merchant_data"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkData *IssuingAuthorizationNetworkData `json:"network_data"`
@@ -577,11 +577,11 @@ type IssuingAuthorization struct {
 	RequestHistory []*IssuingAuthorizationRequestHistory `json:"request_history"`
 	// The current status of the authorization in its lifecycle.
 	Status IssuingAuthorizationStatus `json:"status"`
-	// [Token](https://stripe.com/docs/api/issuing/tokens/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
+	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
 	Token *IssuingToken `json:"token"`
-	// List of [transactions](https://stripe.com/docs/api/issuing/transactions) associated with this authorization.
+	// List of [transactions](https://docs.stripe.com/api/issuing/transactions) associated with this authorization.
 	Transactions []*IssuingTransaction `json:"transactions"`
-	// [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
+	// [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).
 	Treasury         *IssuingAuthorizationTreasury         `json:"treasury"`
 	VerificationData *IssuingAuthorizationVerificationData `json:"verification_data"`
 	// Whether the authorization bypassed fraud risk checks because the cardholder has previously completed a fraud challenge on a similar high-risk authorization from the same merchant.

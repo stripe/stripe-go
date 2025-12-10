@@ -51,7 +51,7 @@ type IssuingFraudLiabilityDebit struct {
 	APIResource
 	// Debited amount. This is equal to the disputed amount and is given in the card's currency and in the smallest currency unit.
 	Amount int64 `json:"amount"`
-	// ID of the [balance transaction](https://stripe.com/docs/api/balance_transactions) associated with this debit.
+	// ID of the [balance transaction](https://docs.stripe.com/api/balance_transactions) associated with this debit.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`

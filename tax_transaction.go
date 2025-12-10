@@ -257,7 +257,7 @@ type TaxTransactionCreateFromCalculationParams struct {
 	Calculation *string `form:"calculation"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The Unix timestamp representing when the tax liability is assumed or reduced, which determines the liability posting period and handling in tax liability reports. The timestamp must fall within the `tax_date` and the current time, unless the `tax_date` is scheduled in advance. Defaults to the current time.
 	PostedAt *int64 `form:"posted_at"`
@@ -281,15 +281,15 @@ func (p *TaxTransactionCreateFromCalculationParams) AddMetadata(key string, valu
 
 // The line item amounts to reverse.
 type TaxTransactionCreateReversalLineItemParams struct {
-	// The amount to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
+	// The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
 	Amount *int64 `form:"amount"`
-	// The amount of tax to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
+	// The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
 	AmountTax *int64 `form:"amount_tax"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
 	// The `id` of the line item to reverse in the original transaction.
 	OriginalLineItem *string `form:"original_line_item"`
-	// The quantity reversed. Appears in [tax exports](https://stripe.com/docs/tax/reports), but does not affect the amount of tax reversed.
+	// The quantity reversed. Appears in [tax exports](https://docs.stripe.com/tax/reports), but does not affect the amount of tax reversed.
 	Quantity *int64 `form:"quantity"`
 	// A custom identifier for this line item in the reversal transaction, such as 'L1-refund'.
 	Reference *string `form:"reference"`
@@ -306,9 +306,9 @@ func (p *TaxTransactionCreateReversalLineItemParams) AddMetadata(key string, val
 
 // The shipping cost to reverse.
 type TaxTransactionCreateReversalShippingCostParams struct {
-	// The amount to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
+	// The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
 	Amount *int64 `form:"amount"`
-	// The amount of tax to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
+	// The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative.
 	AmountTax *int64 `form:"amount_tax"`
 }
 
@@ -317,17 +317,17 @@ type TaxTransactionCreateReversalParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A flat amount to reverse across the entire transaction, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative. This value represents the total amount to refund from the transaction, including taxes.
+	// A flat amount to reverse across the entire transaction, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) in negative. This value represents the total amount to refund from the transaction, including taxes.
 	FlatAmount *int64 `form:"flat_amount"`
 	// The line item amounts to reverse.
 	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If `partial`, the provided line item or shipping cost amounts are reversed. If `full`, the original transaction is fully reversed.
 	Mode *string `form:"mode"`
 	// The ID of the Transaction to partially or fully reverse.
 	OriginalTransaction *string `form:"original_transaction"`
-	// A custom identifier for this reversal, such as `myOrder_123-refund_1`, which must be unique across all transactions. The reference helps identify this reversal transaction in exported [tax reports](https://stripe.com/docs/tax/reports).
+	// A custom identifier for this reversal, such as `myOrder_123-refund_1`, which must be unique across all transactions. The reference helps identify this reversal transaction in exported [tax reports](https://docs.stripe.com/tax/reports).
 	Reference *string `form:"reference"`
 	// The shipping cost to reverse.
 	ShippingCost *TaxTransactionCreateReversalShippingCostParams `form:"shipping_cost"`
@@ -412,14 +412,14 @@ type TaxTransactionShippingCostTaxBreakdownTaxRateDetails struct {
 
 // Detailed account of taxes relevant to shipping cost. (It is not populated for the transaction resource object and will be removed in the next API version.)
 type TaxTransactionShippingCostTaxBreakdown struct {
-	// The amount of tax, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount       int64                                               `json:"amount"`
 	Jurisdiction *TaxTransactionShippingCostTaxBreakdownJurisdiction `json:"jurisdiction"`
 	// Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address).
 	Sourcing TaxTransactionShippingCostTaxBreakdownSourcing `json:"sourcing"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason TaxTransactionShippingCostTaxBreakdownTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount on which tax is calculated, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	TaxableAmount int64 `json:"taxable_amount"`
 	// Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax.
 	TaxRateDetails *TaxTransactionShippingCostTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
@@ -427,30 +427,30 @@ type TaxTransactionShippingCostTaxBreakdown struct {
 
 // The shipping cost details for the transaction.
 type TaxTransactionShippingCost struct {
-	// The shipping amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+	// The shipping amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
 	Amount int64 `json:"amount"`
-	// The amount of tax calculated for shipping, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount of tax calculated for shipping, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountTax int64 `json:"amount_tax"`
-	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object).
+	// The ID of an existing [ShippingRate](https://docs.stripe.com/api/shipping_rates/object).
 	ShippingRate string `json:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxTransactionShippingCostTaxBehavior `json:"tax_behavior"`
 	// Detailed account of taxes relevant to shipping cost. (It is not populated for the transaction resource object and will be removed in the next API version.)
 	TaxBreakdown []*TaxTransactionShippingCostTaxBreakdown `json:"tax_breakdown"`
-	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
+	// The [tax code](https://docs.stripe.com/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
 }
 
 // A Tax Transaction records the tax collected from or refunded to your customer.
 //
-// Related guide: [Calculate tax in your custom payment flow](https://stripe.com/docs/tax/custom#tax-transaction)
+// Related guide: [Calculate tax in your custom payment flow](https://docs.stripe.com/tax/custom#tax-transaction)
 type TaxTransaction struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// The ID of an existing [Customer](https://stripe.com/docs/api/customers/object) used for the resource.
+	// The ID of an existing [Customer](https://docs.stripe.com/api/customers/object) used for the resource.
 	Customer        string                         `json:"customer"`
 	CustomerDetails *TaxTransactionCustomerDetails `json:"customer_details"`
 	// Unique identifier for the transaction.
@@ -459,7 +459,7 @@ type TaxTransaction struct {
 	LineItems *TaxTransactionLineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

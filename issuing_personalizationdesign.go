@@ -103,7 +103,7 @@ type IssuingPersonalizationDesignParams struct {
 	Expand []*string `form:"expand"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Friendly display name. Providing an empty string will set the field to null.
 	Name *string `form:"name"`
@@ -158,7 +158,7 @@ type IssuingPersonalizationDesignCreateParams struct {
 	Expand []*string `form:"expand"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Friendly display name.
 	Name *string `form:"name"`
@@ -225,7 +225,7 @@ type IssuingPersonalizationDesignUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Friendly display name. Providing an empty string will set the field to null.
 	Name *string `form:"name"`
@@ -290,7 +290,7 @@ type IssuingPersonalizationDesign struct {
 	Livemode bool `json:"livemode"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
 	LookupKey string `json:"lookup_key"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Friendly display name.
 	Name string `json:"name"`

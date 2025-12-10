@@ -161,26 +161,6 @@ type DelegatedCheckoutRequestedSessionSellerDetailsParams struct {
 	NetworkProfile *string `form:"network_profile"`
 }
 
-// The client device metadata details for this requested session.
-type DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams struct {
-	// The radar session.
-	RadarSession *string `form:"radar_session"`
-	// The referrer of the client device.
-	Referrer *string `form:"referrer"`
-	// The remote IP address of the client device.
-	RemoteIP *string `form:"remote_ip"`
-	// The time on page in milliseconds.
-	TimeOnPageMS *int64 `form:"time_on_page_ms"`
-	// The user agent of the client device.
-	UserAgent *string `form:"user_agent"`
-}
-
-// Risk details/signals associated with the requested session
-type DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams struct {
-	// The client device metadata details for this requested session.
-	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
-}
-
 // The billing details for the payment method data.
 type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams struct {
 	// The address for the billing details.
@@ -213,6 +193,26 @@ type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataParams struct {
 	Card *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataCardParams `form:"card"`
 	// The type of the payment method data.
 	Type *string `form:"type"`
+}
+
+// The client device metadata details for this requested session.
+type DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams struct {
+	// The radar session.
+	RadarSession *string `form:"radar_session"`
+	// The referrer of the client device.
+	Referrer *string `form:"referrer"`
+	// The remote IP address of the client device.
+	RemoteIP *string `form:"remote_ip"`
+	// The time on page in milliseconds.
+	TimeOnPageMS *int64 `form:"time_on_page_ms"`
+	// The user agent of the client device.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Risk details/signals associated with the requested session
+type DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams struct {
+	// The client device metadata details for this requested session.
+	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
 }
 
 // Confirms a requested session

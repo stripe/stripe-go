@@ -13545,22 +13545,28 @@ func TestV2BillingIntentPostService(t *testing.T) {
 					},
 				},
 				Deactivate: &stripe.V2BillingIntentActionDeactivateParams{
-					BillingDetails: &stripe.V2BillingIntentActionDeactivateBillingDetailsParams{
-						ProrationBehavior: stripe.String("prorated_adjustment"),
-					},
+					CollectAt: stripe.String("next_billing_date"),
 					EffectiveAt: &stripe.V2BillingIntentActionDeactivateEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
 						Type:      stripe.String("on_reserve"),
 					},
 					PricingPlanSubscriptionDetails: &stripe.V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams{
+						Overrides: &stripe.V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesParams{
+							PartialPeriodBehaviors: []*stripe.V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams{
+								{
+									Type: stripe.String("license_fee"),
+									LicenseFee: &stripe.V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams{
+										CreditProrationBehavior: stripe.String("prorated"),
+									},
+								},
+							},
+						},
 						PricingPlanSubscription: stripe.String("pricing_plan_subscription"),
 					},
 					Type: stripe.String("pricing_plan_subscription_details"),
 				},
 				Modify: &stripe.V2BillingIntentActionModifyParams{
-					BillingDetails: &stripe.V2BillingIntentActionModifyBillingDetailsParams{
-						ProrationBehavior: stripe.String("prorated_adjustment"),
-					},
+					CollectAt: stripe.String("next_billing_date"),
 					EffectiveAt: &stripe.V2BillingIntentActionModifyEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
 						Type:      stripe.String("current_billing_period_start"),
@@ -13573,8 +13579,19 @@ func TestV2BillingIntentPostService(t *testing.T) {
 								PricingPlanComponent: stripe.String("pricing_plan_component"),
 							},
 						},
-						NewPricingPlan:          stripe.String("new_pricing_plan"),
-						NewPricingPlanVersion:   stripe.String("new_pricing_plan_version"),
+						NewPricingPlan:        stripe.String("new_pricing_plan"),
+						NewPricingPlanVersion: stripe.String("new_pricing_plan_version"),
+						Overrides: &stripe.V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesParams{
+							PartialPeriodBehaviors: []*stripe.V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams{
+								{
+									Type: stripe.String("license_fee"),
+									LicenseFee: &stripe.V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams{
+										CreditProrationBehavior: stripe.String("prorated"),
+										DebitProrationBehavior:  stripe.String("none"),
+									},
+								},
+							},
+						},
 						PricingPlanSubscription: stripe.String("pricing_plan_subscription"),
 					},
 					Type: stripe.String("pricing_plan_subscription_details"),
@@ -13584,9 +13601,7 @@ func TestV2BillingIntentPostService(t *testing.T) {
 					InvoiceDiscountRule: stripe.String("invoice_discount_rule"),
 				},
 				Subscribe: &stripe.V2BillingIntentActionSubscribeParams{
-					BillingDetails: &stripe.V2BillingIntentActionSubscribeBillingDetailsParams{
-						ProrationBehavior: stripe.String("prorated_adjustment"),
-					},
+					CollectAt: stripe.String("next_billing_date"),
 					EffectiveAt: &stripe.V2BillingIntentActionSubscribeEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
 						Type:      stripe.String("current_billing_period_start"),
@@ -13600,7 +13615,17 @@ func TestV2BillingIntentPostService(t *testing.T) {
 								PricingPlanComponent: stripe.String("pricing_plan_component"),
 							},
 						},
-						Metadata:           map[string]string{"key": "metadata"},
+						Metadata: map[string]string{"key": "metadata"},
+						Overrides: &stripe.V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesParams{
+							PartialPeriodBehaviors: []*stripe.V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams{
+								{
+									Type: stripe.String("license_fee"),
+									LicenseFee: &stripe.V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams{
+										DebitProrationBehavior: stripe.String("none"),
+									},
+								},
+							},
+						},
 						PricingPlan:        stripe.String("pricing_plan"),
 						PricingPlanVersion: stripe.String("pricing_plan_version"),
 					},
@@ -13650,22 +13675,28 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 					},
 				},
 				Deactivate: &stripe.V2BillingIntentCreateActionDeactivateParams{
-					BillingDetails: &stripe.V2BillingIntentCreateActionDeactivateBillingDetailsParams{
-						ProrationBehavior: stripe.String("prorated_adjustment"),
-					},
+					CollectAt: stripe.String("next_billing_date"),
 					EffectiveAt: &stripe.V2BillingIntentCreateActionDeactivateEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
 						Type:      stripe.String("on_reserve"),
 					},
 					PricingPlanSubscriptionDetails: &stripe.V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams{
+						Overrides: &stripe.V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesParams{
+							PartialPeriodBehaviors: []*stripe.V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams{
+								{
+									Type: stripe.String("license_fee"),
+									LicenseFee: &stripe.V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams{
+										CreditProrationBehavior: stripe.String("prorated"),
+									},
+								},
+							},
+						},
 						PricingPlanSubscription: stripe.String("pricing_plan_subscription"),
 					},
 					Type: stripe.String("pricing_plan_subscription_details"),
 				},
 				Modify: &stripe.V2BillingIntentCreateActionModifyParams{
-					BillingDetails: &stripe.V2BillingIntentCreateActionModifyBillingDetailsParams{
-						ProrationBehavior: stripe.String("prorated_adjustment"),
-					},
+					CollectAt: stripe.String("next_billing_date"),
 					EffectiveAt: &stripe.V2BillingIntentCreateActionModifyEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
 						Type:      stripe.String("current_billing_period_start"),
@@ -13678,8 +13709,19 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 								PricingPlanComponent: stripe.String("pricing_plan_component"),
 							},
 						},
-						NewPricingPlan:          stripe.String("new_pricing_plan"),
-						NewPricingPlanVersion:   stripe.String("new_pricing_plan_version"),
+						NewPricingPlan:        stripe.String("new_pricing_plan"),
+						NewPricingPlanVersion: stripe.String("new_pricing_plan_version"),
+						Overrides: &stripe.V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesParams{
+							PartialPeriodBehaviors: []*stripe.V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams{
+								{
+									Type: stripe.String("license_fee"),
+									LicenseFee: &stripe.V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams{
+										CreditProrationBehavior: stripe.String("prorated"),
+										DebitProrationBehavior:  stripe.String("none"),
+									},
+								},
+							},
+						},
 						PricingPlanSubscription: stripe.String("pricing_plan_subscription"),
 					},
 					Type: stripe.String("pricing_plan_subscription_details"),
@@ -13689,9 +13731,7 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 					InvoiceDiscountRule: stripe.String("invoice_discount_rule"),
 				},
 				Subscribe: &stripe.V2BillingIntentCreateActionSubscribeParams{
-					BillingDetails: &stripe.V2BillingIntentCreateActionSubscribeBillingDetailsParams{
-						ProrationBehavior: stripe.String("prorated_adjustment"),
-					},
+					CollectAt: stripe.String("next_billing_date"),
 					EffectiveAt: &stripe.V2BillingIntentCreateActionSubscribeEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
 						Type:      stripe.String("current_billing_period_start"),
@@ -13705,7 +13745,17 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 								PricingPlanComponent: stripe.String("pricing_plan_component"),
 							},
 						},
-						Metadata:           map[string]string{"key": "metadata"},
+						Metadata: map[string]string{"key": "metadata"},
+						Overrides: &stripe.V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesParams{
+							PartialPeriodBehaviors: []*stripe.V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams{
+								{
+									Type: stripe.String("license_fee"),
+									LicenseFee: &stripe.V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams{
+										DebitProrationBehavior: stripe.String("none"),
+									},
+								},
+							},
+						},
 						PricingPlan:        stripe.String("pricing_plan"),
 						PricingPlanVersion: stripe.String("pricing_plan_version"),
 					},
@@ -15961,318 +16011,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 }
 
 func TestV2CoreAccountTokenPostService(t *testing.T) {
-	params := &stripe.V2CoreAccountTokenParams{
-		Identity: &stripe.V2CoreAccountTokenIdentityParams{
-			Attestations: &stripe.V2CoreAccountTokenIdentityAttestationsParams{
-				DirectorshipDeclaration: &stripe.V2CoreAccountTokenIdentityAttestationsDirectorshipDeclarationParams{
-					Attested: stripe.Bool(true),
-				},
-				OwnershipDeclaration: &stripe.V2CoreAccountTokenIdentityAttestationsOwnershipDeclarationParams{
-					Attested: stripe.Bool(true),
-				},
-				PersonsProvided: &stripe.V2CoreAccountTokenIdentityAttestationsPersonsProvidedParams{
-					Directors:                stripe.Bool(true),
-					Executives:               stripe.Bool(true),
-					Owners:                   stripe.Bool(true),
-					OwnershipExemptionReason: stripe.String("qualified_entity_exceeds_ownership_threshold"),
-				},
-				RepresentativeDeclaration: &stripe.V2CoreAccountTokenIdentityAttestationsRepresentativeDeclarationParams{
-					Attested: stripe.Bool(true),
-				},
-				TermsOfService: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceParams{
-					Account: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceAccountParams{
-						ShownAndAccepted: stripe.Bool(true),
-					},
-					CardCreator: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorParams{
-						Commercial: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialParams{
-							AccountHolder: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialAccountHolderParams{
-								ShownAndAccepted: stripe.Bool(true),
-							},
-							Celtic: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticParams{
-								ApplePay: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticApplePayParams{
-									ShownAndAccepted: stripe.Bool(true),
-								},
-								ChargeCard: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardParams{
-									BankTerms: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardBankTermsParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									Platform: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardPlatformParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-								},
-								SpendCard: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardParams{
-									BankTerms: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardBankTermsParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									FinancingDisclosures: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardFinancingDisclosuresParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									Platform: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardPlatformParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-								},
-							},
-							CrossRiverBank: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankParams{
-								ApplePay: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankApplePayParams{
-									ShownAndAccepted: stripe.Bool(true),
-								},
-								ChargeCard: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardParams{
-									BankTerms: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardBankTermsParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									FinancingDisclosures: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardFinancingDisclosuresParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									Platform: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardPlatformParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-								},
-								SpendCard: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardParams{
-									BankTerms: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardBankTermsParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									FinancingDisclosures: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardFinancingDisclosuresParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-								},
-							},
-						},
-					},
-					CryptoStorer: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceCryptoStorerParams{
-						ShownAndAccepted: stripe.Bool(true),
-					},
-					Storer: &stripe.V2CoreAccountTokenIdentityAttestationsTermsOfServiceStorerParams{
-						ShownAndAccepted: stripe.Bool(true),
-					},
-				},
-			},
-			BusinessDetails: &stripe.V2CoreAccountTokenIdentityBusinessDetailsParams{
-				Address: &stripe.V2CoreAccountTokenIdentityBusinessDetailsAddressParams{
-					City:       stripe.String("city"),
-					Country:    stripe.String("country"),
-					Line1:      stripe.String("line1"),
-					Line2:      stripe.String("line2"),
-					PostalCode: stripe.String("postal_code"),
-					State:      stripe.String("state"),
-					Town:       stripe.String("town"),
-				},
-				AnnualRevenue: &stripe.V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueParams{
-					Amount: &stripe.V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueAmountParams{
-						Value:    stripe.Int64(111972721),
-						Currency: stripe.String(stripe.CurrencyUSD),
-					},
-					FiscalYearEnd: stripe.String("fiscal_year_end"),
-				},
-				ComplianceScreeningDescription: stripe.String("compliance_screening_description"),
-				Documents: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsParams{
-					BankAccountOwnershipVerification: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyLicense: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsCompanyLicenseParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyMemorandumOfAssociation: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyMinisterialDecree: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyRegistrationVerification: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsCompanyRegistrationVerificationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyTaxIDVerification: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					PrimaryVerification: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsPrimaryVerificationParams{
-						FrontBack: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsPrimaryVerificationFrontBackParams{
-							Back:  stripe.String("back"),
-							Front: stripe.String("front"),
-						},
-						Type: stripe.String("front_back"),
-					},
-					ProofOfAddress: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfAddressParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					ProofOfRegistration: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfRegistrationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					ProofOfUltimateBeneficialOwnership: &stripe.V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-				},
-				EstimatedWorkerCount: stripe.Int64(884794319),
-				IDNumbers: []*stripe.V2CoreAccountTokenIdentityBusinessDetailsIDNumberParams{
-					{
-						Registrar: stripe.String("registrar"),
-						Type:      stripe.String("th_prn"),
-						Value:     stripe.String("value"),
-					},
-				},
-				MonthlyEstimatedRevenue: &stripe.V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueParams{
-					Amount: &stripe.V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams{
-						Value:    stripe.Int64(111972721),
-						Currency: stripe.String(stripe.CurrencyUSD),
-					},
-				},
-				Phone:          stripe.String("phone"),
-				RegisteredName: stripe.String("registered_name"),
-				ScriptAddresses: &stripe.V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesParams{
-					Kana: &stripe.V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesKanaParams{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-					Kanji: &stripe.V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesKanjiParams{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-				},
-				ScriptNames: &stripe.V2CoreAccountTokenIdentityBusinessDetailsScriptNamesParams{
-					Kana: &stripe.V2CoreAccountTokenIdentityBusinessDetailsScriptNamesKanaParams{
-						RegisteredName: stripe.String("registered_name"),
-					},
-					Kanji: &stripe.V2CoreAccountTokenIdentityBusinessDetailsScriptNamesKanjiParams{
-						RegisteredName: stripe.String("registered_name"),
-					},
-				},
-				Structure: stripe.String("public_listed_corporation"),
-			},
-			EntityType: stripe.String("individual"),
-			Individual: &stripe.V2CoreAccountTokenIdentityIndividualParams{
-				AdditionalAddresses: []*stripe.V2CoreAccountTokenIdentityIndividualAdditionalAddressParams{
-					{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						Purpose:    stripe.String("registered"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-				},
-				AdditionalNames: []*stripe.V2CoreAccountTokenIdentityIndividualAdditionalNameParams{
-					{
-						FullName:  stripe.String("full_name"),
-						GivenName: stripe.String("given_name"),
-						Purpose:   stripe.String("alias"),
-						Surname:   stripe.String("surname"),
-					},
-				},
-				Address: &stripe.V2CoreAccountTokenIdentityIndividualAddressParams{
-					City:       stripe.String("city"),
-					Country:    stripe.String("country"),
-					Line1:      stripe.String("line1"),
-					Line2:      stripe.String("line2"),
-					PostalCode: stripe.String("postal_code"),
-					State:      stripe.String("state"),
-					Town:       stripe.String("town"),
-				},
-				DateOfBirth: &stripe.V2CoreAccountTokenIdentityIndividualDateOfBirthParams{
-					Day:   stripe.Int64(99228),
-					Month: stripe.Int64(104080000),
-					Year:  stripe.Int64(3704893),
-				},
-				Documents: &stripe.V2CoreAccountTokenIdentityIndividualDocumentsParams{
-					CompanyAuthorization: &stripe.V2CoreAccountTokenIdentityIndividualDocumentsCompanyAuthorizationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					Passport: &stripe.V2CoreAccountTokenIdentityIndividualDocumentsPassportParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					PrimaryVerification: &stripe.V2CoreAccountTokenIdentityIndividualDocumentsPrimaryVerificationParams{
-						FrontBack: &stripe.V2CoreAccountTokenIdentityIndividualDocumentsPrimaryVerificationFrontBackParams{
-							Back:  stripe.String("back"),
-							Front: stripe.String("front"),
-						},
-						Type: stripe.String("front_back"),
-					},
-					SecondaryVerification: &stripe.V2CoreAccountTokenIdentityIndividualDocumentsSecondaryVerificationParams{
-						FrontBack: &stripe.V2CoreAccountTokenIdentityIndividualDocumentsSecondaryVerificationFrontBackParams{
-							Back:  stripe.String("back"),
-							Front: stripe.String("front"),
-						},
-						Type: stripe.String("front_back"),
-					},
-					Visa: &stripe.V2CoreAccountTokenIdentityIndividualDocumentsVisaParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-				},
-				Email:     stripe.String("email"),
-				GivenName: stripe.String("given_name"),
-				IDNumbers: []*stripe.V2CoreAccountTokenIdentityIndividualIDNumberParams{
-					{
-						Type:  stripe.String("th_lc"),
-						Value: stripe.String("value"),
-					},
-				},
-				LegalGender:       stripe.String("male"),
-				Metadata:          map[string]*string{"key": stripe.String("metadata")},
-				Nationalities:     []*string{stripe.String("nationalities")},
-				Phone:             stripe.String("phone"),
-				PoliticalExposure: stripe.String("none"),
-				Relationship: &stripe.V2CoreAccountTokenIdentityIndividualRelationshipParams{
-					Director:         stripe.Bool(true),
-					Executive:        stripe.Bool(true),
-					Owner:            stripe.Bool(true),
-					PercentOwnership: stripe.String("percent_ownership"),
-					Title:            stripe.String("title"),
-				},
-				ScriptAddresses: &stripe.V2CoreAccountTokenIdentityIndividualScriptAddressesParams{
-					Kana: &stripe.V2CoreAccountTokenIdentityIndividualScriptAddressesKanaParams{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-					Kanji: &stripe.V2CoreAccountTokenIdentityIndividualScriptAddressesKanjiParams{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-				},
-				ScriptNames: &stripe.V2CoreAccountTokenIdentityIndividualScriptNamesParams{
-					Kana: &stripe.V2CoreAccountTokenIdentityIndividualScriptNamesKanaParams{
-						GivenName: stripe.String("given_name"),
-						Surname:   stripe.String("surname"),
-					},
-					Kanji: &stripe.V2CoreAccountTokenIdentityIndividualScriptNamesKanjiParams{
-						GivenName: stripe.String("given_name"),
-						Surname:   stripe.String("surname"),
-					},
-				},
-				Surname: stripe.String("surname"),
-			},
-		},
-	}
+	params := &stripe.V2CoreAccountTokenParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/core/account_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
 	defer testServer.Close()
@@ -16285,318 +16024,7 @@ func TestV2CoreAccountTokenPostService(t *testing.T) {
 }
 
 func TestV2CoreAccountTokenPostClient(t *testing.T) {
-	params := &stripe.V2CoreAccountTokenCreateParams{
-		Identity: &stripe.V2CoreAccountTokenCreateIdentityParams{
-			Attestations: &stripe.V2CoreAccountTokenCreateIdentityAttestationsParams{
-				DirectorshipDeclaration: &stripe.V2CoreAccountTokenCreateIdentityAttestationsDirectorshipDeclarationParams{
-					Attested: stripe.Bool(true),
-				},
-				OwnershipDeclaration: &stripe.V2CoreAccountTokenCreateIdentityAttestationsOwnershipDeclarationParams{
-					Attested: stripe.Bool(true),
-				},
-				PersonsProvided: &stripe.V2CoreAccountTokenCreateIdentityAttestationsPersonsProvidedParams{
-					Directors:                stripe.Bool(true),
-					Executives:               stripe.Bool(true),
-					Owners:                   stripe.Bool(true),
-					OwnershipExemptionReason: stripe.String("qualified_entity_exceeds_ownership_threshold"),
-				},
-				RepresentativeDeclaration: &stripe.V2CoreAccountTokenCreateIdentityAttestationsRepresentativeDeclarationParams{
-					Attested: stripe.Bool(true),
-				},
-				TermsOfService: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceParams{
-					Account: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceAccountParams{
-						ShownAndAccepted: stripe.Bool(true),
-					},
-					CardCreator: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorParams{
-						Commercial: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialParams{
-							AccountHolder: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialAccountHolderParams{
-								ShownAndAccepted: stripe.Bool(true),
-							},
-							Celtic: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticParams{
-								ApplePay: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticApplePayParams{
-									ShownAndAccepted: stripe.Bool(true),
-								},
-								ChargeCard: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardParams{
-									BankTerms: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardBankTermsParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									Platform: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticChargeCardPlatformParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-								},
-								SpendCard: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardParams{
-									BankTerms: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardBankTermsParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									FinancingDisclosures: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardFinancingDisclosuresParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									Platform: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticSpendCardPlatformParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-								},
-							},
-							CrossRiverBank: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankParams{
-								ApplePay: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankApplePayParams{
-									ShownAndAccepted: stripe.Bool(true),
-								},
-								ChargeCard: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardParams{
-									BankTerms: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardBankTermsParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									FinancingDisclosures: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardFinancingDisclosuresParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									Platform: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardPlatformParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-								},
-								SpendCard: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardParams{
-									BankTerms: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardBankTermsParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-									FinancingDisclosures: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardFinancingDisclosuresParams{
-										ShownAndAccepted: stripe.Bool(true),
-									},
-								},
-							},
-						},
-					},
-					CryptoStorer: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCryptoStorerParams{
-						ShownAndAccepted: stripe.Bool(true),
-					},
-					Storer: &stripe.V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceStorerParams{
-						ShownAndAccepted: stripe.Bool(true),
-					},
-				},
-			},
-			BusinessDetails: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsParams{
-				Address: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsAddressParams{
-					City:       stripe.String("city"),
-					Country:    stripe.String("country"),
-					Line1:      stripe.String("line1"),
-					Line2:      stripe.String("line2"),
-					PostalCode: stripe.String("postal_code"),
-					State:      stripe.String("state"),
-					Town:       stripe.String("town"),
-				},
-				AnnualRevenue: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueParams{
-					Amount: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueAmountParams{
-						Value:    stripe.Int64(111972721),
-						Currency: stripe.String(stripe.CurrencyUSD),
-					},
-					FiscalYearEnd: stripe.String("fiscal_year_end"),
-				},
-				ComplianceScreeningDescription: stripe.String("compliance_screening_description"),
-				Documents: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsParams{
-					BankAccountOwnershipVerification: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyLicense: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsCompanyLicenseParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyMemorandumOfAssociation: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsCompanyMemorandumOfAssociationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyMinisterialDecree: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsCompanyMinisterialDecreeParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyRegistrationVerification: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsCompanyRegistrationVerificationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					CompanyTaxIDVerification: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					PrimaryVerification: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsPrimaryVerificationParams{
-						FrontBack: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsPrimaryVerificationFrontBackParams{
-							Back:  stripe.String("back"),
-							Front: stripe.String("front"),
-						},
-						Type: stripe.String("front_back"),
-					},
-					ProofOfAddress: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfAddressParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					ProofOfRegistration: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					ProofOfUltimateBeneficialOwnership: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-				},
-				EstimatedWorkerCount: stripe.Int64(884794319),
-				IDNumbers: []*stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsIDNumberParams{
-					{
-						Registrar: stripe.String("registrar"),
-						Type:      stripe.String("th_prn"),
-						Value:     stripe.String("value"),
-					},
-				},
-				MonthlyEstimatedRevenue: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueParams{
-					Amount: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams{
-						Value:    stripe.Int64(111972721),
-						Currency: stripe.String(stripe.CurrencyUSD),
-					},
-				},
-				Phone:          stripe.String("phone"),
-				RegisteredName: stripe.String("registered_name"),
-				ScriptAddresses: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesParams{
-					Kana: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesKanaParams{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-					Kanji: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesKanjiParams{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-				},
-				ScriptNames: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsScriptNamesParams{
-					Kana: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsScriptNamesKanaParams{
-						RegisteredName: stripe.String("registered_name"),
-					},
-					Kanji: &stripe.V2CoreAccountTokenCreateIdentityBusinessDetailsScriptNamesKanjiParams{
-						RegisteredName: stripe.String("registered_name"),
-					},
-				},
-				Structure: stripe.String("public_listed_corporation"),
-			},
-			EntityType: stripe.String("individual"),
-			Individual: &stripe.V2CoreAccountTokenCreateIdentityIndividualParams{
-				AdditionalAddresses: []*stripe.V2CoreAccountTokenCreateIdentityIndividualAdditionalAddressParams{
-					{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						Purpose:    stripe.String("registered"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-				},
-				AdditionalNames: []*stripe.V2CoreAccountTokenCreateIdentityIndividualAdditionalNameParams{
-					{
-						FullName:  stripe.String("full_name"),
-						GivenName: stripe.String("given_name"),
-						Purpose:   stripe.String("alias"),
-						Surname:   stripe.String("surname"),
-					},
-				},
-				Address: &stripe.V2CoreAccountTokenCreateIdentityIndividualAddressParams{
-					City:       stripe.String("city"),
-					Country:    stripe.String("country"),
-					Line1:      stripe.String("line1"),
-					Line2:      stripe.String("line2"),
-					PostalCode: stripe.String("postal_code"),
-					State:      stripe.String("state"),
-					Town:       stripe.String("town"),
-				},
-				DateOfBirth: &stripe.V2CoreAccountTokenCreateIdentityIndividualDateOfBirthParams{
-					Day:   stripe.Int64(99228),
-					Month: stripe.Int64(104080000),
-					Year:  stripe.Int64(3704893),
-				},
-				Documents: &stripe.V2CoreAccountTokenCreateIdentityIndividualDocumentsParams{
-					CompanyAuthorization: &stripe.V2CoreAccountTokenCreateIdentityIndividualDocumentsCompanyAuthorizationParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					Passport: &stripe.V2CoreAccountTokenCreateIdentityIndividualDocumentsPassportParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-					PrimaryVerification: &stripe.V2CoreAccountTokenCreateIdentityIndividualDocumentsPrimaryVerificationParams{
-						FrontBack: &stripe.V2CoreAccountTokenCreateIdentityIndividualDocumentsPrimaryVerificationFrontBackParams{
-							Back:  stripe.String("back"),
-							Front: stripe.String("front"),
-						},
-						Type: stripe.String("front_back"),
-					},
-					SecondaryVerification: &stripe.V2CoreAccountTokenCreateIdentityIndividualDocumentsSecondaryVerificationParams{
-						FrontBack: &stripe.V2CoreAccountTokenCreateIdentityIndividualDocumentsSecondaryVerificationFrontBackParams{
-							Back:  stripe.String("back"),
-							Front: stripe.String("front"),
-						},
-						Type: stripe.String("front_back"),
-					},
-					Visa: &stripe.V2CoreAccountTokenCreateIdentityIndividualDocumentsVisaParams{
-						Files: []*string{stripe.String("files")},
-						Type:  stripe.String("files"),
-					},
-				},
-				Email:     stripe.String("email"),
-				GivenName: stripe.String("given_name"),
-				IDNumbers: []*stripe.V2CoreAccountTokenCreateIdentityIndividualIDNumberParams{
-					{
-						Type:  stripe.String("th_lc"),
-						Value: stripe.String("value"),
-					},
-				},
-				LegalGender:       stripe.String("male"),
-				Metadata:          map[string]*string{"key": stripe.String("metadata")},
-				Nationalities:     []*string{stripe.String("nationalities")},
-				Phone:             stripe.String("phone"),
-				PoliticalExposure: stripe.String("none"),
-				Relationship: &stripe.V2CoreAccountTokenCreateIdentityIndividualRelationshipParams{
-					Director:         stripe.Bool(true),
-					Executive:        stripe.Bool(true),
-					Owner:            stripe.Bool(true),
-					PercentOwnership: stripe.String("percent_ownership"),
-					Title:            stripe.String("title"),
-				},
-				ScriptAddresses: &stripe.V2CoreAccountTokenCreateIdentityIndividualScriptAddressesParams{
-					Kana: &stripe.V2CoreAccountTokenCreateIdentityIndividualScriptAddressesKanaParams{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-					Kanji: &stripe.V2CoreAccountTokenCreateIdentityIndividualScriptAddressesKanjiParams{
-						City:       stripe.String("city"),
-						Country:    stripe.String("country"),
-						Line1:      stripe.String("line1"),
-						Line2:      stripe.String("line2"),
-						PostalCode: stripe.String("postal_code"),
-						State:      stripe.String("state"),
-						Town:       stripe.String("town"),
-					},
-				},
-				ScriptNames: &stripe.V2CoreAccountTokenCreateIdentityIndividualScriptNamesParams{
-					Kana: &stripe.V2CoreAccountTokenCreateIdentityIndividualScriptNamesKanaParams{
-						GivenName: stripe.String("given_name"),
-						Surname:   stripe.String("surname"),
-					},
-					Kanji: &stripe.V2CoreAccountTokenCreateIdentityIndividualScriptNamesKanjiParams{
-						GivenName: stripe.String("given_name"),
-						Surname:   stripe.String("surname"),
-					},
-				},
-				Surname: stripe.String("surname"),
-			},
-		},
-	}
+	params := &stripe.V2CoreAccountTokenCreateParams{}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/core/account_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
 	defer testServer.Close()
@@ -17327,6 +16755,162 @@ func TestV2CoreVaultUsBankAccountPost5Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreVaultUSBankAccounts.SendMicrodeposits(
 		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyGetService(t *testing.T) {
+	params := &stripe.V2IamAPIKeyListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/iam/api_keys", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2IamAPIKeys.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2IamApiKeyGetClient(t *testing.T) {
+	params := &stripe.V2IamAPIKeyListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/iam/api_keys", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2IamAPIKeys.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2IamApiKeyPostService(t *testing.T) {
+	params := &stripe.V2IamAPIKeyParams{Type: stripe.String("publishable_key")}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/iam/api_keys", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2IamAPIKeys.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyPostClient(t *testing.T) {
+	params := &stripe.V2IamAPIKeyCreateParams{
+		Type: stripe.String("publishable_key"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/iam/api_keys", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2IamAPIKeys.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyGet2Service(t *testing.T) {
+	params := &stripe.V2IamAPIKeyParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2IamAPIKeys.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyGet2Client(t *testing.T) {
+	params := &stripe.V2IamAPIKeyRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2IamAPIKeys.Retrieve(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyPost2Service(t *testing.T) {
+	params := &stripe.V2IamAPIKeyParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2IamAPIKeys.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyPost2Client(t *testing.T) {
+	params := &stripe.V2IamAPIKeyUpdateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2IamAPIKeys.Update(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyPost3Service(t *testing.T) {
+	params := &stripe.V2IamAPIKeyExpireParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/iam/api_keys/id_123/expire", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2IamAPIKeys.Expire("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyPost3Client(t *testing.T) {
+	params := &stripe.V2IamAPIKeyExpireParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/iam/api_keys/id_123/expire", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2IamAPIKeys.Expire(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyPost4Service(t *testing.T) {
+	params := &stripe.V2IamAPIKeyRotateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/iam/api_keys/id_123/rotate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2IamAPIKeys.Rotate("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamApiKeyPost4Client(t *testing.T) {
+	params := &stripe.V2IamAPIKeyRotateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/iam/api_keys/id_123/rotate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2IamAPIKeys.Rotate(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -18871,6 +18455,267 @@ func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2PaymentsSettlementAllocationIntentPostService(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentParams{
+		Amount: &stripe.V2PaymentsSettlementAllocationIntentAmountParams{
+			Value:    stripe.Int64(111972721),
+			Currency: stripe.String(stripe.CurrencyUSD),
+		},
+		ExpectedSettlementDate: stripe.Time(time.Now()),
+		FinancialAccount:       stripe.String("financial_account"),
+		Reference:              stripe.String("reference"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsSettlementAllocationIntents.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentPostClient(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentCreateParams{
+		Amount: &stripe.V2PaymentsSettlementAllocationIntentCreateAmountParams{
+			Value:    stripe.Int64(111972721),
+			Currency: stripe.String(stripe.CurrencyUSD),
+		},
+		ExpectedSettlementDate: stripe.Time(time.Now()),
+		FinancialAccount:       stripe.String("financial_account"),
+		Reference:              stripe.String("reference"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Create(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentGetService(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentGetClient(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentPost2Service(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Update(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentPost2Client(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentUpdateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Update(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentPost3Service(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentCancelParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/id_123/cancel", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Cancel(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentPost3Client(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentCancelParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/id_123/cancel", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Cancel(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentPost4Service(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentSubmitParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/id_123/submit", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Submit(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentPost4Client(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentSubmitParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/id_123/submit", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsSettlementAllocationIntents.Submit(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentsSplitPostService(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitParams{
+		Account: stripe.String("account"),
+		Amount: &stripe.V2PaymentsSettlementAllocationIntentsSplitAmountParams{
+			Value:    stripe.Int64(111972721),
+			Currency: stripe.String(stripe.CurrencyUSD),
+		},
+		Type:                         stripe.String("credit"),
+		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsSettlementAllocationIntentsSplits.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentsSplitPostClient(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitCreateParams{
+		Account: stripe.String("account"),
+		Amount: &stripe.V2PaymentsSettlementAllocationIntentsSplitCreateAmountParams{
+			Value:    stripe.Int64(111972721),
+			Currency: stripe.String(stripe.CurrencyUSD),
+		},
+		Type:                         stripe.String("credit"),
+		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsSettlementAllocationIntentsSplits.Create(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentsSplitGetService(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitParams{
+		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsSettlementAllocationIntentsSplits.Get(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentsSplitGetClient(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitRetrieveParams{
+		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsSettlementAllocationIntentsSplits.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentsSplitPost2Service(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitCancelParams{
+		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123/cancel", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2PaymentsSettlementAllocationIntentsSplits.Cancel(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2PaymentsSettlementAllocationIntentsSplitPost2Client(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitCancelParams{
+		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123/cancel", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2PaymentsSettlementAllocationIntentsSplits.Cancel(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestV2ReportingReportGetService(t *testing.T) {
 	params := &stripe.V2ReportingReportParams{}
 	testServer := MockServer(
@@ -18972,6 +18817,199 @@ func TestV2ReportingReportRunGetClient(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2ReportingReportRuns.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2TaxManualRuleGetService(t *testing.T) {
+	params := &stripe.V2TaxManualRuleListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/tax/manual_rules", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2TaxManualRules.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2TaxManualRuleGetClient(t *testing.T) {
+	params := &stripe.V2TaxManualRuleListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/tax/manual_rules", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2TaxManualRules.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2TaxManualRulePostService(t *testing.T) {
+	params := &stripe.V2TaxManualRuleParams{
+		ScheduledTaxRates: []*stripe.V2TaxManualRuleScheduledTaxRateParams{
+			{
+				Rates: []*stripe.V2TaxManualRuleScheduledTaxRateRateParams{
+					{
+						Country:      stripe.String("country"),
+						Description:  stripe.String("description"),
+						DisplayName:  stripe.String("display_name"),
+						Jurisdiction: stripe.String("jurisdiction"),
+						Percentage:   stripe.String("percentage"),
+						State:        stripe.String("state"),
+					},
+				},
+				StartsAt: stripe.Time(time.Now()),
+			},
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/manual_rules", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2TaxManualRules.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2TaxManualRulePostClient(t *testing.T) {
+	params := &stripe.V2TaxManualRuleCreateParams{
+		ScheduledTaxRates: []*stripe.V2TaxManualRuleCreateScheduledTaxRateParams{
+			{
+				Rates: []*stripe.V2TaxManualRuleCreateScheduledTaxRateRateParams{
+					{
+						Country:      stripe.String("country"),
+						Description:  stripe.String("description"),
+						DisplayName:  stripe.String("display_name"),
+						Jurisdiction: stripe.String("jurisdiction"),
+						Percentage:   stripe.String("percentage"),
+						State:        stripe.String("state"),
+					},
+				},
+				StartsAt: stripe.Time(time.Now()),
+			},
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/manual_rules", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2TaxManualRules.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2TaxManualRuleGet2Service(t *testing.T) {
+	params := &stripe.V2TaxManualRuleParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2TaxManualRules.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2TaxManualRuleGet2Client(t *testing.T) {
+	params := &stripe.V2TaxManualRuleRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2TaxManualRules.Retrieve(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2TaxManualRulePost2Service(t *testing.T) {
+	params := &stripe.V2TaxManualRuleParams{
+		ScheduledTaxRates: []*stripe.V2TaxManualRuleScheduledTaxRateParams{
+			{
+				Rates: []*stripe.V2TaxManualRuleScheduledTaxRateRateParams{
+					{
+						Country:      stripe.String("country"),
+						Description:  stripe.String("description"),
+						DisplayName:  stripe.String("display_name"),
+						Jurisdiction: stripe.String("jurisdiction"),
+						Percentage:   stripe.String("percentage"),
+						State:        stripe.String("state"),
+					},
+				},
+				StartsAt: stripe.Time(time.Now()),
+			},
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2TaxManualRules.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2TaxManualRulePost2Client(t *testing.T) {
+	params := &stripe.V2TaxManualRuleUpdateParams{
+		ScheduledTaxRates: []*stripe.V2TaxManualRuleUpdateScheduledTaxRateParams{
+			{
+				Rates: []*stripe.V2TaxManualRuleUpdateScheduledTaxRateRateParams{
+					{
+						Country:      stripe.String("country"),
+						Description:  stripe.String("description"),
+						DisplayName:  stripe.String("display_name"),
+						Jurisdiction: stripe.String("jurisdiction"),
+						Percentage:   stripe.String("percentage"),
+						State:        stripe.String("state"),
+					},
+				},
+				StartsAt: stripe.Time(time.Now()),
+			},
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2TaxManualRules.Update(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2TaxManualRulePost3Service(t *testing.T) {
+	params := &stripe.V2TaxManualRuleDeactivateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/manual_rules/id_123/deactivate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2TaxManualRules.Deactivate("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2TaxManualRulePost3Client(t *testing.T) {
+	params := &stripe.V2TaxManualRuleDeactivateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/manual_rules/id_123/deactivate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2TaxManualRules.Deactivate(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -19161,6 +19199,33 @@ func TestBlockedByStripeErrorClient(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreVaultUSBankAccounts.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestControlledByAlternateResourceErrorService(t *testing.T) {
+	params := &stripe.V2MoneyManagementOutboundSetupIntentParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/outbound_setup_intents", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementOutboundSetupIntents.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestControlledByAlternateResourceErrorClient(t *testing.T) {
+	params := &stripe.V2MoneyManagementOutboundSetupIntentCreateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/outbound_setup_intents", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementOutboundSetupIntents.Create(
+		context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -19447,27 +19512,53 @@ func TestQuotaExceededErrorClient(t *testing.T) {
 }
 
 func TestRateLimitErrorService(t *testing.T) {
-	params := &stripe.V2CoreAccountParams{}
+	params := &stripe.V2ReportingReportRunParams{
+		Report: stripe.String("report"),
+		ReportParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"account_rate_limit_exceeded\"}}")
+		t, http.MethodPost, "/v2/reporting/report_runs", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"report_run_rate_limit_exceeded\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2CoreAccounts.Get("id_123", params)
+	result, err := sc.V2ReportingReportRuns.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRateLimitErrorClient(t *testing.T) {
-	params := &stripe.V2CoreAccountRetrieveParams{}
+	params := &stripe.V2ReportingReportRunCreateParams{
+		Report: stripe.String("report"),
+		ReportParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"account_rate_limit_exceeded\"}}")
+		t, http.MethodPost, "/v2/reporting/report_runs", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"report_run_rate_limit_exceeded\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreAccounts.Retrieve(context.TODO(), "id_123", params)
+	result, err := sc.V2ReportingReportRuns.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }

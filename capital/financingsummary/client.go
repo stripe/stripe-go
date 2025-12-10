@@ -22,12 +22,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieve the financing state for the account that was authenticated in the request.
+// Retrieve the financing summary object for the account.
 func Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancingSummary, error) {
 	return getC().Get(params)
 }
 
-// Retrieve the financing state for the account that was authenticated in the request.
+// Retrieve the financing summary object for the account.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

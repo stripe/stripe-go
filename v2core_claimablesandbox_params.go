@@ -14,7 +14,7 @@ type V2CoreClaimableSandboxPrefillParams struct {
 	// Email that this sandbox is meant to be claimed by. Stripe will
 	// notify this email address before the sandbox expires.
 	Email *string `form:"email" json:"email"`
-	// Name for the sandbox. If not provided, this will be generated.
+	// Name for the sandbox.
 	Name *string `form:"name" json:"name,omitempty"`
 }
 
@@ -36,7 +36,7 @@ type V2CoreClaimableSandboxCreatePrefillParams struct {
 	// Email that this sandbox is meant to be claimed by. Stripe will
 	// notify this email address before the sandbox expires.
 	Email *string `form:"email" json:"email"`
-	// Name for the sandbox. If not provided, this will be generated.
+	// Name for the sandbox.
 	Name *string `form:"name" json:"name,omitempty"`
 }
 

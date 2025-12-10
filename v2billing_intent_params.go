@@ -47,12 +47,6 @@ type V2BillingIntentActionApplyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Configuration for the billing details.
-type V2BillingIntentActionDeactivateBillingDetailsParams struct {
-	// This controls the proration adjustment for the partial servicing period.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
-}
-
 // When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionDeactivateEffectiveAtParams struct {
 	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
@@ -61,28 +55,44 @@ type V2BillingIntentActionDeactivateEffectiveAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Override for the license fee.
+type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams struct {
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating.
+	CreditProrationBehavior *string `form:"credit_proration_behavior" json:"credit_proration_behavior"`
+}
+
+// Override for the partial period behavior.
+type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
+	// Override for the license fee.
+	LicenseFee *V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Type of the partial period behavior override.
+	Type *string `form:"type" json:"type"`
+}
+
+// Allows users to override the partial period behavior.
+type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesParams struct {
+	// Override for the partial period behavior.
+	PartialPeriodBehaviors []*V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams `form:"partial_period_behaviors" json:"partial_period_behaviors"`
+}
+
 // Details for deactivating a pricing plan subscription.
 type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams struct {
+	// Allows users to override the partial period behavior.
+	Overrides *V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesParams `form:"overrides" json:"overrides,omitempty"`
 	// ID of the pricing plan subscription to deactivate.
 	PricingPlanSubscription *string `form:"pricing_plan_subscription" json:"pricing_plan_subscription"`
 }
 
 // Details for a deactivate action.
 type V2BillingIntentActionDeactivateParams struct {
-	// Configuration for the billing details.
-	BillingDetails *V2BillingIntentActionDeactivateBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Allows users to override the collect at behavior.
+	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
 	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionDeactivateEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for deactivating a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
 	// Type of the action details.
 	Type *string `form:"type" json:"type"`
-}
-
-// Configuration for the billing details.
-type V2BillingIntentActionModifyBillingDetailsParams struct {
-	// This controls the proration adjustment for the partial servicing period.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
 // When the modify action will take effect. If not specified, the default behavior is on_reserve.
@@ -103,6 +113,28 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsComponentConfigura
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
+// Override for the license fee.
+type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams struct {
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is upgrading.
+	CreditProrationBehavior *string `form:"credit_proration_behavior" json:"credit_proration_behavior"`
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is downgrading.
+	DebitProrationBehavior *string `form:"debit_proration_behavior" json:"debit_proration_behavior"`
+}
+
+// Override for the partial period behavior.
+type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
+	// Override for the license fee.
+	LicenseFee *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Type of the partial period behavior override.
+	Type *string `form:"type" json:"type"`
+}
+
+// Allows users to override the partial period behavior.
+type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesParams struct {
+	// Override for the partial period behavior.
+	PartialPeriodBehaviors []*V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams `form:"partial_period_behaviors" json:"partial_period_behaviors"`
+}
+
 // Details for modifying a pricing plan subscription.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsParams struct {
 	// New configurations for the components of the pricing plan.
@@ -111,14 +143,16 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsParams struct {
 	NewPricingPlan *string `form:"new_pricing_plan" json:"new_pricing_plan,omitempty"`
 	// The ID of the new Pricing Plan Version to use.
 	NewPricingPlanVersion *string `form:"new_pricing_plan_version" json:"new_pricing_plan_version,omitempty"`
+	// Allows users to override the partial period behavior.
+	Overrides *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesParams `form:"overrides" json:"overrides,omitempty"`
 	// The ID of the Pricing Plan Subscription to modify.
 	PricingPlanSubscription *string `form:"pricing_plan_subscription" json:"pricing_plan_subscription"`
 }
 
 // Details for a modify action.
 type V2BillingIntentActionModifyParams struct {
-	// Configuration for the billing details.
-	BillingDetails *V2BillingIntentActionModifyBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Allows users to override the collect at behavior.
+	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
 	// When the modify action will take effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionModifyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for modifying a pricing plan subscription.
@@ -133,12 +167,6 @@ type V2BillingIntentActionRemoveParams struct {
 	InvoiceDiscountRule *string `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
 	// Type of the remove action.
 	Type *string `form:"type" json:"type"`
-}
-
-// Configuration for the billing details. If not specified, see the default behavior for individual attributes.
-type V2BillingIntentActionSubscribeBillingDetailsParams struct {
-	// This controls the proration adjustment for the partial servicing period.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
 // When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
@@ -159,12 +187,34 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfig
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
+// Override for the license fee.
+type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams struct {
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is subscribing.
+	DebitProrationBehavior *string `form:"debit_proration_behavior" json:"debit_proration_behavior"`
+}
+
+// Override for the partial period behavior.
+type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
+	// Override for the license fee.
+	LicenseFee *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Type of the partial period behavior override.
+	Type *string `form:"type" json:"type"`
+}
+
+// Allows users to override the partial period behavior.
+type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesParams struct {
+	// Override for the partial period behavior.
+	PartialPeriodBehaviors []*V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams `form:"partial_period_behaviors" json:"partial_period_behaviors"`
+}
+
 // Details for subscribing to a pricing plan.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsParams struct {
 	// Configurations for the components of the pricing plan.
 	ComponentConfigurations []*V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Allows users to override the partial period behavior.
+	Overrides *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesParams `form:"overrides" json:"overrides,omitempty"`
 	// ID of the Pricing Plan to subscribe to.
 	PricingPlan *string `form:"pricing_plan" json:"pricing_plan"`
 	// Version of the Pricing Plan to use.
@@ -221,8 +271,8 @@ func (p *V2BillingIntentActionSubscribeV1SubscriptionDetailsParams) AddMetadata(
 
 // Details for a subscribe action.
 type V2BillingIntentActionSubscribeParams struct {
-	// Configuration for the billing details. If not specified, see the default behavior for individual attributes.
-	BillingDetails *V2BillingIntentActionSubscribeBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Allows users to override the collect at behavior.
+	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
 	// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionSubscribeEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for subscribing to a pricing plan.
@@ -314,12 +364,6 @@ type V2BillingIntentCreateActionApplyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Configuration for the billing details.
-type V2BillingIntentCreateActionDeactivateBillingDetailsParams struct {
-	// This controls the proration adjustment for the partial servicing period.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
-}
-
 // When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentCreateActionDeactivateEffectiveAtParams struct {
 	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
@@ -328,28 +372,44 @@ type V2BillingIntentCreateActionDeactivateEffectiveAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Override for the license fee.
+type V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams struct {
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating.
+	CreditProrationBehavior *string `form:"credit_proration_behavior" json:"credit_proration_behavior"`
+}
+
+// Override for the partial period behavior.
+type V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
+	// Override for the license fee.
+	LicenseFee *V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Type of the partial period behavior override.
+	Type *string `form:"type" json:"type"`
+}
+
+// Allows users to override the partial period behavior.
+type V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesParams struct {
+	// Override for the partial period behavior.
+	PartialPeriodBehaviors []*V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams `form:"partial_period_behaviors" json:"partial_period_behaviors"`
+}
+
 // Details for deactivating a pricing plan subscription.
 type V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams struct {
+	// Allows users to override the partial period behavior.
+	Overrides *V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsOverridesParams `form:"overrides" json:"overrides,omitempty"`
 	// ID of the pricing plan subscription to deactivate.
 	PricingPlanSubscription *string `form:"pricing_plan_subscription" json:"pricing_plan_subscription"`
 }
 
 // Details for a deactivate action.
 type V2BillingIntentCreateActionDeactivateParams struct {
-	// Configuration for the billing details.
-	BillingDetails *V2BillingIntentCreateActionDeactivateBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Allows users to override the collect at behavior.
+	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
 	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionDeactivateEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for deactivating a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
 	// Type of the action details.
 	Type *string `form:"type" json:"type"`
-}
-
-// Configuration for the billing details.
-type V2BillingIntentCreateActionModifyBillingDetailsParams struct {
-	// This controls the proration adjustment for the partial servicing period.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
 // When the modify action will take effect. If not specified, the default behavior is on_reserve.
@@ -370,6 +430,28 @@ type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsComponentCon
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
+// Override for the license fee.
+type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams struct {
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is upgrading.
+	CreditProrationBehavior *string `form:"credit_proration_behavior" json:"credit_proration_behavior"`
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is downgrading.
+	DebitProrationBehavior *string `form:"debit_proration_behavior" json:"debit_proration_behavior"`
+}
+
+// Override for the partial period behavior.
+type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
+	// Override for the license fee.
+	LicenseFee *V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Type of the partial period behavior override.
+	Type *string `form:"type" json:"type"`
+}
+
+// Allows users to override the partial period behavior.
+type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesParams struct {
+	// Override for the partial period behavior.
+	PartialPeriodBehaviors []*V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams `form:"partial_period_behaviors" json:"partial_period_behaviors"`
+}
+
 // Details for modifying a pricing plan subscription.
 type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsParams struct {
 	// New configurations for the components of the pricing plan.
@@ -378,14 +460,16 @@ type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsParams struc
 	NewPricingPlan *string `form:"new_pricing_plan" json:"new_pricing_plan,omitempty"`
 	// The ID of the new Pricing Plan Version to use.
 	NewPricingPlanVersion *string `form:"new_pricing_plan_version" json:"new_pricing_plan_version,omitempty"`
+	// Allows users to override the partial period behavior.
+	Overrides *V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesParams `form:"overrides" json:"overrides,omitempty"`
 	// The ID of the Pricing Plan Subscription to modify.
 	PricingPlanSubscription *string `form:"pricing_plan_subscription" json:"pricing_plan_subscription"`
 }
 
 // Details for a modify action.
 type V2BillingIntentCreateActionModifyParams struct {
-	// Configuration for the billing details.
-	BillingDetails *V2BillingIntentCreateActionModifyBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Allows users to override the collect at behavior.
+	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
 	// When the modify action will take effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionModifyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for modifying a pricing plan subscription.
@@ -400,12 +484,6 @@ type V2BillingIntentCreateActionRemoveParams struct {
 	InvoiceDiscountRule *string `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
 	// Type of the remove action.
 	Type *string `form:"type" json:"type"`
-}
-
-// Configuration for the billing details. If not specified, see the default behavior for individual attributes.
-type V2BillingIntentCreateActionSubscribeBillingDetailsParams struct {
-	// This controls the proration adjustment for the partial servicing period.
-	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
 // When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
@@ -426,12 +504,34 @@ type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsComponent
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
+// Override for the license fee.
+type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams struct {
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is subscribing.
+	DebitProrationBehavior *string `form:"debit_proration_behavior" json:"debit_proration_behavior"`
+}
+
+// Override for the partial period behavior.
+type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
+	// Override for the license fee.
+	LicenseFee *V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Type of the partial period behavior override.
+	Type *string `form:"type" json:"type"`
+}
+
+// Allows users to override the partial period behavior.
+type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesParams struct {
+	// Override for the partial period behavior.
+	PartialPeriodBehaviors []*V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams `form:"partial_period_behaviors" json:"partial_period_behaviors"`
+}
+
 // Details for subscribing to a pricing plan.
 type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsParams struct {
 	// Configurations for the components of the pricing plan.
 	ComponentConfigurations []*V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsComponentConfigurationParams `form:"component_configurations" json:"component_configurations,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Allows users to override the partial period behavior.
+	Overrides *V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesParams `form:"overrides" json:"overrides,omitempty"`
 	// ID of the Pricing Plan to subscribe to.
 	PricingPlan *string `form:"pricing_plan" json:"pricing_plan"`
 	// Version of the Pricing Plan to use.
@@ -488,8 +588,8 @@ func (p *V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsParams) AddMet
 
 // Details for a subscribe action.
 type V2BillingIntentCreateActionSubscribeParams struct {
-	// Configuration for the billing details. If not specified, see the default behavior for individual attributes.
-	BillingDetails *V2BillingIntentCreateActionSubscribeBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Allows users to override the collect at behavior.
+	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
 	// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionSubscribeEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for subscribing to a pricing plan.

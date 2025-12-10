@@ -132,6 +132,17 @@ type AccountSessionComponentsCapitalOverviewParams struct {
 	Features *AccountSessionComponentsCapitalOverviewFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsCheckScanningFeaturesParams struct{}
+
+// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+type AccountSessionComponentsCheckScanningParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsCheckScanningFeaturesParams `form:"features"`
+}
+
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsDisputesListFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
@@ -463,17 +474,6 @@ type AccountSessionComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
 }
 
-// An empty list, because this embedded component has no features.
-type AccountSessionComponentsCheckScanningFeaturesParams struct{}
-
-// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
-type AccountSessionComponentsCheckScanningParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
-	Features *AccountSessionComponentsCheckScanningFeaturesParams `form:"features"`
-}
-
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
@@ -682,6 +682,17 @@ type AccountSessionCreateComponentsCapitalOverviewParams struct {
 	Enabled *bool `form:"enabled"`
 	// An empty list, because this embedded component has no features.
 	Features *AccountSessionCreateComponentsCapitalOverviewFeaturesParams `form:"features"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsCheckScanningFeaturesParams struct{}
+
+// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+type AccountSessionCreateComponentsCheckScanningParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsCheckScanningFeaturesParams `form:"features"`
 }
 
 // The list of features enabled in the embedded component.
@@ -1015,17 +1026,6 @@ type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionCreateComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
 }
 
-// An empty list, because this embedded component has no features.
-type AccountSessionCreateComponentsCheckScanningFeaturesParams struct{}
-
-// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
-type AccountSessionCreateComponentsCheckScanningParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
-	Features *AccountSessionCreateComponentsCheckScanningFeaturesParams `form:"features"`
-}
-
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionCreateComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
@@ -1166,6 +1166,14 @@ type AccountSessionComponentsCapitalFinancingPromotion struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                                       `json:"enabled"`
 	Features *AccountSessionComponentsCapitalFinancingPromotionFeatures `json:"features"`
+}
+type AccountSessionComponentsCheckScanningFeatures struct{}
+
+// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
+type AccountSessionComponentsCheckScanning struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                           `json:"enabled"`
+	Features *AccountSessionComponentsCheckScanningFeatures `json:"features"`
 }
 type AccountSessionComponentsDisputesListFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
@@ -1352,14 +1360,6 @@ type AccountSessionComponentsTaxSettings struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
 }
-type AccountSessionComponentsCheckScanningFeatures struct{}
-
-// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
-type AccountSessionComponentsCheckScanning struct {
-	// Whether the embedded component is enabled.
-	Enabled  bool                                           `json:"enabled"`
-	Features *AccountSessionComponentsCheckScanningFeatures `json:"features"`
-}
 type AccountSessionComponents struct {
 	AccountManagement           *AccountSessionComponentsAccountManagement           `json:"account_management"`
 	AccountOnboarding           *AccountSessionComponentsAccountOnboarding           `json:"account_onboarding"`
@@ -1393,7 +1393,7 @@ type AccountSessionComponents struct {
 // to your user. Do not save AccountSessions to your database as they expire relatively
 // quickly, and cannot be used more than once.
 //
-// Related guide: [Connect embedded components](https://stripe.com/docs/connect/get-started-connect-embedded-components)
+// Related guide: [Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components)
 type AccountSession struct {
 	APIResource
 	// The ID of the account the AccountSession was created for
@@ -1402,7 +1402,7 @@ type AccountSession struct {
 	//
 	// The client secret can be used to provide access to `account` from your frontend. It should not be stored, logged, or exposed to anyone other than the connected account. Make sure that you have TLS enabled on any page that includes the client secret.
 	//
-	// Refer to our docs to [setup Connect embedded components](https://stripe.com/docs/connect/get-started-connect-embedded-components) and learn about how `client_secret` should be handled.
+	// Refer to our docs to [setup Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components) and learn about how `client_secret` should be handled.
 	ClientSecret string                    `json:"client_secret"`
 	Components   *AccountSessionComponents `json:"components"`
 	// The timestamp at which this AccountSession will expire.

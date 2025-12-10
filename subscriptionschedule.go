@@ -38,7 +38,43 @@ const (
 	SubscriptionScheduleBillingModeTypeFlexible SubscriptionScheduleBillingModeType = "flexible"
 )
 
-// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+// Controls which subscription items the billing schedule applies to.
+type SubscriptionScheduleBillingScheduleAppliesToType string
+
+// List of values that SubscriptionScheduleBillingScheduleAppliesToType can take
+const (
+	SubscriptionScheduleBillingScheduleAppliesToTypePrice SubscriptionScheduleBillingScheduleAppliesToType = "price"
+)
+
+// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
+type SubscriptionScheduleBillingScheduleBillFromType string
+
+// List of values that SubscriptionScheduleBillingScheduleBillFromType can take
+const (
+	SubscriptionScheduleBillingScheduleBillFromTypeTimestamp SubscriptionScheduleBillingScheduleBillFromType = "timestamp"
+)
+
+// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+type SubscriptionScheduleBillingScheduleBillUntilDurationInterval string
+
+// List of values that SubscriptionScheduleBillingScheduleBillUntilDurationInterval can take
+const (
+	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalDay   SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "day"
+	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalMonth SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "month"
+	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalWeek  SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "week"
+	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalYear  SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "year"
+)
+
+// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+type SubscriptionScheduleBillingScheduleBillUntilType string
+
+// List of values that SubscriptionScheduleBillingScheduleBillUntilType can take
+const (
+	SubscriptionScheduleBillingScheduleBillUntilTypeDuration  SubscriptionScheduleBillingScheduleBillUntilType = "duration"
+	SubscriptionScheduleBillingScheduleBillUntilTypeTimestamp SubscriptionScheduleBillingScheduleBillUntilType = "timestamp"
+)
+
+// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 type SubscriptionScheduleDefaultSettingsBillingCycleAnchor string
 
 // List of values that SubscriptionScheduleDefaultSettingsBillingCycleAnchor can take
@@ -112,7 +148,7 @@ const (
 	SubscriptionSchedulePhaseAddInvoiceItemPeriodStartTypeTimestamp          SubscriptionSchedulePhaseAddInvoiceItemPeriodStartType = "timestamp"
 )
 
-// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 type SubscriptionSchedulePhaseBillingCycleAnchor string
 
 // List of values that SubscriptionSchedulePhaseBillingCycleAnchor can take
@@ -127,6 +163,15 @@ type SubscriptionSchedulePhaseDiscountDiscountEndType string
 // List of values that SubscriptionSchedulePhaseDiscountDiscountEndType can take
 const (
 	SubscriptionSchedulePhaseDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseDiscountDiscountEndType = "timestamp"
+)
+
+// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+type SubscriptionSchedulePhaseEffectiveAt string
+
+// List of values that SubscriptionSchedulePhaseEffectiveAt can take
+const (
+	SubscriptionSchedulePhaseEffectiveAtBillingPeriodStart SubscriptionSchedulePhaseEffectiveAt = "billing_period_start"
+	SubscriptionSchedulePhaseEffectiveAtPhaseStart         SubscriptionSchedulePhaseEffectiveAt = "phase_start"
 )
 
 // Type of the account referenced.
@@ -193,15 +238,6 @@ const (
 	SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFrontInclude SubscriptionSchedulePhaseTrialSettingsEndBehaviorProrateUpFront = "include"
 )
 
-// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
-type SubscriptionSchedulePhaseEffectiveAt string
-
-// List of values that SubscriptionSchedulePhaseEffectiveAt can take
-const (
-	SubscriptionSchedulePhaseEffectiveAtBillingPeriodStart SubscriptionSchedulePhaseEffectiveAt = "billing_period_start"
-	SubscriptionSchedulePhaseEffectiveAtPhaseStart         SubscriptionSchedulePhaseEffectiveAt = "phase_start"
-)
-
 // Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 type SubscriptionSchedulePrebillingUpdateBehavior string
 
@@ -211,7 +247,7 @@ const (
 	SubscriptionSchedulePrebillingUpdateBehaviorReset   SubscriptionSchedulePrebillingUpdateBehavior = "reset"
 )
 
-// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
+// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://docs.stripe.com/billing/subscriptions/subscription-schedules).
 type SubscriptionScheduleStatus string
 
 // List of values that SubscriptionScheduleStatus can take
@@ -221,42 +257,6 @@ const (
 	SubscriptionScheduleStatusCompleted  SubscriptionScheduleStatus = "completed"
 	SubscriptionScheduleStatusNotStarted SubscriptionScheduleStatus = "not_started"
 	SubscriptionScheduleStatusReleased   SubscriptionScheduleStatus = "released"
-)
-
-// Controls which subscription items the billing schedule applies to.
-type SubscriptionScheduleBillingScheduleAppliesToType string
-
-// List of values that SubscriptionScheduleBillingScheduleAppliesToType can take
-const (
-	SubscriptionScheduleBillingScheduleAppliesToTypePrice SubscriptionScheduleBillingScheduleAppliesToType = "price"
-)
-
-// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
-type SubscriptionScheduleBillingScheduleBillFromType string
-
-// List of values that SubscriptionScheduleBillingScheduleBillFromType can take
-const (
-	SubscriptionScheduleBillingScheduleBillFromTypeTimestamp SubscriptionScheduleBillingScheduleBillFromType = "timestamp"
-)
-
-// Specifies billing duration. Either `day`, `week`, `month` or `year`.
-type SubscriptionScheduleBillingScheduleBillUntilDurationInterval string
-
-// List of values that SubscriptionScheduleBillingScheduleBillUntilDurationInterval can take
-const (
-	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalDay   SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "day"
-	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalMonth SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "month"
-	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalWeek  SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "week"
-	SubscriptionScheduleBillingScheduleBillUntilDurationIntervalYear  SubscriptionScheduleBillingScheduleBillUntilDurationInterval = "year"
-)
-
-// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
-type SubscriptionScheduleBillingScheduleBillUntilType string
-
-// List of values that SubscriptionScheduleBillingScheduleBillUntilType can take
-const (
-	SubscriptionScheduleBillingScheduleBillUntilTypeDuration  SubscriptionScheduleBillingScheduleBillUntilType = "duration"
-	SubscriptionScheduleBillingScheduleBillUntilTypeTimestamp SubscriptionScheduleBillingScheduleBillUntilType = "timestamp"
 )
 
 // Retrieves the list of your subscription schedules.
@@ -307,6 +307,42 @@ type SubscriptionScheduleBillingModeParams struct {
 	Type *string `form:"type"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionScheduleBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionScheduleBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionScheduleBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription schedule.
+type SubscriptionScheduleBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionScheduleBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionScheduleBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionScheduleDefaultSettingsBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -340,7 +376,7 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent,high_precision"`
 	// Default settings for automatic tax computation.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
-	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
@@ -418,13 +454,13 @@ type SubscriptionSchedulePhaseAddInvoiceItemPeriodParams struct {
 type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscountParams `form:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionSchedulePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	// Quantity for this item. Defaults to 1.
 	Quantity *int64 `form:"quantity"`
@@ -523,7 +559,7 @@ type SubscriptionSchedulePhaseInvoiceSettingsParams struct {
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionSchedulePhaseItemBillingThresholdsParams struct {
-	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
@@ -571,17 +607,17 @@ type SubscriptionSchedulePhaseItemParams struct {
 	BillingThresholds *SubscriptionSchedulePhaseItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionSchedulePhaseItemDiscountParams `form:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
 	Plan *string `form:"plan"`
 	// The ID of the price object.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
 	// Quantity for the given price. Can be set only if the price's `usage_type` is `licensed` and not `metered`.
 	Quantity *int64 `form:"quantity"`
-	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionSchedulePhaseItemTrialParams `form:"trial"`
@@ -598,7 +634,7 @@ func (p *SubscriptionSchedulePhaseItemParams) AddMetadata(key string, value stri
 	p.Metadata[key] = value
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionSchedulePhasePauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior *string `form:"behavior"`
@@ -624,7 +660,7 @@ type SubscriptionSchedulePhaseParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Automatic tax settings for this phase.
 	AutomaticTax *SubscriptionSchedulePhaseAutomaticTaxParams `form:"automatic_tax"`
-	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionSchedulePhaseBillingThresholdsParams `form:"billing_thresholds"`
@@ -634,7 +670,7 @@ type SubscriptionSchedulePhaseParams struct {
 	Currency *string `form:"currency"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
-	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
+	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://docs.stripe.com/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
@@ -644,20 +680,20 @@ type SubscriptionSchedulePhaseParams struct {
 	Duration *SubscriptionSchedulePhaseDurationParams `form:"duration"`
 	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
 	EffectiveAt *string `form:"effective_at"`
-	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
+	// The date at which this phase of the subscription schedule ends. If set, `duration` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionSchedulePhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*SubscriptionSchedulePhaseItemParams `form:"items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionSchedulePhasePauseCollectionParams `form:"pause_collection"`
-	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
+	// Controls whether the subscription schedule should create [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://docs.stripe.com/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
 	StartDate    *int64 `form:"start_date"`
@@ -705,42 +741,6 @@ type SubscriptionSchedulePrebillingParams struct {
 	UpdateBehavior *string `form:"update_behavior"`
 }
 
-// Configure billing schedule differently for individual subscription items.
-type SubscriptionScheduleBillingScheduleAppliesToParams struct {
-	// The ID of the price object.
-	Price *string `form:"price"`
-	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
-}
-
-// Specifies the billing period.
-type SubscriptionScheduleBillingScheduleBillUntilDurationParams struct {
-	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
-	// The multiplier applied to the interval.
-	IntervalCount *int64 `form:"interval_count"`
-}
-
-// The end date for the billing schedule.
-type SubscriptionScheduleBillingScheduleBillUntilParams struct {
-	// Specifies the billing period.
-	Duration *SubscriptionScheduleBillingScheduleBillUntilDurationParams `form:"duration"`
-	// The end date of the billing schedule.
-	Timestamp *int64 `form:"timestamp"`
-	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
-	Type *string `form:"type"`
-}
-
-// Sets the billing schedules for the subscription schedule.
-type SubscriptionScheduleBillingScheduleParams struct {
-	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*SubscriptionScheduleBillingScheduleAppliesToParams `form:"applies_to"`
-	// The end date for the billing schedule.
-	BillUntil *SubscriptionScheduleBillingScheduleBillUntilParams `form:"bill_until"`
-	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
-}
-
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleParams struct {
 	Params `form:"*"`
@@ -762,7 +762,7 @@ type SubscriptionScheduleParams struct {
 	Expand []*string `form:"expand"`
 	// Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
 	FromSubscription *string `form:"from_subscription"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionSchedulePhaseParams `form:"phases"`
@@ -843,6 +843,22 @@ type SubscriptionScheduleAmendAmendmentAmendmentStartParams struct {
 	// A precise Unix timestamp for the amendment to start.
 	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
+	Type *string `form:"type"`
+}
+
+// Specify which subscription items the billing schedule applies to.
+type SubscriptionScheduleAmendAmendmentBillingSchedulesActionAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Actions to apply to the billing schedules.
+type SubscriptionScheduleAmendAmendmentBillingSchedulesActionParams struct {
+	// Specify which subscription items the billing schedule applies to.
+	AppliesTo []*SubscriptionScheduleAmendAmendmentBillingSchedulesActionAppliesToParams `form:"applies_to"`
+	// Select the action.
 	Type *string `form:"type"`
 }
 
@@ -940,7 +956,7 @@ type SubscriptionScheduleAmendAmendmentItemActionAddTrialParams struct {
 type SubscriptionScheduleAmendAmendmentItemActionAddParams struct {
 	// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
 	Discounts []*SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams `form:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The ID of the price object.
 	Price *string `form:"price"`
@@ -1082,22 +1098,6 @@ type SubscriptionScheduleAmendAmendmentTrialSettingsEndBehaviorParams struct {
 type SubscriptionScheduleAmendAmendmentTrialSettingsParams struct {
 	// Defines how the subscription should behave when a trial ends.
 	EndBehavior *SubscriptionScheduleAmendAmendmentTrialSettingsEndBehaviorParams `form:"end_behavior"`
-}
-
-// Specify which subscription items the billing schedule applies to.
-type SubscriptionScheduleAmendAmendmentBillingSchedulesActionAppliesToParams struct {
-	// The ID of the price object.
-	Price *string `form:"price"`
-	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
-}
-
-// Actions to apply to the billing schedules.
-type SubscriptionScheduleAmendAmendmentBillingSchedulesActionParams struct {
-	// Specify which subscription items the billing schedule applies to.
-	AppliesTo []*SubscriptionScheduleAmendAmendmentBillingSchedulesActionAppliesToParams `form:"applies_to"`
-	// Select the action.
-	Type *string `form:"type"`
 }
 
 // Changes to apply to the phases of the subscription schedule, in the order provided.
@@ -1253,6 +1253,42 @@ type SubscriptionScheduleCreateBillingModeParams struct {
 	Type *string `form:"type"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionScheduleCreateBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleCreateBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionScheduleCreateBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionScheduleCreateBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription schedule.
+type SubscriptionScheduleCreateBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionScheduleCreateBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionScheduleCreateBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionScheduleCreateDefaultSettingsBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -1285,7 +1321,7 @@ type SubscriptionScheduleCreateDefaultSettingsParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent,high_precision"`
 	// Default settings for automatic tax computation.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
-	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleCreateDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
@@ -1363,13 +1399,13 @@ type SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodParams struct {
 type SubscriptionScheduleCreatePhaseAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountParams `form:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	// Quantity for this item. Defaults to 1.
 	Quantity *int64 `form:"quantity"`
@@ -1468,7 +1504,7 @@ type SubscriptionScheduleCreatePhaseInvoiceSettingsParams struct {
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionScheduleCreatePhaseItemBillingThresholdsParams struct {
-	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
@@ -1516,17 +1552,17 @@ type SubscriptionScheduleCreatePhaseItemParams struct {
 	BillingThresholds *SubscriptionScheduleCreatePhaseItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionScheduleCreatePhaseItemDiscountParams `form:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
 	Plan *string `form:"plan"`
 	// The ID of the price object.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
 	// Quantity for the given price. Can be set only if the price's `usage_type` is `licensed` and not `metered`.
 	Quantity *int64 `form:"quantity"`
-	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionScheduleCreatePhaseItemTrialParams `form:"trial"`
@@ -1543,7 +1579,7 @@ func (p *SubscriptionScheduleCreatePhaseItemParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionScheduleCreatePhasePauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior *string `form:"behavior"`
@@ -1569,7 +1605,7 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Automatic tax settings for this phase.
 	AutomaticTax *SubscriptionScheduleCreatePhaseAutomaticTaxParams `form:"automatic_tax"`
-	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleCreatePhaseBillingThresholdsParams `form:"billing_thresholds"`
@@ -1579,7 +1615,7 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	Currency *string `form:"currency"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
-	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
+	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://docs.stripe.com/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
@@ -1589,19 +1625,19 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	Duration *SubscriptionScheduleCreatePhaseDurationParams `form:"duration"`
 	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
 	EffectiveAt *string `form:"effective_at"`
-	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
+	// The date at which this phase of the subscription schedule ends. If set, `duration` must not be set.
 	EndDate *int64 `form:"end_date"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionScheduleCreatePhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*SubscriptionScheduleCreatePhaseItemParams `form:"items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionScheduleCreatePhasePauseCollectionParams `form:"pause_collection"`
-	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
+	// Controls whether the subscription schedule should create [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://docs.stripe.com/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
@@ -1632,42 +1668,6 @@ type SubscriptionScheduleCreatePrebillingParams struct {
 	UpdateBehavior *string `form:"update_behavior"`
 }
 
-// Configure billing schedule differently for individual subscription items.
-type SubscriptionScheduleCreateBillingScheduleAppliesToParams struct {
-	// The ID of the price object.
-	Price *string `form:"price"`
-	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
-}
-
-// Specifies the billing period.
-type SubscriptionScheduleCreateBillingScheduleBillUntilDurationParams struct {
-	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
-	// The multiplier applied to the interval.
-	IntervalCount *int64 `form:"interval_count"`
-}
-
-// The end date for the billing schedule.
-type SubscriptionScheduleCreateBillingScheduleBillUntilParams struct {
-	// Specifies the billing period.
-	Duration *SubscriptionScheduleCreateBillingScheduleBillUntilDurationParams `form:"duration"`
-	// The end date of the billing schedule.
-	Timestamp *int64 `form:"timestamp"`
-	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
-	Type *string `form:"type"`
-}
-
-// Sets the billing schedules for the subscription schedule.
-type SubscriptionScheduleCreateBillingScheduleParams struct {
-	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*SubscriptionScheduleCreateBillingScheduleAppliesToParams `form:"applies_to"`
-	// The end date for the billing schedule.
-	BillUntil *SubscriptionScheduleCreateBillingScheduleBillUntilParams `form:"bill_until"`
-	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
-}
-
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleCreateParams struct {
 	Params `form:"*"`
@@ -1689,7 +1689,7 @@ type SubscriptionScheduleCreateParams struct {
 	Expand []*string `form:"expand"`
 	// Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
 	FromSubscription *string `form:"from_subscription"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*SubscriptionScheduleCreatePhaseParams `form:"phases"`
@@ -1733,6 +1733,42 @@ func (p *SubscriptionScheduleRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionScheduleUpdateBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleUpdateBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionScheduleUpdateBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionScheduleUpdateBillingScheduleBillUntilDurationParams `form:"duration"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type"`
+}
+
+// Sets the billing schedules for the subscription schedule.
+type SubscriptionScheduleUpdateBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionScheduleUpdateBillingScheduleAppliesToParams `form:"applies_to"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionScheduleUpdateBillingScheduleBillUntilParams `form:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionScheduleUpdateDefaultSettingsBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -1765,7 +1801,7 @@ type SubscriptionScheduleUpdateDefaultSettingsParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent,high_precision"`
 	// Default settings for automatic tax computation.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
-	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleUpdateDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
@@ -1843,13 +1879,13 @@ type SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodParams struct {
 type SubscriptionScheduleUpdatePhaseAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountParams `form:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 	Period *SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	// Quantity for this item. Defaults to 1.
 	Quantity *int64 `form:"quantity"`
@@ -1948,7 +1984,7 @@ type SubscriptionScheduleUpdatePhaseInvoiceSettingsParams struct {
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionScheduleUpdatePhaseItemBillingThresholdsParams struct {
-	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
@@ -1996,17 +2032,17 @@ type SubscriptionScheduleUpdatePhaseItemParams struct {
 	BillingThresholds *SubscriptionScheduleUpdatePhaseItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionScheduleUpdatePhaseItemDiscountParams `form:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
 	Plan *string `form:"plan"`
 	// The ID of the price object.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
 	// Quantity for the given price. Can be set only if the price's `usage_type` is `licensed` and not `metered`.
 	Quantity *int64 `form:"quantity"`
-	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionScheduleUpdatePhaseItemTrialParams `form:"trial"`
@@ -2023,7 +2059,7 @@ func (p *SubscriptionScheduleUpdatePhaseItemParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionScheduleUpdatePhasePauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior *string `form:"behavior"`
@@ -2049,7 +2085,7 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Automatic tax settings for this phase.
 	AutomaticTax *SubscriptionScheduleUpdatePhaseAutomaticTaxParams `form:"automatic_tax"`
-	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionScheduleUpdatePhaseBillingThresholdsParams `form:"billing_thresholds"`
@@ -2059,7 +2095,7 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	Currency *string `form:"currency"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *string `form:"default_payment_method"`
-	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
+	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://docs.stripe.com/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
@@ -2069,20 +2105,20 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	Duration *SubscriptionScheduleUpdatePhaseDurationParams `form:"duration"`
 	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
 	EffectiveAt *string `form:"effective_at"`
-	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
+	// The date at which this phase of the subscription schedule ends. If set, `duration` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionScheduleUpdatePhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*SubscriptionScheduleUpdatePhaseItemParams `form:"items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionScheduleUpdatePhasePauseCollectionParams `form:"pause_collection"`
-	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
+	// Controls whether the subscription schedule should create [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://docs.stripe.com/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
 	StartDate    *int64 `form:"start_date"`
@@ -2130,42 +2166,6 @@ type SubscriptionScheduleUpdatePrebillingParams struct {
 	UpdateBehavior *string `form:"update_behavior"`
 }
 
-// Configure billing schedule differently for individual subscription items.
-type SubscriptionScheduleUpdateBillingScheduleAppliesToParams struct {
-	// The ID of the price object.
-	Price *string `form:"price"`
-	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
-}
-
-// Specifies the billing period.
-type SubscriptionScheduleUpdateBillingScheduleBillUntilDurationParams struct {
-	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
-	// The multiplier applied to the interval.
-	IntervalCount *int64 `form:"interval_count"`
-}
-
-// The end date for the billing schedule.
-type SubscriptionScheduleUpdateBillingScheduleBillUntilParams struct {
-	// Specifies the billing period.
-	Duration *SubscriptionScheduleUpdateBillingScheduleBillUntilDurationParams `form:"duration"`
-	// The end date of the billing schedule.
-	Timestamp *int64 `form:"timestamp"`
-	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
-	Type *string `form:"type"`
-}
-
-// Sets the billing schedules for the subscription schedule.
-type SubscriptionScheduleUpdateBillingScheduleParams struct {
-	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*SubscriptionScheduleUpdateBillingScheduleAppliesToParams `form:"applies_to"`
-	// The end date for the billing schedule.
-	BillUntil *SubscriptionScheduleUpdateBillingScheduleBillUntilParams `form:"bill_until"`
-	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
-}
-
 // Updates an existing subscription schedule.
 type SubscriptionScheduleUpdateParams struct {
 	Params `form:"*"`
@@ -2179,7 +2179,7 @@ type SubscriptionScheduleUpdateParams struct {
 	EndBehavior *string `form:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionScheduleUpdatePhaseParams `form:"phases"`
@@ -2219,6 +2219,56 @@ type SubscriptionScheduleBillingMode struct {
 	UpdatedAt int64 `json:"updated_at"`
 }
 
+// Specifies which subscription items the billing schedule applies to.
+type SubscriptionScheduleBillingScheduleAppliesTo struct {
+	// The billing schedule will apply to the subscription item with the given price ID.
+	Price *Price `json:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type SubscriptionScheduleBillingScheduleAppliesToType `json:"type"`
+}
+
+// Specifies the start of the billing period.
+type SubscriptionScheduleBillingScheduleBillFrom struct {
+	// The time the billing schedule applies from.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
+	Type SubscriptionScheduleBillingScheduleBillFromType `json:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionScheduleBillingScheduleBillUntilDuration struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval SubscriptionScheduleBillingScheduleBillUntilDurationInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Specifies the end of billing period.
+type SubscriptionScheduleBillingScheduleBillUntil struct {
+	// The timestamp the billing schedule will apply until.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Specifies the billing period.
+	Duration *SubscriptionScheduleBillingScheduleBillUntilDuration `json:"duration"`
+	// If specified, the billing schedule will apply until the specified timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type SubscriptionScheduleBillingScheduleBillUntilType `json:"type"`
+}
+
+// Billing schedules for this subscription schedule.
+type SubscriptionScheduleBillingSchedule struct {
+	// Specifies which subscription items the billing schedule applies to.
+	AppliesTo []*SubscriptionScheduleBillingScheduleAppliesTo `json:"applies_to"`
+	// Specifies the start of the billing period.
+	BillFrom *SubscriptionScheduleBillingScheduleBillFrom `json:"bill_from"`
+	// Specifies the end of billing period.
+	BillUntil *SubscriptionScheduleBillingScheduleBillUntil `json:"bill_until"`
+	// Unique identifier for the billing schedule.
+	Key string `json:"key"`
+}
+
 // Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 type SubscriptionScheduleCurrentPhase struct {
 	// The end of this phase of the subscription schedule.
@@ -2251,7 +2301,7 @@ type SubscriptionScheduleDefaultSettings struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
-	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor SubscriptionScheduleDefaultSettingsBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionScheduleDefaultSettingsBillingThresholds `json:"billing_thresholds"`
@@ -2328,7 +2378,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemPeriod struct {
 type SubscriptionSchedulePhaseAddInvoiceItem struct {
 	// The stackable discounts that will be applied to the item.
 	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscount `json:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string                              `json:"metadata"`
 	Period   *SubscriptionSchedulePhaseAddInvoiceItemPeriod `json:"period"`
 	// ID of the price used to generate the invoice item.
@@ -2425,7 +2475,7 @@ type SubscriptionSchedulePhaseItem struct {
 	BillingThresholds *SubscriptionSchedulePhaseItemBillingThresholds `json:"billing_thresholds"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*SubscriptionSchedulePhaseItemDiscount `json:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
 	Metadata map[string]string `json:"metadata"`
 	// ID of the plan to which the customer should be subscribed.
 	Plan *Plan `json:"plan"`
@@ -2441,7 +2491,7 @@ type SubscriptionSchedulePhaseItem struct {
 	TrialOffer string `json:"trial_offer"`
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionSchedulePhasePauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior SubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
@@ -2466,7 +2516,7 @@ type SubscriptionSchedulePhase struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
-	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionSchedulePhaseBillingThresholds `json:"billing_thresholds"`
@@ -2490,11 +2540,11 @@ type SubscriptionSchedulePhase struct {
 	InvoiceSettings *SubscriptionSchedulePhaseInvoiceSettings `json:"invoice_settings"`
 	// Subscription items to configure the subscription to during this phase of the subscription schedule.
 	Items []*SubscriptionSchedulePhaseItem `json:"items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered. Updating the underlying subscription's `metadata` directly will not affect the current phase's `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered. Updating the underlying subscription's `metadata` directly will not affect the current phase's `metadata`.
 	Metadata map[string]string `json:"metadata"`
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionSchedulePhasePauseCollection `json:"pause_collection"`
 	// When transitioning phases, controls how prorations are handled (if any). Possible values are `create_prorations`, `none`, and `always_invoice`.
 	ProrationBehavior SubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
@@ -2522,59 +2572,9 @@ type SubscriptionSchedulePrebilling struct {
 	UpdateBehavior SubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior"`
 }
 
-// Specifies which subscription items the billing schedule applies to.
-type SubscriptionScheduleBillingScheduleAppliesTo struct {
-	// The billing schedule will apply to the subscription item with the given price ID.
-	Price *Price `json:"price"`
-	// Controls which subscription items the billing schedule applies to.
-	Type SubscriptionScheduleBillingScheduleAppliesToType `json:"type"`
-}
-
-// Specifies the start of the billing period.
-type SubscriptionScheduleBillingScheduleBillFrom struct {
-	// The time the billing schedule applies from.
-	ComputedTimestamp int64 `json:"computed_timestamp"`
-	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
-	Timestamp int64 `json:"timestamp"`
-	// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
-	Type SubscriptionScheduleBillingScheduleBillFromType `json:"type"`
-}
-
-// Specifies the billing period.
-type SubscriptionScheduleBillingScheduleBillUntilDuration struct {
-	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
-	Interval SubscriptionScheduleBillingScheduleBillUntilDurationInterval `json:"interval"`
-	// The multiplier applied to the interval.
-	IntervalCount int64 `json:"interval_count"`
-}
-
-// Specifies the end of billing period.
-type SubscriptionScheduleBillingScheduleBillUntil struct {
-	// The timestamp the billing schedule will apply until.
-	ComputedTimestamp int64 `json:"computed_timestamp"`
-	// Specifies the billing period.
-	Duration *SubscriptionScheduleBillingScheduleBillUntilDuration `json:"duration"`
-	// If specified, the billing schedule will apply until the specified timestamp.
-	Timestamp int64 `json:"timestamp"`
-	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
-	Type SubscriptionScheduleBillingScheduleBillUntilType `json:"type"`
-}
-
-// Billing schedules for this subscription schedule.
-type SubscriptionScheduleBillingSchedule struct {
-	// Specifies which subscription items the billing schedule applies to.
-	AppliesTo []*SubscriptionScheduleBillingScheduleAppliesTo `json:"applies_to"`
-	// Specifies the start of the billing period.
-	BillFrom *SubscriptionScheduleBillingScheduleBillFrom `json:"bill_from"`
-	// Specifies the end of billing period.
-	BillUntil *SubscriptionScheduleBillingScheduleBillUntil `json:"bill_until"`
-	// Unique identifier for the billing schedule.
-	Key string `json:"key"`
-}
-
 // A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
 //
-// Related guide: [Subscription schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules)
+// Related guide: [Subscription schedules](https://docs.stripe.com/billing/subscriptions/subscription-schedules)
 type SubscriptionSchedule struct {
 	APIResource
 	// ID of the Connect Application that created the schedule.
@@ -2608,7 +2608,7 @@ type SubscriptionSchedule struct {
 	LatestInvoice *Invoice `json:"latest_invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
@@ -2620,7 +2620,7 @@ type SubscriptionSchedule struct {
 	ReleasedAt int64 `json:"released_at"`
 	// ID of the subscription once managed by the subscription schedule (if it is released).
 	ReleasedSubscription *Subscription `json:"released_subscription"`
-	// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
+	// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://docs.stripe.com/billing/subscriptions/subscription-schedules).
 	Status SubscriptionScheduleStatus `json:"status"`
 	// ID of the subscription managed by the subscription schedule.
 	Subscription *Subscription `json:"subscription"`

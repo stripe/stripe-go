@@ -156,7 +156,7 @@ func (p *BalanceSettingsUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Details on when funds from charges are available, and when they are paid out to an external account. See our [Setting Bank and Debit Card Payouts](https://stripe.com/docs/connect/bank-transfers#payout-information) documentation for details.
+// Details on when funds from charges are available, and when they are paid out to an external account. See our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation for details.
 type BalanceSettingsPaymentsPayoutsSchedule struct {
 	// How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
 	Interval BalanceSettingsPaymentsPayoutsScheduleInterval `json:"interval"`
@@ -170,7 +170,7 @@ type BalanceSettingsPaymentsPayoutsSchedule struct {
 type BalanceSettingsPaymentsPayouts struct {
 	// The minimum balance amount to retain per currency after automatic payouts. Only funds that exceed these amounts are paid out. Learn more about the [minimum balances for automatic payouts](https://docs.stripe.com/payouts/minimum-balances-for-automatic-payouts).
 	MinimumBalanceByCurrency map[Currency]int64 `json:"minimum_balance_by_currency"`
-	// Details on when funds from charges are available, and when they are paid out to an external account. See our [Setting Bank and Debit Card Payouts](https://stripe.com/docs/connect/bank-transfers#payout-information) documentation for details.
+	// Details on when funds from charges are available, and when they are paid out to an external account. See our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation for details.
 	Schedule *BalanceSettingsPaymentsPayoutsSchedule `json:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor string `json:"statement_descriptor"`

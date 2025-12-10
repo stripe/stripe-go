@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// The type of the alternative reference (e.g., external_account for V1 external accounts).
+type V2MoneyManagementPayoutMethodAlternativeReferenceType string
+
+// List of values that V2MoneyManagementPayoutMethodAlternativeReferenceType can take
+const (
+	V2MoneyManagementPayoutMethodAlternativeReferenceTypeExternalAccount V2MoneyManagementPayoutMethodAlternativeReferenceType = "external_account"
+	V2MoneyManagementPayoutMethodAlternativeReferenceTypePaymentMethod   V2MoneyManagementPayoutMethodAlternativeReferenceType = "payment_method"
+)
+
 // A set of available payout speeds for this payout method.
 type V2MoneyManagementPayoutMethodAvailablePayoutSpeed string
 
@@ -71,6 +80,14 @@ const (
 	V2MoneyManagementPayoutMethodCryptoWalletNetworkStellar         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "stellar"
 )
 
+// The alternative reference for this payout method, if it's a projected payout method.
+type V2MoneyManagementPayoutMethodAlternativeReference struct {
+	// The ID of the alternative resource being referenced.
+	ID string `json:"id"`
+	// The type of the alternative reference (e.g., external_account for V1 external accounts).
+	Type V2MoneyManagementPayoutMethodAlternativeReferenceType `json:"type"`
+}
+
 // Indicates whether the payout method has met the necessary requirements for outbound money movement.
 type V2MoneyManagementPayoutMethodUsageStatus struct {
 	// Payments status - used when sending OutboundPayments (sending funds to recipients).
@@ -93,6 +110,8 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	Country string `json:"country"`
 	// List of enabled flows for this bank account (wire or local).
 	EnabledDeliveryOptions []string `json:"enabled_delivery_options"`
+	// The ID of the Financial Connections Account used to create the bank account.
+	FinancialConnectionsAccount string `json:"financial_connections_account,omitempty"`
 	// The last 4 digits of the account number.
 	Last4 string `json:"last4"`
 	// The routing number of the bank account, if present.
@@ -132,6 +151,8 @@ type V2MoneyManagementPayoutMethodCryptoWallet struct {
 // Use the PayoutMethods API to list and interact with PayoutMethod objects.
 type V2MoneyManagementPayoutMethod struct {
 	APIResource
+	// The alternative reference for this payout method, if it's a projected payout method.
+	AlternativeReference *V2MoneyManagementPayoutMethodAlternativeReference `json:"alternative_reference,omitempty"`
 	// A set of available payout speeds for this payout method.
 	AvailablePayoutSpeeds []V2MoneyManagementPayoutMethodAvailablePayoutSpeed `json:"available_payout_speeds"`
 	// The PayoutMethodBankAccount object details.
