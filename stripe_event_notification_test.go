@@ -81,13 +81,8 @@ func unknownEventPayload() string {
 // Test: Event is routed to registered handler
 func TestEventHandler_RoutesEventToRegisteredHandler(t *testing.T) {
 	// Setup
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	backend.(*BackendImplementation).StripeContext = String("original_context_123")
-
-	client := &Client{
-		backend: backend,
-		key:     "sk_test_1234",
-	}
+	config := &BackendConfig{StripeContext: String("original_context_123")}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
 	var unhandledCalled bool
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
@@ -129,8 +124,7 @@ func TestEventHandler_RoutesEventToRegisteredHandler(t *testing.T) {
 
 // Test: Different events route to correct handlers
 func TestEventHandler_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var unhandledCalled bool
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
@@ -183,8 +177,7 @@ func TestEventHandler_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 
 // Test: Handler receives correct runtime type
 func TestEventHandler_HandlerReceivesCorrectRuntimeType(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -218,8 +211,7 @@ func TestEventHandler_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 
 // Test: Cannot register handler after handling
 func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -251,8 +243,7 @@ func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 
 // Test: Cannot register duplicate handler
 func TestEventHandler_CannotRegisterDuplicateHandler(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -278,10 +269,8 @@ func TestEventHandler_CannotRegisterDuplicateHandler(t *testing.T) {
 
 // Test: Handler uses event stripe context
 func TestEventHandler_HandlerUsesEventStripeContext(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	backend.(*BackendImplementation).StripeContext = String("original_context_123")
-
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	config := &BackendConfig{StripeContext: String("original_context_123")}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -292,8 +281,7 @@ func TestEventHandler_HandlerUsesEventStripeContext(t *testing.T) {
 	var receivedContext *string
 
 	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
-		backendImpl := client.backend.(*BackendImplementation)
-		receivedContext = backendImpl.StripeContext
+		receivedContext = client.backends.config.StripeContext
 		return nil
 	}
 
@@ -301,8 +289,7 @@ func TestEventHandler_HandlerUsesEventStripeContext(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Verify original context
-	originalContext := backend.(*BackendImplementation).StripeContext
-	assert.Equal(t, "original_context_123", *originalContext)
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
@@ -316,10 +303,8 @@ func TestEventHandler_HandlerUsesEventStripeContext(t *testing.T) {
 
 // Test: Stripe context restored after handler success
 func TestEventHandler_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	backend.(*BackendImplementation).StripeContext = String("original_context_123")
-
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	config := &BackendConfig{StripeContext: String("original_context_123")}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -329,8 +314,7 @@ func TestEventHandler_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 
 	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		// Verify context is event context during handler
-		backendImpl := client.backend.(*BackendImplementation)
-		assert.Equal(t, "event_context_456", *backendImpl.StripeContext)
+		assert.Equal(t, "event_context_456", *client.backends.config.StripeContext)
 		return nil
 	}
 
@@ -338,23 +322,21 @@ func TestEventHandler_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Verify original context before handle
-	assert.Equal(t, "original_context_123", *backend.(*BackendImplementation).StripeContext)
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
 	err = handler.Handle([]byte(payload), sigHeader)
 	assert.NoError(t, err)
 
-	// Verify context is restored after handle
-	assert.Equal(t, "original_context_123", *backend.(*BackendImplementation).StripeContext)
+	// Verify original client context is unchanged after handle
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
 }
 
 // Test: Stripe context restored after handler error
 func TestEventHandler_StripeContextRestoredAfterHandlerError(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	backend.(*BackendImplementation).StripeContext = String("original_context_123")
-
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	config := &BackendConfig{StripeContext: String("original_context_123")}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -364,8 +346,7 @@ func TestEventHandler_StripeContextRestoredAfterHandlerError(t *testing.T) {
 
 	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		// Verify context is event context during handler
-		backendImpl := client.backend.(*BackendImplementation)
-		assert.Equal(t, "event_context_456", *backendImpl.StripeContext)
+		assert.Equal(t, "event_context_456", *client.backends.config.StripeContext)
 		// Return an error
 		return fmt.Errorf("handler error")
 	}
@@ -374,23 +355,21 @@ func TestEventHandler_StripeContextRestoredAfterHandlerError(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Verify original context before handle
-	assert.Equal(t, "original_context_123", *backend.(*BackendImplementation).StripeContext)
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
 	err = handler.Handle([]byte(payload), sigHeader)
 	assert.Error(t, err) // Handler returned an error
 
-	// Verify context is still restored after handler error
-	assert.Equal(t, "original_context_123", *backend.(*BackendImplementation).StripeContext)
+	// Verify original client context is unchanged after handler error
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
 }
 
 // Test: Stripe context set to nil when event has no context
 func TestEventHandler_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	backend.(*BackendImplementation).StripeContext = String("original_context_123")
-
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	config := &BackendConfig{StripeContext: String("original_context_123")}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -399,10 +378,11 @@ func TestEventHandler_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	var receivedContext *string
+	var receivedContextWasChecked bool
 
 	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
-		backendImpl := client.backend.(*BackendImplementation)
-		receivedContext = backendImpl.StripeContext
+		receivedContext = client.backends.config.StripeContext
+		receivedContextWasChecked = true
 		return nil
 	}
 
@@ -410,7 +390,7 @@ func TestEventHandler_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Verify original context
-	assert.Equal(t, "original_context_123", *backend.(*BackendImplementation).StripeContext)
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
 
 	payload := v1BillingMeterPayloadWithNilContext()
 	sigHeader := generateTestSignature(payload)
@@ -418,16 +398,16 @@ func TestEventHandler_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Assert handler received nil context
+	assert.True(t, receivedContextWasChecked)
 	assert.Nil(t, receivedContext)
 
-	// Verify context is restored
-	assert.Equal(t, "original_context_123", *backend.(*BackendImplementation).StripeContext)
+	// Verify original client context is unchanged
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
 }
 
 // Test: Unknown event Oout
 func TestEventHandler_UnknownEventRoutesToOnUnhandled(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var unhandledCalled bool
 	var unhandledEvent EventNotificationContainer
@@ -463,8 +443,7 @@ func TestEventHandler_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 
 // Test: Known unregistered event Oout
 func TestEventHandler_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var unhandledCalled bool
 	var unhandledEvent EventNotificationContainer
@@ -501,8 +480,7 @@ func TestEventHandler_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 
 // Test: Registered event does Oot
 func TestEventHandler_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var unhandledCalled bool
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
@@ -532,11 +510,9 @@ func TestEventHandler_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 
 // Test: Handler client retains configuration
 func TestEventHandler_HandlerClientRetainsConfiguration(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	backend.(*BackendImplementation).StripeContext = String("original_context_xyz")
-
 	apiKey := "sk_test_custom_key"
-	client := &Client{backend: backend, key: apiKey}
+	config := &BackendConfig{StripeContext: String("original_context_xyz")}
+	client := NewClient(apiKey, WithBackends(NewBackendsWithConfig(config)))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -549,8 +525,7 @@ func TestEventHandler_HandlerClientRetainsConfiguration(t *testing.T) {
 
 	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		receivedAPIKey = client.key
-		backendImpl := client.backend.(*BackendImplementation)
-		receivedContext = backendImpl.StripeContext
+		receivedContext = client.backends.config.StripeContext
 		return nil
 	}
 
@@ -564,13 +539,12 @@ func TestEventHandler_HandlerClientRetainsConfiguration(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, apiKey, receivedAPIKey, "Handler should receive client with original API key")
 	assert.Equal(t, "event_context_456", *receivedContext, "Handler should receive event context")
-	assert.Equal(t, "original_context_xyz", *backend.(*BackendImplementation).StripeContext, "Original context should be restored")
+	assert.Equal(t, "original_context_xyz", *client.backends.config.StripeContext, "Original client context should be unchanged")
 }
 
 // Test: on_unhandled receives correct info for unknown
 func TestEventHandler_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var details UnhandledNotificationDetails
 	onUnhandled := func(notif EventNotificationContainer, client *Client, d UnhandledNotificationDetails) error {
@@ -590,8 +564,7 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
 
 // Test: on_unhandled receives correct info for known unregistered
 func TestEventHandler_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var details UnhandledNotificationDetails
 	onUnhandled := func(notif EventNotificationContainer, client *Client, d UnhandledNotificationDetails) error {
@@ -611,8 +584,7 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *test
 
 // Test: Validates webhook signature
 func TestEventHandler_ValidatesWebhookSignature(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -630,8 +602,7 @@ func TestEventHandler_ValidatesWebhookSignature(t *testing.T) {
 
 // Test: RegisteredEventTypes returns empty list
 func TestEventHandler_RegisteredEventTypesEmpty(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -645,8 +616,7 @@ func TestEventHandler_RegisteredEventTypesEmpty(t *testing.T) {
 
 // Test: RegisteredEventTypes returns single event type
 func TestEventHandler_RegisteredEventTypesSingle(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
@@ -667,8 +637,7 @@ func TestEventHandler_RegisteredEventTypesSingle(t *testing.T) {
 
 // Test: RegisteredEventTypes returns multiple event types in alphabetical order
 func TestEventHandler_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{})
-	client := &Client{backend: backend, key: "sk_test_1234"}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil

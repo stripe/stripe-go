@@ -22,29 +22,15 @@ type EventNotificationHandler struct {
 	eventHandlers    map[string]CallbackFunc
 	hasHandledEvent  bool
 	fallbackCallback FallbackCallbackFunc
-	baseBackend      *BackendImplementation
-	key              string
 }
 
 func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackCallback FallbackCallbackFunc) *EventNotificationHandler {
-	// Extract the base API backend to clone it for each request
-	var baseBackend *BackendImplementation
-	if usageBackend, ok := client.backend.(*UsageBackend); ok {
-		if impl, ok := usageBackend.B.(*BackendImplementation); ok {
-			baseBackend = impl
-		}
-	} else if impl, ok := client.backend.(*BackendImplementation); ok {
-		baseBackend = impl
-	}
-
 	return &EventNotificationHandler{
 		client:           client,
 		webhookSecret:    webhookSecret,
 		eventHandlers:    make(map[string]CallbackFunc),
 		hasHandledEvent:  false,
 		fallbackCallback: fallbackCallback,
-		baseBackend:      baseBackend,
-		key:              client.key,
 	}
 }
 
@@ -429,52 +415,13 @@ func (h *EventNotificationHandler) OnV2MoneyManagementTransactionUpdated(callbac
 // It reuses the HTTPClient and other expensive resources from the base backend
 // to avoid re-establishing TLS connections (Flyweight pattern).
 func (r *EventNotificationHandler) createClientWithContext(stripeContext *string) *Client {
-	if r.baseBackend == nil {
-		// If we couldn't extract the base backend, fall back to using the original client
-		return r.client
+	baseConfig := r.client.backends.config
+	if baseConfig == nil {
+		baseConfig = &BackendConfig{}
 	}
-
-	// Create a new BackendImplementation that shares all fields with the base backend
-	// except for the StripeContext (Flyweight pattern)
-	newAPIBackend := &BackendImplementation{
-		Type:                 r.baseBackend.Type,
-		URL:                  r.baseBackend.URL,
-		HTTPClient:           r.baseBackend.HTTPClient, // Reuse the HTTP client (avoids TLS handshake)
-		LeveledLogger:        r.baseBackend.LeveledLogger,
-		MaxNetworkRetries:    r.baseBackend.MaxNetworkRetries,
-		StripeContext:        stripeContext, // Only field that's different
-		enableTelemetry:      r.baseBackend.enableTelemetry,
-		networkRetriesSleep:  r.baseBackend.networkRetriesSleep,
-		requestMetricsBuffer: r.baseBackend.requestMetricsBuffer,
-	}
-
-	// Wrap in UsageBackend to match the original client's backend type
-	var wrappedAPIBackend Backend = newAPIBackend
-	if usageBackend, ok := r.client.backend.(*UsageBackend); ok {
-		wrappedAPIBackend = &UsageBackend{
-			B:     newAPIBackend,
-			Usage: usageBackend.Usage,
-		}
-	}
-
-	// Create a new Backends struct where only the API backend has a custom StripeContext
-	// All other backends use the default global backends via GetBackend
-	newBackends := &Backends{
-		API:         wrappedAPIBackend,
-		Connect:     GetBackend(ConnectBackend),
-		Uploads:     GetBackend(UploadsBackend),
-		MeterEvents: GetBackend(MeterEventsBackend),
-	}
-
-	// Create a new client with the new backends
-	newClient := &Client{}
-	cfg := clientConfig{
-		key:      r.key,
-		backends: newBackends,
-	}
-	initClient(newClient, cfg)
-
-	return newClient
+	newConfig := *baseConfig
+	newConfig.StripeContext = stripeContext
+	return NewClient(r.client.key, WithBackends(NewBackendsWithConfig(&newConfig)))
 }
 
 // Handle processes an incoming webhook payload and routes it to the appropriate registered handler (or the fallback if none is available).
