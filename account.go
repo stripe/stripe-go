@@ -1055,6 +1055,8 @@ type AccountDocumentsProofOfAddressParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -1063,9 +1065,12 @@ type AccountDocumentsProofOfRegistrationSignerParams struct {
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                        `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountDocumentsProofOfRegistrationSignerParams `form:"signer"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -1074,7 +1079,8 @@ type AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                                       `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 
@@ -2102,6 +2108,8 @@ type AccountUpdateDocumentsProofOfAddressParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountUpdateDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -2110,9 +2118,12 @@ type AccountUpdateDocumentsProofOfRegistrationSignerParams struct {
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountUpdateDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                              `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountUpdateDocumentsProofOfRegistrationSignerParams `form:"signer"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -2121,7 +2132,8 @@ type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                                             `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 
@@ -3177,6 +3189,8 @@ type AccountCreateDocumentsProofOfAddressParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountCreateDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -3185,9 +3199,12 @@ type AccountCreateDocumentsProofOfRegistrationSignerParams struct {
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountCreateDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                              `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountCreateDocumentsProofOfRegistrationSignerParams `form:"signer"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -3196,7 +3213,8 @@ type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                                             `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 

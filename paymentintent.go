@@ -1388,7 +1388,7 @@ type PaymentIntentAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -1436,7 +1436,7 @@ type PaymentIntentAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentAmountDetailsShippingParams `form:"shipping"`
@@ -3137,7 +3137,7 @@ type PaymentIntentCaptureAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -3185,7 +3185,7 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentCaptureAmountDetailsShippingParams `form:"shipping"`
@@ -3327,7 +3327,7 @@ type PaymentIntentConfirmAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -3375,7 +3375,7 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentConfirmAmountDetailsShippingParams `form:"shipping"`
@@ -3570,7 +3570,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -3618,7 +3618,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentIncrementAuthorizationAmountDetailsShippingParams `form:"shipping"`
@@ -3798,7 +3798,7 @@ type PaymentIntentCreateAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentCreateAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -3846,7 +3846,7 @@ type PaymentIntentCreateAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentCreateAmountDetailsShippingParams `form:"shipping"`
@@ -5506,7 +5506,7 @@ type PaymentIntentUpdateAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -5554,7 +5554,7 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentUpdateAmountDetailsShippingParams `form:"shipping"`
@@ -7076,7 +7076,7 @@ type PaymentIntentAmountDetails struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount int64 `json:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items"`
 	Shipping  *PaymentIntentAmountDetailsShipping     `json:"shipping"`
 	Tax       *PaymentIntentAmountDetailsTax          `json:"tax"`
@@ -8273,7 +8273,7 @@ type PaymentIntentTransferData struct {
 // see the history of payment attempts for a particular session.
 //
 // A PaymentIntent transitions through
-// [multiple statuses](https://docs.stripe.com/payments/intents#intent-statuses)
+// [multiple statuses](https://docs.stripe.com/payments/paymentintents/lifecycle)
 // throughout its lifetime as it interfaces with Stripe.js to perform
 // authentication flows and ultimately creates at most one successful charge.
 //
