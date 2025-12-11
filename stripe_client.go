@@ -236,6 +236,8 @@ type Client struct {
 	V1SetupAttempts *v1SetupAttemptService
 	// V1SetupIntents is the service used to invoke /v1/setup_intents APIs.
 	V1SetupIntents *v1SetupIntentService
+	// V1SharedPaymentGrantedTokens is the service used to invoke /v1/shared_payment/granted_tokens APIs.
+	V1SharedPaymentGrantedTokens *v1SharedPaymentGrantedTokenService
 	// V1ShippingRates is the service used to invoke /v1/shipping_rates APIs.
 	V1ShippingRates *v1ShippingRateService
 	// V1SigmaScheduledQueryRuns is the service used to invoke /v1/sigma/scheduled_query_runs APIs.
@@ -296,6 +298,8 @@ type Client struct {
 	V1TestHelpersIssuingTransactions *v1TestHelpersIssuingTransactionService
 	// V1TestHelpersRefunds is the service used to invoke /v1/refunds APIs.
 	V1TestHelpersRefunds *v1TestHelpersRefundService
+	// V1TestHelpersSharedPaymentGrantedTokens is the service used to invoke /v1/shared_payment/granted_tokens APIs.
+	V1TestHelpersSharedPaymentGrantedTokens *v1TestHelpersSharedPaymentGrantedTokenService
 	// V1TestHelpersTerminalReaders is the service used to invoke /v1/terminal/readers APIs.
 	V1TestHelpersTerminalReaders *v1TestHelpersTerminalReaderService
 	// V1TestHelpersTestClocks is the service used to invoke /v1/test_helpers/test_clocks APIs.
@@ -619,6 +623,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Reviews = &v1ReviewService{B: backends.API, Key: key}
 	client.V1SetupAttempts = &v1SetupAttemptService{B: backends.API, Key: key}
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
+	client.V1SharedPaymentGrantedTokens = &v1SharedPaymentGrantedTokenService{B: backends.API, Key: key}
 	client.V1ShippingRates = &v1ShippingRateService{B: backends.API, Key: key}
 	client.V1SigmaScheduledQueryRuns = &v1SigmaScheduledQueryRunService{B: backends.API, Key: key}
 	client.V1Sources = &v1SourceService{B: backends.API, Key: key}
@@ -649,6 +654,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TestHelpersIssuingPersonalizationDesigns = &v1TestHelpersIssuingPersonalizationDesignService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingTransactions = &v1TestHelpersIssuingTransactionService{B: backends.API, Key: key}
 	client.V1TestHelpersRefunds = &v1TestHelpersRefundService{B: backends.API, Key: key}
+	client.V1TestHelpersSharedPaymentGrantedTokens = &v1TestHelpersSharedPaymentGrantedTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersTerminalReaders = &v1TestHelpersTerminalReaderService{B: backends.API, Key: key}
 	client.V1TestHelpersTestClocks = &v1TestHelpersTestClockService{B: backends.API, Key: key}
 	client.V1TestHelpersTreasuryInboundTransfers = &v1TestHelpersTreasuryInboundTransferService{B: backends.API, Key: key}
