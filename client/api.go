@@ -120,6 +120,9 @@ import (
 	"github.com/stripe/stripe-go/v84/refund"
 	reportingreportrun "github.com/stripe/stripe-go/v84/reporting/reportrun"
 	reportingreporttype "github.com/stripe/stripe-go/v84/reporting/reporttype"
+	reservehold "github.com/stripe/stripe-go/v84/reserve/hold"
+	reserveplan "github.com/stripe/stripe-go/v84/reserve/plan"
+	reserverelease "github.com/stripe/stripe-go/v84/reserve/release"
 	"github.com/stripe/stripe-go/v84/review"
 	"github.com/stripe/stripe-go/v84/setupattempt"
 	"github.com/stripe/stripe-go/v84/setupintent"
@@ -430,6 +433,12 @@ type API struct {
 	ReportingReportRuns *reportingreportrun.Client
 	// ReportingReportTypes is the client used to invoke /v1/reporting/report_types APIs.
 	ReportingReportTypes *reportingreporttype.Client
+	// ReserveHolds is the client used to invoke /v1/reserve/holds APIs.
+	ReserveHolds *reservehold.Client
+	// ReservePlans is the client used to invoke /v1/reserve/plans APIs.
+	ReservePlans *reserveplan.Client
+	// ReserveReleases is the client used to invoke /v1/reserve/releases APIs.
+	ReserveReleases *reserverelease.Client
 	// Reviews is the client used to invoke /v1/reviews APIs.
 	Reviews *review.Client
 	// SetupAttempts is the client used to invoke /v1/setup_attempts APIs.
@@ -729,6 +738,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Refunds = &refund.Client{B: backends.API, Key: key}
 	a.ReportingReportRuns = &reportingreportrun.Client{B: backends.API, Key: key}
 	a.ReportingReportTypes = &reportingreporttype.Client{B: backends.API, Key: key}
+	a.ReserveHolds = &reservehold.Client{B: backends.API, Key: key}
+	a.ReservePlans = &reserveplan.Client{B: backends.API, Key: key}
+	a.ReserveReleases = &reserverelease.Client{B: backends.API, Key: key}
 	a.Reviews = &review.Client{B: backends.API, Key: key}
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}

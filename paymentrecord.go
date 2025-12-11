@@ -1100,6 +1100,8 @@ type PaymentRecordPaymentMethodDetailsACHDebit struct {
 type PaymentRecordPaymentMethodDetailsACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
+	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
+	ExpectedDebitDate string `json:"expected_debit_date"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Institution number of the bank account
@@ -1171,6 +1173,8 @@ type PaymentRecordPaymentMethodDetailsAmazonPay struct {
 type PaymentRecordPaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
+	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
+	ExpectedDebitDate string `json:"expected_debit_date"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
@@ -1179,6 +1183,8 @@ type PaymentRecordPaymentMethodDetailsAUBECSDebit struct {
 	Mandate string `json:"mandate"`
 }
 type PaymentRecordPaymentMethodDetailsBACSDebit struct {
+	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
+	ExpectedDebitDate string `json:"expected_debit_date"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
@@ -1666,6 +1672,8 @@ type PaymentRecordPaymentMethodDetailsNzBankAccount struct {
 	BankName string `json:"bank_name"`
 	// The numeric code for the bank account's bank branch.
 	BranchCode string `json:"branch_code"`
+	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
+	ExpectedDebitDate string `json:"expected_debit_date"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// The suffix of the bank account number.
@@ -1815,6 +1823,8 @@ type PaymentRecordPaymentMethodDetailsSEPADebit struct {
 	BranchCode string `json:"branch_code"`
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
+	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
+	ExpectedDebitDate string `json:"expected_debit_date"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four characters of the IBAN.
@@ -1868,6 +1878,8 @@ type PaymentRecordPaymentMethodDetailsUSBankAccount struct {
 	AccountType PaymentRecordPaymentMethodDetailsUSBankAccountAccountType `json:"account_type"`
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
+	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
+	ExpectedDebitDate string `json:"expected_debit_date"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.

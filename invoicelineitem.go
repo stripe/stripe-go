@@ -514,7 +514,7 @@ type InvoiceLineItemPretaxCreditAmount struct {
 }
 type InvoiceLineItemPricingPriceDetails struct {
 	// The ID of the price this item is associated with.
-	Price string `json:"price"`
+	Price *Price `json:"price"`
 	// The ID of the product this item is associated with.
 	Product string `json:"product"`
 }
