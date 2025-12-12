@@ -599,6 +599,8 @@ type InvoiceLineItem struct {
 	// The quantity of the subscription, if the line item is a subscription or a proration.
 	Quantity     int64         `json:"quantity"`
 	Subscription *Subscription `json:"subscription"`
+	// The subtotal of the line item, in cents (or local equivalent), before any discounts or taxes.
+	Subtotal int64 `json:"subtotal"`
 	// The tax calculation identifiers of the line item.
 	TaxCalculationReference *InvoiceLineItemTaxCalculationReference `json:"tax_calculation_reference"`
 	// The tax information of the line item.
