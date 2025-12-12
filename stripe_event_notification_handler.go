@@ -34,25 +34,25 @@ func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackC
 	}
 }
 
-func (r *EventNotificationHandler) register(eventType string, callback CallbackFunc) error {
+func (h *EventNotificationHandler) register(eventType string, callback CallbackFunc) error {
 	// intentionally not worried about concurrency because we expect all registrations to happen
 	// synchronously on startup, so it'll only be read after it's done being written.
-	if r.hasHandledEvent {
+	if h.hasHandledEvent {
 		return fmt.Errorf("cannot register new event handlers after handling an event. This is indicative of a bug.")
 	}
 
-	if r.eventHandlers[eventType] != nil {
+	if h.eventHandlers[eventType] != nil {
 		return fmt.Errorf("handler for event type %s is already registered", eventType)
 	}
 
-	r.eventHandlers[eventType] = callback
+	h.eventHandlers[eventType] = callback
 	return nil
 }
 
 // RegisteredEventTypes returns a sorted list of all event types with registered handlers
-func (r *EventNotificationHandler) RegisteredEventTypes() []string {
-	types := make([]string, 0, len(r.eventHandlers))
-	for eventType := range r.eventHandlers {
+func (h *EventNotificationHandler) RegisteredEventTypes() []string {
+	types := make([]string, 0, len(h.eventHandlers))
+	for eventType := range h.eventHandlers {
 		types = append(types, eventType)
 	}
 	sort.Strings(types)
@@ -337,6 +337,12 @@ func (h *EventNotificationHandler) OnV2MoneyManagementOutboundTransferUpdated(ca
 		h, "v2.money_management.outbound_transfer.updated", callback)
 }
 
+// OnV2MoneyManagementPayoutMethodCreated registers a callback to handle notifications about the "v2.money_management.payout_method.created" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementPayoutMethodCreated(callback func(notif *V2MoneyManagementPayoutMethodCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.payout_method.created", callback)
+}
+
 // OnV2MoneyManagementPayoutMethodUpdated registers a callback to handle notifications about the "v2.money_management.payout_method.updated" event.
 func (h *EventNotificationHandler) OnV2MoneyManagementPayoutMethodUpdated(callback func(notif *V2MoneyManagementPayoutMethodUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -414,23 +420,23 @@ func (h *EventNotificationHandler) OnV2MoneyManagementTransactionUpdated(callbac
 // createClientWithContext creates a new Client with a custom stripe_context.
 // It reuses the HTTPClient and other expensive resources from the base backend
 // to avoid re-establishing TLS connections (Flyweight pattern).
-func (r *EventNotificationHandler) createClientWithContext(stripeContext *string) (*Client, error) {
-	baseConfig := r.client.backends.config
+func (h *EventNotificationHandler) createClientWithContext(stripeContext *string) (*Client, error) {
+	baseConfig := h.client.backends.config
 	if baseConfig == nil {
 		return nil, fmt.Errorf("EventNotificationHandler requires a Backend created with NewBackendsWithConfig. If you're seeing this error, please file an issue at https://github.com/stripe/stripe-go/issues")
 	}
 	newConfig := *baseConfig
 	newConfig.StripeContext = stripeContext
-	return NewClient(r.client.key, WithBackends(NewBackendsWithConfig(&newConfig))), nil
+	return NewClient(h.client.key, WithBackends(NewBackendsWithConfig(&newConfig))), nil
 }
 
 // Handle processes an incoming webhook payload and routes it to the appropriate registered handler (or the fallback if none is available).
-func (r *EventNotificationHandler) Handle(webhookBody []byte, sigHeader string) error {
+func (h *EventNotificationHandler) Handle(webhookBody []byte, sigHeader string) error {
 	// intentionally not worried about concurrency because we expect all registrations to happen
 	// synchronously on startup, so it'll only be read after it's done being written.
-	r.hasHandledEvent = true
+	h.hasHandledEvent = true
 
-	notif, err := r.client.ParseEventNotification(webhookBody, sigHeader, r.webhookSecret)
+	notif, err := h.client.ParseEventNotification(webhookBody, sigHeader, h.webhookSecret)
 	if err != nil {
 		return err
 	}
@@ -440,18 +446,18 @@ func (r *EventNotificationHandler) Handle(webhookBody []byte, sigHeader string) 
 
 	// Create a new client with the event's context instead of modifying the shared backend
 	// This makes the code thread-safe for parallel webhook processing
-	clientWithContext, err := r.createClientWithContext(n.Context.StringPtr())
+	clientWithContext, err := h.createClientWithContext(n.Context.StringPtr())
 	if err != nil {
 		return err
 	}
 
-	callback, ok := r.eventHandlers[eventType]
+	callback, ok := h.eventHandlers[eventType]
 	if !ok {
 		_, isUnknownEventType := notif.(*UnknownEventNotification)
 		details := UnhandledNotificationDetails{
 			IsKnownType: !isUnknownEventType,
 		}
-		return r.fallbackCallback(notif, clientWithContext, details)
+		return h.fallbackCallback(notif, clientWithContext, details)
 	}
 
 	return callback(notif, clientWithContext)

@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Returns a list of Persons associated with an Account.
+// Returns a paginated list of Persons associated with an Account.
 type V2CoreAccountsPersonListParams struct {
 	Params `form:"*"`
 	// Account the Persons are associated with.
@@ -33,7 +33,7 @@ type V2CoreAccountsPersonAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -79,7 +79,7 @@ type V2CoreAccountsPersonAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -173,7 +173,7 @@ type V2CoreAccountsPersonIDNumberParams struct {
 
 // The relationship that this person has with the Account's business or legal entity.
 type V2CoreAccountsPersonRelationshipParams struct {
-	// Whether the individual is an authorizer of the Account's legal entity.
+	// Whether the individual is an authorizer of the Account's identity.
 	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Indicates whether the person is a director of the associated legal entity.
 	Director *bool `form:"director" json:"director,omitempty"`
@@ -205,7 +205,7 @@ type V2CoreAccountsPersonScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -223,7 +223,7 @@ type V2CoreAccountsPersonScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -259,7 +259,7 @@ type V2CoreAccountsPersonScriptNamesParams struct {
 	Kanji *V2CoreAccountsPersonScriptNamesKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
-// Create a Person associated with an Account.
+// Create a Person. Adds an individual to an Account's identity. You can set relationship attributes and identity information at creation.
 type V2CoreAccountsPersonParams struct {
 	Params `form:"*"`
 	// Account the Person should be associated with.
@@ -329,7 +329,7 @@ type V2CoreAccountsPersonCreateAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -375,7 +375,7 @@ type V2CoreAccountsPersonCreateAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -469,7 +469,7 @@ type V2CoreAccountsPersonCreateIDNumberParams struct {
 
 // The relationship that this person has with the Account's business or legal entity.
 type V2CoreAccountsPersonCreateRelationshipParams struct {
-	// Whether the individual is an authorizer of the Account's legal entity.
+	// Whether the individual is an authorizer of the Account's identity.
 	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Indicates whether the person is a director of the associated legal entity.
 	Director *bool `form:"director" json:"director,omitempty"`
@@ -501,7 +501,7 @@ type V2CoreAccountsPersonCreateScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -519,7 +519,7 @@ type V2CoreAccountsPersonCreateScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -555,7 +555,7 @@ type V2CoreAccountsPersonCreateScriptNamesParams struct {
 	Kanji *V2CoreAccountsPersonCreateScriptNamesKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
-// Create a Person associated with an Account.
+// Create a Person. Adds an individual to an Account's identity. You can set relationship attributes and identity information at creation.
 type V2CoreAccountsPersonCreateParams struct {
 	Params `form:"*"`
 	// Account the Person should be associated with.
@@ -639,7 +639,7 @@ type V2CoreAccountsPersonUpdateAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -685,7 +685,7 @@ type V2CoreAccountsPersonUpdateAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -779,7 +779,7 @@ type V2CoreAccountsPersonUpdateIDNumberParams struct {
 
 // The relationship that this person has with the Account's business or legal entity.
 type V2CoreAccountsPersonUpdateRelationshipParams struct {
-	// Whether the individual is an authorizer of the Account's legal entity.
+	// Whether the individual is an authorizer of the Account's identity.
 	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Indicates whether the person is a director of the associated legal entity.
 	Director *bool `form:"director" json:"director,omitempty"`
@@ -811,7 +811,7 @@ type V2CoreAccountsPersonUpdateScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -829,7 +829,7 @@ type V2CoreAccountsPersonUpdateScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 

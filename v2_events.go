@@ -1888,6 +1888,45 @@ func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelated
 	return relatedObj, err
 }
 
+// V2MoneyManagementPayoutMethodCreatedEvent is the Go struct for the "v2.money_management.payout_method.created" event.
+// Occurs when a PayoutMethod is created.
+type V2MoneyManagementPayoutMethodCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutMethod, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
+func (e *V2MoneyManagementPayoutMethodCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutMethodCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_method.created"
+// Occurs when a PayoutMethod is created.
+type V2MoneyManagementPayoutMethodCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutMethodCreatedEvent that created this Notification
+func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutMethodCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
+func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2MoneyManagementPayoutMethod{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementPayoutMethodUpdatedEvent is the Go struct for the "v2.money_management.payout_method.updated" event.
 // Occurs when a PayoutMethod is updated.
 type V2MoneyManagementPayoutMethodUpdatedEvent struct {
@@ -2560,7 +2599,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*BillingMeter, error) {
 			v := &BillingMeter{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2580,7 +2619,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2590,7 +2629,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2600,7 +2639,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2610,7 +2649,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2623,7 +2662,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2633,7 +2672,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2646,7 +2685,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2656,7 +2695,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2669,7 +2708,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2679,7 +2718,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2692,7 +2731,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2702,7 +2741,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2712,7 +2751,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2722,7 +2761,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2739,7 +2778,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2752,7 +2791,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2765,7 +2804,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccountPerson, error) {
 			v := &V2CoreAccountPerson{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2778,7 +2817,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreEventDestination, error) {
 			v := &V2CoreEventDestination{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2795,7 +2834,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementAdjustment, error) {
 			v := &V2MoneyManagementAdjustment{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2805,7 +2844,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2815,7 +2854,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2825,7 +2864,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
 			v := &V2MoneyManagementFinancialAddress{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2835,7 +2874,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
 			v := &V2MoneyManagementFinancialAddress{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2845,7 +2884,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2858,7 +2897,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2868,7 +2907,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2878,7 +2917,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2888,7 +2927,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2898,7 +2937,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2908,7 +2947,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2918,7 +2957,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2928,7 +2967,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2938,7 +2977,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2948,7 +2987,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2958,7 +2997,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2968,7 +3007,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2978,7 +3017,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2988,7 +3027,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -2998,7 +3037,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3008,7 +3047,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3018,7 +3057,17 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_method.created":
+		result := &V2MoneyManagementPayoutMethodCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
+			v := &V2MoneyManagementPayoutMethod{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3028,7 +3077,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
 			v := &V2MoneyManagementPayoutMethod{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3038,7 +3087,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -3051,7 +3100,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3061,7 +3110,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3071,7 +3120,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3081,7 +3130,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3091,7 +3140,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3101,7 +3150,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3111,7 +3160,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3121,7 +3170,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3131,7 +3180,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
 			v := &V2MoneyManagementTransaction{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -3144,7 +3193,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
 			v := &V2MoneyManagementTransaction{}
-			err := backends.API.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
 		return result, nil
@@ -3479,6 +3528,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.updated":
 		evt := V2MoneyManagementOutboundTransferUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.payout_method.created":
+		evt := V2MoneyManagementPayoutMethodCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

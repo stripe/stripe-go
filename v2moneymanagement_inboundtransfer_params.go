@@ -30,6 +30,14 @@ type V2MoneyManagementInboundTransferListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
+// The amount, in specified currency, by which the FinancialAccount balance will increase due to the InboundTransfer.
+type V2MoneyManagementInboundTransferAmountParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value *int64 `form:"value" json:"value,omitempty"`
+}
+
 // Object containing details about where the funds will originate from.
 type V2MoneyManagementInboundTransferFromParams struct {
 	// An optional currency field used to specify which currency is debited from the Payment Method.
@@ -51,13 +59,21 @@ type V2MoneyManagementInboundTransferToParams struct {
 type V2MoneyManagementInboundTransferParams struct {
 	Params `form:"*"`
 	// The amount, in specified currency, by which the FinancialAccount balance will increase due to the InboundTransfer.
-	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	Amount *V2MoneyManagementInboundTransferAmountParams `form:"amount" json:"amount,omitempty"`
 	// An optional, freeform description field intended to store metadata.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Object containing details about where the funds will originate from.
 	From *V2MoneyManagementInboundTransferFromParams `form:"from" json:"from,omitempty"`
 	// Object containing details about where the funds will land.
 	To *V2MoneyManagementInboundTransferToParams `form:"to" json:"to,omitempty"`
+}
+
+// The amount, in specified currency, by which the FinancialAccount balance will increase due to the InboundTransfer.
+type V2MoneyManagementInboundTransferCreateAmountParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value *int64 `form:"value" json:"value,omitempty"`
 }
 
 // Object containing details about where the funds will originate from.
@@ -81,7 +97,7 @@ type V2MoneyManagementInboundTransferCreateToParams struct {
 type V2MoneyManagementInboundTransferCreateParams struct {
 	Params `form:"*"`
 	// The amount, in specified currency, by which the FinancialAccount balance will increase due to the InboundTransfer.
-	Amount *Amount `form:"amount" json:"amount"`
+	Amount *V2MoneyManagementInboundTransferCreateAmountParams `form:"amount" json:"amount"`
 	// An optional, freeform description field intended to store metadata.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Object containing details about where the funds will originate from.

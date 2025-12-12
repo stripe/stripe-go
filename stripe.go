@@ -971,6 +971,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	case "controlled_by_alternate_resource":
+		tmp := struct {
+			Error *ControlledByAlternateResourceError `json:"error"`
+		}{
+			Error: &ControlledByAlternateResourceError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "controlled_by_dashboard":
 		tmp := struct {
 			Error *ControlledByDashboardError `json:"error"`
@@ -1064,17 +1075,6 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *QuotaExceededError `json:"error"`
 		}{
 			Error: &QuotaExceededError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "rate_limit":
-		tmp := struct {
-			Error *RateLimitError `json:"error"`
-		}{
-			Error: &RateLimitError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err
