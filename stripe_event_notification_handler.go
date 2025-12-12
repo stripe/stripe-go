@@ -414,14 +414,14 @@ func (h *EventNotificationHandler) OnV2MoneyManagementTransactionUpdated(callbac
 // createClientWithContext creates a new Client with a custom stripe_context.
 // It reuses the HTTPClient and other expensive resources from the base backend
 // to avoid re-establishing TLS connections (Flyweight pattern).
-func (r *EventNotificationHandler) createClientWithContext(stripeContext *string) *Client {
+func (r *EventNotificationHandler) createClientWithContext(stripeContext *string) (*Client, error) {
 	baseConfig := r.client.backends.config
 	if baseConfig == nil {
-		baseConfig = &BackendConfig{}
+		return nil, fmt.Errorf("EventNotificationHandler requires a Backend created with NewBackendsWithConfig. If you're seeing this error, please file an issue at https://github.com/stripe/stripe-go/issues")
 	}
 	newConfig := *baseConfig
 	newConfig.StripeContext = stripeContext
-	return NewClient(r.client.key, WithBackends(NewBackendsWithConfig(&newConfig)))
+	return NewClient(r.client.key, WithBackends(NewBackendsWithConfig(&newConfig))), nil
 }
 
 // Handle processes an incoming webhook payload and routes it to the appropriate registered handler (or the fallback if none is available).
@@ -440,7 +440,10 @@ func (r *EventNotificationHandler) Handle(webhookBody []byte, sigHeader string) 
 
 	// Create a new client with the event's context instead of modifying the shared backend
 	// This makes the code thread-safe for parallel webhook processing
-	clientWithContext := r.createClientWithContext(n.Context.StringPtr())
+	clientWithContext, err := r.createClientWithContext(n.Context.StringPtr())
+	if err != nil {
+		return err
+	}
 
 	callback, ok := r.eventHandlers[eventType]
 	if !ok {
