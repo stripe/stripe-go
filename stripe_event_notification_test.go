@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -85,7 +86,7 @@ func TestEventHandler_RoutesEventToRegisteredHandler(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
 	var unhandledCalled bool
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		unhandledCalled = true
 		return nil
 	}
@@ -109,7 +110,7 @@ func TestEventHandler_RoutesEventToRegisteredHandler(t *testing.T) {
 	// Execute
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	// Assert
 	assert.NoError(t, err)
@@ -127,7 +128,7 @@ func TestEventHandler_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var unhandledCalled bool
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		unhandledCalled = true
 		return nil
 	}
@@ -158,13 +159,13 @@ func TestEventHandler_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 	// Execute first event
 	payload1 := v1BillingMeterPayload()
 	sigHeader1 := generateTestSignature(payload1)
-	err = handler.Handle([]byte(payload1), sigHeader1)
+	err = handler.Handle(context.TODO(), []byte(payload1), sigHeader1)
 	assert.NoError(t, err)
 
 	// Execute second event
 	payload2 := v1BillingMeterNoMeterFoundPayload()
 	sigHeader2 := generateTestSignature(payload2)
-	err = handler.Handle([]byte(payload2), sigHeader2)
+	err = handler.Handle(context.TODO(), []byte(payload2), sigHeader2)
 	assert.NoError(t, err)
 
 	// Assert
@@ -179,7 +180,7 @@ func TestEventHandler_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 func TestEventHandler_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -199,7 +200,7 @@ func TestEventHandler_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, receivedEvent)
@@ -213,7 +214,7 @@ func TestEventHandler_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -228,7 +229,7 @@ func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 	assert.NoError(t, err)
 
 	// Try to register another handler after handling
@@ -245,7 +246,7 @@ func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 func TestEventHandler_CannotRegisterDuplicateHandler(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -272,7 +273,7 @@ func TestEventHandler_HandlerUsesEventStripeContext(t *testing.T) {
 	config := &BackendConfig{StripeContext: String("original_context_123")}
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -293,7 +294,7 @@ func TestEventHandler_HandlerUsesEventStripeContext(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 	assert.NoError(t, err)
 
 	// Assert handler received event context
@@ -306,7 +307,7 @@ func TestEventHandler_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 	config := &BackendConfig{StripeContext: String("original_context_123")}
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -326,7 +327,7 @@ func TestEventHandler_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 	assert.NoError(t, err)
 
 	// Verify original client context is unchanged after handle
@@ -338,7 +339,7 @@ func TestEventHandler_StripeContextRestoredAfterHandlerError(t *testing.T) {
 	config := &BackendConfig{StripeContext: String("original_context_123")}
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -359,7 +360,7 @@ func TestEventHandler_StripeContextRestoredAfterHandlerError(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 	assert.Error(t, err) // Handler returned an error
 
 	// Verify original client context is unchanged after handler error
@@ -371,7 +372,7 @@ func TestEventHandler_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 	config := &BackendConfig{StripeContext: String("original_context_123")}
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -394,7 +395,7 @@ func TestEventHandler_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 
 	payload := v1BillingMeterPayloadWithNilContext()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 	assert.NoError(t, err)
 
 	// Assert handler received nil context
@@ -414,7 +415,7 @@ func TestEventHandler_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 	var unhandledClient *Client
 	var unhandledDetails UnhandledNotificationDetails
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		unhandledCalled = true
 		unhandledEvent = notif
 		unhandledClient = client
@@ -426,7 +427,7 @@ func TestEventHandler_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 
 	payload := unknownEventPayload()
 	sigHeader := generateTestSignature(payload)
-	err := handler.Handle([]byte(payload), sigHeader)
+	err := handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.True(t, unhandledCalled, "Unhandled handler should have been called")
@@ -450,7 +451,7 @@ func TestEventHandler_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 	var unhandledClient *Client
 	var unhandledDetails UnhandledNotificationDetails
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		unhandledCalled = true
 		unhandledEvent = notif
 		unhandledClient = client
@@ -463,7 +464,7 @@ func TestEventHandler_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 	// Don't register a handler for this known event type
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err := handler.Handle([]byte(payload), sigHeader)
+	err := handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.True(t, unhandledCalled, "Unhandled handler should have been called")
@@ -483,7 +484,7 @@ func TestEventHandler_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var unhandledCalled bool
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		unhandledCalled = true
 		return nil
 	}
@@ -501,7 +502,7 @@ func TestEventHandler_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.True(t, callbackCalled, "Handler should have been called")
@@ -514,7 +515,7 @@ func TestEventHandler_HandlerClientRetainsConfiguration(t *testing.T) {
 	config := &BackendConfig{StripeContext: String("original_context_xyz")}
 	client := NewClient(apiKey, WithBackends(NewBackendsWithConfig(config)))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -534,7 +535,7 @@ func TestEventHandler_HandlerClientRetainsConfiguration(t *testing.T) {
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err = handler.Handle([]byte(payload), sigHeader)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.Equal(t, apiKey, receivedAPIKey, "Handler should receive client with original API key")
@@ -547,7 +548,7 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var details UnhandledNotificationDetails
-	onUnhandled := func(notif EventNotificationContainer, client *Client, d UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, d UnhandledNotificationDetails) error {
 		details = d
 		return nil
 	}
@@ -556,7 +557,7 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
 
 	payload := unknownEventPayload()
 	sigHeader := generateTestSignature(payload)
-	err := handler.Handle([]byte(payload), sigHeader)
+	err := handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.False(t, details.IsKnownType)
@@ -567,7 +568,7 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *test
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
 	var details UnhandledNotificationDetails
-	onUnhandled := func(notif EventNotificationContainer, client *Client, d UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, d UnhandledNotificationDetails) error {
 		details = d
 		return nil
 	}
@@ -576,7 +577,7 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *test
 
 	payload := v1BillingMeterPayload()
 	sigHeader := generateTestSignature(payload)
-	err := handler.Handle([]byte(payload), sigHeader)
+	err := handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
 	assert.True(t, details.IsKnownType)
@@ -586,14 +587,14 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *test
 func TestEventHandler_ValidatesWebhookSignature(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
 	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	payload := v1BillingMeterPayload()
-	err := handler.Handle([]byte(payload), "invalid_signature")
+	err := handler.Handle(context.TODO(), []byte(payload), "invalid_signature")
 
 	assert.Error(t, err)
 	// Check if error is related to signature verification
@@ -604,7 +605,7 @@ func TestEventHandler_ValidatesWebhookSignature(t *testing.T) {
 func TestEventHandler_RegisteredEventTypesEmpty(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -618,7 +619,7 @@ func TestEventHandler_RegisteredEventTypesEmpty(t *testing.T) {
 func TestEventHandler_RegisteredEventTypesSingle(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 
@@ -639,7 +640,7 @@ func TestEventHandler_RegisteredEventTypesSingle(t *testing.T) {
 func TestEventHandler_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
 	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
 
-	onUnhandled := func(notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
 		return nil
 	}
 

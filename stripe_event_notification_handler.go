@@ -1,15 +1,16 @@
 package stripe
 
 import (
+	"context"
 	"fmt"
 	"sort"
 )
 
 // a CallbackFunc is run when an event of a registered type is received.
-type CallbackFunc = func(EventNotificationContainer, *Client) error
+type CallbackFunc = func(context.Context, EventNotificationContainer, *Client) error
 
 // a FallbackCallbackFunc is run when an event is received that does not match any registered type. It contains additional details about the unhandled event (as compared to a CallbackFunc).
-type FallbackCallbackFunc = func(EventNotificationContainer, *Client, UnhandledNotificationDetails) error
+type FallbackCallbackFunc = func(context.Context, EventNotificationContainer, *Client, UnhandledNotificationDetails) error
 
 type UnhandledNotificationDetails struct {
 	IsKnownType bool
@@ -64,7 +65,7 @@ func registerTypedHandler[T EventNotificationContainer](
 	eventType string,
 	handler func(T, *Client) error,
 ) error {
-	wrapper := func(notif EventNotificationContainer, client *Client) error {
+	wrapper := func(ctx context.Context, notif EventNotificationContainer, client *Client) error {
 		typedNotif, ok := notif.(T)
 		if !ok {
 			// Use a zero value to get the type name for the error message
@@ -431,7 +432,7 @@ func (h *EventNotificationHandler) createClientWithContext(stripeContext *string
 }
 
 // Handle processes an incoming webhook payload and routes it to the appropriate registered handler (or the fallback if none is available).
-func (h *EventNotificationHandler) Handle(webhookBody []byte, sigHeader string) error {
+func (h *EventNotificationHandler) Handle(ctx context.Context, webhookBody []byte, sigHeader string) error {
 	// intentionally not worried about concurrency because we expect all registrations to happen
 	// synchronously on startup, so it'll only be read after it's done being written.
 	h.hasHandledEvent = true
@@ -457,8 +458,8 @@ func (h *EventNotificationHandler) Handle(webhookBody []byte, sigHeader string) 
 		details := UnhandledNotificationDetails{
 			IsKnownType: !isUnknownEventType,
 		}
-		return h.fallbackCallback(notif, clientWithContext, details)
+		return h.fallbackCallback(ctx, notif, clientWithContext, details)
 	}
 
-	return callback(notif, clientWithContext)
+	return callback(ctx, notif, clientWithContext)
 }
