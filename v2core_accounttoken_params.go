@@ -84,22 +84,14 @@ type V2CoreAccountTokenIdentityBusinessDetailsAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
-}
-
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
 }
 
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd *string `form:"fiscal_year_end" json:"fiscal_year_end,omitempty"`
 }
@@ -226,18 +218,10 @@ type V2CoreAccountTokenIdentityBusinessDetailsIDNumberParams struct {
 	Value *string `form:"value" json:"value"`
 }
 
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
-}
-
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 }
 
 // Kana Address.
@@ -254,7 +238,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -272,7 +256,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesKanjiParams struct 
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -312,7 +296,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsParams struct {
 	AnnualRevenue *V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountTokenIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// Estimated maximum number of workers currently engaged by the business (including employees, contractors, and vendors).
+	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
 	IDNumbers []*V2CoreAccountTokenIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
@@ -346,7 +330,7 @@ type V2CoreAccountTokenIdentityIndividualAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -376,7 +360,7 @@ type V2CoreAccountTokenIdentityIndividualAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -496,7 +480,7 @@ type V2CoreAccountTokenIdentityIndividualScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -514,7 +498,7 @@ type V2CoreAccountTokenIdentityIndividualScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -698,22 +682,14 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
-}
-
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
 }
 
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd *string `form:"fiscal_year_end" json:"fiscal_year_end,omitempty"`
 }
@@ -840,18 +816,10 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsIDNumberParams struct {
 	Value *string `form:"value" json:"value"`
 }
 
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
-}
-
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 }
 
 // Kana Address.
@@ -868,7 +836,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesKanaParams st
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -886,7 +854,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesKanjiParams s
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -926,7 +894,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsParams struct {
 	AnnualRevenue *V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueParams `form:"annual_revenue" json:"annual_revenue,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// Estimated maximum number of workers currently engaged by the business (including employees, contractors, and vendors).
+	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
 	IDNumbers []*V2CoreAccountTokenCreateIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
@@ -960,7 +928,7 @@ type V2CoreAccountTokenCreateIdentityIndividualAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -990,7 +958,7 @@ type V2CoreAccountTokenCreateIdentityIndividualAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1110,7 +1078,7 @@ type V2CoreAccountTokenCreateIdentityIndividualScriptAddressesKanaParams struct 
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1128,7 +1096,7 @@ type V2CoreAccountTokenCreateIdentityIndividualScriptAddressesKanjiParams struct
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1231,7 +1199,7 @@ type V2CoreAccountTokenCreateParams struct {
 	// A descriptive name for the Account. This name will be surfaced in the Stripe Dashboard and on any invoices sent to the Account.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Information about the company, individual, and business represented by the Account.
-	Identity *V2CoreAccountTokenCreateIdentityParams `form:"identity" json:"identity,omitempty"`
+	Identity *V2CoreAccountTokenCreateIdentityParams `form:"identity" json:"identity"`
 }
 
 // Retrieves an Account Token.

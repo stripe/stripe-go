@@ -6,14 +6,6 @@
 
 package stripe
 
-// The "presentment amount" to be sent to the recipient.
-type V2MoneyManagementOutboundPaymentQuoteAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
-}
-
 // Method to be used to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsParams struct {
 	// Open Enum. Method for bank account.
@@ -48,21 +40,13 @@ type V2MoneyManagementOutboundPaymentQuoteToParams struct {
 type V2MoneyManagementOutboundPaymentQuoteParams struct {
 	Params `form:"*"`
 	// The "presentment amount" to be sent to the recipient.
-	Amount *V2MoneyManagementOutboundPaymentQuoteAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Method to be used to send the OutboundPayment.
 	DeliveryOptions *V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
 	// Request details about the sender of an OutboundPaymentQuote.
 	From *V2MoneyManagementOutboundPaymentQuoteFromParams `form:"from" json:"from,omitempty"`
 	// Request details about the recipient of an OutboundPaymentQuote.
 	To *V2MoneyManagementOutboundPaymentQuoteToParams `form:"to" json:"to,omitempty"`
-}
-
-// The "presentment amount" to be sent to the recipient.
-type V2MoneyManagementOutboundPaymentQuoteCreateAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
 }
 
 // Method to be used to send the OutboundPayment.
@@ -99,7 +83,7 @@ type V2MoneyManagementOutboundPaymentQuoteCreateToParams struct {
 type V2MoneyManagementOutboundPaymentQuoteCreateParams struct {
 	Params `form:"*"`
 	// The "presentment amount" to be sent to the recipient.
-	Amount *V2MoneyManagementOutboundPaymentQuoteCreateAmountParams `form:"amount" json:"amount"`
+	Amount *Amount `form:"amount" json:"amount"`
 	// Method to be used to send the OutboundPayment.
 	DeliveryOptions *V2MoneyManagementOutboundPaymentQuoteCreateDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
 	// Request details about the sender of an OutboundPaymentQuote.

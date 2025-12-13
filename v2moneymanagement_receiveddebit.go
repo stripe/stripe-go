@@ -30,7 +30,7 @@ const (
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonStripeRejected           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "stripe_rejected"
 )
 
-// Open enum, the type of the received debit.
+// Open Enum. The type of the ReceivedDebit.
 type V2MoneyManagementReceivedDebitType string
 
 // List of values that V2MoneyManagementReceivedDebitType can take
@@ -54,14 +54,6 @@ type V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork string
 const (
 	V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetworkACH V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork = "ach"
 )
-
-// Amount and currency of the ReceivedDebit.
-type V2MoneyManagementReceivedDebitAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
 
 // Information that elaborates on the `failed` status of a ReceivedDebit.
 // It is only present when the ReceivedDebit status is `failed`.
@@ -116,7 +108,7 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 type V2MoneyManagementReceivedDebit struct {
 	APIResource
 	// Amount and currency of the ReceivedDebit.
-	Amount *V2MoneyManagementReceivedDebitAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedDebit. Present if `type` field value is `bank_transfer`.
 	BankTransfer *V2MoneyManagementReceivedDebitBankTransfer `json:"bank_transfer,omitempty"`
 	// The time at which the ReceivedDebit was created.
@@ -140,6 +132,6 @@ type V2MoneyManagementReceivedDebit struct {
 	StatusDetails *V2MoneyManagementReceivedDebitStatusDetails `json:"status_details,omitempty"`
 	// The time at which the ReceivedDebit transitioned to a particular status.
 	StatusTransitions *V2MoneyManagementReceivedDebitStatusTransitions `json:"status_transitions,omitempty"`
-	// Open enum, the type of the received debit.
+	// Open Enum. The type of the ReceivedDebit.
 	Type V2MoneyManagementReceivedDebitType `json:"type"`
 }

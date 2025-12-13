@@ -72,81 +72,36 @@ type V2CoreAccountPersonIDNumberType string
 const (
 	V2CoreAccountPersonIDNumberTypeAeEid       V2CoreAccountPersonIDNumberType = "ae_eid"
 	V2CoreAccountPersonIDNumberTypeAoNif       V2CoreAccountPersonIDNumberType = "ao_nif"
-	V2CoreAccountPersonIDNumberTypeARCuil      V2CoreAccountPersonIDNumberType = "ar_cuil"
 	V2CoreAccountPersonIDNumberTypeARDni       V2CoreAccountPersonIDNumberType = "ar_dni"
-	V2CoreAccountPersonIDNumberTypeAtStn       V2CoreAccountPersonIDNumberType = "at_stn"
 	V2CoreAccountPersonIDNumberTypeAzTin       V2CoreAccountPersonIDNumberType = "az_tin"
 	V2CoreAccountPersonIDNumberTypeBdBrc       V2CoreAccountPersonIDNumberType = "bd_brc"
 	V2CoreAccountPersonIDNumberTypeBdEtin      V2CoreAccountPersonIDNumberType = "bd_etin"
 	V2CoreAccountPersonIDNumberTypeBdNid       V2CoreAccountPersonIDNumberType = "bd_nid"
-	V2CoreAccountPersonIDNumberTypeBeNrn       V2CoreAccountPersonIDNumberType = "be_nrn"
-	V2CoreAccountPersonIDNumberTypeBGUcn       V2CoreAccountPersonIDNumberType = "bg_ucn"
-	V2CoreAccountPersonIDNumberTypeBnNric      V2CoreAccountPersonIDNumberType = "bn_nric"
 	V2CoreAccountPersonIDNumberTypeBRCPF       V2CoreAccountPersonIDNumberType = "br_cpf"
-	V2CoreAccountPersonIDNumberTypeCaSin       V2CoreAccountPersonIDNumberType = "ca_sin"
-	V2CoreAccountPersonIDNumberTypeChOasi      V2CoreAccountPersonIDNumberType = "ch_oasi"
-	V2CoreAccountPersonIDNumberTypeClRut       V2CoreAccountPersonIDNumberType = "cl_rut"
-	V2CoreAccountPersonIDNumberTypeCnPp        V2CoreAccountPersonIDNumberType = "cn_pp"
-	V2CoreAccountPersonIDNumberTypeCoNuip      V2CoreAccountPersonIDNumberType = "co_nuip"
-	V2CoreAccountPersonIDNumberTypeCrCi        V2CoreAccountPersonIDNumberType = "cr_ci"
 	V2CoreAccountPersonIDNumberTypeCrCpf       V2CoreAccountPersonIDNumberType = "cr_cpf"
 	V2CoreAccountPersonIDNumberTypeCrDimex     V2CoreAccountPersonIDNumberType = "cr_dimex"
 	V2CoreAccountPersonIDNumberTypeCrNite      V2CoreAccountPersonIDNumberType = "cr_nite"
-	V2CoreAccountPersonIDNumberTypeCyTic       V2CoreAccountPersonIDNumberType = "cy_tic"
-	V2CoreAccountPersonIDNumberTypeCzRc        V2CoreAccountPersonIDNumberType = "cz_rc"
 	V2CoreAccountPersonIDNumberTypeDEStn       V2CoreAccountPersonIDNumberType = "de_stn"
-	V2CoreAccountPersonIDNumberTypeDkCpr       V2CoreAccountPersonIDNumberType = "dk_cpr"
-	V2CoreAccountPersonIDNumberTypeDoCie       V2CoreAccountPersonIDNumberType = "do_cie"
 	V2CoreAccountPersonIDNumberTypeDORCN       V2CoreAccountPersonIDNumberType = "do_rcn"
-	V2CoreAccountPersonIDNumberTypeEcCi        V2CoreAccountPersonIDNumberType = "ec_ci"
-	V2CoreAccountPersonIDNumberTypeEeIk        V2CoreAccountPersonIDNumberType = "ee_ik"
-	V2CoreAccountPersonIDNumberTypeESNif       V2CoreAccountPersonIDNumberType = "es_nif"
-	V2CoreAccountPersonIDNumberTypeFIHetu      V2CoreAccountPersonIDNumberType = "fi_hetu"
-	V2CoreAccountPersonIDNumberTypeFRNir       V2CoreAccountPersonIDNumberType = "fr_nir"
-	V2CoreAccountPersonIDNumberTypeGBNino      V2CoreAccountPersonIDNumberType = "gb_nino"
-	V2CoreAccountPersonIDNumberTypeGrAfm       V2CoreAccountPersonIDNumberType = "gr_afm"
 	V2CoreAccountPersonIDNumberTypeGtNit       V2CoreAccountPersonIDNumberType = "gt_nit"
 	V2CoreAccountPersonIDNumberTypeHkID        V2CoreAccountPersonIDNumberType = "hk_id"
-	V2CoreAccountPersonIDNumberTypeHROIB       V2CoreAccountPersonIDNumberType = "hr_oib"
-	V2CoreAccountPersonIDNumberTypeHUAd        V2CoreAccountPersonIDNumberType = "hu_ad"
-	V2CoreAccountPersonIDNumberTypeIDNik       V2CoreAccountPersonIDNumberType = "id_nik"
-	V2CoreAccountPersonIDNumberTypeIePpsn      V2CoreAccountPersonIDNumberType = "ie_ppsn"
-	V2CoreAccountPersonIDNumberTypeIsKt        V2CoreAccountPersonIDNumberType = "is_kt"
-	V2CoreAccountPersonIDNumberTypeITCf        V2CoreAccountPersonIDNumberType = "it_cf"
-	V2CoreAccountPersonIDNumberTypeJPInc       V2CoreAccountPersonIDNumberType = "jp_inc"
-	V2CoreAccountPersonIDNumberTypeKEPIN       V2CoreAccountPersonIDNumberType = "ke_pin"
 	V2CoreAccountPersonIDNumberTypeKzIIN       V2CoreAccountPersonIDNumberType = "kz_iin"
-	V2CoreAccountPersonIDNumberTypeLiPeid      V2CoreAccountPersonIDNumberType = "li_peid"
-	V2CoreAccountPersonIDNumberTypeLTAk        V2CoreAccountPersonIDNumberType = "lt_ak"
-	V2CoreAccountPersonIDNumberTypeLuNif       V2CoreAccountPersonIDNumberType = "lu_nif"
-	V2CoreAccountPersonIDNumberTypeLVPk        V2CoreAccountPersonIDNumberType = "lv_pk"
 	V2CoreAccountPersonIDNumberTypeMXRFC       V2CoreAccountPersonIDNumberType = "mx_rfc"
 	V2CoreAccountPersonIDNumberTypeMyNric      V2CoreAccountPersonIDNumberType = "my_nric"
 	V2CoreAccountPersonIDNumberTypeMzNuit      V2CoreAccountPersonIDNumberType = "mz_nuit"
-	V2CoreAccountPersonIDNumberTypeNgNin       V2CoreAccountPersonIDNumberType = "ng_nin"
 	V2CoreAccountPersonIDNumberTypeNLBsn       V2CoreAccountPersonIDNumberType = "nl_bsn"
-	V2CoreAccountPersonIDNumberTypeNoNin       V2CoreAccountPersonIDNumberType = "no_nin"
-	V2CoreAccountPersonIDNumberTypeNzIrd       V2CoreAccountPersonIDNumberType = "nz_ird"
 	V2CoreAccountPersonIDNumberTypePeDni       V2CoreAccountPersonIDNumberType = "pe_dni"
 	V2CoreAccountPersonIDNumberTypePkCnic      V2CoreAccountPersonIDNumberType = "pk_cnic"
 	V2CoreAccountPersonIDNumberTypePkSnic      V2CoreAccountPersonIDNumberType = "pk_snic"
-	V2CoreAccountPersonIDNumberTypePLPesel     V2CoreAccountPersonIDNumberType = "pl_pesel"
-	V2CoreAccountPersonIDNumberTypePTNif       V2CoreAccountPersonIDNumberType = "pt_nif"
-	V2CoreAccountPersonIDNumberTypeROCnp       V2CoreAccountPersonIDNumberType = "ro_cnp"
 	V2CoreAccountPersonIDNumberTypeSaTin       V2CoreAccountPersonIDNumberType = "sa_tin"
-	V2CoreAccountPersonIDNumberTypeSePIN       V2CoreAccountPersonIDNumberType = "se_pin"
 	V2CoreAccountPersonIDNumberTypeSgFin       V2CoreAccountPersonIDNumberType = "sg_fin"
 	V2CoreAccountPersonIDNumberTypeSGNRIC      V2CoreAccountPersonIDNumberType = "sg_nric"
-	V2CoreAccountPersonIDNumberTypeSKDic       V2CoreAccountPersonIDNumberType = "sk_dic"
 	V2CoreAccountPersonIDNumberTypeTHLc        V2CoreAccountPersonIDNumberType = "th_lc"
 	V2CoreAccountPersonIDNumberTypeTHPIN       V2CoreAccountPersonIDNumberType = "th_pin"
-	V2CoreAccountPersonIDNumberTypeTRTIN       V2CoreAccountPersonIDNumberType = "tr_tin"
 	V2CoreAccountPersonIDNumberTypeUSItin      V2CoreAccountPersonIDNumberType = "us_itin"
 	V2CoreAccountPersonIDNumberTypeUSItinLast4 V2CoreAccountPersonIDNumberType = "us_itin_last_4"
 	V2CoreAccountPersonIDNumberTypeUSSSN       V2CoreAccountPersonIDNumberType = "us_ssn"
 	V2CoreAccountPersonIDNumberTypeUSSSNLast4  V2CoreAccountPersonIDNumberType = "us_ssn_last_4"
-	V2CoreAccountPersonIDNumberTypeUyDni       V2CoreAccountPersonIDNumberType = "uy_dni"
-	V2CoreAccountPersonIDNumberTypeZaID        V2CoreAccountPersonIDNumberType = "za_id"
 )
 
 // The person's gender (International regulations require either "male" or "female").
@@ -183,7 +138,7 @@ type V2CoreAccountPersonAdditionalAddress struct {
 	Purpose V2CoreAccountPersonAdditionalAddressPurpose `json:"purpose"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town string `json:"town,omitempty"`
 }
 
@@ -229,7 +184,7 @@ type V2CoreAccountPersonAddress struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town string `json:"town,omitempty"`
 }
 
@@ -321,17 +276,17 @@ type V2CoreAccountPersonIDNumber struct {
 
 // The relationship that this person has with the Account's business or legal entity.
 type V2CoreAccountPersonRelationship struct {
-	// Whether the individual is an authorizer of the Account's identity.
+	// Whether the individual is an authorizer of the Account's legal entity.
 	Authorizer bool `json:"authorizer,omitempty"`
-	// Whether the individual is a director of the Account's identity. Directors are typically members of the governing board of the company or are responsible for making sure that the company meets its regulatory obligations.
+	// Whether the individual is a director of the Account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director bool `json:"director,omitempty"`
 	// Whether the individual has significant responsibility to control, manage, or direct the organization.
 	Executive bool `json:"executive,omitempty"`
 	// Whether the individual is the legal guardian of the Account's representative.
 	LegalGuardian bool `json:"legal_guardian,omitempty"`
-	// Whether the individual is an owner of the Account's identity.
+	// Whether the individual is an owner of the Account's legal entity.
 	Owner bool `json:"owner,omitempty"`
-	// The percentage of the Account's identity that the individual owns.
+	// The percent owned by the individual of the Account's legal entity.
 	PercentOwnership string `json:"percent_ownership,omitempty"`
 	// Whether the individual is authorized as the primary representative of the Account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
 	Representative bool `json:"representative,omitempty"`
@@ -353,7 +308,7 @@ type V2CoreAccountPersonScriptAddressesKana struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town string `json:"town,omitempty"`
 }
 
@@ -371,7 +326,7 @@ type V2CoreAccountPersonScriptAddressesKanji struct {
 	PostalCode string `json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State string `json:"state,omitempty"`
-	// Town or district.
+	// Town or cho-me.
 	Town string `json:"town,omitempty"`
 }
 
@@ -407,7 +362,7 @@ type V2CoreAccountPersonScriptNames struct {
 	Kanji *V2CoreAccountPersonScriptNamesKanji `json:"kanji,omitempty"`
 }
 
-// A Person represents an individual associated with an Account's identity (for example, an owner, director, executive, or representative). Use Persons to provide and update identity information for verification and compliance.
+// Person retrieval response schema.
 type V2CoreAccountPerson struct {
 	APIResource
 	// The account ID which the individual belongs to.

@@ -41,21 +41,13 @@ type V2MoneyManagementAdjustmentAdjustedFlow struct {
 	Type V2MoneyManagementAdjustmentAdjustedFlowType `json:"type"`
 }
 
-// The amount of the Adjustment.
-type V2MoneyManagementAdjustmentAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
-
 // Adjustments represent Stripe-initiated credits or debits to a user balance. They might be used to amend balances due to technical or operational error.
 type V2MoneyManagementAdjustment struct {
 	APIResource
 	// If applicable, contains information about the original flow linked to this Adjustment.
 	AdjustedFlow *V2MoneyManagementAdjustmentAdjustedFlow `json:"adjusted_flow,omitempty"`
 	// The amount of the Adjustment.
-	Amount *V2MoneyManagementAdjustmentAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 	// Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
 	// Description of the Adjustment and what it was used for.

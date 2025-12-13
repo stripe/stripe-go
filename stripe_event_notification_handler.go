@@ -338,12 +338,6 @@ func (h *EventNotificationHandler) OnV2MoneyManagementOutboundTransferUpdated(ca
 		h, "v2.money_management.outbound_transfer.updated", callback)
 }
 
-// OnV2MoneyManagementPayoutMethodCreated registers a callback to handle notifications about the "v2.money_management.payout_method.created" event.
-func (h *EventNotificationHandler) OnV2MoneyManagementPayoutMethodCreated(callback func(notif *V2MoneyManagementPayoutMethodCreatedEventNotification, client *Client) error) error {
-	return registerTypedHandler(
-		h, "v2.money_management.payout_method.created", callback)
-}
-
 // OnV2MoneyManagementPayoutMethodUpdated registers a callback to handle notifications about the "v2.money_management.payout_method.updated" event.
 func (h *EventNotificationHandler) OnV2MoneyManagementPayoutMethodUpdated(callback func(notif *V2MoneyManagementPayoutMethodUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(

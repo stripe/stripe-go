@@ -39,38 +39,14 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedDebit      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_debit"
 )
 
-// Impact to the available balance.
-type V2MoneyManagementTransactionEntryBalanceImpactAvailable struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
-
-// Impact to the inbound_pending balance.
-type V2MoneyManagementTransactionEntryBalanceImpactInboundPending struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
-
-// Impact to the outbound_pending balance.
-type V2MoneyManagementTransactionEntryBalanceImpactOutboundPending struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
-
 // The delta to the FinancialAccount's balance.
 type V2MoneyManagementTransactionEntryBalanceImpact struct {
 	// Impact to the available balance.
-	Available *V2MoneyManagementTransactionEntryBalanceImpactAvailable `json:"available"`
+	Available Amount `json:"available"`
 	// Impact to the inbound_pending balance.
-	InboundPending *V2MoneyManagementTransactionEntryBalanceImpactInboundPending `json:"inbound_pending"`
+	InboundPending Amount `json:"inbound_pending"`
 	// Impact to the outbound_pending balance.
-	OutboundPending *V2MoneyManagementTransactionEntryBalanceImpactOutboundPending `json:"outbound_pending"`
+	OutboundPending Amount `json:"outbound_pending"`
 }
 
 // Details about the Flow object that created the Transaction.

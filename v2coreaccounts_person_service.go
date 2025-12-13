@@ -17,7 +17,7 @@ type v2CoreAccountsPersonService struct {
 	Key string
 }
 
-// Create a Person. Adds an individual to an Account's identity. You can set relationship attributes and identity information at creation.
+// Create a Person associated with an Account.
 func (c v2CoreAccountsPersonService) Create(ctx context.Context, params *V2CoreAccountsPersonCreateParams) (*V2CoreAccountPerson, error) {
 	if params == nil {
 		params = &V2CoreAccountsPersonCreateParams{}
@@ -69,7 +69,7 @@ func (c v2CoreAccountsPersonService) Delete(ctx context.Context, id string, para
 	return deletedObj, err
 }
 
-// Returns a paginated list of Persons associated with an Account.
+// Returns a list of Persons associated with an Account.
 func (c v2CoreAccountsPersonService) List(ctx context.Context, listParams *V2CoreAccountsPersonListParams) Seq2[*V2CoreAccountPerson, error] {
 	if listParams == nil {
 		listParams = &V2CoreAccountsPersonListParams{}

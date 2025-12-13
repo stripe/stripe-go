@@ -17,7 +17,7 @@ type v2CoreAccountLinkService struct {
 	Key string
 }
 
-// Creates an AccountLink object that includes a single-use URL that an account can use to access a Stripe-hosted flow for collecting or updating required information.
+// Creates an AccountLink object that includes a single-use Stripe URL that the merchant can redirect their user to in order to take them to a Stripe-hosted application such as Recipient Onboarding.
 func (c v2CoreAccountLinkService) Create(ctx context.Context, params *V2CoreAccountLinkCreateParams) (*V2CoreAccountLink, error) {
 	if params == nil {
 		params = &V2CoreAccountLinkCreateParams{}

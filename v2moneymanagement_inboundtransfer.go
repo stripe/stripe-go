@@ -53,22 +53,6 @@ const (
 	V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReasonInsufficientFunds            V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReason = "insufficient_funds"
 )
 
-// The amount in specified currency that will land in the FinancialAccount balance.
-type V2MoneyManagementInboundTransferAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
-
-// The amount in specified currency that was debited from the Payment Method.
-type V2MoneyManagementInboundTransferFromDebited struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
-
 // The Payment Method object used to create the InboundTransfer.
 type V2MoneyManagementInboundTransferFromPaymentMethod struct {
 	// The type of object this destination represents. For a us bank account, we expect us_bank_account.
@@ -80,23 +64,15 @@ type V2MoneyManagementInboundTransferFromPaymentMethod struct {
 // A nested object containing information about the origin of the InboundTransfer.
 type V2MoneyManagementInboundTransferFrom struct {
 	// The amount in specified currency that was debited from the Payment Method.
-	Debited *V2MoneyManagementInboundTransferFromDebited `json:"debited"`
+	Debited Amount `json:"debited"`
 	// The Payment Method object used to create the InboundTransfer.
 	PaymentMethod *V2MoneyManagementInboundTransferFromPaymentMethod `json:"payment_method"`
-}
-
-// The amount by which the FinancialAccount balance is credited.
-type V2MoneyManagementInboundTransferToCredited struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
 }
 
 // A nested object containing information about the destination of the InboundTransfer.
 type V2MoneyManagementInboundTransferTo struct {
 	// The amount by which the FinancialAccount balance is credited.
-	Credited *V2MoneyManagementInboundTransferToCredited `json:"credited"`
+	Credited Amount `json:"credited"`
 	// The FinancialAccount that funds will land in.
 	FinancialAccount string `json:"financial_account"`
 }
@@ -142,7 +118,7 @@ type V2MoneyManagementInboundTransferTransferHistory struct {
 type V2MoneyManagementInboundTransfer struct {
 	APIResource
 	// The amount in specified currency that will land in the FinancialAccount balance.
-	Amount *V2MoneyManagementInboundTransferAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 	// Creation time of the InboundTransfer. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
 	// A freeform text field provided by user, containing metadata.
