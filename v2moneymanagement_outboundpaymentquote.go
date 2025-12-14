@@ -18,6 +18,16 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsBankAccountWire      V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsBankAccount = "wire"
 )
 
+// Open Enum. Speed of the payout.
+type V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed string
+
+// List of values that V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed can take
+const (
+	V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeedInstant         V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed = "instant"
+	V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeedNextBusinessDay V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed = "next_business_day"
+	V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeedStandard        V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed = "standard"
+)
+
 // The fee type.
 type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType string
 
@@ -26,6 +36,7 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeCrossBorderPayoutFee V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "cross_border_payout_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeForeignExchangeFee   V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "foreign_exchange_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeInstantPayoutFee     V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "instant_payout_fee"
+	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeRealTimePayoutFee    V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "real_time_payout_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeStandardPayoutFee    V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "standard_payout_fee"
 	V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTypeWirePayoutFee        V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType = "wire_payout_fee"
 )
@@ -61,6 +72,8 @@ type V2MoneyManagementOutboundPaymentQuoteAmount struct {
 type V2MoneyManagementOutboundPaymentQuoteDeliveryOptions struct {
 	// Open Enum. Method for bank account.
 	BankAccount V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsBankAccount `json:"bank_account,omitempty"`
+	// Open Enum. Speed of the payout.
+	Speed V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed `json:"speed,omitempty"`
 }
 
 // The fee amount for corresponding fee type.

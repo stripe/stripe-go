@@ -19,7 +19,7 @@ type V2PaymentsSettlementAllocationIntentsSplitParams struct {
 	Params `form:"*"`
 	// The ID of the SettlementAllocationIntent this split belongs to.
 	SettlementAllocationIntentID *string `form:"-" json:"-"` // Included in URL
-	// The account to target for this credit/debit.
+	// The target account for settling the SettlementAllocationIntentSplit.
 	Account *string `form:"account" json:"account,omitempty"`
 	// The amount and currency of the SettlementAllocationIntentSplit.
 	Amount *V2PaymentsSettlementAllocationIntentsSplitAmountParams `form:"amount" json:"amount,omitempty"`
@@ -58,7 +58,7 @@ type V2PaymentsSettlementAllocationIntentsSplitCreateParams struct {
 	Params `form:"*"`
 	// The SettlementAllocationIntent this split belongs to.
 	SettlementAllocationIntentID *string `form:"-" json:"-"` // Included in URL
-	// The account to target for this credit/debit.
+	// The target account for settling the SettlementAllocationIntentSplit.
 	Account *string `form:"account" json:"account"`
 	// The amount and currency of the SettlementAllocationIntentSplit.
 	Amount *V2PaymentsSettlementAllocationIntentsSplitCreateAmountParams `form:"amount" json:"amount"`

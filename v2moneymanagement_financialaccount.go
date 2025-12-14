@@ -8,6 +8,14 @@ package stripe
 
 import "time"
 
+// Enum describing the Stripe product that is managing this FinancialAccount.
+type V2MoneyManagementFinancialAccountManagedByType string
+
+// List of values that V2MoneyManagementFinancialAccountManagedByType can take
+const (
+	V2MoneyManagementFinancialAccountManagedByTypeMultiprocessorSettlement V2MoneyManagementFinancialAccountManagedByType = "multiprocessor_settlement"
+)
+
 // Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
 type V2MoneyManagementFinancialAccountStatus string
 
@@ -33,8 +41,9 @@ type V2MoneyManagementFinancialAccountType string
 
 // List of values that V2MoneyManagementFinancialAccountType can take
 const (
-	V2MoneyManagementFinancialAccountTypeOther   V2MoneyManagementFinancialAccountType = "other"
-	V2MoneyManagementFinancialAccountTypeStorage V2MoneyManagementFinancialAccountType = "storage"
+	V2MoneyManagementFinancialAccountTypeOther    V2MoneyManagementFinancialAccountType = "other"
+	V2MoneyManagementFinancialAccountTypePayments V2MoneyManagementFinancialAccountType = "payments"
+	V2MoneyManagementFinancialAccountTypeStorage  V2MoneyManagementFinancialAccountType = "storage"
 )
 
 // Balance that can be used for money movement.
@@ -71,10 +80,25 @@ type V2MoneyManagementFinancialAccountBalance struct {
 	OutboundPending map[string]*V2MoneyManagementFinancialAccountBalanceOutboundPending `json:"outbound_pending"`
 }
 
+// If this is a managed FinancialAccount, `managed_by` indicates the product that created and manages this FinancialAccount. For managed FinancialAccounts,
+// creation of money management resources can only be orchestrated by the managing product.
+type V2MoneyManagementFinancialAccountManagedBy struct {
+	// Enum describing the Stripe product that is managing this FinancialAccount.
+	Type V2MoneyManagementFinancialAccountManagedByType `json:"type"`
+}
+
 // If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
 type V2MoneyManagementFinancialAccountOther struct {
 	// The type of the FinancialAccount, represented as a string. Upgrade your API version to see the type reflected in `financial_account.type`.
 	Type string `json:"type"`
+}
+
+// If this is a `payments` FinancialAccount, this hash include details specific to `payments` FinancialAccount.
+type V2MoneyManagementFinancialAccountPayments struct {
+	// The currency that non-settlement currency payments will be converted to.
+	DefaultCurrency Currency `json:"default_currency"`
+	// Settlement currencies enabled for this FinancialAccount. Payments in other currencies will be automatically converted to `default_currency`.
+	SettlementCurrencies []Currency `json:"settlement_currencies"`
 }
 type V2MoneyManagementFinancialAccountStatusDetailsClosedForwardingSettings struct {
 	// The address to send forwarded payments to.
@@ -111,12 +135,17 @@ type V2MoneyManagementFinancialAccount struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// If this is a managed FinancialAccount, `managed_by` indicates the product that created and manages this FinancialAccount. For managed FinancialAccounts,
+	// creation of money management resources can only be orchestrated by the managing product.
+	ManagedBy *V2MoneyManagementFinancialAccountManagedBy `json:"managed_by,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
 	Other *V2MoneyManagementFinancialAccountOther `json:"other,omitempty"`
+	// If this is a `payments` FinancialAccount, this hash include details specific to `payments` FinancialAccount.
+	Payments *V2MoneyManagementFinancialAccountPayments `json:"payments,omitempty"`
 	// Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
 	Status        V2MoneyManagementFinancialAccountStatus         `json:"status"`
 	StatusDetails *V2MoneyManagementFinancialAccountStatusDetails `json:"status_details,omitempty"`

@@ -120,6 +120,7 @@ type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDat
 
 // List of values that V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability can take
 const (
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsInstant          V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.instant"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsLocal            V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.local"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWire             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCards                        V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards"
@@ -5502,7 +5503,7 @@ func (n *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchRelatedObje
 }
 
 // V2PaymentsSettlementAllocationIntentCanceledEvent is the Go struct for the "v2.payments.settlement_allocation_intent.canceled" event.
-// Occurs when a settlement allocation intent is canceled.
+// Occurs when a SettlementAllocationIntent is canceled.
 type V2PaymentsSettlementAllocationIntentCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -5515,7 +5516,7 @@ func (e *V2PaymentsSettlementAllocationIntentCanceledEvent) FetchRelatedObject(c
 }
 
 // V2PaymentsSettlementAllocationIntentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.canceled"
-// Occurs when a settlement allocation intent is canceled.
+// Occurs when a SettlementAllocationIntent is canceled.
 type V2PaymentsSettlementAllocationIntentCanceledEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5541,7 +5542,7 @@ func (n *V2PaymentsSettlementAllocationIntentCanceledEventNotification) FetchRel
 }
 
 // V2PaymentsSettlementAllocationIntentCreatedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.created" event.
-// Occurs when a settlement allocation intent is created.
+// Occurs when a SettlementAllocationIntent is created.
 type V2PaymentsSettlementAllocationIntentCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -5554,7 +5555,7 @@ func (e *V2PaymentsSettlementAllocationIntentCreatedEvent) FetchRelatedObject(ct
 }
 
 // V2PaymentsSettlementAllocationIntentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.created"
-// Occurs when a settlement allocation intent is created.
+// Occurs when a SettlementAllocationIntent is created.
 type V2PaymentsSettlementAllocationIntentCreatedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5580,7 +5581,7 @@ func (n *V2PaymentsSettlementAllocationIntentCreatedEventNotification) FetchRela
 }
 
 // V2PaymentsSettlementAllocationIntentErroredEvent is the Go struct for the "v2.payments.settlement_allocation_intent.errored" event.
-// Occurs when an error occurs in reconciling a settlement allocation intent.
+// Occurs when an error occurs in reconciling a SettlementAllocationIntent.
 type V2PaymentsSettlementAllocationIntentErroredEvent struct {
 	V2BaseEvent
 	Data               V2PaymentsSettlementAllocationIntentErroredEventData `json:"data"`
@@ -5594,7 +5595,7 @@ func (e *V2PaymentsSettlementAllocationIntentErroredEvent) FetchRelatedObject(ct
 }
 
 // V2PaymentsSettlementAllocationIntentErroredEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.errored"
-// Occurs when an error occurs in reconciling a settlement allocation intent.
+// Occurs when an error occurs in reconciling a SettlementAllocationIntent.
 type V2PaymentsSettlementAllocationIntentErroredEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5620,7 +5621,7 @@ func (n *V2PaymentsSettlementAllocationIntentErroredEventNotification) FetchRela
 }
 
 // V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.funds_not_received" event.
-// Occurs when no received credit exists for a settlement allocation intent.
+// Occurs when SettlementAllocationIntent's `expected_settlement_date` is one day away and no matching ReceivedCredit exists.
 type V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -5633,7 +5634,7 @@ func (e *V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent) FetchRelated
 }
 
 // V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.funds_not_received"
-// Occurs when no received credit exists for a settlement allocation intent.
+// Occurs when SettlementAllocationIntent's `expected_settlement_date` is one day away and no matching ReceivedCredit exists.
 type V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5659,7 +5660,7 @@ func (n *V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification) 
 }
 
 // V2PaymentsSettlementAllocationIntentMatchedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.matched" event.
-// Occurs when a settlement allocation intent is matched.
+// Occurs when a SettlementAllocationIntent is matched.
 type V2PaymentsSettlementAllocationIntentMatchedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -5672,7 +5673,7 @@ func (e *V2PaymentsSettlementAllocationIntentMatchedEvent) FetchRelatedObject(ct
 }
 
 // V2PaymentsSettlementAllocationIntentMatchedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.matched"
-// Occurs when a settlement allocation intent is matched.
+// Occurs when a SettlementAllocationIntent is matched.
 type V2PaymentsSettlementAllocationIntentMatchedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5698,14 +5699,14 @@ func (n *V2PaymentsSettlementAllocationIntentMatchedEventNotification) FetchRela
 }
 
 // V2PaymentsSettlementAllocationIntentNotFoundEvent is the Go struct for the "v2.payments.settlement_allocation_intent.not_found" event.
-// Occurs when a ReceivedCredit has no settlement intent matching it.
+// Occurs when a ReceivedCredit has no SettlementAllocationIntent matching it.
 type V2PaymentsSettlementAllocationIntentNotFoundEvent struct {
 	V2BaseEvent
 	Data V2PaymentsSettlementAllocationIntentNotFoundEventData `json:"data"`
 }
 
 // V2PaymentsSettlementAllocationIntentNotFoundEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.not_found"
-// Occurs when a ReceivedCredit has no settlement intent matching it.
+// Occurs when a ReceivedCredit has no SettlementAllocationIntent matching it.
 type V2PaymentsSettlementAllocationIntentNotFoundEventNotification struct {
 	V2CoreEventNotification
 }
@@ -5720,7 +5721,7 @@ func (n *V2PaymentsSettlementAllocationIntentNotFoundEventNotification) FetchEve
 }
 
 // V2PaymentsSettlementAllocationIntentSettledEvent is the Go struct for the "v2.payments.settlement_allocation_intent.settled" event.
-// Occurs when a settlement allocation intent is settled.
+// Occurs when a SettlementAllocationIntent is settled.
 type V2PaymentsSettlementAllocationIntentSettledEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -5733,7 +5734,7 @@ func (e *V2PaymentsSettlementAllocationIntentSettledEvent) FetchRelatedObject(ct
 }
 
 // V2PaymentsSettlementAllocationIntentSettledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.settled"
-// Occurs when a settlement allocation intent is settled.
+// Occurs when a SettlementAllocationIntent is settled.
 type V2PaymentsSettlementAllocationIntentSettledEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5759,7 +5760,7 @@ func (n *V2PaymentsSettlementAllocationIntentSettledEventNotification) FetchRela
 }
 
 // V2PaymentsSettlementAllocationIntentSubmittedEvent is the Go struct for the "v2.payments.settlement_allocation_intent.submitted" event.
-// Occurs when a settlement allocation intent is submitted.
+// Occurs when a SettlementAllocationIntent is submitted.
 type V2PaymentsSettlementAllocationIntentSubmittedEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -5772,7 +5773,7 @@ func (e *V2PaymentsSettlementAllocationIntentSubmittedEvent) FetchRelatedObject(
 }
 
 // V2PaymentsSettlementAllocationIntentSubmittedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent.submitted"
-// Occurs when a settlement allocation intent is submitted.
+// Occurs when a SettlementAllocationIntent is submitted.
 type V2PaymentsSettlementAllocationIntentSubmittedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5798,7 +5799,7 @@ func (n *V2PaymentsSettlementAllocationIntentSubmittedEventNotification) FetchRe
 }
 
 // V2PaymentsSettlementAllocationIntentSplitCanceledEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.canceled" event.
-// Occurs when a settlement allocation intent split is canceled.
+// Occurs when a SettlementAllocationIntentSplit is canceled.
 type V2PaymentsSettlementAllocationIntentSplitCanceledEvent struct {
 	V2BaseEvent
 	Data               V2PaymentsSettlementAllocationIntentSplitCanceledEventData `json:"data"`
@@ -5812,7 +5813,7 @@ func (e *V2PaymentsSettlementAllocationIntentSplitCanceledEvent) FetchRelatedObj
 }
 
 // V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent_split.canceled"
-// Occurs when a settlement allocation intent split is canceled.
+// Occurs when a SettlementAllocationIntentSplit is canceled.
 type V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5838,7 +5839,7 @@ func (n *V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification) Fet
 }
 
 // V2PaymentsSettlementAllocationIntentSplitCreatedEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.created" event.
-// Occurs when a settlement allocation intent split is created.
+// Occurs when a SettlementAllocationIntentSplit is created.
 type V2PaymentsSettlementAllocationIntentSplitCreatedEvent struct {
 	V2BaseEvent
 	Data               V2PaymentsSettlementAllocationIntentSplitCreatedEventData `json:"data"`
@@ -5852,7 +5853,7 @@ func (e *V2PaymentsSettlementAllocationIntentSplitCreatedEvent) FetchRelatedObje
 }
 
 // V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent_split.created"
-// Occurs when a settlement allocation intent split is created.
+// Occurs when a SettlementAllocationIntentSplit is created.
 type V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -5878,7 +5879,7 @@ func (n *V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification) Fetc
 }
 
 // V2PaymentsSettlementAllocationIntentSplitSettledEvent is the Go struct for the "v2.payments.settlement_allocation_intent_split.settled" event.
-// Occurs when a settlement allocation intent split is settled.
+// Occurs when a SettlementAllocationIntentSplit is settled.
 type V2PaymentsSettlementAllocationIntentSplitSettledEvent struct {
 	V2BaseEvent
 	Data               V2PaymentsSettlementAllocationIntentSplitSettledEventData `json:"data"`
@@ -5892,7 +5893,7 @@ func (e *V2PaymentsSettlementAllocationIntentSplitSettledEvent) FetchRelatedObje
 }
 
 // V2PaymentsSettlementAllocationIntentSplitSettledEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.settlement_allocation_intent_split.settled"
-// Occurs when a settlement allocation intent split is settled.
+// Occurs when a SettlementAllocationIntentSplit is settled.
 type V2PaymentsSettlementAllocationIntentSplitSettledEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -6979,7 +6980,7 @@ type V2MoneyManagementTransactionCreatedEventData struct {
 	V1ID string `json:"v1_id,omitempty"`
 }
 
-// Occurs when an error occurs in reconciling a settlement allocation intent.
+// Occurs when an error occurs in reconciling a SettlementAllocationIntent.
 type V2PaymentsSettlementAllocationIntentErroredEventData struct {
 	// Stripe doc link to debug the issue.
 	DocURL string `json:"doc_url,omitempty"`
@@ -6989,25 +6990,25 @@ type V2PaymentsSettlementAllocationIntentErroredEventData struct {
 	ReasonCode V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode `json:"reason_code"`
 }
 
-// Occurs when a ReceivedCredit has no settlement intent matching it.
+// Occurs when a ReceivedCredit has no SettlementAllocationIntent matching it.
 type V2PaymentsSettlementAllocationIntentNotFoundEventData struct {
 	// The ID of the ReceivedCredit.
 	ReceivedCreditID string `json:"received_credit_id"`
 }
 
-// Occurs when a settlement allocation intent split is canceled.
+// Occurs when a SettlementAllocationIntentSplit is canceled.
 type V2PaymentsSettlementAllocationIntentSplitCanceledEventData struct {
 	// The ID of the SettlementAllocationIntent this split belongs to.
 	SettlementAllocationIntentID string `json:"settlement_allocation_intent_id"`
 }
 
-// Occurs when a settlement allocation intent split is created.
+// Occurs when a SettlementAllocationIntentSplit is created.
 type V2PaymentsSettlementAllocationIntentSplitCreatedEventData struct {
 	// The ID of the SettlementAllocationIntent this split belongs to.
 	SettlementAllocationIntentID string `json:"settlement_allocation_intent_id"`
 }
 
-// Occurs when a settlement allocation intent split is settled.
+// Occurs when a SettlementAllocationIntentSplit is settled.
 type V2PaymentsSettlementAllocationIntentSplitSettledEventData struct {
 	// The ID of the SettlementAllocationIntent this split belongs to.
 	SettlementAllocationIntentID string `json:"settlement_allocation_intent_id"`

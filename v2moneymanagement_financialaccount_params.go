@@ -13,6 +13,8 @@ type V2MoneyManagementFinancialAccountListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// The status of the FinancialAccount to filter by. By default, closed FinancialAccounts are not returned.
 	Status *string `form:"status" json:"status,omitempty"`
+	// Filter for FinancialAccount `type`. By default, FinancialAccounts of any `type` are returned.
+	Types []*string `form:"types" json:"types,omitempty"`
 }
 
 // Parameters specific to creating `storage` type FinancialAccounts.

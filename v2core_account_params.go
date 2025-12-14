@@ -703,6 +703,12 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	Support *V2CoreAccountConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
 }
 
+// Enables this Account to receive OutboundPayments to linked bank accounts over real time rails.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -717,6 +723,8 @@ type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireParams struc
 
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsParams struct {
+	// Enables this Account to receive OutboundPayments to linked bank accounts over real time rails.
+	Instant *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantParams `form:"instant" json:"instant,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 	Local *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalParams `form:"local" json:"local,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over wire.
@@ -2615,6 +2623,12 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	Support *V2CoreAccountCreateConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
 }
 
+// Enables this Account to receive OutboundPayments to linked bank accounts over real time rails.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsInstantParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -2629,6 +2643,8 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsWireParams
 
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsParams struct {
+	// Enables this Account to receive OutboundPayments to linked bank accounts over real time rails.
+	Instant *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsInstantParams `form:"instant" json:"instant,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 	Local *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsLocalParams `form:"local" json:"local,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over wire.
@@ -4531,6 +4547,12 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	Support *V2CoreAccountUpdateConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
 }
 
+// Enables this Account to receive OutboundPayments to linked bank accounts over real time rails.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsInstantParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -4545,6 +4567,8 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsWireParams
 
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsParams struct {
+	// Enables this Account to receive OutboundPayments to linked bank accounts over real time rails.
+	Instant *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsInstantParams `form:"instant" json:"instant,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 	Local *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsLocalParams `form:"local" json:"local,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over wire.

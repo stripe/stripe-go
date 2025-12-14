@@ -16762,7 +16762,7 @@ func TestV2CoreVaultUsBankAccountPost5Client(t *testing.T) {
 func TestV2IamApiKeyGetService(t *testing.T) {
 	params := &stripe.V2IamAPIKeyListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/iam/api_keys", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/iam/api_keys", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16774,7 +16774,7 @@ func TestV2IamApiKeyGetService(t *testing.T) {
 func TestV2IamApiKeyGetClient(t *testing.T) {
 	params := &stripe.V2IamAPIKeyListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/iam/api_keys", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/iam/api_keys", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16786,7 +16786,7 @@ func TestV2IamApiKeyGetClient(t *testing.T) {
 func TestV2IamApiKeyPostService(t *testing.T) {
 	params := &stripe.V2IamAPIKeyParams{Type: stripe.String("publishable_key")}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/iam/api_keys", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/iam/api_keys", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16801,7 +16801,7 @@ func TestV2IamApiKeyPostClient(t *testing.T) {
 		Type: stripe.String("publishable_key"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/iam/api_keys", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/iam/api_keys", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16814,7 +16814,7 @@ func TestV2IamApiKeyPostClient(t *testing.T) {
 func TestV2IamApiKeyGet2Service(t *testing.T) {
 	params := &stripe.V2IamAPIKeyParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16827,7 +16827,7 @@ func TestV2IamApiKeyGet2Service(t *testing.T) {
 func TestV2IamApiKeyGet2Client(t *testing.T) {
 	params := &stripe.V2IamAPIKeyRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16840,7 +16840,7 @@ func TestV2IamApiKeyGet2Client(t *testing.T) {
 func TestV2IamApiKeyPost2Service(t *testing.T) {
 	params := &stripe.V2IamAPIKeyParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16853,7 +16853,7 @@ func TestV2IamApiKeyPost2Service(t *testing.T) {
 func TestV2IamApiKeyPost2Client(t *testing.T) {
 	params := &stripe.V2IamAPIKeyUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/iam/api_keys/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16866,7 +16866,7 @@ func TestV2IamApiKeyPost2Client(t *testing.T) {
 func TestV2IamApiKeyPost3Service(t *testing.T) {
 	params := &stripe.V2IamAPIKeyExpireParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/iam/api_keys/id_123/expire", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/iam/api_keys/id_123/expire", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16879,7 +16879,7 @@ func TestV2IamApiKeyPost3Service(t *testing.T) {
 func TestV2IamApiKeyPost3Client(t *testing.T) {
 	params := &stripe.V2IamAPIKeyExpireParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/iam/api_keys/id_123/expire", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/iam/api_keys/id_123/expire", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16892,7 +16892,7 @@ func TestV2IamApiKeyPost3Client(t *testing.T) {
 func TestV2IamApiKeyPost4Service(t *testing.T) {
 	params := &stripe.V2IamAPIKeyRotateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/iam/api_keys/id_123/rotate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/iam/api_keys/id_123/rotate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16905,7 +16905,7 @@ func TestV2IamApiKeyPost4Service(t *testing.T) {
 func TestV2IamApiKeyPost4Client(t *testing.T) {
 	params := &stripe.V2IamAPIKeyRotateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/iam/api_keys/id_123/rotate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"type\":\"publishable_key\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/iam/api_keys/id_123/rotate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"ip_allowlist\":[\"ip_allowlist\"],\"object\":\"v2.iam.api_key\",\"status\":\"active\",\"type\":\"publishable_key\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

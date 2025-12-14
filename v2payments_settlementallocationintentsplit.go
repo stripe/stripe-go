@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Type of the flow linked to the transaction which settled the split. The field matching this value will contain the ID of the flow.
+// Type of the flow linked to the transaction which settled the SettlementAllocationIntentSplit. The field matching this value will contain the ID of the flow.
 type V2PaymentsSettlementAllocationIntentSplitFlowType string
 
 // List of values that V2PaymentsSettlementAllocationIntentSplitFlowType can take
@@ -47,20 +47,20 @@ type V2PaymentsSettlementAllocationIntentSplitAmount struct {
 
 // Details about the Flow object that settled the split.
 type V2PaymentsSettlementAllocationIntentSplitFlow struct {
-	// If applicable, the ID of the OutboundPayment that created this Transaction.
+	// If applicable, the ID of the OutboundPayment that created this transaction.
 	OutboundPayment string `json:"outbound_payment,omitempty"`
-	// If applicable, the ID of the OutboundTransfer that created this Transaction.
+	// If applicable, the ID of the OutboundTransfer that created this transaction.
 	OutboundTransfer string `json:"outbound_transfer,omitempty"`
-	// If applicable, the ID of the ReceivedCredit that created this Transaction.
+	// If applicable, the ID of the ReceivedCredit that created this transaction.
 	ReceivedCredit string `json:"received_credit,omitempty"`
-	// Type of the flow linked to the transaction which settled the split. The field matching this value will contain the ID of the flow.
+	// Type of the flow linked to the transaction which settled the SettlementAllocationIntentSplit. The field matching this value will contain the ID of the flow.
 	Type V2PaymentsSettlementAllocationIntentSplitFlowType `json:"type"`
 }
 
 // SettlementAllocationIntentSplit resource.
 type V2PaymentsSettlementAllocationIntentSplit struct {
 	APIResource
-	// The ID of the account that will be used for the debit/credit.
+	// The account id against which the SettlementAllocationIntentSplit should be settled.
 	Account string `json:"account"`
 	// The amount and currency of the SettlementAllocationIntentSplit.
 	Amount *V2PaymentsSettlementAllocationIntentSplitAmount `json:"amount"`

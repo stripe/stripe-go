@@ -18,6 +18,16 @@ const (
 	V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccountWire      V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount = "wire"
 )
 
+// Open Enum. Speed of the payout.
+type V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed string
+
+// List of values that V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed can take
+const (
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedInstant         V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "instant"
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedNextBusinessDay V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "next_business_day"
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedStandard        V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "standard"
+)
+
 // Closed Enum. Configuration option to enable or disable notifications to recipients.
 // Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
 type V2MoneyManagementOutboundPaymentRecipientNotificationSetting string
@@ -99,6 +109,8 @@ type V2MoneyManagementOutboundPaymentAmount struct {
 type V2MoneyManagementOutboundPaymentDeliveryOptions struct {
 	// Open Enum. Method for bank account.
 	BankAccount V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount `json:"bank_account,omitempty"`
+	// Open Enum. Speed of the payout.
+	Speed V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed `json:"speed,omitempty"`
 }
 
 // The monetary amount debited from the sender, only set on responses.

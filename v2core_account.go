@@ -1906,6 +1906,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatus string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatus can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusActive      V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatus = "active"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusPending     V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatus = "pending"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusRestricted  V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatus = "restricted"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusUnsupported V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolutionContactStripe V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolutionNoResolution  V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatus string
 
 // List of values that V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatus can take
@@ -2913,6 +2948,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityAUBECSDebitPayments                V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "au_becs_debit_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBACSDebitPayments                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bacs_debit_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBancontactPayments                 V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bancontact_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsInstant                V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.instant"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsLocal                  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.local"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsWire                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.wire"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityBLIKPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "blik_payments"
@@ -3576,6 +3612,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityAUBECSDebitPayments                V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "au_becs_debit_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBACSDebitPayments                  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "bacs_debit_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBancontactPayments                 V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "bancontact_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsInstant                V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.instant"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsLocal                  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.local"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBankAccountsWire                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "bank_accounts.wire"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityBLIKPayments                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "blik_payments"
@@ -4945,6 +4982,22 @@ type V2CoreAccountConfigurationMerchant struct {
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetailResolution `json:"resolution"`
+}
+
+// Enables this Account to receive OutboundPayments to linked bank accounts over real time rails.
+type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstant struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCode `json:"code"`
@@ -4978,6 +5031,8 @@ type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWire struct {
 
 // Capabilities that enable OutboundPayments to a bank account linked to this Account.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccounts struct {
+	// Enables this Account to receive OutboundPayments to linked bank accounts over real time rails.
+	Instant *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstant `json:"instant,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 	Local *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocal `json:"local,omitempty"`
 	// Enables this Account to receive OutboundPayments to linked bank accounts over wire.

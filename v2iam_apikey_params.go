@@ -53,8 +53,6 @@ type V2IamAPIKeyParams struct {
 // Expire an API key.
 type V2IamAPIKeyExpireParams struct {
 	Params `form:"*"`
-	// Duration in minutes before the key expires (defaults to immediate).
-	ExpireInMinutes *int64 `form:"expire_in_minutes" json:"expire_in_minutes,omitempty"`
 }
 
 // PEM-formatted public key.
@@ -79,7 +77,8 @@ type V2IamAPIKeyRotatePublicKeyParams struct {
 // Rotate an API key.
 type V2IamAPIKeyRotateParams struct {
 	Params `form:"*"`
-	// Duration in minutes before the current key expires.
+	// Duration in minutes before the current key expires, with a maximum of 7 days (10080 minutes).
+	// If not provided, the current key expires immediately.
 	ExpireCurrentKeyInMinutes *int64 `form:"expire_current_key_in_minutes" json:"expire_current_key_in_minutes,omitempty"`
 	// Public key for encrypting the new API key secret.
 	// This must a PEM-formatted RSA key suitable for encryption, >= 2048 bits.

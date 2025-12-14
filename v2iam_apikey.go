@@ -8,6 +8,14 @@ package stripe
 
 import "time"
 
+// The type of entity.
+type V2IamAPIKeyManagedByType string
+
+// List of values that V2IamAPIKeyManagedByType can take
+const (
+	V2IamAPIKeyManagedByTypeApplication V2IamAPIKeyManagedByType = "application"
+)
+
 // Current status of the API key (e.g., active, expired).
 type V2IamAPIKeyStatus string
 
@@ -26,10 +34,24 @@ const (
 	V2IamAPIKeyTypeSecretKey      V2IamAPIKeyType = "secret_key"
 )
 
+// An application.
+type V2IamAPIKeyManagedByApplication struct {
+	// Identifier of the application.
+	ID string `json:"id"`
+}
+
+// Account that manages this API key (for keys managed by platforms).
+type V2IamAPIKeyManagedBy struct {
+	// An application.
+	Application *V2IamAPIKeyManagedByApplication `json:"application,omitempty"`
+	// The type of entity.
+	Type V2IamAPIKeyManagedByType `json:"type"`
+}
+
 // Token set for a publishable key.
 type V2IamAPIKeyPublishableKey struct {
 	// The plaintext token for the API key.
-	Token string `json:"token,omitempty"`
+	Token string `json:"token"`
 }
 
 // The encrypted secret for the API key. Only included when a key is first created.
@@ -61,14 +83,14 @@ type V2IamAPIKey struct {
 	ExpiresAt time.Time `json:"expires_at,omitempty"`
 	// Unique identifier of the API key.
 	ID string `json:"id"`
-	// List of IP addresses allowed to use this API key.
+	// List of IP addresses allowed to use this API key. Addresses use IPv4 protocol, and may be a CIDR range (e.g., [100.10.38.255, 100.10.38.0/24]).
 	IPAllowlist []string `json:"ip_allowlist"`
 	// Timestamp when the API key was last used.
 	LastUsed time.Time `json:"last_used,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Account that manages this API key (for keys managed by platforms).
-	ManagedBy string `json:"managed_by,omitempty"`
+	ManagedBy *V2IamAPIKeyManagedBy `json:"managed_by,omitempty"`
 	// Name of the API key.
 	Name string `json:"name,omitempty"`
 	// Note or description for the API key.
@@ -80,7 +102,7 @@ type V2IamAPIKey struct {
 	// Token set for a secret key.
 	SecretKey *V2IamAPIKeySecretKey `json:"secret_key,omitempty"`
 	// Current status of the API key (e.g., active, expired).
-	Status V2IamAPIKeyStatus `json:"status,omitempty"`
+	Status V2IamAPIKeyStatus `json:"status"`
 	// Type of the API key.
 	Type V2IamAPIKeyType `json:"type"`
 }

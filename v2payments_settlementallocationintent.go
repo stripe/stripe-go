@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Settlement Intent status.
+// SettlementAllocationIntent status.
 type V2PaymentsSettlementAllocationIntentStatus string
 
 // List of values that V2PaymentsSettlementAllocationIntentStatus can take
@@ -47,7 +47,7 @@ type V2PaymentsSettlementAllocationIntentStatusDetailsErrored struct {
 	ReasonCode V2PaymentsSettlementAllocationIntentStatusDetailsErroredReasonCode `json:"reason_code"`
 }
 
-// This hash contains detailed information that elaborates on the specific status of the SettlementAllocationIntent. e.g the reason behind the error failure if the status is marked as `errored`.
+// Status details for a SettlementAllocationIntent in `errored` state.
 type V2PaymentsSettlementAllocationIntentStatusDetails struct {
 	// Hash that provides additional information regarding the reason behind a `errored` SettlementAllocationIntent status. It is only present when the SettlementAllocationIntent status is `errored`.
 	Errored *V2PaymentsSettlementAllocationIntentStatusDetailsErrored `json:"errored,omitempty"`
@@ -58,11 +58,11 @@ type V2PaymentsSettlementAllocationIntent struct {
 	APIResource
 	// The amount and currency of the SettlementAllocationIntent.
 	Amount *V2PaymentsSettlementAllocationIntentAmount `json:"amount"`
-	// Timestamp at which Settlement Intent was created .
+	// Timestamp at which SettlementAllocationIntent was created .
 	Created time.Time `json:"created"`
-	// Expected date when we expect to receive the funds.
+	// Date when we expect to receive the funds.
 	ExpectedSettlementDate time.Time `json:"expected_settlement_date"`
-	// Financial Account Id where the funds are expected.
+	// FinancialAccount ID where the funds are expected.
 	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the SettlementAllocationIntent.
 	ID string `json:"id"`
@@ -74,10 +74,10 @@ type V2PaymentsSettlementAllocationIntent struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// Reference for the settlement intent . The reference used by PSP to send funds to Stripe .
+	// Reference for the SettlementAllocationIntent. This is the transaction reference used by payments processor to send funds to Stripe .
 	Reference string `json:"reference"`
-	// Settlement Intent status.
+	// SettlementAllocationIntent status.
 	Status V2PaymentsSettlementAllocationIntentStatus `json:"status"`
-	// This hash contains detailed information that elaborates on the specific status of the SettlementAllocationIntent. e.g the reason behind the error failure if the status is marked as `errored`.
+	// Status details for a SettlementAllocationIntent in `errored` state.
 	StatusDetails *V2PaymentsSettlementAllocationIntentStatusDetails `json:"status_details,omitempty"`
 }
