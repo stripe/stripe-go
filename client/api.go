@@ -129,6 +129,7 @@ import (
 	"github.com/stripe/stripe-go/v84/review"
 	"github.com/stripe/stripe-go/v84/setupattempt"
 	"github.com/stripe/stripe-go/v84/setupintent"
+	sharedpaymentgrantedtoken "github.com/stripe/stripe-go/v84/sharedpayment/grantedtoken"
 	"github.com/stripe/stripe-go/v84/shippingrate"
 	sigmascheduledqueryrun "github.com/stripe/stripe-go/v84/sigma/scheduledqueryrun"
 	"github.com/stripe/stripe-go/v84/source"
@@ -159,6 +160,7 @@ import (
 	testhelpersissuingpersonalizationdesign "github.com/stripe/stripe-go/v84/testhelpers/issuing/personalizationdesign"
 	testhelpersissuingtransaction "github.com/stripe/stripe-go/v84/testhelpers/issuing/transaction"
 	testhelpersrefund "github.com/stripe/stripe-go/v84/testhelpers/refund"
+	testhelperssharedpaymentgrantedtoken "github.com/stripe/stripe-go/v84/testhelpers/sharedpayment/grantedtoken"
 	testhelpersterminalreader "github.com/stripe/stripe-go/v84/testhelpers/terminal/reader"
 	testhelperstestclock "github.com/stripe/stripe-go/v84/testhelpers/testclock"
 	testhelperstreasuryinboundtransfer "github.com/stripe/stripe-go/v84/testhelpers/treasury/inboundtransfer"
@@ -218,6 +220,7 @@ import (
 	v2coreeventdestination "github.com/stripe/stripe-go/v84/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v84/v2/core/vault/gbbankaccount"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v84/v2/core/vault/usbankaccount"
+	v2iamapikey "github.com/stripe/stripe-go/v84/v2/iam/apikey"
 	v2moneymanagementadjustment "github.com/stripe/stripe-go/v84/v2/moneymanagement/adjustment"
 	v2moneymanagementcurrencyconversion "github.com/stripe/stripe-go/v84/v2/moneymanagement/currencyconversion"
 	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v84/v2/moneymanagement/financialaccount"
@@ -235,8 +238,11 @@ import (
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v84/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v84/v2/moneymanagement/transactionentry"
 	v2paymentsoffsessionpayment "github.com/stripe/stripe-go/v84/v2/payments/offsessionpayment"
+	v2paymentssettlementallocationintent "github.com/stripe/stripe-go/v84/v2/payments/settlementallocationintent"
+	v2paymentssettlementallocationintentssplit "github.com/stripe/stripe-go/v84/v2/payments/settlementallocationintents/split"
 	v2reportingreport "github.com/stripe/stripe-go/v84/v2/reporting/report"
 	v2reportingreportrun "github.com/stripe/stripe-go/v84/v2/reporting/reportrun"
+	v2taxmanualrule "github.com/stripe/stripe-go/v84/v2/tax/manualrule"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v84/v2/testhelpers/financialaddress"
 	v2testhelpersmoneymanagement "github.com/stripe/stripe-go/v84/v2/testhelpers/moneymanagement"
 	"github.com/stripe/stripe-go/v84/webhookendpoint"
@@ -480,6 +486,8 @@ type API struct {
 	SetupAttempts *setupattempt.Client
 	// SetupIntents is the client used to invoke /v1/setup_intents APIs.
 	SetupIntents *setupintent.Client
+	// SharedPaymentGrantedTokens is the client used to invoke /v1/shared_payment/granted_tokens APIs.
+	SharedPaymentGrantedTokens *sharedpaymentgrantedtoken.Client
 	// ShippingRates is the client used to invoke /v1/shipping_rates APIs.
 	ShippingRates *shippingrate.Client
 	// SigmaScheduledQueryRuns is the client used to invoke /v1/sigma/scheduled_query_runs APIs.
@@ -540,6 +548,8 @@ type API struct {
 	TestHelpersIssuingTransactions *testhelpersissuingtransaction.Client
 	// TestHelpersRefunds is the client used to invoke /v1/refunds APIs.
 	TestHelpersRefunds *testhelpersrefund.Client
+	// TestHelpersSharedPaymentGrantedTokens is the client used to invoke /v1/shared_payment/granted_tokens APIs.
+	TestHelpersSharedPaymentGrantedTokens *testhelperssharedpaymentgrantedtoken.Client
 	// TestHelpersTerminalReaders is the client used to invoke /v1/terminal/readers APIs.
 	TestHelpersTerminalReaders *testhelpersterminalreader.Client
 	// TestHelpersTestClocks is the client used to invoke /v1/test_helpers/test_clocks APIs.
@@ -658,6 +668,8 @@ type API struct {
 	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
 	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
+	// V2IamAPIKeys is the client used to invoke /v2/iam/api_keys APIs.
+	V2IamAPIKeys *v2iamapikey.Client
 	// V2MoneyManagementAdjustments is the client used to invoke /v2/money_management/adjustments APIs.
 	V2MoneyManagementAdjustments *v2moneymanagementadjustment.Client
 	// V2MoneyManagementCurrencyConversions is the client used to invoke /v2/money_management/currency_conversions APIs.
@@ -692,10 +704,16 @@ type API struct {
 	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
 	// V2PaymentsOffSessionPayments is the client used to invoke /v2/payments/off_session_payments APIs.
 	V2PaymentsOffSessionPayments *v2paymentsoffsessionpayment.Client
+	// V2PaymentsSettlementAllocationIntents is the client used to invoke /v2/payments/settlement_allocation_intents APIs.
+	V2PaymentsSettlementAllocationIntents *v2paymentssettlementallocationintent.Client
+	// V2PaymentsSettlementAllocationIntentsSplits is the client used to invoke /v2/payments/settlement_allocation_intents/{settlement_allocation_intent_id}/splits APIs.
+	V2PaymentsSettlementAllocationIntentsSplits *v2paymentssettlementallocationintentssplit.Client
 	// V2ReportingReportRuns is the client used to invoke /v2/reporting/report_runs APIs.
 	V2ReportingReportRuns *v2reportingreportrun.Client
 	// V2ReportingReports is the client used to invoke report related APIs.
 	V2ReportingReports *v2reportingreport.Client
+	// V2TaxManualRules is the client used to invoke /v2/tax/manual_rules APIs.
+	V2TaxManualRules *v2taxmanualrule.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// V2TestHelpersMoneyManagements is the client used to invoke moneymanagement related APIs.
@@ -834,6 +852,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Reviews = &review.Client{B: backends.API, Key: key}
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
+	a.SharedPaymentGrantedTokens = &sharedpaymentgrantedtoken.Client{B: backends.API, Key: key}
 	a.ShippingRates = &shippingrate.Client{B: backends.API, Key: key}
 	a.SigmaScheduledQueryRuns = &sigmascheduledqueryrun.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
@@ -864,6 +883,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersIssuingPersonalizationDesigns = &testhelpersissuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingTransactions = &testhelpersissuingtransaction.Client{B: backends.API, Key: key}
 	a.TestHelpersRefunds = &testhelpersrefund.Client{B: backends.API, Key: key}
+	a.TestHelpersSharedPaymentGrantedTokens = &testhelperssharedpaymentgrantedtoken.Client{B: backends.API, Key: key}
 	a.TestHelpersTerminalReaders = &testhelpersterminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersTestClocks = &testhelperstestclock.Client{B: backends.API, Key: key}
 	a.TestHelpersTreasuryInboundTransfers = &testhelperstreasuryinboundtransfer.Client{B: backends.API, Key: key}
@@ -923,6 +943,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
+	a.V2IamAPIKeys = &v2iamapikey.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementCurrencyConversions = &v2moneymanagementcurrencyconversion.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
@@ -940,8 +961,11 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
 	a.V2PaymentsOffSessionPayments = &v2paymentsoffsessionpayment.Client{B: backends.API, Key: key}
+	a.V2PaymentsSettlementAllocationIntents = &v2paymentssettlementallocationintent.Client{B: backends.API, Key: key}
+	a.V2PaymentsSettlementAllocationIntentsSplits = &v2paymentssettlementallocationintentssplit.Client{B: backends.API, Key: key}
 	a.V2ReportingReportRuns = &v2reportingreportrun.Client{B: backends.API, Key: key}
 	a.V2ReportingReports = &v2reportingreport.Client{B: backends.API, Key: key}
+	a.V2TaxManualRules = &v2taxmanualrule.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2TestHelpersMoneyManagements = &v2testhelpersmoneymanagement.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}

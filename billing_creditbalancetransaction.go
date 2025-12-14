@@ -59,9 +59,9 @@ type BillingCreditBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	// The credit grant for which to fetch credit balance transactions.
 	CreditGrant *string `form:"credit_grant"`
-	// The customer for which to fetch credit balance transactions.
+	// The customer whose credit balance transactions you're retrieving.
 	Customer *string `form:"customer"`
-	// The account for which to fetch credit balance transactions.
+	// The account representing the customer whose credit balance transactions you're retrieving.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -106,7 +106,7 @@ type BillingCreditBalanceTransactionCreditAmountCustomPricingUnitCustomPricingUn
 	ID string `json:"id"`
 	// A lookup key for the custom pricing unit.
 	LookupKey string `json:"lookup_key"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The status of the custom pricing unit.
 	Status string `json:"status"`
@@ -165,7 +165,7 @@ type BillingCreditBalanceTransactionDebitAmountCustomPricingUnitCustomPricingUni
 	ID string `json:"id"`
 	// A lookup key for the custom pricing unit.
 	LookupKey string `json:"lookup_key"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The status of the custom pricing unit.
 	Status string `json:"status"`

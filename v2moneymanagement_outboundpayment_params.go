@@ -46,6 +46,8 @@ type V2MoneyManagementOutboundPaymentAmountParams struct {
 type V2MoneyManagementOutboundPaymentDeliveryOptionsParams struct {
 	// Open Enum. Method for bank account.
 	BankAccount *string `form:"bank_account" json:"bank_account,omitempty"`
+	// Open Enum. Speed of the payout.
+	Speed *string `form:"speed" json:"speed,omitempty"`
 }
 
 // From which FinancialAccount and BalanceType to pull funds from.
@@ -128,6 +130,8 @@ type V2MoneyManagementOutboundPaymentCreateAmountParams struct {
 type V2MoneyManagementOutboundPaymentCreateDeliveryOptionsParams struct {
 	// Open Enum. Method for bank account.
 	BankAccount *string `form:"bank_account" json:"bank_account,omitempty"`
+	// Open Enum. Speed of the payout.
+	Speed *string `form:"speed" json:"speed,omitempty"`
 }
 
 // From which FinancialAccount and BalanceType to pull funds from.

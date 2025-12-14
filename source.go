@@ -140,7 +140,7 @@ type SourceParams struct {
 	Flow *string `form:"flow"`
 	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
 	Mandate *SourceMandateParams `form:"mandate"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The source to share.
 	OriginalSource *string `form:"original_source"`
@@ -156,7 +156,7 @@ type SourceParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// An optional token used to create the source. When passed, token properties will override source parameters.
 	Token *string `form:"token"`
-	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
+	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://docs.stripe.com/sources/connect#cloning-card-sources) guide)
 	Type  *string `form:"type"`
 	Usage *string `form:"usage"`
 }
@@ -372,7 +372,7 @@ type SourceUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
 	Mandate *SourceUpdateMandateParams `form:"mandate"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Information about the owner of the payment instrument that may be used or required by particular source types.
 	Owner *SourceUpdateOwnerParams `form:"owner"`
@@ -516,7 +516,7 @@ type SourceCreateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// An optional token used to create the source. When passed, token properties will override source parameters.
 	Token *string `form:"token"`
-	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
+	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://docs.stripe.com/sources/connect#cloning-card-sources) guide)
 	Type  *string `form:"type"`
 	Usage *string `form:"usage"`
 }
@@ -844,11 +844,11 @@ type SourceWeChat struct {
 // just like a `Card` object: once chargeable, they can be charged, or can be
 // attached to customers.
 //
-// Stripe doesn't recommend using the deprecated [Sources API](https://stripe.com/docs/api/sources).
-// We recommend that you adopt the [PaymentMethods API](https://stripe.com/docs/api/payment_methods).
+// Stripe doesn't recommend using the deprecated [Sources API](https://docs.stripe.com/api/sources).
+// We recommend that you adopt the [PaymentMethods API](https://docs.stripe.com/api/payment_methods).
 // This newer API provides access to our latest features and payment method types.
 //
-// Related guides: [Sources API](https://stripe.com/docs/sources) and [Sources & Customers](https://stripe.com/docs/sources/customers).
+// Related guides: [Sources API](https://docs.stripe.com/sources) and [Sources & Customers](https://docs.stripe.com/sources/customers).
 type Source struct {
 	APIResource
 	ACHCreditTransfer *SourceACHCreditTransfer `json:"ach_credit_transfer"`
@@ -882,7 +882,7 @@ type Source struct {
 	Klarna *SourceKlarna `json:"klarna"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata   map[string]string `json:"metadata"`
 	Multibanco *SourceMultibanco `json:"multibanco"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -902,7 +902,7 @@ type Source struct {
 	// The status of the source, one of `canceled`, `chargeable`, `consumed`, `failed`, or `pending`. Only `chargeable` sources can be used to create a charge.
 	Status       SourceStatus        `json:"status"`
 	ThreeDSecure *SourceThreeDSecure `json:"three_d_secure"`
-	// The `type` of the source. The `type` is a payment method, one of `ach_credit_transfer`, `ach_debit`, `alipay`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `multibanco`, `klarna`, `p24`, `sepa_debit`, `sofort`, `three_d_secure`, or `wechat`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https://stripe.com/docs/sources) used.
+	// The `type` of the source. The `type` is a payment method, one of `ach_credit_transfer`, `ach_debit`, `alipay`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `multibanco`, `klarna`, `p24`, `sepa_debit`, `sofort`, `three_d_secure`, or `wechat`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https://docs.stripe.com/sources) used.
 	Type string `json:"type"`
 	// Either `reusable` or `single_use`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
 	Usage  SourceUsage   `json:"usage"`

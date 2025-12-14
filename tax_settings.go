@@ -56,7 +56,7 @@ func (p *TaxSettingsParams) AddExpand(f string) {
 type TaxSettingsDefaultsParams struct {
 	// Specifies the default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) to be used when the item's price has unspecified tax behavior. One of inclusive, exclusive, or inferred_by_currency. Once specified, it cannot be changed back to null.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
 
@@ -82,7 +82,7 @@ func (p *TaxSettingsRetrieveParams) AddExpand(f string) {
 type TaxSettingsUpdateDefaultsParams struct {
 	// Specifies the default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) to be used when the item's price has unspecified tax behavior. One of inclusive, exclusive, or inferred_by_currency. Once specified, it cannot be changed back to null.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
 
@@ -133,7 +133,7 @@ type TaxSettingsStatusDetails struct {
 
 // You can use Tax `Settings` to manage configurations used by Stripe Tax calculations.
 //
-// Related guide: [Using the Settings API](https://stripe.com/docs/tax/settings-api)
+// Related guide: [Using the Settings API](https://docs.stripe.com/tax/settings-api)
 type TaxSettings struct {
 	APIResource
 	Defaults *TaxSettingsDefaults `json:"defaults"`

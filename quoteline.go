@@ -108,6 +108,15 @@ const (
 	QuoteLineCancelSubscriptionScheduleCancelAtLineStartsAt QuoteLineCancelSubscriptionScheduleCancelAt = "line_starts_at"
 )
 
+// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+type QuoteLineEffectiveAt string
+
+// List of values that QuoteLineEffectiveAt can take
+const (
+	QuoteLineEffectiveAtBillingPeriodStart QuoteLineEffectiveAt = "billing_period_start"
+	QuoteLineEffectiveAtLineStart          QuoteLineEffectiveAt = "line_start"
+)
+
 // Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
 type QuoteLineEndsAtDurationInterval string
 
@@ -194,15 +203,6 @@ const (
 	QuoteLineTrialSettingsEndBehaviorProrateUpFrontInclude QuoteLineTrialSettingsEndBehaviorProrateUpFront = "include"
 )
 
-// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
-type QuoteLineEffectiveAt string
-
-// List of values that QuoteLineEffectiveAt can take
-const (
-	QuoteLineEffectiveAtBillingPeriodStart QuoteLineEffectiveAt = "billing_period_start"
-	QuoteLineEffectiveAtLineStart          QuoteLineEffectiveAt = "line_start"
-)
-
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionAddDiscountDiscountEnd struct {
 	// The discount end type.
@@ -255,7 +255,7 @@ type QuoteLineActionAddItemTrial struct {
 type QuoteLineActionAddItem struct {
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*QuoteLineActionAddItemDiscount `json:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
 	Metadata map[string]string `json:"metadata"`
 	// ID of the price to which the customer should be subscribed.
 	Price *Price `json:"price"`
@@ -347,7 +347,7 @@ type QuoteLineActionSetItemTrial struct {
 type QuoteLineActionSetItem struct {
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*QuoteLineActionSetItemDiscount `json:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
 	Metadata map[string]string `json:"metadata"`
 	// ID of the price to which the customer should be subscribed.
 	Price *Price `json:"price"`
@@ -433,7 +433,7 @@ type QuoteLineEndsAt struct {
 	Type QuoteLineEndsAtType `json:"type"`
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type QuoteLineSetPauseCollectionSet struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior QuoteLineSetPauseCollectionSetBehavior `json:"behavior"`
@@ -441,7 +441,7 @@ type QuoteLineSetPauseCollectionSet struct {
 
 // Details to modify the pause_collection behavior of the subscription schedule.
 type QuoteLineSetPauseCollection struct {
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	Set *QuoteLineSetPauseCollectionSet `json:"set"`
 	// Defines the type of the pause_collection behavior for the quote line.
 	Type QuoteLineSetPauseCollectionType `json:"type"`

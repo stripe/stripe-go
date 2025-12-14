@@ -25,7 +25,7 @@ type IssuingProgramParams struct {
 	Expand []*string `form:"expand"`
 	// If true, makes the specified program the default for the given account.
 	IsDefault *bool `form:"is_default"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The program to use as the parent for the new program to create.
 	PlatformProgram *string `form:"platform_program"`
@@ -80,7 +80,7 @@ type IssuingProgramUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// If true, makes the specified program the default.
 	IsDefault *bool `form:"is_default"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -107,7 +107,7 @@ type IssuingProgram struct {
 	ID string `json:"id"`
 	// Whether or not this is the "default" issuing program new cards are created on. Only one active `is_default` program at the same time.
 	IsDefault bool `json:"is_default"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

@@ -54,13 +54,13 @@ type TransferParams struct {
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the transfer amount to the destination currency.
 	FxQuote *string `form:"fx_quote"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-availability) for details.
+	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-availability) for details.
 	SourceTransaction *string `form:"source_transaction"`
 	// The source balance to use for this transfer. One of `bank_account`, `card`, or `fpx`. For most users, this will default to `card`.
 	SourceType *string `form:"source_type"`
-	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
+	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -94,13 +94,13 @@ type TransferCreateParams struct {
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the transfer amount to the destination currency.
 	FxQuote *string `form:"fx_quote"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-availability) for details.
+	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-availability) for details.
 	SourceTransaction *string `form:"source_transaction"`
 	// The source balance to use for this transfer. One of `bank_account`, `card`, or `fpx`. For most users, this will default to `card`.
 	SourceType *string `form:"source_type"`
-	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
+	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -139,7 +139,7 @@ type TransferUpdateParams struct {
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -162,11 +162,11 @@ func (p *TransferUpdateParams) AddMetadata(key string, value string) {
 //
 // Before April 6, 2017, transfers also represented movement of funds from a
 // Stripe account to a card or bank account. This behavior has since been split
-// out into a [Payout](https://stripe.com/docs/api#payout_object) object, with corresponding payout endpoints. For more
+// out into a [Payout](https://api.stripe.com#payout_object) object, with corresponding payout endpoints. For more
 // information, read about the
-// [transfer/payout split](https://stripe.com/docs/transfer-payout-split).
+// [transfer/payout split](https://docs.stripe.com/transfer-payout-split).
 //
-// Related guide: [Creating separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers)
+// Related guide: [Creating separate charges and transfers](https://docs.stripe.com/connect/separate-charges-and-transfers)
 type Transfer struct {
 	APIResource
 	// Amount in cents (or local equivalent) to be transferred.
@@ -193,7 +193,7 @@ type Transfer struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
@@ -205,7 +205,7 @@ type Transfer struct {
 	SourceTransaction *Charge `json:"source_transaction"`
 	// The source balance this transfer came from. One of `card`, `fpx`, or `bank_account`.
 	SourceType TransferSourceType `json:"source_type"`
-	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
+	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup string `json:"transfer_group"`
 }
 

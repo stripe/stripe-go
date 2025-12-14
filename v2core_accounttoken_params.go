@@ -244,7 +244,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -414,7 +414,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -432,7 +432,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesKanjiParams struct 
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -474,7 +474,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsParams struct {
 	ComplianceScreeningDescription *string `form:"compliance_screening_description" json:"compliance_screening_description,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountTokenIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	// Estimated maximum number of workers currently engaged by the business (including employees, contractors, and vendors).
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
 	IDNumbers []*V2CoreAccountTokenIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
@@ -508,7 +508,7 @@ type V2CoreAccountTokenIdentityIndividualAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -538,7 +538,7 @@ type V2CoreAccountTokenIdentityIndividualAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -658,7 +658,7 @@ type V2CoreAccountTokenIdentityIndividualScriptAddressesKanaParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -676,7 +676,7 @@ type V2CoreAccountTokenIdentityIndividualScriptAddressesKanjiParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1020,7 +1020,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1190,7 +1190,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesKanaParams st
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1208,7 +1208,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesKanjiParams s
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1250,7 +1250,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsParams struct {
 	ComplianceScreeningDescription *string `form:"compliance_screening_description" json:"compliance_screening_description,omitempty"`
 	// A document verifying the business.
 	Documents *V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	// Estimated maximum number of workers currently engaged by the business (including employees, contractors, and vendors).
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count" json:"estimated_worker_count,omitempty"`
 	// The ID numbers of a business entity.
 	IDNumbers []*V2CoreAccountTokenCreateIdentityBusinessDetailsIDNumberParams `form:"id_numbers" json:"id_numbers,omitempty"`
@@ -1284,7 +1284,7 @@ type V2CoreAccountTokenCreateIdentityIndividualAdditionalAddressParams struct {
 	Purpose *string `form:"purpose" json:"purpose"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1314,7 +1314,7 @@ type V2CoreAccountTokenCreateIdentityIndividualAddressParams struct {
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1434,7 +1434,7 @@ type V2CoreAccountTokenCreateIdentityIndividualScriptAddressesKanaParams struct 
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1452,7 +1452,7 @@ type V2CoreAccountTokenCreateIdentityIndividualScriptAddressesKanjiParams struct
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State, county, province, or region.
 	State *string `form:"state" json:"state,omitempty"`
-	// Town or cho-me.
+	// Town or district.
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
@@ -1555,7 +1555,7 @@ type V2CoreAccountTokenCreateParams struct {
 	// A descriptive name for the Account. This name will be surfaced in the Stripe Dashboard and on any invoices sent to the Account.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Information about the company, individual, and business represented by the Account.
-	Identity *V2CoreAccountTokenCreateIdentityParams `form:"identity" json:"identity"`
+	Identity *V2CoreAccountTokenCreateIdentityParams `form:"identity" json:"identity,omitempty"`
 }
 
 // Retrieves an Account Token.

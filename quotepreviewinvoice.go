@@ -274,7 +274,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageNL QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "nl"
 )
 
-// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 
 // List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure can take
@@ -303,6 +303,33 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundin
 // List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType can take
 const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
+)
+
+// Only `maximum` is supported.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsAmountType string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsAmountType can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsAmountTypeFixed   QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsAmountType = "fixed"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsAmountTypeMaximum QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsAmountType = "maximum"
+)
+
+// The purpose for which payments are made. Has a default value based on your merchant category code.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeDependantSupport QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "dependant_support"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeGovernment       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "government"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeLoan             QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "loan"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeMortgage         QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "mortgage"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeOther            QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "other"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposePension          QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "pension"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposePersonal         QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "personal"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeRetail           QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "retail"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeSalary           QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "salary"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeTax              QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "tax"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
 )
 
 // Determines if the amount includes the IOF tax.
@@ -402,6 +429,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayco              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "payco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayNow             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paynow"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePaypal             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paypal"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayto              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "payto"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePix                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "pix"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePromptPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "promptpay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeRevolutPay         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "revolut_pay"
@@ -447,7 +475,7 @@ const (
 	QuotePreviewInvoiceShippingCostTaxTaxabilityReasonZeroRated            QuotePreviewInvoiceShippingCostTaxTaxabilityReason = "zero_rated"
 )
 
-// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
+// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://docs.stripe.com/billing/invoices/workflow#workflow-overview)
 type QuotePreviewInvoiceStatus string
 
 // List of values that QuotePreviewInvoiceStatus can take
@@ -560,7 +588,7 @@ type QuotePreviewInvoiceAutomaticTaxLiability struct {
 type QuotePreviewInvoiceAutomaticTax struct {
 	// If Stripe disabled automatic tax, this enum describes why.
 	DisabledReason QuotePreviewInvoiceAutomaticTaxDisabledReason `json:"disabled_reason"`
-	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
+	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://docs.stripe.com/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuotePreviewInvoiceAutomaticTaxLiability `json:"liability"`
@@ -594,7 +622,7 @@ type QuotePreviewInvoiceCustomerTaxID struct {
 	Value string `json:"value"`
 }
 
-// Details of the invoice that was cloned. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
+// Details of the invoice that was cloned. See the [revision documentation](https://docs.stripe.com/invoicing/invoice-revisions) for more details.
 type QuotePreviewInvoiceFromInvoice struct {
 	// The relation between this invoice and the cloned invoice
 	Action string `json:"action"`
@@ -620,7 +648,13 @@ type QuotePreviewInvoiceParentQuoteDetails struct {
 	Quote string `json:"quote"`
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+// Details about the schedule that generated this invoice
+type QuotePreviewInvoiceParentScheduleDetails struct {
+	// The schedule that generated this invoice
+	Schedule string `json:"schedule"`
+}
+
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior `json:"behavior"`
@@ -630,21 +664,15 @@ type QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection struct {
 
 // Details about the subscription that generated this invoice
 type QuotePreviewInvoiceParentSubscriptionDetails struct {
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
 	//  *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
 	Metadata map[string]string `json:"metadata"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection `json:"pause_collection"`
 	// The subscription that generated this invoice
 	Subscription *Subscription `json:"subscription"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
 	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
-}
-
-// Details about the schedule that generated this invoice
-type QuotePreviewInvoiceParentScheduleDetails struct {
-	// The schedule that generated this invoice
-	Schedule string `json:"schedule"`
 }
 
 // The parent that generated this invoice
@@ -685,7 +713,7 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardInstallments stru
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCard struct {
 	Installments *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardInstallments `json:"installments"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
@@ -710,6 +738,19 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer struct
 
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptions struct {
+	// The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit.
+	Amount int64 `json:"amount"`
+	// Only `maximum` is supported.
+	AmountType QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsAmountType `json:"amount_type"`
+	// The purpose for which payments are made. Has a default value based on your merchant category code.
+	Purpose QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose `json:"purpose"`
+}
+
+// If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPayto struct {
+	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
+}
 
 // If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPix struct {
@@ -769,6 +810,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	IDBankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer `json:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
+	// If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
+	Payto *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPayto `json:"payto"`
 	// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 	Pix *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPix `json:"pix"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -889,6 +932,7 @@ type QuotePreviewInvoiceTotalPretaxCreditAmount struct {
 
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type QuotePreviewInvoiceTotalTaxTaxRateDetails struct {
+	// ID of the tax rate
 	TaxRate string `json:"tax_rate"`
 }
 
@@ -911,13 +955,13 @@ type QuotePreviewInvoiceTotalTax struct {
 // Invoices are statements of amounts owed by a customer, and are either
 // generated one-off, or generated periodically from a subscription.
 //
-// They contain [invoice items](https://stripe.com/docs/api#invoiceitems), and proration adjustments
+// They contain [invoice items](https://api.stripe.com#invoiceitems), and proration adjustments
 // that may be caused by subscription upgrades/downgrades (if necessary).
 //
 // If your invoice is configured to be billed through automatic charges,
 // Stripe automatically finalizes your invoice and attempts payment. Note
 // that finalizing the invoice,
-// [when automatic](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection), does
+// [when automatic](https://docs.stripe.com/invoicing/integration/automatic-advancement-collection), does
 // not happen immediately as the invoice is created. Stripe waits
 // until one hour after the last webhook was successfully sent (or the last
 // webhook timed out after failing). If you (and the platforms you may have
@@ -937,9 +981,9 @@ type QuotePreviewInvoiceTotalTax struct {
 // customer's credit balance which is applied to the next invoice.
 //
 // More details on the customer's credit balance are
-// [here](https://stripe.com/docs/billing/customer/balance).
+// [here](https://docs.stripe.com/billing/customer/balance).
 //
-// Related guide: [Send invoices to customers](https://stripe.com/docs/billing/invoices/sending)
+// Related guide: [Send invoices to customers](https://docs.stripe.com/billing/invoices/sending)
 type QuotePreviewInvoice struct {
 	// The country of the business associated with this invoice, most often the business creating the invoice.
 	AccountCountry string `json:"account_country"`
@@ -987,7 +1031,7 @@ type QuotePreviewInvoice struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// The ID of the account who will be billed.
+	// The ID of the account representing the customer to bill.
 	CustomerAccount string `json:"customer_account"`
 	// The customer's address. Until the invoice is finalized, this field will equal `customer.address`. Once the invoice is finalized, this field will no longer be updated.
 	CustomerAddress *Address `json:"customer_address"`
@@ -1025,7 +1069,7 @@ type QuotePreviewInvoice struct {
 	EndingBalance int64 `json:"ending_balance"`
 	// Footer displayed on the invoice.
 	Footer string `json:"footer"`
-	// Details of the invoice that was cloned. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
+	// Details of the invoice that was cloned. See the [revision documentation](https://docs.stripe.com/invoicing/invoice-revisions) for more details.
 	FromInvoice *QuotePreviewInvoiceFromInvoice `json:"from_invoice"`
 	// Unique identifier for the object. For preview invoices created using the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint, this id will be prefixed with `upcoming_in`.
 	ID     string                     `json:"id"`
@@ -1038,7 +1082,7 @@ type QuotePreviewInvoice struct {
 	Lines *InvoiceLineItemList `json:"lines"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The time at which payment will next be attempted. This value will be `null` for invoices where `collection_method=send_invoice`.
 	NextPaymentAttempt int64 `json:"next_payment_attempt"`
@@ -1046,7 +1090,7 @@ type QuotePreviewInvoice struct {
 	Number string `json:"number"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
+	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://docs.stripe.com/billing/invoices/connect) documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// The parent that generated this invoice
 	Parent *QuotePreviewInvoiceParent `json:"parent"`
@@ -1073,7 +1117,7 @@ type QuotePreviewInvoice struct {
 	StartingBalance int64 `json:"starting_balance"`
 	// Extra information about an invoice for the customer's credit card statement.
 	StatementDescriptor string `json:"statement_descriptor"`
-	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
+	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://docs.stripe.com/billing/invoices/workflow#workflow-overview)
 	Status            QuotePreviewInvoiceStatus             `json:"status"`
 	StatusTransitions *QuotePreviewInvoiceStatusTransitions `json:"status_transitions"`
 	Subscription      *Subscription                         `json:"subscription"`
@@ -1096,7 +1140,7 @@ type QuotePreviewInvoice struct {
 	TotalPretaxCreditAmounts []*QuotePreviewInvoiceTotalPretaxCreditAmount `json:"total_pretax_credit_amounts"`
 	// The aggregate tax information of all line items.
 	TotalTaxes []*QuotePreviewInvoiceTotalTax `json:"total_taxes"`
-	// Invoices are automatically paid or sent 1 hour after webhooks are delivered, or until all webhook delivery attempts have [been exhausted](https://stripe.com/docs/billing/webhooks#understand). This field tracks the time when webhooks for this invoice were successfully delivered. If the invoice had no webhooks to deliver, this will be set while the invoice is being created.
+	// Invoices are automatically paid or sent 1 hour after webhooks are delivered, or until all webhook delivery attempts have [been exhausted](https://docs.stripe.com/billing/webhooks#understand). This field tracks the time when webhooks for this invoice were successfully delivered. If the invoice had no webhooks to deliver, this will be set while the invoice is being created.
 	WebhooksDeliveredAt int64 `json:"webhooks_delivered_at"`
 }
 

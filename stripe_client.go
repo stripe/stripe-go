@@ -236,6 +236,8 @@ type Client struct {
 	V1SetupAttempts *v1SetupAttemptService
 	// V1SetupIntents is the service used to invoke /v1/setup_intents APIs.
 	V1SetupIntents *v1SetupIntentService
+	// V1SharedPaymentGrantedTokens is the service used to invoke /v1/shared_payment/granted_tokens APIs.
+	V1SharedPaymentGrantedTokens *v1SharedPaymentGrantedTokenService
 	// V1ShippingRates is the service used to invoke /v1/shipping_rates APIs.
 	V1ShippingRates *v1ShippingRateService
 	// V1SigmaScheduledQueryRuns is the service used to invoke /v1/sigma/scheduled_query_runs APIs.
@@ -296,6 +298,8 @@ type Client struct {
 	V1TestHelpersIssuingTransactions *v1TestHelpersIssuingTransactionService
 	// V1TestHelpersRefunds is the service used to invoke /v1/refunds APIs.
 	V1TestHelpersRefunds *v1TestHelpersRefundService
+	// V1TestHelpersSharedPaymentGrantedTokens is the service used to invoke /v1/shared_payment/granted_tokens APIs.
+	V1TestHelpersSharedPaymentGrantedTokens *v1TestHelpersSharedPaymentGrantedTokenService
 	// V1TestHelpersTerminalReaders is the service used to invoke /v1/terminal/readers APIs.
 	V1TestHelpersTerminalReaders *v1TestHelpersTerminalReaderService
 	// V1TestHelpersTestClocks is the service used to invoke /v1/test_helpers/test_clocks APIs.
@@ -416,6 +420,8 @@ type Client struct {
 	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
 	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
+	// V2IamAPIKeys is the service used to invoke /v2/iam/api_keys APIs.
+	V2IamAPIKeys *v2IamAPIKeyService
 	// V2MoneyManagementAdjustments is the service used to invoke /v2/money_management/adjustments APIs.
 	V2MoneyManagementAdjustments *v2MoneyManagementAdjustmentService
 	// V2MoneyManagementCurrencyConversions is the service used to invoke /v2/money_management/currency_conversions APIs.
@@ -450,10 +456,16 @@ type Client struct {
 	V2MoneyManagementTransactions *v2MoneyManagementTransactionService
 	// V2PaymentsOffSessionPayments is the service used to invoke /v2/payments/off_session_payments APIs.
 	V2PaymentsOffSessionPayments *v2PaymentsOffSessionPaymentService
+	// V2PaymentsSettlementAllocationIntents is the service used to invoke /v2/payments/settlement_allocation_intents APIs.
+	V2PaymentsSettlementAllocationIntents *v2PaymentsSettlementAllocationIntentService
+	// V2PaymentsSettlementAllocationIntentsSplits is the service used to invoke /v2/payments/settlement_allocation_intents/{settlement_allocation_intent_id}/splits APIs.
+	V2PaymentsSettlementAllocationIntentsSplits *v2PaymentsSettlementAllocationIntentsSplitService
 	// V2ReportingReportRuns is the service used to invoke /v2/reporting/report_runs APIs.
 	V2ReportingReportRuns *v2ReportingReportRunService
 	// V2ReportingReports is the service used to invoke report related APIs.
 	V2ReportingReports *v2ReportingReportService
+	// V2TaxManualRules is the service used to invoke /v2/tax/manual_rules APIs.
+	V2TaxManualRules *v2TaxManualRuleService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// V2TestHelpersMoneyManagements is the service used to invoke moneymanagement related APIs.
@@ -611,6 +623,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Reviews = &v1ReviewService{B: backends.API, Key: key}
 	client.V1SetupAttempts = &v1SetupAttemptService{B: backends.API, Key: key}
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
+	client.V1SharedPaymentGrantedTokens = &v1SharedPaymentGrantedTokenService{B: backends.API, Key: key}
 	client.V1ShippingRates = &v1ShippingRateService{B: backends.API, Key: key}
 	client.V1SigmaScheduledQueryRuns = &v1SigmaScheduledQueryRunService{B: backends.API, Key: key}
 	client.V1Sources = &v1SourceService{B: backends.API, Key: key}
@@ -641,6 +654,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TestHelpersIssuingPersonalizationDesigns = &v1TestHelpersIssuingPersonalizationDesignService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingTransactions = &v1TestHelpersIssuingTransactionService{B: backends.API, Key: key}
 	client.V1TestHelpersRefunds = &v1TestHelpersRefundService{B: backends.API, Key: key}
+	client.V1TestHelpersSharedPaymentGrantedTokens = &v1TestHelpersSharedPaymentGrantedTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersTerminalReaders = &v1TestHelpersTerminalReaderService{B: backends.API, Key: key}
 	client.V1TestHelpersTestClocks = &v1TestHelpersTestClockService{B: backends.API, Key: key}
 	client.V1TestHelpersTreasuryInboundTransfers = &v1TestHelpersTreasuryInboundTransferService{B: backends.API, Key: key}
@@ -701,6 +715,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
+	client.V2IamAPIKeys = &v2IamAPIKeyService{B: backends.API, Key: key}
 	client.V2MoneyManagementAdjustments = &v2MoneyManagementAdjustmentService{B: backends.API, Key: key}
 	client.V2MoneyManagementCurrencyConversions = &v2MoneyManagementCurrencyConversionService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccounts = &v2MoneyManagementFinancialAccountService{B: backends.API, Key: key}
@@ -718,8 +733,11 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
+	client.V2PaymentsSettlementAllocationIntents = &v2PaymentsSettlementAllocationIntentService{B: backends.API, Key: key}
+	client.V2PaymentsSettlementAllocationIntentsSplits = &v2PaymentsSettlementAllocationIntentsSplitService{B: backends.API, Key: key}
 	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
 	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
+	client.V2TaxManualRules = &v2TaxManualRuleService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec

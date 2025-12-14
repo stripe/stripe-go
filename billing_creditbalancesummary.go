@@ -59,9 +59,9 @@ type BillingCreditBalanceSummaryFilterParams struct {
 // Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryParams struct {
 	Params `form:"*"`
-	// The customer for which to fetch credit balance summary.
+	// The customer whose credit balance summary you're retrieving.
 	Customer *string `form:"customer"`
-	// The account for which to fetch credit balance summary.
+	// The account representing the customer whose credit balance summary you're retrieving.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -109,9 +109,9 @@ type BillingCreditBalanceSummaryRetrieveFilterParams struct {
 // Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryRetrieveParams struct {
 	Params `form:"*"`
-	// The customer for which to fetch credit balance summary.
+	// The customer whose credit balance summary you're retrieving.
 	Customer *string `form:"customer"`
-	// The account for which to fetch credit balance summary.
+	// The account representing the customer whose credit balance summary you're retrieving.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -134,7 +134,7 @@ type BillingCreditBalanceSummaryBalanceAvailableBalanceCustomPricingUnitCustomPr
 	ID string `json:"id"`
 	// A lookup key for the custom pricing unit.
 	LookupKey string `json:"lookup_key"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The status of the custom pricing unit.
 	Status string `json:"status"`
@@ -176,7 +176,7 @@ type BillingCreditBalanceSummaryBalanceLedgerBalanceCustomPricingUnitCustomPrici
 	ID string `json:"id"`
 	// A lookup key for the custom pricing unit.
 	LookupKey string `json:"lookup_key"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The status of the custom pricing unit.
 	Status string `json:"status"`

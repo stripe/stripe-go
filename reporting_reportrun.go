@@ -35,7 +35,7 @@ func (p *ReportingReportRunListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
+// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://docs.stripe.com/reporting/statements/api) documentation.
 type ReportingReportRunParametersParams struct {
 	// The set of report columns to include in the report output. If omitted, the Report Type is run with its default column set.
 	Columns []*string `form:"columns"`
@@ -60,9 +60,9 @@ type ReportingReportRunParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
+	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://docs.stripe.com/reporting/statements/api) documentation.
 	Parameters *ReportingReportRunParametersParams `form:"parameters"`
-	// The ID of the [report type](https://stripe.com/docs/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
+	// The ID of the [report type](https://docs.stripe.com/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
 	ReportType *string `form:"report_type"`
 }
 
@@ -71,7 +71,7 @@ func (p *ReportingReportRunParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
+// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://docs.stripe.com/reporting/statements/api) documentation.
 type ReportingReportRunCreateParametersParams struct {
 	// The set of report columns to include in the report output. If omitted, the Report Type is run with its default column set.
 	Columns []*string `form:"columns"`
@@ -96,9 +96,9 @@ type ReportingReportRunCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
+	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://docs.stripe.com/reporting/statements/api) documentation.
 	Parameters *ReportingReportRunCreateParametersParams `form:"parameters"`
-	// The ID of the [report type](https://stripe.com/docs/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
+	// The ID of the [report type](https://docs.stripe.com/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
 	ReportType *string `form:"report_type"`
 }
 
@@ -142,10 +142,10 @@ type ReportingReportRunParameters struct {
 // specific run parameters. Once the object is created, Stripe begins processing the report.
 // When the report has finished running, it will give you a reference to a file
 // where you can retrieve your results. For an overview, see
-// [API Access to Reports](https://stripe.com/docs/reporting/statements/api).
+// [API Access to Reports](https://docs.stripe.com/reporting/statements/api).
 //
 // Note that certain report types can only be run based on your live-mode data (not test-mode
-// data), and will error when queried without a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).
+// data), and will error when queried without a [live-mode API key](https://docs.stripe.com/keys#test-live-modes).
 type ReportingReportRun struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -160,7 +160,7 @@ type ReportingReportRun struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object     string                        `json:"object"`
 	Parameters *ReportingReportRunParameters `json:"parameters"`
-	// The ID of the [report type](https://stripe.com/docs/reports/report-types) to run, such as `"balance.summary.1"`.
+	// The ID of the [report type](https://docs.stripe.com/reports/report-types) to run, such as `"balance.summary.1"`.
 	ReportType string `json:"report_type"`
 	// The file object representing the result of the report run (populated when
 	//  `status=succeeded`).

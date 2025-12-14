@@ -32,7 +32,7 @@ func (p *CashBalanceParams) AddExpand(f string) {
 
 // A hash of settings for this cash balance.
 type CashBalanceSettingsParams struct {
-	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
 
@@ -51,7 +51,7 @@ func (p *CashBalanceRetrieveParams) AddExpand(f string) {
 
 // A hash of settings for this cash balance.
 type CashBalanceUpdateSettingsParams struct {
-	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
 
@@ -80,11 +80,11 @@ type CashBalanceSettings struct {
 // A customer's `Cash balance` represents real funds. Customers can add funds to their cash balance by sending a bank transfer. These funds can be used for payment and can eventually be paid out to your bank account.
 type CashBalance struct {
 	APIResource
-	// A hash of all cash balances available to this customer. You cannot delete a customer with any cash balances, even if the balance is 0. Amounts are represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// A hash of all cash balances available to this customer. You cannot delete a customer with any cash balances, even if the balance is 0. Amounts are represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Available map[string]int64 `json:"available"`
 	// The ID of the customer whose cash balance this object represents.
 	Customer string `json:"customer"`
-	// The ID of the account whose cash balance this object represents.
+	// The ID of an Account representing a customer whose cash balance this object represents.
 	CustomerAccount string `json:"customer_account"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
