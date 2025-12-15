@@ -108,7 +108,7 @@ const (
 	QuoteLineCancelSubscriptionScheduleCancelAtLineStartsAt QuoteLineCancelSubscriptionScheduleCancelAt = "line_starts_at"
 )
 
-// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+// Configures how the subscription schedule handles billing for phase transitions.
 type QuoteLineEffectiveAt string
 
 // List of values that QuoteLineEffectiveAt can take
@@ -495,7 +495,7 @@ type QuoteLine struct {
 	BillingCycleAnchor QuoteLineBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionSchedule `json:"cancel_subscription_schedule"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt QuoteLineEffectiveAt `json:"effective_at"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 	EndsAt *QuoteLineEndsAt `json:"ends_at"`

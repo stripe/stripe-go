@@ -1932,7 +1932,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
 	BillingSchedulesActions []*InvoiceCreatePreviewScheduleDetailsAmendmentBillingSchedulesActionParams `form:"billing_schedules_actions"`
 	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
 	DiscountActions []*InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionParams `form:"discount_actions"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// Changes to the subscription items during the amendment time span.
 	ItemActions []*InvoiceCreatePreviewScheduleDetailsAmendmentItemActionParams `form:"item_actions"`
@@ -2326,7 +2326,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams `form:"discounts"`
 	// The number of intervals the phase should last. If set, `end_date` must not be set.
 	Duration *InvoiceCreatePreviewScheduleDetailsPhaseDurationParams `form:"duration"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// The date at which this phase of the subscription schedule ends. If set, `duration` must not be set.
 	EndDate    *int64 `form:"end_date"`

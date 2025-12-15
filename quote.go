@@ -286,13 +286,13 @@ const (
 	QuoteSubscriptionDataEndBehaviorRelease QuoteSubscriptionDataEndBehavior = "release"
 )
 
-// Configures how the quote handles billing for line transitions. Possible values are `line_start` (default) or `billing_period_start`. `line_start` bills based on the current state of the line, ignoring changes scheduled for future lines. `billing_period_start` bills predictively for upcoming line transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 type QuoteSubscriptionDataPhaseEffectiveAt string
 
 // List of values that QuoteSubscriptionDataPhaseEffectiveAt can take
 const (
 	QuoteSubscriptionDataPhaseEffectiveAtBillingPeriodStart QuoteSubscriptionDataPhaseEffectiveAt = "billing_period_start"
-	QuoteSubscriptionDataPhaseEffectiveAtLineStart          QuoteSubscriptionDataPhaseEffectiveAt = "line_start"
+	QuoteSubscriptionDataPhaseEffectiveAtPhaseStart         QuoteSubscriptionDataPhaseEffectiveAt = "phase_start"
 )
 
 // Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations) when the quote is accepted.
@@ -409,13 +409,13 @@ const (
 	QuoteSubscriptionDataOverrideEndBehaviorRelease QuoteSubscriptionDataOverrideEndBehavior = "release"
 )
 
-// Configures how the quote handles billing for line transitions. Possible values are `line_start` (default) or `billing_period_start`. `line_start` bills based on the current state of the line, ignoring changes scheduled for future lines. `billing_period_start` bills predictively for upcoming line transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 type QuoteSubscriptionDataOverridePhaseEffectiveAt string
 
 // List of values that QuoteSubscriptionDataOverridePhaseEffectiveAt can take
 const (
 	QuoteSubscriptionDataOverridePhaseEffectiveAtBillingPeriodStart QuoteSubscriptionDataOverridePhaseEffectiveAt = "billing_period_start"
-	QuoteSubscriptionDataOverridePhaseEffectiveAtLineStart          QuoteSubscriptionDataOverridePhaseEffectiveAt = "line_start"
+	QuoteSubscriptionDataOverridePhaseEffectiveAtPhaseStart         QuoteSubscriptionDataOverridePhaseEffectiveAt = "phase_start"
 )
 
 // Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations) when the quote is accepted.
@@ -929,7 +929,7 @@ type QuoteLineParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the quote handles billing for line transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 	EndsAt *QuoteLineEndsAtParams `form:"ends_at"`
@@ -1110,7 +1110,7 @@ type QuoteSubscriptionDataParams struct {
 	FromSubscription *string `form:"from_subscription"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
-	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteSubscriptionDataPrebillingParams `form:"prebilling"`
@@ -1288,7 +1288,7 @@ type QuoteSubscriptionDataOverrideParams struct {
 	Description *string `form:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
-	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
@@ -1962,7 +1962,7 @@ type QuoteCreateLineParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteCreateLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the quote handles billing for line transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 	EndsAt *QuoteCreateLineEndsAtParams `form:"ends_at"`
@@ -2141,7 +2141,7 @@ type QuoteCreateSubscriptionDataParams struct {
 	FromSubscription *string `form:"from_subscription"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
-	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteCreateSubscriptionDataPrebillingParams `form:"prebilling"`
@@ -2319,7 +2319,7 @@ type QuoteCreateSubscriptionDataOverrideParams struct {
 	Description *string `form:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
-	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
@@ -2860,7 +2860,7 @@ type QuoteUpdateLineParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteUpdateLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the quote handles billing for line transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 	EndsAt *QuoteUpdateLineEndsAtParams `form:"ends_at"`
@@ -3023,7 +3023,7 @@ type QuoteUpdateSubscriptionDataParams struct {
 	EndBehavior *string `form:"end_behavior"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
-	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteUpdateSubscriptionDataPrebillingParams `form:"prebilling"`
@@ -3201,7 +3201,7 @@ type QuoteUpdateSubscriptionDataOverrideParams struct {
 	Description *string `form:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
-	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
@@ -3673,7 +3673,7 @@ type QuoteSubscriptionData struct {
 	FromSubscription *Subscription `json:"from_subscription"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `json:"metadata"`
-	// Configures how the quote handles billing for line transitions. Possible values are `line_start` (default) or `billing_period_start`. `line_start` bills based on the current state of the line, ignoring changes scheduled for future lines. `billing_period_start` bills predictively for upcoming line transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 	PhaseEffectiveAt QuoteSubscriptionDataPhaseEffectiveAt `json:"phase_effective_at"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 	Prebilling *QuoteSubscriptionDataPrebilling `json:"prebilling"`
@@ -3823,7 +3823,7 @@ type QuoteSubscriptionDataOverride struct {
 	Description string `json:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior QuoteSubscriptionDataOverrideEndBehavior `json:"end_behavior"`
-	// Configures how the quote handles billing for line transitions. Possible values are `line_start` (default) or `billing_period_start`. `line_start` bills based on the current state of the line, ignoring changes scheduled for future lines. `billing_period_start` bills predictively for upcoming line transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
 	PhaseEffectiveAt QuoteSubscriptionDataOverridePhaseEffectiveAt `json:"phase_effective_at"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations) when the quote is accepted.
 	ProrationBehavior QuoteSubscriptionDataOverrideProrationBehavior `json:"proration_behavior"`
