@@ -3749,6 +3749,8 @@ type InvoiceParentQuoteDetails struct {
 type InvoiceParentScheduleDetails struct {
 	// The schedule that generated this invoice
 	Schedule string `json:"schedule"`
+	// The subscription associated with this schedule
+	Subscription *Subscription `json:"subscription"`
 }
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
