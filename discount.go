@@ -23,16 +23,16 @@ type DiscountSource struct {
 	Type DiscountSourceType `json:"type"`
 }
 
-// A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
+// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
 // It contains information about when the discount began, when it will end, and what it is applied to.
 //
-// Related guide: [Applying discounts to subscriptions](https://stripe.com/docs/billing/subscriptions/discounts)
+// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
 type Discount struct {
 	// The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Will not be present for subscription mode.
 	CheckoutSession string `json:"checkout_session"`
 	// The ID of the customer associated with this discount.
 	Customer *Customer `json:"customer"`
-	// The ID of the account associated with this discount.
+	// The ID of the account representing the customer associated with this discount.
 	CustomerAccount string `json:"customer_account"`
 	Deleted         bool   `json:"deleted"`
 	// If the coupon has a duration of `repeating`, the date that this discount will end. If the coupon has a duration of `once` or `forever`, this attribute will be null.

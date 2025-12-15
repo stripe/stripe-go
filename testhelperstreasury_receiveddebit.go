@@ -53,7 +53,7 @@ type TestHelpersTreasuryReceivedDebitParams struct {
 	FinancialAccount *string `form:"financial_account"`
 	// Initiating payment method details for the object.
 	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedDebitInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
-	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
+	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network *string `form:"network"`
 	// Details about the network used for the ReceivedDebit.
 	NetworkDetails *TestHelpersTreasuryReceivedDebitNetworkDetailsParams `form:"network_details"`
@@ -111,7 +111,7 @@ type TestHelpersTreasuryReceivedDebitCreateParams struct {
 	FinancialAccount *string `form:"financial_account"`
 	// Initiating payment method details for the object.
 	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedDebitCreateInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
-	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
+	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network *string `form:"network"`
 	// Details about the network used for the ReceivedDebit.
 	NetworkDetails *TestHelpersTreasuryReceivedDebitCreateNetworkDetailsParams `form:"network_details"`

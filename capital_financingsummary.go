@@ -6,7 +6,7 @@
 
 package stripe
 
-// Status of the Connected Account's financing. [/v1/capital/financing_summary](https://stripe.com/docs/api/capital/financing_summary) will only return `details` for `paid_out` financing.
+// The financing status of the connected account.
 type CapitalFinancingSummaryStatus string
 
 // List of values that CapitalFinancingSummaryStatus can take
@@ -16,7 +16,7 @@ const (
 	CapitalFinancingSummaryStatusNone      CapitalFinancingSummaryStatus = "none"
 )
 
-// Retrieve the financing state for the account that was authenticated in the request.
+// Retrieve the financing summary object for the account.
 type CapitalFinancingSummaryParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -28,7 +28,7 @@ func (p *CapitalFinancingSummaryParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieve the financing state for the account that was authenticated in the request.
+// Retrieve the financing summary object for the account.
 type CapitalFinancingSummaryRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -54,6 +54,8 @@ type CapitalFinancingSummaryDetailsCurrentRepaymentInterval struct {
 // Additional information about the financing summary. Describes currency, advance amount,
 // fee amount, withhold rate, remaining amount, paid amount, current repayment interval,
 // repayment start date, and advance payout date.
+//
+// Only present for financing offers with the `paid_out` status.
 type CapitalFinancingSummaryDetails struct {
 	// Amount of financing offered, in minor units. For example, 1,000 USD is represented as 100000.
 	AdvanceAmount int64 `json:"advance_amount"`
@@ -75,18 +77,21 @@ type CapitalFinancingSummaryDetails struct {
 	WithholdRate float64 `json:"withhold_rate"`
 }
 
-// A financing object describes an account's current financing state. Used by Connect
-// platforms to read the state of Capital offered to their connected accounts.
+// A financing summary object describes a connected account's financing status in real time.
+// A financing status is either `accepted`, `delivered`, or `none`.
+// You can read the status of your connected accounts.
 type CapitalFinancingSummary struct {
 	APIResource
 	// Additional information about the financing summary. Describes currency, advance amount,
 	// fee amount, withhold rate, remaining amount, paid amount, current repayment interval,
 	// repayment start date, and advance payout date.
+	//
+	// Only present for financing offers with the `paid_out` status.
 	Details *CapitalFinancingSummaryDetails `json:"details"`
-	// The Financing Offer ID this Financing Summary corresponds to
+	// The unique identifier of the Financing Offer object that corresponds to the Financing Summary object.
 	FinancingOffer string `json:"financing_offer"`
 	// The object type: financing_summary
 	Object string `json:"object"`
-	// Status of the Connected Account's financing. [/v1/capital/financing_summary](https://stripe.com/docs/api/capital/financing_summary) will only return `details` for `paid_out` financing.
+	// The financing status of the connected account.
 	Status CapitalFinancingSummaryStatus `json:"status"`
 }

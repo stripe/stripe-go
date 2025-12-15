@@ -59,7 +59,7 @@ const (
 	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityTypeSelf    QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType = "self"
 )
 
-// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 type QuotePreviewSubscriptionScheduleDefaultSettingsBillingCycleAnchor string
 
 // List of values that QuotePreviewSubscriptionScheduleDefaultSettingsBillingCycleAnchor can take
@@ -150,7 +150,7 @@ const (
 	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityTypeSelf    QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType = "self"
 )
 
-// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 type QuotePreviewSubscriptionSchedulePhaseBillingCycleAnchor string
 
 // List of values that QuotePreviewSubscriptionSchedulePhaseBillingCycleAnchor can take
@@ -249,7 +249,7 @@ const (
 	QuotePreviewSubscriptionSchedulePrebillingUpdateBehaviorReset   QuotePreviewSubscriptionSchedulePrebillingUpdateBehavior = "reset"
 )
 
-// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
+// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://docs.stripe.com/billing/subscriptions/subscription-schedules).
 type QuotePreviewSubscriptionScheduleStatus string
 
 // List of values that QuotePreviewSubscriptionScheduleStatus can take
@@ -355,7 +355,7 @@ type QuotePreviewSubscriptionScheduleDefaultSettings struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                                                      `json:"application_fee_percent"`
 	AutomaticTax          *QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTax `json:"automatic_tax"`
-	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor QuotePreviewSubscriptionScheduleDefaultSettingsBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *QuotePreviewSubscriptionScheduleDefaultSettingsBillingThresholds `json:"billing_thresholds"`
@@ -430,7 +430,7 @@ type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriod struct {
 type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItem struct {
 	// The stackable discounts that will be applied to the item.
 	Discounts []*QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscount `json:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string                                          `json:"metadata"`
 	Period   *QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriod `json:"period"`
 	// ID of the price used to generate the invoice item.
@@ -543,7 +543,7 @@ type QuotePreviewSubscriptionSchedulePhaseItem struct {
 	BillingThresholds *QuotePreviewSubscriptionSchedulePhaseItemBillingThresholds `json:"billing_thresholds"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*QuotePreviewSubscriptionSchedulePhaseItemDiscount `json:"discounts"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
 	Metadata map[string]string `json:"metadata"`
 	// ID of the plan to which the customer should be subscribed.
 	Plan *Plan `json:"plan"`
@@ -557,7 +557,7 @@ type QuotePreviewSubscriptionSchedulePhaseItem struct {
 	Trial *QuotePreviewSubscriptionSchedulePhaseItemTrial `json:"trial"`
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type QuotePreviewSubscriptionSchedulePhasePauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
@@ -590,7 +590,7 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                                            `json:"application_fee_percent"`
 	AutomaticTax          *QuotePreviewSubscriptionSchedulePhaseAutomaticTax `json:"automatic_tax"`
-	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor QuotePreviewSubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *QuotePreviewSubscriptionSchedulePhaseBillingThresholds `json:"billing_thresholds"`
@@ -612,11 +612,11 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	InvoiceSettings *QuotePreviewSubscriptionSchedulePhaseInvoiceSettings `json:"invoice_settings"`
 	// Subscription items to configure the subscription to during this phase of the subscription schedule.
 	Items []*QuotePreviewSubscriptionSchedulePhaseItem `json:"items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered. Updating the underlying subscription's `metadata` directly will not affect the current phase's `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered. Updating the underlying subscription's `metadata` directly will not affect the current phase's `metadata`.
 	Metadata map[string]string `json:"metadata"`
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *QuotePreviewSubscriptionSchedulePhasePauseCollection `json:"pause_collection"`
 	// When transitioning phases, controls how prorations are handled (if any). Possible values are `create_prorations`, `none`, and `always_invoice`.
 	ProrationBehavior QuotePreviewSubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
@@ -672,7 +672,7 @@ type QuotePreviewSubscriptionSchedule struct {
 	LastPriceMigrationError *QuotePreviewSubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
@@ -684,7 +684,7 @@ type QuotePreviewSubscriptionSchedule struct {
 	ReleasedAt int64 `json:"released_at"`
 	// ID of the subscription once managed by the subscription schedule (if it is released).
 	ReleasedSubscription string `json:"released_subscription"`
-	// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
+	// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://docs.stripe.com/billing/subscriptions/subscription-schedules).
 	Status QuotePreviewSubscriptionScheduleStatus `json:"status"`
 	// ID of the subscription managed by the subscription schedule.
 	Subscription *Subscription `json:"subscription"`

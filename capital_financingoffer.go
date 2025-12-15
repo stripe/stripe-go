@@ -51,7 +51,7 @@ const (
 	CapitalFinancingOfferStatusUndelivered CapitalFinancingOfferStatus = "undelivered"
 )
 
-// See [financing_type](https://stripe.com/docs/api/capital/connect_financing_object#financing_offer_object-financing_type).
+// See [financing_type](https://docs.stripe.com/api/capital/connect_financing_object#financing_offer_object-financing_type).
 type CapitalFinancingOfferType string
 
 // List of values that CapitalFinancingOfferType can take
@@ -180,7 +180,7 @@ type CapitalFinancingOffer struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The object type: financing_offer.
 	Object string `json:"object"`
@@ -196,7 +196,7 @@ type CapitalFinancingOffer struct {
 	ReplacementFor string `json:"replacement_for"`
 	// The current status of the offer.
 	Status CapitalFinancingOfferStatus `json:"status"`
-	// See [financing_type](https://stripe.com/docs/api/capital/connect_financing_object#financing_offer_object-financing_type).
+	// See [financing_type](https://docs.stripe.com/api/capital/connect_financing_object#financing_offer_object-financing_type).
 	Type CapitalFinancingOfferType `json:"type"`
 }
 

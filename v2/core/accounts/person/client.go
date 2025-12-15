@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a Person associated with an Account.
+// Create a Person. Adds an individual to an Account's identity. You can set relationship attributes and identity information at creation.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -74,7 +74,7 @@ func (c Client) Del(id string, params *stripe.V2CoreAccountsPersonParams) (*stri
 	return deletedObj, err
 }
 
-// Returns a list of Persons associated with an Account.
+// Returns a paginated list of Persons associated with an Account.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

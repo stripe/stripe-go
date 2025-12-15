@@ -253,7 +253,7 @@ type TreasuryFinancialAccountParams struct {
 	Features *TreasuryFinancialAccountFeaturesParams `form:"features"`
 	// A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0
 	ForwardingSettings *TreasuryFinancialAccountForwardingSettingsParams `form:"forwarding_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The nickname for the FinancialAccount.
 	Nickname *string `form:"nickname"`
@@ -552,7 +552,7 @@ type TreasuryFinancialAccountCreateParams struct {
 	Expand []*string `form:"expand"`
 	// Encodes whether a FinancialAccount has access to a particular feature. Stripe or the platform can control features via the requested field.
 	Features *TreasuryFinancialAccountCreateFeaturesParams `form:"features"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The nickname for the FinancialAccount.
 	Nickname *string `form:"nickname"`
@@ -617,7 +617,7 @@ type TreasuryFinancialAccountUpdateParams struct {
 	Features *TreasuryFinancialAccountUpdateFeaturesParams `form:"features"`
 	// A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0
 	ForwardingSettings *TreasuryFinancialAccountUpdateForwardingSettingsParams `form:"forwarding_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The nickname for the FinancialAccount.
 	Nickname *string `form:"nickname"`
@@ -715,7 +715,7 @@ type TreasuryFinancialAccount struct {
 	IsDefault bool   `json:"is_default"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The nickname for the FinancialAccount.
 	Nickname string `json:"nickname"`

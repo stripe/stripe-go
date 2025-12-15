@@ -121,7 +121,7 @@ const (
 	SetupAttemptStatusSucceeded            SetupAttemptStatus = "succeeded"
 )
 
-// The value of [usage](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-usage) on the SetupIntent at the time of this confirmation, one of `off_session` or `on_session`.
+// The value of [usage](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-usage) on the SetupIntent at the time of this confirmation, one of `off_session` or `on_session`.
 type SetupAttemptUsage string
 
 // List of values that SetupAttemptUsage can take
@@ -276,7 +276,7 @@ type SetupAttemptPaymentMethodDetailsIDBankTransfer struct {
 	DisplayName string `json:"display_name"`
 }
 type SetupAttemptPaymentMethodDetailsIDEAL struct {
-	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank string `json:"bank"`
 	// The Bank Identifier Code of the customer's bank.
 	BIC string `json:"bic"`
@@ -362,7 +362,7 @@ type SetupAttemptPaymentMethodDetails struct {
 // payment method using a SetupIntent.
 type SetupAttempt struct {
 	APIResource
-	// The value of [application](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-application) on the SetupIntent at the time of this confirmation.
+	// The value of [application](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-application) on the SetupIntent at the time of this confirmation.
 	Application *Application `json:"application"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 	//
@@ -370,9 +370,9 @@ type SetupAttempt struct {
 	AttachToSelf bool `json:"attach_to_self"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// The value of [customer](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-customer) on the SetupIntent at the time of this confirmation.
+	// The value of [customer](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-customer) on the SetupIntent at the time of this confirmation.
 	Customer *Customer `json:"customer"`
-	// The value of [customer_account](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-customer_account) on the SetupIntent at the time of this confirmation.
+	// The value of [customer_account](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-customer_account) on the SetupIntent at the time of this confirmation.
 	CustomerAccount string `json:"customer_account"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
 	//
@@ -384,7 +384,7 @@ type SetupAttempt struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The value of [on_behalf_of](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-on_behalf_of) on the SetupIntent at the time of this confirmation.
+	// The value of [on_behalf_of](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-on_behalf_of) on the SetupIntent at the time of this confirmation.
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// ID of the payment method used with this SetupAttempt.
 	PaymentMethod        *PaymentMethod                    `json:"payment_method"`
@@ -395,7 +395,7 @@ type SetupAttempt struct {
 	SetupIntent *SetupIntent `json:"setup_intent"`
 	// Status of this SetupAttempt, one of `requires_confirmation`, `requires_action`, `processing`, `succeeded`, `failed`, or `abandoned`.
 	Status SetupAttemptStatus `json:"status"`
-	// The value of [usage](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-usage) on the SetupIntent at the time of this confirmation, one of `off_session` or `on_session`.
+	// The value of [usage](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-usage) on the SetupIntent at the time of this confirmation, one of `off_session` or `on_session`.
 	Usage SetupAttemptUsage `json:"usage"`
 }
 

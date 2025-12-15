@@ -403,7 +403,7 @@ const (
 	PaymentMethodUSBankAccountStatusDetailsBlockedReasonTokenizedAccountNumberDeactivated PaymentMethodUSBankAccountStatusDetailsBlockedReason = "tokenized_account_number_deactivated"
 )
 
-// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer_list) API instead.
+// Returns a list of all PaymentMethods.
 type PaymentMethodListParams struct {
 	ListParams `form:"*"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
@@ -669,9 +669,9 @@ type PaymentMethodPromptPayParams struct{}
 // If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 type PaymentMethodQrisParams struct{}
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type PaymentMethodRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
@@ -822,7 +822,7 @@ type PaymentMethodParams struct {
 	Link *PaymentMethodLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *PaymentMethodMobilepayParams `form:"mobilepay"`
@@ -854,7 +854,7 @@ type PaymentMethodParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 	Qris *PaymentMethodQrisParams `form:"qris"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
@@ -922,7 +922,7 @@ type PaymentMethodAttachParams struct {
 	Params `form:"*"`
 	// The ID of the customer to which to attach the PaymentMethod.
 	Customer *string `form:"customer"`
-	// The ID of the account to which to attach the PaymentMethod.
+	// The ID of the Account representing the customer to which to attach the PaymentMethod.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -1191,9 +1191,9 @@ type PaymentMethodCreatePromptPayParams struct{}
 // If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 type PaymentMethodCreateQrisParams struct{}
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type PaymentMethodCreateRadarOptionsParams struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
 
@@ -1346,7 +1346,7 @@ type PaymentMethodCreateParams struct {
 	Link *PaymentMethodCreateLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodCreateMbWayParams `form:"mb_way"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *PaymentMethodCreateMobilepayParams `form:"mobilepay"`
@@ -1380,7 +1380,7 @@ type PaymentMethodCreateParams struct {
 	PromptPay *PaymentMethodCreatePromptPayParams `form:"promptpay"`
 	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
 	Qris *PaymentMethodCreateQrisParams `form:"qris"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodCreateRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *PaymentMethodCreateRechnungParams `form:"rechnung"`
@@ -1497,7 +1497,7 @@ type PaymentMethodUpdateParams struct {
 	Card *PaymentMethodUpdateCardParams `form:"card"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 	Payto *PaymentMethodUpdatePaytoParams `form:"payto"`
@@ -1648,7 +1648,7 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	GeneratedCard string `json:"generated_card"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
 	IIN string `json:"iin"`
-	// Whether this [PaymentIntent](https://stripe.com/docs/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
+	// Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
 	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer"`
@@ -1882,7 +1882,7 @@ type PaymentMethodIDBankTransfer struct {
 	DisplayName string                          `json:"display_name"`
 }
 type PaymentMethodIDEAL struct {
-	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank string `json:"bank"`
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
 	BIC string `json:"bic"`
@@ -2014,9 +2014,9 @@ type PaymentMethodPix struct{}
 type PaymentMethodPromptPay struct{}
 type PaymentMethodQris struct{}
 
-// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type PaymentMethodRadarOptions struct {
-	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session string `json:"session"`
 }
 type PaymentMethodRechnungDOB struct {
@@ -2113,10 +2113,10 @@ type PaymentMethodWeChatPay struct{}
 type PaymentMethodZip struct{}
 
 // PaymentMethod objects represent your customer's payment instruments.
-// You can use them with [PaymentIntents](https://stripe.com/docs/payments/payment-intents) to collect payments or save them to
+// You can use them with [PaymentIntents](https://docs.stripe.com/payments/payment-intents) to collect payments or save them to
 // Customer objects to store instrument details for future payments.
 //
-// Related guides: [Payment Methods](https://stripe.com/docs/payments/payment-methods) and [More Payment Scenarios](https://stripe.com/docs/payments/more-payment-scenarios).
+// Related guides: [Payment Methods](https://docs.stripe.com/payments/payment-methods) and [More Payment Scenarios](https://docs.stripe.com/payments/more-payment-scenarios).
 type PaymentMethod struct {
 	APIResource
 	ACSSDebit        *PaymentMethodACSSDebit        `json:"acss_debit"`
@@ -2165,7 +2165,7 @@ type PaymentMethod struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool                `json:"livemode"`
 	MbWay    *PaymentMethodMbWay `json:"mb_way"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata      map[string]string           `json:"metadata"`
 	Mobilepay     *PaymentMethodMobilepay     `json:"mobilepay"`
 	Multibanco    *PaymentMethodMultibanco    `json:"multibanco"`
@@ -2184,7 +2184,7 @@ type PaymentMethod struct {
 	Pix       *PaymentMethodPix       `json:"pix"`
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	Qris      *PaymentMethodQris      `json:"qris"`
-	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions  *PaymentMethodRadarOptions  `json:"radar_options"`
 	Rechnung      *PaymentMethodRechnung      `json:"rechnung"`
 	RevolutPay    *PaymentMethodRevolutPay    `json:"revolut_pay"`
