@@ -136,12 +136,12 @@ func (c Client) Detach(id string, params *stripe.PaymentMethodDetachParams) (*st
 	return paymentmethod, err
 }
 
-// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer_list) API instead.
+// Returns a list of all PaymentMethods.
 func List(params *stripe.PaymentMethodListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer_list) API instead.
+// Returns a list of all PaymentMethods.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

@@ -222,6 +222,8 @@ type TaxIDOwner struct {
 	Application *Application `json:"application"`
 	// The customer being referenced when `type` is `customer`.
 	Customer *Customer `json:"customer"`
+	// The Account representing the customer being referenced when `type` is `customer`.
+	CustomerAccount string `json:"customer_account"`
 	// Type of owner referenced.
 	Type TaxIDOwnerType `json:"type"`
 }
@@ -236,10 +238,10 @@ type TaxIDVerification struct {
 	VerifiedName string `json:"verified_name"`
 }
 
-// You can add one or multiple tax IDs to a [customer](https://stripe.com/docs/api/customers) or account.
+// You can add one or multiple tax IDs to a [customer](https://docs.stripe.com/api/customers) or account.
 // Customer and account tax IDs get displayed on related invoices and credit notes.
 //
-// Related guides: [Customer tax identification numbers](https://stripe.com/docs/billing/taxes/tax-ids), [Account tax IDs](https://stripe.com/docs/invoicing/connect#account-tax-ids)
+// Related guides: [Customer tax identification numbers](https://docs.stripe.com/billing/taxes/tax-ids), [Account tax IDs](https://docs.stripe.com/invoicing/connect#account-tax-ids)
 type TaxID struct {
 	APIResource
 	// Two-letter ISO code representing the country of the tax ID.
@@ -248,7 +250,9 @@ type TaxID struct {
 	Created int64 `json:"created"`
 	// ID of the customer.
 	Customer *Customer `json:"customer"`
-	Deleted  bool      `json:"deleted"`
+	// ID of the Account representing the customer.
+	CustomerAccount string `json:"customer_account"`
+	Deleted         bool   `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

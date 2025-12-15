@@ -204,7 +204,7 @@ type BalanceTransactionFeeDetail struct {
 // Balance transactions represent funds moving through your Stripe account.
 // Stripe creates them for every type of transaction that enters or leaves your Stripe account balance.
 //
-// Related guide: [Balance transaction types](https://stripe.com/docs/reports/balance-transaction-types)
+// Related guide: [Balance transaction types](https://docs.stripe.com/reports/balance-transaction-types)
 type BalanceTransaction struct {
 	APIResource
 	// Gross amount of this transaction (in cents (or local equivalent)). A positive value represents funds charged to another party, and a negative value represents funds sent to another party.

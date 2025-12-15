@@ -60,13 +60,13 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptions struct {
 
 // Contains information about the tax on the item.
 type PaymentIntentAmountDetailsLineItemTax struct {
-	// The total amount of tax on the transaction represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
 	TotalTaxAmount int64 `json:"total_tax_amount"`
 }
 type PaymentIntentAmountDetailsLineItem struct {
-	// The discount applied on this line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). An integer greater than 0.
+	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
 	DiscountAmount int64 `json:"discount_amount"`
@@ -86,7 +86,7 @@ type PaymentIntentAmountDetailsLineItem struct {
 	Quantity int64 `json:"quantity"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentAmountDetailsLineItemTax `json:"tax"`
-	// The unit cost of the line item represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
 	UnitCost int64 `json:"unit_cost"`
 	// A unit of measure for the line item, such as gallons, feet, meters, etc. Required for L3 rates. At most 12 alphanumeric characters long.
 	UnitOfMeasure string `json:"unit_of_measure"`

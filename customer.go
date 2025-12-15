@@ -54,7 +54,7 @@ const (
 // Permanently deletes a customer. It cannot be undone. Also immediately cancels any active subscriptions on the customer.
 type CustomerParams struct {
 	Params `form:"*"`
-	// The customer's address.
+	// The customer's address. Learn about [country-specific requirements for calculating tax](https://docs.stripe.com/invoicing/taxes?dashboard-or-api=dashboard#set-up-customer).
 	Address *AddressParams `form:"address"`
 	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
 	Balance *int64 `form:"balance"`
@@ -62,11 +62,11 @@ type CustomerParams struct {
 	BusinessName *string `form:"business_name"`
 	// Balance information and default balance settings for this customer.
 	CashBalance *CustomerCashBalanceParams `form:"cash_balance"`
-	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
+	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
 	//
 	// Provide the ID of a payment source already attached to this customer to make it this customer's default payment source.
 	//
-	// If you want to add a new payment source and make it the default, see the [source](https://stripe.com/docs/api/customers/update#update_customer-source) property.
+	// If you want to add a new payment source and make it the default, see the [source](https://docs.stripe.com/api/customers/update#update_customer-source) property.
 	DefaultSource *string `form:"default_source"`
 	// An arbitrary string that you can attach to a customer object. It is displayed alongside the customer in the dashboard.
 	Description *string `form:"description"`
@@ -80,7 +80,7 @@ type CustomerParams struct {
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The customer's full name or business name.
 	Name *string `form:"name"`
@@ -122,7 +122,7 @@ func (p *CustomerParams) AddMetadata(key string, value string) {
 // Settings controlling the behavior of the customer's cash balance,
 // such as reconciliation of funds received.
 type CustomerCashBalanceSettingsParams struct {
-	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
 
@@ -317,7 +317,7 @@ func (p *CustomerRetrieveParams) AddExpand(f string) {
 // Settings controlling the behavior of the customer's cash balance,
 // such as reconciliation of funds received.
 type CustomerUpdateCashBalanceSettingsParams struct {
-	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
 
@@ -379,7 +379,7 @@ type CustomerUpdateTaxParams struct {
 // This request accepts mostly the same arguments as the customer creation call.
 type CustomerUpdateParams struct {
 	Params `form:"*"`
-	// The customer's address.
+	// The customer's address. Learn about [country-specific requirements for calculating tax](https://docs.stripe.com/invoicing/taxes?dashboard-or-api=dashboard#set-up-customer).
 	Address *AddressParams `form:"address"`
 	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
 	Balance *int64 `form:"balance"`
@@ -387,11 +387,11 @@ type CustomerUpdateParams struct {
 	BusinessName *string `form:"business_name"`
 	// Balance information and default balance settings for this customer.
 	CashBalance *CustomerUpdateCashBalanceParams `form:"cash_balance"`
-	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
+	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
 	//
 	// Provide the ID of a payment source already attached to this customer to make it this customer's default payment source.
 	//
-	// If you want to add a new payment source and make it the default, see the [source](https://stripe.com/docs/api/customers/update#update_customer-source) property.
+	// If you want to add a new payment source and make it the default, see the [source](https://docs.stripe.com/api/customers/update#update_customer-source) property.
 	DefaultSource *string `form:"default_source"`
 	// An arbitrary string that you can attach to a customer object. It is displayed alongside the customer in the dashboard.
 	Description *string `form:"description"`
@@ -405,7 +405,7 @@ type CustomerUpdateParams struct {
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerUpdateInvoiceSettingsParams `form:"invoice_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The customer's full name or business name.
 	Name *string `form:"name"`
@@ -442,7 +442,7 @@ func (p *CustomerUpdateParams) AddMetadata(key string, value string) {
 // Settings controlling the behavior of the customer's cash balance,
 // such as reconciliation of funds received.
 type CustomerCreateCashBalanceSettingsParams struct {
-	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
 
@@ -510,7 +510,7 @@ type CustomerCreateTaxIDDataParams struct {
 // Creates a new customer object.
 type CustomerCreateParams struct {
 	Params `form:"*"`
-	// The customer's address.
+	// The customer's address. Learn about [country-specific requirements for calculating tax](https://docs.stripe.com/invoicing/taxes?dashboard-or-api=dashboard#set-up-customer).
 	Address *AddressParams `form:"address"`
 	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
 	Balance *int64 `form:"balance"`
@@ -530,7 +530,7 @@ type CustomerCreateParams struct {
 	InvoicePrefix *string `form:"invoice_prefix"`
 	// Default invoice settings for this customer.
 	InvoiceSettings *CustomerCreateInvoiceSettingsParams `form:"invoice_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The customer's full name or business name.
 	Name *string `form:"name"`
@@ -615,13 +615,13 @@ type CustomerTax struct {
 	Provider CustomerTaxProvider `json:"provider"`
 }
 
-// This object represents a customer of your business. Use it to [create recurring charges](https://stripe.com/docs/invoicing/customer), [save payment](https://stripe.com/docs/payments/save-during-payment) and contact information,
+// This object represents a customer of your business. Use it to [create recurring charges](https://docs.stripe.com/invoicing/customer), [save payment](https://docs.stripe.com/payments/save-during-payment) and contact information,
 // and track payments that belong to the same customer.
 type Customer struct {
 	APIResource
 	// The customer's address.
 	Address *Address `json:"address"`
-	// The current balance, if any, that's stored on the customer in their default currency. If negative, the customer has credit to apply to their next invoice. If positive, the customer has an amount owed that's added to their next invoice. The balance only considers amounts that Stripe hasn't successfully applied to any invoice. It doesn't reflect unpaid invoices. This balance is only taken into account after invoices finalize. For multi-currency balances, see [invoice_credit_balance](https://stripe.com/docs/api/customers/object#customer_object-invoice_credit_balance).
+	// The current balance, if any, that's stored on the customer in their default currency. If negative, the customer has credit to apply to their next invoice. If positive, the customer has an amount owed that's added to their next invoice. The balance only considers amounts that Stripe hasn't successfully applied to any invoice. It doesn't reflect unpaid invoices. This balance is only taken into account after invoices finalize. For multi-currency balances, see [invoice_credit_balance](https://docs.stripe.com/api/customers/object#customer_object-invoice_credit_balance).
 	Balance int64 `json:"balance"`
 	// The customer's business name.
 	BusinessName string `json:"business_name"`
@@ -631,14 +631,16 @@ type Customer struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) the customer can be charged in for recurring billing purposes.
 	Currency Currency `json:"currency"`
+	// The ID of an Account representing a customer. You can use this ID with any v1 API that accepts a customer_account parameter.
+	CustomerAccount string `json:"customer_account"`
 	// ID of the default payment source for the customer.
 	//
-	// If you use payment methods created through the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/object#customer_object-invoice_settings-default_payment_method) field instead.
+	// If you use payment methods created through the PaymentMethods API, see the [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) field instead.
 	DefaultSource *PaymentSource `json:"default_source"`
 	Deleted       bool           `json:"deleted"`
 	// Tracks the most recent state change on any invoice belonging to the customer. Paying an invoice or marking it uncollectible via the API will set this field to false. An automatic payment failure or passing the `invoice.due_date` will set this field to `true`.
 	//
-	// If an invoice becomes uncollectible by [dunning](https://stripe.com/docs/billing/automatic-collection), `delinquent` doesn't reset to `false`.
+	// If an invoice becomes uncollectible by [dunning](https://docs.stripe.com/billing/automatic-collection), `delinquent` doesn't reset to `false`.
 	//
 	// If you care whether the customer has paid their most recent subscription invoice, use `subscription.status` instead. Paying or marking uncollectible any customer invoice regardless of whether it is the latest invoice for a subscription will always set this field to `false`.
 	Delinquent bool `json:"delinquent"`
@@ -659,7 +661,7 @@ type Customer struct {
 	InvoiceSettings *CustomerInvoiceSettings `json:"invoice_settings"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The customer's full name or business name.
 	Name string `json:"name"`

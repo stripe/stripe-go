@@ -294,6 +294,16 @@ type Client struct {
 	V2BillingMeterEventSessions *v2BillingMeterEventSessionService
 	// V2BillingMeterEventStreams is the service used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2BillingMeterEventStreamService
+	// V2CoreAccountLinks is the service used to invoke /v2/core/account_links APIs.
+	V2CoreAccountLinks *v2CoreAccountLinkService
+	// V2CoreAccounts is the service used to invoke /v2/core/accounts APIs.
+	V2CoreAccounts *v2CoreAccountService
+	// V2CoreAccountsPersons is the service used to invoke /v2/core/accounts/{account_id}/persons APIs.
+	V2CoreAccountsPersons *v2CoreAccountsPersonService
+	// V2CoreAccountsPersonTokens is the service used to invoke /v2/core/accounts/{account_id}/person_tokens APIs.
+	V2CoreAccountsPersonTokens *v2CoreAccountsPersonTokenService
+	// V2CoreAccountTokens is the service used to invoke /v2/core/account_tokens APIs.
+	V2CoreAccountTokens *v2CoreAccountTokenService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
@@ -480,6 +490,11 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingMeterEvents = &v2BillingMeterEventService{B: backends.API, Key: key}
 	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
+	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
+	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
+	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
+	client.V2CoreAccountsPersonTokens = &v2CoreAccountsPersonTokenService{B: backends.API, Key: key}
+	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
