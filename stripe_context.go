@@ -65,9 +65,13 @@ func (c *Context) Pop() (*Context, error) {
 	return NewStripeContext(c.Segments[:len(c.Segments)-1]), nil
 }
 
-// StringPtr returns the string representation of the stripe.Context.
-// Segments are joined with "/" as the separator.
+// StringPtr returns the string representation of the stripe.Context. Returns nil if the context is nil.
+//
+//	Otherwise, segments are joined with "/" as the separator.
 func (c *Context) StringPtr() *string {
+	if c == nil {
+		return nil
+	}
 	result := strings.Join(c.Segments, "/")
 	return &result
 }

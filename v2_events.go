@@ -210,7 +210,7 @@ func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchRelatedObject
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &BillingMeter{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -271,7 +271,7 @@ func (n *V2CoreAccountClosedEventNotification) FetchRelatedObject(ctx context.Co
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -310,7 +310,7 @@ func (n *V2CoreAccountCreatedEventNotification) FetchRelatedObject(ctx context.C
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -349,7 +349,7 @@ func (n *V2CoreAccountUpdatedEventNotification) FetchRelatedObject(ctx context.C
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -389,7 +389,7 @@ func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -428,7 +428,7 @@ func (n *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) Fe
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -468,7 +468,7 @@ func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -507,7 +507,7 @@ func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) Fe
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -547,7 +547,7 @@ func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEven
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -586,7 +586,7 @@ func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) F
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -626,7 +626,7 @@ func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNo
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -665,7 +665,7 @@ func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) Fetc
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -704,7 +704,7 @@ func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchRelatedObj
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -743,7 +743,7 @@ func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchRelatedObj
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -782,7 +782,7 @@ func (n *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchRelate
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -844,7 +844,7 @@ func (n *V2CoreAccountPersonCreatedEventNotification) FetchRelatedObject(ctx con
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccountPerson{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -884,7 +884,7 @@ func (n *V2CoreAccountPersonDeletedEventNotification) FetchRelatedObject(ctx con
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccountPerson{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -924,7 +924,7 @@ func (n *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx con
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreAccountPerson{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -963,7 +963,7 @@ func (n *V2CoreEventDestinationPingEventNotification) FetchRelatedObject(ctx con
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2CoreEventDestination{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1024,7 +1024,7 @@ func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchRelatedObject
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementAdjustment{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1063,7 +1063,7 @@ func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchRelated
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementFinancialAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1102,7 +1102,7 @@ func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelated
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementFinancialAccount{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1141,7 +1141,7 @@ func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchRelat
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementFinancialAddress{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1180,7 +1180,7 @@ func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchRelatedO
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementFinancialAddress{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1220,7 +1220,7 @@ func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchRelate
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1259,7 +1259,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) Fetch
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1298,7 +1298,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) F
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1337,7 +1337,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) Fetch
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1376,7 +1376,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) Fet
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1415,7 +1415,7 @@ func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) Fe
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementInboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1454,7 +1454,7 @@ func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchRelated
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1493,7 +1493,7 @@ func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchRelatedO
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1532,7 +1532,7 @@ func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchRelatedOb
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1571,7 +1571,7 @@ func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchRelatedOb
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1610,7 +1610,7 @@ func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchRelated
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1649,7 +1649,7 @@ func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchRelatedO
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundPayment{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1688,7 +1688,7 @@ func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchRelate
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1727,7 +1727,7 @@ func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchRelated
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1766,7 +1766,7 @@ func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchRelatedO
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1805,7 +1805,7 @@ func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchRelatedO
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1844,7 +1844,7 @@ func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchRelate
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1883,7 +1883,7 @@ func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelated
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1922,7 +1922,7 @@ func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchRelatedObje
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementPayoutMethod{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -1961,7 +1961,7 @@ func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchRelatedObje
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementPayoutMethod{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2001,7 +2001,7 @@ func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchRelated
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedCredit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2040,7 +2040,7 @@ func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchRelatedObj
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedCredit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2079,7 +2079,7 @@ func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchRelatedO
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedCredit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2118,7 +2118,7 @@ func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchRelated
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedCredit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2157,7 +2157,7 @@ func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchRelatedOb
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2196,7 +2196,7 @@ func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchRelatedObje
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2235,7 +2235,7 @@ func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchRelatedObj
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2274,7 +2274,7 @@ func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchRelatedO
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2313,7 +2313,7 @@ func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObj
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementReceivedDebit{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2353,7 +2353,7 @@ func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchRelatedObjec
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementTransaction{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }
@@ -2392,7 +2392,7 @@ func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObjec
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementTransaction{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }

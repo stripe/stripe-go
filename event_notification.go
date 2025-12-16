@@ -75,6 +75,6 @@ func (n *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*API
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 
-	err := n.client.backend.Call(http.MethodGet, n.RelatedObject.URL, n.client.key, params, obj)
+	err := n.client.backends.API.Call(http.MethodGet, n.RelatedObject.URL, n.client.key, params, obj)
 	return obj, err
 }

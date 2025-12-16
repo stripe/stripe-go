@@ -402,8 +402,8 @@ type Client struct {
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
 
-	backend Backend
-	key     string
+	backends *Backends
+	key      string
 }
 
 // NewClient creates a new Stripe [Client] with the given API key.
@@ -428,12 +428,12 @@ func initClient(client *Client, cfg clientConfig) {
 			Connect:     &UsageBackend{B: GetBackend(ConnectBackend), Usage: cfg.usage},
 			Uploads:     &UsageBackend{B: GetBackend(UploadsBackend), Usage: cfg.usage},
 			MeterEvents: &UsageBackend{B: GetBackend(MeterEventsBackend), Usage: cfg.usage},
+			config:      &BackendConfig{},
 		}
 	}
 	backends := cfg.backends
 	key := cfg.key
-	// enough information on the Client to make API calls
-	client.backend = backends.API
+	client.backends = backends
 	client.key = key
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
