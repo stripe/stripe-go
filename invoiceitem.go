@@ -355,7 +355,7 @@ type InvoiceItemParent struct {
 }
 type InvoiceItemPricingPriceDetails struct {
 	// The ID of the price this item is associated with.
-	Price *Price `json:"price"`
+	Price string `json:"price"`
 	// The ID of the product this item is associated with.
 	Product string `json:"product"`
 }
