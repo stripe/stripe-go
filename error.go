@@ -29,21 +29,21 @@ const (
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
 
 	// V2 error types
-	ErrorTypeAlreadyCanceled         ErrorType = "already_canceled"
-	ErrorTypeAlreadyExists           ErrorType = "already_exists"
-	ErrorTypeBlockedByStripe         ErrorType = "blocked_by_stripe"
-	ErrorTypeControlledByDashboard   ErrorType = "controlled_by_dashboard"
-	ErrorTypeFeatureNotEnabled       ErrorType = "feature_not_enabled"
-	ErrorTypeFinancialAccountNotOpen ErrorType = "financial_account_not_open"
-	ErrorTypeInsufficientFunds       ErrorType = "insufficient_funds"
-	ErrorTypeInvalidPaymentMethod    ErrorType = "invalid_payment_method"
-	ErrorTypeInvalidPayoutMethod     ErrorType = "invalid_payout_method"
-	ErrorTypeNonZeroBalance          ErrorType = "non_zero_balance"
-	ErrorTypeNotCancelable           ErrorType = "not_cancelable"
-	ErrorTypeQuotaExceeded           ErrorType = "quota_exceeded"
-	ErrorTypeRateLimit               ErrorType = "rate_limit"
-	ErrorTypeRecipientNotNotifiable  ErrorType = "recipient_not_notifiable"
-	ErrorTypeTemporarySessionExpired ErrorType = "temporary_session_expired"
+	ErrorTypeAlreadyCanceled               ErrorType = "already_canceled"
+	ErrorTypeAlreadyExists                 ErrorType = "already_exists"
+	ErrorTypeBlockedByStripe               ErrorType = "blocked_by_stripe"
+	ErrorTypeControlledByAlternateResource ErrorType = "controlled_by_alternate_resource"
+	ErrorTypeControlledByDashboard         ErrorType = "controlled_by_dashboard"
+	ErrorTypeFeatureNotEnabled             ErrorType = "feature_not_enabled"
+	ErrorTypeFinancialAccountNotOpen       ErrorType = "financial_account_not_open"
+	ErrorTypeInsufficientFunds             ErrorType = "insufficient_funds"
+	ErrorTypeInvalidPaymentMethod          ErrorType = "invalid_payment_method"
+	ErrorTypeInvalidPayoutMethod           ErrorType = "invalid_payout_method"
+	ErrorTypeNonZeroBalance                ErrorType = "non_zero_balance"
+	ErrorTypeNotCancelable                 ErrorType = "not_cancelable"
+	ErrorTypeQuotaExceeded                 ErrorType = "quota_exceeded"
+	ErrorTypeRecipientNotNotifiable        ErrorType = "recipient_not_notifiable"
+	ErrorTypeTemporarySessionExpired       ErrorType = "temporary_session_expired"
 )
 
 // errorTypes: The end of the section generated from our OpenAPI spec
@@ -66,6 +66,7 @@ const (
 	ErrorCodeAccountInformationMismatch                                  ErrorCode = "account_information_mismatch"
 	ErrorCodeAccountInvalid                                              ErrorCode = "account_invalid"
 	ErrorCodeAccountNumberInvalid                                        ErrorCode = "account_number_invalid"
+	ErrorCodeAccountTokenRequiredForV2Account                            ErrorCode = "account_token_required_for_v2_account"
 	ErrorCodeAlipayUpgradeRequired                                       ErrorCode = "alipay_upgrade_required"
 	ErrorCodeAmountTooLarge                                              ErrorCode = "amount_too_large"
 	ErrorCodeAmountTooSmall                                              ErrorCode = "amount_too_small"
@@ -526,6 +527,33 @@ func (e *BlockedByStripeError) canRetry() bool {
 	return false
 }
 
+// ControlledByAlternateResourceError is the Go struct corresponding to the error type "controlled_by_alternate_resource".
+// Returned when the PayoutMethod object is controlled by an alternate resource so cannot be archived.
+type ControlledByAlternateResourceError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *ControlledByAlternateResourceError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *ControlledByAlternateResourceError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *ControlledByAlternateResourceError) canRetry() bool {
+	return false
+}
+
 // ControlledByDashboardError is the Go struct corresponding to the error type "controlled_by_dashboard".
 // Returned when the PayoutMethodBankAccount object is controlled by the Stripe Dashboard, and cannot be archived.
 type ControlledByDashboardError struct {
@@ -767,33 +795,6 @@ func (e *QuotaExceededError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *QuotaExceededError) canRetry() bool {
-	return false
-}
-
-// RateLimitError is the Go struct corresponding to the error type "rate_limit".
-// Account cannot exceed a configured concurrency rate limit on updates.
-type RateLimitError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *RateLimitError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *RateLimitError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *RateLimitError) canRetry() bool {
 	return false
 }
 

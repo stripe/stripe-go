@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, `unapplied_from_invoice`, `checkout_session_subscription_payment`, or `checkout_session_subscription_payment_canceled`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
+// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, `unapplied_from_invoice`, `checkout_session_subscription_payment`, or `checkout_session_subscription_payment_canceled`. See the [Customer Balance page](https://docs.stripe.com/billing/customer/balance#types) to learn more about transaction types.
 type CustomerBalanceTransactionType string
 
 // List of values that CustomerBalanceTransactionType can take
@@ -37,6 +37,8 @@ type CustomerBalanceTransactionListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Only return transactions that are related to the specified invoice.
+	Invoice *string `form:"invoice"`
 }
 
 // AddExpand appends a new field to expand.
@@ -50,13 +52,13 @@ type CustomerBalanceTransactionParams struct {
 	Customer *string `form:"-"` // Included in URL
 	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
 	Amount *int64 `form:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Specifies the [`invoice_credit_balance`](https://stripe.com/docs/api/customers/object#customer_object-invoice_credit_balance) that this transaction will apply to. If the customer's `currency` is not set, it will be updated to this value.
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Specifies the [`invoice_credit_balance`](https://docs.stripe.com/api/customers/object#customer_object-invoice_credit_balance) that this transaction will apply to. If the customer's `currency` is not set, it will be updated to this value.
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -80,13 +82,13 @@ type CustomerBalanceTransactionCreateParams struct {
 	Customer *string `form:"-"` // Included in URL
 	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
 	Amount *int64 `form:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Specifies the [`invoice_credit_balance`](https://stripe.com/docs/api/customers/object#customer_object-invoice_credit_balance) that this transaction will apply to. If the customer's `currency` is not set, it will be updated to this value.
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Specifies the [`invoice_credit_balance`](https://docs.stripe.com/api/customers/object#customer_object-invoice_credit_balance) that this transaction will apply to. If the customer's `currency` is not set, it will be updated to this value.
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -125,7 +127,7 @@ type CustomerBalanceTransactionUpdateParams struct {
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -143,12 +145,12 @@ func (p *CustomerBalanceTransactionUpdateParams) AddMetadata(key string, value s
 	p.Metadata[key] = value
 }
 
-// Each customer has a [Balance](https://stripe.com/docs/api/customers/object#customer_object-balance) value,
+// Each customer has a [Balance](https://docs.stripe.com/api/customers/object#customer_object-balance) value,
 // which denotes a debit or credit that's automatically applied to their next invoice upon finalization.
-// You may modify the value directly by using the [update customer API](https://stripe.com/docs/api/customers/update),
+// You may modify the value directly by using the [update customer API](https://docs.stripe.com/api/customers/update),
 // or by creating a Customer Balance Transaction, which increments or decrements the customer's `balance` by the specified `amount`.
 //
-// Related guide: [Customer balance](https://stripe.com/docs/billing/customer/balance)
+// Related guide: [Customer balance](https://docs.stripe.com/billing/customer/balance)
 type CustomerBalanceTransaction struct {
 	APIResource
 	// The amount of the transaction. A negative value is a credit for the customer's balance, and a positive value is a debit to the customer's `balance`.
@@ -162,8 +164,9 @@ type CustomerBalanceTransaction struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The ID of the customer the transaction belongs to.
-	Customer        *Customer `json:"customer"`
-	CustomerAccount string    `json:"customer_account"`
+	Customer *Customer `json:"customer"`
+	// The ID of an Account representing a customer that the transaction belongs to.
+	CustomerAccount string `json:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
 	// The customer's `balance` after the transaction was applied. A negative value decreases the amount due on the customer's next invoice. A positive value increases the amount due on the customer's next invoice.
@@ -174,11 +177,11 @@ type CustomerBalanceTransaction struct {
 	Invoice *Invoice `json:"invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, `unapplied_from_invoice`, `checkout_session_subscription_payment`, or `checkout_session_subscription_payment_canceled`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
+	// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, `unapplied_from_invoice`, `checkout_session_subscription_payment`, or `checkout_session_subscription_payment_canceled`. See the [Customer Balance page](https://docs.stripe.com/billing/customer/balance#types) to learn more about transaction types.
 	Type CustomerBalanceTransactionType `json:"type"`
 }
 

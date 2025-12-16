@@ -40,11 +40,9 @@ go get -u github.com/stripe/stripe-go/v84
 
 ## Documentation
 
-For a comprehensive list of examples, check out the [API
-documentation][api-docs].
+For a comprehensive list of examples, check out the [API documentation][api-docs].
 
-For details on all the functionality in this library, see the [Go
-documentation][goref].
+For details on all the functionality in this library, see the [Go documentation][goref].
 
 Below are a few simple examples:
 
@@ -677,7 +675,7 @@ pull request][pulls].
 [connect]: https://stripe.com/docs/connect/authentication
 [depgomodsupport]: https://github.com/golang/dep/pull/1963
 [expandableobjects]: https://stripe.com/docs/api/expanding_objects
-[goref]: https://pkg.go.dev/github.com/stripe/stripe-go
+[goref]: https://pkg.go.dev/github.com/stripe/stripe-go/v84
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
 [idempotency-keys]: https://stripe.com/docs/api/idempotent_requests?lang=go

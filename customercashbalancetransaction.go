@@ -30,7 +30,7 @@ const (
 	CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetworkSwift          CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork = "swift"
 )
 
-// The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
+// The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://docs.stripe.com/payments/customer-balance#types) to learn more about these types.
 type CustomerCashBalanceTransactionType string
 
 // List of values that CustomerCashBalanceTransactionType can take
@@ -86,13 +86,13 @@ func (p *CustomerCashBalanceTransactionRetrieveParams) AddExpand(f string) {
 }
 
 type CustomerCashBalanceTransactionAdjustedForOverdraft struct {
-	// The [Balance Transaction](https://stripe.com/docs/api/balance_transactions/object) that corresponds to funds taken out of your Stripe balance.
+	// The [Balance Transaction](https://docs.stripe.com/api/balance_transactions/object) that corresponds to funds taken out of your Stripe balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
-	// The [Cash Balance Transaction](https://stripe.com/docs/api/cash_balance_transactions/object) that brought the customer balance negative, triggering the clawback of funds.
+	// The [Cash Balance Transaction](https://docs.stripe.com/api/cash_balance_transactions/object) that brought the customer balance negative, triggering the clawback of funds.
 	LinkedTransaction *CustomerCashBalanceTransaction `json:"linked_transaction"`
 }
 type CustomerCashBalanceTransactionAppliedToPayment struct {
-	// The [Payment Intent](https://stripe.com/docs/api/payment_intents/object) that funds were applied to.
+	// The [Payment Intent](https://docs.stripe.com/api/payment_intents/object) that funds were applied to.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 }
 type CustomerCashBalanceTransactionFundedBankTransferEUBankTransfer struct {
@@ -139,15 +139,15 @@ type CustomerCashBalanceTransactionFunded struct {
 	BankTransfer *CustomerCashBalanceTransactionFundedBankTransfer `json:"bank_transfer"`
 }
 type CustomerCashBalanceTransactionRefundedFromPayment struct {
-	// The [Refund](https://stripe.com/docs/api/refunds/object) that moved these funds into the customer's cash balance.
+	// The [Refund](https://docs.stripe.com/api/refunds/object) that moved these funds into the customer's cash balance.
 	Refund *Refund `json:"refund"`
 }
 type CustomerCashBalanceTransactionTransferredToBalance struct {
-	// The [Balance Transaction](https://stripe.com/docs/api/balance_transactions/object) that corresponds to funds transferred to your Stripe balance.
+	// The [Balance Transaction](https://docs.stripe.com/api/balance_transactions/object) that corresponds to funds transferred to your Stripe balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 }
 type CustomerCashBalanceTransactionUnappliedFromPayment struct {
-	// The [Payment Intent](https://stripe.com/docs/api/payment_intents/object) that funds were unapplied from.
+	// The [Payment Intent](https://docs.stripe.com/api/payment_intents/object) that funds were unapplied from.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 }
 
@@ -164,22 +164,23 @@ type CustomerCashBalanceTransaction struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The customer whose available cash balance changed as a result of this transaction.
-	Customer        *Customer `json:"customer"`
-	CustomerAccount string    `json:"customer_account"`
-	// The total available cash balance for the specified currency after this transaction was applied. Represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Customer *Customer `json:"customer"`
+	// The ID of an Account representing a customer whose available cash balance changed as a result of this transaction.
+	CustomerAccount string `json:"customer_account"`
+	// The total available cash balance for the specified currency after this transaction was applied. Represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	EndingBalance int64                                 `json:"ending_balance"`
 	Funded        *CustomerCashBalanceTransactionFunded `json:"funded"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// The amount by which the cash balance changed, represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). A positive value represents funds being added to the cash balance, a negative value represents funds being removed from the cash balance.
+	// The amount by which the cash balance changed, represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). A positive value represents funds being added to the cash balance, a negative value represents funds being removed from the cash balance.
 	NetAmount int64 `json:"net_amount"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object               string                                              `json:"object"`
 	RefundedFromPayment  *CustomerCashBalanceTransactionRefundedFromPayment  `json:"refunded_from_payment"`
 	TransferredToBalance *CustomerCashBalanceTransactionTransferredToBalance `json:"transferred_to_balance"`
-	// The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://stripe.com/docs/payments/customer-balance#types) to learn more about these types.
+	// The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://docs.stripe.com/payments/customer-balance#types) to learn more about these types.
 	Type                 CustomerCashBalanceTransactionType                  `json:"type"`
 	UnappliedFromPayment *CustomerCashBalanceTransactionUnappliedFromPayment `json:"unapplied_from_payment"`
 }

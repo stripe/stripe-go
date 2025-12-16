@@ -1888,6 +1888,45 @@ func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelated
 	return relatedObj, err
 }
 
+// V2MoneyManagementPayoutMethodCreatedEvent is the Go struct for the "v2.money_management.payout_method.created" event.
+// Occurs when a PayoutMethod is created.
+type V2MoneyManagementPayoutMethodCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutMethod, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
+func (e *V2MoneyManagementPayoutMethodCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutMethodCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_method.created"
+// Occurs when a PayoutMethod is created.
+type V2MoneyManagementPayoutMethodCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutMethodCreatedEvent that created this Notification
+func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutMethodCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutMethod related to the event.
+func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2MoneyManagementPayoutMethod{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementPayoutMethodUpdatedEvent is the Go struct for the "v2.money_management.payout_method.updated" event.
 // Occurs when a PayoutMethod is updated.
 type V2MoneyManagementPayoutMethodUpdatedEvent struct {
@@ -3022,6 +3061,16 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.money_management.payout_method.created":
+		result := &V2MoneyManagementPayoutMethodCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
+			v := &V2MoneyManagementPayoutMethod{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.money_management.payout_method.updated":
 		result := &V2MoneyManagementPayoutMethodUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -3479,6 +3528,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.updated":
 		evt := V2MoneyManagementOutboundTransferUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.payout_method.created":
+		evt := V2MoneyManagementPayoutMethodCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

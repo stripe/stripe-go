@@ -339,9 +339,9 @@ type IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams str
 	Reasons []*string `form:"reasons"`
 }
 
-// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams struct {
-	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
 	Currency *string `form:"currency"`
@@ -349,7 +349,7 @@ type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams str
 
 // Details about the credit limit decreased.
 type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams struct {
-	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
 	Currency *string `form:"currency"`
@@ -371,7 +371,7 @@ type IssuingCreditUnderwritingRecordCorrectDecisionCreditLineClosedParams struct
 type IssuingCreditUnderwritingRecordCorrectDecisionParams struct {
 	// Details about the application rejection.
 	ApplicationRejected *IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams `form:"application_rejected"`
-	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 	CreditLimitApproved *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
 	// Details about the credit limit decreased.
 	CreditLimitDecreased *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams `form:"credit_limit_decreased"`
@@ -402,9 +402,9 @@ type IssuingCreditUnderwritingRecordCorrectParams struct {
 	Decision *IssuingCreditUnderwritingRecordCorrectDecisionParams `form:"decision"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://stripe.com/docs/issuing/credit/report-required-regulatory-data-for-credit-decisions). Optional if previously provided and no changes are needed.
+	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://docs.stripe.com/issuing/credit/report-required-regulatory-data-for-credit-decisions). Optional if previously provided and no changes are needed.
 	RegulatoryReportingFile *string `form:"regulatory_reporting_file"`
 	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
 	UnderwritingException *IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams `form:"underwriting_exception"`
@@ -432,9 +432,9 @@ type IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedPar
 	Reasons []*string `form:"reasons"`
 }
 
-// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 type IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams struct {
-	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
 	Currency *string `form:"currency"`
@@ -444,7 +444,7 @@ type IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedPar
 type IssuingCreditUnderwritingRecordReportDecisionDecisionParams struct {
 	// Details about the application rejection.
 	ApplicationRejected *IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedParams `form:"application_rejected"`
-	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 	CreditLimitApproved *IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
 	// Outcome of the decision.
 	Type *string `form:"type"`
@@ -467,9 +467,9 @@ type IssuingCreditUnderwritingRecordReportDecisionParams struct {
 	Decision *IssuingCreditUnderwritingRecordReportDecisionDecisionParams `form:"decision"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://stripe.com/docs/issuing/credit/report-required-regulatory-data-for-credit-decisions).
+	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://docs.stripe.com/issuing/credit/report-required-regulatory-data-for-credit-decisions).
 	RegulatoryReportingFile *string `form:"regulatory_reporting_file"`
 	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
 	UnderwritingException *IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams `form:"underwriting_exception"`
@@ -516,7 +516,7 @@ type IssuingCreditUnderwritingRecordCreateFromApplicationParams struct {
 	CreditUser *IssuingCreditUnderwritingRecordCreateFromApplicationCreditUserParams `form:"credit_user"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -542,9 +542,9 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewCreditUserParams st
 	Name *string `form:"name"`
 }
 
-// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitApprovedParams struct {
-	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
 	Currency *string `form:"currency"`
@@ -552,7 +552,7 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimit
 
 // Details about the credit limit decreased.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitDecreasedParams struct {
-	// The credit approved, in the currency of the account and [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
 	Currency *string `form:"currency"`
@@ -572,7 +572,7 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLineC
 
 // Details about the decision.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionParams struct {
-	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy/)
+	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 	CreditLimitApproved *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
 	// Details about the credit limit decreased.
 	CreditLimitDecreased *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitDecreasedParams `form:"credit_limit_decreased"`
@@ -601,9 +601,9 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams struct {
 	Decision *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionParams `form:"decision"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://stripe.com/docs/issuing/credit/report-required-regulatory-data-for-credit-decisions).
+	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://docs.stripe.com/issuing/credit/report-required-regulatory-data-for-credit-decisions).
 	RegulatoryReportingFile *string `form:"regulatory_reporting_file"`
 	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
 	UnderwritingException *IssuingCreditUnderwritingRecordCreateFromProactiveReviewUnderwritingExceptionParams `form:"underwriting_exception"`
@@ -661,7 +661,7 @@ type IssuingCreditUnderwritingRecordDecisionApplicationRejected struct {
 
 // Details about a decision credit_limit_approved.
 type IssuingCreditUnderwritingRecordDecisionCreditLimitApproved struct {
-	// Credit amount approved. An approved credit limit is required before you can set a amount in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy).
+	// Credit amount approved. An approved credit limit is required before you can set a amount in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
@@ -669,7 +669,7 @@ type IssuingCreditUnderwritingRecordDecisionCreditLimitApproved struct {
 
 // Details about a decision credit_limit_decreased.
 type IssuingCreditUnderwritingRecordDecisionCreditLimitDecreased struct {
-	// Credit amount approved after decrease. An approved credit limit is required before you can set a amount in the [CreditPolicy API](https://stripe.com/docs/api/issuing/credit_policy).
+	// Credit amount approved after decrease. An approved credit limit is required before you can set a amount in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
@@ -711,7 +711,7 @@ type IssuingCreditUnderwritingRecordUnderwritingException struct {
 
 // Every time an applicant submits an application for a Charge Card product your platform offers, or every time your platform takes a proactive credit decision on an existing account, you must record the decision by creating a new `CreditUnderwritingRecord` object on a connected account.
 //
-// [Follow the guide](https://stripe.com/docs/issuing/credit/report-credit-decisions-and-manage-aans) to learn about your requirements as a platform.
+// [Follow the guide](https://docs.stripe.com/issuing/credit/report-credit-decisions-and-manage-aans) to learn about your requirements as a platform.
 type IssuingCreditUnderwritingRecord struct {
 	APIResource
 	// For decisions triggered by an application, details about the submission.
@@ -731,11 +731,11 @@ type IssuingCreditUnderwritingRecord struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://stripe.com/docs/issuing/credit/report-required-regulatory-data-for-credit-decisions).
+	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://docs.stripe.com/issuing/credit/report-required-regulatory-data-for-credit-decisions).
 	RegulatoryReportingFile string `json:"regulatory_reporting_file"`
 	// If an exception to the usual underwriting criteria was made for this application, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
 	UnderwritingException *IssuingCreditUnderwritingRecordUnderwritingException `json:"underwriting_exception"`

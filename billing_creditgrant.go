@@ -38,7 +38,7 @@ type BillingCreditGrantListParams struct {
 	ListParams `form:"*"`
 	// Only return credit grants for this customer.
 	Customer *string `form:"customer"`
-	// Only return credit grants for this account.
+	// Only return credit grants for this account representing the customer.
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -94,9 +94,9 @@ type BillingCreditGrantParams struct {
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
 	// The category of this credit grant. It defaults to `paid` if not specified.
 	Category *string `form:"category"`
-	// ID of the customer to receive the billing credits.
+	// ID of the customer receiving the billing credits.
 	Customer *string `form:"customer"`
-	// ID of the account to receive the billing credits.
+	// ID of the account representing the customer receiving the billing credits.
 	CustomerAccount *string `form:"customer_account"`
 	// The time when the billing credits become effective-when they're eligible for use. It defaults to the current timestamp if not specified.
 	EffectiveAt *int64 `form:"effective_at"`
@@ -195,9 +195,9 @@ type BillingCreditGrantCreateParams struct {
 	ApplicabilityConfig *BillingCreditGrantCreateApplicabilityConfigParams `form:"applicability_config"`
 	// The category of this credit grant. It defaults to `paid` if not specified.
 	Category *string `form:"category"`
-	// ID of the customer to receive the billing credits.
+	// ID of the customer receiving the billing credits.
 	Customer *string `form:"customer"`
-	// ID of the account to receive the billing credits.
+	// ID of the account representing the customer receiving the billing credits.
 	CustomerAccount *string `form:"customer_account"`
 	// The time when the billing credits become effective-when they're eligible for use. It defaults to the current timestamp if not specified.
 	EffectiveAt *int64 `form:"effective_at"`
@@ -306,7 +306,7 @@ type BillingCreditGrant struct {
 	Created int64 `json:"created"`
 	// ID of the customer receiving the billing credits.
 	Customer *Customer `json:"customer"`
-	// ID of the account receiving the billing credits
+	// ID of the account representing the customer receiving the billing credits
 	CustomerAccount string `json:"customer_account"`
 	// The time when the billing credits become effective-when they're eligible for use.
 	EffectiveAt int64 `json:"effective_at"`
@@ -316,7 +316,7 @@ type BillingCreditGrant struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// A descriptive name shown in dashboard.
 	Name string `json:"name"`

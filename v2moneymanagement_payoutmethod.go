@@ -78,6 +78,8 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	Country string `json:"country"`
 	// List of enabled flows for this bank account (wire or local).
 	EnabledDeliveryOptions []string `json:"enabled_delivery_options"`
+	// The ID of the Financial Connections Account used to create the bank account.
+	FinancialConnectionsAccount string `json:"financial_connections_account,omitempty"`
 	// The last 4 digits of the account number.
 	Last4 string `json:"last4"`
 	// The routing number of the bank account, if present.

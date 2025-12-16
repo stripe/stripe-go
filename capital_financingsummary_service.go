@@ -17,7 +17,7 @@ type v1CapitalFinancingSummaryService struct {
 	Key string
 }
 
-// Retrieve the financing state for the account that was authenticated in the request.
+// Retrieve the financing summary object for the account.
 func (c v1CapitalFinancingSummaryService) Retrieve(ctx context.Context, params *CapitalFinancingSummaryRetrieveParams) (*CapitalFinancingSummary, error) {
 	if params == nil {
 		params = &CapitalFinancingSummaryRetrieveParams{}

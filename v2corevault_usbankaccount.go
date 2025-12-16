@@ -68,6 +68,8 @@ type V2CoreVaultUSBankAccount struct {
 	Created time.Time `json:"created"`
 	// The fedwire routing number of the bank account.
 	FedwireRoutingNumber string `json:"fedwire_routing_number,omitempty"`
+	// The ID of the Financial Connections Account used to create the bank account.
+	FinancialConnectionsAccount string `json:"financial_connections_account,omitempty"`
 	// The ID of the USBankAccount object.
 	ID string `json:"id"`
 	// The last 4 digits of the account number.

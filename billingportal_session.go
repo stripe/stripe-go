@@ -93,13 +93,13 @@ type BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams struct 
 	PromotionCode *string `form:"promotion_code"`
 }
 
-// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+// The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 type BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams struct {
-	// The ID of the [subscription item](https://stripe.com/docs/api/subscriptions/object#subscription_object-items-data-id) to be updated.
+	// The ID of the [subscription item](https://docs.stripe.com/api/subscriptions/object#subscription_object-items-data-id) to be updated.
 	ID *string `form:"id"`
-	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
+	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
 	Price *string `form:"price"`
-	// [Quantity](https://stripe.com/docs/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
+	// [Quantity](https://docs.stripe.com/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
 	Quantity *int64 `form:"quantity"`
 }
 
@@ -107,13 +107,13 @@ type BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams struct {
 type BillingPortalSessionFlowDataSubscriptionUpdateConfirmParams struct {
 	// The coupon or promotion code to apply to this subscription update.
 	Discounts []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts"`
-	// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+	// The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 	Items []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams `form:"items"`
 	// The ID of the subscription to be updated.
 	Subscription *string `form:"subscription"`
 }
 
-// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
+// Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionFlowDataParams struct {
 	// Behavior after the flow is completed.
 	AfterCompletion *BillingPortalSessionFlowDataAfterCompletionParams `form:"after_completion"`
@@ -130,7 +130,7 @@ type BillingPortalSessionFlowDataParams struct {
 // Creates a session of the customer portal.
 type BillingPortalSessionParams struct {
 	Params `form:"*"`
-	// The ID of an existing [configuration](https://stripe.com/docs/api/customer_portal/configuration) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
+	// The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configuration) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
 	Configuration *string `form:"configuration"`
 	// The ID of an existing customer.
 	Customer *string `form:"customer"`
@@ -138,11 +138,11 @@ type BillingPortalSessionParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
+	// Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 	FlowData *BillingPortalSessionFlowDataParams `form:"flow_data"`
 	// The IETF language tag of the locale customer portal is displayed in. If blank or auto, the customer's `preferred_locales` or browser's locale is used.
 	Locale *string `form:"locale"`
-	// The `on_behalf_of` account to use for this session. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://stripe.com/docs/connect/separate-charges-and-transfers#settlement-merchant). Use the [Accounts API](https://stripe.com/docs/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
+	// The `on_behalf_of` account to use for this session. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant). Use the [Accounts API](https://docs.stripe.com/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website.
 	ReturnURL *string `form:"return_url"`
@@ -211,13 +211,13 @@ type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmDiscountParams s
 	PromotionCode *string `form:"promotion_code"`
 }
 
-// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+// The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmItemParams struct {
-	// The ID of the [subscription item](https://stripe.com/docs/api/subscriptions/object#subscription_object-items-data-id) to be updated.
+	// The ID of the [subscription item](https://docs.stripe.com/api/subscriptions/object#subscription_object-items-data-id) to be updated.
 	ID *string `form:"id"`
-	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
+	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
 	Price *string `form:"price"`
-	// [Quantity](https://stripe.com/docs/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
+	// [Quantity](https://docs.stripe.com/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
 	Quantity *int64 `form:"quantity"`
 }
 
@@ -225,13 +225,13 @@ type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmItemParams struc
 type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmParams struct {
 	// The coupon or promotion code to apply to this subscription update.
 	Discounts []*BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts"`
-	// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+	// The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 	Items []*BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmItemParams `form:"items"`
 	// The ID of the subscription to be updated.
 	Subscription *string `form:"subscription"`
 }
 
-// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
+// Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionCreateFlowDataParams struct {
 	// Behavior after the flow is completed.
 	AfterCompletion *BillingPortalSessionCreateFlowDataAfterCompletionParams `form:"after_completion"`
@@ -248,7 +248,7 @@ type BillingPortalSessionCreateFlowDataParams struct {
 // Creates a session of the customer portal.
 type BillingPortalSessionCreateParams struct {
 	Params `form:"*"`
-	// The ID of an existing [configuration](https://stripe.com/docs/api/customer_portal/configuration) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
+	// The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configuration) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
 	Configuration *string `form:"configuration"`
 	// The ID of an existing customer.
 	Customer *string `form:"customer"`
@@ -256,11 +256,11 @@ type BillingPortalSessionCreateParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
+	// Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 	FlowData *BillingPortalSessionCreateFlowDataParams `form:"flow_data"`
 	// The IETF language tag of the locale customer portal is displayed in. If blank or auto, the customer's `preferred_locales` or browser's locale is used.
 	Locale *string `form:"locale"`
-	// The `on_behalf_of` account to use for this session. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://stripe.com/docs/connect/separate-charges-and-transfers#settlement-merchant). Use the [Accounts API](https://stripe.com/docs/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
+	// The `on_behalf_of` account to use for this session. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant). Use the [Accounts API](https://docs.stripe.com/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website.
 	ReturnURL *string `form:"return_url"`
@@ -327,13 +327,13 @@ type BillingPortalSessionFlowSubscriptionUpdateConfirmDiscount struct {
 	PromotionCode string `json:"promotion_code"`
 }
 
-// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+// The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 type BillingPortalSessionFlowSubscriptionUpdateConfirmItem struct {
-	// The ID of the [subscription item](https://stripe.com/docs/api/subscriptions/object#subscription_object-items-data-id) to be updated.
+	// The ID of the [subscription item](https://docs.stripe.com/api/subscriptions/object#subscription_object-items-data-id) to be updated.
 	ID string `json:"id"`
-	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
+	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
 	Price string `json:"price"`
-	// [Quantity](https://stripe.com/docs/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
+	// [Quantity](https://docs.stripe.com/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
 	Quantity int64 `json:"quantity"`
 }
 
@@ -341,13 +341,13 @@ type BillingPortalSessionFlowSubscriptionUpdateConfirmItem struct {
 type BillingPortalSessionFlowSubscriptionUpdateConfirm struct {
 	// The coupon or promotion code to apply to this subscription update.
 	Discounts []*BillingPortalSessionFlowSubscriptionUpdateConfirmDiscount `json:"discounts"`
-	// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
+	// The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 	Items []*BillingPortalSessionFlowSubscriptionUpdateConfirmItem `json:"items"`
 	// The ID of the subscription to be updated.
 	Subscription string `json:"subscription"`
 }
 
-// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
+// Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionFlow struct {
 	AfterCompletion *BillingPortalSessionFlowAfterCompletion `json:"after_completion"`
 	// Configuration when `flow.type=subscription_cancel`.
@@ -384,7 +384,7 @@ type BillingPortalSession struct {
 	Customer string `json:"customer"`
 	// The ID of the account for this session.
 	CustomerAccount string `json:"customer_account"`
-	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
+	// Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 	Flow *BillingPortalSessionFlow `json:"flow"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -394,7 +394,7 @@ type BillingPortalSession struct {
 	Locale string `json:"locale"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The account for which the session was created on behalf of. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://stripe.com/docs/connect/separate-charges-and-transfers#settlement-merchant). Use the [Accounts API](https://stripe.com/docs/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
+	// The account for which the session was created on behalf of. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant). Use the [Accounts API](https://docs.stripe.com/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
 	OnBehalfOf string `json:"on_behalf_of"`
 	// The URL to redirect customers to when they click on the portal's link to return to your website.
 	ReturnURL string `json:"return_url"`

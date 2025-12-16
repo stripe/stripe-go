@@ -218,6 +218,12 @@ type Client struct {
 	V1ReportingReportRuns *v1ReportingReportRunService
 	// V1ReportingReportTypes is the service used to invoke /v1/reporting/report_types APIs.
 	V1ReportingReportTypes *v1ReportingReportTypeService
+	// V1ReserveHolds is the service used to invoke /v1/reserve/holds APIs.
+	V1ReserveHolds *v1ReserveHoldService
+	// V1ReservePlans is the service used to invoke /v1/reserve/plans APIs.
+	V1ReservePlans *v1ReservePlanService
+	// V1ReserveReleases is the service used to invoke /v1/reserve/releases APIs.
+	V1ReserveReleases *v1ReserveReleaseService
 	// V1Reviews is the service used to invoke /v1/reviews APIs.
 	V1Reviews *v1ReviewService
 	// V1SetupAttempts is the service used to invoke /v1/setup_attempts APIs.
@@ -538,6 +544,9 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Refunds = &v1RefundService{B: backends.API, Key: key}
 	client.V1ReportingReportRuns = &v1ReportingReportRunService{B: backends.API, Key: key}
 	client.V1ReportingReportTypes = &v1ReportingReportTypeService{B: backends.API, Key: key}
+	client.V1ReserveHolds = &v1ReserveHoldService{B: backends.API, Key: key}
+	client.V1ReservePlans = &v1ReservePlanService{B: backends.API, Key: key}
+	client.V1ReserveReleases = &v1ReserveReleaseService{B: backends.API, Key: key}
 	client.V1Reviews = &v1ReviewService{B: backends.API, Key: key}
 	client.V1SetupAttempts = &v1SetupAttemptService{B: backends.API, Key: key}
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}

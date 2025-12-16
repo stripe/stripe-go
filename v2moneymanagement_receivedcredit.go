@@ -55,6 +55,7 @@ type V2MoneyManagementReceivedCreditBalanceTransferType string
 const (
 	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundPayment  V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_payment"
 	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundTransfer V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_transfer"
+	V2MoneyManagementReceivedCreditBalanceTransferTypeTransfer         V2MoneyManagementReceivedCreditBalanceTransferType = "transfer"
 	V2MoneyManagementReceivedCreditBalanceTransferTypePayoutV1         V2MoneyManagementReceivedCreditBalanceTransferType = "payout_v1"
 )
 
@@ -93,6 +94,14 @@ const (
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkRTP            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "rtp"
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "us_domestic_wire"
 )
+
+// The amount and currency of the ReceivedCredit.
+type V2MoneyManagementReceivedCreditAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
 
 // Hash that provides additional information regarding the reason behind a `failed` ReceivedCredit status. It is only present when the ReceivedCredit status is `failed`.
 type V2MoneyManagementReceivedCreditStatusDetailsFailed struct {
@@ -137,6 +146,8 @@ type V2MoneyManagementReceivedCreditBalanceTransfer struct {
 	OutboundTransfer string `json:"outbound_transfer,omitempty"`
 	// The ID of the payout object that originated the ReceivedCredit.
 	PayoutV1 string `json:"payout_v1,omitempty"`
+	// The ID of the v1 transfer object that originated the ReceivedCredit.
+	Transfer string `json:"transfer,omitempty"`
 	// Open Enum. The type of Stripe Money Movement that originated the ReceivedCredit.
 	Type V2MoneyManagementReceivedCreditBalanceTransferType `json:"type"`
 }
@@ -203,7 +214,7 @@ type V2MoneyManagementReceivedCreditBankTransfer struct {
 type V2MoneyManagementReceivedCredit struct {
 	APIResource
 	// The amount and currency of the ReceivedCredit.
-	Amount Amount `json:"amount"`
+	Amount *V2MoneyManagementReceivedCreditAmount `json:"amount"`
 	// This object stores details about the originating Stripe transaction that resulted in the ReceivedCredit. Present if `type` field value is `balance_transfer`.
 	BalanceTransfer *V2MoneyManagementReceivedCreditBalanceTransfer `json:"balance_transfer,omitempty"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `bank_transfer`.

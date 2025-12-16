@@ -80,7 +80,7 @@ type PlanParams struct {
 	Interval *string `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The meter tracking the usage of a metered price
 	Meter *string `form:"meter"`
@@ -96,7 +96,7 @@ type PlanParams struct {
 	TiersMode *string `form:"tiers_mode"`
 	// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
 	TransformUsage *PlanTransformUsageParams `form:"transform_usage"`
-	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
+	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
 	UsageType *string `form:"usage_type"`
@@ -141,7 +141,7 @@ type PlanProductParams struct {
 	Active *bool `form:"active"`
 	// The identifier for the product. Must be unique. If not provided, an identifier will be randomly generated.
 	ID *string `form:"id"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
@@ -149,7 +149,7 @@ type PlanProductParams struct {
 	//
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
@@ -223,13 +223,13 @@ type PlanUpdateParams struct {
 	Active *bool `form:"active"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// A brief description of the plan, hidden from customers.
 	Nickname *string `form:"nickname"`
 	// The product the plan belongs to. This cannot be changed once it has been used in a subscription or subscription schedule.
 	Product *string `form:"product"`
-	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
+	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 }
 
@@ -252,7 +252,7 @@ type PlanCreateProductParams struct {
 	Active *bool `form:"active"`
 	// The identifier for the product. Must be unique. If not provided, an identifier will be randomly generated.
 	ID *string `form:"id"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
@@ -260,7 +260,7 @@ type PlanCreateProductParams struct {
 	//
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
@@ -331,7 +331,7 @@ type PlanCreateParams struct {
 	Interval *string `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The meter tracking the usage of a metered price
 	Meter *string `form:"meter"`
@@ -345,7 +345,7 @@ type PlanCreateParams struct {
 	TiersMode *string `form:"tiers_mode"`
 	// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
 	TransformUsage *PlanCreateTransformUsageParams `form:"transform_usage"`
-	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
+	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
 	UsageType *string `form:"usage_type"`
@@ -387,14 +387,14 @@ type PlanTransformUsage struct {
 	Round PlanTransformUsageRound `json:"round"`
 }
 
-// You can now model subscriptions more flexibly using the [Prices API](https://stripe.com/docs/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
+// You can now model subscriptions more flexibly using the [Prices API](https://api.stripe.com#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
 //
 // Plans define the base price, currency, and billing cycle for recurring purchases of products.
-// [Products](https://stripe.com/docs/api#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.
+// [Products](https://api.stripe.com#products) help you track inventory or provisioning, and plans help you track pricing. Different physical goods or levels of service should be represented by products, and pricing options should be represented by plans. This approach lets you change prices without having to change your provisioning scheme.
 //
 // For example, you might have a single "gold" product that has plans for $10/month, $100/year, €9/month, and €90/year.
 //
-// Related guides: [Set up a subscription](https://stripe.com/docs/billing/subscriptions/set-up-subscription) and more about [products and prices](https://stripe.com/docs/products-prices/overview).
+// Related guides: [Set up a subscription](https://docs.stripe.com/billing/subscriptions/set-up-subscription) and more about [products and prices](https://docs.stripe.com/products-prices/overview).
 type Plan struct {
 	APIResource
 	// Whether the plan can be used for new purchases.
@@ -418,7 +418,7 @@ type Plan struct {
 	IntervalCount int64 `json:"interval_count"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The meter tracking the usage of a metered price
 	Meter string `json:"meter"`
@@ -434,7 +434,7 @@ type Plan struct {
 	TiersMode PlanTiersMode `json:"tiers_mode"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with `tiers`.
 	TransformUsage *PlanTransformUsage `json:"transform_usage"`
-	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
+	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
 	TrialPeriodDays int64 `json:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
 	UsageType PlanUsageType `json:"usage_type"`
