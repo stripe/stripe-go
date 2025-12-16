@@ -1922,7 +1922,7 @@ func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchRelatedObje
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2MoneyManagementPayoutMethod{}
-	err := n.client.backend.Call(
+	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
 }

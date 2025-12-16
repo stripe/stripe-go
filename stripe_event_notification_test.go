@@ -439,7 +439,7 @@ func TestEventHandler_UnknownEventRoutesToOnUnhandled(t *testing.T) {
 
 	assert.Equal(t, "llama.created", unhandledEvent.GetEventNotification().Type)
 	assert.NotNil(t, unhandledClient)
-	assert.False(t, unhandledDetails.IsKnownType, "Unknown event should have IsKnownType=false")
+	assert.False(t, unhandledDetails.IsKnownEventType, "Unknown event should have IsKnownEventType=false")
 }
 
 // Test: Known unregistered event Oout
@@ -476,7 +476,7 @@ func TestEventHandler_KnownUnregisteredEventRoutesToOnUnhandled(t *testing.T) {
 
 	assert.Equal(t, "v1.billing.meter.error_report_triggered", unhandledEvent.GetEventNotification().Type)
 	assert.NotNil(t, unhandledClient)
-	assert.True(t, unhandledDetails.IsKnownType, "Known event should have IsKnownType=true")
+	assert.True(t, unhandledDetails.IsKnownEventType, "Known event should have IsKnownEventType=true")
 }
 
 // Test: Registered event does Oot
@@ -560,7 +560,7 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForUnknown(t *testing.T) {
 	err := handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
-	assert.False(t, details.IsKnownType)
+	assert.False(t, details.IsKnownEventType)
 }
 
 // Test: on_unhandled receives correct info for known unregistered
@@ -580,7 +580,7 @@ func TestEventHandler_OnUnhandledReceivesCorrectInfoForKnownUnregistered(t *test
 	err := handler.Handle(context.TODO(), []byte(payload), sigHeader)
 
 	assert.NoError(t, err)
-	assert.True(t, details.IsKnownType)
+	assert.True(t, details.IsKnownEventType)
 }
 
 // Test: Validates webhook signature

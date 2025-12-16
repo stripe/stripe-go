@@ -6,14 +6,15 @@ import (
 	"sort"
 )
 
-// a CallbackFunc is run when an event of a registered type is received.
+// CallbackFunc is run when an event of a registered type is received.
 type CallbackFunc = func(context.Context, EventNotificationContainer, *Client) error
 
-// a FallbackCallbackFunc is run when an event is received that does not match any registered type. It contains additional details about the unhandled event (as compared to a CallbackFunc).
+// FallbackCallbackFunc is run when an event is received that does not match any registered type. It contains additional details about the unhandled event (as compared to a CallbackFunc).
 type FallbackCallbackFunc = func(context.Context, EventNotificationContainer, *Client, UnhandledNotificationDetails) error
 
 type UnhandledNotificationDetails struct {
-	IsKnownType bool
+	// IsKnownEventType indicates whether the unhandled event is of a known type (i.e., it has a defined struct in the SDK) or is completely unknown.
+	IsKnownEventType bool
 }
 
 // EventNotificationHandler routes incoming Stripe event notifications to registered handlers based on event type.
@@ -338,6 +339,12 @@ func (h *EventNotificationHandler) OnV2MoneyManagementOutboundTransferUpdated(ca
 		h, "v2.money_management.outbound_transfer.updated", callback)
 }
 
+// OnV2MoneyManagementPayoutMethodCreated registers a callback to handle notifications about the "v2.money_management.payout_method.created" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementPayoutMethodCreated(callback func(notif *V2MoneyManagementPayoutMethodCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.payout_method.created", callback)
+}
+
 // OnV2MoneyManagementPayoutMethodUpdated registers a callback to handle notifications about the "v2.money_management.payout_method.updated" event.
 func (h *EventNotificationHandler) OnV2MoneyManagementPayoutMethodUpdated(callback func(notif *V2MoneyManagementPayoutMethodUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -425,7 +432,7 @@ func (h *EventNotificationHandler) createClientWithContext(stripeContext *string
 	return NewClient(h.client.key, WithBackends(NewBackendsWithConfig(&newConfig))), nil
 }
 
-// Handle processes an incoming webhook payload and routes it to the appropriate registered handler (or the fallback if none is available).
+// Handle processes an incoming webhook payload by routing it to the appropriate CallbackFunc (or the FallbackCallbackFunc if none is available).
 func (h *EventNotificationHandler) Handle(ctx context.Context, webhookBody []byte, sigHeader string) error {
 	// intentionally not worried about concurrency because we expect all registrations to happen
 	// synchronously on startup, so it'll only be read after it's done being written.
@@ -450,7 +457,7 @@ func (h *EventNotificationHandler) Handle(ctx context.Context, webhookBody []byt
 	if !ok {
 		_, isUnknownEventType := notif.(*UnknownEventNotification)
 		details := UnhandledNotificationDetails{
-			IsKnownType: !isUnknownEventType,
+			IsKnownEventType: !isUnknownEventType,
 		}
 		return h.fallbackCallback(ctx, notif, clientWithContext, details)
 	}
