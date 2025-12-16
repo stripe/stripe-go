@@ -26,7 +26,7 @@ var apiKey = "{{API_KEY}}"
 var webhookSecret = "{{WEBHOOK_SECRET}}"
 var client = stripe.NewClient(apiKey)
 var handler = stripe.NewEventNotificationHandler(client, webhookSecret, func(context context.Context, notif stripe.EventNotificationContainer, client *stripe.Client, details stripe.UnhandledNotificationDetails) error {
-	fmt.Printf("Neglecting to handle event with type %s", notif.GetEventNotification().Type)
+	fmt.Printf("Received unhandled event with type %s", notif.GetEventNotification().Type)
 	return nil
 })
 
