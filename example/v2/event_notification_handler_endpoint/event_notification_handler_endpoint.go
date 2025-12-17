@@ -30,8 +30,8 @@ var handler = stripe.NewEventNotificationHandler(client, webhookSecret, func(con
 	return nil
 })
 
-func handleMeterErrors(notif *stripe.V1BillingMeterErrorReportTriggeredEventNotification, client *stripe.Client) error {
-	meter, err := notif.FetchRelatedObject(context.TODO())
+func handleMeterErrors(ctx context.Context, notif *stripe.V1BillingMeterErrorReportTriggeredEventNotification, client *stripe.Client) error {
+	meter, err := notif.FetchRelatedObject(ctx)
 	if err != nil {
 		return fmt.Errorf("error fetching related object: %v", err)
 	}
@@ -53,7 +53,7 @@ func main() {
 			return
 		}
 
-		err = handler.Handle(context.TODO(), payload, req.Header.Get("Stripe-Signature"))
+		err = handler.Handle(req.Context(), payload, req.Header.Get("Stripe-Signature"))
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error handling event notification: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
