@@ -136,6 +136,11 @@ func (p *PlanListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PlanProductTaxDetailsParams struct {
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
 type PlanProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active"`
@@ -151,6 +156,8 @@ type PlanProductParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PlanProductTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
@@ -247,6 +254,11 @@ func (p *PlanUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PlanCreateProductTaxDetailsParams struct {
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
 type PlanCreateProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active"`
@@ -262,6 +274,8 @@ type PlanCreateProductParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PlanCreateProductTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
