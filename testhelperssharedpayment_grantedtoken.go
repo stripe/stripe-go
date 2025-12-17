@@ -36,6 +36,18 @@ func (p *TestHelpersSharedPaymentGrantedTokenParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
+type TestHelpersSharedPaymentGrantedTokenRevokeParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersSharedPaymentGrantedTokenRevokeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Limits on how this SharedPaymentGrantedToken can be used.
 type TestHelpersSharedPaymentGrantedTokenCreateUsageLimitsParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -63,17 +75,5 @@ type TestHelpersSharedPaymentGrantedTokenCreateParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TestHelpersSharedPaymentGrantedTokenCreateParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
-type TestHelpersSharedPaymentGrantedTokenUpdateParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TestHelpersSharedPaymentGrantedTokenUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
