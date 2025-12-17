@@ -97,7 +97,7 @@ func TestEventHandler_RoutesEventToRegisteredHandler(t *testing.T) {
 	var receivedEvent *V1BillingMeterErrorReportTriggeredEventNotification
 	var receivedClient *Client
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		handlerCalled = true
 		receivedEvent = event
 		receivedClient = client
@@ -139,13 +139,13 @@ func TestEventHandler_RoutesDifferentEventsToCorrectHandlers(t *testing.T) {
 	var billingEvent *V1BillingMeterErrorReportTriggeredEventNotification
 	var noMeterEvent *V1BillingMeterNoMeterFoundEventNotification
 
-	billingCallback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	billingCallback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		billingCallbackCalled = true
 		billingEvent = event
 		return nil
 	}
 
-	noMeterCallback := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
+	noMeterCallback := func(ctx context.Context, event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
 		noMeterCallbackCalled = true
 		noMeterEvent = event
 		return nil
@@ -189,7 +189,7 @@ func TestEventHandler_HandlerReceivesCorrectRuntimeType(t *testing.T) {
 	var receivedEvent *V1BillingMeterErrorReportTriggeredEventNotification
 	var receivedClient *Client
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		receivedEvent = event
 		receivedClient = client
 		return nil
@@ -220,7 +220,7 @@ func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 
 	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
 
@@ -233,7 +233,7 @@ func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Try to register another handler after handling
-	callback2 := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
+	callback2 := func(ctx context.Context, event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
 		return nil
 	}
 
@@ -252,11 +252,11 @@ func TestEventHandler_CannotRegisterDuplicateHandler(t *testing.T) {
 
 	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	callback1 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback1 := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
 
-	callback2 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback2 := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
 
@@ -281,7 +281,7 @@ func TestEventHandler_HandlerUsesEventStripeContext(t *testing.T) {
 
 	var receivedContext *string
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		receivedContext = client.backends.config.StripeContext
 		return nil
 	}
@@ -313,7 +313,7 @@ func TestEventHandler_StripeContextRestoredAfterHandlerSuccess(t *testing.T) {
 
 	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		// Verify context is event context during handler
 		assert.Equal(t, "event_context_456", *client.backends.config.StripeContext)
 		return nil
@@ -345,7 +345,7 @@ func TestEventHandler_StripeContextRestoredAfterHandlerError(t *testing.T) {
 
 	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		// Verify context is event context during handler
 		assert.Equal(t, "event_context_456", *client.backends.config.StripeContext)
 		// Return an error
@@ -381,7 +381,7 @@ func TestEventHandler_StripeContextSetToNilWhenEventHasNoContext(t *testing.T) {
 	var receivedContext *string
 	var receivedContextWasChecked bool
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		receivedContext = client.backends.config.StripeContext
 		receivedContextWasChecked = true
 		return nil
@@ -492,7 +492,7 @@ func TestEventHandler_RegisteredEventDoesNotCallOnUnhandled(t *testing.T) {
 	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
 	var callbackCalled bool
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		callbackCalled = true
 		return nil
 	}
@@ -524,7 +524,7 @@ func TestEventHandler_HandlerClientRetainsConfiguration(t *testing.T) {
 	var receivedAPIKey string
 	var receivedContext *string
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		receivedAPIKey = client.key
 		receivedContext = client.backends.config.StripeContext
 		return nil
@@ -625,7 +625,7 @@ func TestEventHandler_RegisteredEventTypesSingle(t *testing.T) {
 
 	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	callback := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
 
@@ -646,13 +646,13 @@ func TestEventHandler_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
 
 	callback := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
 
-	callback1 := func(event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+	callback1 := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
 		return nil
 	}
-	callback2 := func(event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
+	callback2 := func(ctx context.Context, event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
 		return nil
 	}
-	callback3 := func(event *V2CoreAccountCreatedEventNotification, client *Client) error {
+	callback3 := func(ctx context.Context, event *V2CoreAccountCreatedEventNotification, client *Client) error {
 		return nil
 	}
 
