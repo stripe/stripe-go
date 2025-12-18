@@ -1818,6 +1818,7 @@ func TestHandleV2ErrorWhenKnownError(t *testing.T) {
 
 func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Request-Id", "req_123")
 		w.WriteHeader(400)
 		_, err := w.Write([]byte(`{"error":{"type":"unknown_type","message":"Some message"}}`))
 		assert.NoError(t, err)
@@ -1837,10 +1838,13 @@ func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
 	stripeErr, ok := err.(*V2RawError)
 	assert.True(t, ok)
 	assert.Equal(t, "Some message", stripeErr.Message)
+	assert.Equal(t, "req_123", stripeErr.RequestID)
+	assert.Equal(t, 400, stripeErr.HTTPStatusCode)
 }
 
 func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Request-Id", "req_123")
 		w.WriteHeader(400)
 		_, err := w.Write([]byte(`{"error":{"message":"Some message"}}`))
 		assert.NoError(t, err)
@@ -1860,6 +1864,8 @@ func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
 	stripeErr, ok := err.(*V2RawError)
 	assert.True(t, ok)
 	assert.Equal(t, "Some message", stripeErr.Message)
+	assert.Equal(t, "req_123", stripeErr.RequestID)
+	assert.Equal(t, 400, stripeErr.HTTPStatusCode)
 }
 
 // TestHandleResponseBufferingErrors_NilResponse tests the segmentation fault
