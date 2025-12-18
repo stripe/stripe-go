@@ -926,9 +926,14 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 
 	// need to return a generic error in this case
 	if raw.Error == nil {
-		err := errors.New(string(resBody))
+		err := errors.New("error deserialization failed: " + string(resBody))
 		return err
 	}
+
+	// Set the HTTP status code and request ID on the error, which are
+	// not included in the response body.
+	raw.Error.HTTPStatusCode = res.StatusCode
+	raw.Error.RequestID = res.Header.Get("Request-Id")
 
 	if raw.Error.Type == nil {
 		return raw.Error
