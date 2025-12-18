@@ -453,9 +453,9 @@ type V2RawError struct {
 	Type       *ErrorType `json:"type,omitempty"`
 	Message    string     `json:"message"`
 	UserMesage *string    `json:"user_message,omitempty"`
-	// HTTPStatusCode is the HTTP status code of the response.
+	// HTTPStatusCode is the HTTP status code of the response returned by Stripe.
 	HTTPStatusCode int `json:"status,omitempty"`
-	// RequestID is the request ID of the response.
+	// RequestID is the ID of the request, as returned by Stripe.
 	RequestID string `json:"request_id,omitempty"`
 }
 
