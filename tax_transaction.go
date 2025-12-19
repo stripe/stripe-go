@@ -171,6 +171,7 @@ type TaxTransactionShippingCostTaxBreakdownSourcing string
 const (
 	TaxTransactionShippingCostTaxBreakdownSourcingDestination TaxTransactionShippingCostTaxBreakdownSourcing = "destination"
 	TaxTransactionShippingCostTaxBreakdownSourcingOrigin      TaxTransactionShippingCostTaxBreakdownSourcing = "origin"
+	TaxTransactionShippingCostTaxBreakdownSourcingPerformance TaxTransactionShippingCostTaxBreakdownSourcing = "performance"
 )
 
 // The tax type, such as `vat` or `sales_tax`.
@@ -178,19 +179,27 @@ type TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType can take
 const (
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeAdmissionsTax     TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "admissions_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax     TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax  TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax  TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeGST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeHospitalityTax    TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "hospitality_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeHST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "hst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "igst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "jct"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeLuxuryTax         TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "luxury_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypePST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeResortTax         TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "service_tax"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeTourismTax        TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 

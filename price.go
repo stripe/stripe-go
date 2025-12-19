@@ -195,6 +195,8 @@ type PriceCustomUnitAmountParams struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type PriceProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
@@ -422,6 +424,8 @@ type PriceCreateCustomUnitAmountParams struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type PriceCreateProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
