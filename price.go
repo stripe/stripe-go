@@ -784,6 +784,8 @@ type Price struct {
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 	CustomUnitAmount *PriceCustomUnitAmount `json:"custom_unit_amount"`
 	Deleted          bool                   `json:"deleted"`
+	// A custom identifier for this price, such as a SKU number or product code, that can be used to reference records from external systems.
+	ExternalReference string `json:"external_reference"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
