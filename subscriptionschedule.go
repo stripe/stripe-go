@@ -390,7 +390,7 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	InvoiceSettings *SubscriptionScheduleDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
@@ -678,7 +678,7 @@ type SubscriptionSchedulePhaseParams struct {
 	Discounts []*SubscriptionSchedulePhaseDiscountParams `form:"discounts"`
 	// The number of intervals the phase should last. If set, `end_date` must not be set.
 	Duration *SubscriptionSchedulePhaseDurationParams `form:"duration"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// The date at which this phase of the subscription schedule ends. If set, `duration` must not be set.
 	EndDate    *int64 `form:"end_date"`
@@ -1112,7 +1112,7 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	BillingSchedulesActions []*SubscriptionScheduleAmendAmendmentBillingSchedulesActionParams `form:"billing_schedules_actions"`
 	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
 	DiscountActions []*SubscriptionScheduleAmendAmendmentDiscountActionParams `form:"discount_actions"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// Changes to the subscription items during the amendment time span.
 	ItemActions []*SubscriptionScheduleAmendAmendmentItemActionParams `form:"item_actions"`
@@ -1335,7 +1335,7 @@ type SubscriptionScheduleCreateDefaultSettingsParams struct {
 	InvoiceSettings *SubscriptionScheduleCreateDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
@@ -1623,7 +1623,7 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	Discounts []*SubscriptionScheduleCreatePhaseDiscountParams `form:"discounts"`
 	// The number of intervals the phase should last. If set, `end_date` must not be set.
 	Duration *SubscriptionScheduleCreatePhaseDurationParams `form:"duration"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// The date at which this phase of the subscription schedule ends. If set, `duration` must not be set.
 	EndDate *int64 `form:"end_date"`
@@ -1815,7 +1815,7 @@ type SubscriptionScheduleUpdateDefaultSettingsParams struct {
 	InvoiceSettings *SubscriptionScheduleUpdateDefaultSettingsInvoiceSettingsParams `form:"invoice_settings"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	PhaseEffectiveAt *string `form:"phase_effective_at"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
@@ -2103,7 +2103,7 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	Discounts []*SubscriptionScheduleUpdatePhaseDiscountParams `form:"discounts"`
 	// The number of intervals the phase should last. If set, `end_date` must not be set.
 	Duration *SubscriptionScheduleUpdatePhaseDurationParams `form:"duration"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// The date at which this phase of the subscription schedule ends. If set, `duration` must not be set.
 	EndDate    *int64 `form:"end_date"`

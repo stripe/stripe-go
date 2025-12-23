@@ -262,6 +262,8 @@ type Client struct {
 	V1TaxForms *v1TaxFormService
 	// V1TaxIDs is the service used to invoke /v1/tax_ids APIs.
 	V1TaxIDs *v1TaxIDService
+	// V1TaxLocations is the service used to invoke /v1/tax/locations APIs.
+	V1TaxLocations *v1TaxLocationService
 	// V1TaxRates is the service used to invoke /v1/tax_rates APIs.
 	V1TaxRates *v1TaxRateService
 	// V1TaxRegistrations is the service used to invoke /v1/tax/registrations APIs.
@@ -636,6 +638,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TaxCodes = &v1TaxCodeService{B: backends.API, Key: key}
 	client.V1TaxForms = &v1TaxFormService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1TaxIDs = &v1TaxIDService{B: backends.API, Key: key}
+	client.V1TaxLocations = &v1TaxLocationService{B: backends.API, Key: key}
 	client.V1TaxRates = &v1TaxRateService{B: backends.API, Key: key}
 	client.V1TaxRegistrations = &v1TaxRegistrationService{B: backends.API, Key: key}
 	client.V1TaxSettings = &v1TaxSettingsService{B: backends.API, Key: key}

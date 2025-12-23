@@ -171,6 +171,7 @@ type TaxCalculationShippingCostTaxBreakdownSourcing string
 const (
 	TaxCalculationShippingCostTaxBreakdownSourcingDestination TaxCalculationShippingCostTaxBreakdownSourcing = "destination"
 	TaxCalculationShippingCostTaxBreakdownSourcingOrigin      TaxCalculationShippingCostTaxBreakdownSourcing = "origin"
+	TaxCalculationShippingCostTaxBreakdownSourcingPerformance TaxCalculationShippingCostTaxBreakdownSourcing = "performance"
 )
 
 // The tax type, such as `vat` or `sales_tax`.
@@ -178,19 +179,27 @@ type TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType can take
 const (
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAdmissionsTax     TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "admissions_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax     TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax  TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax  TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHospitalityTax    TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hospitality_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "igst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "jct"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLuxuryTax         TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "luxury_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeResortTax         TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "service_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeTourismTax        TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
@@ -230,19 +239,27 @@ type TaxCalculationTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationTaxBreakdownTaxRateDetailsTaxType can take
 const (
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAdmissionsTax     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "admissions_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax  TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax  TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHospitalityTax    TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hospitality_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "igst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "jct"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLuxuryTax         TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "luxury_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeResortTax         TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "service_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeTourismTax        TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
@@ -336,6 +353,8 @@ type TaxCalculationLineItemParams struct {
 	Amount *int64 `form:"amount"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
@@ -416,6 +435,8 @@ type TaxCalculationCreateLineItemParams struct {
 	Amount *int64 `form:"amount"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.

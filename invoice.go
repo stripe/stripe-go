@@ -937,6 +937,8 @@ type InvoiceAddLinesLinePeriodParams struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
@@ -1267,6 +1269,8 @@ type InvoiceUpdateLinesLinePeriodParams struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
@@ -1932,7 +1936,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
 	BillingSchedulesActions []*InvoiceCreatePreviewScheduleDetailsAmendmentBillingSchedulesActionParams `form:"billing_schedules_actions"`
 	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
 	DiscountActions []*InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionParams `form:"discount_actions"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// Changes to the subscription items during the amendment time span.
 	ItemActions []*InvoiceCreatePreviewScheduleDetailsAmendmentItemActionParams `form:"item_actions"`
@@ -2326,7 +2330,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams `form:"discounts"`
 	// The number of intervals the phase should last. If set, `end_date` must not be set.
 	Duration *InvoiceCreatePreviewScheduleDetailsPhaseDurationParams `form:"duration"`
-	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
+	// Configures how the subscription schedule handles billing for phase transitions.
 	EffectiveAt *string `form:"effective_at"`
 	// The date at which this phase of the subscription schedule ends. If set, `duration` must not be set.
 	EndDate    *int64 `form:"end_date"`
@@ -3749,6 +3753,8 @@ type InvoiceParentQuoteDetails struct {
 type InvoiceParentScheduleDetails struct {
 	// The schedule that generated this invoice
 	Schedule string `json:"schedule"`
+	// The subscription associated with this schedule
+	Subscription *Subscription `json:"subscription"`
 }
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).

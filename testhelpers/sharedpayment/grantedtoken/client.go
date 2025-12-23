@@ -40,8 +40,8 @@ func (c Client) New(params *stripe.TestHelpersSharedPaymentGrantedTokenParams) (
 }
 
 // Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
-func Update(id string, params *stripe.TestHelpersSharedPaymentGrantedTokenParams) (*stripe.SharedPaymentGrantedToken, error) {
-	return getC().Update(id, params)
+func Revoke(id string, params *stripe.TestHelpersSharedPaymentGrantedTokenRevokeParams) (*stripe.SharedPaymentGrantedToken, error) {
+	return getC().Revoke(id, params)
 }
 
 // Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
@@ -49,7 +49,7 @@ func Update(id string, params *stripe.TestHelpersSharedPaymentGrantedTokenParams
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) Update(id string, params *stripe.TestHelpersSharedPaymentGrantedTokenParams) (*stripe.SharedPaymentGrantedToken, error) {
+func (c Client) Revoke(id string, params *stripe.TestHelpersSharedPaymentGrantedTokenRevokeParams) (*stripe.SharedPaymentGrantedToken, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/shared_payment/granted_tokens/%s/revoke", id)
 	grantedtoken := &stripe.SharedPaymentGrantedToken{}
