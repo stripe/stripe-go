@@ -28,6 +28,15 @@ const (
 	CreditNoteReasonProductUnsatisfactory CreditNoteReason = "product_unsatisfactory"
 )
 
+// Type of the refund, one of `refund` or `payment_record_refund`.
+type CreditNoteRefundType string
+
+// List of values that CreditNoteRefundType can take
+const (
+	CreditNoteRefundTypePaymentRecordRefund CreditNoteRefundType = "payment_record_refund"
+	CreditNoteRefundTypeRefund              CreditNoteRefundType = "refund"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type CreditNoteShippingCostTaxTaxabilityReason string
 
@@ -50,7 +59,7 @@ const (
 	CreditNoteShippingCostTaxTaxabilityReasonZeroRated            CreditNoteShippingCostTaxTaxabilityReason = "zero_rated"
 )
 
-// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://docs.stripe.com/billing/invoices/credit-notes#voiding).
 type CreditNoteStatus string
 
 // List of values that CreditNoteStatus can take
@@ -118,6 +127,8 @@ type CreditNoteListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return credit notes for the customer specified by this customer ID.
 	Customer *string `form:"customer"`
+	// Only return credit notes for the account representing the customer specified by this account ID.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Only return credit notes for the invoice specified by this invoice ID.
@@ -161,12 +172,24 @@ type CreditNoteLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+type CreditNoteRefundPaymentRecordRefundParams struct {
+	// The ID of the PaymentRecord with the refund to link to this credit note.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
+	RefundGroup *string `form:"refund_group"`
+}
+
 // Refunds to link to this credit note.
 type CreditNoteRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
+	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+	PaymentRecordRefund *CreditNoteRefundPaymentRecordRefundParams `form:"payment_record_refund"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
+	Type *string `form:"type"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -204,7 +227,7 @@ type CreditNoteParams struct {
 	Lines []*CreditNoteLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
@@ -264,12 +287,24 @@ type CreditNotePreviewLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+type CreditNotePreviewRefundPaymentRecordRefundParams struct {
+	// The ID of the PaymentRecord with the refund to link to this credit note.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
+	RefundGroup *string `form:"refund_group"`
+}
+
 // Refunds to link to this credit note.
 type CreditNotePreviewRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
+	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+	PaymentRecordRefund *CreditNotePreviewRefundPaymentRecordRefundParams `form:"payment_record_refund"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
+	Type *string `form:"type"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -297,7 +332,7 @@ type CreditNotePreviewParams struct {
 	Lines []*CreditNotePreviewLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
@@ -357,12 +392,24 @@ type CreditNotePreviewLinesLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+type CreditNotePreviewLinesRefundPaymentRecordRefundParams struct {
+	// The ID of the PaymentRecord with the refund to link to this credit note.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
+	RefundGroup *string `form:"refund_group"`
+}
+
 // Refunds to link to this credit note.
 type CreditNotePreviewLinesRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
+	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+	PaymentRecordRefund *CreditNotePreviewLinesRefundPaymentRecordRefundParams `form:"payment_record_refund"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
+	Type *string `form:"type"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -390,7 +437,7 @@ type CreditNotePreviewLinesParams struct {
 	Lines []*CreditNotePreviewLinesLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
@@ -475,12 +522,24 @@ type CreditNoteCreateLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+type CreditNoteCreateRefundPaymentRecordRefundParams struct {
+	// The ID of the PaymentRecord with the refund to link to this credit note.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
+	RefundGroup *string `form:"refund_group"`
+}
+
 // Refunds to link to this credit note.
 type CreditNoteCreateRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
+	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
+	PaymentRecordRefund *CreditNoteCreateRefundPaymentRecordRefundParams `form:"payment_record_refund"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
+	Type *string `form:"type"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -518,7 +577,7 @@ type CreditNoteCreateParams struct {
 	Lines []*CreditNoteCreateLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
@@ -565,7 +624,7 @@ type CreditNoteUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Credit note memo.
 	Memo *string `form:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -603,12 +662,24 @@ type CreditNotePretaxCreditAmount struct {
 	Type CreditNotePretaxCreditAmountType `json:"type"`
 }
 
+// The PaymentRecord refund details associated with this credit note refund.
+type CreditNoteRefundPaymentRecordRefund struct {
+	// ID of the payment record.
+	PaymentRecord string `json:"payment_record"`
+	// ID of the refund group.
+	RefundGroup string `json:"refund_group"`
+}
+
 // Refunds related to this credit note.
 type CreditNoteRefund struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent).
 	AmountRefunded int64 `json:"amount_refunded"`
+	// The PaymentRecord refund details associated with this credit note refund.
+	PaymentRecordRefund *CreditNoteRefundPaymentRecordRefund `json:"payment_record_refund"`
 	// ID of the refund.
 	Refund *Refund `json:"refund"`
+	// Type of the refund, one of `refund` or `payment_record_refund`.
+	Type CreditNoteRefundType `json:"type"`
 }
 
 // The taxes applied to the shipping rate.
@@ -641,6 +712,7 @@ type CreditNoteShippingCost struct {
 
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type CreditNoteTotalTaxTaxRateDetails struct {
+	// ID of the tax rate
 	TaxRate string `json:"tax_rate"`
 }
 
@@ -662,7 +734,7 @@ type CreditNoteTotalTax struct {
 
 // Issue a credit note to adjust an invoice's amount after the invoice is finalized.
 //
-// Related guide: [Credit notes](https://stripe.com/docs/billing/invoices/credit-notes)
+// Related guide: [Credit notes](https://docs.stripe.com/billing/invoices/credit-notes)
 type CreditNote struct {
 	APIResource
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note, including tax.
@@ -675,6 +747,8 @@ type CreditNote struct {
 	Currency Currency `json:"currency"`
 	// ID of the customer.
 	Customer *Customer `json:"customer"`
+	// ID of the account representing the customer.
+	CustomerAccount string `json:"customer_account"`
 	// Customer balance transaction related to this credit note.
 	CustomerBalanceTransaction *CustomerBalanceTransaction `json:"customer_balance_transaction"`
 	// The integer amount in cents (or local equivalent) representing the total amount of discount that was credited.
@@ -693,7 +767,7 @@ type CreditNote struct {
 	Livemode bool `json:"livemode"`
 	// Customer-facing text that appears on the credit note PDF.
 	Memo string `json:"memo"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// A unique number that identifies this particular credit note and appears on the PDF of the credit note and its associated invoice.
 	Number string `json:"number"`
@@ -715,7 +789,7 @@ type CreditNote struct {
 	Refunds []*CreditNoteRefund `json:"refunds"`
 	// The details of the cost of shipping, including the ShippingRate applied to the invoice.
 	ShippingCost *CreditNoteShippingCost `json:"shipping_cost"`
-	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://docs.stripe.com/billing/invoices/credit-notes#voiding).
 	Status CreditNoteStatus `json:"status"`
 	// The integer amount in cents (or local equivalent) representing the amount of the credit note, excluding exclusive tax and invoice level discounts.
 	Subtotal int64 `json:"subtotal"`

@@ -74,10 +74,12 @@ func (p *FinancialConnectionsSessionParams) AddExpand(f string) {
 
 // The account holder to link accounts for.
 type FinancialConnectionsSessionAccountHolderParams struct {
-	// The ID of the Stripe account whose accounts will be retrieved. Should only be present if `type` is `account`.
+	// The ID of the Stripe account whose accounts you will retrieve. Only available when `type` is `account`.
 	Account *string `form:"account"`
-	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
+	// The ID of the Stripe customer whose accounts you will retrieve. Only available when `type` is `customer`.
 	Customer *string `form:"customer"`
+	// The ID of Account representing a customer whose accounts you will retrieve. Only available when `type` is `customer`.
+	CustomerAccount *string `form:"customer_account"`
 	// Type of account holder to collect accounts for.
 	Type *string `form:"type"`
 }
@@ -104,10 +106,12 @@ func (p *FinancialConnectionsSessionRetrieveParams) AddExpand(f string) {
 
 // The account holder to link accounts for.
 type FinancialConnectionsSessionCreateAccountHolderParams struct {
-	// The ID of the Stripe account whose accounts will be retrieved. Should only be present if `type` is `account`.
+	// The ID of the Stripe account whose accounts you will retrieve. Only available when `type` is `account`.
 	Account *string `form:"account"`
-	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
+	// The ID of the Stripe customer whose accounts you will retrieve. Only available when `type` is `customer`.
 	Customer *string `form:"customer"`
+	// The ID of Account representing a customer whose accounts you will retrieve. Only available when `type` is `customer`.
+	CustomerAccount *string `form:"customer_account"`
 	// Type of account holder to collect accounts for.
 	Type *string `form:"type"`
 }
@@ -146,10 +150,11 @@ func (p *FinancialConnectionsSessionCreateParams) AddExpand(f string) {
 
 // The account holder for whom accounts are collected in this session.
 type FinancialConnectionsSessionAccountHolder struct {
-	// The ID of the Stripe account this account belongs to. Should only be present if `account_holder.type` is `account`.
+	// The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`.
 	Account *Account `json:"account"`
-	// ID of the Stripe customer this account belongs to. Present if and only if `account_holder.type` is `customer`.
-	Customer *Customer `json:"customer"`
+	// The ID for an Account representing a customer that this account belongs to. Only available when `account_holder.type` is `customer`.
+	Customer        *Customer `json:"customer"`
+	CustomerAccount string    `json:"customer_account"`
 	// Type of account holder that this account belongs to.
 	Type FinancialConnectionsSessionAccountHolderType `json:"type"`
 }

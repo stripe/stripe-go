@@ -19,7 +19,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
 	"github.com/stripe/stripe-go/v83/form"
 	"go.opentelemetry.io/otel/trace"
 )
@@ -799,7 +798,7 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	// Some sort of connection error
 	if err != nil {
 		s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		return res.Body, err
+		return nil, err
 	}
 
 	// Successful response, return the body ReadCloser
@@ -985,9 +984,14 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 
 	// need to return a generic error in this case
 	if raw.Error == nil {
-		err := errors.New(string(resBody))
+		err := errors.New("error deserialization failed: " + string(resBody))
 		return err
 	}
+
+	// Set the HTTP status code and request ID on the error, which are
+	// not included in the response body.
+	raw.Error.HTTPStatusCode = res.StatusCode
+	raw.Error.RequestID = res.Header.Get("Request-Id")
 
 	if raw.Error.Type == nil {
 		return raw.Error
@@ -1560,7 +1564,7 @@ func TimeValue(v *time.Time) time.Time {
 //
 
 // clientversion is the binding version
-const clientversion = "83.0.1"
+const clientversion = "84.1.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

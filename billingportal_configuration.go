@@ -55,6 +55,15 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorNone             BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "none"
 )
 
+// Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+type BillingPortalConfigurationFeaturesSubscriptionUpdateBillingCycleAnchor string
+
+// List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateBillingCycleAnchor can take
+const (
+	BillingPortalConfigurationFeaturesSubscriptionUpdateBillingCycleAnchorNow       BillingPortalConfigurationFeaturesSubscriptionUpdateBillingCycleAnchor = "now"
+	BillingPortalConfigurationFeaturesSubscriptionUpdateBillingCycleAnchorUnchanged BillingPortalConfigurationFeaturesSubscriptionUpdateBillingCycleAnchor = "unchanged"
+)
+
 // The types of subscription updates that are supported for items listed in the `products` attribute. When empty, subscriptions are not updateable.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate string
 
@@ -137,6 +146,8 @@ type BillingPortalConfigurationFeaturesInvoiceHistoryParams struct {
 type BillingPortalConfigurationFeaturesPaymentMethodUpdateParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
+	// The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set or set to an empty string, the default payment method configuration is used.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 }
 
 // Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
@@ -193,6 +204,8 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndPara
 
 // Information about updating subscriptions in the portal.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
+	// Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
 	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
 	// Whether the feature is enabled.
@@ -223,7 +236,7 @@ type BillingPortalConfigurationFeaturesParams struct {
 
 // The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 type BillingPortalConfigurationLoginPageParams struct {
-	// Set to `true` to generate a shareable URL [`login_page.url`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
+	// Set to `true` to generate a shareable URL [`login_page.url`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
 	//
 	// Set to `false` to deactivate the `login_page.url`.
 	Enabled *bool `form:"enabled"`
@@ -236,7 +249,7 @@ type BillingPortalConfigurationParams struct {
 	Active *bool `form:"active"`
 	// The business information shown to customers in the portal.
 	BusinessProfile *BillingPortalConfigurationBusinessProfileParams `form:"business_profile"`
-	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL *string `form:"default_return_url"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -244,7 +257,7 @@ type BillingPortalConfigurationParams struct {
 	Features *BillingPortalConfigurationFeaturesParams `form:"features"`
 	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 	LoginPage *BillingPortalConfigurationLoginPageParams `form:"login_page"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The name of the configuration.
 	Name *string `form:"name"`
@@ -292,6 +305,8 @@ type BillingPortalConfigurationCreateFeaturesInvoiceHistoryParams struct {
 type BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
+	// The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set or set to an empty string, the default payment method configuration is used.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 }
 
 // Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
@@ -348,6 +363,8 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodE
 
 // Information about updating subscriptions in the portal.
 type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams struct {
+	// Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
 	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
 	// Whether the feature is enabled.
@@ -378,7 +395,7 @@ type BillingPortalConfigurationCreateFeaturesParams struct {
 
 // The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 type BillingPortalConfigurationCreateLoginPageParams struct {
-	// Set to `true` to generate a shareable URL [`login_page.url`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
+	// Set to `true` to generate a shareable URL [`login_page.url`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
 	Enabled *bool `form:"enabled"`
 }
 
@@ -387,7 +404,7 @@ type BillingPortalConfigurationCreateParams struct {
 	Params `form:"*"`
 	// The business information shown to customers in the portal.
 	BusinessProfile *BillingPortalConfigurationCreateBusinessProfileParams `form:"business_profile"`
-	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL *string `form:"default_return_url"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -395,7 +412,7 @@ type BillingPortalConfigurationCreateParams struct {
 	Features *BillingPortalConfigurationCreateFeaturesParams `form:"features"`
 	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 	LoginPage *BillingPortalConfigurationCreateLoginPageParams `form:"login_page"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The name of the configuration.
 	Name *string `form:"name"`
@@ -455,6 +472,8 @@ type BillingPortalConfigurationUpdateFeaturesInvoiceHistoryParams struct {
 type BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
+	// The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set or set to an empty string, the default payment method configuration is used.
+	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 }
 
 // Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
@@ -511,6 +530,8 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodE
 
 // Information about updating subscriptions in the portal.
 type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams struct {
+	// Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
 	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
 	// Whether the feature is enabled.
@@ -541,7 +562,7 @@ type BillingPortalConfigurationUpdateFeaturesParams struct {
 
 // The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 type BillingPortalConfigurationUpdateLoginPageParams struct {
-	// Set to `true` to generate a shareable URL [`login_page.url`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
+	// Set to `true` to generate a shareable URL [`login_page.url`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
 	//
 	// Set to `false` to deactivate the `login_page.url`.
 	Enabled *bool `form:"enabled"`
@@ -554,7 +575,7 @@ type BillingPortalConfigurationUpdateParams struct {
 	Active *bool `form:"active"`
 	// The business information shown to customers in the portal.
 	BusinessProfile *BillingPortalConfigurationUpdateBusinessProfileParams `form:"business_profile"`
-	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL *string `form:"default_return_url"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -562,7 +583,7 @@ type BillingPortalConfigurationUpdateParams struct {
 	Features *BillingPortalConfigurationUpdateFeaturesParams `form:"features"`
 	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
 	LoginPage *BillingPortalConfigurationUpdateLoginPageParams `form:"login_page"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The name of the configuration.
 	Name *string `form:"name"`
@@ -603,6 +624,8 @@ type BillingPortalConfigurationFeaturesInvoiceHistory struct {
 type BillingPortalConfigurationFeaturesPaymentMethodUpdate struct {
 	// Whether the feature is enabled.
 	Enabled bool `json:"enabled"`
+	// The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set, the default payment method configuration is used.
+	PaymentMethodConfiguration string `json:"payment_method_configuration"`
 }
 type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason struct {
 	// Whether the feature is enabled.
@@ -647,6 +670,8 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEnd str
 	Conditions []*BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndCondition `json:"conditions"`
 }
 type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
+	// Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
+	BillingCycleAnchor BillingPortalConfigurationFeaturesSubscriptionUpdateBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// The types of subscription updates that are supported for items listed in the `products` attribute. When empty, subscriptions are not updateable.
 	DefaultAllowedUpdates []BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `json:"default_allowed_updates"`
 	// Whether the feature is enabled.
@@ -671,11 +696,11 @@ type BillingPortalConfigurationLoginPage struct {
 	//
 	// If `false`, the previously generated `url`, if any, will be deactivated.
 	Enabled bool `json:"enabled"`
-	// A shareable URL to the hosted portal login page. Your customers will be able to log in with their [email](https://stripe.com/docs/api/customers/object#customer_object-email) and receive a link to their customer portal.
+	// A shareable URL to the hosted portal login page. Your customers will be able to log in with their [email](https://docs.stripe.com/api/customers/object#customer_object-email) and receive a link to their customer portal.
 	URL string `json:"url"`
 }
 
-// A portal configuration describes the functionality and behavior of a portal session.
+// A portal configuration describes the functionality and behavior you embed in a portal session. Related guide: [Configure the customer portal](https://docs.stripe.com/customer-management/configure-portal).
 type BillingPortalConfiguration struct {
 	APIResource
 	// Whether the configuration is active and can be used to create portal sessions.
@@ -685,7 +710,7 @@ type BillingPortalConfiguration struct {
 	BusinessProfile *BillingPortalConfigurationBusinessProfile `json:"business_profile"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL string                              `json:"default_return_url"`
 	Features         *BillingPortalConfigurationFeatures `json:"features"`
 	// Unique identifier for the object.
@@ -695,7 +720,7 @@ type BillingPortalConfiguration struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode  bool                                 `json:"livemode"`
 	LoginPage *BillingPortalConfigurationLoginPage `json:"login_page"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The name of the configuration.
 	Name string `json:"name"`

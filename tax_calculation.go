@@ -331,20 +331,20 @@ type TaxCalculationCustomerDetailsParams struct {
 
 // A list of items the customer is purchasing.
 type TaxCalculationLineItemParams struct {
-	// A positive integer representing the line item's total price in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// A positive integer representing the line item's total price in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
 	Quantity *int64 `form:"quantity"`
-	// A custom identifier for this line item, which must be unique across the line items in the calculation. The reference helps identify each line item in exported [tax reports](https://stripe.com/docs/tax/reports).
+	// A custom identifier for this line item, which must be unique across the line items in the calculation. The reference helps identify each line item in exported [tax reports](https://docs.stripe.com/tax/reports).
 	Reference *string `form:"reference"`
 	// Specifies whether the `amount` includes taxes. Defaults to `exclusive`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
 	TaxCode *string `form:"tax_code"`
 }
 
@@ -365,13 +365,13 @@ type TaxCalculationShipFromDetailsParams struct {
 
 // Shipping cost details to be used for the calculation.
 type TaxCalculationShippingCostParams struct {
-	// A positive integer in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
+	// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
-	// If provided, the [shipping rate](https://stripe.com/docs/api/shipping_rates/object)'s `amount`, `tax_code` and `tax_behavior` are used. If you provide a shipping rate, then you cannot pass the `amount`, `tax_code`, or `tax_behavior` parameters.
+	// If provided, the [shipping rate](https://docs.stripe.com/api/shipping_rates/object)'s `amount`, `tax_code` and `tax_behavior` are used. If you provide a shipping rate, then you cannot pass the `amount`, `tax_code`, or `tax_behavior` parameters.
 	ShippingRate *string `form:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes. Defaults to `exclusive`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// The [tax code](https://stripe.com/docs/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://dashboard.stripe.com/settings/tax) is used.
+	// The [tax code](https://docs.stripe.com/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://dashboard.stripe.com/settings/tax) is used.
 	TaxCode *string `form:"tax_code"`
 }
 
@@ -411,20 +411,20 @@ type TaxCalculationCreateCustomerDetailsParams struct {
 
 // A list of items the customer is purchasing.
 type TaxCalculationCreateLineItemParams struct {
-	// A positive integer representing the line item's total price in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// A positive integer representing the line item's total price in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
 	Quantity *int64 `form:"quantity"`
-	// A custom identifier for this line item, which must be unique across the line items in the calculation. The reference helps identify each line item in exported [tax reports](https://stripe.com/docs/tax/reports).
+	// A custom identifier for this line item, which must be unique across the line items in the calculation. The reference helps identify each line item in exported [tax reports](https://docs.stripe.com/tax/reports).
 	Reference *string `form:"reference"`
 	// Specifies whether the `amount` includes taxes. Defaults to `exclusive`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
 	TaxCode *string `form:"tax_code"`
 }
 
@@ -445,13 +445,13 @@ type TaxCalculationCreateShipFromDetailsParams struct {
 
 // Shipping cost details to be used for the calculation.
 type TaxCalculationCreateShippingCostParams struct {
-	// A positive integer in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
+	// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
-	// If provided, the [shipping rate](https://stripe.com/docs/api/shipping_rates/object)'s `amount`, `tax_code` and `tax_behavior` are used. If you provide a shipping rate, then you cannot pass the `amount`, `tax_code`, or `tax_behavior` parameters.
+	// If provided, the [shipping rate](https://docs.stripe.com/api/shipping_rates/object)'s `amount`, `tax_code` and `tax_behavior` are used. If you provide a shipping rate, then you cannot pass the `amount`, `tax_code`, or `tax_behavior` parameters.
 	ShippingRate *string `form:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes. Defaults to `exclusive`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// The [tax code](https://stripe.com/docs/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://dashboard.stripe.com/settings/tax) is used.
+	// The [tax code](https://docs.stripe.com/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://dashboard.stripe.com/settings/tax) is used.
 	TaxCode *string `form:"tax_code"`
 }
 
@@ -528,14 +528,14 @@ type TaxCalculationShippingCostTaxBreakdownTaxRateDetails struct {
 
 // Detailed account of taxes relevant to shipping cost.
 type TaxCalculationShippingCostTaxBreakdown struct {
-	// The amount of tax, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount       int64                                               `json:"amount"`
 	Jurisdiction *TaxCalculationShippingCostTaxBreakdownJurisdiction `json:"jurisdiction"`
 	// Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address).
 	Sourcing TaxCalculationShippingCostTaxBreakdownSourcing `json:"sourcing"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason TaxCalculationShippingCostTaxBreakdownTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount on which tax is calculated, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	TaxableAmount int64 `json:"taxable_amount"`
 	// Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax.
 	TaxRateDetails *TaxCalculationShippingCostTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
@@ -543,17 +543,17 @@ type TaxCalculationShippingCostTaxBreakdown struct {
 
 // The shipping cost details for the calculation.
 type TaxCalculationShippingCost struct {
-	// The shipping amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+	// The shipping amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
 	Amount int64 `json:"amount"`
-	// The amount of tax calculated for shipping, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount of tax calculated for shipping, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountTax int64 `json:"amount_tax"`
-	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object).
+	// The ID of an existing [ShippingRate](https://docs.stripe.com/api/shipping_rates/object).
 	ShippingRate string `json:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxCalculationShippingCostTaxBehavior `json:"tax_behavior"`
 	// Detailed account of taxes relevant to shipping cost.
 	TaxBreakdown []*TaxCalculationShippingCostTaxBreakdown `json:"tax_breakdown"`
-	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
+	// The [tax code](https://docs.stripe.com/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
 }
 
@@ -573,7 +573,7 @@ type TaxCalculationTaxBreakdownTaxRateDetails struct {
 	PercentageDecimal string `json:"percentage_decimal"`
 	// Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location. This field is only present for TaxRates created by Stripe Tax.
 	RateType TaxCalculationTaxBreakdownTaxRateDetailsRateType `json:"rate_type"`
-	// State, county, province, or region.
+	// State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State string `json:"state"`
 	// The tax type, such as `vat` or `sales_tax`.
 	TaxType TaxCalculationTaxBreakdownTaxRateDetailsTaxType `json:"tax_type"`
@@ -581,27 +581,27 @@ type TaxCalculationTaxBreakdownTaxRateDetails struct {
 
 // Breakdown of individual tax amounts that add up to the total.
 type TaxCalculationTaxBreakdown struct {
-	// The amount of tax, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Specifies whether the tax amount is included in the line item amount.
 	Inclusive bool `json:"inclusive"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. We might extend the possible values for this field to support new tax rules.
 	TaxabilityReason TaxCalculationTaxBreakdownTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount on which tax is calculated, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	TaxableAmount  int64                                     `json:"taxable_amount"`
 	TaxRateDetails *TaxCalculationTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
 }
 
 // A Tax Calculation allows you to calculate the tax to collect from your customer.
 //
-// Related guide: [Calculate tax in your custom payment flow](https://stripe.com/docs/tax/custom)
+// Related guide: [Calculate tax in your custom payment flow](https://docs.stripe.com/tax/custom)
 type TaxCalculation struct {
 	APIResource
-	// Total amount after taxes in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// Total amount after taxes in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountTotal int64 `json:"amount_total"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// The ID of an existing [Customer](https://stripe.com/docs/api/customers/object) used for the resource.
+	// The ID of an existing [Customer](https://docs.stripe.com/api/customers/object) used for the resource.
 	Customer        string                         `json:"customer"`
 	CustomerDetails *TaxCalculationCustomerDetails `json:"customer_details"`
 	// Timestamp of date at which the tax calculation will expire.

@@ -49,7 +49,7 @@ const (
 	RefundReasonRequestedByCustomer     RefundReason = "requested_by_customer"
 )
 
-// Status of the refund. This can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Learn more about [failed refunds](https://stripe.com/docs/refunds#failed-refunds).
+// Status of the refund. This can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Learn more about [failed refunds](https://docs.stripe.com/refunds#failed-refunds).
 type RefundStatus string
 
 // List of values that RefundStatus can take
@@ -105,13 +105,13 @@ type RefundParams struct {
 	Expand []*string `form:"expand"`
 	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
 	InstructionsEmail *string `form:"instructions_email"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Origin of the refund
 	Origin *string `form:"origin"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent"`
-	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://stripe.com/docs/radar/lists), and will also help us improve our fraud detection algorithms.
+	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
 	Reason *string `form:"reason"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
 	RefundApplicationFee *bool `form:"refund_application_fee"`
@@ -173,13 +173,13 @@ type RefundCreateParams struct {
 	Expand []*string `form:"expand"`
 	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
 	InstructionsEmail *string `form:"instructions_email"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Origin of the refund
 	Origin *string `form:"origin"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent"`
-	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://stripe.com/docs/radar/lists), and will also help us improve our fraud detection algorithms.
+	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
 	Reason *string `form:"reason"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
 	RefundApplicationFee *bool `form:"refund_application_fee"`
@@ -222,7 +222,7 @@ type RefundUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -271,6 +271,10 @@ type RefundDestinationDetailsCard struct {
 	Type RefundDestinationDetailsCardType `json:"type"`
 }
 type RefundDestinationDetailsCashApp struct{}
+type RefundDestinationDetailsCrypto struct {
+	// The transaction hash of the refund.
+	Reference string `json:"reference"`
+}
 type RefundDestinationDetailsCustomerCashBalance struct{}
 type RefundDestinationDetailsEPS struct{}
 type RefundDestinationDetailsEUBankTransfer struct {
@@ -294,6 +298,12 @@ type RefundDestinationDetailsJPBankTransfer struct {
 	ReferenceStatus string `json:"reference_status"`
 }
 type RefundDestinationDetailsKlarna struct{}
+type RefundDestinationDetailsMbWay struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsMultibanco struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -335,6 +345,7 @@ type RefundDestinationDetailsTHBankTransfer struct {
 	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
 	ReferenceStatus string `json:"reference_status"`
 }
+type RefundDestinationDetailsTWINT struct{}
 type RefundDestinationDetailsUSBankTransfer struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -354,6 +365,7 @@ type RefundDestinationDetails struct {
 	BrBankTransfer      *RefundDestinationDetailsBrBankTransfer      `json:"br_bank_transfer"`
 	Card                *RefundDestinationDetailsCard                `json:"card"`
 	CashApp             *RefundDestinationDetailsCashApp             `json:"cashapp"`
+	Crypto              *RefundDestinationDetailsCrypto              `json:"crypto"`
 	CustomerCashBalance *RefundDestinationDetailsCustomerCashBalance `json:"customer_cash_balance"`
 	EPS                 *RefundDestinationDetailsEPS                 `json:"eps"`
 	EUBankTransfer      *RefundDestinationDetailsEUBankTransfer      `json:"eu_bank_transfer"`
@@ -362,6 +374,7 @@ type RefundDestinationDetails struct {
 	Grabpay             *RefundDestinationDetailsGrabpay             `json:"grabpay"`
 	JPBankTransfer      *RefundDestinationDetailsJPBankTransfer      `json:"jp_bank_transfer"`
 	Klarna              *RefundDestinationDetailsKlarna              `json:"klarna"`
+	MbWay               *RefundDestinationDetailsMbWay               `json:"mb_way"`
 	Multibanco          *RefundDestinationDetailsMultibanco          `json:"multibanco"`
 	MXBankTransfer      *RefundDestinationDetailsMXBankTransfer      `json:"mx_bank_transfer"`
 	NzBankTransfer      *RefundDestinationDetailsNzBankTransfer      `json:"nz_bank_transfer"`
@@ -373,6 +386,7 @@ type RefundDestinationDetails struct {
 	Sofort              *RefundDestinationDetailsSofort              `json:"sofort"`
 	Swish               *RefundDestinationDetailsSwish               `json:"swish"`
 	THBankTransfer      *RefundDestinationDetailsTHBankTransfer      `json:"th_bank_transfer"`
+	TWINT               *RefundDestinationDetailsTWINT               `json:"twint"`
 	// The type of transaction-specific details of the payment method used in the refund (e.g., `card`). An additional hash is included on `destination_details` with a name matching this value. It contains information specific to the refund transaction.
 	Type           string                                  `json:"type"`
 	USBankTransfer *RefundDestinationDetailsUSBankTransfer `json:"us_bank_transfer"`
@@ -406,7 +420,7 @@ type RefundPresentmentDetails struct {
 // refunded yet. Funds are refunded to the credit or debit card that's
 // initially charged.
 //
-// Related guide: [Refunds](https://stripe.com/docs/refunds)
+// Related guide: [Refunds](https://docs.stripe.com/refunds)
 type Refund struct {
 	APIResource
 	// Amount, in cents (or local equivalent).
@@ -430,7 +444,7 @@ type Refund struct {
 	ID string `json:"id"`
 	// For payment methods without native refund support (for example, Konbini, PromptPay), provide an email address for the customer to receive refund instructions.
 	InstructionsEmail string `json:"instructions_email"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata   map[string]string `json:"metadata"`
 	NextAction *RefundNextAction `json:"next_action"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -446,7 +460,7 @@ type Refund struct {
 	ReceiptNumber string `json:"receipt_number"`
 	// The transfer reversal that's associated with the refund. Only present if the charge came from another Stripe account.
 	SourceTransferReversal *TransferReversal `json:"source_transfer_reversal"`
-	// Status of the refund. This can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Learn more about [failed refunds](https://stripe.com/docs/refunds#failed-refunds).
+	// Status of the refund. This can be `pending`, `requires_action`, `succeeded`, `failed`, or `canceled`. Learn more about [failed refunds](https://docs.stripe.com/refunds#failed-refunds).
 	Status RefundStatus `json:"status"`
 	// This refers to the transfer reversal object if the accompanying transfer reverses. This is only applicable if the charge was created using the destination parameter.
 	TransferReversal *TransferReversal `json:"transfer_reversal"`

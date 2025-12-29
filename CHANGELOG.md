@@ -1,5 +1,120 @@
 # Changelog
 
+## 84.1.0 - 2025-12-16
+This release changes the pinned API version to `2025-12-15.clover`.
+
+* [#2235](https://github.com/stripe/stripe-go/pull/2235) Update generated code
+  * Add support for new resources `V2CoreAccountLink`, `V2CoreAccountPersonToken`, `V2CoreAccountPerson`, `V2CoreAccountToken`, and `V2CoreAccount`
+  * Add support for `Get` and `New` methods on resources `V2CoreAccountPersonToken` and `V2CoreAccountToken`
+  * Add support for `New` method on resource `V2CoreAccountLink`
+  * Add support for `Close`, `Get`, `List`, `New`, and `Update` methods on resource `V2CoreAccount`
+  * Add support for `Del`, `Get`, `List`, `New`, and `Update` methods on resource `V2CoreAccountPerson`
+  * Add support for `CustomerAccount` on `BillingCreditBalanceSummaryParams`, `BillingCreditBalanceSummary`, `BillingCreditBalanceTransactionListParams`, `BillingCreditGrantListParams`, `BillingCreditGrantParams`, `BillingCreditGrant`, `BillingPortalSessionParams`, `BillingPortalSession`, `CashBalance`, `CheckoutSessionListParams`, `CheckoutSessionParams`, `CheckoutSession`, `ConfirmationTokenPaymentMethodPreview`, `CreditNoteListParams`, `CreditNote`, `CustomerBalanceTransaction`, `CustomerCashBalanceTransaction`, `CustomerSessionParams`, `CustomerSession`, `Customer`, `Discount`, `FinancialConnectionsAccountAccountHolder`, `FinancialConnectionsAccountListAccountHolderParams`, `FinancialConnectionsSessionAccountHolderParams`, `FinancialConnectionsSessionAccountHolder`, `InvoiceCreatePreviewParams`, `InvoiceItemListParams`, `InvoiceItemParams`, `InvoiceItem`, `InvoiceListParams`, `InvoiceParams`, `Invoice`, `PaymentIntentListParams`, `PaymentIntentParams`, `PaymentIntent`, `PaymentMethodAttachParams`, `PaymentMethodListParams`, `PaymentMethod`, `PromotionCodeListParams`, `PromotionCodeParams`, `PromotionCode`, `QuoteListParams`, `QuoteParams`, `Quote`, `SetupAttempt`, `SetupIntentListParams`, `SetupIntentParams`, `SetupIntent`, `SubscriptionListParams`, `SubscriptionParams`, `SubscriptionScheduleListParams`, `SubscriptionScheduleParams`, `SubscriptionSchedule`, `Subscription`, `TaxIdListOwnerParams`, `TaxIdOwnerParams`, `TaxIdOwner`, and `TaxId`
+  * Add support for `Metadata` on `CheckoutSessionLineItemParams` and `LineItem`
+  * Add support for `PaytoPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `Signer` on `AccountDocumentsProofOfRegistrationParams` and `AccountDocumentsProofOfUltimateBeneficialOwnershipParams`
+  * Add support for `BillingCycleAnchor` on `BillingPortalConfigurationFeaturesSubscriptionUpdateParams` and `BillingPortalConfigurationFeaturesSubscriptionUpdate`
+  * Add support for `Payto` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `MandatePaymentMethodDetails`, `PaymentAttemptRecordPaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `PaymentRecordPaymentMethodDetails`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodDataParams`, `SetupIntentPaymentMethodOptionsParams`, `SetupIntentPaymentMethodOptions`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`
+  * Add support for `ExpectedDebitDate` on `ChargePaymentMethodDetailsAcssDebit`, `ChargePaymentMethodDetailsAuBecsDebit`, `ChargePaymentMethodDetailsBacsDebit`, `ChargePaymentMethodDetailsNzBankAccount`, `ChargePaymentMethodDetailsSepaDebit`, `ChargePaymentMethodDetailsUsBankAccount`, `PaymentAttemptRecordPaymentMethodDetailsAcssDebit`, `PaymentAttemptRecordPaymentMethodDetailsAuBecsDebit`, `PaymentAttemptRecordPaymentMethodDetailsBacsDebit`, `PaymentAttemptRecordPaymentMethodDetailsNzBankAccount`, `PaymentAttemptRecordPaymentMethodDetailsSepaDebit`, `PaymentAttemptRecordPaymentMethodDetailsUsBankAccount`, `PaymentRecordPaymentMethodDetailsAcssDebit`, `PaymentRecordPaymentMethodDetailsAuBecsDebit`, `PaymentRecordPaymentMethodDetailsBacsDebit`, `PaymentRecordPaymentMethodDetailsNzBankAccount`, `PaymentRecordPaymentMethodDetailsSepaDebit`, and `PaymentRecordPaymentMethodDetailsUsBankAccount`
+  * Add support for `LineItems` on `CheckoutSessionParams`
+  * Add support for new value `mollie` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.Bank`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.Bank`, and `PaymentRecordPaymentMethodDetailsIdeal.Bank`
+  * Add support for new value `MLLENL2A` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.BIC`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.BIC`, and `PaymentRecordPaymentMethodDetailsIdeal.BIC`
+  * Add support for new value `payto` on enums `ConfirmationTokenPaymentMethodPreview.Type` and `PaymentMethod.Type`
+  * Add support for `Invoice` on `CustomerCustomerBalanceTransactionListParams`
+  * Add support for `RelatedCustomerAccount` on `IdentityVerificationSessionListParams`, `IdentityVerificationSessionParams`, and `IdentityVerificationSession`
+  * Add support for new value `payto` on enums `InvoicePaymentSettings.PaymentMethodTypes` and `SubscriptionPaymentSettings.PaymentMethodTypes`
+  * Add support for `Subtotal` on `InvoiceLineItem`
+  * Add support for `AuthorizationCode`, `Description`, `IIN`, `Installments`, `Issuer`, `NetworkAdviceCode`, `NetworkDeclineCode`, and `StoredCredentialUsage` on `PaymentAttemptRecordPaymentMethodDetailsCard` and `PaymentRecordPaymentMethodDetailsCard`
+  * Add support for new value `payto` on enums `PaymentIntent.ExcludedPaymentMethodTypes` and `SetupIntent.ExcludedPaymentMethodTypes`
+  * Add support for new value `payto` on enum `PaymentLink.PaymentMethodTypes`
+  * Add support for `AllowRedisplay` on `PaymentMethodListParams`
+  * Add support for `ReportedBy` on `PaymentRecord`
+  * Add support for `Changes` on `V2CoreEvent`
+  * Add support for error code `account_token_required_for_v2_account` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+
+## 84.0.0 - 2025-11-18
+This release changes the pinned API version to `2025-11-17.clover`.
+
+* [#2216](https://github.com/stripe/stripe-go/pull/2216) Update generated code
+  * ⚠️ Change the type of `V2CoreEventDestinationParams.Metadata` and `V2CoreEventDestinationUpdateParams.Metadata` to `map[string]*string` from `map[string]string`. This supports the ability to remove a key from a `Metadata` map by setting its value to `nil`.
+  * ⚠️ A corresponding change was made to the `V2CoreEventDestinationParams.AddMetadata` method to set its second argument to `*string` from `string`.
+* [#2215](https://github.com/stripe/stripe-go/pull/2215) Update generated code
+  * ⚠️ Remove support for `GTE`, `Gt`, `LT`, and `Lte` on `V2CoreEventListParams` in favor of `Created`.
+* [#2210](https://github.com/stripe/stripe-go/pull/2210) Update v2 array parameter serialization to use indexed format
+  - `Retrieve` and `List` calls for `/v2` endpoints now use indexed format (e.g., `?include[0]=foo&include[1]=bar`) instead of repeated parameter format (e.g., `?include=foo&include=bar`) when communicating with the Stripe API. This may break any unit tests that expect the latter behavior when setting up a mock server. Instead, they should now expect the former.
+* [#2206](https://github.com/stripe/stripe-go/pull/2206) Update generated code
+  * Add support for new resources `TaxAssociation` and `TerminalOnboardingLink`
+  * Add support for `Find` method on resource `TaxAssociation`
+  * Add support for `New` method on resource `TerminalOnboardingLink`
+  * Add support for `PaymentMethodConfiguration` on `BillingPortalConfigurationFeaturesPaymentMethodUpdate`
+  * Add support for `TransactionID` on `ChargePaymentMethodDetailsIdeal`, `PaymentAttemptRecordPaymentMethodDetailsIdeal`, and `PaymentRecordPaymentMethodDetailsIdeal`
+  * Add support for new value `finom` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.Bank`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.Bank`, and `PaymentRecordPaymentMethodDetailsIdeal.Bank`
+  * Add support for new value `FNOMNL22` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.BIC`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.BIC`, and `PaymentRecordPaymentMethodDetailsIdeal.BIC`
+  * Add support for new value `tokenized_account_number_deactivated` on enums `ConfirmationTokenPaymentMethodPreviewUsBankAccountStatusDetailsBlocked.Reason` and `PaymentMethodUsBankAccountStatusDetailsBlocked.Reason`
+  * Add support for `Created` on `CustomerCustomerBalanceTransactionListParams` and `InvoicePaymentListParams`
+  * Add support for new values `financial_connections.account.account_numbers_updated` and `financial_connections.account.upcoming_account_number_expiry` on enum `Event.Type`
+  * Add support for `AccountNumbers` on `FinancialConnectionsAccount`
+  * Add support for `FraudRisk` on `IssuingAuthorizationRiskAssessmentParams`
+  * Add support for `LatestFraudWarning` on `IssuingCard`
+  * Add support for `Hooks` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentIncrementAuthorizationParams`, `PaymentIntentParams`, and `PaymentIntent`
+  * Add support for `MbWay` and `TWINT` on `RefundDestinationDetails`
+  * Add support for snapshot events `EventTypeFinancialConnectionsAccountAccountNumbersUpdated` and `EventTypeFinancialConnectionsAccountUpcomingAccountNumberExpiry` with resource `FinancialConnectionsAccount`
+
+## 83.2.1 - 2025-11-13
+* [#2212](https://github.com/stripe/stripe-go/pull/2212) Fix segfault in `BackendImplementation.handleResponseBufferingErrors`
+  * Fixes [#2111](https://github.com/stripe/stripe-go/issues/2211) where a network issue during a RawRequest was causing a segfault.
+
+## 83.2.0 - 2025-11-05
+* [#2203](https://github.com/stripe/stripe-go/pull/2203) Update generated code
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+
+## 83.1.1 - 2025-11-04
+* [#2202](https://github.com/stripe/stripe-go/pull/2202) Add support for value `payment_record` to enum `InvoicePaymentPayment.Type`
+
+## 83.1.0 - 2025-10-29
+
+This release changes the pinned API version to `2025-10-29.clover`.
+
+* [#2193](https://github.com/stripe/stripe-go/pull/2193) Update generated code
+  * Improve docs for PaymentIntent related endpoints
+* [#2147](https://github.com/stripe/stripe-go/pull/2147) Update generated code
+  * Add support for new resources `PaymentAttemptRecord`, `PaymentIntentAmountDetailsLineItem`, and `PaymentRecord`
+  * Add support for `Get` and `List` methods on resource `PaymentAttemptRecord`
+  * Add support for `Get`, `ReportPaymentAttemptCanceled`, `ReportPaymentAttemptFailed`, `ReportPaymentAttemptGuaranteed`, `ReportPaymentAttemptInformational`, `ReportPaymentAttempt`, `ReportPayment`, and `ReportRefund` methods on resource `PaymentRecord`
+  * Add support for `List` method on resource `PaymentIntentAmountDetailsLineItem`
+  * Add support for `RepresentativeDeclaration` on `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
+  * Add support for `PaymentMethodConfiguration` on `BillingPortalConfigurationFeaturesPaymentMethodUpdateParams`
+  * Add support for new value `solana` on enum `ChargePaymentMethodDetailsCrypto.Network`
+  * Add support for `TWINT` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for new value `custom` on enums `ConfirmationTokenPaymentMethodPreview.Type` and `PaymentMethod.Type`
+  * Add support for `PaymentRecordRefund` and `Type` on `CreditNotePreviewLinesRefundParams`, `CreditNotePreviewRefundParams`, `CreditNoteRefundParams`, and `CreditNoteRefund`
+  * Add support for `CustomerSheet` and `MobilePaymentElement` on `CustomerSessionComponentsParams` and `CustomerSessionComponents`
+  * Add support for `Provider` on `CustomerTax`
+  * Add support for new values `balance_settings.updated` and `invoice.payment_attempt_required` on enum `Event.Type`
+  * Add support for new value `platform_terms_of_service` on enum `File.Purpose`
+  * Add support for `PaymentRecord` on `InvoiceAttachPaymentParams`, `InvoicePaymentListPaymentParams`, and `InvoicePaymentPayment`
+  * Change type of `InvoicePaymentListPaymentParams.Type` from `literal('payment_intent')` to `enum('payment_intent'|'payment_record')`
+  * Add support for new value `custom` on enums `InvoicePaymentSettings.PaymentMethodTypes` and `SubscriptionPaymentSettings.PaymentMethodTypes`
+  * Add support for `AmountDetails` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentIncrementAuthorizationParams`, and `PaymentIntentParams`
+  * Add support for `PaymentDetails` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentIncrementAuthorizationParams`, `PaymentIntentParams`, and `PaymentIntent`
+  * Add support for `DiscountAmount`, `LineItems`, `Shipping`, and `Tax` on `PaymentIntentAmountDetails`
+  * Add support for `NameCollection` on `PaymentLinkParams` and `PaymentLink`
+  * Add support for new value `mb_way` on enum `PaymentLink.PaymentMethodTypes`
+  * Add support for `Crypto` on `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, and `RefundDestinationDetails`
+  * Add support for `MbWay` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+  * Add support for `Custom` on `PaymentMethodParams` and `PaymentMethod`
+  * Add support for `ExcludedPaymentMethodTypes` on `SetupIntentParams` and `SetupIntent`
+  * Add support for `Tw` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
+  * Add support for `Gip` on `TerminalConfigurationTippingParams` and `TerminalConfigurationTipping`
+  * Add support for `LastSeenAt` on `TerminalReader`
+  * Add support for `GTE`, `Gt`, `LT`, `Lte`, and `Types` on `V2CoreEventListParams`
+  * Add support for snapshot event `EventTypeBalanceSettingsUpdated` with resource `BalanceSettings`
+  * Add support for snapshot event `EventTypeInvoicePaymentAttemptRequired` with resource `Invoice`
+  * Add support for error code `payment_intent_rate_limit_exceeded` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+
+## 83.0.2 - 2025-10-21
+* [#2183](https://github.com/stripe/stripe-go/pull/2183) Fix URL serialization for array query parameters that affected V2 GET APIs
+
 ## 83.0.1 - 2025-10-08
 * [#2161](https://github.com/stripe/stripe-go/pull/2161) Return clearer error when calling `ConstructEvent` on an event notification
 * [#2157](https://github.com/stripe/stripe-go/pull/2157) Improve event notification example

@@ -1,6 +1,6 @@
 # Go Stripe
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v83)
+[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v84)
 [![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
 
 The official [Stripe][stripe] Go client library.
@@ -24,8 +24,8 @@ Then, reference stripe-go in a Go program with `import`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v83"
-	"github.com/stripe/stripe-go/v83/customer"
+	"github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/customer"
 )
 ```
 
@@ -35,16 +35,14 @@ toolchain will resolve and fetch the stripe-go module automatically.
 Alternatively, you can also explicitly `go get` the package into a project:
 
 ```bash
-go get -u github.com/stripe/stripe-go/v83
+go get -u github.com/stripe/stripe-go/v84
 ```
 
 ## Documentation
 
-For a comprehensive list of examples, check out the [API
-documentation][api-docs].
+For a comprehensive list of examples, check out the [API documentation][api-docs].
 
-For details on all the functionality in this library, see the [Go
-documentation][goref].
+For details on all the functionality in this library, see the [Go documentation][goref].
 
 Below are a few simple examples:
 
@@ -111,7 +109,7 @@ To use a key, pass it into `stripe.NewClient`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v83"
+	"github.com/stripe/stripe-go/v84"
 )
 
 sc := stripe.NewClient("access_token")
@@ -131,7 +129,7 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go/v83"
+	"github.com/stripe/stripe-go/v84"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -163,7 +161,7 @@ applied throughout the library for a given resource (like `Customer`).
 The recommended pattern to access all Stripe resources is using `stripe.Client`. Below are some examples of how to use it to access the `Customer` resource.
 
 ```go
-import "github.com/stripe/stripe-go/v83"
+import "github.com/stripe/stripe-go/v84"
 
 // Setup
 sc := stripe.NewClient("sk_key")
@@ -198,8 +196,8 @@ The legacy pattern to access Stripe APIs is the "resource pattern" shown below. 
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v83"
-	"github.com/stripe/stripe-go/v83/customer"
+	"github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/customer"
 )
 
 // Setup
@@ -260,7 +258,7 @@ with `MaxNetworkRetries`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v83"
+	"github.com/stripe/stripe-go/v84"
 )
 
 config := &stripe.BackendConfig{
@@ -341,7 +339,7 @@ c.Customer.Name  // Name is now also available (if it had a value)
 
 stripe-go is a typed library and it supports all public properties or parameters.
 
-Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used.
+Stripe sometimes launches private preview features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used.
 
 #### Parameters
 
@@ -385,6 +383,21 @@ for cust, err := range sc.V1Customers.List(context.TODO(), &stripe.CustomerListP
     }
     customerJSON := cust.LastResponse.RawJSON
     log.Printf("Customer JSON: %s", customerJSON) // {"id":"cus_123",...}
+}
+```
+
+#### Beta headers
+
+To access a private preview feature, you will likely need to use a special beta header. If you are using a public preview or private preview SDK version (those with a version `v83.1.0-beta.1` or `v83.1.0-alpha.1`), you can use the `stripe.AddBetaVersion` function as described in [Public Preview SDKs](#public-preview-sdks). With a release version like `v83.1.0`, you can still set a beta header on a per-request basis in your request params as follows:
+
+```go
+params := &stripe.CustomerCreateParams{
+	...
+	Params: stripe.Params{
+		Headers: http.Header{
+			"Stripe-Version": []string{"2025-10-29.preview; beta_feature_1=v3; beta_feature_2=v1"},
+		},
+	},
 }
 ```
 
@@ -454,7 +467,7 @@ To mock a Stripe client for a unit tests using [GoMock](https://github.com/golan
 1. Generate a `Backend` type mock.
 
 ```
-mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v83 Backend
+mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v84 Backend
 ```
 
 2. Use the `Backend` mock to initialize and call methods on the client.
@@ -467,7 +480,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"github.com/stripe/stripe-go/v83"
+	"github.com/stripe/stripe-go/v84"
 )
 
 func UseMockedStripeClient(t *testing.T) {
@@ -508,7 +521,7 @@ To install, pick the latest version with the `beta` suffix by reviewing the [rel
 ```
 require (
 	...
-	github.com/stripe/stripe-go/v83 <replace-with-the-version-of-your-choice>
+	github.com/stripe/stripe-go/v84 <replace-with-the-version-of-your-choice>
 	...
 )
 ```
@@ -527,6 +540,8 @@ Stripe has features in the [private preview phase](https://docs.stripe.com/relea
 
 ### Custom Request
 
+> This feature is only available from version 80 of this SDK.
+
 If you would like to send a request to an API that is:
 
 - undocumented (like a preview feature), or
@@ -539,9 +554,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/stripe/stripe-go/v83"
-	"github.com/stripe/stripe-go/v83/form"
-	"github.com/stripe/stripe-go/v83/rawrequest"
+	"github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/form"
+	"github.com/stripe/stripe-go/v84/rawrequest"
 )
 
 func make_raw_request() error {
@@ -660,7 +675,7 @@ pull request][pulls].
 [connect]: https://stripe.com/docs/connect/authentication
 [depgomodsupport]: https://github.com/golang/dep/pull/1963
 [expandableobjects]: https://stripe.com/docs/api/expanding_objects
-[goref]: https://pkg.go.dev/github.com/stripe/stripe-go
+[goref]: https://pkg.go.dev/github.com/stripe/stripe-go/v84
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
 [idempotency-keys]: https://stripe.com/docs/api/idempotent_requests?lang=go

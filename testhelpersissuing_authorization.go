@@ -6,7 +6,7 @@
 
 package stripe
 
-// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 type TestHelpersIssuingAuthorizationAmountDetailsParams struct {
 	// The ATM withdrawal fee.
 	ATMFee *int64 `form:"atm_fee"`
@@ -86,7 +86,7 @@ type TestHelpersIssuingAuthorizationFuelParams struct {
 
 // Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type TestHelpersIssuingAuthorizationMerchantDataParams struct {
-	// A categorization of the seller's type of business. See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
+	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
 	Category *string `form:"category"`
 	// City where the seller is located
 	City *string `form:"city"`
@@ -122,6 +122,14 @@ type TestHelpersIssuingAuthorizationRiskAssessmentCardTestingRiskParams struct {
 	RiskLevel *string `form:"risk_level"`
 }
 
+// Stripe's assessment of this authorization's likelihood to be fraudulent.
+type TestHelpersIssuingAuthorizationRiskAssessmentFraudRiskParams struct {
+	// Stripe's assessment of the likelihood of fraud on an authorization.
+	Level *string `form:"level"`
+	// Stripe's numerical model score assessing the likelihood of fraudulent activity. A higher score means a higher likelihood of fraudulent activity, and anything above 25 is considered high risk.
+	Score *float64 `form:"score"`
+}
+
 // The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
 type TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams struct {
 	// The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
@@ -134,6 +142,8 @@ type TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams stru
 type TestHelpersIssuingAuthorizationRiskAssessmentParams struct {
 	// Stripe's assessment of this authorization's likelihood of being card testing activity.
 	CardTestingRisk *TestHelpersIssuingAuthorizationRiskAssessmentCardTestingRiskParams `form:"card_testing_risk"`
+	// Stripe's assessment of this authorization's likelihood to be fraudulent.
+	FraudRisk *TestHelpersIssuingAuthorizationRiskAssessmentFraudRiskParams `form:"fraud_risk"`
 	// The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
 	MerchantDisputeRisk *TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams `form:"merchant_dispute_risk"`
 }
@@ -171,9 +181,9 @@ type TestHelpersIssuingAuthorizationVerificationDataParams struct {
 // Create a test-mode authorization.
 type TestHelpersIssuingAuthorizationParams struct {
 	Params `form:"*"`
-	// The total amount to attempt to authorize. This amount is in the provided currency, or defaults to the card's currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The total amount to attempt to authorize. This amount is in the provided currency, or defaults to the card's currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
-	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountDetails *TestHelpersIssuingAuthorizationAmountDetailsParams `form:"amount_details"`
 	// How the card details were provided. Defaults to online.
 	AuthorizationMethod *string `form:"authorization_method"`
@@ -189,9 +199,9 @@ type TestHelpersIssuingAuthorizationParams struct {
 	FraudDisputabilityLikelihood *string `form:"fraud_disputability_likelihood"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingAuthorizationFuelParams `form:"fuel"`
-	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
+	// If set `true`, you may provide [amount](https://docs.stripe.com/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
 	IsAmountControllable *bool `form:"is_amount_controllable"`
-	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	MerchantAmount *int64 `form:"merchant_amount"`
 	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency *string `form:"merchant_currency"`
@@ -347,7 +357,7 @@ type TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams struct {
 // Capture a test-mode authorization.
 type TestHelpersIssuingAuthorizationCaptureParams struct {
 	Params `form:"*"`
-	// The amount to capture from the authorization. If not provided, the full amount of the authorization will be captured. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount to capture from the authorization. If not provided, the full amount of the authorization will be captured. This amount is in the authorization currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	CaptureAmount *int64 `form:"capture_amount"`
 	// Whether to close the authorization after capture. Defaults to true. Set to false to enable multi-capture flows.
 	CloseAuthorization *bool `form:"close_authorization"`
@@ -449,7 +459,7 @@ type TestHelpersIssuingAuthorizationFinalizeAmountParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The final authorization amount that will be captured by the merchant. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The final authorization amount that will be captured by the merchant. This amount is in the authorization currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	FinalAmount *int64 `form:"final_amount"`
 	// Fleet-specific information for authorizations using Fleet cards.
 	Fleet *TestHelpersIssuingAuthorizationFinalizeAmountFleetParams `form:"fleet"`
@@ -481,9 +491,9 @@ type TestHelpersIssuingAuthorizationIncrementParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The amount to increment the authorization by. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount to increment the authorization by. This amount is in the authorization currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	IncrementAmount *int64 `form:"increment_amount"`
-	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
+	// If set `true`, you may provide [amount](https://docs.stripe.com/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
 	IsAmountControllable *bool `form:"is_amount_controllable"`
 }
 
@@ -497,7 +507,7 @@ type TestHelpersIssuingAuthorizationReverseParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The amount to reverse from the authorization. If not provided, the full amount of the authorization will be reversed. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The amount to reverse from the authorization. If not provided, the full amount of the authorization will be reversed. This amount is in the authorization currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	ReverseAmount *int64 `form:"reverse_amount"`
 }
 
@@ -506,7 +516,7 @@ func (p *TestHelpersIssuingAuthorizationReverseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 type TestHelpersIssuingAuthorizationCreateAmountDetailsParams struct {
 	// The ATM withdrawal fee.
 	ATMFee *int64 `form:"atm_fee"`
@@ -586,7 +596,7 @@ type TestHelpersIssuingAuthorizationCreateFuelParams struct {
 
 // Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type TestHelpersIssuingAuthorizationCreateMerchantDataParams struct {
-	// A categorization of the seller's type of business. See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
+	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
 	Category *string `form:"category"`
 	// City where the seller is located
 	City *string `form:"city"`
@@ -622,6 +632,14 @@ type TestHelpersIssuingAuthorizationCreateRiskAssessmentCardTestingRiskParams st
 	RiskLevel *string `form:"risk_level"`
 }
 
+// Stripe's assessment of this authorization's likelihood to be fraudulent.
+type TestHelpersIssuingAuthorizationCreateRiskAssessmentFraudRiskParams struct {
+	// Stripe's assessment of the likelihood of fraud on an authorization.
+	Level *string `form:"level"`
+	// Stripe's numerical model score assessing the likelihood of fraudulent activity. A higher score means a higher likelihood of fraudulent activity, and anything above 25 is considered high risk.
+	Score *float64 `form:"score"`
+}
+
 // The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
 type TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParams struct {
 	// The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
@@ -634,6 +652,8 @@ type TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParam
 type TestHelpersIssuingAuthorizationCreateRiskAssessmentParams struct {
 	// Stripe's assessment of this authorization's likelihood of being card testing activity.
 	CardTestingRisk *TestHelpersIssuingAuthorizationCreateRiskAssessmentCardTestingRiskParams `form:"card_testing_risk"`
+	// Stripe's assessment of this authorization's likelihood to be fraudulent.
+	FraudRisk *TestHelpersIssuingAuthorizationCreateRiskAssessmentFraudRiskParams `form:"fraud_risk"`
 	// The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
 	MerchantDisputeRisk *TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParams `form:"merchant_dispute_risk"`
 }
@@ -671,9 +691,9 @@ type TestHelpersIssuingAuthorizationCreateVerificationDataParams struct {
 // Create a test-mode authorization.
 type TestHelpersIssuingAuthorizationCreateParams struct {
 	Params `form:"*"`
-	// The total amount to attempt to authorize. This amount is in the provided currency, or defaults to the card's currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The total amount to attempt to authorize. This amount is in the provided currency, or defaults to the card's currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
-	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountDetails *TestHelpersIssuingAuthorizationCreateAmountDetailsParams `form:"amount_details"`
 	// How the card details were provided. Defaults to online.
 	AuthorizationMethod *string `form:"authorization_method"`
@@ -689,9 +709,9 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	FraudDisputabilityLikelihood *string `form:"fraud_disputability_likelihood"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingAuthorizationCreateFuelParams `form:"fuel"`
-	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
+	// If set `true`, you may provide [amount](https://docs.stripe.com/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
 	IsAmountControllable *bool `form:"is_amount_controllable"`
-	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	MerchantAmount *int64 `form:"merchant_amount"`
 	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency *string `form:"merchant_currency"`

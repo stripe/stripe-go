@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	_ "github.com/stripe/stripe-go/v83/testing"
+	_ "github.com/stripe/stripe-go/v84/testing"
 )
 
 func TestBalanceGet(t *testing.T) {

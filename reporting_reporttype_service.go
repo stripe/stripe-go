@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v83/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1ReportingReportTypeService is used to invoke /v1/reporting/report_types APIs.

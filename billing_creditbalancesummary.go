@@ -49,8 +49,10 @@ type BillingCreditBalanceSummaryFilterParams struct {
 // Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryParams struct {
 	Params `form:"*"`
-	// The customer for which to fetch credit balance summary.
+	// The customer whose credit balance summary you're retrieving.
 	Customer *string `form:"customer"`
+	// The account representing the customer whose credit balance summary you're retrieving.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The filter criteria for the credit balance summary.
@@ -89,8 +91,10 @@ type BillingCreditBalanceSummaryRetrieveFilterParams struct {
 // Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryRetrieveParams struct {
 	Params `form:"*"`
-	// The customer for which to fetch credit balance summary.
+	// The customer whose credit balance summary you're retrieving.
 	Customer *string `form:"customer"`
+	// The account representing the customer whose credit balance summary you're retrieving.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The filter criteria for the credit balance summary.
@@ -143,6 +147,8 @@ type BillingCreditBalanceSummary struct {
 	Balances []*BillingCreditBalanceSummaryBalance `json:"balances"`
 	// The customer the balance is for.
 	Customer *Customer `json:"customer"`
+	// The account the balance is for.
+	CustomerAccount string `json:"customer_account"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.

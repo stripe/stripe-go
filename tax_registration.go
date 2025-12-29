@@ -6,7 +6,7 @@
 
 package stripe
 
-import "github.com/stripe/stripe-go/v83/form"
+import "github.com/stripe/stripe-go/v84/form"
 
 // Place of supply scheme used in an Default standard registration.
 type TaxRegistrationCountryOptionsAeStandardPlaceOfSupplyScheme string
@@ -1146,6 +1146,14 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsTwType string
+
+// List of values that TaxRegistrationCountryOptionsTwType can take
+const (
+	TaxRegistrationCountryOptionsTwTypeSimplified TaxRegistrationCountryOptionsTwType = "simplified"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsTzType string
 
 // List of values that TaxRegistrationCountryOptionsTzType can take
@@ -2237,6 +2245,12 @@ type TaxRegistrationCountryOptionsTRParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in TW.
+type TaxRegistrationCountryOptionsTwParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in TZ.
 type TaxRegistrationCountryOptionsTzParams struct {
 	// Type of registration to be created in `country`.
@@ -2257,7 +2271,7 @@ type TaxRegistrationCountryOptionsUgParams struct {
 
 // Options for the local amusement tax registration.
 type TaxRegistrationCountryOptionsUSLocalAmusementTaxParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `06613` (Bloomington), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), and `68081` (Schiller Park).
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `02154` (Arlington Heights), `06613` (Bloomington), `10906` (Campton Hills), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), and `68081` (Schiller Park).
 	Jurisdiction *string `form:"jurisdiction"`
 }
 
@@ -2535,6 +2549,8 @@ type TaxRegistrationCountryOptionsParams struct {
 	Tj *TaxRegistrationCountryOptionsTjParams `form:"tj"`
 	// Options for the registration in TR.
 	TR *TaxRegistrationCountryOptionsTRParams `form:"tr"`
+	// Options for the registration in TW.
+	Tw *TaxRegistrationCountryOptionsTwParams `form:"tw"`
 	// Options for the registration in TZ.
 	Tz *TaxRegistrationCountryOptionsTzParams `form:"tz"`
 	// Options for the registration in UA.
@@ -3563,6 +3579,12 @@ type TaxRegistrationCreateCountryOptionsTRParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in TW.
+type TaxRegistrationCreateCountryOptionsTwParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in TZ.
 type TaxRegistrationCreateCountryOptionsTzParams struct {
 	// Type of registration to be created in `country`.
@@ -3583,7 +3605,7 @@ type TaxRegistrationCreateCountryOptionsUgParams struct {
 
 // Options for the local amusement tax registration.
 type TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `06613` (Bloomington), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), and `68081` (Schiller Park).
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `02154` (Arlington Heights), `06613` (Bloomington), `10906` (Campton Hills), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), and `68081` (Schiller Park).
 	Jurisdiction *string `form:"jurisdiction"`
 }
 
@@ -3861,6 +3883,8 @@ type TaxRegistrationCreateCountryOptionsParams struct {
 	Tj *TaxRegistrationCreateCountryOptionsTjParams `form:"tj"`
 	// Options for the registration in TR.
 	TR *TaxRegistrationCreateCountryOptionsTRParams `form:"tr"`
+	// Options for the registration in TW.
+	Tw *TaxRegistrationCreateCountryOptionsTwParams `form:"tw"`
 	// Options for the registration in TZ.
 	Tz *TaxRegistrationCreateCountryOptionsTzParams `form:"tz"`
 	// Options for the registration in UA.
@@ -4489,6 +4513,10 @@ type TaxRegistrationCountryOptionsTR struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsTRType `json:"type"`
 }
+type TaxRegistrationCountryOptionsTw struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsTwType `json:"type"`
+}
 type TaxRegistrationCountryOptionsTz struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsTzType `json:"type"`
@@ -4644,6 +4672,7 @@ type TaxRegistrationCountryOptions struct {
 	TH *TaxRegistrationCountryOptionsTH `json:"th"`
 	Tj *TaxRegistrationCountryOptionsTj `json:"tj"`
 	TR *TaxRegistrationCountryOptionsTR `json:"tr"`
+	Tw *TaxRegistrationCountryOptionsTw `json:"tw"`
 	Tz *TaxRegistrationCountryOptionsTz `json:"tz"`
 	Ua *TaxRegistrationCountryOptionsUa `json:"ua"`
 	Ug *TaxRegistrationCountryOptionsUg `json:"ug"`
@@ -4656,11 +4685,11 @@ type TaxRegistrationCountryOptions struct {
 	Zw *TaxRegistrationCountryOptionsZw `json:"zw"`
 }
 
-// A Tax `Registration` lets us know that your business is registered to collect tax on payments within a region, enabling you to [automatically collect tax](https://stripe.com/docs/tax).
+// A Tax `Registration` lets us know that your business is registered to collect tax on payments within a region, enabling you to [automatically collect tax](https://docs.stripe.com/tax).
 //
-// Stripe doesn't register on your behalf with the relevant authorities when you create a Tax `Registration` object. For more information on how to register to collect tax, see [our guide](https://stripe.com/docs/tax/registering).
+// Stripe doesn't register on your behalf with the relevant authorities when you create a Tax `Registration` object. For more information on how to register to collect tax, see [our guide](https://docs.stripe.com/tax/registering).
 //
-// Related guide: [Using the Registrations API](https://stripe.com/docs/tax/registrations-api)
+// Related guide: [Using the Registrations API](https://docs.stripe.com/tax/registrations-api)
 type TaxRegistration struct {
 	APIResource
 	// Time at which the registration becomes active. Measured in seconds since the Unix epoch.

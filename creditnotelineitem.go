@@ -86,6 +86,7 @@ type CreditNoteLineItemPretaxCreditAmount struct {
 
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type CreditNoteLineItemTaxTaxRateDetails struct {
+	// ID of the tax rate
 	TaxRate string `json:"tax_rate"`
 }
 
