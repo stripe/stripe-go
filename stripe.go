@@ -19,7 +19,7 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"github.com/stripe/stripe-go/v83/form"
+	"github.com/stripe/stripe-go/v84/form"
 	"go.opentelemetry.io/otel/trace"
 )
 
