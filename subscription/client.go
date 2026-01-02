@@ -198,6 +198,23 @@ func (c Client) Migrate(id string, params *stripe.SubscriptionMigrateParams) (*s
 	return subscription, err
 }
 
+// Pauses a subscription by transitioning it to the paused status. A paused subscription does not generate invoices and will not advance to new billing periods. The subscription can be resumed later using the resume endpoint. Cannot pause subscriptions with attached schedules.
+func Pause(id string, params *stripe.SubscriptionPauseParams) (*stripe.Subscription, error) {
+	return getC().Pause(id, params)
+}
+
+// Pauses a subscription by transitioning it to the paused status. A paused subscription does not generate invoices and will not advance to new billing periods. The subscription can be resumed later using the resume endpoint. Cannot pause subscriptions with attached schedules.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Pause(id string, params *stripe.SubscriptionPauseParams) (*stripe.Subscription, error) {
+	path := stripe.FormatURLPath("/v1/subscriptions/%s/pause", id)
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	return subscription, err
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
 func Resume(id string, params *stripe.SubscriptionResumeParams) (*stripe.Subscription, error) {
 	return getC().Resume(id, params)

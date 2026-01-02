@@ -1188,6 +1188,32 @@ func (p *SubscriptionMigrateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Controls what to bill for when pausing the subscription.
+type SubscriptionPauseBillForParams struct {
+	// Controls whether to debit for accrued metered usage in the current billing period. The default is `false`.
+	OutstandingUsage *bool `form:"outstanding_usage"`
+	// Controls whether to credit for licensed items in the current billing period. The default is `false`.
+	UnusedTime *bool `form:"unused_time"`
+}
+
+// Pauses a subscription by transitioning it to the paused status. A paused subscription does not generate invoices and will not advance to new billing periods. The subscription can be resumed later using the resume endpoint. Cannot pause subscriptions with attached schedules.
+type SubscriptionPauseParams struct {
+	Params `form:"*"`
+	// Controls what to bill for when pausing the subscription.
+	BillFor *SubscriptionPauseBillForParams `form:"bill_for"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Determines how to handle debits and credits when pausing. The default is `pending_invoice_item`.
+	InvoicingBehavior *string `form:"invoicing_behavior"`
+	// The type of pause to apply.
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionPauseParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
 type SubscriptionResumeParams struct {
 	Params `form:"*"`

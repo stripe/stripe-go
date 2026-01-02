@@ -1192,11 +1192,19 @@ type TaxRegistrationCountryOptionsUSType string
 
 // List of values that TaxRegistrationCountryOptionsUSType can take
 const (
+	TaxRegistrationCountryOptionsUSTypeAdmissionsTax          TaxRegistrationCountryOptionsUSType = "admissions_tax"
+	TaxRegistrationCountryOptionsUSTypeAttendanceTax          TaxRegistrationCountryOptionsUSType = "attendance_tax"
+	TaxRegistrationCountryOptionsUSTypeEntertainmentTax       TaxRegistrationCountryOptionsUSType = "entertainment_tax"
+	TaxRegistrationCountryOptionsUSTypeGrossReceiptsTax       TaxRegistrationCountryOptionsUSType = "gross_receipts_tax"
+	TaxRegistrationCountryOptionsUSTypeHospitalityTax         TaxRegistrationCountryOptionsUSType = "hospitality_tax"
 	TaxRegistrationCountryOptionsUSTypeLocalAmusementTax      TaxRegistrationCountryOptionsUSType = "local_amusement_tax"
 	TaxRegistrationCountryOptionsUSTypeLocalLeaseTax          TaxRegistrationCountryOptionsUSType = "local_lease_tax"
+	TaxRegistrationCountryOptionsUSTypeLuxuryTax              TaxRegistrationCountryOptionsUSType = "luxury_tax"
+	TaxRegistrationCountryOptionsUSTypeResortTax              TaxRegistrationCountryOptionsUSType = "resort_tax"
 	TaxRegistrationCountryOptionsUSTypeStateCommunicationsTax TaxRegistrationCountryOptionsUSType = "state_communications_tax"
 	TaxRegistrationCountryOptionsUSTypeStateRetailDeliveryFee TaxRegistrationCountryOptionsUSType = "state_retail_delivery_fee"
 	TaxRegistrationCountryOptionsUSTypeStateSalesTax          TaxRegistrationCountryOptionsUSType = "state_sales_tax"
+	TaxRegistrationCountryOptionsUSTypeTourismTax             TaxRegistrationCountryOptionsUSType = "tourism_tax"
 )
 
 // Type of registration in `country`.
@@ -4549,12 +4557,52 @@ type TaxRegistrationCountryOptionsUSStateSalesTax struct {
 	// Elections for the state sales tax registration.
 	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElection `json:"elections"`
 }
+type TaxRegistrationCountryOptionsUSAdmissionsTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=admissions_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSAttendanceTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=attendance_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSEntertainmentTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=entertainment_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSGrossReceiptsTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=gross_receipts_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSHospitalityTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=hospitality_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSLuxuryTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=luxury_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSResortTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSTourismTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=tourism_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
 type TaxRegistrationCountryOptionsUS struct {
+	AdmissionsTax     *TaxRegistrationCountryOptionsUSAdmissionsTax     `json:"admissions_tax"`
+	AttendanceTax     *TaxRegistrationCountryOptionsUSAttendanceTax     `json:"attendance_tax"`
+	EntertainmentTax  *TaxRegistrationCountryOptionsUSEntertainmentTax  `json:"entertainment_tax"`
+	GrossReceiptsTax  *TaxRegistrationCountryOptionsUSGrossReceiptsTax  `json:"gross_receipts_tax"`
+	HospitalityTax    *TaxRegistrationCountryOptionsUSHospitalityTax    `json:"hospitality_tax"`
 	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTax `json:"local_amusement_tax"`
 	LocalLeaseTax     *TaxRegistrationCountryOptionsUSLocalLeaseTax     `json:"local_lease_tax"`
+	LuxuryTax         *TaxRegistrationCountryOptionsUSLuxuryTax         `json:"luxury_tax"`
+	ResortTax         *TaxRegistrationCountryOptionsUSResortTax         `json:"resort_tax"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State         string                                        `json:"state"`
 	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTax `json:"state_sales_tax"`
+	TourismTax    *TaxRegistrationCountryOptionsUSTourismTax    `json:"tourism_tax"`
 	// Type of registration in the US.
 	Type TaxRegistrationCountryOptionsUSType `json:"type"`
 }

@@ -34,6 +34,7 @@ type TaxCalculationLineItemTaxBreakdownSourcing string
 const (
 	TaxCalculationLineItemTaxBreakdownSourcingDestination TaxCalculationLineItemTaxBreakdownSourcing = "destination"
 	TaxCalculationLineItemTaxBreakdownSourcingOrigin      TaxCalculationLineItemTaxBreakdownSourcing = "origin"
+	TaxCalculationLineItemTaxBreakdownSourcingPerformance TaxCalculationLineItemTaxBreakdownSourcing = "performance"
 )
 
 // The tax type, such as `vat` or `sales_tax`.
@@ -41,19 +42,27 @@ type TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType can take
 const (
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAdmissionsTax     TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "admissions_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax     TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax  TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax  TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeHospitalityTax    TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "hospitality_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "hst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "igst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "jct"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLuxuryTax         TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "luxury_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeResortTax         TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "service_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeTourismTax        TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
@@ -127,6 +136,8 @@ type TaxCalculationLineItem struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// A tax location for a line item that acts as a performance location. This indicates that the line item might be taxed at the place where it is being performed at. This is helpful for events or other services being performed at non-customer addresses like venues or offices. This can be left empty for tax codes that do not require a tax location. For tax codes where the location requirement is "optional", this would override the customer address in most use cases.
+	PerformanceLocation string `json:"performance_location"`
 	// The ID of an existing [Product](https://docs.stripe.com/api/products/object).
 	Product string `json:"product"`
 	// The number of units of the item being purchased. For reversals, this is the quantity reversed.
