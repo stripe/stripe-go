@@ -1900,6 +1900,8 @@ type CheckoutSessionLineItemAdjustableQuantityParams struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type CheckoutSessionLineItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
@@ -3807,6 +3809,8 @@ type CheckoutSessionCreateLineItemAdjustableQuantityParams struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
@@ -5460,6 +5464,8 @@ type CheckoutSessionUpdateLineItemAdjustableQuantityParams struct {
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }

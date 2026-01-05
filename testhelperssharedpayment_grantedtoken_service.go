@@ -30,9 +30,9 @@ func (c v1TestHelpersSharedPaymentGrantedTokenService) Create(ctx context.Contex
 }
 
 // Revokes a test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to revoke SharedPaymentGrantedTokens for testing their integration
-func (c v1TestHelpersSharedPaymentGrantedTokenService) Update(ctx context.Context, id string, params *TestHelpersSharedPaymentGrantedTokenUpdateParams) (*SharedPaymentGrantedToken, error) {
+func (c v1TestHelpersSharedPaymentGrantedTokenService) Revoke(ctx context.Context, id string, params *TestHelpersSharedPaymentGrantedTokenRevokeParams) (*SharedPaymentGrantedToken, error) {
 	if params == nil {
-		params = &TestHelpersSharedPaymentGrantedTokenUpdateParams{}
+		params = &TestHelpersSharedPaymentGrantedTokenRevokeParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath(

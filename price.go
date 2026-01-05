@@ -193,6 +193,14 @@ type PriceCustomUnitAmountParams struct {
 	Preset *int64 `form:"preset"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PriceProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
+
 // These fields can be used to create a new product that this price will belong to.
 type PriceProductDataParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
@@ -209,6 +217,8 @@ type PriceProductDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PriceProductDataTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
@@ -412,6 +422,14 @@ type PriceCreateCustomUnitAmountParams struct {
 	Preset *int64 `form:"preset"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PriceCreateProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
+
 // These fields can be used to create a new product that this price will belong to.
 type PriceCreateProductDataParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
@@ -428,6 +446,8 @@ type PriceCreateProductDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PriceCreateProductDataTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
@@ -764,6 +784,8 @@ type Price struct {
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 	CustomUnitAmount *PriceCustomUnitAmount `json:"custom_unit_amount"`
 	Deleted          bool                   `json:"deleted"`
+	// A custom identifier for this price, such as a SKU number or product code, that can be used to reference records from external systems.
+	ExternalReference string `json:"external_reference"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

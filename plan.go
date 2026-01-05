@@ -136,6 +136,13 @@ func (p *PlanListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PlanProductTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
 type PlanProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active"`
@@ -151,6 +158,8 @@ type PlanProductParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PlanProductTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
@@ -247,6 +256,13 @@ func (p *PlanUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PlanCreateProductTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
 type PlanCreateProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active"`
@@ -262,6 +278,8 @@ type PlanCreateProductParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PlanCreateProductTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
@@ -410,6 +428,8 @@ type Plan struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	Deleted  bool     `json:"deleted"`
+	// A custom identifier for this price, such as a SKU number or product code, that can be used to reference records from external systems.
+	ExternalReference string `json:"external_reference"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
