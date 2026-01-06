@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create an API key.
+// Create an API key. To create a secret key in livemode, a public key for encryption must be provided.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -33,7 +33,7 @@ func (c Client) New(params *stripe.V2IamAPIKeyParams) (*stripe.V2IamAPIKey, erro
 	return apikey, err
 }
 
-// Retrieve an API key.
+// Retrieve an API key. For livemode secret keys, secret tokens are only returned on creation, and never returned here.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -45,7 +45,7 @@ func (c Client) Get(id string, params *stripe.V2IamAPIKeyParams) (*stripe.V2IamA
 	return apikey, err
 }
 
-// Update an API key.
+// Update an API key. Only parameters that are specified in the request will be updated.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -57,7 +57,7 @@ func (c Client) Update(id string, params *stripe.V2IamAPIKeyParams) (*stripe.V2I
 	return apikey, err
 }
 
-// Expire an API key.
+// Expire an API key. The specified key becomes invalid immediately.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -69,7 +69,7 @@ func (c Client) Expire(id string, params *stripe.V2IamAPIKeyExpireParams) (*stri
 	return apikey, err
 }
 
-// Rotate an API key.
+// Rotate an API key. A new key with the same properties is created and returned. The existing key is expired immediately, unless an expiry time is specified.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

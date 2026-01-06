@@ -42,10 +42,22 @@ type V2MoneyManagementOutboundPaymentAmountParams struct {
 	Value *int64 `form:"value" json:"value,omitempty"`
 }
 
+// Delivery options for paper check.
+type V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckParams struct {
+	// Memo printed on the memo field of the check.
+	Memo *string `form:"memo" json:"memo,omitempty"`
+	// Open Enum. Shipping speed of the paper check. Defaults to standard.
+	ShippingSpeed *string `form:"shipping_speed" json:"shipping_speed,omitempty"`
+	// Signature for the paper check.
+	Signature *string `form:"signature" json:"signature"`
+}
+
 // Delivery options to be used to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentDeliveryOptionsParams struct {
 	// Open Enum. Method for bank account.
 	BankAccount *string `form:"bank_account" json:"bank_account,omitempty"`
+	// Delivery options for paper check.
+	PaperCheck *V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckParams `form:"paper_check" json:"paper_check,omitempty"`
 	// Open Enum. Speed of the payout.
 	Speed *string `form:"speed" json:"speed,omitempty"`
 }
@@ -126,10 +138,22 @@ type V2MoneyManagementOutboundPaymentCreateAmountParams struct {
 	Value *int64 `form:"value" json:"value,omitempty"`
 }
 
+// Delivery options for paper check.
+type V2MoneyManagementOutboundPaymentCreateDeliveryOptionsPaperCheckParams struct {
+	// Memo printed on the memo field of the check.
+	Memo *string `form:"memo" json:"memo,omitempty"`
+	// Open Enum. Shipping speed of the paper check. Defaults to standard.
+	ShippingSpeed *string `form:"shipping_speed" json:"shipping_speed,omitempty"`
+	// Signature for the paper check.
+	Signature *string `form:"signature" json:"signature"`
+}
+
 // Delivery options to be used to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentCreateDeliveryOptionsParams struct {
 	// Open Enum. Method for bank account.
 	BankAccount *string `form:"bank_account" json:"bank_account,omitempty"`
+	// Delivery options for paper check.
+	PaperCheck *V2MoneyManagementOutboundPaymentCreateDeliveryOptionsPaperCheckParams `form:"paper_check" json:"paper_check,omitempty"`
 	// Open Enum. Speed of the payout.
 	Speed *string `form:"speed" json:"speed,omitempty"`
 }

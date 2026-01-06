@@ -34,7 +34,7 @@ type V2IamAPIKeyPublicKeyParams struct {
 	PemKey *V2IamAPIKeyPublicKeyPemKeyParams `form:"pem_key" json:"pem_key,omitempty"`
 }
 
-// Create an API key.
+// Create an API key. To create a secret key in livemode, a public key for encryption must be provided.
 type V2IamAPIKeyParams struct {
 	Params `form:"*"`
 	// Name to set for the API key. If blank, the field is left unchanged.
@@ -50,7 +50,7 @@ type V2IamAPIKeyParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// Expire an API key.
+// Expire an API key. The specified key becomes invalid immediately.
 type V2IamAPIKeyExpireParams struct {
 	Params `form:"*"`
 }
@@ -74,7 +74,7 @@ type V2IamAPIKeyRotatePublicKeyParams struct {
 	PemKey *V2IamAPIKeyRotatePublicKeyPemKeyParams `form:"pem_key" json:"pem_key,omitempty"`
 }
 
-// Rotate an API key.
+// Rotate an API key. A new key with the same properties is created and returned. The existing key is expired immediately, unless an expiry time is specified.
 type V2IamAPIKeyRotateParams struct {
 	Params `form:"*"`
 	// Duration in minutes before the current key expires, with a maximum of 7 days (10080 minutes).
@@ -106,7 +106,7 @@ type V2IamAPIKeyCreatePublicKeyParams struct {
 	PemKey *V2IamAPIKeyCreatePublicKeyPemKeyParams `form:"pem_key" json:"pem_key,omitempty"`
 }
 
-// Create an API key.
+// Create an API key. To create a secret key in livemode, a public key for encryption must be provided.
 type V2IamAPIKeyCreateParams struct {
 	Params `form:"*"`
 	// Name for the API key.
@@ -122,12 +122,12 @@ type V2IamAPIKeyCreateParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Retrieve an API key.
+// Retrieve an API key. For livemode secret keys, secret tokens are only returned on creation, and never returned here.
 type V2IamAPIKeyRetrieveParams struct {
 	Params `form:"*"`
 }
 
-// Update an API key.
+// Update an API key. Only parameters that are specified in the request will be updated.
 type V2IamAPIKeyUpdateParams struct {
 	Params `form:"*"`
 	// Name to set for the API key. If blank, the field is left unchanged.
