@@ -13,12 +13,14 @@ type ReviewClosedReason string
 
 // List of values that ReviewClosedReason can take
 const (
-	ReviewClosedReasonApproved        ReviewClosedReason = "approved"
-	ReviewClosedReasonCanceled        ReviewClosedReason = "canceled"
-	ReviewClosedReasonDisputed        ReviewClosedReason = "disputed"
-	ReviewClosedReasonRedacted        ReviewClosedReason = "redacted"
-	ReviewClosedReasonRefunded        ReviewClosedReason = "refunded"
-	ReviewClosedReasonRefundedAsFraud ReviewClosedReason = "refunded_as_fraud"
+	ReviewClosedReasonAcknowledged        ReviewClosedReason = "acknowledged"
+	ReviewClosedReasonApproved            ReviewClosedReason = "approved"
+	ReviewClosedReasonCanceled            ReviewClosedReason = "canceled"
+	ReviewClosedReasonDisputed            ReviewClosedReason = "disputed"
+	ReviewClosedReasonPaymentNeverSettled ReviewClosedReason = "payment_never_settled"
+	ReviewClosedReasonRedacted            ReviewClosedReason = "redacted"
+	ReviewClosedReasonRefunded            ReviewClosedReason = "refunded"
+	ReviewClosedReasonRefundedAsFraud     ReviewClosedReason = "refunded_as_fraud"
 )
 
 // The reason the review was opened. One of `rule` or `manual`.
@@ -128,7 +130,7 @@ type ReviewSession struct {
 // Reviews can be used to supplement automated fraud detection with human expertise.
 //
 // Learn more about [Radar](https://docs.stripe.com/radar) and reviewing payments
-// [here](https://stripe.com/docs/radar/reviews).
+// [here](https://docs.stripe.com/radar/reviews).
 type Review struct {
 	APIResource
 	// The ZIP or postal code of the card used, if applicable.

@@ -10,8 +10,8 @@ package payout
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/form"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // Client is used to invoke /v1/payouts APIs.
@@ -98,14 +98,14 @@ func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	return payout, err
 }
 
-// Reverses a payout by debiting the destination bank account. At this time, you can only reverse payouts for connected accounts to US bank accounts. If the payout is manual and in the pending status, use /v1/payouts/:id/cancel instead.
+// Reverses a payout by debiting the destination bank account. At this time, you can only reverse payouts for connected accounts to US and Canadian bank accounts. If the payout is manual and in the pending status, use /v1/payouts/:id/cancel instead.
 //
 // By requesting a reversal through /v1/payouts/:id/reverse, you confirm that the authorized signatory of the selected bank account authorizes the debit on the bank account and that no other authorization is required.
 func Reverse(id string, params *stripe.PayoutReverseParams) (*stripe.Payout, error) {
 	return getC().Reverse(id, params)
 }
 
-// Reverses a payout by debiting the destination bank account. At this time, you can only reverse payouts for connected accounts to US bank accounts. If the payout is manual and in the pending status, use /v1/payouts/:id/cancel instead.
+// Reverses a payout by debiting the destination bank account. At this time, you can only reverse payouts for connected accounts to US and Canadian bank accounts. If the payout is manual and in the pending status, use /v1/payouts/:id/cancel instead.
 //
 // By requesting a reversal through /v1/payouts/:id/reverse, you confirm that the authorized signatory of the selected bank account authorizes the debit on the bank account and that no other authorization is required.
 //

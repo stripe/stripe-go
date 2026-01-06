@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1FinancialConnectionsAccountService is used to invoke /v1/financial_connections/accounts APIs.
@@ -55,7 +55,7 @@ func (c v1FinancialConnectionsAccountService) Refresh(ctx context.Context, id st
 	return account, err
 }
 
-// Subscribes to periodic refreshes of data associated with a Financial Connections Account.
+// Subscribes to periodic refreshes of data associated with a Financial Connections Account. When the account status is active, data is typically refreshed once a day.
 func (c v1FinancialConnectionsAccountService) Subscribe(ctx context.Context, id string, params *FinancialConnectionsAccountSubscribeParams) (*FinancialConnectionsAccount, error) {
 	if params == nil {
 		params = &FinancialConnectionsAccountSubscribeParams{}
@@ -85,14 +85,14 @@ func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listPara
 		listParams = &FinancialConnectionsAccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccount, ListContainer, error) {
-		list := &FinancialConnectionsAccountList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccount], error) {
+		list := &v1Page[*FinancialConnectionsAccount]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/accounts", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -105,13 +105,13 @@ func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, li
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/owners", StringValue(
 			listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccountOwner, ListContainer, error) {
-		list := &FinancialConnectionsAccountOwnerList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountOwner], error) {
+		list := &v1Page[*FinancialConnectionsAccountOwner]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

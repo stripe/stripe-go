@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1ApplicationFeeService is used to invoke /v1/application_fees APIs.
@@ -37,13 +37,13 @@ func (c v1ApplicationFeeService) List(ctx context.Context, listParams *Applicati
 		listParams = &ApplicationFeeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ApplicationFee, ListContainer, error) {
-		list := &ApplicationFeeList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ApplicationFee], error) {
+		list := &v1Page[*ApplicationFee]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/application_fees", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

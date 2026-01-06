@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1TaxIDService is used to invoke /v1/tax_ids APIs.
@@ -78,13 +78,13 @@ func (c v1TaxIDService) List(ctx context.Context, listParams *TaxIDListParams) S
 		listParams = &TaxIDListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxID, ListContainer, error) {
-		list := &TaxIDList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TaxID], error) {
+		list := &v1Page[*TaxID]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

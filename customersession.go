@@ -6,6 +6,84 @@
 
 package stripe
 
+// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the customer sheet displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+//
+// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+type CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilter string
+
+// List of values that CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilter can take
+const (
+	CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilterAlways      CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilter = "always"
+	CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilterLimited     CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilter = "limited"
+	CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilterUnspecified CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilter = "unspecified"
+)
+
+// Controls whether the customer sheet displays the option to remove a saved payment method."
+//
+// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
+type CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodRemove string
+
+// List of values that CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodRemove can take
+const (
+	CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodRemoveDisabled CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodRemove = "disabled"
+	CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodRemoveEnabled  CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodRemove = "enabled"
+)
+
+// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the mobile payment element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+//
+// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+type CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilter string
+
+// List of values that CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilter can take
+const (
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilterAlways      CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilter = "always"
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilterLimited     CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilter = "limited"
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilterUnspecified CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilter = "unspecified"
+)
+
+// Controls whether or not the mobile payment element shows saved payment methods.
+type CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRedisplay string
+
+// List of values that CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRedisplay can take
+const (
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRedisplayDisabled CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRedisplay = "disabled"
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRedisplayEnabled  CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRedisplay = "enabled"
+)
+
+// Controls whether the mobile payment element displays the option to remove a saved payment method."
+//
+// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
+type CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRemove string
+
+// List of values that CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRemove can take
+const (
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRemoveDisabled CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRemove = "disabled"
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRemoveEnabled  CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRemove = "enabled"
+)
+
+// Controls whether the mobile payment element displays a checkbox offering to save a new payment method.
+//
+// If a customer checks the box, the [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) value on the PaymentMethod is set to `'always'` at confirmation time. For PaymentIntents, the [`setup_future_usage`](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-setup_future_usage) value is also set to the value defined in `payment_method_save_usage`.
+type CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSave string
+
+// List of values that CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSave can take
+const (
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveDisabled CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSave = "disabled"
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveEnabled  CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSave = "enabled"
+)
+
+// Allows overriding the value of allow_override when saving a new payment method when payment_method_save is set to disabled. Use values: "always", "limited", or "unspecified".
+//
+// If not specified, defaults to `nil` (no override value).
+type CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverride string
+
+// List of values that CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverride can take
+const (
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverrideAlways      CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverride = "always"
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverrideLimited     CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverride = "limited"
+	CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverrideUnspecified CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverride = "unspecified"
+)
+
 // A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the Payment Element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
 //
 // If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
@@ -66,6 +144,56 @@ type CustomerSessionComponentsBuyButtonParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// This hash defines whether the customer sheet supports certain features.
+type CustomerSessionComponentsCustomerSheetFeaturesParams struct {
+	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the customer sheet displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+	//
+	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters"`
+	// Controls whether the customer sheet displays the option to remove a saved payment method."
+	//
+	// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
+	PaymentMethodRemove *string `form:"payment_method_remove"`
+}
+
+// Configuration for the customer sheet.
+type CustomerSessionComponentsCustomerSheetParams struct {
+	// Whether the customer sheet is enabled.
+	Enabled *bool `form:"enabled"`
+	// This hash defines whether the customer sheet supports certain features.
+	Features *CustomerSessionComponentsCustomerSheetFeaturesParams `form:"features"`
+}
+
+// This hash defines whether the mobile payment element supports certain features.
+type CustomerSessionComponentsMobilePaymentElementFeaturesParams struct {
+	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the mobile payment element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+	//
+	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters"`
+	// Controls whether or not the mobile payment element shows saved payment methods.
+	PaymentMethodRedisplay *string `form:"payment_method_redisplay"`
+	// Controls whether the mobile payment element displays the option to remove a saved payment method."
+	//
+	// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
+	PaymentMethodRemove *string `form:"payment_method_remove"`
+	// Controls whether the mobile payment element displays a checkbox offering to save a new payment method.
+	//
+	// If a customer checks the box, the [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) value on the PaymentMethod is set to `'always'` at confirmation time. For PaymentIntents, the [`setup_future_usage`](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-setup_future_usage) value is also set to the value defined in `payment_method_save_usage`.
+	PaymentMethodSave *string `form:"payment_method_save"`
+	// Allows overriding the value of allow_override when saving a new payment method when payment_method_save is set to disabled. Use values: "always", "limited", or "unspecified".
+	//
+	// If not specified, defaults to `nil` (no override value).
+	PaymentMethodSaveAllowRedisplayOverride *string `form:"payment_method_save_allow_redisplay_override"`
+}
+
+// Configuration for the mobile payment element.
+type CustomerSessionComponentsMobilePaymentElementParams struct {
+	// Whether the mobile payment element is enabled.
+	Enabled *bool `form:"enabled"`
+	// This hash defines whether the mobile payment element supports certain features.
+	Features *CustomerSessionComponentsMobilePaymentElementFeaturesParams `form:"features"`
+}
+
 // This hash defines whether the Payment Element supports certain features.
 type CustomerSessionComponentsPaymentElementFeaturesParams struct {
 	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the Payment Element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
@@ -104,10 +232,14 @@ type CustomerSessionComponentsPricingTableParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Configuration for each component. Exactly 1 component must be enabled.
+// Configuration for each component. At least 1 component must be enabled.
 type CustomerSessionComponentsParams struct {
 	// Configuration for buy button.
 	BuyButton *CustomerSessionComponentsBuyButtonParams `form:"buy_button"`
+	// Configuration for the customer sheet.
+	CustomerSheet *CustomerSessionComponentsCustomerSheetParams `form:"customer_sheet"`
+	// Configuration for the mobile payment element.
+	MobilePaymentElement *CustomerSessionComponentsMobilePaymentElementParams `form:"mobile_payment_element"`
 	// Configuration for the Payment Element.
 	PaymentElement *CustomerSessionComponentsPaymentElementParams `form:"payment_element"`
 	// Configuration for the pricing table.
@@ -117,10 +249,12 @@ type CustomerSessionComponentsParams struct {
 // Creates a Customer Session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 type CustomerSessionParams struct {
 	Params `form:"*"`
-	// Configuration for each component. Exactly 1 component must be enabled.
+	// Configuration for each component. At least 1 component must be enabled.
 	Components *CustomerSessionComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the Customer Session.
 	Customer *string `form:"customer"`
+	// The ID of an existing Account for which to create the Customer Session.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -134,6 +268,56 @@ func (p *CustomerSessionParams) AddExpand(f string) {
 type CustomerSessionCreateComponentsBuyButtonParams struct {
 	// Whether the buy button is enabled.
 	Enabled *bool `form:"enabled"`
+}
+
+// This hash defines whether the customer sheet supports certain features.
+type CustomerSessionCreateComponentsCustomerSheetFeaturesParams struct {
+	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the customer sheet displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+	//
+	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters"`
+	// Controls whether the customer sheet displays the option to remove a saved payment method."
+	//
+	// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
+	PaymentMethodRemove *string `form:"payment_method_remove"`
+}
+
+// Configuration for the customer sheet.
+type CustomerSessionCreateComponentsCustomerSheetParams struct {
+	// Whether the customer sheet is enabled.
+	Enabled *bool `form:"enabled"`
+	// This hash defines whether the customer sheet supports certain features.
+	Features *CustomerSessionCreateComponentsCustomerSheetFeaturesParams `form:"features"`
+}
+
+// This hash defines whether the mobile payment element supports certain features.
+type CustomerSessionCreateComponentsMobilePaymentElementFeaturesParams struct {
+	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the mobile payment element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+	//
+	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters"`
+	// Controls whether or not the mobile payment element shows saved payment methods.
+	PaymentMethodRedisplay *string `form:"payment_method_redisplay"`
+	// Controls whether the mobile payment element displays the option to remove a saved payment method."
+	//
+	// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
+	PaymentMethodRemove *string `form:"payment_method_remove"`
+	// Controls whether the mobile payment element displays a checkbox offering to save a new payment method.
+	//
+	// If a customer checks the box, the [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) value on the PaymentMethod is set to `'always'` at confirmation time. For PaymentIntents, the [`setup_future_usage`](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-setup_future_usage) value is also set to the value defined in `payment_method_save_usage`.
+	PaymentMethodSave *string `form:"payment_method_save"`
+	// Allows overriding the value of allow_override when saving a new payment method when payment_method_save is set to disabled. Use values: "always", "limited", or "unspecified".
+	//
+	// If not specified, defaults to `nil` (no override value).
+	PaymentMethodSaveAllowRedisplayOverride *string `form:"payment_method_save_allow_redisplay_override"`
+}
+
+// Configuration for the mobile payment element.
+type CustomerSessionCreateComponentsMobilePaymentElementParams struct {
+	// Whether the mobile payment element is enabled.
+	Enabled *bool `form:"enabled"`
+	// This hash defines whether the mobile payment element supports certain features.
+	Features *CustomerSessionCreateComponentsMobilePaymentElementFeaturesParams `form:"features"`
 }
 
 // This hash defines whether the Payment Element supports certain features.
@@ -174,10 +358,14 @@ type CustomerSessionCreateComponentsPricingTableParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Configuration for each component. Exactly 1 component must be enabled.
+// Configuration for each component. At least 1 component must be enabled.
 type CustomerSessionCreateComponentsParams struct {
 	// Configuration for buy button.
 	BuyButton *CustomerSessionCreateComponentsBuyButtonParams `form:"buy_button"`
+	// Configuration for the customer sheet.
+	CustomerSheet *CustomerSessionCreateComponentsCustomerSheetParams `form:"customer_sheet"`
+	// Configuration for the mobile payment element.
+	MobilePaymentElement *CustomerSessionCreateComponentsMobilePaymentElementParams `form:"mobile_payment_element"`
 	// Configuration for the Payment Element.
 	PaymentElement *CustomerSessionCreateComponentsPaymentElementParams `form:"payment_element"`
 	// Configuration for the pricing table.
@@ -187,10 +375,12 @@ type CustomerSessionCreateComponentsParams struct {
 // Creates a Customer Session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 type CustomerSessionCreateParams struct {
 	Params `form:"*"`
-	// Configuration for each component. Exactly 1 component must be enabled.
+	// Configuration for each component. At least 1 component must be enabled.
 	Components *CustomerSessionCreateComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the Customer Session.
 	Customer *string `form:"customer"`
+	// The ID of an existing Account for which to create the Customer Session.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -204,6 +394,56 @@ func (p *CustomerSessionCreateParams) AddExpand(f string) {
 type CustomerSessionComponentsBuyButton struct {
 	// Whether the buy button is enabled.
 	Enabled bool `json:"enabled"`
+}
+
+// This hash defines whether the customer sheet supports certain features.
+type CustomerSessionComponentsCustomerSheetFeatures struct {
+	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the customer sheet displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+	//
+	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+	PaymentMethodAllowRedisplayFilters []CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodAllowRedisplayFilter `json:"payment_method_allow_redisplay_filters"`
+	// Controls whether the customer sheet displays the option to remove a saved payment method."
+	//
+	// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
+	PaymentMethodRemove CustomerSessionComponentsCustomerSheetFeaturesPaymentMethodRemove `json:"payment_method_remove"`
+}
+
+// This hash contains whether the customer sheet is enabled and the features it supports.
+type CustomerSessionComponentsCustomerSheet struct {
+	// Whether the customer sheet is enabled.
+	Enabled bool `json:"enabled"`
+	// This hash defines whether the customer sheet supports certain features.
+	Features *CustomerSessionComponentsCustomerSheetFeatures `json:"features"`
+}
+
+// This hash defines whether the mobile payment element supports certain features.
+type CustomerSessionComponentsMobilePaymentElementFeatures struct {
+	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the mobile payment element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+	//
+	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+	PaymentMethodAllowRedisplayFilters []CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodAllowRedisplayFilter `json:"payment_method_allow_redisplay_filters"`
+	// Controls whether or not the mobile payment element shows saved payment methods.
+	PaymentMethodRedisplay CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRedisplay `json:"payment_method_redisplay"`
+	// Controls whether the mobile payment element displays the option to remove a saved payment method."
+	//
+	// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
+	PaymentMethodRemove CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodRemove `json:"payment_method_remove"`
+	// Controls whether the mobile payment element displays a checkbox offering to save a new payment method.
+	//
+	// If a customer checks the box, the [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) value on the PaymentMethod is set to `'always'` at confirmation time. For PaymentIntents, the [`setup_future_usage`](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-setup_future_usage) value is also set to the value defined in `payment_method_save_usage`.
+	PaymentMethodSave CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSave `json:"payment_method_save"`
+	// Allows overriding the value of allow_override when saving a new payment method when payment_method_save is set to disabled. Use values: "always", "limited", or "unspecified".
+	//
+	// If not specified, defaults to `nil` (no override value).
+	PaymentMethodSaveAllowRedisplayOverride CustomerSessionComponentsMobilePaymentElementFeaturesPaymentMethodSaveAllowRedisplayOverride `json:"payment_method_save_allow_redisplay_override"`
+}
+
+// This hash contains whether the mobile payment element is enabled and the features it supports.
+type CustomerSessionComponentsMobilePaymentElement struct {
+	// Whether the mobile payment element is enabled.
+	Enabled bool `json:"enabled"`
+	// This hash defines whether the mobile payment element supports certain features.
+	Features *CustomerSessionComponentsMobilePaymentElementFeatures `json:"features"`
 }
 
 // This hash defines whether the Payment Element supports certain features.
@@ -248,6 +488,10 @@ type CustomerSessionComponentsPricingTable struct {
 type CustomerSessionComponents struct {
 	// This hash contains whether the buy button is enabled.
 	BuyButton *CustomerSessionComponentsBuyButton `json:"buy_button"`
+	// This hash contains whether the customer sheet is enabled and the features it supports.
+	CustomerSheet *CustomerSessionComponentsCustomerSheet `json:"customer_sheet"`
+	// This hash contains whether the mobile payment element is enabled and the features it supports.
+	MobilePaymentElement *CustomerSessionComponentsMobilePaymentElement `json:"mobile_payment_element"`
 	// This hash contains whether the Payment Element is enabled and the features it supports.
 	PaymentElement *CustomerSessionComponentsPaymentElement `json:"payment_element"`
 	// This hash contains whether the pricing table is enabled.
@@ -272,6 +516,8 @@ type CustomerSession struct {
 	Created int64 `json:"created"`
 	// The Customer the Customer Session was created for.
 	Customer *Customer `json:"customer"`
+	// The Account that the Customer Session was created for.
+	CustomerAccount string `json:"customer_account"`
 	// The timestamp at which this Customer Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

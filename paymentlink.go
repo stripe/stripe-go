@@ -153,6 +153,7 @@ const (
 	PaymentLinkPaymentMethodTypeKlarna           PaymentLinkPaymentMethodType = "klarna"
 	PaymentLinkPaymentMethodTypeKonbini          PaymentLinkPaymentMethodType = "konbini"
 	PaymentLinkPaymentMethodTypeLink             PaymentLinkPaymentMethodType = "link"
+	PaymentLinkPaymentMethodTypeMbWay            PaymentLinkPaymentMethodType = "mb_way"
 	PaymentLinkPaymentMethodTypeMobilepay        PaymentLinkPaymentMethodType = "mobilepay"
 	PaymentLinkPaymentMethodTypeMultibanco       PaymentLinkPaymentMethodType = "multibanco"
 	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
@@ -160,6 +161,7 @@ const (
 	PaymentLinkPaymentMethodTypePayByBank        PaymentLinkPaymentMethodType = "pay_by_bank"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
 	PaymentLinkPaymentMethodTypePaypal           PaymentLinkPaymentMethodType = "paypal"
+	PaymentLinkPaymentMethodTypePayto            PaymentLinkPaymentMethodType = "payto"
 	PaymentLinkPaymentMethodTypePix              PaymentLinkPaymentMethodType = "pix"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
 	PaymentLinkPaymentMethodTypeSatispay         PaymentLinkPaymentMethodType = "satispay"
@@ -233,7 +235,7 @@ type PaymentLinkAfterCompletionHostedConfirmationParams struct {
 
 // Configuration when `type=redirect`.
 type PaymentLinkAfterCompletionRedirectParams struct {
-	// The URL the customer will be redirected to after the purchase is complete. You can embed `{CHECKOUT_SESSION_ID}` into the URL to have the `id` of the completed [checkout session](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-id) included.
+	// The URL the customer will be redirected to after the purchase is complete. You can embed `{CHECKOUT_SESSION_ID}` into the URL to have the `id` of the completed [checkout session](https://docs.stripe.com/api/checkout/sessions/object#checkout_session_object-id) included.
 	URL *string `form:"url"`
 }
 
@@ -419,7 +421,7 @@ type PaymentLinkInvoiceCreationInvoiceDataParams struct {
 	Footer *string `form:"footer"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *PaymentLinkInvoiceCreationInvoiceDataIssuerParams `form:"issuer"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
@@ -458,12 +460,14 @@ type PaymentLinkLineItemPriceDataProductDataParams struct {
 	Description *string `form:"description"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -483,7 +487,7 @@ type PaymentLinkLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count"`
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 type PaymentLinkLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -493,7 +497,7 @@ type PaymentLinkLineItemPriceDataParams struct {
 	ProductData *PaymentLinkLineItemPriceDataProductDataParams `form:"product_data"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *PaymentLinkLineItemPriceDataRecurringParams `form:"recurring"`
-	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount"`
@@ -507,12 +511,36 @@ type PaymentLinkLineItemParams struct {
 	AdjustableQuantity *PaymentLinkLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
 	// The ID of an existing line item on the payment link.
 	ID *string `form:"id"`
-	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object. One of `price` or `price_data` is required.
+	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *PaymentLinkLineItemPriceDataParams `form:"price_data"`
 	// The quantity of the line item being purchased.
 	Quantity *int64 `form:"quantity"`
+}
+
+// Controls settings applied for collecting the customer's business name.
+type PaymentLinkNameCollectionBusinessParams struct {
+	// Enable business name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their business name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name.
+type PaymentLinkNameCollectionIndividualParams struct {
+	// Enable individual name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their full name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's name.
+type PaymentLinkNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name.
+	Business *PaymentLinkNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name.
+	Individual *PaymentLinkNameCollectionIndividualParams `form:"individual"`
 }
 
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
@@ -525,13 +553,13 @@ type PaymentLinkOptionalItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum"`
 }
 
-// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 // There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
 // There is a maximum of 20 combined line items and optional items.
 type PaymentLinkOptionalItemParams struct {
 	// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 	AdjustableQuantity *PaymentLinkOptionalItemAdjustableQuantityParams `form:"adjustable_quantity"`
-	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object.
+	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object.
 	Price *string `form:"price"`
 	// The initial quantity of the line item created when a customer chooses to add this optional item to their order.
 	Quantity *int64 `form:"quantity"`
@@ -543,9 +571,9 @@ type PaymentLinkPaymentIntentDataParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Payment Intents](https://stripe.com/docs/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will declaratively set metadata on [Payment Intents](https://docs.stripe.com/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
-	// Indicates that you intend to [make future payments](https://stripe.com/docs/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
 	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
 	//
@@ -563,7 +591,7 @@ type PaymentLinkPaymentIntentDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -603,7 +631,7 @@ type PaymentLinkShippingAddressCollectionParams struct {
 	AllowedCountries []*string `form:"allowed_countries"`
 }
 
-// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+// The shipping rate options to apply to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 type PaymentLinkShippingOptionParams struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *string `form:"shipping_rate"`
@@ -641,7 +669,7 @@ type PaymentLinkSubscriptionDataParams struct {
 	Description *string `form:"description"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *PaymentLinkSubscriptionDataInvoiceSettingsParams `form:"invoice_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will declaratively set metadata on [Subscriptions](https://docs.stripe.com/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
@@ -698,7 +726,7 @@ type PaymentLinkParams struct {
 	ConsentCollection *PaymentLinkConsentCollectionParams `form:"consent_collection"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies) and supported by each line item's price.
 	Currency *string `form:"currency"`
-	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
+	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*PaymentLinkCustomFieldParams `form:"custom_fields"`
@@ -712,11 +740,13 @@ type PaymentLinkParams struct {
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata"`
+	// Controls settings applied for collecting the customer's name.
+	NameCollection *PaymentLinkNameCollectionParams `form:"name_collection"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	// There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
 	// There is a maximum of 20 combined line items and optional items.
 	OptionalItems []*PaymentLinkOptionalItemParams `form:"optional_items"`
@@ -726,9 +756,9 @@ type PaymentLinkParams struct {
 	//
 	// Can only be set in `subscription` mode. Defaults to `always`.
 	//
-	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
+	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://docs.stripe.com/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection"`
-	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://stripe.com/docs/payments/payment-methods/integration-options#payment-method-product-support)).
+	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://docs.stripe.com/payments/payment-methods/integration-options#payment-method-product-support)).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Controls phone number collection settings during checkout.
 	//
@@ -738,9 +768,9 @@ type PaymentLinkParams struct {
 	Restrictions *PaymentLinkRestrictionsParams `form:"restrictions"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkShippingAddressCollectionParams `form:"shipping_address_collection"`
-	// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	// The shipping rate options to apply to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	ShippingOptions []*PaymentLinkShippingOptionParams `form:"shipping_options"`
-	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://stripe.com/docs/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
+	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://docs.stripe.com/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
 	SubmitType *string `form:"submit_type"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 	SubscriptionData *PaymentLinkSubscriptionDataParams `form:"subscription_data"`
@@ -785,7 +815,7 @@ type PaymentLinkCreateAfterCompletionHostedConfirmationParams struct {
 
 // Configuration when `type=redirect`.
 type PaymentLinkCreateAfterCompletionRedirectParams struct {
-	// The URL the customer will be redirected to after the purchase is complete. You can embed `{CHECKOUT_SESSION_ID}` into the URL to have the `id` of the completed [checkout session](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-id) included.
+	// The URL the customer will be redirected to after the purchase is complete. You can embed `{CHECKOUT_SESSION_ID}` into the URL to have the `id` of the completed [checkout session](https://docs.stripe.com/api/checkout/sessions/object#checkout_session_object-id) included.
 	URL *string `form:"url"`
 }
 
@@ -971,7 +1001,7 @@ type PaymentLinkCreateInvoiceCreationInvoiceDataParams struct {
 	Footer *string `form:"footer"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *PaymentLinkCreateInvoiceCreationInvoiceDataIssuerParams `form:"issuer"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
@@ -1010,12 +1040,14 @@ type PaymentLinkCreateLineItemPriceDataProductDataParams struct {
 	Description *string `form:"description"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1035,7 +1067,7 @@ type PaymentLinkCreateLineItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count"`
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 type PaymentLinkCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -1045,7 +1077,7 @@ type PaymentLinkCreateLineItemPriceDataParams struct {
 	ProductData *PaymentLinkCreateLineItemPriceDataProductDataParams `form:"product_data"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *PaymentLinkCreateLineItemPriceDataRecurringParams `form:"recurring"`
-	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount"`
@@ -1057,12 +1089,36 @@ type PaymentLinkCreateLineItemPriceDataParams struct {
 type PaymentLinkCreateLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during checkout.
 	AdjustableQuantity *PaymentLinkCreateLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
-	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object. One of `price` or `price_data` is required.
+	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *PaymentLinkCreateLineItemPriceDataParams `form:"price_data"`
 	// The quantity of the line item being purchased.
 	Quantity *int64 `form:"quantity"`
+}
+
+// Controls settings applied for collecting the customer's business name.
+type PaymentLinkCreateNameCollectionBusinessParams struct {
+	// Enable business name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their business name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name.
+type PaymentLinkCreateNameCollectionIndividualParams struct {
+	// Enable individual name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their full name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's name.
+type PaymentLinkCreateNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name.
+	Business *PaymentLinkCreateNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name.
+	Individual *PaymentLinkCreateNameCollectionIndividualParams `form:"individual"`
 }
 
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
@@ -1075,13 +1131,13 @@ type PaymentLinkCreateOptionalItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum"`
 }
 
-// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 // There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
 // There is a maximum of 20 combined line items and optional items.
 type PaymentLinkCreateOptionalItemParams struct {
 	// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 	AdjustableQuantity *PaymentLinkCreateOptionalItemAdjustableQuantityParams `form:"adjustable_quantity"`
-	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object.
+	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object.
 	Price *string `form:"price"`
 	// The initial quantity of the line item created when a customer chooses to add this optional item to their order.
 	Quantity *int64 `form:"quantity"`
@@ -1093,9 +1149,9 @@ type PaymentLinkCreatePaymentIntentDataParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Payment Intents](https://stripe.com/docs/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will declaratively set metadata on [Payment Intents](https://docs.stripe.com/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
-	// Indicates that you intend to [make future payments](https://stripe.com/docs/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
 	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
 	//
@@ -1113,7 +1169,7 @@ type PaymentLinkCreatePaymentIntentDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -1153,7 +1209,7 @@ type PaymentLinkCreateShippingAddressCollectionParams struct {
 	AllowedCountries []*string `form:"allowed_countries"`
 }
 
-// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+// The shipping rate options to apply to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 type PaymentLinkCreateShippingOptionParams struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *string `form:"shipping_rate"`
@@ -1191,7 +1247,7 @@ type PaymentLinkCreateSubscriptionDataParams struct {
 	Description *string `form:"description"`
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *PaymentLinkCreateSubscriptionDataInvoiceSettingsParams `form:"invoice_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will declaratively set metadata on [Subscriptions](https://docs.stripe.com/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
@@ -1246,7 +1302,7 @@ type PaymentLinkCreateParams struct {
 	ConsentCollection *PaymentLinkCreateConsentCollectionParams `form:"consent_collection"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies) and supported by each line item's price.
 	Currency *string `form:"currency"`
-	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
+	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*PaymentLinkCreateCustomFieldParams `form:"custom_fields"`
@@ -1260,11 +1316,13 @@ type PaymentLinkCreateParams struct {
 	InvoiceCreation *PaymentLinkCreateInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkCreateLineItemParams `form:"line_items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata"`
+	// Controls settings applied for collecting the customer's name.
+	NameCollection *PaymentLinkCreateNameCollectionParams `form:"name_collection"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	// There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
 	// There is a maximum of 20 combined line items and optional items.
 	OptionalItems []*PaymentLinkCreateOptionalItemParams `form:"optional_items"`
@@ -1274,9 +1332,9 @@ type PaymentLinkCreateParams struct {
 	//
 	// Can only be set in `subscription` mode. Defaults to `always`.
 	//
-	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
+	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://docs.stripe.com/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection"`
-	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://stripe.com/docs/payments/payment-methods/integration-options#payment-method-product-support)).
+	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://docs.stripe.com/payments/payment-methods/integration-options#payment-method-product-support)).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Controls phone number collection settings during checkout.
 	//
@@ -1286,9 +1344,9 @@ type PaymentLinkCreateParams struct {
 	Restrictions *PaymentLinkCreateRestrictionsParams `form:"restrictions"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkCreateShippingAddressCollectionParams `form:"shipping_address_collection"`
-	// The shipping rate options to apply to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	// The shipping rate options to apply to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	ShippingOptions []*PaymentLinkCreateShippingOptionParams `form:"shipping_options"`
-	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://stripe.com/docs/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
+	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://docs.stripe.com/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
 	SubmitType *string `form:"submit_type"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 	SubscriptionData *PaymentLinkCreateSubscriptionDataParams `form:"subscription_data"`
@@ -1332,7 +1390,7 @@ type PaymentLinkUpdateAfterCompletionHostedConfirmationParams struct {
 
 // Configuration when `type=redirect`.
 type PaymentLinkUpdateAfterCompletionRedirectParams struct {
-	// The URL the customer will be redirected to after the purchase is complete. You can embed `{CHECKOUT_SESSION_ID}` into the URL to have the `id` of the completed [checkout session](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-id) included.
+	// The URL the customer will be redirected to after the purchase is complete. You can embed `{CHECKOUT_SESSION_ID}` into the URL to have the `id` of the completed [checkout session](https://docs.stripe.com/api/checkout/sessions/object#checkout_session_object-id) included.
 	URL *string `form:"url"`
 }
 
@@ -1498,7 +1556,7 @@ type PaymentLinkUpdateInvoiceCreationInvoiceDataParams struct {
 	Footer *string `form:"footer"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *PaymentLinkUpdateInvoiceCreationInvoiceDataIssuerParams `form:"issuer"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
@@ -1541,11 +1599,35 @@ type PaymentLinkUpdateLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 }
 
+// Controls settings applied for collecting the customer's business name.
+type PaymentLinkUpdateNameCollectionBusinessParams struct {
+	// Enable business name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their business name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's individual name.
+type PaymentLinkUpdateNameCollectionIndividualParams struct {
+	// Enable individual name collection on the payment link. Defaults to `false`.
+	Enabled *bool `form:"enabled"`
+	// Whether the customer is required to provide their full name before checking out. Defaults to `false`.
+	Optional *bool `form:"optional"`
+}
+
+// Controls settings applied for collecting the customer's name.
+type PaymentLinkUpdateNameCollectionParams struct {
+	// Controls settings applied for collecting the customer's business name.
+	Business *PaymentLinkUpdateNameCollectionBusinessParams `form:"business"`
+	// Controls settings applied for collecting the customer's individual name.
+	Individual *PaymentLinkUpdateNameCollectionIndividualParams `form:"individual"`
+}
+
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type PaymentLinkUpdatePaymentIntentDataParams struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Payment Intents](https://stripe.com/docs/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will declaratively set metadata on [Payment Intents](https://docs.stripe.com/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
@@ -1553,7 +1635,7 @@ type PaymentLinkUpdatePaymentIntentDataParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
-	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -1623,7 +1705,7 @@ type PaymentLinkUpdateSubscriptionDataTrialSettingsParams struct {
 type PaymentLinkUpdateSubscriptionDataParams struct {
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *PaymentLinkUpdateSubscriptionDataInvoiceSettingsParams `form:"invoice_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will declaratively set metadata on [Subscriptions](https://docs.stripe.com/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
@@ -1661,7 +1743,7 @@ type PaymentLinkUpdateParams struct {
 	AutomaticTax *PaymentLinkUpdateAutomaticTaxParams `form:"automatic_tax"`
 	// Configuration for collecting the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
-	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
+	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*PaymentLinkUpdateCustomFieldParams `form:"custom_fields"`
@@ -1675,15 +1757,17 @@ type PaymentLinkUpdateParams struct {
 	InvoiceCreation *PaymentLinkUpdateInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkUpdateLineItemParams `form:"line_items"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata"`
+	// Controls settings applied for collecting the customer's name.
+	NameCollection *PaymentLinkUpdateNameCollectionParams `form:"name_collection"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *PaymentLinkUpdatePaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
 	//
 	// Can only be set in `subscription` mode. Defaults to `always`.
 	//
-	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
+	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://docs.stripe.com/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection"`
 	// The list of payment method types that customers can use. Pass an empty string to enable dynamic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
@@ -1695,7 +1779,7 @@ type PaymentLinkUpdateParams struct {
 	Restrictions *PaymentLinkUpdateRestrictionsParams `form:"restrictions"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkUpdateShippingAddressCollectionParams `form:"shipping_address_collection"`
-	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://stripe.com/docs/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
+	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://docs.stripe.com/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
 	SubmitType *string `form:"submit_type"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 	SubscriptionData *PaymentLinkUpdateSubscriptionDataParams `form:"subscription_data"`
@@ -1884,7 +1968,7 @@ type PaymentLinkInvoiceCreationInvoiceData struct {
 	Footer string `json:"footer"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *PaymentLinkInvoiceCreationInvoiceDataIssuer `json:"issuer"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Options for invoice PDF rendering.
 	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptions `json:"rendering_options"`
@@ -1896,6 +1980,22 @@ type PaymentLinkInvoiceCreation struct {
 	Enabled bool `json:"enabled"`
 	// Configuration for the invoice. Default invoice values will be used if unspecified.
 	InvoiceData *PaymentLinkInvoiceCreationInvoiceData `json:"invoice_data"`
+}
+type PaymentLinkNameCollectionBusiness struct {
+	// Indicates whether business name collection is enabled for the payment link.
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before checking out. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type PaymentLinkNameCollectionIndividual struct {
+	// Indicates whether individual name collection is enabled for the payment link.
+	Enabled bool `json:"enabled"`
+	// Whether the customer is required to complete the field before checking out. Defaults to `false`.
+	Optional bool `json:"optional"`
+}
+type PaymentLinkNameCollection struct {
+	Business   *PaymentLinkNameCollectionBusiness   `json:"business"`
+	Individual *PaymentLinkNameCollectionIndividual `json:"individual"`
 }
 type PaymentLinkOptionalItemAdjustableQuantity struct {
 	// Set to true if the quantity can be adjusted to any non-negative integer.
@@ -1919,7 +2019,7 @@ type PaymentLinkPaymentIntentData struct {
 	CaptureMethod PaymentLinkPaymentIntentDataCaptureMethod `json:"capture_method"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Payment Intents](https://stripe.com/docs/api/payment_intents) generated from this payment link.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on [Payment Intents](https://docs.stripe.com/api/payment_intents) generated from this payment link.
 	Metadata map[string]string `json:"metadata"`
 	// Indicates that you intend to make future payments with the payment method collected during checkout.
 	SetupFutureUsage PaymentLinkPaymentIntentDataSetupFutureUsage `json:"setup_future_usage"`
@@ -1927,7 +2027,7 @@ type PaymentLinkPaymentIntentData struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 	// For a card payment, information about the charge that appears on the customer's statement when this payment succeeds in creating a charge. Concatenated with the account's statement descriptor prefix to form the complete statement descriptor.
 	StatementDescriptorSuffix string `json:"statement_descriptor_suffix"`
-	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
 	TransferGroup string `json:"transfer_group"`
 }
 type PaymentLinkPhoneNumberCollection struct {
@@ -1986,7 +2086,7 @@ type PaymentLinkSubscriptionData struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description     string                                      `json:"description"`
 	InvoiceSettings *PaymentLinkSubscriptionDataInvoiceSettings `json:"invoice_settings"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on [Subscriptions](https://docs.stripe.com/api/subscriptions) generated from this payment link.
 	Metadata map[string]string `json:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
@@ -2009,9 +2109,9 @@ type PaymentLinkTransferData struct {
 
 // A payment link is a shareable URL that will take your customers to a hosted payment page. A payment link can be shared and used multiple times.
 //
-// When a customer opens a payment link it will open a new [checkout session](https://stripe.com/docs/api/checkout/sessions) to render the payment page. You can use [checkout session events](https://stripe.com/docs/api/events/types#event_types-checkout.session.completed) to track payments through payment links.
+// When a customer opens a payment link it will open a new [checkout session](https://docs.stripe.com/api/checkout/sessions) to render the payment page. You can use [checkout session events](https://docs.stripe.com/api/events/types#event_types-checkout.session.completed) to track payments through payment links.
 //
-// Related guide: [Payment Links API](https://stripe.com/docs/payment-links)
+// Related guide: [Payment Links API](https://docs.stripe.com/payment-links)
 type PaymentLink struct {
 	APIResource
 	// Whether the payment link's `url` is active. If `false`, customers visiting the URL will be shown a page saying that the link has been deactivated.
@@ -2047,8 +2147,9 @@ type PaymentLink struct {
 	LineItems *LineItemList `json:"line_items"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata       map[string]string          `json:"metadata"`
+	NameCollection *PaymentLinkNameCollection `json:"name_collection"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.

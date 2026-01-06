@@ -9,9 +9,9 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/client"
-	. "github.com/stripe/stripe-go/v82/testing"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/client"
+	. "github.com/stripe/stripe-go/v84/testing"
 )
 
 func TestMeterEventAdjustmentNew(t *testing.T) {

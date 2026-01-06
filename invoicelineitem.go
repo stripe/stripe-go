@@ -82,7 +82,7 @@ type InvoiceLineItemDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceLineItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
 	End *int64 `form:"end"`
@@ -96,12 +96,14 @@ type InvoiceLineItemPriceDataProductDataParams struct {
 	Description *string `form:"description"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -113,7 +115,7 @@ func (p *InvoiceLineItemPriceDataProductDataParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
 type InvoiceLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -121,7 +123,7 @@ type InvoiceLineItemPriceDataParams struct {
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 	ProductData *InvoiceLineItemPriceDataProductDataParams `form:"product_data"`
-	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount"`
@@ -159,7 +161,7 @@ type InvoiceLineItemTaxAmountTaxRateDataParams struct {
 	TaxType *string `form:"tax_type"`
 }
 
-// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://stripe.com/docs/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://stripe.com/docs/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://stripe.com/docs/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 type InvoiceLineItemTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount"`
@@ -178,7 +180,8 @@ type InvoiceLineItemTaxAmountParams struct {
 // item and the invoice line item, so updates on this endpoint will propagate to the invoice item as well.
 // Updating an invoice's line item is only possible before the invoice is finalized.
 type InvoiceLineItemParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Invoice ID of line item
 	Invoice *string `form:"-"` // Included in URL
 	// The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
 	Amount *int64 `form:"amount"`
@@ -190,17 +193,17 @@ type InvoiceLineItemParams struct {
 	Discounts []*InvoiceLineItemDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://stripe.com/docs/api/invoices/line_item#invoice_line_item_object-type) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](api/invoices/line_item#invoice_line_item_object-type) line items, where any existing metadata on the invoice line is merged with the incoming data.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-type) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](api/invoices/line_item#invoice_line_item_object-type) line items, where any existing metadata on the invoice line is merged with the incoming data.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceLineItemPeriodParams `form:"period"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
 	PriceData *InvoiceLineItemPriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceLineItemPricingParams `form:"pricing"`
 	// Non-negative integer. The quantity of units for the line item.
 	Quantity *int64 `form:"quantity"`
-	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://stripe.com/docs/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://stripe.com/docs/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://stripe.com/docs/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemTaxAmountParams `form:"tax_amounts"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
@@ -230,7 +233,7 @@ type InvoiceLineItemUpdateDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
-// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceLineItemUpdatePeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
 	End *int64 `form:"end"`
@@ -244,12 +247,14 @@ type InvoiceLineItemUpdatePriceDataProductDataParams struct {
 	Description *string `form:"description"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
-	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -261,7 +266,7 @@ func (p *InvoiceLineItemUpdatePriceDataProductDataParams) AddMetadata(key string
 	p.Metadata[key] = value
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
 type InvoiceLineItemUpdatePriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -269,7 +274,7 @@ type InvoiceLineItemUpdatePriceDataParams struct {
 	Product *string `form:"product"`
 	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 	ProductData *InvoiceLineItemUpdatePriceDataProductDataParams `form:"product_data"`
-	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
 	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
 	UnitAmount *int64 `form:"unit_amount"`
@@ -307,7 +312,7 @@ type InvoiceLineItemUpdateTaxAmountTaxRateDataParams struct {
 	TaxType *string `form:"tax_type"`
 }
 
-// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://stripe.com/docs/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://stripe.com/docs/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://stripe.com/docs/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 type InvoiceLineItemUpdateTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount"`
@@ -326,7 +331,8 @@ type InvoiceLineItemUpdateTaxAmountParams struct {
 // item and the invoice line item, so updates on this endpoint will propagate to the invoice item as well.
 // Updating an invoice's line item is only possible before the invoice is finalized.
 type InvoiceLineItemUpdateParams struct {
-	Params  `form:"*"`
+	Params `form:"*"`
+	// Invoice ID of line item
 	Invoice *string `form:"-"` // Included in URL
 	// The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
 	Amount *int64 `form:"amount"`
@@ -338,17 +344,17 @@ type InvoiceLineItemUpdateParams struct {
 	Discounts []*InvoiceLineItemUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://stripe.com/docs/api/invoices/line_item#invoice_line_item_object-type) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](api/invoices/line_item#invoice_line_item_object-type) line items, where any existing metadata on the invoice line is merged with the incoming data.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-type) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](api/invoices/line_item#invoice_line_item_object-type) line items, where any existing metadata on the invoice line is merged with the incoming data.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceLineItemUpdatePeriodParams `form:"period"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
 	PriceData *InvoiceLineItemUpdatePriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceLineItemUpdatePricingParams `form:"pricing"`
 	// Non-negative integer. The quantity of units for the line item.
 	Quantity *int64 `form:"quantity"`
-	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://stripe.com/docs/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://stripe.com/docs/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://stripe.com/docs/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemUpdateTaxAmountParams `form:"tax_amounts"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
@@ -469,6 +475,7 @@ type InvoiceLineItemPricing struct {
 
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type InvoiceLineItemTaxTaxRateDetails struct {
+	// ID of the tax rate
 	TaxRate string `json:"tax_rate"`
 }
 
@@ -488,9 +495,9 @@ type InvoiceLineItemTax struct {
 	Type InvoiceLineItemTaxType `json:"type"`
 }
 
-// Invoice Line Items represent the individual lines within an [invoice](https://stripe.com/docs/api/invoices) and only exist within the context of an invoice.
+// Invoice Line Items represent the individual lines within an [invoice](https://docs.stripe.com/api/invoices) and only exist within the context of an invoice.
 //
-// Each line item is backed by either an [invoice item](https://stripe.com/docs/api/invoiceitems) or a [subscription item](https://stripe.com/docs/api/subscription_items).
+// Each line item is backed by either an [invoice item](https://docs.stripe.com/api/invoiceitems) or a [subscription item](https://docs.stripe.com/api/subscription_items).
 type InvoiceLineItem struct {
 	APIResource
 	// The amount, in cents (or local equivalent).
@@ -511,7 +518,7 @@ type InvoiceLineItem struct {
 	Invoice string `json:"invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with `type=subscription`, `metadata` reflects the current metadata from the subscription associated with the line item, unless the invoice line was directly updated with different metadata after creation.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with `type=subscription`, `metadata` reflects the current metadata from the subscription associated with the line item, unless the invoice line was directly updated with different metadata after creation.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
@@ -525,6 +532,8 @@ type InvoiceLineItem struct {
 	// The quantity of the subscription, if the line item is a subscription or a proration.
 	Quantity     int64         `json:"quantity"`
 	Subscription *Subscription `json:"subscription"`
+	// The subtotal of the line item, in cents (or local equivalent), before any discounts or taxes.
+	Subtotal int64 `json:"subtotal"`
 	// The tax information of the line item.
 	Taxes []*InvoiceLineItemTax `json:"taxes"`
 }

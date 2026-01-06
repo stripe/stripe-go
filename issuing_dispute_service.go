@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1IssuingDisputeService is used to invoke /v1/issuing/disputes APIs.
@@ -73,13 +73,13 @@ func (c v1IssuingDisputeService) List(ctx context.Context, listParams *IssuingDi
 		listParams = &IssuingDisputeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingDispute, ListContainer, error) {
-		list := &IssuingDisputeList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingDispute], error) {
+		list := &v1Page[*IssuingDispute]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/disputes", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

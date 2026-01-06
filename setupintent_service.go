@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1SetupIntentService is used to invoke /v1/setup_intents APIs.
@@ -119,13 +119,13 @@ func (c v1SetupIntentService) List(ctx context.Context, listParams *SetupIntentL
 		listParams = &SetupIntentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SetupIntent, ListContainer, error) {
-		list := &SetupIntentList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SetupIntent], error) {
+		list := &v1Page[*SetupIntent]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/setup_intents", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

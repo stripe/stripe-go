@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1BillingMeterEventSummaryService is used to invoke /v1/billing/meters/{id}/event_summaries APIs.
@@ -27,13 +27,13 @@ func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams 
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/billing/meters/%s/event_summaries", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingMeterEventSummary, ListContainer, error) {
-		list := &BillingMeterEventSummaryList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingMeterEventSummary], error) {
+		list := &v1Page[*BillingMeterEventSummary]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

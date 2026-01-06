@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1CreditNoteService is used to invoke /v1/credit_notes APIs.
@@ -95,14 +95,14 @@ func (c v1CreditNoteService) List(ctx context.Context, listParams *CreditNoteLis
 		listParams = &CreditNoteListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CreditNote, ListContainer, error) {
-		list := &CreditNoteList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNote], error) {
+		list := &v1Page[*CreditNote]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -114,14 +114,14 @@ func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNo
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/credit_notes/%s/lines", StringValue(listParams.CreditNote))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CreditNoteLineItem, ListContainer, error) {
-		list := &CreditNoteLineItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
+		list := &v1Page[*CreditNoteLineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -131,13 +131,13 @@ func (c v1CreditNoteService) PreviewLines(ctx context.Context, listParams *Credi
 		listParams = &CreditNotePreviewLinesParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CreditNoteLineItem, ListContainer, error) {
-		list := &CreditNoteLineItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CreditNoteLineItem], error) {
+		list := &v1Page[*CreditNoteLineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

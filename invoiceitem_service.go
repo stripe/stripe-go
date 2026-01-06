@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1InvoiceItemService is used to invoke /v1/invoiceitems APIs.
@@ -73,13 +73,13 @@ func (c v1InvoiceItemService) List(ctx context.Context, listParams *InvoiceItemL
 		listParams = &InvoiceItemListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceItem, ListContainer, error) {
-		list := &InvoiceItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoiceItem], error) {
+		list := &v1Page[*InvoiceItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoiceitems", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

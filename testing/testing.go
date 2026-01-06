@@ -13,8 +13,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/form"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/form"
 	"golang.org/x/net/http2"
 )
 
@@ -108,10 +108,17 @@ func init() {
 }
 
 func MockServer(t *testing.T, method, path string, params interface{}, resp string) *httptest.Server {
+	return MockServerWithStripeContext(t, method, path, "", params, resp)
+}
+
+func MockServerWithStripeContext(t *testing.T, method, path, stripeContext string, params interface{}, resp string) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, r.Method, method)
 		assert.Equal(t, r.URL.Path, path)
 		assert.Equal(t, r.Header.Get("Authorization"), "Bearer "+TestAPIKey)
+		if stripeContext != "" {
+			assert.Equal(t, r.Header.Get("Stripe-Context"), stripeContext)
+		}
 
 		body, err := io.ReadAll(r.Body)
 		assert.NoError(t, err)

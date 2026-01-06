@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1ReportingReportRunService is used to invoke /v1/reporting/report_runs APIs.
@@ -49,13 +49,13 @@ func (c v1ReportingReportRunService) List(ctx context.Context, listParams *Repor
 		listParams = &ReportingReportRunListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ReportingReportRun, ListContainer, error) {
-		list := &ReportingReportRunList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ReportingReportRun], error) {
+		list := &v1Page[*ReportingReportRun]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_runs", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

@@ -2,11 +2,11 @@ package webhook_test
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/webhook"
+	"github.com/stripe/stripe-go/v84/webhook"
 )
 
 func Example() {
@@ -16,7 +16,7 @@ func Example() {
 		const MaxBodyBytes = int64(65536)
 		req.Body = http.MaxBytesReader(w, req.Body, MaxBodyBytes)
 
-		body, err := ioutil.ReadAll(req.Body)
+		body, err := io.ReadAll(req.Body)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return

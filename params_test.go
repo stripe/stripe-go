@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/form"
-	. "github.com/stripe/stripe-go/v82/testing"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/form"
+	. "github.com/stripe/stripe-go/v84/testing"
 )
 
 func TestRangeQueryParamsAppendTo(t *testing.T) {
@@ -239,6 +239,38 @@ func TestParams_SetStripeAccount(t *testing.T) {
 	p := &stripe.Params{}
 	p.SetStripeAccount(TestMerchantID)
 	assert.Equal(t, TestMerchantID, *p.StripeAccount)
+}
+
+func TestParams_SetStripeContext(t *testing.T) {
+	{
+		p := &stripe.Params{}
+		p.SetStripeContext(TestMerchantID)
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+
+	{
+		p := &stripe.Params{}
+		p.SetStripeContextFrom(stripe.NewStripeContext([]string{TestMerchantID}))
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+}
+
+func TestListParams_SetStripeContext(t *testing.T) {
+	{
+		p := &stripe.ListParams{}
+		p.SetStripeContext(TestMerchantID)
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+
+	{
+		p := &stripe.ListParams{}
+		p.SetStripeContextFrom(stripe.NewStripeContext([]string{TestMerchantID}))
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
 }
 
 //

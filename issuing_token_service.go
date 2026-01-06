@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1IssuingTokenService is used to invoke /v1/issuing/tokens APIs.
@@ -49,13 +49,13 @@ func (c v1IssuingTokenService) List(ctx context.Context, listParams *IssuingToke
 		listParams = &IssuingTokenListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingToken, ListContainer, error) {
-		list := &IssuingTokenList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingToken], error) {
+		list := &v1Page[*IssuingToken]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/tokens", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

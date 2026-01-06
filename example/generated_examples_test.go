@@ -14,109 +14,109 @@ import (
 	"net/http"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	account "github.com/stripe/stripe-go/v82/account"
-	accountlink "github.com/stripe/stripe-go/v82/accountlink"
-	applicationfee "github.com/stripe/stripe-go/v82/applicationfee"
-	apps_secret "github.com/stripe/stripe-go/v82/apps/secret"
-	balancetransaction "github.com/stripe/stripe-go/v82/balancetransaction"
-	billingportal_configuration "github.com/stripe/stripe-go/v82/billingportal/configuration"
-	billingportal_session "github.com/stripe/stripe-go/v82/billingportal/session"
-	capability "github.com/stripe/stripe-go/v82/capability"
-	card "github.com/stripe/stripe-go/v82/card"
-	cashbalance "github.com/stripe/stripe-go/v82/cashbalance"
-	charge "github.com/stripe/stripe-go/v82/charge"
-	checkout_session "github.com/stripe/stripe-go/v82/checkout/session"
-	"github.com/stripe/stripe-go/v82/client"
-	countryspec "github.com/stripe/stripe-go/v82/countryspec"
-	coupon "github.com/stripe/stripe-go/v82/coupon"
-	customer "github.com/stripe/stripe-go/v82/customer"
-	customerbalancetransaction "github.com/stripe/stripe-go/v82/customerbalancetransaction"
-	customercashbalancetransaction "github.com/stripe/stripe-go/v82/customercashbalancetransaction"
-	customersession "github.com/stripe/stripe-go/v82/customersession"
-	dispute "github.com/stripe/stripe-go/v82/dispute"
-	event "github.com/stripe/stripe-go/v82/event"
-	feerefund "github.com/stripe/stripe-go/v82/feerefund"
-	financialconnections_account "github.com/stripe/stripe-go/v82/financialconnections/account"
-	financialconnections_session "github.com/stripe/stripe-go/v82/financialconnections/session"
-	financialconnections_transaction "github.com/stripe/stripe-go/v82/financialconnections/transaction"
-	identity_verificationreport "github.com/stripe/stripe-go/v82/identity/verificationreport"
-	identity_verificationsession "github.com/stripe/stripe-go/v82/identity/verificationsession"
-	invoice "github.com/stripe/stripe-go/v82/invoice"
-	invoiceitem "github.com/stripe/stripe-go/v82/invoiceitem"
-	issuing_authorization "github.com/stripe/stripe-go/v82/issuing/authorization"
-	issuing_card "github.com/stripe/stripe-go/v82/issuing/card"
-	issuing_cardholder "github.com/stripe/stripe-go/v82/issuing/cardholder"
-	issuing_dispute "github.com/stripe/stripe-go/v82/issuing/dispute"
-	issuing_personalizationdesign "github.com/stripe/stripe-go/v82/issuing/personalizationdesign"
-	issuing_physicalbundle "github.com/stripe/stripe-go/v82/issuing/physicalbundle"
-	issuing_transaction "github.com/stripe/stripe-go/v82/issuing/transaction"
-	loginlink "github.com/stripe/stripe-go/v82/loginlink"
-	mandate "github.com/stripe/stripe-go/v82/mandate"
-	paymentintent "github.com/stripe/stripe-go/v82/paymentintent"
-	paymentlink "github.com/stripe/stripe-go/v82/paymentlink"
-	paymentmethod "github.com/stripe/stripe-go/v82/paymentmethod"
-	paymentmethodconfiguration "github.com/stripe/stripe-go/v82/paymentmethodconfiguration"
-	paymentsource "github.com/stripe/stripe-go/v82/paymentsource"
-	payout "github.com/stripe/stripe-go/v82/payout"
-	person "github.com/stripe/stripe-go/v82/person"
-	plan "github.com/stripe/stripe-go/v82/plan"
-	price "github.com/stripe/stripe-go/v82/price"
-	product "github.com/stripe/stripe-go/v82/product"
-	promotioncode "github.com/stripe/stripe-go/v82/promotioncode"
-	quote "github.com/stripe/stripe-go/v82/quote"
-	radar_earlyfraudwarning "github.com/stripe/stripe-go/v82/radar/earlyfraudwarning"
-	radar_valuelist "github.com/stripe/stripe-go/v82/radar/valuelist"
-	radar_valuelistitem "github.com/stripe/stripe-go/v82/radar/valuelistitem"
-	refund "github.com/stripe/stripe-go/v82/refund"
-	reporting_reportrun "github.com/stripe/stripe-go/v82/reporting/reportrun"
-	reporting_reporttype "github.com/stripe/stripe-go/v82/reporting/reporttype"
-	review "github.com/stripe/stripe-go/v82/review"
-	setupattempt "github.com/stripe/stripe-go/v82/setupattempt"
-	setupintent "github.com/stripe/stripe-go/v82/setupintent"
-	shippingrate "github.com/stripe/stripe-go/v82/shippingrate"
-	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v82/sigma/scheduledqueryrun"
-	source "github.com/stripe/stripe-go/v82/source"
-	subscription "github.com/stripe/stripe-go/v82/subscription"
-	subscriptionitem "github.com/stripe/stripe-go/v82/subscriptionitem"
-	subscriptionschedule "github.com/stripe/stripe-go/v82/subscriptionschedule"
-	tax_calculation "github.com/stripe/stripe-go/v82/tax/calculation"
-	tax_settings "github.com/stripe/stripe-go/v82/tax/settings"
-	tax_transaction "github.com/stripe/stripe-go/v82/tax/transaction"
-	taxcode "github.com/stripe/stripe-go/v82/taxcode"
-	taxid "github.com/stripe/stripe-go/v82/taxid"
-	taxrate "github.com/stripe/stripe-go/v82/taxrate"
-	terminal_configuration "github.com/stripe/stripe-go/v82/terminal/configuration"
-	terminal_connectiontoken "github.com/stripe/stripe-go/v82/terminal/connectiontoken"
-	terminal_location "github.com/stripe/stripe-go/v82/terminal/location"
-	terminal_reader "github.com/stripe/stripe-go/v82/terminal/reader"
-	testhelpers_customer "github.com/stripe/stripe-go/v82/testhelpers/customer"
-	testhelpers_issuing_authorization "github.com/stripe/stripe-go/v82/testhelpers/issuing/authorization"
-	testhelpers_issuing_card "github.com/stripe/stripe-go/v82/testhelpers/issuing/card"
-	testhelpers_issuing_personalizationdesign "github.com/stripe/stripe-go/v82/testhelpers/issuing/personalizationdesign"
-	testhelpers_issuing_transaction "github.com/stripe/stripe-go/v82/testhelpers/issuing/transaction"
-	testhelpers_refund "github.com/stripe/stripe-go/v82/testhelpers/refund"
-	testhelpers_testclock "github.com/stripe/stripe-go/v82/testhelpers/testclock"
-	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v82/testhelpers/treasury/inboundtransfer"
-	testhelpers_treasury_outboundtransfer "github.com/stripe/stripe-go/v82/testhelpers/treasury/outboundtransfer"
-	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v82/testhelpers/treasury/receivedcredit"
-	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v82/testhelpers/treasury/receiveddebit"
-	. "github.com/stripe/stripe-go/v82/testing"
-	token "github.com/stripe/stripe-go/v82/token"
-	topup "github.com/stripe/stripe-go/v82/topup"
-	transfer "github.com/stripe/stripe-go/v82/transfer"
-	transferreversal "github.com/stripe/stripe-go/v82/transferreversal"
-	treasury_creditreversal "github.com/stripe/stripe-go/v82/treasury/creditreversal"
-	treasury_debitreversal "github.com/stripe/stripe-go/v82/treasury/debitreversal"
-	treasury_financialaccount "github.com/stripe/stripe-go/v82/treasury/financialaccount"
-	treasury_inboundtransfer "github.com/stripe/stripe-go/v82/treasury/inboundtransfer"
-	treasury_outboundpayment "github.com/stripe/stripe-go/v82/treasury/outboundpayment"
-	treasury_outboundtransfer "github.com/stripe/stripe-go/v82/treasury/outboundtransfer"
-	treasury_receivedcredit "github.com/stripe/stripe-go/v82/treasury/receivedcredit"
-	treasury_receiveddebit "github.com/stripe/stripe-go/v82/treasury/receiveddebit"
-	treasury_transaction "github.com/stripe/stripe-go/v82/treasury/transaction"
-	treasury_transactionentry "github.com/stripe/stripe-go/v82/treasury/transactionentry"
-	webhookendpoint "github.com/stripe/stripe-go/v82/webhookendpoint"
+	stripe "github.com/stripe/stripe-go/v84"
+	account "github.com/stripe/stripe-go/v84/account"
+	accountlink "github.com/stripe/stripe-go/v84/accountlink"
+	applicationfee "github.com/stripe/stripe-go/v84/applicationfee"
+	apps_secret "github.com/stripe/stripe-go/v84/apps/secret"
+	balancetransaction "github.com/stripe/stripe-go/v84/balancetransaction"
+	billingportal_configuration "github.com/stripe/stripe-go/v84/billingportal/configuration"
+	billingportal_session "github.com/stripe/stripe-go/v84/billingportal/session"
+	capability "github.com/stripe/stripe-go/v84/capability"
+	card "github.com/stripe/stripe-go/v84/card"
+	cashbalance "github.com/stripe/stripe-go/v84/cashbalance"
+	charge "github.com/stripe/stripe-go/v84/charge"
+	checkout_session "github.com/stripe/stripe-go/v84/checkout/session"
+	"github.com/stripe/stripe-go/v84/client"
+	countryspec "github.com/stripe/stripe-go/v84/countryspec"
+	coupon "github.com/stripe/stripe-go/v84/coupon"
+	customer "github.com/stripe/stripe-go/v84/customer"
+	customerbalancetransaction "github.com/stripe/stripe-go/v84/customerbalancetransaction"
+	customercashbalancetransaction "github.com/stripe/stripe-go/v84/customercashbalancetransaction"
+	customersession "github.com/stripe/stripe-go/v84/customersession"
+	dispute "github.com/stripe/stripe-go/v84/dispute"
+	event "github.com/stripe/stripe-go/v84/event"
+	feerefund "github.com/stripe/stripe-go/v84/feerefund"
+	financialconnections_account "github.com/stripe/stripe-go/v84/financialconnections/account"
+	financialconnections_session "github.com/stripe/stripe-go/v84/financialconnections/session"
+	financialconnections_transaction "github.com/stripe/stripe-go/v84/financialconnections/transaction"
+	identity_verificationreport "github.com/stripe/stripe-go/v84/identity/verificationreport"
+	identity_verificationsession "github.com/stripe/stripe-go/v84/identity/verificationsession"
+	invoice "github.com/stripe/stripe-go/v84/invoice"
+	invoiceitem "github.com/stripe/stripe-go/v84/invoiceitem"
+	issuing_authorization "github.com/stripe/stripe-go/v84/issuing/authorization"
+	issuing_card "github.com/stripe/stripe-go/v84/issuing/card"
+	issuing_cardholder "github.com/stripe/stripe-go/v84/issuing/cardholder"
+	issuing_dispute "github.com/stripe/stripe-go/v84/issuing/dispute"
+	issuing_personalizationdesign "github.com/stripe/stripe-go/v84/issuing/personalizationdesign"
+	issuing_physicalbundle "github.com/stripe/stripe-go/v84/issuing/physicalbundle"
+	issuing_transaction "github.com/stripe/stripe-go/v84/issuing/transaction"
+	loginlink "github.com/stripe/stripe-go/v84/loginlink"
+	mandate "github.com/stripe/stripe-go/v84/mandate"
+	paymentintent "github.com/stripe/stripe-go/v84/paymentintent"
+	paymentlink "github.com/stripe/stripe-go/v84/paymentlink"
+	paymentmethod "github.com/stripe/stripe-go/v84/paymentmethod"
+	paymentmethodconfiguration "github.com/stripe/stripe-go/v84/paymentmethodconfiguration"
+	paymentsource "github.com/stripe/stripe-go/v84/paymentsource"
+	payout "github.com/stripe/stripe-go/v84/payout"
+	person "github.com/stripe/stripe-go/v84/person"
+	plan "github.com/stripe/stripe-go/v84/plan"
+	price "github.com/stripe/stripe-go/v84/price"
+	product "github.com/stripe/stripe-go/v84/product"
+	promotioncode "github.com/stripe/stripe-go/v84/promotioncode"
+	quote "github.com/stripe/stripe-go/v84/quote"
+	radar_earlyfraudwarning "github.com/stripe/stripe-go/v84/radar/earlyfraudwarning"
+	radar_valuelist "github.com/stripe/stripe-go/v84/radar/valuelist"
+	radar_valuelistitem "github.com/stripe/stripe-go/v84/radar/valuelistitem"
+	refund "github.com/stripe/stripe-go/v84/refund"
+	reporting_reportrun "github.com/stripe/stripe-go/v84/reporting/reportrun"
+	reporting_reporttype "github.com/stripe/stripe-go/v84/reporting/reporttype"
+	review "github.com/stripe/stripe-go/v84/review"
+	setupattempt "github.com/stripe/stripe-go/v84/setupattempt"
+	setupintent "github.com/stripe/stripe-go/v84/setupintent"
+	shippingrate "github.com/stripe/stripe-go/v84/shippingrate"
+	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v84/sigma/scheduledqueryrun"
+	source "github.com/stripe/stripe-go/v84/source"
+	subscription "github.com/stripe/stripe-go/v84/subscription"
+	subscriptionitem "github.com/stripe/stripe-go/v84/subscriptionitem"
+	subscriptionschedule "github.com/stripe/stripe-go/v84/subscriptionschedule"
+	tax_calculation "github.com/stripe/stripe-go/v84/tax/calculation"
+	tax_settings "github.com/stripe/stripe-go/v84/tax/settings"
+	tax_transaction "github.com/stripe/stripe-go/v84/tax/transaction"
+	taxcode "github.com/stripe/stripe-go/v84/taxcode"
+	taxid "github.com/stripe/stripe-go/v84/taxid"
+	taxrate "github.com/stripe/stripe-go/v84/taxrate"
+	terminal_configuration "github.com/stripe/stripe-go/v84/terminal/configuration"
+	terminal_connectiontoken "github.com/stripe/stripe-go/v84/terminal/connectiontoken"
+	terminal_location "github.com/stripe/stripe-go/v84/terminal/location"
+	terminal_reader "github.com/stripe/stripe-go/v84/terminal/reader"
+	testhelpers_customer "github.com/stripe/stripe-go/v84/testhelpers/customer"
+	testhelpers_issuing_authorization "github.com/stripe/stripe-go/v84/testhelpers/issuing/authorization"
+	testhelpers_issuing_card "github.com/stripe/stripe-go/v84/testhelpers/issuing/card"
+	testhelpers_issuing_personalizationdesign "github.com/stripe/stripe-go/v84/testhelpers/issuing/personalizationdesign"
+	testhelpers_issuing_transaction "github.com/stripe/stripe-go/v84/testhelpers/issuing/transaction"
+	testhelpers_refund "github.com/stripe/stripe-go/v84/testhelpers/refund"
+	testhelpers_testclock "github.com/stripe/stripe-go/v84/testhelpers/testclock"
+	testhelpers_treasury_inboundtransfer "github.com/stripe/stripe-go/v84/testhelpers/treasury/inboundtransfer"
+	testhelpers_treasury_outboundtransfer "github.com/stripe/stripe-go/v84/testhelpers/treasury/outboundtransfer"
+	testhelpers_treasury_receivedcredit "github.com/stripe/stripe-go/v84/testhelpers/treasury/receivedcredit"
+	testhelpers_treasury_receiveddebit "github.com/stripe/stripe-go/v84/testhelpers/treasury/receiveddebit"
+	. "github.com/stripe/stripe-go/v84/testing"
+	token "github.com/stripe/stripe-go/v84/token"
+	topup "github.com/stripe/stripe-go/v84/topup"
+	transfer "github.com/stripe/stripe-go/v84/transfer"
+	transferreversal "github.com/stripe/stripe-go/v84/transferreversal"
+	treasury_creditreversal "github.com/stripe/stripe-go/v84/treasury/creditreversal"
+	treasury_debitreversal "github.com/stripe/stripe-go/v84/treasury/debitreversal"
+	treasury_financialaccount "github.com/stripe/stripe-go/v84/treasury/financialaccount"
+	treasury_inboundtransfer "github.com/stripe/stripe-go/v84/treasury/inboundtransfer"
+	treasury_outboundpayment "github.com/stripe/stripe-go/v84/treasury/outboundpayment"
+	treasury_outboundtransfer "github.com/stripe/stripe-go/v84/treasury/outboundtransfer"
+	treasury_receivedcredit "github.com/stripe/stripe-go/v84/treasury/receivedcredit"
+	treasury_receiveddebit "github.com/stripe/stripe-go/v84/treasury/receiveddebit"
+	treasury_transaction "github.com/stripe/stripe-go/v84/treasury/transaction"
+	treasury_transactionentry "github.com/stripe/stripe-go/v84/treasury/transactionentry"
+	webhookendpoint "github.com/stripe/stripe-go/v84/webhookendpoint"
 )
 
 func TestAccountLinksPost(t *testing.T) {
@@ -2634,8 +2634,8 @@ func TestCustomersSourcesGet4Client(t *testing.T) {
 
 func TestCustomersSourcesPost(t *testing.T) {
 	params := &stripe.CardParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := card.Update("card_123", params)
 	assert.NotNil(t, result)
@@ -2645,8 +2645,8 @@ func TestCustomersSourcesPost(t *testing.T) {
 func TestCustomersSourcesPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CardParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := sc.Cards.Update("card_123", params)
 	assert.NotNil(t, result)
@@ -2656,8 +2656,8 @@ func TestCustomersSourcesPostService(t *testing.T) {
 func TestCustomersSourcesPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardUpdateParams{
-		AccountHolderName: stripe.String("Kamil"),
-		Customer:          stripe.String("cus_123"),
+		Name:     stripe.String("Kamil"),
+		Customer: stripe.String("cus_123"),
 	}
 	result, err := sc.V1Cards.Update(context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
@@ -6479,7 +6479,12 @@ func TestPromotionCodesGet2Client(t *testing.T) {
 }
 
 func TestPromotionCodesPost(t *testing.T) {
-	params := &stripe.PromotionCodeParams{Coupon: stripe.String("Z4OV52SU")}
+	params := &stripe.PromotionCodeParams{
+		Promotion: &stripe.PromotionCodePromotionParams{
+			Type:   stripe.String("coupon"),
+			Coupon: stripe.String("Z4OV52SU"),
+		},
+	}
 	result, err := promotioncode.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6487,7 +6492,12 @@ func TestPromotionCodesPost(t *testing.T) {
 
 func TestPromotionCodesPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
-	params := &stripe.PromotionCodeParams{Coupon: stripe.String("Z4OV52SU")}
+	params := &stripe.PromotionCodeParams{
+		Promotion: &stripe.PromotionCodePromotionParams{
+			Type:   stripe.String("coupon"),
+			Coupon: stripe.String("Z4OV52SU"),
+		},
+	}
 	result, err := sc.PromotionCodes.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6495,7 +6505,12 @@ func TestPromotionCodesPostService(t *testing.T) {
 
 func TestPromotionCodesPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
-	params := &stripe.PromotionCodeCreateParams{Coupon: stripe.String("Z4OV52SU")}
+	params := &stripe.PromotionCodeCreateParams{
+		Promotion: &stripe.PromotionCodeCreatePromotionParams{
+			Type:   stripe.String("coupon"),
+			Coupon: stripe.String("Z4OV52SU"),
+		},
+	}
 	result, err := sc.V1PromotionCodes.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8176,7 +8191,6 @@ func TestSubscriptionSchedulesPost(t *testing.T) {
 						Quantity: stripe.Int64(1),
 					},
 				},
-				Iterations: stripe.Int64(12),
 			},
 		},
 	}
@@ -8199,7 +8213,6 @@ func TestSubscriptionSchedulesPostService(t *testing.T) {
 						Quantity: stripe.Int64(1),
 					},
 				},
-				Iterations: stripe.Int64(12),
 			},
 		},
 	}
@@ -8222,7 +8235,6 @@ func TestSubscriptionSchedulesPostClient(t *testing.T) {
 						Quantity: stripe.Int64(1),
 					},
 				},
-				Iterations: stripe.Int64(12),
 			},
 		},
 	}
@@ -12823,7 +12835,7 @@ func TestWebhookEndpointsPost2Client(t *testing.T) {
 func TestCoreEventsGetService(t *testing.T) {
 	params := &stripe.V2CoreEventParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -12836,7 +12848,7 @@ func TestCoreEventsGetService(t *testing.T) {
 func TestCoreEventsGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -12983,10 +12995,475 @@ func TestV2BillingMeterEventStreamPostClient(t *testing.T) {
 	sc.V2BillingMeterEventStreams.Create(context.TODO(), params)
 }
 
-func TestV2CoreEventGetService(t *testing.T) {
-	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
+func TestV2CoreAccountGetService(t *testing.T) {
+	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreAccounts.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreAccountGetClient(t *testing.T) {
+	params := &stripe.V2CoreAccountListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreAccounts.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreAccountPostService(t *testing.T) {
+	params := &stripe.V2CoreAccountParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccounts.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountPostClient(t *testing.T) {
+	params := &stripe.V2CoreAccountCreateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccounts.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountGet2Service(t *testing.T) {
+	params := &stripe.V2CoreAccountParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccounts.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountGet2Client(t *testing.T) {
+	params := &stripe.V2CoreAccountRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccounts.Retrieve(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountPost2Service(t *testing.T) {
+	params := &stripe.V2CoreAccountParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccounts.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountPost2Client(t *testing.T) {
+	params := &stripe.V2CoreAccountUpdateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccounts.Update(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountPost3Service(t *testing.T) {
+	params := &stripe.V2CoreAccountCloseParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccounts.Close("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountPost3Client(t *testing.T) {
+	params := &stripe.V2CoreAccountCloseParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccounts.Close(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonGetService(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonListParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons", params, "{\"data\":[{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreAccountsPersons.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreAccountsPersonGetClient(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonListParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons", params, "{\"data\":[{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreAccountsPersons.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreAccountsPersonPostService(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountsPersons.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonPostClient(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonCreateParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountsPersons.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonDeleteService(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodDelete, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountsPersons.Del("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonDeleteClient(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonDeleteParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodDelete, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountsPersons.Delete(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonGet2Service(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountsPersons.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonGet2Client(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonRetrieveParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountsPersons.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonPost2Service(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountsPersons.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonPost2Client(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonUpdateParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountsPersons.Update(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonTokenPostService(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonTokenParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/person_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_person_token\",\"used\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountsPersonTokens.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonTokenPostClient(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonTokenCreateParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/person_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_person_token\",\"used\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountsPersonTokens.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonTokenGetService(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonTokenParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/person_tokens/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_person_token\",\"used\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountsPersonTokens.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountsPersonTokenGetClient(t *testing.T) {
+	params := &stripe.V2CoreAccountsPersonTokenRetrieveParams{
+		AccountID: stripe.String("account_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/person_tokens/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_person_token\",\"used\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountsPersonTokens.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountLinkPostService(t *testing.T) {
+	params := &stripe.V2CoreAccountLinkParams{
+		Account: stripe.String("account"),
+		UseCase: &stripe.V2CoreAccountLinkUseCaseParams{
+			Type: stripe.String("account_onboarding"),
+			AccountOnboarding: &stripe.V2CoreAccountLinkUseCaseAccountOnboardingParams{
+				CollectionOptions: &stripe.V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsParams{
+					Fields:             stripe.String("eventually_due"),
+					FutureRequirements: stripe.String("include"),
+				},
+				Configurations: []*string{stripe.String("merchant")},
+				RefreshURL:     stripe.String("refresh_url"),
+				ReturnURL:      stripe.String("return_url"),
+			},
+			AccountUpdate: &stripe.V2CoreAccountLinkUseCaseAccountUpdateParams{
+				CollectionOptions: &stripe.V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsParams{
+					Fields:             stripe.String("eventually_due"),
+					FutureRequirements: stripe.String("include"),
+				},
+				Configurations: []*string{stripe.String("merchant")},
+				RefreshURL:     stripe.String("refresh_url"),
+				ReturnURL:      stripe.String("return_url"),
+			},
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/account_links", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"object\":\"v2.core.account_link\",\"url\":\"url\",\"use_case\":{\"type\":\"account_onboarding\"},\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountLinks.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountLinkPostClient(t *testing.T) {
+	params := &stripe.V2CoreAccountLinkCreateParams{
+		Account: stripe.String("account"),
+		UseCase: &stripe.V2CoreAccountLinkCreateUseCaseParams{
+			Type: stripe.String("account_onboarding"),
+			AccountOnboarding: &stripe.V2CoreAccountLinkCreateUseCaseAccountOnboardingParams{
+				CollectionOptions: &stripe.V2CoreAccountLinkCreateUseCaseAccountOnboardingCollectionOptionsParams{
+					Fields:             stripe.String("eventually_due"),
+					FutureRequirements: stripe.String("include"),
+				},
+				Configurations: []*string{stripe.String("merchant")},
+				RefreshURL:     stripe.String("refresh_url"),
+				ReturnURL:      stripe.String("return_url"),
+			},
+			AccountUpdate: &stripe.V2CoreAccountLinkCreateUseCaseAccountUpdateParams{
+				CollectionOptions: &stripe.V2CoreAccountLinkCreateUseCaseAccountUpdateCollectionOptionsParams{
+					Fields:             stripe.String("eventually_due"),
+					FutureRequirements: stripe.String("include"),
+				},
+				Configurations: []*string{stripe.String("merchant")},
+				RefreshURL:     stripe.String("refresh_url"),
+				ReturnURL:      stripe.String("return_url"),
+			},
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/account_links", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"object\":\"v2.core.account_link\",\"url\":\"url\",\"use_case\":{\"type\":\"account_onboarding\"},\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountLinks.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountTokenPostService(t *testing.T) {
+	params := &stripe.V2CoreAccountTokenParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/account_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountTokens.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountTokenPostClient(t *testing.T) {
+	params := &stripe.V2CoreAccountTokenCreateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/account_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountTokens.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountTokenGetService(t *testing.T) {
+	params := &stripe.V2CoreAccountTokenParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/account_tokens/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreAccountTokens.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreAccountTokenGetClient(t *testing.T) {
+	params := &stripe.V2CoreAccountTokenRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/account_tokens/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreAccountTokens.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreEventGetService(t *testing.T) {
+	params := &stripe.V2CoreEventListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -12996,9 +13473,9 @@ func TestV2CoreEventGetService(t *testing.T) {
 }
 
 func TestV2CoreEventGetClient(t *testing.T) {
-	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
+	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13010,7 +13487,7 @@ func TestV2CoreEventGetClient(t *testing.T) {
 func TestV2CoreEventGet2Service(t *testing.T) {
 	params := &stripe.V2CoreEventParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13023,7 +13500,7 @@ func TestV2CoreEventGet2Service(t *testing.T) {
 func TestV2CoreEventGet2Client(t *testing.T) {
 	params := &stripe.V2CoreEventRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13036,7 +13513,7 @@ func TestV2CoreEventGet2Client(t *testing.T) {
 func TestV2CoreEventDestinationGetService(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/event_destinations", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/event_destinations", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13048,7 +13525,7 @@ func TestV2CoreEventDestinationGetService(t *testing.T) {
 func TestV2CoreEventDestinationGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/event_destinations", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/event_destinations", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13065,7 +13542,7 @@ func TestV2CoreEventDestinationPostService(t *testing.T) {
 		Type:          stripe.String("amazon_eventbridge"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13083,7 +13560,7 @@ func TestV2CoreEventDestinationPostClient(t *testing.T) {
 		Type:          stripe.String("amazon_eventbridge"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13096,7 +13573,7 @@ func TestV2CoreEventDestinationPostClient(t *testing.T) {
 func TestV2CoreEventDestinationDeleteService(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationParams{}
 	testServer := MockServer(
-		t, http.MethodDelete, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodDelete, "/v2/core/event_destinations/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13109,7 +13586,7 @@ func TestV2CoreEventDestinationDeleteService(t *testing.T) {
 func TestV2CoreEventDestinationDeleteClient(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationDeleteParams{}
 	testServer := MockServer(
-		t, http.MethodDelete, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodDelete, "/v2/core/event_destinations/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13123,7 +13600,7 @@ func TestV2CoreEventDestinationDeleteClient(t *testing.T) {
 func TestV2CoreEventDestinationGet2Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodGet, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13136,7 +13613,7 @@ func TestV2CoreEventDestinationGet2Service(t *testing.T) {
 func TestV2CoreEventDestinationGet2Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodGet, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13150,7 +13627,7 @@ func TestV2CoreEventDestinationGet2Client(t *testing.T) {
 func TestV2CoreEventDestinationPost2Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13163,7 +13640,7 @@ func TestV2CoreEventDestinationPost2Service(t *testing.T) {
 func TestV2CoreEventDestinationPost2Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13177,7 +13654,7 @@ func TestV2CoreEventDestinationPost2Client(t *testing.T) {
 func TestV2CoreEventDestinationPost3Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationDisableParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/disable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/disable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13190,7 +13667,7 @@ func TestV2CoreEventDestinationPost3Service(t *testing.T) {
 func TestV2CoreEventDestinationPost3Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationDisableParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/disable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/disable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13204,7 +13681,7 @@ func TestV2CoreEventDestinationPost3Client(t *testing.T) {
 func TestV2CoreEventDestinationPost4Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationEnableParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/enable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/enable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13217,7 +13694,7 @@ func TestV2CoreEventDestinationPost4Service(t *testing.T) {
 func TestV2CoreEventDestinationPost4Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationEnableParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/enable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"events_from\":null,\"id\":\"obj_123\",\"metadata\":null,\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"snapshot_api_version\":null,\"status\":\"disabled\",\"status_details\":null,\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true,\"amazon_eventbridge\":null,\"webhook_endpoint\":null}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/enable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13231,7 +13708,7 @@ func TestV2CoreEventDestinationPost4Client(t *testing.T) {
 func TestV2CoreEventDestinationPost5Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationPingParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13244,12 +13721,13 @@ func TestV2CoreEventDestinationPost5Service(t *testing.T) {
 func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationPingParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreEventDestinations.Ping("id_123", params)
+	result, err := sc.V2CoreEventDestinations.Ping(
+		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }

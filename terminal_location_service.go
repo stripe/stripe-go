@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1TerminalLocationService is used to invoke /v1/terminal/locations APIs.
@@ -74,13 +74,13 @@ func (c v1TerminalLocationService) List(ctx context.Context, listParams *Termina
 		listParams = &TerminalLocationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TerminalLocation, ListContainer, error) {
-		list := &TerminalLocationList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TerminalLocation], error) {
+		list := &v1Page[*TerminalLocation]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/locations", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

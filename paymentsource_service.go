@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1PaymentSourceService is used to invoke /v1/customers/{customer}/sources APIs.
@@ -104,13 +104,13 @@ func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSou
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/sources", StringValue(listParams.Customer))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentSource, ListContainer, error) {
-		list := &PaymentSourceList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentSource], error) {
+		list := &v1Page[*PaymentSource]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

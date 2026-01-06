@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1TerminalConfigurationService is used to invoke /v1/terminal/configurations APIs.
@@ -73,13 +73,13 @@ func (c v1TerminalConfigurationService) List(ctx context.Context, listParams *Te
 		listParams = &TerminalConfigurationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TerminalConfiguration, ListContainer, error) {
-		list := &TerminalConfigurationList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TerminalConfiguration], error) {
+		list := &v1Page[*TerminalConfiguration]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/configurations", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

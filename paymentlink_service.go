@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1PaymentLinkService is used to invoke /v1/payment_links APIs.
@@ -61,14 +61,14 @@ func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkL
 		listParams = &PaymentLinkListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentLink, ListContainer, error) {
-		list := &PaymentLinkList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentLink], error) {
+		list := &v1Page[*PaymentLink]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_links", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -80,13 +80,13 @@ func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *Pay
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/payment_links/%s/line_items", StringValue(listParams.PaymentLink))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
-		list := &LineItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
+		list := &v1Page[*LineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

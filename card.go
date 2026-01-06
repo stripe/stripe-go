@@ -9,7 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 	"strconv"
 )
 
@@ -54,7 +54,7 @@ const (
 	CardAvailablePayoutMethodStandard CardAvailablePayoutMethod = "standard"
 )
 
-// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
+// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 type CardBrand string
 
 // List of values that CardBrand can take
@@ -329,10 +329,6 @@ type CardUpdateParams struct {
 	Params   `form:"*"`
 	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
-	// The name of the person or business that owns the bank account.
-	AccountHolderName *string `form:"account_holder_name"`
-	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
 	// City/District/Suburb/Town/Village.
 	AddressCity *string `form:"address_city"`
 	// Billing address country, if provided when creating card.
@@ -345,10 +341,6 @@ type CardUpdateParams struct {
 	AddressState *string `form:"address_state"`
 	// ZIP or postal code.
 	AddressZip *string `form:"address_zip"`
-	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
-	Currency *string `form:"currency"`
-	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
-	CVC *string `form:"cvc"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Specifies which fields in the response should be expanded.
@@ -357,13 +349,10 @@ type CardUpdateParams struct {
 	ExpMonth *string `form:"exp_month"`
 	// Four digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
-	// The card number, as a string without any separators.
-	Number *string                `form:"number"`
-	Owner  *CardUpdateOwnerParams `form:"owner"`
 }
 
 // AddExpand appends a new field to expand.
@@ -560,7 +549,7 @@ type CardNetworks struct {
 // later. You can also store multiple debit cards on a recipient in order to
 // transfer to those cards later.
 //
-// Related guide: [Card payments with Sources](https://stripe.com/docs/sources/cards)
+// Related guide: [Card payments with Sources](https://docs.stripe.com/sources/cards)
 type Card struct {
 	APIResource
 	Account *Account `json:"account"`
@@ -584,7 +573,7 @@ type Card struct {
 	AllowRedisplay CardAllowRedisplay `json:"allow_redisplay"`
 	// A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
 	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
-	// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
+	// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 	Brand CardBrand `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
@@ -631,7 +620,7 @@ type Card struct {
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Cardholder name.
 	Name     string        `json:"name"`

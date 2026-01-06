@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
+	stripe "github.com/stripe/stripe-go/v84"
 )
 
 // Client is used to invoke /v1/customers/{customer}/cash_balance APIs.

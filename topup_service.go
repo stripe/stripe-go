@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1TopupService is used to invoke /v1/topups APIs.
@@ -72,13 +72,13 @@ func (c v1TopupService) List(ctx context.Context, listParams *TopupListParams) S
 		listParams = &TopupListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Topup, ListContainer, error) {
-		list := &TopupList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Topup], error) {
+		list := &v1Page[*Topup]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/topups", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

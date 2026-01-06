@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1SigmaScheduledQueryRunService is used to invoke /v1/sigma/scheduled_query_runs APIs.
@@ -37,13 +37,13 @@ func (c v1SigmaScheduledQueryRunService) List(ctx context.Context, listParams *S
 		listParams = &SigmaScheduledQueryRunListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SigmaScheduledQueryRun, ListContainer, error) {
-		list := &SigmaScheduledQueryRunList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*SigmaScheduledQueryRun], error) {
+		list := &v1Page[*SigmaScheduledQueryRun]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/sigma/scheduled_query_runs", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

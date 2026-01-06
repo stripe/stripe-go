@@ -1,14 +1,15 @@
 package rawrequest
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	_ "github.com/stripe/stripe-go/v82/testing"
+	stripe "github.com/stripe/stripe-go/v84"
+	_ "github.com/stripe/stripe-go/v84/testing"
 )
 
 func createTestClient(testServer *httptest.Server) Client {
@@ -33,7 +34,7 @@ func TestV2PostRequest(t *testing.T) {
 	var method string
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -65,7 +66,7 @@ func TestRawV1PostRequest(t *testing.T) {
 	var method string
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -99,7 +100,7 @@ func TestV2GetRequestWithAdditionalHeaders(t *testing.T) {
 	var fooHeader string
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -128,4 +129,38 @@ func TestV2GetRequestWithAdditionalHeaders(t *testing.T) {
 	assert.Equal(t, `acct_123`, stripeContext)
 	assert.NoError(t, err)
 	defer testServer.Close()
+}
+
+// TestRawRequestTimeout_NilResponsePanic tests the segmentation fault described in
+// https://github.com/stripe/stripe-go/issues/2211
+// This test reproduces the actual scenario from the issue where a RawRequest
+// times out, causing http.Client.Do to return a nil response with an error,
+// which then leads to a nil pointer dereference in handleResponseBufferingErrors.
+func TestRawRequestTimeout_NilResponsePanic(t *testing.T) {
+	// Create a test server that deliberately times out by never responding
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Simulate a slow endpoint that exceeds the timeout
+		// Don't write any response, causing the client to timeout
+		select {}
+	}))
+	defer testServer.Close()
+
+	// Create a backend with a very short timeout
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LeveledLogger: &stripe.LeveledLogger{
+				Level: stripe.LevelNull,
+			},
+			MaxNetworkRetries: stripe.Int64(0),
+			URL:               stripe.String(testServer.URL),
+			HTTPClient: &http.Client{
+				Timeout: 1 * time.Nanosecond,
+			},
+		},
+	).(*stripe.BackendImplementation)
+	client := Client{B: backend, Key: "sk_test_123"}
+
+	_, err := client.RawRequest(http.MethodPost, "/v2/billing/meter_event_stream", `{"events":[]}`, nil)
+	assert.Error(t, err)
 }

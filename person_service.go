@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1PersonService is used to invoke /v1/accounts/{account}/persons APIs.
@@ -78,13 +78,13 @@ func (c v1PersonService) List(ctx context.Context, listParams *PersonListParams)
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/accounts/%s/persons", StringValue(listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Person, ListContainer, error) {
-		list := &PersonList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Person], error) {
+		list := &v1Page[*Person]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

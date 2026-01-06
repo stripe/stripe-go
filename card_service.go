@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1CardService is used to invoke card related APIs.
@@ -128,11 +128,11 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 			StringValue(listParams.Customer))
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Card, ListContainer, error) {
-		list := &CardList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Card], error) {
+		list := &v1Page[*Card]{}
 
 		if outerErr != nil {
-			return nil, nil, outerErr
+			return nil, outerErr
 		}
 
 		if p == nil {
@@ -140,6 +140,6 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

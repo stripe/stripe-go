@@ -247,7 +247,7 @@ type IdentityVerificationReportDocument struct {
 	Error *IdentityVerificationReportDocumentError `json:"error"`
 	// Expiration date of the document.
 	ExpirationDate *IdentityVerificationReportDocumentExpirationDate `json:"expiration_date"`
-	// Array of [File](https://stripe.com/docs/api/files) ids containing images for this document.
+	// Array of [File](https://docs.stripe.com/api/files) ids containing images for this document.
 	Files []string `json:"files"`
 	// First name as it appears in the document.
 	FirstName string `json:"first_name"`
@@ -327,11 +327,11 @@ type IdentityVerificationReportIDNumber struct {
 type IdentityVerificationReportOptionsDocument struct {
 	// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
 	AllowedTypes []IdentityVerificationReportOptionsDocumentAllowedType `json:"allowed_types"`
-	// Collect an ID number and perform an [ID number check](https://stripe.com/docs/identity/verification-checks?type=id-number) with the document's extracted name and date of birth.
+	// Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document's extracted name and date of birth.
 	RequireIDNumber bool `json:"require_id_number"`
 	// Disable image uploads, identity document images have to be captured using the device's camera.
 	RequireLiveCapture bool `json:"require_live_capture"`
-	// Capture a face image and perform a [selfie check](https://stripe.com/docs/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://stripe.com/docs/identity/selfie).
+	// Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://docs.stripe.com/identity/selfie).
 	RequireMatchingSelfie bool `json:"require_matching_selfie"`
 }
 type IdentityVerificationReportOptionsIDNumber struct{}
@@ -368,11 +368,11 @@ type IdentityVerificationReportSelfieError struct {
 
 // Result from a selfie check
 type IdentityVerificationReportSelfie struct {
-	// ID of the [File](https://stripe.com/docs/api/files) holding the image of the identity document used in this check.
+	// ID of the [File](https://docs.stripe.com/api/files) holding the image of the identity document used in this check.
 	Document string `json:"document"`
 	// Details on the verification error. Present when status is `unverified`.
 	Error *IdentityVerificationReportSelfieError `json:"error"`
-	// ID of the [File](https://stripe.com/docs/api/files) holding the image of the selfie used in this check.
+	// ID of the [File](https://docs.stripe.com/api/files) holding the image of the selfie used in this check.
 	Selfie string `json:"selfie"`
 	// Status of this `selfie` check.
 	Status IdentityVerificationReportSelfieStatus `json:"status"`
@@ -384,11 +384,11 @@ type IdentityVerificationReportSelfie struct {
 // appropriate sub-resource: `document`, `id_number`, `selfie`.
 //
 // Each VerificationReport contains a copy of any data collected by the user as well as
-// reference IDs which can be used to access collected images through the [FileUpload](https://stripe.com/docs/api/files)
+// reference IDs which can be used to access collected images through the [FileUpload](https://docs.stripe.com/api/files)
 // API. To configure and create VerificationReports, use the
-// [VerificationSession](https://stripe.com/docs/api/identity/verification_sessions) API.
+// [VerificationSession](https://docs.stripe.com/api/identity/verification_sessions) API.
 //
-// Related guide: [Accessing verification results](https://stripe.com/docs/identity/verification-sessions#results).
+// Related guide: [Accessing verification results](https://docs.stripe.com/identity/verification-sessions#results).
 type IdentityVerificationReport struct {
 	APIResource
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.

@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1TreasuryOutboundTransferService is used to invoke /v1/treasury/outbound_transfers APIs.
@@ -61,13 +61,13 @@ func (c v1TreasuryOutboundTransferService) List(ctx context.Context, listParams 
 		listParams = &TreasuryOutboundTransferListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryOutboundTransfer, ListContainer, error) {
-		list := &TreasuryOutboundTransferList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TreasuryOutboundTransfer], error) {
+		list := &v1Page[*TreasuryOutboundTransfer]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/treasury/outbound_transfers", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

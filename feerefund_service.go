@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1FeeRefundService is used to invoke /v1/application_fees/{id}/refunds APIs.
@@ -83,13 +83,13 @@ func (c v1FeeRefundService) List(ctx context.Context, listParams *FeeRefundListP
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/application_fees/%s/refunds", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FeeRefund, ListContainer, error) {
-		list := &FeeRefundList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FeeRefund], error) {
+		list := &v1Page[*FeeRefund]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

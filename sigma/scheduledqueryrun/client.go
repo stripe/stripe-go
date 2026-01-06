@@ -11,8 +11,8 @@ package scheduledqueryrun
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/form"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // Client is used to invoke /v1/sigma/scheduled_query_runs APIs.

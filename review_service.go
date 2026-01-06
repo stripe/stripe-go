@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1ReviewService is used to invoke /v1/reviews APIs.
@@ -49,13 +49,13 @@ func (c v1ReviewService) List(ctx context.Context, listParams *ReviewListParams)
 		listParams = &ReviewListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Review, ListContainer, error) {
-		list := &ReviewList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Review], error) {
+		list := &v1Page[*Review]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/reviews", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

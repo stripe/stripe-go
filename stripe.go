@@ -9,7 +9,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -21,7 +20,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 //
@@ -508,7 +507,7 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	}
 	requestID := resp.Header.Get("Request-Id")
 	s.maybeEnqueueTelemetryMetrics(requestID, requestDuration, []string{"raw_request"})
-	body, err := ioutil.ReadAll(result.(io.ReadCloser))
+	body, err := io.ReadAll(result.(io.ReadCloser))
 	if err != nil {
 		return nil, err
 	}
@@ -782,7 +781,7 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	// Some sort of connection error
 	if err != nil {
 		s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		return res.Body, err
+		return nil, err
 	}
 
 	// Successful response, return the body ReadCloser
@@ -793,7 +792,7 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	// Failure: try and parse the json of the response
 	// when logging the error
 	var resBody []byte
-	resBody, err = ioutil.ReadAll(res.Body)
+	resBody, err = io.ReadAll(res.Body)
 	res.Body.Close()
 	if err == nil {
 		err = s.ResponseToError(res, resBody)
@@ -828,7 +827,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		var resBody []byte
 		if err == nil {
-			resBody, err = ioutil.ReadAll(res.Body)
+			resBody, err = io.ReadAll(res.Body)
 			res.Body.Close()
 		}
 
@@ -927,9 +926,14 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 
 	// need to return a generic error in this case
 	if raw.Error == nil {
-		err := errors.New(string(resBody))
+		err := errors.New("error deserialization failed: " + string(resBody))
 		return err
 	}
+
+	// Set the HTTP status code and request ID on the error, which are
+	// not included in the response body.
+	raw.Error.HTTPStatusCode = res.StatusCode
+	raw.Error.RequestID = res.Header.Get("Request-Id")
 
 	if raw.Error.Type == nil {
 		return raw.Error
@@ -1470,7 +1474,7 @@ func TimeValue(v *time.Time) time.Time {
 //
 
 // clientversion is the binding version
-const clientversion = "82.5.0"
+const clientversion = "84.1.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

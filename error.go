@@ -43,6 +43,7 @@ const (
 	ErrorCodeAccountInformationMismatch                                  ErrorCode = "account_information_mismatch"
 	ErrorCodeAccountInvalid                                              ErrorCode = "account_invalid"
 	ErrorCodeAccountNumberInvalid                                        ErrorCode = "account_number_invalid"
+	ErrorCodeAccountTokenRequiredForV2Account                            ErrorCode = "account_token_required_for_v2_account"
 	ErrorCodeAlipayUpgradeRequired                                       ErrorCode = "alipay_upgrade_required"
 	ErrorCodeAmountTooLarge                                              ErrorCode = "amount_too_large"
 	ErrorCodeAmountTooSmall                                              ErrorCode = "amount_too_small"
@@ -84,6 +85,8 @@ const (
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
 	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
+	ErrorCodeFinancialConnectionsAccountPendingAccountNumbers            ErrorCode = "financial_connections_account_pending_account_numbers"
+	ErrorCodeFinancialConnectionsAccountUnavailableAccountNumbers        ErrorCode = "financial_connections_account_unavailable_account_numbers"
 	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeForwardingAPIInactive                                       ErrorCode = "forwarding_api_inactive"
 	ErrorCodeForwardingAPIInvalidParameter                               ErrorCode = "forwarding_api_invalid_parameter"
@@ -143,6 +146,7 @@ const (
 	ErrorCodePaymentIntentMandateInvalid                                 ErrorCode = "payment_intent_mandate_invalid"
 	ErrorCodePaymentIntentPaymentAttemptExpired                          ErrorCode = "payment_intent_payment_attempt_expired"
 	ErrorCodePaymentIntentPaymentAttemptFailed                           ErrorCode = "payment_intent_payment_attempt_failed"
+	ErrorCodePaymentIntentRateLimitExceeded                              ErrorCode = "payment_intent_rate_limit_exceeded"
 	ErrorCodePaymentIntentUnexpectedState                                ErrorCode = "payment_intent_unexpected_state"
 	ErrorCodePaymentMethodBankAccountAlreadyVerified                     ErrorCode = "payment_method_bank_account_already_verified"
 	ErrorCodePaymentMethodBankAccountBlocked                             ErrorCode = "payment_method_bank_account_blocked"
@@ -414,7 +418,7 @@ func (e *IdempotencyError) Error() string {
 
 // errorStructs: The beginning of the section generated from our OpenAPI spec
 
-// TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired."
+// TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired".
 // The temporary session token has expired.
 type TemporarySessionExpiredError struct {
 	APIResource
@@ -449,6 +453,10 @@ type V2RawError struct {
 	Type       *ErrorType `json:"type,omitempty"`
 	Message    string     `json:"message"`
 	UserMesage *string    `json:"user_message,omitempty"`
+	// HTTPStatusCode is the HTTP status code of the response returned by Stripe.
+	HTTPStatusCode int `json:"status,omitempty"`
+	// RequestID is the ID of the request, as returned by Stripe.
+	RequestID string `json:"request_id,omitempty"`
 }
 
 func (e *V2RawError) Error() string {

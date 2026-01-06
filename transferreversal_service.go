@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1TransferReversalService is used to invoke /v1/transfers/{id}/reversals APIs.
@@ -71,13 +71,13 @@ func (c v1TransferReversalService) List(ctx context.Context, listParams *Transfe
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/transfers/%s/reversals", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TransferReversal, ListContainer, error) {
-		list := &TransferReversalList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TransferReversal], error) {
+		list := &v1Page[*TransferReversal]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1RadarValueListItemService is used to invoke /v1/radar/value_list_items APIs.
@@ -61,13 +61,13 @@ func (c v1RadarValueListItemService) List(ctx context.Context, listParams *Radar
 		listParams = &RadarValueListItemListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*RadarValueListItem, ListContainer, error) {
-		list := &RadarValueListItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*RadarValueListItem], error) {
+		list := &v1Page[*RadarValueListItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_list_items", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

@@ -9,14 +9,14 @@ package stripe
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 	"io"
 	"mime/multipart"
 	"net/url"
 	"path/filepath"
 )
 
-// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
+// The [purpose](https://docs.stripe.com/file-upload#uploading-a-file) of the uploaded file.
 type FilePurpose string
 
 // List of values that FilePurpose can take
@@ -34,6 +34,7 @@ const (
 	FilePurposeIdentityDocumentDownloadable     FilePurpose = "identity_document_downloadable"
 	FilePurposeIssuingRegulatoryReporting       FilePurpose = "issuing_regulatory_reporting"
 	FilePurposePCIDocument                      FilePurpose = "pci_document"
+	FilePurposePlatformTermsOfService           FilePurpose = "platform_terms_of_service"
 	FilePurposeSelfie                           FilePurpose = "selfie"
 	FilePurposeSigmaScheduledQuery              FilePurpose = "sigma_scheduled_query"
 	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"
@@ -59,14 +60,14 @@ func (p *FileListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
+// Optional parameters that automatically create a [file link](https://api.stripe.com#file_links) for the newly created file.
 type FileFileLinkDataParams struct {
 	Params `form:"*"`
 	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `issuing_regulatory_reporting`, `pci_document`, `tax_document_user_upload`, `terminal_android_apk`, or `terminal_reader_splashscreen`.
 	Create *bool `form:"create"`
 	// The link isn't available after this future timestamp.
 	ExpiresAt *int64 `form:"expires_at"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -91,9 +92,9 @@ type FileParams struct {
 
 	// Filename is just the name of the file without path information.
 	Filename *string
-	// Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
+	// Optional parameters that automatically create a [file link](https://api.stripe.com#file_links) for the newly created file.
 	FileLinkData *FileFileLinkDataParams `form:"file_link_data"`
-	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
+	// The [purpose](https://docs.stripe.com/file-upload#uploading-a-file) of the uploaded file.
 	Purpose *string `form:"purpose"`
 }
 
@@ -153,14 +154,14 @@ func (p *FileParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
+// Optional parameters that automatically create a [file link](https://api.stripe.com#file_links) for the newly created file.
 type FileCreateFileLinkDataParams struct {
 	Params `form:"*"`
 	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `issuing_regulatory_reporting`, `pci_document`, `tax_document_user_upload`, `terminal_android_apk`, or `terminal_reader_splashscreen`.
 	Create *bool `form:"create"`
 	// The link isn't available after this future timestamp.
 	ExpiresAt *int64 `form:"expires_at"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -185,9 +186,9 @@ type FileCreateParams struct {
 
 	// Filename is just the name of the file without path information.
 	Filename *string
-	// Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
+	// Optional parameters that automatically create a [file link](https://api.stripe.com#file_links) for the newly created file.
 	FileLinkData *FileCreateFileLinkDataParams `form:"file_link_data"`
-	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
+	// The [purpose](https://docs.stripe.com/file-upload#uploading-a-file) of the uploaded file.
 	Purpose *string `form:"purpose"`
 }
 
@@ -260,12 +261,12 @@ func (p *FileRetrieveParams) AddExpand(f string) {
 }
 
 // This object represents files hosted on Stripe's servers. You can upload
-// files with the [create file](https://stripe.com/docs/api#create_file) request
+// files with the [create file](https://api.stripe.com#create_file) request
 // (for example, when uploading dispute evidence). Stripe also
 // creates files independently (for example, the results of a [Sigma scheduled
 // query](https://docs.stripe.com/api#scheduled_queries)).
 //
-// Related guide: [File upload guide](https://stripe.com/docs/file-upload)
+// Related guide: [File upload guide](https://docs.stripe.com/file-upload)
 type File struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -276,11 +277,11 @@ type File struct {
 	Filename string `json:"filename"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// A list of [file links](https://stripe.com/docs/api#file_links) that point at this file.
+	// A list of [file links](https://api.stripe.com#file_links) that point at this file.
 	Links *FileLinkList `json:"links"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
+	// The [purpose](https://docs.stripe.com/file-upload#uploading-a-file) of the uploaded file.
 	Purpose FilePurpose `json:"purpose"`
 	// The size of the file object in bytes.
 	Size int64 `json:"size"`

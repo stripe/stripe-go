@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v84"
 )
 
 //
@@ -218,6 +218,10 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 		return e, err
 	}
 
+	if err := checkEventNotification(payload); err != nil {
+		return e, err
+	}
+
 	if err := json.Unmarshal(payload, &e); err != nil {
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
@@ -227,7 +231,21 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 	}
 
 	return e, nil
+}
 
+func checkEventNotification(payload []byte) error {
+	e := struct {
+		Object string `json:"object"`
+	}{}
+	if err := json.Unmarshal(payload, &e); err != nil {
+		return fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
+	}
+
+	if e.Object != "event" {
+		return fmt.Errorf("Did you use ConstructEvent to parse an EventNotification? If so, use ParseEventNotification instead.")
+	}
+
+	return nil
 }
 
 func parseSignatureHeader(header string) (*signedHeader, error) {

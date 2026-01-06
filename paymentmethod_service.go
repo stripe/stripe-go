@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1PaymentMethodService is used to invoke /v1/payment_methods APIs.
@@ -93,19 +93,19 @@ func (c v1PaymentMethodService) Detach(ctx context.Context, id string, params *P
 	return paymentmethod, err
 }
 
-// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer_list) API instead.
+// Returns a list of all PaymentMethods.
 func (c v1PaymentMethodService) List(ctx context.Context, listParams *PaymentMethodListParams) Seq2[*PaymentMethod, error] {
 	if listParams == nil {
 		listParams = &PaymentMethodListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentMethod, ListContainer, error) {
-		list := &PaymentMethodList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentMethod], error) {
+		list := &v1Page[*PaymentMethod]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_methods", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1TaxTransactionService is used to invoke /v1/tax/transactions APIs.
@@ -63,13 +63,13 @@ func (c v1TaxTransactionService) ListLineItems(ctx context.Context, listParams *
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/tax/transactions/%s/line_items", StringValue(listParams.Transaction))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxTransactionLineItem, ListContainer, error) {
-		list := &TaxTransactionLineItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TaxTransactionLineItem], error) {
+		list := &v1Page[*TaxTransactionLineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

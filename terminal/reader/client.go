@@ -10,8 +10,8 @@ package reader
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/form"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // Client is used to invoke /v1/terminal/readers APIs.
@@ -91,12 +91,12 @@ func (c Client) Del(id string, params *stripe.TerminalReaderParams) (*stripe.Ter
 	return reader, err
 }
 
-// Cancels the current reader action.
+// Cancels the current reader action. See [Programmatic Cancellation](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven#programmatic-cancellation) for more details.
 func CancelAction(id string, params *stripe.TerminalReaderCancelActionParams) (*stripe.TerminalReader, error) {
 	return getC().CancelAction(id, params)
 }
 
-// Cancels the current reader action.
+// Cancels the current reader action. See [Programmatic Cancellation](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven#programmatic-cancellation) for more details.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -108,12 +108,12 @@ func (c Client) CancelAction(id string, params *stripe.TerminalReaderCancelActio
 	return reader, err
 }
 
-// Initiates an input collection flow on a Reader.
+// Initiates an [input collection flow](https://docs.stripe.com/docs/terminal/features/collect-inputs) on a Reader to display input forms and collect information from your customers.
 func CollectInputs(id string, params *stripe.TerminalReaderCollectInputsParams) (*stripe.TerminalReader, error) {
 	return getC().CollectInputs(id, params)
 }
 
-// Initiates an input collection flow on a Reader.
+// Initiates an [input collection flow](https://docs.stripe.com/docs/terminal/features/collect-inputs) on a Reader to display input forms and collect information from your customers.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -125,12 +125,12 @@ func (c Client) CollectInputs(id string, params *stripe.TerminalReaderCollectInp
 	return reader, err
 }
 
-// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
+// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation. See [Collecting a Payment method](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=inspect#collect-a-paymentmethod) for more details.
 func CollectPaymentMethod(id string, params *stripe.TerminalReaderCollectPaymentMethodParams) (*stripe.TerminalReader, error) {
 	return getC().CollectPaymentMethod(id, params)
 }
 
-// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
+// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation. See [Collecting a Payment method](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=inspect#collect-a-paymentmethod) for more details.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -143,12 +143,12 @@ func (c Client) CollectPaymentMethod(id string, params *stripe.TerminalReaderCol
 	return reader, err
 }
 
-// Finalizes a payment on a Reader.
+// Finalizes a payment on a Reader. See [Confirming a Payment](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=inspect#confirm-the-paymentintent) for more details.
 func ConfirmPaymentIntent(id string, params *stripe.TerminalReaderConfirmPaymentIntentParams) (*stripe.TerminalReader, error) {
 	return getC().ConfirmPaymentIntent(id, params)
 }
 
-// Finalizes a payment on a Reader.
+// Finalizes a payment on a Reader. See [Confirming a Payment](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=inspect#confirm-the-paymentintent) for more details.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -161,12 +161,12 @@ func (c Client) ConfirmPaymentIntent(id string, params *stripe.TerminalReaderCon
 	return reader, err
 }
 
-// Initiates a payment flow on a Reader.
+// Initiates a payment flow on a Reader. See [process the payment](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=immediately#process-payment) for more details.
 func ProcessPaymentIntent(id string, params *stripe.TerminalReaderProcessPaymentIntentParams) (*stripe.TerminalReader, error) {
 	return getC().ProcessPaymentIntent(id, params)
 }
 
-// Initiates a payment flow on a Reader.
+// Initiates a payment flow on a Reader. See [process the payment](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven&process=immediately#process-payment) for more details.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -179,12 +179,12 @@ func (c Client) ProcessPaymentIntent(id string, params *stripe.TerminalReaderPro
 	return reader, err
 }
 
-// Initiates a setup intent flow on a Reader.
+// Initiates a SetupIntent flow on a Reader. See [Save directly without charging](https://docs.stripe.com/docs/terminal/features/saving-payment-details/save-directly) for more details.
 func ProcessSetupIntent(id string, params *stripe.TerminalReaderProcessSetupIntentParams) (*stripe.TerminalReader, error) {
 	return getC().ProcessSetupIntent(id, params)
 }
 
-// Initiates a setup intent flow on a Reader.
+// Initiates a SetupIntent flow on a Reader. See [Save directly without charging](https://docs.stripe.com/docs/terminal/features/saving-payment-details/save-directly) for more details.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -197,12 +197,12 @@ func (c Client) ProcessSetupIntent(id string, params *stripe.TerminalReaderProce
 	return reader, err
 }
 
-// Initiates a refund on a Reader
+// Initiates an in-person refund on a Reader. See [Refund an Interac Payment](https://docs.stripe.com/docs/terminal/payments/regional?integration-country=CA#refund-an-interac-payment) for more details.
 func RefundPayment(id string, params *stripe.TerminalReaderRefundPaymentParams) (*stripe.TerminalReader, error) {
 	return getC().RefundPayment(id, params)
 }
 
-// Initiates a refund on a Reader
+// Initiates an in-person refund on a Reader. See [Refund an Interac Payment](https://docs.stripe.com/docs/terminal/payments/regional?integration-country=CA#refund-an-interac-payment) for more details.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -214,12 +214,12 @@ func (c Client) RefundPayment(id string, params *stripe.TerminalReaderRefundPaym
 	return reader, err
 }
 
-// Sets reader display to show cart details.
+// Sets the reader display to show [cart details](https://docs.stripe.com/docs/terminal/features/display).
 func SetReaderDisplay(id string, params *stripe.TerminalReaderSetReaderDisplayParams) (*stripe.TerminalReader, error) {
 	return getC().SetReaderDisplay(id, params)
 }
 
-// Sets reader display to show cart details.
+// Sets the reader display to show [cart details](https://docs.stripe.com/docs/terminal/features/display).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1ClimateSupplierService is used to invoke /v1/climate/suppliers APIs.
@@ -37,13 +37,13 @@ func (c v1ClimateSupplierService) List(ctx context.Context, listParams *ClimateS
 		listParams = &ClimateSupplierListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ClimateSupplier, ListContainer, error) {
-		list := &ClimateSupplierList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ClimateSupplier], error) {
+		list := &v1Page[*ClimateSupplier]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/climate/suppliers", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

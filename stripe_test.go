@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -858,7 +857,7 @@ func TestDoStreaming(t *testing.T) {
 		&response,
 	)
 	assert.NoError(t, err)
-	result, err := ioutil.ReadAll(response.LastResponse.Body)
+	result, err := io.ReadAll(response.LastResponse.Body)
 	assert.NoError(t, err)
 	err = response.LastResponse.Body.Close()
 	assert.NoError(t, err)
@@ -1473,7 +1472,7 @@ func TestRawRequestPreviewPost(t *testing.T) {
 	var method string
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1523,7 +1522,7 @@ func TestRawRequestStandardGet(t *testing.T) {
 	var contentType string
 	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1561,7 +1560,7 @@ func TestRawRequestStandardPost(t *testing.T) {
 	var contentType string
 	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1598,7 +1597,7 @@ func TestRawRequestPreviewGet(t *testing.T) {
 	var method string
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1637,7 +1636,7 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	var fooHeader string
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		req, _ := ioutil.ReadAll(r.Body)
+		req, _ := io.ReadAll(r.Body)
 		r.Body.Close()
 		body = string(req)
 		path = r.URL.RequestURI()
@@ -1736,7 +1735,7 @@ func TestStripeContextWhenSetWithV1(t *testing.T) {
 }
 
 func TestStripeContextWhenSet(t *testing.T) {
-	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: ParseStripeContext("ctx").StringPtr()}).(*BackendImplementation)
 	req, err := c.NewRequest("", "/v2/foo", "", "", nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "ctx", req.Header.Get("Stripe-Context"))
@@ -1747,6 +1746,51 @@ func TestStripeContextWhenSetInParams(t *testing.T) {
 	req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: String("requestCtx")})
 	assert.NoError(t, err)
 	assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
+}
+
+func TestStripeContextPrecedence(t *testing.T) {
+	// Test precedence: BackendConfig.StripeContext vs Params.StripeContext
+
+	// Case 1: Only BackendConfig.StripeContext is set
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+		req, err := c.NewRequest("", "/v2/foo", "", "", nil)
+		assert.NoError(t, err)
+		assert.Equal(t, "ctx", req.Header.Get("Stripe-Context"))
+	}
+
+	// Case 2: Only Params.StripeContext is set
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{}).(*BackendImplementation)
+		req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: String("requestCtx")})
+		assert.NoError(t, err)
+		assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
+	}
+
+	// Case 3: Neither is set
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{}).(*BackendImplementation)
+		req, err := c.NewRequest("", "/v2/foo", "", "", nil)
+		assert.NoError(t, err)
+		assert.Empty(t, req.Header.Get("Stripe-Context"))
+	}
+
+	// Case 4: Both are set, Params.StripeContext should take precedence
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+		req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: String("requestCtx")})
+		assert.NoError(t, err)
+		assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
+	}
+
+	// Case 5: Setting an empty StripeContext on the request should overwrite and clear the header
+	{
+		c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+		ctx := NewStripeContext(nil)
+		req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: ctx.StringPtr()})
+		assert.NoError(t, err)
+		assert.Empty(t, req.Header.Get("Stripe-Context"))
+	}
 }
 
 func TestHandleV2ErrorWhenKnownError(t *testing.T) {
@@ -1774,6 +1818,7 @@ func TestHandleV2ErrorWhenKnownError(t *testing.T) {
 
 func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Request-Id", "req_123")
 		w.WriteHeader(400)
 		_, err := w.Write([]byte(`{"error":{"type":"unknown_type","message":"Some message"}}`))
 		assert.NoError(t, err)
@@ -1793,10 +1838,13 @@ func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
 	stripeErr, ok := err.(*V2RawError)
 	assert.True(t, ok)
 	assert.Equal(t, "Some message", stripeErr.Message)
+	assert.Equal(t, "req_123", stripeErr.RequestID)
+	assert.Equal(t, 400, stripeErr.HTTPStatusCode)
 }
 
 func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Request-Id", "req_123")
 		w.WriteHeader(400)
 		_, err := w.Write([]byte(`{"error":{"message":"Some message"}}`))
 		assert.NoError(t, err)
@@ -1816,4 +1864,28 @@ func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
 	stripeErr, ok := err.(*V2RawError)
 	assert.True(t, ok)
 	assert.Equal(t, "Some message", stripeErr.Message)
+	assert.Equal(t, "req_123", stripeErr.RequestID)
+	assert.Equal(t, 400, stripeErr.HTTPStatusCode)
+}
+
+// TestHandleResponseBufferingErrors_NilResponse tests the segmentation fault
+// described in https://github.com/stripe/stripe-go/issues/2211
+// When http.Client.Do returns an error, the *http.Response may be nil.
+// The handleResponseBufferingErrors method should handle this case without panicking.
+func TestHandleResponseBufferingErrors_NilResponse(t *testing.T) {
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     nullLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+		},
+	).(*BackendImplementation)
+
+	// Simulate a timeout error where http.Client.Do returns nil response
+	var resp *http.Response = nil
+	timeoutErr := fmt.Errorf("timeout error")
+
+	_, err := backend.handleResponseBufferingErrors(resp, timeoutErr)
+	assert.Error(t, err)
+	assert.Equal(t, timeoutErr, err)
 }

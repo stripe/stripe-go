@@ -13,12 +13,15 @@ type InvoicePaymentPaymentType string
 const (
 	InvoicePaymentPaymentTypeCharge        InvoicePaymentPaymentType = "charge"
 	InvoicePaymentPaymentTypePaymentIntent InvoicePaymentPaymentType = "payment_intent"
+	InvoicePaymentPaymentTypePaymentRecord InvoicePaymentPaymentType = "payment_record"
 )
 
 // The payment details of the invoice payments to return.
 type InvoicePaymentListPaymentParams struct {
 	// Only return invoice payments associated by this payment intent ID.
 	PaymentIntent *string `form:"payment_intent"`
+	// Only return invoice payments associated by this payment record ID.
+	PaymentRecord *string `form:"payment_record"`
 	// Only return invoice payments associated by this payment type.
 	Type *string `form:"type"`
 }
@@ -26,6 +29,10 @@ type InvoicePaymentListPaymentParams struct {
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 type InvoicePaymentListParams struct {
 	ListParams `form:"*"`
+	// Only return invoice payments that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return invoice payments that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The identifier of the invoice whose payments to return.
@@ -70,6 +77,8 @@ type InvoicePaymentPayment struct {
 	Charge *Charge `json:"charge"`
 	// ID of the PaymentIntent associated with this payment when `type` is `payment_intent`. Note: This property is only populated for invoices finalized on or after March 15th, 2019.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// ID of the PaymentRecord associated with this payment when `type` is `payment_record`.
+	PaymentRecord *PaymentRecord `json:"payment_record"`
 	// Type of payment object associated with this invoice payment.
 	Type InvoicePaymentPaymentType `json:"type"`
 }
@@ -82,7 +91,7 @@ type InvoicePaymentStatusTransitions struct {
 
 // Invoice Payments represent payments made against invoices. Invoice Payments can
 // be accessed in two ways:
-// 1. By expanding the `payments` field on the [Invoice](https://stripe.com/docs/api#invoice) resource.
+// 1. By expanding the `payments` field on the [Invoice](https://api.stripe.com#invoice) resource.
 // 2. By using the Invoice Payment retrieve and list endpoints.
 //
 // Invoice Payments include the mapping between payment objects, such as Payment Intent, and Invoices.

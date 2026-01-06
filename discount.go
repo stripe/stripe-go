@@ -8,20 +8,33 @@ package stripe
 
 import "encoding/json"
 
-// A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
+// The source type of the discount.
+type DiscountSourceType string
+
+// List of values that DiscountSourceType can take
+const (
+	DiscountSourceTypeCoupon DiscountSourceType = "coupon"
+)
+
+type DiscountSource struct {
+	// The coupon that was redeemed to create this discount.
+	Coupon *Coupon `json:"coupon"`
+	// The source type of the discount.
+	Type DiscountSourceType `json:"type"`
+}
+
+// A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
 // It contains information about when the discount began, when it will end, and what it is applied to.
 //
-// Related guide: [Applying discounts to subscriptions](https://stripe.com/docs/billing/subscriptions/discounts)
+// Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
 type Discount struct {
 	// The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Will not be present for subscription mode.
 	CheckoutSession string `json:"checkout_session"`
-	// A coupon contains information about a percent-off or amount-off discount you
-	// might want to apply to a customer. Coupons may be applied to [subscriptions](https://stripe.com/docs/api#subscriptions), [invoices](https://stripe.com/docs/api#invoices),
-	// [checkout sessions](https://stripe.com/docs/api/checkout/sessions), [quotes](https://stripe.com/docs/api#quotes), and more. Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge) or [payment intents](https://stripe.com/docs/api/payment_intents).
-	Coupon *Coupon `json:"coupon"`
 	// The ID of the customer associated with this discount.
 	Customer *Customer `json:"customer"`
-	Deleted  bool      `json:"deleted"`
+	// The ID of the account representing the customer associated with this discount.
+	CustomerAccount string `json:"customer_account"`
+	Deleted         bool   `json:"deleted"`
 	// If the coupon has a duration of `repeating`, the date that this discount will end. If the coupon has a duration of `once` or `forever`, this attribute will be null.
 	End int64 `json:"end"`
 	// The ID of the discount object. Discounts cannot be fetched by ID. Use `expand[]=discounts` in API calls to expand discount IDs in an array.
@@ -33,7 +46,8 @@ type Discount struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The promotion code applied to create this discount.
-	PromotionCode *PromotionCode `json:"promotion_code"`
+	PromotionCode *PromotionCode  `json:"promotion_code"`
+	Source        *DiscountSource `json:"source"`
 	// Date that the coupon was applied.
 	Start int64 `json:"start"`
 	// The subscription that this coupon is applied to, if it is applied to a particular subscription.

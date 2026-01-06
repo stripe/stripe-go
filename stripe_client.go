@@ -1,9 +1,5 @@
 package stripe
 
-import (
-	"encoding/json"
-)
-
 // Client is the Stripe client. It contains all the different services available.
 type Client struct {
 	// stripeClientStruct: The beginning of the section generated from our OpenAPI spec
@@ -24,6 +20,8 @@ type Client struct {
 	V1AppsSecrets *v1AppsSecretService
 	// V1Balance is the service used to invoke /v1/balance APIs.
 	V1Balance *v1BalanceService
+	// V1BalanceSettings is the service used to invoke /v1/balance_settings APIs.
+	V1BalanceSettings *v1BalanceSettingsService
 	// V1BalanceTransactions is the service used to invoke /v1/balance_transactions APIs.
 	V1BalanceTransactions *v1BalanceTransactionService
 	// V1BankAccounts is the service used to invoke /v1/accounts/{account}/external_accounts APIs.
@@ -138,6 +136,10 @@ type Client struct {
 	V1LoginLinks *v1LoginLinkService
 	// V1Mandates is the service used to invoke /v1/mandates APIs.
 	V1Mandates *v1MandateService
+	// V1PaymentAttemptRecords is the service used to invoke /v1/payment_attempt_records APIs.
+	V1PaymentAttemptRecords *v1PaymentAttemptRecordService
+	// V1PaymentIntentAmountDetailsLineItems is the service used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.
+	V1PaymentIntentAmountDetailsLineItems *v1PaymentIntentAmountDetailsLineItemService
 	// V1PaymentIntents is the service used to invoke /v1/payment_intents APIs.
 	V1PaymentIntents *v1PaymentIntentService
 	// V1PaymentLinks is the service used to invoke /v1/payment_links APIs.
@@ -148,6 +150,8 @@ type Client struct {
 	V1PaymentMethodDomains *v1PaymentMethodDomainService
 	// V1PaymentMethods is the service used to invoke /v1/payment_methods APIs.
 	V1PaymentMethods *v1PaymentMethodService
+	// V1PaymentRecords is the service used to invoke /v1/payment_records APIs.
+	V1PaymentRecords *v1PaymentRecordService
 	// V1PaymentSources is the service used to invoke /v1/customers/{customer}/sources APIs.
 	V1PaymentSources *v1PaymentSourceService
 	// V1Payouts is the service used to invoke /v1/payouts APIs.
@@ -198,6 +202,8 @@ type Client struct {
 	V1Subscriptions *v1SubscriptionService
 	// V1SubscriptionSchedules is the service used to invoke /v1/subscription_schedules APIs.
 	V1SubscriptionSchedules *v1SubscriptionScheduleService
+	// V1TaxAssociations is the service used to invoke association related APIs.
+	V1TaxAssociations *v1TaxAssociationService
 	// V1TaxCalculations is the service used to invoke /v1/tax/calculations APIs.
 	V1TaxCalculations *v1TaxCalculationService
 	// V1TaxCodes is the service used to invoke /v1/tax_codes APIs.
@@ -218,6 +224,8 @@ type Client struct {
 	V1TerminalConnectionTokens *v1TerminalConnectionTokenService
 	// V1TerminalLocations is the service used to invoke /v1/terminal/locations APIs.
 	V1TerminalLocations *v1TerminalLocationService
+	// V1TerminalOnboardingLinks is the service used to invoke /v1/terminal/onboarding_links APIs.
+	V1TerminalOnboardingLinks *v1TerminalOnboardingLinkService
 	// V1TerminalReaders is the service used to invoke /v1/terminal/readers APIs.
 	V1TerminalReaders *v1TerminalReaderService
 	// V1TestHelpersConfirmationTokens is the service used to invoke /v1/confirmation_tokens APIs.
@@ -286,11 +294,24 @@ type Client struct {
 	V2BillingMeterEventSessions *v2BillingMeterEventSessionService
 	// V2BillingMeterEventStreams is the service used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2BillingMeterEventStreamService
+	// V2CoreAccountLinks is the service used to invoke /v2/core/account_links APIs.
+	V2CoreAccountLinks *v2CoreAccountLinkService
+	// V2CoreAccounts is the service used to invoke /v2/core/accounts APIs.
+	V2CoreAccounts *v2CoreAccountService
+	// V2CoreAccountsPersons is the service used to invoke /v2/core/accounts/{account_id}/persons APIs.
+	V2CoreAccountsPersons *v2CoreAccountsPersonService
+	// V2CoreAccountsPersonTokens is the service used to invoke /v2/core/accounts/{account_id}/person_tokens APIs.
+	V2CoreAccountsPersonTokens *v2CoreAccountsPersonTokenService
+	// V2CoreAccountTokens is the service used to invoke /v2/core/account_tokens APIs.
+	V2CoreAccountTokens *v2CoreAccountTokenService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
 	V2CoreEvents *v2CoreEventService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
+
+	backend Backend
+	key     string
 }
 
 // NewClient creates a new Stripe [Client] with the given API key.
@@ -319,6 +340,9 @@ func initClient(client *Client, cfg clientConfig) {
 	}
 	backends := cfg.backends
 	key := cfg.key
+	// enough information on the Client to make API calls
+	client.backend = backends.API
+	client.key = key
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
 	client.OAuth = &oauthService{B: backends.Connect, Key: key}
@@ -329,6 +353,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1ApplicationFees = &v1ApplicationFeeService{B: backends.API, Key: key}
 	client.V1AppsSecrets = &v1AppsSecretService{B: backends.API, Key: key}
 	client.V1Balance = &v1BalanceService{B: backends.API, Key: key}
+	client.V1BalanceSettings = &v1BalanceSettingsService{B: backends.API, Key: key}
 	client.V1BalanceTransactions = &v1BalanceTransactionService{B: backends.API, Key: key}
 	client.V1BankAccounts = &v1BankAccountService{B: backends.API, Key: key}
 	client.V1BillingAlerts = &v1BillingAlertService{B: backends.API, Key: key}
@@ -386,11 +411,14 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1IssuingTransactions = &v1IssuingTransactionService{B: backends.API, Key: key}
 	client.V1LoginLinks = &v1LoginLinkService{B: backends.API, Key: key}
 	client.V1Mandates = &v1MandateService{B: backends.API, Key: key}
+	client.V1PaymentAttemptRecords = &v1PaymentAttemptRecordService{B: backends.API, Key: key}
+	client.V1PaymentIntentAmountDetailsLineItems = &v1PaymentIntentAmountDetailsLineItemService{B: backends.API, Key: key}
 	client.V1PaymentIntents = &v1PaymentIntentService{B: backends.API, Key: key}
 	client.V1PaymentLinks = &v1PaymentLinkService{B: backends.API, Key: key}
 	client.V1PaymentMethodConfigurations = &v1PaymentMethodConfigurationService{B: backends.API, Key: key}
 	client.V1PaymentMethodDomains = &v1PaymentMethodDomainService{B: backends.API, Key: key}
 	client.V1PaymentMethods = &v1PaymentMethodService{B: backends.API, Key: key}
+	client.V1PaymentRecords = &v1PaymentRecordService{B: backends.API, Key: key}
 	client.V1PaymentSources = &v1PaymentSourceService{B: backends.API, Key: key}
 	client.V1Payouts = &v1PayoutService{B: backends.API, Key: key}
 	client.V1Persons = &v1PersonService{B: backends.API, Key: key}
@@ -416,6 +444,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1SubscriptionItems = &v1SubscriptionItemService{B: backends.API, Key: key}
 	client.V1Subscriptions = &v1SubscriptionService{B: backends.API, Key: key}
 	client.V1SubscriptionSchedules = &v1SubscriptionScheduleService{B: backends.API, Key: key}
+	client.V1TaxAssociations = &v1TaxAssociationService{B: backends.API, Key: key}
 	client.V1TaxCalculations = &v1TaxCalculationService{B: backends.API, Key: key}
 	client.V1TaxCodes = &v1TaxCodeService{B: backends.API, Key: key}
 	client.V1TaxIDs = &v1TaxIDService{B: backends.API, Key: key}
@@ -426,6 +455,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TerminalConfigurations = &v1TerminalConfigurationService{B: backends.API, Key: key}
 	client.V1TerminalConnectionTokens = &v1TerminalConnectionTokenService{B: backends.API, Key: key}
 	client.V1TerminalLocations = &v1TerminalLocationService{B: backends.API, Key: key}
+	client.V1TerminalOnboardingLinks = &v1TerminalOnboardingLinkService{B: backends.API, Key: key}
 	client.V1TerminalReaders = &v1TerminalReaderService{B: backends.API, Key: key}
 	client.V1TestHelpersConfirmationTokens = &v1TestHelpersConfirmationTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersCustomers = &v1TestHelpersCustomerService{B: backends.API, Key: key}
@@ -460,6 +490,11 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingMeterEvents = &v2BillingMeterEventService{B: backends.API, Key: key}
 	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
+	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
+	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
+	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
+	client.V2CoreAccountsPersonTokens = &v2CoreAccountsPersonTokenService{B: backends.API, Key: key}
+	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
@@ -483,17 +518,14 @@ func WithBackends(backends *Backends) ClientOption {
 	}
 }
 
-// ParseThinEvent parses a Stripe event from the payload and verifies its signature.
-// It returns a ThinEvent object and an error if the parsing or verification fails.
-func (c *Client) ParseThinEvent(payload []byte, header string, secret string, opts ...WebhookOption) (*ThinEvent, error) {
+// ParseEventNotification parses a Stripe event from the payload and verifies its signature.
+// It returns a union of all possible event notification types that implement EventNotificationContainer.
+func (c *Client) ParseEventNotification(payload []byte, header string, secret string, opts ...WebhookOption) (EventNotificationContainer, error) {
 	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
 	}
-	var event ThinEvent
-	if err := json.Unmarshal(payload, &event); err != nil {
-		return nil, err
-	}
-	return &event, nil
+
+	return EventNotificationFromJSON(payload, *c)
 }
 
 // ConstructEvent initializes an Event object from a JSON webhook payload, validating

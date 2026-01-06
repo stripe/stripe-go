@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1TransferService is used to invoke /v1/transfers APIs.
@@ -62,13 +62,13 @@ func (c v1TransferService) List(ctx context.Context, listParams *TransferListPar
 		listParams = &TransferListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Transfer, ListContainer, error) {
-		list := &TransferList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Transfer], error) {
+		list := &v1Page[*Transfer]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/transfers", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

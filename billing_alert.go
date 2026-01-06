@@ -71,7 +71,7 @@ type BillingAlertUsageThresholdParams struct {
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *string `form:"meter"`
-	// Whether the alert should only fire only once, or once per billing cycle.
+	// Defines how the alert will behave.
 	Recurrence *string `form:"recurrence"`
 }
 
@@ -145,7 +145,7 @@ type BillingAlertCreateUsageThresholdParams struct {
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *string `form:"meter"`
-	// Whether the alert should only fire only once, or once per billing cycle.
+	// Defines how the alert will behave.
 	Recurrence *string `form:"recurrence"`
 }
 
@@ -186,7 +186,7 @@ type BillingAlertUsageThresholdFilter struct {
 	Type     BillingAlertUsageThresholdFilterType `json:"type"`
 }
 
-// Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://stripe.com/docs/api/billing/meter).
+// Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://docs.stripe.com/api/billing/meter).
 type BillingAlertUsageThreshold struct {
 	// The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
 	Filters []*BillingAlertUsageThresholdFilter `json:"filters"`
@@ -213,7 +213,7 @@ type BillingAlert struct {
 	Status BillingAlertStatus `json:"status"`
 	// Title of the alert.
 	Title string `json:"title"`
-	// Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://stripe.com/docs/api/billing/meter).
+	// Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://docs.stripe.com/api/billing/meter).
 	UsageThreshold *BillingAlertUsageThreshold `json:"usage_threshold"`
 }
 

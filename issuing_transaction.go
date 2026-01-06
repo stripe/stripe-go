@@ -81,7 +81,7 @@ type IssuingTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -116,7 +116,7 @@ type IssuingTransactionUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -134,7 +134,7 @@ func (p *IssuingTransactionUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 type IssuingTransactionAmountDetails struct {
 	// The fee charged by the ATM for the cash withdrawal.
 	ATMFee int64 `json:"atm_fee"`
@@ -288,28 +288,28 @@ type IssuingTransactionPurchaseDetails struct {
 	Reference string `json:"reference"`
 }
 
-// [Treasury](https://stripe.com/docs/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
+// [Treasury](https://docs.stripe.com/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
 type IssuingTransactionTreasury struct {
-	// The Treasury [ReceivedCredit](https://stripe.com/docs/api/treasury/received_credits) representing this Issuing transaction if it is a refund
+	// The Treasury [ReceivedCredit](https://docs.stripe.com/api/treasury/received_credits) representing this Issuing transaction if it is a refund
 	ReceivedCredit string `json:"received_credit"`
-	// The Treasury [ReceivedDebit](https://stripe.com/docs/api/treasury/received_debits) representing this Issuing transaction if it is a capture
+	// The Treasury [ReceivedDebit](https://docs.stripe.com/api/treasury/received_debits) representing this Issuing transaction if it is a capture
 	ReceivedDebit string `json:"received_debit"`
 }
 
-// Any use of an [issued card](https://stripe.com/docs/issuing) that results in funds entering or leaving
+// Any use of an [issued card](https://docs.stripe.com/issuing) that results in funds entering or leaving
 // your Stripe account, such as a completed purchase or refund, is represented by an Issuing
 // `Transaction` object.
 //
-// Related guide: [Issued card transactions](https://stripe.com/docs/issuing/purchases/transactions)
+// Related guide: [Issued card transactions](https://docs.stripe.com/issuing/purchases/transactions)
 type IssuingTransaction struct {
 	APIResource
-	// The transaction amount, which will be reflected in your balance. This amount is in your currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The transaction amount, which will be reflected in your balance. This amount is in your currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
-	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountDetails *IssuingTransactionAmountDetails `json:"amount_details"`
 	// The `Authorization` object that led to this transaction.
 	Authorization *IssuingAuthorization `json:"authorization"`
-	// ID of the [balance transaction](https://stripe.com/docs/api/balance_transactions) associated with this transaction.
+	// ID of the [balance transaction](https://docs.stripe.com/api/balance_transactions) associated with this transaction.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// The card used to make this transaction.
 	Card *IssuingCard `json:"card"`
@@ -325,12 +325,12 @@ type IssuingTransaction struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// The amount that the merchant will receive, denominated in `merchant_currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). It will be different from `amount` if the merchant is taking payment in a different currency.
+	// The amount that the merchant will receive, denominated in `merchant_currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). It will be different from `amount` if the merchant is taking payment in a different currency.
 	MerchantAmount int64 `json:"merchant_amount"`
 	// The currency with which the merchant is taking payment.
 	MerchantCurrency Currency                          `json:"merchant_currency"`
 	MerchantData     *IssuingAuthorizationMerchantData `json:"merchant_data"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Details about the transaction, such as processing dates, set by the card network.
 	NetworkData *IssuingTransactionNetworkData `json:"network_data"`
@@ -338,9 +338,9 @@ type IssuingTransaction struct {
 	Object string `json:"object"`
 	// Additional purchase information that is optionally provided by the merchant.
 	PurchaseDetails *IssuingTransactionPurchaseDetails `json:"purchase_details"`
-	// [Token](https://stripe.com/docs/api/issuing/tokens/object) object used for this transaction. If a network token was not used for this transaction, this field will be null.
+	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this transaction. If a network token was not used for this transaction, this field will be null.
 	Token *IssuingToken `json:"token"`
-	// [Treasury](https://stripe.com/docs/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
+	// [Treasury](https://docs.stripe.com/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
 	Treasury *IssuingTransactionTreasury `json:"treasury"`
 	// The nature of the transaction.
 	Type IssuingTransactionType `json:"type"`

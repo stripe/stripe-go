@@ -9,8 +9,8 @@ import (
 	"fmt"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/mock"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/mock"
 )
 
 func TestEventGet(t *testing.T) {
@@ -26,7 +26,7 @@ func TestEventGet(t *testing.T) {
 			Data: stripe.V1BillingMeterErrorReportTriggeredEventData{
 				DeveloperMessageSummary: "This is a developer message",
 			},
-			RelatedObject: stripe.RelatedObject{
+			RelatedObject: stripe.V2CoreEventRelatedObject{
 				ID: "ro_123",
 			},
 		})
@@ -50,8 +50,8 @@ func TestEventAll(t *testing.T) {
 	timeNow := time.Now()
 	params := &stripe.V2CoreEventListParams{}
 	testServer, sc := mock.Server(t, string(http.MethodGet), "/v2/core/events", params, func(p *stripe.V2CoreEventListParams) []byte {
-		data, err := json.Marshal(stripe.V2Page[stripe.V2Event]{
-			Data: []stripe.V2Event{
+		data, err := json.Marshal(stripe.V2Page[stripe.V2CoreEvent]{
+			Data: []stripe.V2CoreEvent{
 				&stripe.V1BillingMeterErrorReportTriggeredEvent{
 					V2BaseEvent: stripe.V2BaseEvent{
 						Created: timeNow,
@@ -61,7 +61,7 @@ func TestEventAll(t *testing.T) {
 					Data: stripe.V1BillingMeterErrorReportTriggeredEventData{
 						DeveloperMessageSummary: "This is a developer message",
 					},
-					RelatedObject: stripe.RelatedObject{
+					RelatedObject: stripe.V2CoreEventRelatedObject{
 						ID: "ro_123",
 					},
 				},
@@ -92,7 +92,7 @@ func TestEventAll(t *testing.T) {
 	})
 	defer testServer.Close()
 	cnt := 1
-	sc.V2CoreEvents.All(params)(func(event stripe.V2Event, err error) bool {
+	sc.V2CoreEvents.All(params)(func(event stripe.V2CoreEvent, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, event)
 		if cnt == 1 {

@@ -11,7 +11,7 @@ type TestHelpersIssuingTransactionRefundParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The total amount to attempt to refund. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The total amount to attempt to refund. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	RefundAmount *int64 `form:"refund_amount"`
 }
 
@@ -22,7 +22,7 @@ func (p *TestHelpersIssuingTransactionRefundParams) AddExpand(f string) {
 
 // Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams struct {
-	// A categorization of the seller's type of business. See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
+	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
 	Category *string `form:"category"`
 	// City where the seller is located
 	City *string `form:"city"`
@@ -177,7 +177,7 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams struct
 // Allows the user to capture an arbitrary amount, also known as a forced capture.
 type TestHelpersIssuingTransactionCreateForceCaptureParams struct {
 	Params `form:"*"`
-	// The total amount to attempt to capture. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The total amount to attempt to capture. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Card associated with this transaction.
 	Card *string `form:"card"`
@@ -198,7 +198,7 @@ func (p *TestHelpersIssuingTransactionCreateForceCaptureParams) AddExpand(f stri
 
 // Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams struct {
-	// A categorization of the seller's type of business. See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
+	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
 	Category *string `form:"category"`
 	// City where the seller is located
 	City *string `form:"city"`
@@ -353,7 +353,7 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsParams stru
 // Allows the user to refund an arbitrary amount, also known as a unlinked refund.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundParams struct {
 	Params `form:"*"`
-	// The total amount to attempt to refund. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// The total amount to attempt to refund. This amount is in the provided currency, or defaults to the cards currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Card associated with this unlinked refund transaction.
 	Card *string `form:"card"`

@@ -47,7 +47,7 @@ func (p *EntitlementsActiveEntitlementRetrieveParams) AddExpand(f string) {
 // An active entitlement describes access to a feature for a customer.
 type EntitlementsActiveEntitlement struct {
 	APIResource
-	// The [Feature](https://stripe.com/docs/api/entitlements/feature) that the customer is entitled to.
+	// The [Feature](https://docs.stripe.com/api/entitlements/feature) that the customer is entitled to.
 	Feature *EntitlementsFeature `json:"feature"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

@@ -18,6 +18,17 @@ const (
 	IssuingCardCancellationReasonStolen         IssuingCardCancellationReason = "stolen"
 )
 
+// The type of fraud warning that most recently took place on this card. This field updates with every new fraud warning, so the value changes over time. If populated, cancel and reissue the card.
+type IssuingCardLatestFraudWarningType string
+
+// List of values that IssuingCardLatestFraudWarningType can take
+const (
+	IssuingCardLatestFraudWarningTypeCardTestingExposure IssuingCardLatestFraudWarningType = "card_testing_exposure"
+	IssuingCardLatestFraudWarningTypeFraudDisputeFiled   IssuingCardLatestFraudWarningType = "fraud_dispute_filed"
+	IssuingCardLatestFraudWarningTypeThirdPartyReported  IssuingCardLatestFraudWarningType = "third_party_reported"
+	IssuingCardLatestFraudWarningTypeUserIndicatedFraud  IssuingCardLatestFraudWarningType = "user_indicated_fraud"
+)
+
 // The reason why the previous card needed to be replaced.
 type IssuingCardReplacementReason string
 
@@ -216,19 +227,19 @@ type IssuingCardShippingParams struct {
 type IssuingCardSpendingControlsSpendingLimitParams struct {
 	// Maximum amount allowed to spend per interval.
 	Amount *int64 `form:"amount"`
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []*string `form:"categories"`
 	// Interval (or event) to which the amount applies.
 	Interval *string `form:"interval"`
 }
 
-// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
+// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardSpendingControlsParams struct {
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []*string `form:"allowed_categories"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
 	AllowedMerchantCountries []*string `form:"allowed_merchant_countries"`
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
 	BlockedMerchantCountries []*string `form:"blocked_merchant_countries"`
@@ -239,7 +250,7 @@ type IssuingCardSpendingControlsParams struct {
 // Creates an Issuing Card object.
 type IssuingCardParams struct {
 	Params `form:"*"`
-	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
+	// The [Cardholder](https://docs.stripe.com/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
 	Currency *string `form:"currency"`
@@ -251,7 +262,7 @@ type IssuingCardParams struct {
 	ExpYear *int64 `form:"exp_year"`
 	// The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
 	FinancialAccount *string `form:"financial_account"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The personalization design object belonging to this card.
 	PersonalizationDesign *string `form:"personalization_design"`
@@ -265,7 +276,7 @@ type IssuingCardParams struct {
 	SecondLine *string `form:"second_line"`
 	// The address where the card will be shipped.
 	Shipping *IssuingCardShippingParams `form:"shipping"`
-	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
+	// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardSpendingControlsParams `form:"spending_controls"`
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
 	Status *string `form:"status"`
@@ -332,19 +343,19 @@ type IssuingCardCreateShippingParams struct {
 type IssuingCardCreateSpendingControlsSpendingLimitParams struct {
 	// Maximum amount allowed to spend per interval.
 	Amount *int64 `form:"amount"`
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []*string `form:"categories"`
 	// Interval (or event) to which the amount applies.
 	Interval *string `form:"interval"`
 }
 
-// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
+// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardCreateSpendingControlsParams struct {
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []*string `form:"allowed_categories"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
 	AllowedMerchantCountries []*string `form:"allowed_merchant_countries"`
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
 	BlockedMerchantCountries []*string `form:"blocked_merchant_countries"`
@@ -355,7 +366,7 @@ type IssuingCardCreateSpendingControlsParams struct {
 // Creates an Issuing Card object.
 type IssuingCardCreateParams struct {
 	Params `form:"*"`
-	// The [Cardholder](https://stripe.com/docs/api#issuing_cardholder_object) object with which the card will be associated.
+	// The [Cardholder](https://docs.stripe.com/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
 	Currency *string `form:"currency"`
@@ -367,7 +378,7 @@ type IssuingCardCreateParams struct {
 	ExpYear *int64 `form:"exp_year"`
 	// The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
 	FinancialAccount *string `form:"financial_account"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The personalization design object belonging to this card.
 	PersonalizationDesign *string `form:"personalization_design"`
@@ -381,7 +392,7 @@ type IssuingCardCreateParams struct {
 	SecondLine *string `form:"second_line"`
 	// The address where the card will be shipped.
 	Shipping *IssuingCardCreateShippingParams `form:"shipping"`
-	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
+	// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardCreateSpendingControlsParams `form:"spending_controls"`
 	// Whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`.
 	Status *string `form:"status"`
@@ -457,19 +468,19 @@ type IssuingCardUpdateShippingParams struct {
 type IssuingCardUpdateSpendingControlsSpendingLimitParams struct {
 	// Maximum amount allowed to spend per interval.
 	Amount *int64 `form:"amount"`
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []*string `form:"categories"`
 	// Interval (or event) to which the amount applies.
 	Interval *string `form:"interval"`
 }
 
-// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
+// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardUpdateSpendingControlsParams struct {
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []*string `form:"allowed_categories"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
 	AllowedMerchantCountries []*string `form:"allowed_merchant_countries"`
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
 	BlockedMerchantCountries []*string `form:"blocked_merchant_countries"`
@@ -484,14 +495,14 @@ type IssuingCardUpdateParams struct {
 	CancellationReason *string `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata              map[string]string `form:"metadata"`
 	PersonalizationDesign *string           `form:"personalization_design"`
 	// The desired new PIN for this card.
 	PIN *IssuingCardUpdatePINParams `form:"pin"`
 	// Updated shipping information for the card.
 	Shipping *IssuingCardUpdateShippingParams `form:"shipping"`
-	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
+	// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardUpdateSpendingControlsParams `form:"spending_controls"`
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
 	Status *string `form:"status"`
@@ -509,6 +520,14 @@ func (p *IssuingCardUpdateParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk.
+type IssuingCardLatestFraudWarning struct {
+	// Timestamp of the most recent fraud warning.
+	StartedAt int64 `json:"started_at"`
+	// The type of fraud warning that most recently took place on this card. This field updates with every new fraud warning, so the value changes over time. If populated, cancel and reissue the card.
+	Type IssuingCardLatestFraudWarningType `json:"type"`
 }
 
 // Address validation details for the shipment.
@@ -558,19 +577,19 @@ type IssuingCardShipping struct {
 
 // Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
 type IssuingCardSpendingControlsSpendingLimit struct {
-	// Maximum amount allowed to spend per interval. This amount is in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	// Maximum amount allowed to spend per interval. This amount is in the card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []string `json:"categories"`
 	// Interval (or event) to which the amount applies.
 	Interval IssuingCardSpendingControlsSpendingLimitInterval `json:"interval"`
 }
 type IssuingCardSpendingControls struct {
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []string `json:"allowed_categories"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
 	AllowedMerchantCountries []string `json:"allowed_merchant_countries"`
-	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
+	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []string `json:"blocked_categories"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
 	BlockedMerchantCountries []string `json:"blocked_merchant_countries"`
@@ -600,22 +619,22 @@ type IssuingCardWallets struct {
 	PrimaryAccountIdentifier string `json:"primary_account_identifier"`
 }
 
-// You can [create physical or virtual cards](https://stripe.com/docs/issuing) that are issued to cardholders.
+// You can [create physical or virtual cards](https://docs.stripe.com/issuing) that are issued to cardholders.
 type IssuingCard struct {
 	APIResource
 	// The brand of the card.
 	Brand string `json:"brand"`
 	// The reason why the card was canceled.
 	CancellationReason IssuingCardCancellationReason `json:"cancellation_reason"`
-	// An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://stripe.com/docs/issuing) cards.
+	// An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://docs.stripe.com/issuing) cards.
 	//
-	// Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards/virtual/issue-cards#create-cardholder)
+	// Related guide: [How to create a cardholder](https://docs.stripe.com/issuing/cards/virtual/issue-cards#create-cardholder)
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Supported currencies are `usd` in the US, `eur` in the EU, and `gbp` in the UK.
 	Currency Currency `json:"currency"`
-	// The card's CVC. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://stripe.com/docs/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://stripe.com/docs/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint.
+	// The card's CVC. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://docs.stripe.com/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://docs.stripe.com/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint.
 	CVC string `json:"cvc"`
 	// The expiration month of the card.
 	ExpMonth int64 `json:"exp_month"`
@@ -627,11 +646,13 @@ type IssuingCard struct {
 	ID string `json:"id"`
 	// The last 4 digits of the card number.
 	Last4 string `json:"last4"`
+	// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk.
+	LatestFraudWarning *IssuingCardLatestFraudWarning `json:"latest_fraud_warning"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
-	// The full unredacted card number. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://stripe.com/docs/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://stripe.com/docs/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint.
+	// The full unredacted card number. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://docs.stripe.com/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://docs.stripe.com/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint.
 	Number string `json:"number"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
@@ -643,6 +664,8 @@ type IssuingCard struct {
 	ReplacementFor *IssuingCard `json:"replacement_for"`
 	// The reason why the previous card needed to be replaced.
 	ReplacementReason IssuingCardReplacementReason `json:"replacement_reason"`
+	// Text separate from cardholder name, printed on the card.
+	SecondLine string `json:"second_line"`
 	// Where and how the card will be shipped.
 	Shipping         *IssuingCardShipping         `json:"shipping"`
 	SpendingControls *IssuingCardSpendingControls `json:"spending_controls"`

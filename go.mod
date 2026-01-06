@@ -1,6 +1,6 @@
-module github.com/stripe/stripe-go/v82
+module github.com/stripe/stripe-go/v84
 
-go 1.18
+go 1.20
 
 require (
 	github.com/stretchr/testify v1.7.0

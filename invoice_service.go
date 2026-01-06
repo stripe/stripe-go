@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1InvoiceService is used to invoke /v1/invoices APIs.
@@ -218,14 +218,14 @@ func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParam
 		listParams = &InvoiceListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Invoice, ListContainer, error) {
-		list := &InvoiceList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Invoice], error) {
+		list := &v1Page[*Invoice]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -237,14 +237,14 @@ func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceList
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/invoices/%s/lines", StringValue(listParams.Invoice))
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceLineItem, ListContainer, error) {
-		list := &InvoiceLineItemList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoiceLineItem], error) {
+		list := &v1Page[*InvoiceLineItem]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -257,13 +257,13 @@ func (c v1InvoiceService) Search(ctx context.Context, params *InvoiceSearchParam
 		params = &InvoiceSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Invoice, SearchContainer, error) {
-		list := &InvoiceSearchResult{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Invoice], error) {
+		list := &v1SearchPage[*Invoice]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices/search", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

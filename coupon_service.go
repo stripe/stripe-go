@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1CouponService is used to invoke /v1/coupons APIs.
@@ -74,13 +74,13 @@ func (c v1CouponService) List(ctx context.Context, listParams *CouponListParams)
 		listParams = &CouponListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Coupon, ListContainer, error) {
-		list := &CouponList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Coupon], error) {
+		list := &v1Page[*Coupon]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/coupons", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

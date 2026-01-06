@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	. "github.com/stripe/stripe-go/v82/testing"
+	stripe "github.com/stripe/stripe-go/v84"
+	. "github.com/stripe/stripe-go/v84/testing"
 )
 
 func TestCardDelete_ByCustomer(t *testing.T) {

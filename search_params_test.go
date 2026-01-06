@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/form"
-	. "github.com/stripe/stripe-go/v82/testing"
+	stripe "github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v84/form"
+	. "github.com/stripe/stripe-go/v84/testing"
 )
 
 type testSearchParams struct {
@@ -67,6 +67,22 @@ func TestSearchParams_SetStripeAccount(t *testing.T) {
 	p := &stripe.SearchParams{}
 	p.SetStripeAccount(TestMerchantID)
 	assert.Equal(t, TestMerchantID, *p.StripeAccount)
+}
+
+func TestSearchParams_SetStripeContext(t *testing.T) {
+	{
+		p := &stripe.SearchParams{}
+		p.SetStripeContext(TestMerchantID)
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
+
+	{
+		p := &stripe.SearchParams{}
+		p.SetStripeContextFrom(stripe.NewStripeContext([]string{TestMerchantID}))
+		assert.Equal(t, TestMerchantID, *p.StripeContext)
+		assert.Equal(t, TestMerchantID, *p.GetParams().StripeContext)
+	}
 }
 
 func TestSearchParams_ToParams(t *testing.T) {

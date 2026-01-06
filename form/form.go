@@ -187,6 +187,7 @@ func buildArrayOrSliceEncoder(t reflect.Type) encoderFunc {
 		var arrNames []string
 
 		for i := 0; i < v.Len(); i++ {
+			// Always use indexed format for arrays (e.g., include[0]=foo&include[1]=bar)
 			arrNames = append(keyParts, strconv.Itoa(i))
 
 			indexV := v.Index(i)
@@ -430,6 +431,7 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 		fldTyp := reflectField.Type
 		fldKind := fldTyp.Kind()
 
+		// validate that fields are of expected types and have expected annotations
 		if Strict && options != nil {
 			if options.Empty && fldKind != reflect.Bool {
 				panic(fmt.Sprintf(

@@ -15,6 +15,32 @@ const (
 	FinancialConnectionsAccountAccountHolderTypeCustomer FinancialConnectionsAccountAccountHolderType = "customer"
 )
 
+// The type of account number associated with the account.
+type FinancialConnectionsAccountAccountNumberIdentifierType string
+
+// List of values that FinancialConnectionsAccountAccountNumberIdentifierType can take
+const (
+	FinancialConnectionsAccountAccountNumberIdentifierTypeAccountNumber          FinancialConnectionsAccountAccountNumberIdentifierType = "account_number"
+	FinancialConnectionsAccountAccountNumberIdentifierTypeTokenizedAccountNumber FinancialConnectionsAccountAccountNumberIdentifierType = "tokenized_account_number"
+)
+
+// Whether the account number is currently active and usable for transactions.
+type FinancialConnectionsAccountAccountNumberStatus string
+
+// List of values that FinancialConnectionsAccountAccountNumberStatus can take
+const (
+	FinancialConnectionsAccountAccountNumberStatusDeactivated  FinancialConnectionsAccountAccountNumberStatus = "deactivated"
+	FinancialConnectionsAccountAccountNumberStatusTransactable FinancialConnectionsAccountAccountNumberStatus = "transactable"
+)
+
+// The payment networks that the account number can be used for.
+type FinancialConnectionsAccountAccountNumberSupportedNetwork string
+
+// List of values that FinancialConnectionsAccountAccountNumberSupportedNetwork can take
+const (
+	FinancialConnectionsAccountAccountNumberSupportedNetworkACH FinancialConnectionsAccountAccountNumberSupportedNetwork = "ach"
+)
+
 // The `type` of the balance. An additional hash is included on the balance with a name matching this value.
 type FinancialConnectionsAccountBalanceType string
 
@@ -110,7 +136,7 @@ const (
 	FinancialConnectionsAccountSubscriptionTransactions FinancialConnectionsAccountSubscription = "transactions"
 )
 
-// The [PaymentMethod type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type)(s) that can be created from this account.
+// The [PaymentMethod type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type)(s) that can be created from this account.
 type FinancialConnectionsAccountSupportedPaymentMethodType string
 
 // List of values that FinancialConnectionsAccountSupportedPaymentMethodType can take
@@ -131,10 +157,12 @@ const (
 
 // If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive.
 type FinancialConnectionsAccountListAccountHolderParams struct {
-	// The ID of the Stripe account whose accounts will be retrieved.
+	// The ID of the Stripe account whose accounts you will retrieve.
 	Account *string `form:"account"`
-	// The ID of the Stripe customer whose accounts will be retrieved.
+	// The ID of the Stripe customer whose accounts you will retrieve.
 	Customer *string `form:"customer"`
+	// The ID of the Account representing a customer whose accounts you will retrieve.
+	CustomerAccount *string `form:"customer_account"`
 }
 
 // Returns a list of Financial Connections Account objects.
@@ -206,7 +234,7 @@ func (p *FinancialConnectionsAccountRefreshParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Subscribes to periodic refreshes of data associated with a Financial Connections Account.
+// Subscribes to periodic refreshes of data associated with a Financial Connections Account. When the account status is active, data is typically refreshed once a day.
 type FinancialConnectionsAccountSubscribeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -248,12 +276,25 @@ func (p *FinancialConnectionsAccountRetrieveParams) AddExpand(f string) {
 
 // The account holder that this account belongs to.
 type FinancialConnectionsAccountAccountHolder struct {
-	// The ID of the Stripe account this account belongs to. Should only be present if `account_holder.type` is `account`.
+	// The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`.
 	Account *Account `json:"account"`
-	// ID of the Stripe customer this account belongs to. Present if and only if `account_holder.type` is `customer`.
-	Customer *Customer `json:"customer"`
+	// The ID for an Account representing a customer that this account belongs to. Only available when `account_holder.type` is `customer`.
+	Customer        *Customer `json:"customer"`
+	CustomerAccount string    `json:"customer_account"`
 	// Type of account holder that this account belongs to.
 	Type FinancialConnectionsAccountAccountHolderType `json:"type"`
+}
+
+// Details about the account numbers.
+type FinancialConnectionsAccountAccountNumber struct {
+	// When the account number is expected to expire, if applicable.
+	ExpectedExpiryDate int64 `json:"expected_expiry_date"`
+	// The type of account number associated with the account.
+	IdentifierType FinancialConnectionsAccountAccountNumberIdentifierType `json:"identifier_type"`
+	// Whether the account number is currently active and usable for transactions.
+	Status FinancialConnectionsAccountAccountNumberStatus `json:"status"`
+	// The payment networks that the account number can be used for.
+	SupportedNetworks []FinancialConnectionsAccountAccountNumberSupportedNetwork `json:"supported_networks"`
 }
 type FinancialConnectionsAccountBalanceCash struct {
 	// The funds available to the account holder. Typically this is the current balance after subtracting any outbound pending transactions and adding any inbound pending transactions.
@@ -325,6 +366,8 @@ type FinancialConnectionsAccount struct {
 	APIResource
 	// The account holder that this account belongs to.
 	AccountHolder *FinancialConnectionsAccountAccountHolder `json:"account_holder"`
+	// Details about the account numbers.
+	AccountNumbers []*FinancialConnectionsAccountAccountNumber `json:"account_numbers"`
 	// The most recent information about the account's balance.
 	Balance *FinancialConnectionsAccountBalance `json:"balance"`
 	// The state of the most recent attempt to refresh the account balance.
@@ -370,7 +413,7 @@ type FinancialConnectionsAccount struct {
 	Subcategory FinancialConnectionsAccountSubcategory `json:"subcategory"`
 	// The list of data refresh subscriptions requested on this account.
 	Subscriptions []FinancialConnectionsAccountSubscription `json:"subscriptions"`
-	// The [PaymentMethod type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type)(s) that can be created from this account.
+	// The [PaymentMethod type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type)(s) that can be created from this account.
 	SupportedPaymentMethodTypes []FinancialConnectionsAccountSupportedPaymentMethodType `json:"supported_payment_method_types"`
 	// The state of the most recent attempt to refresh the account transactions.
 	TransactionRefresh *FinancialConnectionsAccountTransactionRefresh `json:"transaction_refresh"`

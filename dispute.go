@@ -89,7 +89,7 @@ const (
 	DisputePaymentMethodDetailsTypePaypal    DisputePaymentMethodDetailsType = "paypal"
 )
 
-// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
+// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://docs.stripe.com/disputes/categories).
 type DisputeReason string
 
 // List of values that DisputeReason can take
@@ -118,6 +118,7 @@ type DisputeStatus string
 const (
 	DisputeStatusLost                 DisputeStatus = "lost"
 	DisputeStatusNeedsResponse        DisputeStatus = "needs_response"
+	DisputeStatusPrevented            DisputeStatus = "prevented"
 	DisputeStatusUnderReview          DisputeStatus = "under_review"
 	DisputeStatusWarningClosed        DisputeStatus = "warning_closed"
 	DisputeStatusWarningNeedsResponse DisputeStatus = "warning_needs_response"
@@ -152,7 +153,7 @@ type DisputeParams struct {
 	Evidence *DisputeEvidenceParams `form:"evidence"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
 	Submit *bool `form:"submit"`
@@ -451,7 +452,7 @@ type DisputeUpdateParams struct {
 	Evidence *DisputeUpdateEvidenceParams `form:"evidence"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
 	Submit *bool `form:"submit"`
@@ -619,6 +620,8 @@ type DisputePaymentMethodDetailsCard struct {
 	NetworkReasonCode string `json:"network_reason_code"`
 }
 type DisputePaymentMethodDetailsKlarna struct {
+	// Chargeback loss reason mapped by Stripe from Klarna's chargeback loss reason
+	ChargebackLossReasonCode string `json:"chargeback_loss_reason_code"`
 	// The reason for the dispute as defined by Klarna
 	ReasonCode string `json:"reason_code"`
 }
@@ -641,7 +644,7 @@ type DisputePaymentMethodDetails struct {
 // When this happens, you have the opportunity to respond to the dispute with
 // evidence that shows that the charge is legitimate.
 //
-// Related guide: [Disputes and fraud](https://stripe.com/docs/disputes)
+// Related guide: [Disputes and fraud](https://docs.stripe.com/disputes)
 type Dispute struct {
 	APIResource
 	// Disputed amount. Usually the amount of the charge, but it can differ (usually because of currency fluctuation or because only part of the order is disputed).
@@ -664,7 +667,7 @@ type Dispute struct {
 	IsChargeRefundable bool `json:"is_charge_refundable"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Network-dependent reason code for the dispute.
 	NetworkReasonCode string `json:"network_reason_code"`
@@ -673,7 +676,7 @@ type Dispute struct {
 	// ID of the PaymentIntent that's disputed.
 	PaymentIntent        *PaymentIntent               `json:"payment_intent"`
 	PaymentMethodDetails *DisputePaymentMethodDetails `json:"payment_method_details"`
-	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
+	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://docs.stripe.com/disputes/categories).
 	Reason DisputeReason `json:"reason"`
 	// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, `lost`, or `prevented`.
 	Status DisputeStatus `json:"status"`

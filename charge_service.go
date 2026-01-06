@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1ChargeService is used to invoke /v1/charges APIs.
@@ -78,14 +78,14 @@ func (c v1ChargeService) List(ctx context.Context, listParams *ChargeListParams)
 		listParams = &ChargeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Charge, ListContainer, error) {
-		list := &ChargeList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Charge], error) {
+		list := &v1Page[*Charge]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/charges", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
 
@@ -98,13 +98,13 @@ func (c v1ChargeService) Search(ctx context.Context, params *ChargeSearchParams)
 		params = &ChargeSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Charge, SearchContainer, error) {
-		list := &ChargeSearchResult{}
+	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Charge], error) {
+		list := &v1SearchPage[*Charge]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/charges/search", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }

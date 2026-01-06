@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v84/form"
 )
 
 // v1IssuingPhysicalBundleService is used to invoke /v1/issuing/physical_bundles APIs.
@@ -37,13 +37,13 @@ func (c v1IssuingPhysicalBundleService) List(ctx context.Context, listParams *Is
 		listParams = &IssuingPhysicalBundleListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingPhysicalBundle, ListContainer, error) {
-		list := &IssuingPhysicalBundleList{}
+	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingPhysicalBundle], error) {
+		list := &v1Page[*IssuingPhysicalBundle]{}
 		if p == nil {
 			p = &Params{}
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/physical_bundles", c.Key, []byte(b.Encode()), p, list)
-		return list.Data, list, err
+		return list, err
 	}).All()
 }
