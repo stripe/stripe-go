@@ -17,7 +17,7 @@ type v2IamAPIKeyService struct {
 	Key string
 }
 
-// Create an API key.
+// Create an API key. To create a secret key in livemode, a public key for encryption must be provided.
 func (c v2IamAPIKeyService) Create(ctx context.Context, params *V2IamAPIKeyCreateParams) (*V2IamAPIKey, error) {
 	if params == nil {
 		params = &V2IamAPIKeyCreateParams{}
@@ -28,7 +28,7 @@ func (c v2IamAPIKeyService) Create(ctx context.Context, params *V2IamAPIKeyCreat
 	return apikey, err
 }
 
-// Retrieve an API key.
+// Retrieve an API key. For livemode secret keys, secret tokens are only returned on creation, and never returned here.
 func (c v2IamAPIKeyService) Retrieve(ctx context.Context, id string, params *V2IamAPIKeyRetrieveParams) (*V2IamAPIKey, error) {
 	if params == nil {
 		params = &V2IamAPIKeyRetrieveParams{}
@@ -40,7 +40,7 @@ func (c v2IamAPIKeyService) Retrieve(ctx context.Context, id string, params *V2I
 	return apikey, err
 }
 
-// Update an API key.
+// Update an API key. Only parameters that are specified in the request will be updated.
 func (c v2IamAPIKeyService) Update(ctx context.Context, id string, params *V2IamAPIKeyUpdateParams) (*V2IamAPIKey, error) {
 	if params == nil {
 		params = &V2IamAPIKeyUpdateParams{}
@@ -52,7 +52,7 @@ func (c v2IamAPIKeyService) Update(ctx context.Context, id string, params *V2Iam
 	return apikey, err
 }
 
-// Expire an API key.
+// Expire an API key. The specified key becomes invalid immediately.
 func (c v2IamAPIKeyService) Expire(ctx context.Context, id string, params *V2IamAPIKeyExpireParams) (*V2IamAPIKey, error) {
 	if params == nil {
 		params = &V2IamAPIKeyExpireParams{}
@@ -64,7 +64,7 @@ func (c v2IamAPIKeyService) Expire(ctx context.Context, id string, params *V2Iam
 	return apikey, err
 }
 
-// Rotate an API key.
+// Rotate an API key. A new key with the same properties is created and returned. The existing key is expired immediately, unless an expiry time is specified.
 func (c v2IamAPIKeyService) Rotate(ctx context.Context, id string, params *V2IamAPIKeyRotateParams) (*V2IamAPIKey, error) {
 	if params == nil {
 		params = &V2IamAPIKeyRotateParams{}

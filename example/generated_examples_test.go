@@ -19512,55 +19512,27 @@ func TestQuotaExceededErrorClient(t *testing.T) {
 }
 
 func TestRateLimitErrorService(t *testing.T) {
-	params := &stripe.V2ReportingReportRunParams{
-		Report: stripe.String("report"),
-		ReportParameters: map[string]any{
-			"int_key":     123,
-			"string_key":  "value",
-			"boolean_key": true,
-			"object_key": map[string]any{
-				"object_int_key":     123,
-				"object_string_key":  "value",
-				"object_boolean_key": true,
-			},
-			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
-		},
-	}
+	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/reporting/report_runs", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"report_run_rate_limit_exceeded\"}}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"account_rate_limit_exceeded\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2ReportingReportRuns.New(params)
+	result := sc.V2CoreAccounts.All(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
 }
 
 func TestRateLimitErrorClient(t *testing.T) {
-	params := &stripe.V2ReportingReportRunCreateParams{
-		Report: stripe.String("report"),
-		ReportParameters: map[string]any{
-			"int_key":     123,
-			"string_key":  "value",
-			"boolean_key": true,
-			"object_key": map[string]any{
-				"object_int_key":     123,
-				"object_string_key":  "value",
-				"object_boolean_key": true,
-			},
-			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
-		},
-	}
+	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/reporting/report_runs", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"report_run_rate_limit_exceeded\"}}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"account_rate_limit_exceeded\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2ReportingReportRuns.Create(context.TODO(), params)
+	result := sc.V2CoreAccounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
 }
 
 func TestRecipientNotNotifiableErrorService(t *testing.T) {

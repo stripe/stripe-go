@@ -8,6 +8,16 @@ package stripe
 
 import "time"
 
+// Open Enum. Speed of the payout.
+type V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed string
+
+// List of values that V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed can take
+const (
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedInstant         V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "instant"
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedNextBusinessDay V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "next_business_day"
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedStandard        V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "standard"
+)
+
 // Open Enum. Method for bank account.
 type V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount string
 
@@ -18,14 +28,13 @@ const (
 	V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccountWire      V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount = "wire"
 )
 
-// Open Enum. Speed of the payout.
-type V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed string
+// Open Enum. Shipping speed of the paper check.
+type V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed string
 
-// List of values that V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed can take
+// List of values that V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed can take
 const (
-	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedInstant         V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "instant"
-	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedNextBusinessDay V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "next_business_day"
-	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedStandard        V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "standard"
+	V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeedPriority V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed = "priority"
+	V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeedStandard V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed = "standard"
 )
 
 // Closed Enum. Configuration option to enable or disable notifications to recipients.
@@ -97,6 +106,25 @@ const (
 	V2MoneyManagementOutboundPaymentTraceIDStatusUnsupported V2MoneyManagementOutboundPaymentTraceIDStatus = "unsupported"
 )
 
+// Open Enum. Carrier of the paper check.
+type V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckCarrier string
+
+// List of values that V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckCarrier can take
+const (
+	V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckCarrierFedEx V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckCarrier = "fedex"
+	V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckCarrierUSPS  V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckCarrier = "usps"
+)
+
+// Open Enum. Tracking status of the paper check.
+type V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatus string
+
+// List of values that V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatus can take
+const (
+	V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatusDelivered V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatus = "delivered"
+	V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatusInTransit V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatus = "in_transit"
+	V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatusMailed    V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatus = "mailed"
+)
+
 // The "presentment amount" for the OutboundPayment.
 type V2MoneyManagementOutboundPaymentAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -105,10 +133,22 @@ type V2MoneyManagementOutboundPaymentAmount struct {
 	Value int64 `json:"value,omitempty"`
 }
 
+// Delivery options for paper check.
+type V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheck struct {
+	// Memo printed on the memo field of the check.
+	Memo string `json:"memo,omitempty"`
+	// Open Enum. Shipping speed of the paper check.
+	ShippingSpeed V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed `json:"shipping_speed"`
+	// Signature for the paper check.
+	Signature string `json:"signature"`
+}
+
 // Delivery options to be used to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentDeliveryOptions struct {
 	// Open Enum. Method for bank account.
 	BankAccount V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount `json:"bank_account,omitempty"`
+	// Delivery options for paper check.
+	PaperCheck *V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheck `json:"paper_check,omitempty"`
 	// Open Enum. Speed of the payout.
 	Speed V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed `json:"speed,omitempty"`
 }
@@ -201,6 +241,48 @@ type V2MoneyManagementOutboundPaymentTraceID struct {
 	Value string `json:"value,omitempty"`
 }
 
+// Mailing address of the paper check.
+type V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckMailingAddress struct {
+	// City, district, suburb, town, or village.
+	City string `json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 string `json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 string `json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode string `json:"postal_code,omitempty"`
+	// State, county, province, or region.
+	State string `json:"state,omitempty"`
+	// Town or district.
+	Town string `json:"town,omitempty"`
+}
+
+// Paper check tracking details.
+type V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheck struct {
+	// Open Enum. Carrier of the paper check.
+	Carrier V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckCarrier `json:"carrier"`
+	// Check number.
+	CheckNumber string `json:"check_number"`
+	// Postal code of the latest tracking update.
+	CurrentPostalCode string `json:"current_postal_code"`
+	// Mailing address of the paper check.
+	MailingAddress *V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckMailingAddress `json:"mailing_address"`
+	// Tracking number for the check.
+	TrackingNumber string `json:"tracking_number"`
+	// Open Enum. Tracking status of the paper check.
+	TrackingStatus V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckTrackingStatus `json:"tracking_status"`
+	// When the tracking details were last updated.
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+// Information to track this OutboundPayment with the recipient bank.
+type V2MoneyManagementOutboundPaymentTrackingDetails struct {
+	// Paper check tracking details.
+	PaperCheck *V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheck `json:"paper_check,omitempty"`
+}
+
 // OutboundPayment represents a single money movement from one FinancialAccount you own to a payout method someone else owns.
 type V2MoneyManagementOutboundPayment struct {
 	APIResource
@@ -251,4 +333,6 @@ type V2MoneyManagementOutboundPayment struct {
 	To *V2MoneyManagementOutboundPaymentTo `json:"to"`
 	// A unique identifier that can be used to track this OutboundPayment with recipient bank. Banks might call this a “reference number” or something similar.
 	TraceID *V2MoneyManagementOutboundPaymentTraceID `json:"trace_id"`
+	// Information to track this OutboundPayment with the recipient bank.
+	TrackingDetails *V2MoneyManagementOutboundPaymentTrackingDetails `json:"tracking_details,omitempty"`
 }

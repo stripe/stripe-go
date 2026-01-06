@@ -800,7 +800,7 @@ func (e *QuotaExceededError) canRetry() bool {
 }
 
 // RateLimitError is the Go struct corresponding to the error type "rate_limit".
-// Returned when an API key has reached its limit of concurrently running reports. Wait for existing reports to complete before retrying the request.
+// Account cannot exceed a configured concurrency rate limit on updates.
 type RateLimitError struct {
 	APIResource
 	Code        string    `json:"code"`
