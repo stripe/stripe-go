@@ -2,6 +2,7 @@ package stripe
 
 import (
 	"bytes"
+	"context"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -104,6 +105,36 @@ func TestLeveledLoggerErrorf(t *testing.T) {
 		assert.Equal(t, "", stdout.String())
 		assert.Equal(t, "[ERROR] test\n", stderr.String())
 	}
+}
+
+//
+// ContextLeveledLogger
+//
+
+// testContextLogger is a test implementation of ContextLeveledLoggerInterface
+type testContextLogger struct {
+	*LeveledLogger
+	lastContext context.Context
+}
+
+func (l *testContextLogger) Debugf(ctx context.Context, format string, v ...interface{}) {
+	l.lastContext = ctx
+	l.LeveledLogger.Debugf(format, v...)
+}
+
+func (l *testContextLogger) Infof(ctx context.Context, format string, v ...interface{}) {
+	l.lastContext = ctx
+	l.LeveledLogger.Infof(format, v...)
+}
+
+func (l *testContextLogger) Warnf(ctx context.Context, format string, v ...interface{}) {
+	l.lastContext = ctx
+	l.LeveledLogger.Warnf(format, v...)
+}
+
+func (l *testContextLogger) Errorf(ctx context.Context, format string, v ...interface{}) {
+	l.lastContext = ctx
+	l.LeveledLogger.Errorf(format, v...)
 }
 
 //
