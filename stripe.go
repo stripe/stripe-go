@@ -628,7 +628,7 @@ func (s *BackendImplementation) maybeSetTelemetryHeader(req *http.Request) {
 			if err == nil {
 				req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
 			} else {
-				s.logWarnf(context.Background(), "Unable to encode client telemetry: %v", err)
+				s.logWarnf(req.Context(), "Unable to encode client telemetry: %v", err)
 			}
 		default:
 			// There are no metrics available, so don't send any.
