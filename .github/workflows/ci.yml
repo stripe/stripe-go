@@ -19,11 +19,16 @@ on:
       - sdk-release/**
       - feature/**
 
+permissions: {}
+
 jobs:
   lint:
     name: Lint
 
     runs-on: "ubuntu-24.04"
+
+    permissions:
+      contents: read
 
     steps:
       - uses: extractions/setup-just@v2
@@ -41,6 +46,8 @@ jobs:
   govulncheck:
     name: govulncheck
     runs-on: "ubuntu-24.04"
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
       - name: Set up Go
@@ -55,6 +62,8 @@ jobs:
 
   test:
     runs-on: "ubuntu-24.04"
+    permissions:
+      contents: read
     strategy:
       matrix:
         go:
@@ -85,6 +94,8 @@ jobs:
       startsWith(github.ref, 'refs/tags/v') &&
       endsWith(github.actor, '-stripe')
     runs-on: "ubuntu-24.04"
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
       - uses: stripe/openapi/actions/notify-release@master
