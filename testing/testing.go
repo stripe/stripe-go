@@ -15,7 +15,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	stripe "github.com/stripe/stripe-go/v84"
 	"github.com/stripe/stripe-go/v84/form"
-	"golang.org/x/net/http2"
 )
 
 // This file should contain any testing helpers that should be commonly
@@ -52,24 +51,13 @@ func init() {
 
 	// stripe-mock's certificate for localhost is self-signed so configure a
 	// specialized client that skips the certificate authority check.
+	// ForceAttemptHTTP2 is needed because Go disables HTTP/2 when TLSClientConfig
+	// is set (see https://github.com/golang/go/issues/20645).
 	transport := &http.Transport{
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
 		},
-	}
-
-	// Go can often enable HTTP/2 automatically if it's supported, but
-	// confusingly, if you set `TLSClientConfig`, it disables it and you have
-	// to explicitly invoke http2's `ConfigureTransport` to get it back.
-	//
-	// See the incorrectly closed bug report here:
-	//
-	//     https://github.com/golang/go/issues/20645
-	//
-	err := http2.ConfigureTransport(transport)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to initialize HTTP/2 transport: %v\n", err)
-		os.Exit(1)
+		ForceAttemptHTTP2: true,
 	}
 
 	httpClient := &http.Client{
