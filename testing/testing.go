@@ -51,12 +51,11 @@ func init() {
 
 	// stripe-mock's certificate for localhost is self-signed so configure a
 	// specialized client that skips the certificate authority check.
-	// ForceAttemptHTTP2 is needed because Go disables HTTP/2 when TLSClientConfig
-	// is set (see https://github.com/golang/go/issues/20645).
 	transport := &http.Transport{
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
 		},
+		// ForceAttemptHTTP2 is needed because Go disables HTTP/2 when TLSClientConfig is set
 		ForceAttemptHTTP2: true,
 	}
 
