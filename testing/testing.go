@@ -69,6 +69,13 @@ func init() {
 			"it running? Please see README for setup instructions.\n", port, err)
 		os.Exit(1)
 	}
+
+	if resp.ProtoMajor != 2 {
+		fmt.Fprintf(os.Stderr, "Expected HTTP/2 connection to stripe-mock, but got %s. "+
+			"This may indicate ForceAttemptHTTP2 is not set correctly.\n", resp.Proto)
+		os.Exit(1)
+	}
+
 	version := resp.Header.Get("Stripe-Mock-Version")
 	if version != "master" && compareVersions(version, MockMinimumVersion) > 0 {
 		fmt.Fprintf(os.Stderr, "Your version of stripe-mock (%s) is too old. The "+
