@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// The type of the alternative reference (e.g., external_account for V1 external accounts).
+type V2CoreVaultUSBankAccountAlternativeReferenceType string
+
+// List of values that V2CoreVaultUSBankAccountAlternativeReferenceType can take
+const (
+	V2CoreVaultUSBankAccountAlternativeReferenceTypeExternalAccount V2CoreVaultUSBankAccountAlternativeReferenceType = "external_account"
+	V2CoreVaultUSBankAccountAlternativeReferenceTypePaymentMethod   V2CoreVaultUSBankAccountAlternativeReferenceType = "payment_method"
+)
+
 // Closed Enum. The type of bank account (checking or savings).
 type V2CoreVaultUSBankAccountBankAccountType string
 
@@ -37,6 +46,14 @@ const (
 	V2CoreVaultUSBankAccountVerificationStatusVerified             V2CoreVaultUSBankAccountVerificationStatus = "verified"
 )
 
+// The alternative reference for this payout method, if it's a projected payout method.
+type V2CoreVaultUSBankAccountAlternativeReference struct {
+	// The ID of the alternative resource being referenced.
+	ID string `json:"id"`
+	// The type of the alternative reference (e.g., external_account for V1 external accounts).
+	Type V2CoreVaultUSBankAccountAlternativeReferenceType `json:"type"`
+}
+
 // The microdeposit verification details if the status is awaiting verification.
 type V2CoreVaultUSBankAccountVerificationMicrodepositVerificationDetails struct {
 	// Time when microdeposits will expire and have to be re-sent.
@@ -58,6 +75,8 @@ type V2CoreVaultUSBankAccountVerification struct {
 // Use the USBankAccounts API to create and manage US bank accounts objects that you can use to receive funds. Note that these are not interchangeable with v1 Tokens.
 type V2CoreVaultUSBankAccount struct {
 	APIResource
+	// The alternative reference for this payout method, if it's a projected payout method.
+	AlternativeReference *V2CoreVaultUSBankAccountAlternativeReference `json:"alternative_reference,omitempty"`
 	// Whether this USBankAccount object was archived.
 	Archived bool `json:"archived"`
 	// Closed Enum. The type of bank account (checking or savings).

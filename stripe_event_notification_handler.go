@@ -159,6 +159,12 @@ func (h *EventNotificationHandler) OnV2CoreAccountIncludingDefaultsUpdated(callb
 	return registerTypedHandler(h, "v2.core.account[defaults].updated", callback)
 }
 
+// OnV2CoreAccountIncludingFutureRequirementsUpdated registers a callback to handle notifications about the "v2.core.account[future_requirements].updated" event.
+func (h *EventNotificationHandler) OnV2CoreAccountIncludingFutureRequirementsUpdated(callback func(ctx context.Context, notif *V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.account[future_requirements].updated", callback)
+}
+
 // OnV2CoreAccountIncludingIdentityUpdated registers a callback to handle notifications about the "v2.core.account[identity].updated" event.
 func (h *EventNotificationHandler) OnV2CoreAccountIncludingIdentityUpdated(callback func(ctx context.Context, notif *V2CoreAccountIncludingIdentityUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.account[identity].updated", callback)

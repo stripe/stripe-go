@@ -58,8 +58,30 @@ type V2MoneyManagementFinancialAddressCredentialsSEPABankAccount struct {
 	Last4 string `json:"last4"`
 }
 
+// The address of the account holder.
+type V2MoneyManagementFinancialAddressCredentialsUSBankAccountAccountHolderAddress struct {
+	// The city of the address.
+	City string `json:"city"`
+	// The country of the address.
+	Country string `json:"country"`
+	// The first line of the address.
+	Line1 string `json:"line1"`
+	// The second line of the address.
+	Line2 string `json:"line2"`
+	// The postal / zip code of the address.
+	PostalCode string `json:"postal_code"`
+	// The state of the address.
+	State string `json:"state"`
+	// The town of the address.
+	Town string `json:"town"`
+}
+
 // The credentials of the US Bank Account for the FinancialAddress. This contains unique banking details such as the routing number, account number, etc. of a US bank account.
 type V2MoneyManagementFinancialAddressCredentialsUSBankAccount struct {
+	// The address of the account holder.
+	AccountHolderAddress *V2MoneyManagementFinancialAddressCredentialsUSBankAccountAccountHolderAddress `json:"account_holder_address,omitempty"`
+	// The name of the account holder.
+	AccountHolderName string `json:"account_holder_name,omitempty"`
 	// The account number of the US Bank Account.
 	AccountNumber string `json:"account_number,omitempty"`
 	// The name of the Bank.

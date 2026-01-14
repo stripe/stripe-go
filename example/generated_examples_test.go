@@ -16110,7 +16110,7 @@ func TestBlockedByStripeErrorService(t *testing.T) {
 		AccountNumber: stripe.String("account_number"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/us_bank_accounts", params, "{\"error\":{\"type\":\"blocked_by_stripe\",\"code\":\"blocked_payout_method_bank_account\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts", params, "{\"error\":{\"type\":\"blocked_by_stripe\",\"code\":\"blocked_payout_method\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16125,7 +16125,7 @@ func TestBlockedByStripeErrorClient(t *testing.T) {
 		AccountNumber: stripe.String("account_number"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/us_bank_accounts", params, "{\"error\":{\"type\":\"blocked_by_stripe\",\"code\":\"blocked_payout_method_bank_account\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts", params, "{\"error\":{\"type\":\"blocked_by_stripe\",\"code\":\"blocked_payout_method\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16437,6 +16437,30 @@ func TestQuotaExceededErrorClient(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
+}
+
+func TestRateLimitErrorService(t *testing.T) {
+	params := &stripe.V2CoreAccountListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"account_rate_limit_exceeded\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreAccounts.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestRateLimitErrorClient(t *testing.T) {
+	params := &stripe.V2CoreAccountListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"account_rate_limit_exceeded\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreAccounts.List(context.TODO(), params)
+	assert.NotNil(t, result)
 }
 
 func TestRecipientNotNotifiableErrorService(t *testing.T) {

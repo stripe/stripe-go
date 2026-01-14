@@ -15,7 +15,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	stripe "github.com/stripe/stripe-go/v84"
 	"github.com/stripe/stripe-go/v84/form"
-	"golang.org/x/net/http2"
 )
 
 // This file should contain any testing helpers that should be commonly
@@ -56,20 +55,8 @@ func init() {
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
 		},
-	}
-
-	// Go can often enable HTTP/2 automatically if it's supported, but
-	// confusingly, if you set `TLSClientConfig`, it disables it and you have
-	// to explicitly invoke http2's `ConfigureTransport` to get it back.
-	//
-	// See the incorrectly closed bug report here:
-	//
-	//     https://github.com/golang/go/issues/20645
-	//
-	err := http2.ConfigureTransport(transport)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to initialize HTTP/2 transport: %v\n", err)
-		os.Exit(1)
+		// ForceAttemptHTTP2 is needed because Go disables HTTP/2 when TLSClientConfig is set
+		ForceAttemptHTTP2: true,
 	}
 
 	httpClient := &http.Client{
@@ -82,6 +69,13 @@ func init() {
 			"it running? Please see README for setup instructions.\n", port, err)
 		os.Exit(1)
 	}
+
+	if resp.ProtoMajor != 2 {
+		fmt.Fprintf(os.Stderr, "Expected HTTP/2 connection to stripe-mock, but got %s. "+
+			"This may indicate ForceAttemptHTTP2 is not set correctly.\n", resp.Proto)
+		os.Exit(1)
+	}
+
 	version := resp.Header.Get("Stripe-Mock-Version")
 	if version != "master" && compareVersions(version, MockMinimumVersion) > 0 {
 		fmt.Fprintf(os.Stderr, "Your version of stripe-mock (%s) is too old. The "+
