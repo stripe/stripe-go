@@ -709,6 +709,45 @@ func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchRelatedObj
 	return relatedObj, err
 }
 
+// V2CoreAccountIncludingFutureRequirementsUpdatedEvent is the Go struct for the "v2.core.account[future_requirements].updated" event.
+// Occurs when an Account's future requirements are updated.
+type V2CoreAccountIncludingFutureRequirementsUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingFutureRequirementsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[future_requirements].updated"
+// Occurs when an Account's future requirements are updated.
+type V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingFutureRequirementsUpdatedEvent that created this Notification
+func (n *V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingFutureRequirementsUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingFutureRequirementsUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (n *V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2CoreAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
 // Occurs when an Identity is updated.
 type V2CoreAccountIncludingIdentityUpdatedEvent struct {
@@ -2745,6 +2784,16 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.core.account[future_requirements].updated":
+		result := &V2CoreAccountIncludingFutureRequirementsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.core.account[identity].updated":
 		result := &V2CoreAccountIncludingIdentityUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -3311,6 +3360,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.account[defaults].updated":
 		evt := V2CoreAccountIncludingDefaultsUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[future_requirements].updated":
+		evt := V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

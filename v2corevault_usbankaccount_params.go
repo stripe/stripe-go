@@ -70,7 +70,7 @@ type V2CoreVaultUSBankAccountRetrieveParams struct {
 // Update a USBankAccount object. This is limited to supplying a previously empty routing_number field.
 type V2CoreVaultUSBankAccountUpdateParams struct {
 	Params `form:"*"`
-	// The bank account's fedwire routing number can be provided for update it was were empty previously.
+	// The bank account's Fedwire routing number can be provided for update if it was empty previously.
 	FedwireRoutingNumber *string `form:"fedwire_routing_number" json:"fedwire_routing_number,omitempty"`
 	// The bank account's ACH routing number can be provided for update if it was empty previously.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
