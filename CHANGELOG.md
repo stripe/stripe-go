@@ -1,5 +1,13 @@
 # Changelog
 
+## 84.2.0-alpha.3 - 2026-01-14
+* [#2250](https://github.com/stripe/stripe-go/pull/2250) Update generated code for private-preview
+  * Add support for `RiskDetails` on `DelegatedCheckoutRequestedSession`
+  * Remove support for `Description`, `Images`, and `Name` on `DelegatedCheckoutRequestedSessionLineItemDetail`
+  * Add support for `Name` on `ProductCatalogTrialOfferParams` and `ProductCatalogTrialOffer`
+  * Add support for `LoginFailed` and `RegistrationFailed` on `RadarAccountEvaluationEvents` and `RadarAccountEvaluationParams`
+  * Change type of `RadarAccountEvaluationParams.Type` from `literal('registration_succeeded')` to `enum('login_failed'|'login_succeeded'|'registration_failed'|'registration_succeeded')`
+
 ## 84.2.0-alpha.2 - 2026-01-07
 * [#2245](https://github.com/stripe/stripe-go/pull/2245) Update generated code for private-preview
   * Add support for `TrackingDetails` on `V2MoneyManagementOutboundPayment`
