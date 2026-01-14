@@ -557,14 +557,8 @@ type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	AmountDiscount int64 `json:"amount_discount"`
 	// The total before any discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
-	// The description of the line item.
-	Description string `json:"description"`
-	// The images of the line item.
-	Images []string `json:"images"`
 	// The key of the line item.
-	Key string `json:"key"`
-	// The name of the line item.
-	Name           string                                                         `json:"name"`
+	Key            string                                                         `json:"key"`
 	ProductDetails *DelegatedCheckoutRequestedSessionLineItemDetailProductDetails `json:"product_details"`
 	// The quantity of the line item.
 	Quantity int64 `json:"quantity"`
@@ -637,6 +631,26 @@ type DelegatedCheckoutRequestedSessionTotalDetails struct {
 	ApplicableFees []*DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee `json:"applicable_fees"`
 }
 
+// The risk metadata for the client device.
+type DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetails struct {
+	// The radar session for the client device.
+	RadarSession string `json:"radar_session"`
+	// The referrer of the client device.
+	Referrer string `json:"referrer"`
+	// The remote IP address of the client device.
+	RemoteIP string `json:"remote_ip"`
+	// The time spent on the page by the client device.
+	TimeOnPageMS int64 `json:"time_on_page_ms"`
+	// The user agent of the client device.
+	UserAgent string `json:"user_agent"`
+}
+
+// The risk details of the requested session.
+type DelegatedCheckoutRequestedSessionRiskDetails struct {
+	// The risk metadata for the client device.
+	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetails `json:"client_device_metadata_details"`
+}
+
 // A requested session is a session that has been requested by a customer.
 type DelegatedCheckoutRequestedSession struct {
 	APIResource
@@ -670,7 +684,9 @@ type DelegatedCheckoutRequestedSession struct {
 	PaymentMethod string `json:"payment_method"`
 	// The preview of the payment method to be created when the requested session is confirmed.
 	PaymentMethodPreview *DelegatedCheckoutRequestedSessionPaymentMethodPreview `json:"payment_method_preview"`
-	SellerDetails        *DelegatedCheckoutRequestedSessionSellerDetails        `json:"seller_details"`
+	// The risk details of the requested session.
+	RiskDetails   *DelegatedCheckoutRequestedSessionRiskDetails   `json:"risk_details"`
+	SellerDetails *DelegatedCheckoutRequestedSessionSellerDetails `json:"seller_details"`
 	// Whether or not the payment method should be saved for future use.
 	SetupFutureUsage DelegatedCheckoutRequestedSessionSetupFutureUsage `json:"setup_future_usage"`
 	// The metadata shared with the seller.

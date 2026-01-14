@@ -11,8 +11,12 @@ type RadarAccountEvaluationParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Event payload for login_failed.
+	LoginFailed *RadarAccountEvaluationLoginFailedParams `form:"login_failed"`
 	// Event payload for login_initiated.
 	LoginInitiated *RadarAccountEvaluationLoginInitiatedParams `form:"login_initiated"`
+	// Event payload for registration_failed.
+	RegistrationFailed *RadarAccountEvaluationRegistrationFailedParams `form:"registration_failed"`
 	// Event payload for registration_initiated.
 	RegistrationInitiated *RadarAccountEvaluationRegistrationInitiatedParams `form:"registration_initiated"`
 	// The type of evaluation requested.
@@ -62,6 +66,18 @@ type RadarAccountEvaluationRegistrationInitiatedParams struct {
 	Customer *string `form:"customer"`
 	// Customer data
 	CustomerData *RadarAccountEvaluationRegistrationInitiatedCustomerDataParams `form:"customer_data"`
+}
+
+// Event payload for login_failed.
+type RadarAccountEvaluationLoginFailedParams struct {
+	// The reason why this login failed.
+	Reason *string `form:"reason"`
+}
+
+// Event payload for registration_failed.
+type RadarAccountEvaluationRegistrationFailedParams struct {
+	// The reason why this registration failed.
+	Reason *string `form:"reason"`
 }
 
 // Retrieves an AccountEvaluation object.
@@ -134,11 +150,27 @@ func (p *RadarAccountEvaluationCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Event payload for login_failed.
+type RadarAccountEvaluationUpdateLoginFailedParams struct {
+	// The reason why this login failed.
+	Reason *string `form:"reason"`
+}
+
+// Event payload for registration_failed.
+type RadarAccountEvaluationUpdateRegistrationFailedParams struct {
+	// The reason why this registration failed.
+	Reason *string `form:"reason"`
+}
+
 // Reports an event on an AccountEvaluation object.
 type RadarAccountEvaluationUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Event payload for login_failed.
+	LoginFailed *RadarAccountEvaluationUpdateLoginFailedParams `form:"login_failed"`
+	// Event payload for registration_failed.
+	RegistrationFailed *RadarAccountEvaluationUpdateRegistrationFailedParams `form:"registration_failed"`
 	// The type of event to report.
 	Type *string `form:"type"`
 }
@@ -148,10 +180,26 @@ func (p *RadarAccountEvaluationUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Data about a failed login event.
+type RadarAccountEvaluationEventLoginFailed struct {
+	// The reason why this login failed.
+	Reason string `json:"reason"`
+}
+
+// Data about a failed registration event.
+type RadarAccountEvaluationEventRegistrationFailed struct {
+	// The reason why this registration failed.
+	Reason string `json:"reason"`
+}
+
 // The list of events that were reported for this Account Evaluation object via the report API.
 type RadarAccountEvaluationEvent struct {
+	// Data about a failed login event.
+	LoginFailed *RadarAccountEvaluationEventLoginFailed `json:"login_failed"`
 	// Time at which the event occurred. Measured in seconds since the Unix epoch.
 	OccurredAt int64 `json:"occurred_at"`
+	// Data about a failed registration event.
+	RegistrationFailed *RadarAccountEvaluationEventRegistrationFailed `json:"registration_failed"`
 	// The type of event that occurred.
 	Type string `json:"type"`
 }

@@ -58,6 +58,8 @@ type ProductCatalogTrialOfferParams struct {
 	EndBehavior *ProductCatalogTrialOfferEndBehaviorParams `form:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// A brief, user-friendly name for the trial offer-for identification purposes.
+	Name *string `form:"name"`
 	// Price configuration during the trial period (amount, billing scheme, etc).
 	Price *string `form:"price"`
 }
@@ -102,6 +104,8 @@ type ProductCatalogTrialOfferCreateParams struct {
 	EndBehavior *ProductCatalogTrialOfferCreateEndBehaviorParams `form:"end_behavior"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// A brief, user-friendly name for the trial offer-for identification purposes.
+	Name *string `form:"name"`
 	// Price configuration during the trial period (amount, billing scheme, etc).
 	Price *string `form:"price"`
 }
@@ -140,6 +144,8 @@ type ProductCatalogTrialOffer struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// A brief, user-friendly name for the trial offer-for identification purposes.
+	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The price during the trial offer.
