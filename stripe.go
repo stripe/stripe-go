@@ -943,6 +943,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 
 	// The beginning of the section generated from our OpenAPI spec
 	switch *raw.Error.Type {
+	case "rate_limit":
+		tmp := struct {
+			Error *RateLimitError `json:"error"`
+		}{
+			Error: &RateLimitError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "temporary_session_expired":
 		tmp := struct {
 			Error *TemporarySessionExpiredError `json:"error"`

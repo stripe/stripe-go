@@ -13732,6 +13732,30 @@ func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestRateLimitErrorService(t *testing.T) {
+	params := &stripe.V2CoreAccountListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"account_rate_limit_exceeded\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreAccounts.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestRateLimitErrorClient(t *testing.T) {
+	params := &stripe.V2CoreAccountListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"error\":{\"type\":\"rate_limit\",\"code\":\"account_rate_limit_exceeded\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreAccounts.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
 func TestTemporarySessionExpiredErrorService(t *testing.T) {
 	params := &stripe.V2BillingMeterEventStreamParams{
 		Events: []*stripe.V2BillingMeterEventStreamEventParams{
