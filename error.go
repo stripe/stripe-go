@@ -20,7 +20,6 @@ const (
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
 
 	// V2 error types
-	ErrorTypeRateLimit               ErrorType = "rate_limit"
 	ErrorTypeTemporarySessionExpired ErrorType = "temporary_session_expired"
 )
 
@@ -418,33 +417,6 @@ func (e *IdempotencyError) Error() string {
 }
 
 // errorStructs: The beginning of the section generated from our OpenAPI spec
-
-// RateLimitError is the Go struct corresponding to the error type "rate_limit".
-// Account cannot exceed a configured concurrency rate limit on updates.
-type RateLimitError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *RateLimitError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *RateLimitError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *RateLimitError) canRetry() bool {
-	return false
-}
 
 // TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired".
 // The temporary session token has expired.
