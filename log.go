@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"os"
@@ -139,4 +140,25 @@ type LeveledLoggerInterface interface {
 
 	// Warnf logs a warning message using Printf conventions.
 	Warnf(format string, v ...interface{})
+}
+
+// ContextLeveledLoggerInterface provides a context-aware leveled logging interface
+// for printing debug, informational, warning, and error messages with access to
+// the request's context.Context.
+//
+// This interface allows loggers to extract trace IDs, request IDs, and other
+// contextual information for distributed tracing systems like OpenTelemetry,
+// OpenCensus, or custom correlation tracking.
+type ContextLeveledLoggerInterface interface {
+	// Debugf logs a debug message using Printf conventions with context.
+	Debugf(ctx context.Context, format string, v ...interface{})
+
+	// Errorf logs an error message using Printf conventions with context.
+	Errorf(ctx context.Context, format string, v ...interface{})
+
+	// Infof logs an informational message using Printf conventions with context.
+	Infof(ctx context.Context, format string, v ...interface{})
+
+	// Warnf logs a warning message using Printf conventions with context.
+	Warnf(ctx context.Context, format string, v ...interface{})
 }
