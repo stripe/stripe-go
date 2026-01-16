@@ -3,6 +3,7 @@ package stripe
 import (
 	"bytes"
 	"context"
+	"errors"
 	"io"
 	"net/http"
 	"testing"
@@ -272,4 +273,212 @@ func TestContextPropagationInRequest(t *testing.T) {
 
 	// Verify context was passed to logger
 	assert.Equal(t, ctx, contextLogger.lastContext, "Request context should be passed to logger")
+}
+
+// TestHandleResponseBufferingErrors_ContextPropagation_NilResponse tests that
+// handleResponseBufferingErrors doesn't panic when res is nil (connection error case)
+// and falls back to context.Background()
+func TestHandleResponseBufferingErrors_ContextPropagation_NilResponse(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	contextLogger := &testContextLogger{
+		LeveledLogger: &LeveledLogger{
+			stdoutOverride: &stdout,
+			stderrOverride: &stderr,
+			Level:          LevelError,
+		},
+	}
+
+	config := &BackendConfig{
+		HTTPClient:        &http.Client{},
+		LeveledLogger:     contextLogger,
+		MaxNetworkRetries: Int64(0),
+		URL:               String("https://api.stripe.com"),
+	}
+
+	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
+
+	// Simulate a timeout error where http.Client.Do returns nil response
+	var resp *http.Response = nil
+	timeoutErr := errors.New("test error")
+
+	// Should not panic and should use context.Background()
+	_, err := backend.handleResponseBufferingErrors(resp, timeoutErr)
+	assert.Error(t, err)
+	assert.Equal(t, timeoutErr, err)
+
+	// Context should be context.Background() (not nil)
+	assert.NotNil(t, contextLogger.lastContext, "Context should not be nil")
+}
+
+// TestHandleResponseBufferingErrors_ContextPropagation_WithResponse tests that
+// handleResponseBufferingErrors propagates context from res.Request when available
+func TestHandleResponseBufferingErrors_ContextPropagation_WithResponse(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	contextLogger := &testContextLogger{
+		LeveledLogger: &LeveledLogger{
+			stdoutOverride: &stdout,
+			stderrOverride: &stderr,
+			Level:          LevelError,
+		},
+	}
+
+	config := &BackendConfig{
+		HTTPClient:        &http.Client{},
+		LeveledLogger:     contextLogger,
+		MaxNetworkRetries: Int64(0),
+		URL:               String("https://api.stripe.com"),
+	}
+
+	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
+
+	// Create a context with a trace ID
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "test-trace-456")
+
+	// Create a request with the context
+	req, _ := http.NewRequestWithContext(ctx, "GET", "https://api.stripe.com/v1/test", nil)
+
+	// Create a response with the request attached (simulating CheckRedirect error case)
+	resp := &http.Response{
+		StatusCode: 302,
+		Body:       io.NopCloser(bytes.NewBufferString("")),
+		Request:    req,
+	}
+
+	// Simulate a redirect error where res is non-nil but err is also non-nil
+	redirectErr := errors.New("test error")
+
+	_, err := backend.handleResponseBufferingErrors(resp, redirectErr)
+	assert.Error(t, err)
+
+	// Context should be the one from res.Request
+	assert.Equal(t, ctx, contextLogger.lastContext, "Context should be propagated from res.Request")
+}
+
+// TestHandleResponseBufferingErrors_ContextPropagation_NilRequest tests that
+// handleResponseBufferingErrors falls back to context.Background() when
+// res is non-nil but res.Request is nil (defensive check for custom RoundTrippers)
+func TestHandleResponseBufferingErrors_ContextPropagation_NilRequest(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	contextLogger := &testContextLogger{
+		LeveledLogger: &LeveledLogger{
+			stdoutOverride: &stdout,
+			stderrOverride: &stderr,
+			Level:          LevelError,
+		},
+	}
+
+	config := &BackendConfig{
+		HTTPClient:        &http.Client{},
+		LeveledLogger:     contextLogger,
+		MaxNetworkRetries: Int64(0),
+		URL:               String("https://api.stripe.com"),
+	}
+
+	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
+
+	// Create a response with nil Request (simulating buggy RoundTripper)
+	resp := &http.Response{
+		StatusCode: 302,
+		Body:       io.NopCloser(bytes.NewBufferString("")),
+		Request:    nil, // Intentionally nil to test defensive check
+	}
+
+	// Simulate error case
+	someErr := errors.New("test error")
+
+	// Should not panic and should fall back to context.Background()
+	_, err := backend.handleResponseBufferingErrors(resp, someErr)
+	assert.Error(t, err)
+
+	// Context should be context.Background() (not nil, not panic)
+	assert.NotNil(t, contextLogger.lastContext, "Context should not be nil when res.Request is nil")
+}
+
+// errorReader is a reader that always fails - used to simulate io.ReadAll errors
+type errorReader struct{}
+
+func (e *errorReader) Read(p []byte) (n int, err error) {
+	return 0, errors.New("simulated read error")
+}
+
+// TestHandleResponseBufferingErrors_ContextPropagation_ReadError tests that
+// handleResponseBufferingErrors propagates context from res.Request when io.ReadAll fails
+func TestHandleResponseBufferingErrors_ContextPropagation_ReadError(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	contextLogger := &testContextLogger{
+		LeveledLogger: &LeveledLogger{
+			stdoutOverride: &stdout,
+			stderrOverride: &stderr,
+			Level:          LevelError,
+		},
+	}
+
+	config := &BackendConfig{
+		HTTPClient:        &http.Client{},
+		LeveledLogger:     contextLogger,
+		MaxNetworkRetries: Int64(0),
+		URL:               String("https://api.stripe.com"),
+	}
+
+	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
+
+	// Create a context with a trace ID
+	ctx := context.WithValue(context.Background(), contextKey("trace_id"), "test-trace-read-error")
+
+	// Create a request with the context
+	req, _ := http.NewRequestWithContext(ctx, "GET", "https://api.stripe.com/v1/test", nil)
+
+	// Create a response with a body that fails on read
+	// StatusCode >= 400 to skip early return, err=nil to reach io.ReadAll
+	resp := &http.Response{
+		StatusCode: 400,
+		Body:       io.NopCloser(&errorReader{}),
+		Request:    req,
+	}
+
+	// Call with nil error - will fail at io.ReadAll
+	_, err := backend.handleResponseBufferingErrors(resp, nil)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "simulated read error")
+
+	// Context should be the one from res.Request
+	assert.Equal(t, ctx, contextLogger.lastContext, "Context should be propagated from res.Request on read error")
+}
+
+// TestHandleResponseBufferingErrors_ContextPropagation_ReadError_NilRequest tests that
+// handleResponseBufferingErrors falls back to context.Background() when io.ReadAll fails
+// and res.Request is nil
+func TestHandleResponseBufferingErrors_ContextPropagation_ReadError_NilRequest(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	contextLogger := &testContextLogger{
+		LeveledLogger: &LeveledLogger{
+			stdoutOverride: &stdout,
+			stderrOverride: &stderr,
+			Level:          LevelError,
+		},
+	}
+
+	config := &BackendConfig{
+		HTTPClient:        &http.Client{},
+		LeveledLogger:     contextLogger,
+		MaxNetworkRetries: Int64(0),
+		URL:               String("https://api.stripe.com"),
+	}
+
+	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
+
+	// Create a response with a body that fails on read AND nil Request
+	// StatusCode >= 400 to skip early return, err=nil to reach io.ReadAll
+	resp := &http.Response{
+		StatusCode: 400,
+		Body:       io.NopCloser(&errorReader{}),
+		Request:    nil, // Intentionally nil to test fallback
+	}
+
+	// Call with nil error - will fail at io.ReadAll
+	_, err := backend.handleResponseBufferingErrors(resp, nil)
+	assert.Error(t, err)
+
+	// Context should be context.Background() (not nil, not panic)
+	assert.NotNil(t, contextLogger.lastContext, "Context should not be nil when res.Request is nil on read error")
 }
