@@ -298,7 +298,7 @@ func TestHandleResponseBufferingErrors_ContextPropagation_NilResponse(t *testing
 	backend := newBackendImplementation(APIBackend, config).(*BackendImplementation)
 
 	// Simulate a timeout error where http.Client.Do returns nil response
-	var resp *http.Response = nil
+	var resp *http.Response
 	timeoutErr := errors.New("test error")
 
 	// Should not panic and should use context.Background()
@@ -404,4 +404,3 @@ func TestHandleResponseBufferingErrors_ContextPropagation_ReadError(t *testing.T
 	// Context should be the one from res.Request
 	assert.Equal(t, ctx, contextLogger.lastContext, "Context should be propagated from res.Request on read error")
 }
-
