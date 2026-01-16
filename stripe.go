@@ -825,7 +825,7 @@ func (s *BackendImplementation) logError(ctx context.Context, statusCode int, er
 func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response, err error) (io.ReadCloser, error) {
 	// Some sort of connection error
 	if err != nil {
-		if res != nil && res.Request != nil {
+		if res != nil {
 			s.logErrorf(res.Request.Context(), "Request failed with error: %v", err)
 		} else {
 			s.logErrorf(context.Background(), "Request failed with error: %v", err)
@@ -846,11 +846,7 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	if err == nil {
 		err = s.ResponseToError(res, resBody)
 	} else {
-		if res.Request != nil {
-			s.logError(res.Request.Context(), res.StatusCode, err)
-		} else {
-			s.logError(context.Background(), res.StatusCode, err)
-		}
+		s.logError(res.Request.Context(), res.StatusCode, err)
 	}
 
 	return res.Body, err
