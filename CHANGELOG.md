@@ -1,5 +1,16 @@
 # Changelog
 
+## 84.2.0 - 2026-01-16
+* [#2255](https://github.com/stripe/stripe-go/pull/2255) Update generated code
+  * Add support for event notifications `V2CoreAccountClosedEvent`, `V2CoreAccountCreatedEvent`, `V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationCustomerUpdatedEvent`, `V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationMerchantUpdatedEvent`, `V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationRecipientUpdatedEvent`, `V2CoreAccountIncludingDefaultsUpdatedEvent`, `V2CoreAccountIncludingFutureRequirementsUpdatedEvent`, `V2CoreAccountIncludingIdentityUpdatedEvent`, `V2CoreAccountIncludingRequirementsUpdatedEvent`, and `V2CoreAccountUpdatedEvent` with related object `V2CoreAccount`
+  * Add support for event notification `V2CoreAccountLinkReturnedEvent`
+  * Add support for event notifications `V2CoreAccountPersonCreatedEvent`, `V2CoreAccountPersonDeletedEvent`, and `V2CoreAccountPersonUpdatedEvent` with related object `V2CoreAccountPerson`
+* [#2254](https://github.com/stripe/stripe-go/pull/2254) Remove golang.org/x/net/http2 dependency
+  - Removes the dependency on `golang.org/x/net/http2`
+* [#2111](https://github.com/stripe/stripe-go/pull/2111) Bump gopkg.in/yaml.v3 from 3.0.0 to 3.0.1
+* [#2240](https://github.com/stripe/stripe-go/pull/2240) Add HTTP response code to V2 Error
+  - Adds `HTTPStatusCode` and `RequestID` fields to `V2RawError`
+
 ## 84.2.0-alpha.3 - 2026-01-14
 * [#2250](https://github.com/stripe/stripe-go/pull/2250) Update generated code for private-preview
   * Add support for `RiskDetails` on `DelegatedCheckoutRequestedSession`
