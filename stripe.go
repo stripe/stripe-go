@@ -229,6 +229,11 @@ type BackendConfig struct {
 	// LeveledLogger is the logger that the backend will use to log errors,
 	// warnings, and informational messages.
 	//
+	// This field accepts either LeveledLoggerInterface (the traditional interface)
+	// or ContextLeveledLoggerInterface (the context-aware interface). The SDK will
+	// automatically detect which interface your logger implements and use it
+	// appropriately.
+	//
 	// LeveledLoggerInterface is implemented by LeveledLogger, and one can be
 	// initialized at the desired level of logging.  LeveledLoggerInterface
 	// also provides out-of-the-box compatibility with a Logrus Logger, but may
@@ -240,7 +245,7 @@ type BackendConfig struct {
 	// To set a logger that logs nothing, set this to a stripe.LeveledLogger
 	// with a Level of LevelNull (simply setting this field to nil will not
 	// work).
-	LeveledLogger LeveledLoggerInterface
+	LeveledLogger interface{}
 
 	// MaxNetworkRetries sets maximum number of times that the library will
 	// retry requests that appear to have failed due to an intermittent
@@ -275,7 +280,7 @@ type BackendImplementation struct {
 	Type              SupportedBackend
 	URL               string
 	HTTPClient        *http.Client
-	LeveledLogger     LeveledLoggerInterface
+	LeveledLogger     interface{}
 	MaxNetworkRetries int64
 	StripeContext     *string
 
@@ -560,7 +565,11 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	// Body is set later by `Do`.
 	req, err := http.NewRequest(method, s.URL+path, nil)
 	if err != nil {
-		s.LeveledLogger.Errorf("Cannot create Stripe request: %v", err)
+		ctx := context.Background()
+		if params != nil && params.Context != nil {
+			ctx = params.Context
+		}
+		s.logErrorf(ctx, "Cannot create Stripe request: %v", err)
 		return nil, err
 	}
 
@@ -620,7 +629,7 @@ func (s *BackendImplementation) maybeSetTelemetryHeader(req *http.Request) {
 			if err == nil {
 				req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
 			} else {
-				s.LeveledLogger.Warnf("Unable to encode client telemetry: %v", err)
+				s.logWarnf(req.Context(), "Unable to encode client telemetry: %v", err)
 			}
 		default:
 			// There are no metrics available, so don't send any.
@@ -651,6 +660,42 @@ func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(requestID string, r
 	select {
 	case s.requestMetricsBuffer <- metrics:
 	default:
+	}
+}
+
+// logDebugf logs a debug message, using context-aware logger if available
+func (s *BackendImplementation) logDebugf(ctx context.Context, format string, v ...interface{}) {
+	if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		logger.Debugf(ctx, format, v...)
+	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
+		logger.Debugf(format, v...)
+	}
+}
+
+// logInfof logs an info message, using context-aware logger if available
+func (s *BackendImplementation) logInfof(ctx context.Context, format string, v ...interface{}) {
+	if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		logger.Infof(ctx, format, v...)
+	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
+		logger.Infof(format, v...)
+	}
+}
+
+// logWarnf logs a warning message, using context-aware logger if available
+func (s *BackendImplementation) logWarnf(ctx context.Context, format string, v ...interface{}) {
+	if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		logger.Warnf(ctx, format, v...)
+	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
+		logger.Warnf(format, v...)
+	}
+}
+
+// logErrorf logs an error message, using context-aware logger if available
+func (s *BackendImplementation) logErrorf(ctx context.Context, format string, v ...interface{}) {
+	if logger, ok := s.LeveledLogger.(ContextLeveledLoggerInterface); ok {
+		logger.Errorf(ctx, format, v...)
+	} else if logger, ok := s.LeveledLogger.(LeveledLoggerInterface); ok {
+		logger.Errorf(format, v...)
 	}
 }
 
@@ -709,7 +754,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	body *bytes.Buffer,
 	handleResponse func(*http.Response, error) (interface{}, error),
 ) (*http.Response, interface{}, *time.Duration, error) {
-	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
+	s.logInfof(req.Context(), "Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
 	s.maybeSetTelemetryHeader(req)
 	var resp *http.Response
 	var err error
@@ -722,7 +767,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 		resp, err = s.HTTPClient.Do(req)
 
 		requestDuration = time.Since(start)
-		s.LeveledLogger.Infof("Request completed in %v (retry: %v)", requestDuration, retry)
+		s.logInfof(req.Context(), "Request completed in %v (retry: %v)", requestDuration, retry)
 
 		result, err = handleResponse(resp, err)
 
@@ -731,14 +776,14 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 		shouldRetry, noRetryReason := s.shouldRetry(err, req, resp, retry)
 
 		if !shouldRetry {
-			s.LeveledLogger.Infof("Not retrying request: %v", noRetryReason)
+			s.logInfof(req.Context(), "Not retrying request: %v", noRetryReason)
 			break
 		}
 
 		sleepDuration := s.sleepTime(retry)
 		retry++
 
-		s.LeveledLogger.Warnf("Initiating retry %v for request %v %v%v after sleeping %v",
+		s.logWarnf(req.Context(), "Initiating retry %v for request %v %v%v after sleeping %v",
 			retry, req.Method, req.URL.Host, req.URL.Path, sleepDuration)
 
 		time.Sleep(sleepDuration)
@@ -751,7 +796,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	return resp, result, &requestDuration, nil
 }
 
-func (s *BackendImplementation) logError(statusCode int, err error) {
+func (s *BackendImplementation) logError(ctx context.Context, statusCode int, err error) {
 	if stripeErr, ok := err.(redacter); ok {
 		// The Stripe API makes a distinction between errors that were
 		// caused by invalid parameters or something else versus those
@@ -767,21 +812,25 @@ func (s *BackendImplementation) logError(statusCode int, err error) {
 		// Stripe API doesn't comply to the letter of the specification
 		// and uses it in a broader sense.
 		if statusCode == 402 {
-			s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
+			s.logInfof(ctx, "User-compelled request error from Stripe (status %v): %v",
 				statusCode, stripeErr.redact())
 		} else {
-			s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
+			s.logErrorf(ctx, "Request error from Stripe (status %v): %v",
 				statusCode, stripeErr.redact())
 		}
 	} else {
-		s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
+		s.logErrorf(ctx, "Error decoding error from Stripe: %v", err)
 	}
 }
 
 func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response, err error) (io.ReadCloser, error) {
 	// Some sort of connection error
 	if err != nil {
-		s.LeveledLogger.Errorf("Request failed with error: %v", err)
+		if res != nil {
+			s.logErrorf(res.Request.Context(), "Request failed with error: %v", err)
+		} else {
+			s.logErrorf(context.Background(), "Request failed with error: %v", err)
+		}
 		return nil, err
 	}
 
@@ -798,7 +847,7 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	if err == nil {
 		err = s.ResponseToError(res, resBody)
 	} else {
-		s.logError(res.StatusCode, err)
+		s.logError(res.Request.Context(), res.StatusCode, err)
 	}
 
 	return res.Body, err
@@ -839,13 +888,13 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 
 		switch {
 		case err != nil:
-			s.LeveledLogger.Errorf("Request failed with error: %v", err)
+			s.logErrorf(req.Context(), "Request failed with error: %v", err)
 		case res.StatusCode >= 400 && ver == V1APIMode:
 			err = s.ResponseToError(res, resBody)
-			s.logError(res.StatusCode, err)
+			s.logError(req.Context(), res.StatusCode, err)
 		case res.StatusCode >= 400 && ver == V2APIMode:
 			err = s.responseToErrorV2(res, resBody)
-			s.logError(res.StatusCode, err)
+			s.logError(req.Context(), res.StatusCode, err)
 		}
 
 		return resBody, err
@@ -856,7 +905,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		return err
 	}
 	resBody := result.([]byte)
-	s.LeveledLogger.Debugf("Response: %s", string(resBody))
+	s.logDebugf(req.Context(), "Response: %s", string(resBody))
 
 	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
 	v.SetLastResponse(newAPIResponse(res, resBody, requestDuration))
@@ -1162,7 +1211,7 @@ func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte
 
 		newErr := fmt.Errorf("Couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
 			statusCode, bodySample, err)
-		s.LeveledLogger.Errorf("%s", newErr.Error())
+		s.logErrorf(context.Background(), "%s", newErr.Error())
 		return newErr
 	}
 
@@ -1832,6 +1881,15 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 	// only allocate the requestMetrics buffer if client telemetry is enabled.
 	if enableTelemetry {
 		requestMetricsBuffer = make(chan requestMetrics, telemetryBufferSize)
+	}
+
+	// Validate that the logger implements one of the expected interfaces
+	if config.LeveledLogger != nil {
+		_, isContext := config.LeveledLogger.(ContextLeveledLoggerInterface)
+		_, isLeveled := config.LeveledLogger.(LeveledLoggerInterface)
+		if !isContext && !isLeveled {
+			panic(fmt.Sprintf("LeveledLogger must implement either LeveledLoggerInterface or ContextLeveledLoggerInterface, got %T", config.LeveledLogger))
+		}
 	}
 
 	return &BackendImplementation{
