@@ -22,6 +22,12 @@ type DiscountSource struct {
 	// The source type of the discount.
 	Type DiscountSourceType `json:"type"`
 }
+type DiscountServicePeriodDetails struct {
+	// The date that the service period was anchored to.
+	ServicePeriodAnchoredAt int64 `json:"service_period_anchored_at"`
+	// The date that the service period started.
+	StartDate int64 `json:"start_date"`
+}
 
 // A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).
 // It contains information about when the discount began, when it will end, and what it is applied to.
@@ -48,8 +54,9 @@ type Discount struct {
 	// The promotion code applied to create this discount.
 	PromotionCode *PromotionCode `json:"promotion_code"`
 	// The subscription schedule that this coupon is applied to, if it is applied to a particular subscription schedule.
-	Schedule string          `json:"schedule"`
-	Source   *DiscountSource `json:"source"`
+	Schedule             string                        `json:"schedule"`
+	ServicePeriodDetails *DiscountServicePeriodDetails `json:"service_period_details"`
+	Source               *DiscountSource               `json:"source"`
 	// Date that the coupon was applied.
 	Start int64 `json:"start"`
 	// The subscription that this coupon is applied to, if it is applied to a particular subscription.

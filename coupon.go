@@ -13,9 +13,10 @@ type CouponDuration string
 
 // List of values that CouponDuration can take
 const (
-	CouponDurationForever   CouponDuration = "forever"
-	CouponDurationOnce      CouponDuration = "once"
-	CouponDurationRepeating CouponDuration = "repeating"
+	CouponDurationForever       CouponDuration = "forever"
+	CouponDurationOnce          CouponDuration = "once"
+	CouponDurationRepeating     CouponDuration = "repeating"
+	CouponDurationServicePeriod CouponDuration = "service_period"
 )
 
 // One of `amount_off`, `percent_off`, or `script`. Describes the type of coupon logic used to calculate the discount.
@@ -59,6 +60,8 @@ type CouponParams struct {
 	RedeemBy *int64 `form:"redeem_by"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 	Script *CouponScriptParams `form:"script"`
+	// A hash specifying the service period for the coupon.
+	ServicePeriod *CouponServicePeriodParams `form:"service_period"`
 }
 
 // AddExpand appends a new field to expand.
@@ -112,6 +115,14 @@ type CouponScriptParams struct {
 	Configuration *CouponScriptConfigurationParams `form:"configuration"`
 	// The script implementation ID for this coupon.
 	ID *string `form:"id"`
+}
+
+// A hash specifying the service period for the coupon.
+type CouponServicePeriodParams struct {
+	// Specifies coupon frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals for which the coupon will be applied.
+	IntervalCount *int64 `form:"interval_count"`
 }
 
 // You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
@@ -187,6 +198,14 @@ type CouponCreateScriptParams struct {
 	ID *string `form:"id"`
 }
 
+// A hash specifying the service period for the coupon.
+type CouponCreateServicePeriodParams struct {
+	// Specifies coupon frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals for which the coupon will be applied.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // You can create coupons easily via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. Coupon creation is also accessible via the API if you need to create coupons on the fly.
 //
 // A coupon has either a percent_off or an amount_off and currency. If you set an amount_off, that amount will be subtracted from any invoice's subtotal. For example, an invoice with a subtotal of 100 will have a final total of 0 if a coupon with an amount_off of 200 is applied to it and an invoice with a subtotal of 300 will have a final total of 100 if a coupon with an amount_off of 200 is applied to it.
@@ -220,6 +239,8 @@ type CouponCreateParams struct {
 	RedeemBy *int64 `form:"redeem_by"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 	Script *CouponCreateScriptParams `form:"script"`
+	// A hash specifying the service period for the coupon.
+	ServicePeriod *CouponCreateServicePeriodParams `form:"service_period"`
 }
 
 // AddExpand appends a new field to expand.
@@ -259,6 +280,10 @@ type CouponScript struct {
 	// The script implementation ID for this coupon.
 	ID string `json:"id"`
 }
+type CouponServicePeriod struct {
+	Interval      string `json:"interval"`
+	IntervalCount int64  `json:"interval_count"`
+}
 
 // A coupon contains information about a percent-off or amount-off discount you
 // might want to apply to a customer. Coupons may be applied to [subscriptions](https://api.stripe.com#subscriptions), [invoices](https://api.stripe.com#invoices),
@@ -296,7 +321,8 @@ type Coupon struct {
 	// Date after which the coupon can no longer be redeemed.
 	RedeemBy int64 `json:"redeem_by"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
-	Script *CouponScript `json:"script"`
+	Script        *CouponScript        `json:"script"`
+	ServicePeriod *CouponServicePeriod `json:"service_period"`
 	// Number of times this coupon has been applied to a customer.
 	TimesRedeemed int64 `json:"times_redeemed"`
 	// One of `amount_off`, `percent_off`, or `script`. Describes the type of coupon logic used to calculate the discount.

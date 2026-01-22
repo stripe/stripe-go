@@ -122,6 +122,8 @@ type Client struct {
 	V1FinancialConnectionsTransactions *v1FinancialConnectionsTransactionService
 	// V1ForwardingRequests is the service used to invoke /v1/forwarding/requests APIs.
 	V1ForwardingRequests *v1ForwardingRequestService
+	// V1FRMealVouchersOnboardings is the service used to invoke /v1/fr_meal_vouchers_onboardings APIs.
+	V1FRMealVouchersOnboardings *v1FRMealVouchersOnboardingService
 	// V1FxQuotes is the service used to invoke /v1/fx_quotes APIs.
 	V1FxQuotes *v1FxQuoteService
 	// V1IdentityBlocklistEntries is the service used to invoke /v1/identity/blocklist_entries APIs.
@@ -568,6 +570,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1FinancialConnectionsSessions = &v1FinancialConnectionsSessionService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsTransactions = &v1FinancialConnectionsTransactionService{B: backends.API, Key: key}
 	client.V1ForwardingRequests = &v1ForwardingRequestService{B: backends.API, Key: key}
+	client.V1FRMealVouchersOnboardings = &v1FRMealVouchersOnboardingService{B: backends.API, Key: key}
 	client.V1FxQuotes = &v1FxQuoteService{B: backends.API, Key: key}
 	client.V1IdentityBlocklistEntries = &v1IdentityBlocklistEntryService{B: backends.API, Key: key}
 	client.V1IdentityVerificationReports = &v1IdentityVerificationReportService{B: backends.API, Key: key}
