@@ -1304,7 +1304,7 @@ type PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceParams struct
 	Preference *string `form:"preference"`
 }
 
-// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/benefits/fr-meal-vouchers) for more details.
+// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 type PaymentMethodConfigurationFRMealVoucherConecsParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
@@ -1767,7 +1767,7 @@ type PaymentMethodConfigurationParams struct {
 	Expand []*string `form:"expand"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
 	FPX *PaymentMethodConfigurationFPXParams `form:"fpx"`
-	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/benefits/fr-meal-vouchers) for more details.
+	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 	FRMealVoucherConecs *PaymentMethodConfigurationFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
 	Giropay *PaymentMethodConfigurationGiropayParams `form:"giropay"`
@@ -2106,7 +2106,7 @@ type PaymentMethodConfigurationCreateFRMealVoucherConecsDisplayPreferenceParams 
 	Preference *string `form:"preference"`
 }
 
-// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/benefits/fr-meal-vouchers) for more details.
+// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 type PaymentMethodConfigurationCreateFRMealVoucherConecsParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
@@ -2567,7 +2567,7 @@ type PaymentMethodConfigurationCreateParams struct {
 	Expand []*string `form:"expand"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
 	FPX *PaymentMethodConfigurationCreateFPXParams `form:"fpx"`
-	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/benefits/fr-meal-vouchers) for more details.
+	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 	FRMealVoucherConecs *PaymentMethodConfigurationCreateFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
 	Giropay *PaymentMethodConfigurationCreateGiropayParams `form:"giropay"`
@@ -2918,7 +2918,7 @@ type PaymentMethodConfigurationUpdateFRMealVoucherConecsDisplayPreferenceParams 
 	Preference *string `form:"preference"`
 }
 
-// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/benefits/fr-meal-vouchers) for more details.
+// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 type PaymentMethodConfigurationUpdateFRMealVoucherConecsParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
@@ -3381,7 +3381,7 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
 	FPX *PaymentMethodConfigurationUpdateFPXParams `form:"fpx"`
-	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/benefits/fr-meal-vouchers) for more details.
+	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 	FRMealVoucherConecs *PaymentMethodConfigurationUpdateFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
 	Giropay *PaymentMethodConfigurationUpdateGiropayParams `form:"giropay"`

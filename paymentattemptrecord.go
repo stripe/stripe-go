@@ -328,12 +328,13 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankUob               PaymentAttemptRecordPaymentMethodDetailsFPXBank = "uob"
 )
 
-// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type PaymentAttemptRecordPaymentMethodDetailsIDEALBank string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsIDEALBank can take
 const (
 	PaymentAttemptRecordPaymentMethodDetailsIDEALBankAbnAmro       PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "abn_amro"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankAdyen         PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "adyen"
 	PaymentAttemptRecordPaymentMethodDetailsIDEALBankAsnBank       PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "asn_bank"
 	PaymentAttemptRecordPaymentMethodDetailsIDEALBankBunq          PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "bunq"
 	PaymentAttemptRecordPaymentMethodDetailsIDEALBankBuut          PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "buut"
@@ -360,6 +361,7 @@ type PaymentAttemptRecordPaymentMethodDetailsIDEALBIC string
 // List of values that PaymentAttemptRecordPaymentMethodDetailsIDEALBIC can take
 const (
 	PaymentAttemptRecordPaymentMethodDetailsIDEALBICABNANL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "ABNANL2A"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICADYBNL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "ADYBNL2A"
 	PaymentAttemptRecordPaymentMethodDetailsIDEALBICASNBNL21 PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "ASNBNL21"
 	PaymentAttemptRecordPaymentMethodDetailsIDEALBICBITSNL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "BITSNL2A"
 	PaymentAttemptRecordPaymentMethodDetailsIDEALBICBUNQNL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "BUNQNL2A"
@@ -1071,7 +1073,7 @@ type PaymentAttemptRecordPaymentMethodDetailsGrabpay struct {
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsIDEAL struct {
-	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank PaymentAttemptRecordPaymentMethodDetailsIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank.
 	BIC PaymentAttemptRecordPaymentMethodDetailsIDEALBIC `json:"bic"`
