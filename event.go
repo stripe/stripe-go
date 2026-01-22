@@ -61,6 +61,7 @@ const (
 	EventTypeCapitalFinancingOfferPaidOut                           EventType = "capital.financing_offer.paid_out"
 	EventTypeCapitalFinancingOfferRejected                          EventType = "capital.financing_offer.rejected"
 	EventTypeCapitalFinancingOfferReplacementCreated                EventType = "capital.financing_offer.replacement_created"
+	EventTypeCapitalFinancingSummaryLineOfCreditUpdate              EventType = "capital.financing_summary.line_of_credit_update"
 	EventTypeCapitalFinancingTransactionCreated                     EventType = "capital.financing_transaction.created"
 	EventTypeCashBalanceFundsAvailable                              EventType = "cash_balance.funds_available"
 	EventTypeChargeCaptured                                         EventType = "charge.captured"

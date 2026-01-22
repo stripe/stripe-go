@@ -110,6 +110,8 @@ type Client struct {
 	V1FinancialConnectionsAccountInferredBalances *v1FinancialConnectionsAccountInferredBalanceService
 	// V1FinancialConnectionsAccounts is the service used to invoke /v1/financial_connections/accounts APIs.
 	V1FinancialConnectionsAccounts *v1FinancialConnectionsAccountService
+	// V1FinancialConnectionsAuthorizations is the service used to invoke /v1/financial_connections/authorizations APIs.
+	V1FinancialConnectionsAuthorizations *v1FinancialConnectionsAuthorizationService
 	// V1FinancialConnectionsInstitutions is the service used to invoke /v1/financial_connections/institutions APIs.
 	V1FinancialConnectionsInstitutions *v1FinancialConnectionsInstitutionService
 	// V1FinancialConnectionsSessions is the service used to invoke /v1/financial_connections/sessions APIs.
@@ -208,6 +210,8 @@ type Client struct {
 	V1Quotes *v1QuoteService
 	// V1RadarEarlyFraudWarnings is the service used to invoke /v1/radar/early_fraud_warnings APIs.
 	V1RadarEarlyFraudWarnings *v1RadarEarlyFraudWarningService
+	// V1RadarPaymentEvaluations is the service used to invoke /v1/radar/payment_evaluations APIs.
+	V1RadarPaymentEvaluations *v1RadarPaymentEvaluationService
 	// V1RadarValueListItems is the service used to invoke /v1/radar/value_list_items APIs.
 	V1RadarValueListItems *v1RadarValueListItemService
 	// V1RadarValueLists is the service used to invoke /v1/radar/value_lists APIs.
@@ -490,6 +494,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Files = &v1FileService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1FinancialConnectionsAccountInferredBalances = &v1FinancialConnectionsAccountInferredBalanceService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsAccounts = &v1FinancialConnectionsAccountService{B: backends.API, Key: key}
+	client.V1FinancialConnectionsAuthorizations = &v1FinancialConnectionsAuthorizationService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsInstitutions = &v1FinancialConnectionsInstitutionService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsSessions = &v1FinancialConnectionsSessionService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsTransactions = &v1FinancialConnectionsTransactionService{B: backends.API, Key: key}
@@ -539,6 +544,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1QuotePreviewSubscriptionSchedules = &v1QuotePreviewSubscriptionScheduleService{B: backends.API, Key: key}
 	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
+	client.V1RadarPaymentEvaluations = &v1RadarPaymentEvaluationService{B: backends.API, Key: key}
 	client.V1RadarValueListItems = &v1RadarValueListItemService{B: backends.API, Key: key}
 	client.V1RadarValueLists = &v1RadarValueListService{B: backends.API, Key: key}
 	client.V1Refunds = &v1RefundService{B: backends.API, Key: key}
