@@ -29,6 +29,14 @@ const (
 	CouponTypeScript     CouponType = "script"
 )
 
+type CouponServicePeriodIterationsType string
+
+// List of values that CouponServicePeriodIterationsType can take
+const (
+	CouponServicePeriodIterationsTypeCount   CouponServicePeriodIterationsType = "count"
+	CouponServicePeriodIterationsTypeForever CouponServicePeriodIterationsType = "forever"
+)
+
 // You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
 type CouponParams struct {
 	Params `form:"*"`
@@ -117,12 +125,22 @@ type CouponScriptParams struct {
 	ID *string `form:"id"`
 }
 
+// Specifies the number of times the coupon is contiguously applied.
+type CouponServicePeriodIterationsParams struct {
+	// The number of iterations the service period will repeat for. Only used when type is `count`, defaults to 1.
+	Count *int64 `form:"count"`
+	// The type of iterations, defaults to `count` if omitted.
+	Type *string `form:"type"`
+}
+
 // A hash specifying the service period for the coupon.
 type CouponServicePeriodParams struct {
 	// Specifies coupon frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
 	// The number of intervals for which the coupon will be applied.
 	IntervalCount *int64 `form:"interval_count"`
+	// Specifies the number of times the coupon is contiguously applied.
+	Iterations *CouponServicePeriodIterationsParams `form:"iterations"`
 }
 
 // You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
@@ -198,12 +216,22 @@ type CouponCreateScriptParams struct {
 	ID *string `form:"id"`
 }
 
+// Specifies the number of times the coupon is contiguously applied.
+type CouponCreateServicePeriodIterationsParams struct {
+	// The number of iterations the service period will repeat for. Only used when type is `count`, defaults to 1.
+	Count *int64 `form:"count"`
+	// The type of iterations, defaults to `count` if omitted.
+	Type *string `form:"type"`
+}
+
 // A hash specifying the service period for the coupon.
 type CouponCreateServicePeriodParams struct {
 	// Specifies coupon frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
 	// The number of intervals for which the coupon will be applied.
 	IntervalCount *int64 `form:"interval_count"`
+	// Specifies the number of times the coupon is contiguously applied.
+	Iterations *CouponCreateServicePeriodIterationsParams `form:"iterations"`
 }
 
 // You can create coupons easily via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. Coupon creation is also accessible via the API if you need to create coupons on the fly.
@@ -280,9 +308,14 @@ type CouponScript struct {
 	// The script implementation ID for this coupon.
 	ID string `json:"id"`
 }
+type CouponServicePeriodIterations struct {
+	Count int64                             `json:"count"`
+	Type  CouponServicePeriodIterationsType `json:"type"`
+}
 type CouponServicePeriod struct {
-	Interval      string `json:"interval"`
-	IntervalCount int64  `json:"interval_count"`
+	Interval      string                         `json:"interval"`
+	IntervalCount int64                          `json:"interval_count"`
+	Iterations    *CouponServicePeriodIterations `json:"iterations"`
 }
 
 // A coupon contains information about a percent-off or amount-off discount you
