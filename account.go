@@ -272,6 +272,16 @@ const (
 	AccountSettingsPaypayPaymentsGoodsTypeOther          AccountSettingsPaypayPaymentsGoodsType = "other"
 )
 
+// The status of your business's website.
+type AccountSettingsPaypayPaymentsSiteType string
+
+// List of values that AccountSettingsPaypayPaymentsSiteType can take
+const (
+	AccountSettingsPaypayPaymentsSiteTypeAccessible    AccountSettingsPaypayPaymentsSiteType = "accessible"
+	AccountSettingsPaypayPaymentsSiteTypeInDevelopment AccountSettingsPaypayPaymentsSiteType = "in_development"
+	AccountSettingsPaypayPaymentsSiteTypeRestricted    AccountSettingsPaypayPaymentsSiteType = "restricted"
+)
+
 // The user's service agreement type
 type AccountTOSAcceptanceServiceAgreement string
 
@@ -1198,6 +1208,8 @@ type AccountDocumentsProofOfAddressParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -1206,9 +1218,12 @@ type AccountDocumentsProofOfRegistrationSignerParams struct {
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                        `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountDocumentsProofOfRegistrationSignerParams `form:"signer"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -1217,7 +1232,8 @@ type AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                                       `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 
@@ -1427,10 +1443,43 @@ type AccountSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Additional information about your business's website.
+type AccountSettingsPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about your business's website.
+type AccountSettingsPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access your business's website.
+	Password *string `form:"password"`
+	// The username needed to access your business's website.
+	Username *string `form:"username"`
+}
+
+// Additional information about your business's website.
+type AccountSettingsPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for your business.
+	PaymentFlowFile *string `form:"payment_flow_file"`
+}
+
+// Details regarding your business's website.
+type AccountSettingsPaypayPaymentsSiteParams struct {
+	// Additional information about your business's website.
+	Accessible *AccountSettingsPaypayPaymentsSiteAccessibleParams `form:"accessible"`
+	// Additional information about your business's website.
+	InDevelopment *AccountSettingsPaypayPaymentsSiteInDevelopmentParams `form:"in_development"`
+	// Additional information about your business's website.
+	Restricted *AccountSettingsPaypayPaymentsSiteRestrictedParams `form:"restricted"`
+	// The status of your business's website.
+	Type *string `form:"type"`
+}
+
 // Settings specific to the PayPay payments method.
 type AccountSettingsPaypayPaymentsParams struct {
+	// Additional files that are required to support the onboarding process of your business.
+	AdditionalFiles []*string `form:"additional_files"`
 	// Whether your business sells digital content or not.
 	GoodsType *string `form:"goods_type"`
+	// Details regarding your business's website.
+	Site *AccountSettingsPaypayPaymentsSiteParams `form:"site"`
 }
 
 // Settings specific to the account's tax forms.
@@ -2429,6 +2478,8 @@ type AccountUpdateDocumentsProofOfAddressParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountUpdateDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -2437,9 +2488,12 @@ type AccountUpdateDocumentsProofOfRegistrationSignerParams struct {
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountUpdateDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                              `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountUpdateDocumentsProofOfRegistrationSignerParams `form:"signer"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -2448,7 +2502,8 @@ type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                                             `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 
@@ -2667,10 +2722,43 @@ type AccountUpdateSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Additional information about your business's website.
+type AccountUpdateSettingsPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about your business's website.
+type AccountUpdateSettingsPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access your business's website.
+	Password *string `form:"password"`
+	// The username needed to access your business's website.
+	Username *string `form:"username"`
+}
+
+// Additional information about your business's website.
+type AccountUpdateSettingsPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for your business.
+	PaymentFlowFile *string `form:"payment_flow_file"`
+}
+
+// Details regarding your business's website.
+type AccountUpdateSettingsPaypayPaymentsSiteParams struct {
+	// Additional information about your business's website.
+	Accessible *AccountUpdateSettingsPaypayPaymentsSiteAccessibleParams `form:"accessible"`
+	// Additional information about your business's website.
+	InDevelopment *AccountUpdateSettingsPaypayPaymentsSiteInDevelopmentParams `form:"in_development"`
+	// Additional information about your business's website.
+	Restricted *AccountUpdateSettingsPaypayPaymentsSiteRestrictedParams `form:"restricted"`
+	// The status of your business's website.
+	Type *string `form:"type"`
+}
+
 // Settings specific to the PayPay payments method.
 type AccountUpdateSettingsPaypayPaymentsParams struct {
+	// Additional files that are required to support the onboarding process of your business.
+	AdditionalFiles []*string `form:"additional_files"`
 	// Whether your business sells digital content or not.
 	GoodsType *string `form:"goods_type"`
+	// Details regarding your business's website.
+	Site *AccountUpdateSettingsPaypayPaymentsSiteParams `form:"site"`
 }
 
 // Settings specific to the account's tax forms.
@@ -3690,6 +3778,8 @@ type AccountCreateDocumentsProofOfAddressParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountCreateDocumentsProofOfRegistrationSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -3698,9 +3788,12 @@ type AccountCreateDocumentsProofOfRegistrationSignerParams struct {
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountCreateDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                              `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountCreateDocumentsProofOfRegistrationSignerParams `form:"signer"`
 }
+
+// Information regarding the person signing the document if applicable.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person"`
@@ -3709,7 +3802,8 @@ type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files  []*string                                                             `form:"files"`
+	Files []*string `form:"files"`
+	// Information regarding the person signing the document if applicable.
 	Signer *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer"`
 }
 
@@ -3926,10 +4020,43 @@ type AccountCreateSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Additional information about your business's website.
+type AccountCreateSettingsPaypayPaymentsSiteAccessibleParams struct{}
+
+// Additional information about your business's website.
+type AccountCreateSettingsPaypayPaymentsSiteInDevelopmentParams struct {
+	// The password needed to access your business's website.
+	Password *string `form:"password"`
+	// The username needed to access your business's website.
+	Username *string `form:"username"`
+}
+
+// Additional information about your business's website.
+type AccountCreateSettingsPaypayPaymentsSiteRestrictedParams struct {
+	// The file explaining the payment flow for your business.
+	PaymentFlowFile *string `form:"payment_flow_file"`
+}
+
+// Details regarding your business's website.
+type AccountCreateSettingsPaypayPaymentsSiteParams struct {
+	// Additional information about your business's website.
+	Accessible *AccountCreateSettingsPaypayPaymentsSiteAccessibleParams `form:"accessible"`
+	// Additional information about your business's website.
+	InDevelopment *AccountCreateSettingsPaypayPaymentsSiteInDevelopmentParams `form:"in_development"`
+	// Additional information about your business's website.
+	Restricted *AccountCreateSettingsPaypayPaymentsSiteRestrictedParams `form:"restricted"`
+	// The status of your business's website.
+	Type *string `form:"type"`
+}
+
 // Settings specific to the PayPay payments method.
 type AccountCreateSettingsPaypayPaymentsParams struct {
+	// Additional files that are required to support the onboarding process of your business.
+	AdditionalFiles []*string `form:"additional_files"`
 	// Whether your business sells digital content or not.
 	GoodsType *string `form:"goods_type"`
+	// Details regarding your business's website.
+	Site *AccountCreateSettingsPaypayPaymentsSiteParams `form:"site"`
 }
 
 // Settings specific to the account's tax forms.
@@ -4543,12 +4670,6 @@ type AccountSettingsBranding struct {
 	// A CSS hex color value representing the secondary branding color for this account
 	SecondaryColor string `json:"secondary_color"`
 }
-type AccountSettingsCapital struct {
-	// Per-currency mapping of user-selected destination accounts used to pay out loans.
-	PayoutDestination map[string]string `json:"payout_destination"`
-	// Per-currency mapping of all destination accounts eligible to receive loan payouts.
-	PayoutDestinationSelector map[string][]string `json:"payout_destination_selector"`
-}
 type AccountSettingsCardIssuingTOSAcceptance struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
 	Date int64 `json:"date"`
@@ -4620,9 +4741,30 @@ type AccountSettingsPayouts struct {
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor string `json:"statement_descriptor"`
 }
+type AccountSettingsPaypayPaymentsSiteAccessible struct{}
+type AccountSettingsPaypayPaymentsSiteInDevelopment struct {
+	// Field to indicate that the website password has been provided.
+	PasswordProvided bool `json:"password_provided"`
+	// The username needed to access your business's website.
+	Username string `json:"username"`
+}
+type AccountSettingsPaypayPaymentsSiteRestricted struct {
+	// File explaining the payment flow for your business.
+	PaymentFlowFile string `json:"payment_flow_file"`
+}
+type AccountSettingsPaypayPaymentsSite struct {
+	Accessible    *AccountSettingsPaypayPaymentsSiteAccessible    `json:"accessible"`
+	InDevelopment *AccountSettingsPaypayPaymentsSiteInDevelopment `json:"in_development"`
+	Restricted    *AccountSettingsPaypayPaymentsSiteRestricted    `json:"restricted"`
+	// The status of your business's website.
+	Type AccountSettingsPaypayPaymentsSiteType `json:"type"`
+}
 type AccountSettingsPaypayPayments struct {
+	// Additional files that are required to support the onboarding process of your business.
+	AdditionalFiles []string `json:"additional_files"`
 	// Whether your business sells digital content or not.
 	GoodsType AccountSettingsPaypayPaymentsGoodsType `json:"goods_type"`
+	Site      *AccountSettingsPaypayPaymentsSite     `json:"site"`
 }
 type AccountSettingsSEPADebitPayments struct {
 	// SEPA creditor identifier that identifies the company making the payment.
@@ -4649,7 +4791,6 @@ type AccountSettings struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPayments `json:"bacs_debit_payments"`
 	BankBcaOnboarding *AccountSettingsBankBcaOnboarding `json:"bank_bca_onboarding"`
 	Branding          *AccountSettingsBranding          `json:"branding"`
-	Capital           *AccountSettingsCapital           `json:"capital"`
 	CardIssuing       *AccountSettingsCardIssuing       `json:"card_issuing"`
 	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`
 	Dashboard         *AccountSettingsDashboard         `json:"dashboard"`

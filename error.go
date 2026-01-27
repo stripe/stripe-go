@@ -205,6 +205,7 @@ const (
 	ErrorCodeRateLimit                                                   ErrorCode = "rate_limit"
 	ErrorCodeReferToCustomer                                             ErrorCode = "refer_to_customer"
 	ErrorCodeRefundDisputedPayment                                       ErrorCode = "refund_disputed_payment"
+	ErrorCodeRequestBlocked                                              ErrorCode = "request_blocked"
 	ErrorCodeResourceAlreadyExists                                       ErrorCode = "resource_already_exists"
 	ErrorCodeResourceMissing                                             ErrorCode = "resource_missing"
 	ErrorCodeReturnIntentAlreadyProcessed                                ErrorCode = "return_intent_already_processed"

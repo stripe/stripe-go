@@ -74,7 +74,7 @@ type AccountSessionComponentsBalancesFeaturesParams struct {
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
@@ -225,7 +225,7 @@ type AccountSessionComponentsInstantPayoutsPromotionFeaturesParams struct {
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 }
 
@@ -383,7 +383,7 @@ type AccountSessionComponentsPayoutsFeaturesParams struct {
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
@@ -626,7 +626,7 @@ type AccountSessionCreateComponentsBalancesFeaturesParams struct {
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
@@ -777,7 +777,7 @@ type AccountSessionCreateComponentsInstantPayoutsPromotionFeaturesParams struct 
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 }
 
@@ -935,7 +935,7 @@ type AccountSessionCreateComponentsPayoutsFeaturesParams struct {
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
@@ -1132,6 +1132,14 @@ type AccountSessionComponentsAccountOnboarding struct {
 	Enabled  bool                                               `json:"enabled"`
 	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
 }
+type AccountSessionComponentsAgenticCommerceSettingsFeatures struct{}
+
+// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+type AccountSessionComponentsAgenticCommerceSettings struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                     `json:"enabled"`
+	Features *AccountSessionComponentsAgenticCommerceSettingsFeatures `json:"features"`
+}
 type AccountSessionComponentsBalancesFeatures struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
@@ -1139,7 +1147,7 @@ type AccountSessionComponentsBalancesFeatures struct {
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether to allow creation of instant payouts. The default value is `enabled` when Stripe is responsible for negative account balances, and `use_dashboard_rules` otherwise.
 	InstantPayouts bool `json:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts bool `json:"standard_payouts"`
@@ -1225,7 +1233,7 @@ type AccountSessionComponentsInstantPayoutsPromotionFeatures struct {
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether to allow creation of instant payouts. The default value is `enabled` when Stripe is responsible for negative account balances, and `use_dashboard_rules` otherwise.
 	InstantPayouts bool `json:"instant_payouts"`
 }
 type AccountSessionComponentsInstantPayoutsPromotion struct {
@@ -1332,7 +1340,7 @@ type AccountSessionComponentsPayoutsFeatures struct {
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether to allow creation of instant payouts. The default value is `enabled` when Stripe is responsible for negative account balances, and `use_dashboard_rules` otherwise.
 	InstantPayouts bool `json:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts bool `json:"standard_payouts"`
@@ -1359,14 +1367,6 @@ type AccountSessionComponentsTaxSettings struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
-}
-type AccountSessionComponentsAgenticCommerceSettingsFeatures struct{}
-
-// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
-type AccountSessionComponentsAgenticCommerceSettings struct {
-	// Whether the embedded component is enabled.
-	Enabled  bool                                                     `json:"enabled"`
-	Features *AccountSessionComponentsAgenticCommerceSettingsFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
 	AccountManagement *AccountSessionComponentsAccountManagement `json:"account_management"`

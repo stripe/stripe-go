@@ -607,6 +607,26 @@ type DelegatedCheckoutRequestedSessionPaymentMethodPreview struct {
 	// The type of the payment method.
 	Type string `json:"type"`
 }
+
+// The risk metadata for the client device.
+type DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetails struct {
+	// The radar session for the client device.
+	RadarSession string `json:"radar_session"`
+	// The referrer of the client device.
+	Referrer string `json:"referrer"`
+	// The remote IP address of the client device.
+	RemoteIP string `json:"remote_ip"`
+	// The time spent on the page by the client device.
+	TimeOnPageMS int64 `json:"time_on_page_ms"`
+	// The user agent of the client device.
+	UserAgent string `json:"user_agent"`
+}
+
+// The risk details of the requested session.
+type DelegatedCheckoutRequestedSessionRiskDetails struct {
+	// The risk metadata for the client device.
+	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetails `json:"client_device_metadata_details"`
+}
 type DelegatedCheckoutRequestedSessionSellerDetails struct{}
 
 // The applicable fees of the total details.
@@ -629,26 +649,6 @@ type DelegatedCheckoutRequestedSessionTotalDetails struct {
 	AmountTax int64 `json:"amount_tax"`
 	// The applicable fees of the total details.
 	ApplicableFees []*DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee `json:"applicable_fees"`
-}
-
-// The risk metadata for the client device.
-type DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetails struct {
-	// The radar session for the client device.
-	RadarSession string `json:"radar_session"`
-	// The referrer of the client device.
-	Referrer string `json:"referrer"`
-	// The remote IP address of the client device.
-	RemoteIP string `json:"remote_ip"`
-	// The time spent on the page by the client device.
-	TimeOnPageMS int64 `json:"time_on_page_ms"`
-	// The user agent of the client device.
-	UserAgent string `json:"user_agent"`
-}
-
-// The risk details of the requested session.
-type DelegatedCheckoutRequestedSessionRiskDetails struct {
-	// The risk metadata for the client device.
-	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetails `json:"client_device_metadata_details"`
 }
 
 // A requested session is a session that has been requested by a customer.

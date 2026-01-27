@@ -16,17 +16,17 @@ const (
 	DiscountSourceTypeCoupon DiscountSourceType = "coupon"
 )
 
-type DiscountSource struct {
-	// The coupon that was redeemed to create this discount.
-	Coupon *Coupon `json:"coupon"`
-	// The source type of the discount.
-	Type DiscountSourceType `json:"type"`
-}
 type DiscountServicePeriodDetails struct {
 	// The date that the service period was anchored to.
 	ServicePeriodAnchoredAt int64 `json:"service_period_anchored_at"`
 	// The date that the service period started.
 	StartDate int64 `json:"start_date"`
+}
+type DiscountSource struct {
+	// The coupon that was redeemed to create this discount.
+	Coupon *Coupon `json:"coupon"`
+	// The source type of the discount.
+	Type DiscountSourceType `json:"type"`
 }
 
 // A discount represents the actual application of a [coupon](https://api.stripe.com#coupons) or [promotion code](https://api.stripe.com#promotion_codes).

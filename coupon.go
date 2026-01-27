@@ -19,6 +19,14 @@ const (
 	CouponDurationServicePeriod CouponDuration = "service_period"
 )
 
+type CouponServicePeriodIterationsType string
+
+// List of values that CouponServicePeriodIterationsType can take
+const (
+	CouponServicePeriodIterationsTypeCount   CouponServicePeriodIterationsType = "count"
+	CouponServicePeriodIterationsTypeForever CouponServicePeriodIterationsType = "forever"
+)
+
 // One of `amount_off`, `percent_off`, or `script`. Describes the type of coupon logic used to calculate the discount.
 type CouponType string
 
@@ -27,14 +35,6 @@ const (
 	CouponTypeAmountOff  CouponType = "amount_off"
 	CouponTypePercentOff CouponType = "percent_off"
 	CouponTypeScript     CouponType = "script"
-)
-
-type CouponServicePeriodIterationsType string
-
-// List of values that CouponServicePeriodIterationsType can take
-const (
-	CouponServicePeriodIterationsTypeCount   CouponServicePeriodIterationsType = "count"
-	CouponServicePeriodIterationsTypeForever CouponServicePeriodIterationsType = "forever"
 )
 
 // You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
@@ -64,7 +64,7 @@ type CouponParams struct {
 	Name *string `form:"name"`
 	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
 	PercentOff *float64 `form:"percent_off"`
-	// Unix timestamp specifying the last time at which the coupon can be redeemed. After the redeem_by date, the coupon can no longer be applied to new customers.
+	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 	Script *CouponScriptParams `form:"script"`
@@ -263,7 +263,7 @@ type CouponCreateParams struct {
 	Name *string `form:"name"`
 	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
 	PercentOff *float64 `form:"percent_off"`
-	// Unix timestamp specifying the last time at which the coupon can be redeemed. After the redeem_by date, the coupon can no longer be applied to new customers.
+	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
 	Script *CouponCreateScriptParams `form:"script"`
