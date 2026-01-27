@@ -1128,6 +1128,8 @@ type SubscriptionListParams struct {
 	ListParams `form:"*"`
 	// Filter subscriptions by their automatic tax settings.
 	AutomaticTax *SubscriptionListAutomaticTaxParams `form:"automatic_tax"`
+	// Filter for subscriptions that have the specified billing cadence.
+	BillingCadence *string `form:"billing_cadence"`
 	// The collection method of the subscriptions to retrieve. Either `charge_automatically` or `send_invoice`.
 	CollectionMethod *string `form:"collection_method"`
 	// Only return subscriptions that were created during the given date interval.

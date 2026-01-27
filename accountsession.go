@@ -1360,9 +1360,19 @@ type AccountSessionComponentsTaxSettings struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
 }
+type AccountSessionComponentsAgenticCommerceSettingsFeatures struct{}
+
+// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+type AccountSessionComponentsAgenticCommerceSettings struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                     `json:"enabled"`
+	Features *AccountSessionComponentsAgenticCommerceSettingsFeatures `json:"features"`
+}
 type AccountSessionComponents struct {
-	AccountManagement           *AccountSessionComponentsAccountManagement           `json:"account_management"`
-	AccountOnboarding           *AccountSessionComponentsAccountOnboarding           `json:"account_onboarding"`
+	AccountManagement *AccountSessionComponentsAccountManagement `json:"account_management"`
+	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
+	// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+	AgenticCommerceSettings     *AccountSessionComponentsAgenticCommerceSettings     `json:"agentic_commerce_settings"`
 	Balances                    *AccountSessionComponentsBalances                    `json:"balances"`
 	CapitalFinancing            *AccountSessionComponentsCapitalFinancing            `json:"capital_financing"`
 	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplication `json:"capital_financing_application"`
