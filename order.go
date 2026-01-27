@@ -1906,43 +1906,6 @@ func (p *OrderParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// When retrieving an order, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-type OrderListLineItemsParams struct {
-	ListParams `form:"*"`
-	ID         *string `form:"-"` // Included in URL
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *OrderListLineItemsParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Cancels the order as well as the payment intent if one is attached.
-type OrderCancelParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *OrderCancelParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// Reopens a submitted order.
-type OrderReopenParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *OrderReopenParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://docs.stripe.com/api#reopen_order) method is called.
 type OrderSubmitParams struct {
 	Params `form:"*"`

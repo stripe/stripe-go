@@ -79,18 +79,6 @@ func (c v1SubscriptionService) Update(ctx context.Context, id string, params *Su
 	return subscription, err
 }
 
-// Attach a Billing Cadence to an existing subscription. When attached, the subscription is billed by the Billing Cadence, potentially sharing invoices with the other subscriptions linked to the Billing Cadence.
-func (c v1SubscriptionService) AttachCadence(ctx context.Context, id string, params *SubscriptionAttachCadenceParams) (*Subscription, error) {
-	if params == nil {
-		params = &SubscriptionAttachCadenceParams{}
-	}
-	params.Context = ctx
-	path := FormatURLPath("/v1/subscriptions/%s/attach_cadence", id)
-	subscription := &Subscription{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
-	return subscription, err
-}
-
 // Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://docs.stripe.com/metadata).
 //
 // Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
@@ -126,18 +114,6 @@ func (c v1SubscriptionService) Migrate(ctx context.Context, id string, params *S
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v1/subscriptions/%s/migrate", id)
-	subscription := &Subscription{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
-	return subscription, err
-}
-
-// Pauses a subscription by transitioning it to the paused status. A paused subscription does not generate invoices and will not advance to new billing periods. The subscription can be resumed later using the resume endpoint. Cannot pause subscriptions with attached schedules.
-func (c v1SubscriptionService) Pause(ctx context.Context, id string, params *SubscriptionPauseParams) (*Subscription, error) {
-	if params == nil {
-		params = &SubscriptionPauseParams{}
-	}
-	params.Context = ctx
-	path := FormatURLPath("/v1/subscriptions/%s/pause", id)
 	subscription := &Subscription{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
 	return subscription, err
