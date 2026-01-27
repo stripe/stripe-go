@@ -1083,6 +1083,16 @@ type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueParams struct {
 	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
 }
 
+// When the business was incorporated or registered.
+type V2CoreAccountIdentityBusinessDetailsRegistrationDateParams struct {
+	// The day of registration, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// The month of registration, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// The four-digit year of registration.
+	Year *int64 `form:"year" json:"year"`
+}
+
 // Kana Address.
 type V2CoreAccountIdentityBusinessDetailsScriptAddressesKanaParams struct {
 	// City, district, suburb, town, or village.
@@ -1165,6 +1175,8 @@ type V2CoreAccountIdentityBusinessDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The business legal name.
 	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// When the business was incorporated or registered.
+	RegistrationDate *V2CoreAccountIdentityBusinessDetailsRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The business registration address of the business entity in non latin script.
 	ScriptAddresses *V2CoreAccountIdentityBusinessDetailsScriptAddressesParams `form:"script_addresses" json:"script_addresses,omitempty"`
 	// The business legal name in non latin script.
@@ -1463,6 +1475,8 @@ type V2CoreAccountParams struct {
 	Configuration *V2CoreAccountConfigurationParams `form:"configuration" json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
+	// The default contact phone for the Account.
+	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
 	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.
@@ -2551,6 +2565,16 @@ type V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueParams str
 	Amount *V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
 }
 
+// When the business was incorporated or registered.
+type V2CoreAccountCreateIdentityBusinessDetailsRegistrationDateParams struct {
+	// The day of registration, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// The month of registration, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// The four-digit year of registration.
+	Year *int64 `form:"year" json:"year"`
+}
+
 // Kana Address.
 type V2CoreAccountCreateIdentityBusinessDetailsScriptAddressesKanaParams struct {
 	// City, district, suburb, town, or village.
@@ -2633,6 +2657,8 @@ type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The business legal name.
 	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// When the business was incorporated or registered.
+	RegistrationDate *V2CoreAccountCreateIdentityBusinessDetailsRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The business registration address of the business entity in non latin script.
 	ScriptAddresses *V2CoreAccountCreateIdentityBusinessDetailsScriptAddressesParams `form:"script_addresses" json:"script_addresses,omitempty"`
 	// The business legal name in non latin script.
@@ -2931,6 +2957,8 @@ type V2CoreAccountCreateParams struct {
 	Configuration *V2CoreAccountCreateConfigurationParams `form:"configuration" json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
+	// The default contact phone for the Account.
+	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
 	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.
@@ -4035,6 +4063,16 @@ type V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueParams str
 	Amount *V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
 }
 
+// When the business was incorporated or registered.
+type V2CoreAccountUpdateIdentityBusinessDetailsRegistrationDateParams struct {
+	// The day of registration, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// The month of registration, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// The four-digit year of registration.
+	Year *int64 `form:"year" json:"year"`
+}
+
 // Kana Address.
 type V2CoreAccountUpdateIdentityBusinessDetailsScriptAddressesKanaParams struct {
 	// City, district, suburb, town, or village.
@@ -4117,6 +4155,8 @@ type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The business legal name.
 	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// When the business was incorporated or registered.
+	RegistrationDate *V2CoreAccountUpdateIdentityBusinessDetailsRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The business registration address of the business entity in non latin script.
 	ScriptAddresses *V2CoreAccountUpdateIdentityBusinessDetailsScriptAddressesParams `form:"script_addresses" json:"script_addresses,omitempty"`
 	// The business legal name in non latin script.
@@ -4415,6 +4455,8 @@ type V2CoreAccountUpdateParams struct {
 	Configuration *V2CoreAccountUpdateConfigurationParams `form:"configuration" json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
+	// The default contact phone for the Account.
+	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
 	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
 	// Default values to be used on Account Configurations.

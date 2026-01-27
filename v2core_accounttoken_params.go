@@ -240,6 +240,16 @@ type V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueParams stru
 	Amount *V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
 }
 
+// When the business was incorporated or registered.
+type V2CoreAccountTokenIdentityBusinessDetailsRegistrationDateParams struct {
+	// The day of registration, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// The month of registration, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// The four-digit year of registration.
+	Year *int64 `form:"year" json:"year"`
+}
+
 // Kana Address.
 type V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesKanaParams struct {
 	// City, district, suburb, town, or village.
@@ -322,6 +332,8 @@ type V2CoreAccountTokenIdentityBusinessDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The business legal name.
 	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// When the business was incorporated or registered.
+	RegistrationDate *V2CoreAccountTokenIdentityBusinessDetailsRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The business registration address of the business entity in non latin script.
 	ScriptAddresses *V2CoreAccountTokenIdentityBusinessDetailsScriptAddressesParams `form:"script_addresses" json:"script_addresses,omitempty"`
 	// The business legal name in non latin script.
@@ -614,6 +626,8 @@ type V2CoreAccountTokenParams struct {
 	Params `form:"*"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
+	// The default contact phone for the Account.
+	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
 	// A descriptive name for the Account. This name will be surfaced in the Stripe Dashboard and on any invoices sent to the Account.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Information about the company, individual, and business represented by the Account.
@@ -854,6 +868,16 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueParam
 	Amount *V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
 }
 
+// When the business was incorporated or registered.
+type V2CoreAccountTokenCreateIdentityBusinessDetailsRegistrationDateParams struct {
+	// The day of registration, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// The month of registration, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// The four-digit year of registration.
+	Year *int64 `form:"year" json:"year"`
+}
+
 // Kana Address.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesKanaParams struct {
 	// City, district, suburb, town, or village.
@@ -936,6 +960,8 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The business legal name.
 	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// When the business was incorporated or registered.
+	RegistrationDate *V2CoreAccountTokenCreateIdentityBusinessDetailsRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The business registration address of the business entity in non latin script.
 	ScriptAddresses *V2CoreAccountTokenCreateIdentityBusinessDetailsScriptAddressesParams `form:"script_addresses" json:"script_addresses,omitempty"`
 	// The business legal name in non latin script.
@@ -1228,6 +1254,8 @@ type V2CoreAccountTokenCreateParams struct {
 	Params `form:"*"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
+	// The default contact phone for the Account.
+	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
 	// A descriptive name for the Account. This name will be surfaced in the Stripe Dashboard and on any invoices sent to the Account.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Information about the company, individual, and business represented by the Account.
