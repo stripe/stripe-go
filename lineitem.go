@@ -28,6 +28,12 @@ const (
 	LineItemTaxTaxabilityReasonZeroRated            LineItemTaxTaxabilityReason = "zero_rated"
 )
 
+type LineItemAdjustableQuantity struct {
+	Enabled bool  `json:"enabled"`
+	Maximum int64 `json:"maximum"`
+	Minimum int64 `json:"minimum"`
+}
+
 // The discounts applied to the line item.
 type LineItemDiscount struct {
 	// The amount discounted.
@@ -55,6 +61,7 @@ type LineItemTax struct {
 
 // A line item.
 type LineItem struct {
+	AdjustableQuantity *LineItemAdjustableQuantity `json:"adjustable_quantity"`
 	// Total discount amount applied. If no discounts were applied, defaults to 0.
 	AmountDiscount int64 `json:"amount_discount"`
 	// Total before any discounts or taxes are applied.
