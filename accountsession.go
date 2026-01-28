@@ -474,12 +474,25 @@ type AccountSessionComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsAgenticCommerceSettingsFeaturesParams struct{}
+
+// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+type AccountSessionComponentsAgenticCommerceSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsAgenticCommerceSettingsFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
 	AccountManagement *AccountSessionComponentsAccountManagementParams `form:"account_management"`
 	// Configuration for the [account onboarding](https://docs.stripe.com/connect/supported-embedded-components/account-onboarding/) embedded component.
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
+	// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+	AgenticCommerceSettings *AccountSessionComponentsAgenticCommerceSettingsParams `form:"agentic_commerce_settings"`
 	// Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
 	AppInstall *AccountSessionComponentsAppInstallParams `form:"app_install"`
 	// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
@@ -1026,12 +1039,25 @@ type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionCreateComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsAgenticCommerceSettingsFeaturesParams struct{}
+
+// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+type AccountSessionCreateComponentsAgenticCommerceSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsAgenticCommerceSettingsFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionCreateComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
 	AccountManagement *AccountSessionCreateComponentsAccountManagementParams `form:"account_management"`
 	// Configuration for the [account onboarding](https://docs.stripe.com/connect/supported-embedded-components/account-onboarding/) embedded component.
 	AccountOnboarding *AccountSessionCreateComponentsAccountOnboardingParams `form:"account_onboarding"`
+	// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+	AgenticCommerceSettings *AccountSessionCreateComponentsAgenticCommerceSettingsParams `form:"agentic_commerce_settings"`
 	// Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
 	AppInstall *AccountSessionCreateComponentsAppInstallParams `form:"app_install"`
 	// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
