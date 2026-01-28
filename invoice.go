@@ -1139,6 +1139,20 @@ func (p *InvoiceAttachPaymentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Detaches a payment from the invoice, removing it from the list of payments
+type InvoiceDetachPaymentParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The ID of the PaymentIntent to detach from the invoice.
+	PaymentIntent *string `form:"payment_intent"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceDetachPaymentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
 type InvoiceFinalizeInvoiceParams struct {
 	Params `form:"*"`
@@ -1465,7 +1479,7 @@ type InvoiceCreatePreviewCustomerDetailsTaxParams struct {
 
 // The customer's tax IDs.
 type InvoiceCreatePreviewCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value"`
@@ -1503,6 +1517,36 @@ type InvoiceCreatePreviewDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type InvoiceCreatePreviewDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type InvoiceCreatePreviewDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *InvoiceCreatePreviewDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `subscription_service_cycle_anchor` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type InvoiceCreatePreviewDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *InvoiceCreatePreviewDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `now` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 type InvoiceCreatePreviewDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -1513,6 +1557,8 @@ type InvoiceCreatePreviewDiscountParams struct {
 	DiscountEnd *InvoiceCreatePreviewDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *InvoiceCreatePreviewDiscountSettingsParams `form:"settings"`
 }
 
 // Time span for the redeemed discount.
@@ -1692,6 +1738,36 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddDiscountEndPar
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `inherit` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `amendment_start` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // Details of the discount to add.
 type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddParams struct {
 	// The coupon code to redeem.
@@ -1704,6 +1780,8 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddParams struct 
 	Index *int64 `form:"index"`
 	// The promotion code to redeem.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddSettingsParams `form:"settings"`
 }
 
 // Details of the discount to remove.
@@ -1716,6 +1794,36 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionRemoveParams stru
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `inherit` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `amendment_start` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // Details of the discount to replace the existing discounts with.
 type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetParams struct {
 	// The coupon code to replace the `discounts` array with.
@@ -1724,6 +1832,8 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetParams struct 
 	Discount *string `form:"discount"`
 	// An ID of an existing promotion code to replace the `discounts` array with.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetSettingsParams `form:"settings"`
 }
 
 // Changes to the coupons being redeemed or discounts being applied during the amendment time span.
@@ -1756,6 +1866,36 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountDiscountEn
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `inherit` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `amendment_start` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
 type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -1766,6 +1906,8 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountParams str
 	DiscountEnd *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountSettingsParams `form:"settings"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -1827,6 +1969,36 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountDiscountEn
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `inherit` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `amendment_start` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
 type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -1837,6 +2009,8 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountParams str
 	DiscountEnd *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountSettingsParams `form:"settings"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
@@ -2139,6 +2313,36 @@ type InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type InvoiceCreatePreviewScheduleDetailsPhaseDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type InvoiceCreatePreviewScheduleDetailsPhaseDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *InvoiceCreatePreviewScheduleDetailsPhaseDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `inherit` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type InvoiceCreatePreviewScheduleDetailsPhaseDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *InvoiceCreatePreviewScheduleDetailsPhaseDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `phase_start` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 type InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -2149,6 +2353,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams struct {
 	DiscountEnd *InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *InvoiceCreatePreviewScheduleDetailsPhaseDiscountSettingsParams `form:"settings"`
 }
 
 // The number of intervals the phase should last. If set, `end_date` must not be set.
@@ -2201,6 +2407,36 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountDiscountEndParams struc
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `inherit` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `phase_start` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -2211,6 +2447,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountParams struct {
 	DiscountEnd *InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountSettingsParams `form:"settings"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -2521,6 +2759,36 @@ type InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndParams struct
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type InvoiceCreatePreviewSubscriptionDetailsItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type InvoiceCreatePreviewSubscriptionDetailsItemDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *InvoiceCreatePreviewSubscriptionDetailsItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `subscription_service_cycle_anchor` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type InvoiceCreatePreviewSubscriptionDetailsItemDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *InvoiceCreatePreviewSubscriptionDetailsItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `now` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type InvoiceCreatePreviewSubscriptionDetailsItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -2531,6 +2799,8 @@ type InvoiceCreatePreviewSubscriptionDetailsItemDiscountParams struct {
 	DiscountEnd *InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *InvoiceCreatePreviewSubscriptionDetailsItemDiscountSettingsParams `form:"settings"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -3570,7 +3840,7 @@ type InvoiceCreateTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
-// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](#pay_invoice) or <a href="#send_invoice">send](https://docs.stripe.com/api#finalize_invoice) the invoice to your customers.
+// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](https://docs.stripe.com/api#finalize_invoice) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/pay) the invoice to your customers.
 type InvoiceCreateParams struct {
 	Params `form:"*"`
 	// The account tax IDs associated with the invoice. Only editable when the invoice is a draft.
@@ -3717,7 +3987,7 @@ type InvoiceCustomField struct {
 
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type InvoiceCustomerTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 	Type *TaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

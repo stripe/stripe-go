@@ -8,6 +8,15 @@ package stripe
 
 import "encoding/json"
 
+// The code of the error that occurred when validating the current amount details.
+type PaymentIntentAmountDetailsErrorCode string
+
+// List of values that PaymentIntentAmountDetailsErrorCode can take
+const (
+	PaymentIntentAmountDetailsErrorCodeAmountDetailsAmountMismatch                       PaymentIntentAmountDetailsErrorCode = "amount_details_amount_mismatch"
+	PaymentIntentAmountDetailsErrorCodeAmountDetailsTaxShippingDiscountGreaterThanAmount PaymentIntentAmountDetailsErrorCode = "amount_details_tax_shipping_discount_greater_than_amount"
+)
+
 // Controls whether this PaymentIntent will accept redirect-based payment methods.
 //
 // Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
@@ -210,6 +219,106 @@ const (
 	PaymentIntentPaymentDetailsCarRentalRateIntervalWeek  PaymentIntentPaymentDetailsCarRentalRateInterval = "week"
 )
 
+// Unit for the distance.
+type PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumDistanceUnitKilometers PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit = "kilometers"
+	PaymentIntentPaymentDetailsCarRentalDatumDistanceUnitMiles      PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit = "miles"
+)
+
+// Type of insurance.
+type PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypeLiabilitySupplement PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "liability_supplement"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypeLossDamageWaiver    PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "loss_damage_waiver"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypeOther               PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "other"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypePartialDamageWaiver PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "partial_damage_waiver"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypePersonalAccident    PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "personal_accident"
+	PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceTypePersonalEffects     PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType = "personal_effects"
+)
+
+// Type of extra charge.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeExtraMileage   PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "extra_mileage"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeGas            PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "gas"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeGps            PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "gps"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeLateCharge     PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "late_charge"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeOneWayDropOff  PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "one_way_drop_off"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeOther          PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "other"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeParking        PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "parking"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypePhone          PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "phone"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeRegularMileage PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "regular_mileage"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeTypeTowing         PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType = "towing"
+)
+
+// Unit for the rate.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnitKilometers PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit = "kilometers"
+	PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnitMiles      PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit = "miles"
+)
+
+// Type of the vehicle.
+type PaymentIntentPaymentDetailsCarRentalDatumVehicleType string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumVehicleType can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeCargoVan            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "cargo_van"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeCompact             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "compact"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeEconomy             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "economy"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeExotic              PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "exotic"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeExoticSuv           PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "exotic_suv"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeFifteenPassengerVan PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "fifteen_passenger_van"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeFourWheelDrive      PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "four_wheel_drive"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeFullSize            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "full_size"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeIntermediate        PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "intermediate"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeLargeSuv            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "large_suv"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeLargeTruck          PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "large_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeLuxury              PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "luxury"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMediumSuv           PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "medium_suv"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMidsize             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "midsize"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMini                PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "mini"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMinivan             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "minivan"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMiscellaneous       PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "miscellaneous"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMoped               PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "moped"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeMovingVan           PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "moving_van"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypePremium             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "premium"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeRegular             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "regular"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeSmallMediumTruck    PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "small_medium_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeSmallSuv            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "small_suv"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeSpecial             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "special"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeStandard            PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "standard"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeStretch             PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "stretch"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeSubcompact          PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "subcompact"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTaxi                PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "taxi"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwelveFootTruck     PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twelve_foot_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwelvePassengerVan  PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twelve_passenger_van"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwentyFootTruck     PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twenty_foot_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwentyFourFootTruck PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twenty_four_foot_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeTwentySixFootTruck  PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "twenty_six_foot_truck"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleTypeUnique              PaymentIntentPaymentDetailsCarRentalDatumVehicleType = "unique"
+)
+
+// Class of the vehicle.
+type PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass string
+
+// List of values that PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass can take
+const (
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClassBusiness       PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass = "business"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClassEconomy        PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass = "economy"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClassFirstClass     PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass = "first_class"
+	PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClassPremiumEconomy PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass = "premium_economy"
+)
+
 // The delivery method for the payment
 type PaymentIntentPaymentDetailsEventDetailsDeliveryMode string
 
@@ -219,6 +328,112 @@ const (
 	PaymentIntentPaymentDetailsEventDetailsDeliveryModePhone  PaymentIntentPaymentDetailsEventDetailsDeliveryMode = "phone"
 	PaymentIntentPaymentDetailsEventDetailsDeliveryModePickup PaymentIntentPaymentDetailsEventDetailsDeliveryMode = "pickup"
 	PaymentIntentPaymentDetailsEventDetailsDeliveryModePost   PaymentIntentPaymentDetailsEventDetailsDeliveryMode = "post"
+)
+
+// Type of insurance.
+type PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceType string
+
+// List of values that PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceType can take
+const (
+	PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceTypeBaggage     PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceType = "baggage"
+	PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceTypeBankruptcy  PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceType = "bankruptcy"
+	PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceTypeCancelation PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceType = "cancelation"
+	PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceTypeEmergency   PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceType = "emergency"
+	PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceTypeMedical     PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceType = "medical"
+)
+
+// Class of service.
+type PaymentIntentPaymentDetailsFlightDatumSegmentServiceClass string
+
+// List of values that PaymentIntentPaymentDetailsFlightDatumSegmentServiceClass can take
+const (
+	PaymentIntentPaymentDetailsFlightDatumSegmentServiceClassBusiness       PaymentIntentPaymentDetailsFlightDatumSegmentServiceClass = "business"
+	PaymentIntentPaymentDetailsFlightDatumSegmentServiceClassEconomy        PaymentIntentPaymentDetailsFlightDatumSegmentServiceClass = "economy"
+	PaymentIntentPaymentDetailsFlightDatumSegmentServiceClassFirstClass     PaymentIntentPaymentDetailsFlightDatumSegmentServiceClass = "first_class"
+	PaymentIntentPaymentDetailsFlightDatumSegmentServiceClassPremiumEconomy PaymentIntentPaymentDetailsFlightDatumSegmentServiceClass = "premium_economy"
+)
+
+// Reason for credit.
+type PaymentIntentPaymentDetailsFlightDatumTotalCreditReason string
+
+// List of values that PaymentIntentPaymentDetailsFlightDatumTotalCreditReason can take
+const (
+	PaymentIntentPaymentDetailsFlightDatumTotalCreditReasonOther                                   PaymentIntentPaymentDetailsFlightDatumTotalCreditReason = "other"
+	PaymentIntentPaymentDetailsFlightDatumTotalCreditReasonPartialTicketRefund                     PaymentIntentPaymentDetailsFlightDatumTotalCreditReason = "partial_ticket_refund"
+	PaymentIntentPaymentDetailsFlightDatumTotalCreditReasonPassengerTransportAncillaryCancellation PaymentIntentPaymentDetailsFlightDatumTotalCreditReason = "passenger_transport_ancillary_cancellation"
+	PaymentIntentPaymentDetailsFlightDatumTotalCreditReasonTicketAndAncillaryCancellation          PaymentIntentPaymentDetailsFlightDatumTotalCreditReason = "ticket_and_ancillary_cancellation"
+	PaymentIntentPaymentDetailsFlightDatumTotalCreditReasonTicketCancellation                      PaymentIntentPaymentDetailsFlightDatumTotalCreditReason = "ticket_cancellation"
+)
+
+// Type of extra charge.
+type PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeType string
+
+// List of values that PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeType can take
+const (
+	PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeTypeAdditionalFees          PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeType = "additional_fees"
+	PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeTypeAncillaryServiceCharges PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeType = "ancillary_service_charges"
+	PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeTypeExchangeFee             PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeType = "exchange_fee"
+)
+
+// Type of flight transaction.
+type PaymentIntentPaymentDetailsFlightDatumTransactionType string
+
+// List of values that PaymentIntentPaymentDetailsFlightDatumTransactionType can take
+const (
+	PaymentIntentPaymentDetailsFlightDatumTransactionTypeExchangeTicket PaymentIntentPaymentDetailsFlightDatumTransactionType = "exchange_ticket"
+	PaymentIntentPaymentDetailsFlightDatumTransactionTypeMiscellaneous  PaymentIntentPaymentDetailsFlightDatumTransactionType = "miscellaneous"
+	PaymentIntentPaymentDetailsFlightDatumTransactionTypeRefund         PaymentIntentPaymentDetailsFlightDatumTransactionType = "refund"
+	PaymentIntentPaymentDetailsFlightDatumTransactionTypeTicketPurchase PaymentIntentPaymentDetailsFlightDatumTransactionType = "ticket_purchase"
+)
+
+// Type of accommodation.
+type PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType string
+
+// List of values that PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType can take
+const (
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeApartment PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "apartment"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeCabana    PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "cabana"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeHouse     PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "house"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypePenthouse PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "penthouse"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeRoom      PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "room"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeStandard  PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "standard"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeSuite     PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "suite"
+	PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationTypeVilla     PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType = "villa"
+)
+
+// Type of host.
+type PaymentIntentPaymentDetailsLodgingDatumHostHostType string
+
+// List of values that PaymentIntentPaymentDetailsLodgingDatumHostHostType can take
+const (
+	PaymentIntentPaymentDetailsLodgingDatumHostHostTypeHostel       PaymentIntentPaymentDetailsLodgingDatumHostHostType = "hostel"
+	PaymentIntentPaymentDetailsLodgingDatumHostHostTypeHotel        PaymentIntentPaymentDetailsLodgingDatumHostHostType = "hotel"
+	PaymentIntentPaymentDetailsLodgingDatumHostHostTypeOwner        PaymentIntentPaymentDetailsLodgingDatumHostHostType = "owner"
+	PaymentIntentPaymentDetailsLodgingDatumHostHostTypeRentalAgency PaymentIntentPaymentDetailsLodgingDatumHostHostType = "rental_agency"
+)
+
+// Type of insurance coverage.
+type PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType string
+
+// List of values that PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType can take
+const (
+	PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceTypeBankruptcy  PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType = "bankruptcy"
+	PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceTypeCancelation PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType = "cancelation"
+	PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceTypeEmergency   PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType = "emergency"
+	PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceTypeMedical     PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType = "medical"
+)
+
+// Type of extra charge.
+type PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType string
+
+// List of values that PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType can take
+const (
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeGiftShop   PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "gift_shop"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeLaundry    PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "laundry"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeMiniBar    PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "mini_bar"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeOther      PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "other"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypePhone      PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "phone"
+	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeRestaurant PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "restaurant"
 )
 
 // Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1416,15 +1631,6 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod = "paper"
 )
 
-// Preferred transaction settlement speed
-type PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed string
-
-// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed can take
-const (
-	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedFastest  PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "fastest"
-	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedStandard PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "standard"
-)
-
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1449,6 +1655,15 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodAutomatic     PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "automatic"
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodInstant       PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "instant"
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
+)
+
+// Preferred transaction settlement speed
+type PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedFastest  PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "fastest"
+	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedStandard PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "standard"
 )
 
 // The client type that the end customer will pay from
@@ -1615,7 +1830,7 @@ type PaymentIntentAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -1663,7 +1878,13 @@ type PaymentIntentAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentAmountDetailsShippingParams `form:"shipping"`
@@ -4911,7 +5132,7 @@ type PaymentIntentCaptureAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -4959,7 +5180,13 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentCaptureAmountDetailsShippingParams `form:"shipping"`
@@ -5915,7 +6142,7 @@ type PaymentIntentConfirmAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -5963,7 +6190,13 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentConfirmAmountDetailsShippingParams `form:"shipping"`
@@ -7062,7 +7295,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -7110,7 +7343,13 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentIncrementAuthorizationAmountDetailsShippingParams `form:"shipping"`
@@ -7332,7 +7571,7 @@ type PaymentIntentCreateAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentCreateAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -7380,7 +7619,13 @@ type PaymentIntentCreateAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentCreateAmountDetailsShippingParams `form:"shipping"`
@@ -10593,7 +10838,7 @@ type PaymentIntentUpdateAmountDetailsLineItemTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount"`
 }
 
-// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
@@ -10641,7 +10886,13 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentUpdateAmountDetailsShippingParams `form:"shipping"`
@@ -13703,6 +13954,12 @@ type PaymentIntentAllocatedFunds struct {
 	// Allocated Funds configuration for this PaymentIntent.
 	Enabled bool `json:"enabled"`
 }
+type PaymentIntentAmountDetailsError struct {
+	// The code of the error that occurred when validating the current amount details.
+	Code PaymentIntentAmountDetailsErrorCode `json:"code"`
+	// A message providing more details about the error.
+	Message string `json:"message"`
+}
 type PaymentIntentAmountDetailsShipping struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount int64 `json:"amount"`
@@ -13725,8 +13982,9 @@ type PaymentIntentAmountDetails struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
-	DiscountAmount int64 `json:"discount_amount"`
-	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	DiscountAmount int64                            `json:"discount_amount"`
+	Error          *PaymentIntentAmountDetailsError `json:"error"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items"`
 	Shipping  *PaymentIntentAmountDetailsShipping     `json:"shipping"`
 	Tax       *PaymentIntentAmountDetailsTax          `json:"tax"`
@@ -14202,6 +14460,147 @@ type PaymentIntentPaymentDetailsCarRental struct {
 	// The vehicle identification number of the car.
 	VehicleIdentificationNumber string `json:"vehicle_identification_number"`
 }
+type PaymentIntentPaymentDetailsCarRentalDatumAffiliate struct {
+	// Affiliate code.
+	Code string `json:"code"`
+	// Affiliate name.
+	Name string `json:"name"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumDistance struct {
+	// Distance amount.
+	Amount int64 `json:"amount"`
+	// Unit for the distance.
+	Unit PaymentIntentPaymentDetailsCarRentalDatumDistanceUnit `json:"unit"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumDriverDateOfBirth struct {
+	// Day of birth.
+	Day int64 `json:"day"`
+	// Month of birth.
+	Month int64 `json:"month"`
+	// Year of birth.
+	Year int64 `json:"year"`
+}
+
+// The details of the drivers associated with the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumDriver struct {
+	DateOfBirth *PaymentIntentPaymentDetailsCarRentalDatumDriverDateOfBirth `json:"date_of_birth"`
+	// Driver's identification number.
+	DriverIdentificationNumber string `json:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber string `json:"driver_tax_number"`
+	// Full name of the driver.
+	Name string `json:"name"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumDropOff struct {
+	Address *Address `json:"address"`
+	// Name of the location.
+	LocationName string `json:"location_name"`
+	// Time associated with the location.
+	Time int64 `json:"time"`
+}
+
+// Insurance details for the car rental.
+type PaymentIntentPaymentDetailsCarRentalDatumInsurance struct {
+	// Amount of the insurance.
+	Amount int64 `json:"amount"`
+	// Currency for the insurance price.
+	Currency Currency `json:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName string `json:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType PaymentIntentPaymentDetailsCarRentalDatumInsuranceInsuranceType `json:"insurance_type"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumPickup struct {
+	Address *Address `json:"address"`
+	// Name of the location.
+	LocationName string `json:"location_name"`
+	// Time associated with the location.
+	Time int64 `json:"time"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumTotalDiscounts struct {
+	// Corporate client discount code.
+	CorporateClientCode string `json:"corporate_client_code"`
+	// Coupon code applied.
+	Coupon string `json:"coupon"`
+	// Maximum free miles or kilometers included.
+	MaximumFreeMilesOrKilometers int64 `json:"maximum_free_miles_or_kilometers"`
+}
+
+// Additional charges for the rental.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraCharge struct {
+	// Amount of the extra charge.
+	Amount int64 `json:"amount"`
+	// Type of extra charge.
+	Type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeType `json:"type"`
+}
+
+// Tax details.
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTax struct {
+	// Tax amount.
+	Amount int64 `json:"amount"`
+	// Tax rate.
+	Rate int64 `json:"rate"`
+	// Type of tax.
+	Type string `json:"type"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTax struct {
+	// Tax details.
+	Taxes []*PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTax `json:"taxes"`
+	// Indicates whether the rental is tax-exempt.
+	TaxExemptIndicator bool `json:"tax_exempt_indicator"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumTotal struct {
+	// Total amount.
+	Amount int64 `json:"amount"`
+	// Currency for the total amount.
+	Currency  Currency                                                 `json:"currency"`
+	Discounts *PaymentIntentPaymentDetailsCarRentalDatumTotalDiscounts `json:"discounts"`
+	// Additional charges for the rental.
+	ExtraCharges []*PaymentIntentPaymentDetailsCarRentalDatumTotalExtraCharge `json:"extra_charges"`
+	// Rate per unit.
+	RatePerUnit int64 `json:"rate_per_unit"`
+	// Unit for the rate.
+	RateUnit PaymentIntentPaymentDetailsCarRentalDatumTotalRateUnit `json:"rate_unit"`
+	Tax      *PaymentIntentPaymentDetailsCarRentalDatumTotalTax     `json:"tax"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatumVehicle struct {
+	// Make of the vehicle.
+	Make string `json:"make"`
+	// Model of the vehicle.
+	Model string `json:"model"`
+	// Odometer reading.
+	Odometer int64 `json:"odometer"`
+	// Type of the vehicle.
+	Type PaymentIntentPaymentDetailsCarRentalDatumVehicleType `json:"type"`
+	// Class of the vehicle.
+	VehicleClass PaymentIntentPaymentDetailsCarRentalDatumVehicleVehicleClass `json:"vehicle_class"`
+	// Vehicle identification number.
+	VehicleIdentificationNumber string `json:"vehicle_identification_number"`
+}
+type PaymentIntentPaymentDetailsCarRentalDatum struct {
+	Affiliate *PaymentIntentPaymentDetailsCarRentalDatumAffiliate `json:"affiliate"`
+	// The booking number associated with the car rental.
+	BookingNumber string `json:"booking_number"`
+	// The name of the car rental company.
+	CarrierName string `json:"carrier_name"`
+	// The customer service phone number of the car rental company.
+	CustomerServicePhoneNumber string `json:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented int64                                              `json:"days_rented"`
+	Distance   *PaymentIntentPaymentDetailsCarRentalDatumDistance `json:"distance"`
+	// The details of the drivers associated with the rental.
+	Drivers []*PaymentIntentPaymentDetailsCarRentalDatumDriver `json:"drivers"`
+	DropOff *PaymentIntentPaymentDetailsCarRentalDatumDropOff  `json:"drop_off"`
+	// Insurance details for the car rental.
+	Insurances []*PaymentIntentPaymentDetailsCarRentalDatumInsurance `json:"insurances"`
+	// Indicates if the customer did not keep nor cancel their booking.
+	NoShowIndicator bool                                             `json:"no_show_indicator"`
+	Pickup          *PaymentIntentPaymentDetailsCarRentalDatumPickup `json:"pickup"`
+	// Name of the person renting the vehicle.
+	RenterName string                                            `json:"renter_name"`
+	Total      *PaymentIntentPaymentDetailsCarRentalDatumTotal   `json:"total"`
+	Vehicle    *PaymentIntentPaymentDetailsCarRentalDatumVehicle `json:"vehicle"`
+}
 type PaymentIntentPaymentDetailsEventDetailsAffiliate struct {
 	// The name of the affiliate that originated the purchase.
 	Name string `json:"name"`
@@ -14236,6 +14635,269 @@ type PaymentIntentPaymentDetailsEventDetails struct {
 	// Event start time. Measured in seconds since the Unix epoch.
 	StartsAt int64 `json:"starts_at"`
 }
+type PaymentIntentPaymentDetailsFlightDatumAffiliate struct {
+	// Affiliate code.
+	Code string `json:"code"`
+	// Affiliate name.
+	Name string `json:"name"`
+	// Code provided by the company to a travel agent authorizing ticket issuance.
+	TravelAuthorizationCode string `json:"travel_authorization_code"`
+}
+
+// Insurance details for the flight.
+type PaymentIntentPaymentDetailsFlightDatumInsurance struct {
+	// Amount of the insurance.
+	Amount int64 `json:"amount"`
+	// Currency for the insurance price.
+	Currency Currency `json:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName string `json:"insurance_company_name"`
+	// Type of insurance.
+	InsuranceType PaymentIntentPaymentDetailsFlightDatumInsuranceInsuranceType `json:"insurance_type"`
+}
+
+// The list of passengers for this flight.
+type PaymentIntentPaymentDetailsFlightDatumPassenger struct {
+	// Full name of the passenger.
+	Name string `json:"name"`
+}
+type PaymentIntentPaymentDetailsFlightDatumSegmentArrival struct {
+	// Arrival airport IATA code.
+	Airport string `json:"airport"`
+	// Arrival date and time.
+	ArrivesAt int64 `json:"arrives_at"`
+	// Arrival city.
+	City string `json:"city"`
+	// Arrival country.
+	Country string `json:"country"`
+}
+type PaymentIntentPaymentDetailsFlightDatumSegmentDeparture struct {
+	// Departure airport IATA code.
+	Airport string `json:"airport"`
+	// Departure city.
+	City string `json:"city"`
+	// Departure country.
+	Country string `json:"country"`
+	// Departure date and time.
+	DepartsAt int64 `json:"departs_at"`
+}
+
+// The list of flight segments for this reservation.
+type PaymentIntentPaymentDetailsFlightDatumSegment struct {
+	// Segment fare amount.
+	Amount  int64                                                 `json:"amount"`
+	Arrival *PaymentIntentPaymentDetailsFlightDatumSegmentArrival `json:"arrival"`
+	// Airline carrier code.
+	CarrierCode string `json:"carrier_code"`
+	// Carrier name.
+	CarrierName string `json:"carrier_name"`
+	// Segment currency.
+	Currency  Currency                                                `json:"currency"`
+	Departure *PaymentIntentPaymentDetailsFlightDatumSegmentDeparture `json:"departure"`
+	// Exchange ticket number.
+	ExchangeTicketNumber string `json:"exchange_ticket_number"`
+	// Fare basis code.
+	FareBasisCode string `json:"fare_basis_code"`
+	// Additional fees.
+	Fees int64 `json:"fees"`
+	// Flight number.
+	FlightNumber string `json:"flight_number"`
+	// Stopover indicator.
+	IsStopOverIndicator bool `json:"is_stop_over_indicator"`
+	// Refundable ticket indicator.
+	Refundable bool `json:"refundable"`
+	// Class of service.
+	ServiceClass PaymentIntentPaymentDetailsFlightDatumSegmentServiceClass `json:"service_class"`
+	// Tax amount for segment.
+	TaxAmount int64 `json:"tax_amount"`
+	// Ticket number.
+	TicketNumber string `json:"ticket_number"`
+}
+type PaymentIntentPaymentDetailsFlightDatumTotalDiscounts struct {
+	// Corporate client discount code.
+	CorporateClientCode string `json:"corporate_client_code"`
+}
+
+// Additional charges for the flight.
+type PaymentIntentPaymentDetailsFlightDatumTotalExtraCharge struct {
+	// Amount of the extra charge.
+	Amount int64 `json:"amount"`
+	// Type of extra charge.
+	Type PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeType `json:"type"`
+}
+
+// Tax details.
+type PaymentIntentPaymentDetailsFlightDatumTotalTaxTax struct {
+	// Tax amount.
+	Amount int64 `json:"amount"`
+	// Tax rate.
+	Rate int64 `json:"rate"`
+	// Type of tax.
+	Type string `json:"type"`
+}
+type PaymentIntentPaymentDetailsFlightDatumTotalTax struct {
+	// Tax details.
+	Taxes []*PaymentIntentPaymentDetailsFlightDatumTotalTaxTax `json:"taxes"`
+}
+type PaymentIntentPaymentDetailsFlightDatumTotal struct {
+	// Total amount.
+	Amount int64 `json:"amount"`
+	// Reason for credit.
+	CreditReason PaymentIntentPaymentDetailsFlightDatumTotalCreditReason `json:"credit_reason"`
+	// Currency for the total amount.
+	Currency  Currency                                              `json:"currency"`
+	Discounts *PaymentIntentPaymentDetailsFlightDatumTotalDiscounts `json:"discounts"`
+	// Additional charges for the flight.
+	ExtraCharges []*PaymentIntentPaymentDetailsFlightDatumTotalExtraCharge `json:"extra_charges"`
+	Tax          *PaymentIntentPaymentDetailsFlightDatumTotalTax           `json:"tax"`
+}
+type PaymentIntentPaymentDetailsFlightDatum struct {
+	Affiliate *PaymentIntentPaymentDetailsFlightDatumAffiliate `json:"affiliate"`
+	// The booking number associated with the flight reservation.
+	BookingNumber string `json:"booking_number"`
+	// The computerized reservation system used to make the reservation and purchase the ticket.
+	ComputerizedReservationSystem string `json:"computerized_reservation_system"`
+	// Ticket restrictions.
+	EndorsementsAndRestrictions string `json:"endorsements_and_restrictions"`
+	// Insurance details for the flight.
+	Insurances []*PaymentIntentPaymentDetailsFlightDatumInsurance `json:"insurances"`
+	// The list of passengers for this flight.
+	Passengers []*PaymentIntentPaymentDetailsFlightDatumPassenger `json:"passengers"`
+	// The list of flight segments for this reservation.
+	Segments []*PaymentIntentPaymentDetailsFlightDatumSegment `json:"segments"`
+	// Electronic ticket indicator.
+	TicketElectronicallyIssuedIndicator bool                                         `json:"ticket_electronically_issued_indicator"`
+	Total                               *PaymentIntentPaymentDetailsFlightDatumTotal `json:"total"`
+	// Type of flight transaction.
+	TransactionType PaymentIntentPaymentDetailsFlightDatumTransactionType `json:"transaction_type"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumAccommodation struct {
+	// Type of accommodation.
+	AccommodationType PaymentIntentPaymentDetailsLodgingDatumAccommodationAccommodationType `json:"accommodation_type"`
+	// Bed type.
+	BedType string `json:"bed_type"`
+	// Daily accommodation rate in cents.
+	DailyRateAmount int64 `json:"daily_rate_amount"`
+	// Number of nights.
+	Nights int64 `json:"nights"`
+	// Number of rooms, cabanas, apartments, and so on.
+	NumberOfRooms int64 `json:"number_of_rooms"`
+	// Rate type.
+	RateType string `json:"rate_type"`
+	// Whether smoking is allowed.
+	SmokingIndicator bool `json:"smoking_indicator"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumAffiliate struct {
+	// Affiliate partner code.
+	Code string `json:"code"`
+	// Affiliate partner name.
+	Name string `json:"name"`
+}
+
+// List of guests for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumGuest struct {
+	// Guest's full name.
+	Name string `json:"name"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumHost struct {
+	Address *Address `json:"address"`
+	// Host's country of domicile.
+	CountryOfDomicile string `json:"country_of_domicile"`
+	// Reference number for the host.
+	HostReference string `json:"host_reference"`
+	// Type of host.
+	HostType PaymentIntentPaymentDetailsLodgingDatumHostHostType `json:"host_type"`
+	// Name of the lodging property or host.
+	Name string `json:"name"`
+	// Total number of reservations for the host.
+	NumberOfReservations int64 `json:"number_of_reservations"`
+	// Property phone number.
+	PropertyPhoneNumber string `json:"property_phone_number"`
+	// Host's registration date.
+	RegisteredAt int64 `json:"registered_at"`
+}
+
+// List of insurances for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumInsurance struct {
+	// Price of the insurance coverage in cents.
+	Amount int64 `json:"amount"`
+	// Currency of the insurance amount.
+	Currency Currency `json:"currency"`
+	// Name of the insurance company.
+	InsuranceCompanyName string `json:"insurance_company_name"`
+	// Type of insurance coverage.
+	InsuranceType PaymentIntentPaymentDetailsLodgingDatumInsuranceInsuranceType `json:"insurance_type"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumTotalDiscounts struct {
+	// Corporate client discount code.
+	CorporateClientCode string `json:"corporate_client_code"`
+	// Coupon code.
+	Coupon string `json:"coupon"`
+}
+
+// Additional charges for the lodging.
+type PaymentIntentPaymentDetailsLodgingDatumTotalExtraCharge struct {
+	// Amount of the extra charge in cents.
+	Amount int64 `json:"amount"`
+	// Type of extra charge.
+	Type PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType `json:"type"`
+}
+
+// Tax details.
+type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTax struct {
+	// Tax amount in cents.
+	Amount int64 `json:"amount"`
+	// Tax rate.
+	Rate int64 `json:"rate"`
+	// Type of tax applied.
+	Type string `json:"type"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumTotalTax struct {
+	// Tax details.
+	Taxes []*PaymentIntentPaymentDetailsLodgingDatumTotalTaxTax `json:"taxes"`
+	// Indicates whether the transaction is tax exempt.
+	TaxExemptIndicator bool `json:"tax_exempt_indicator"`
+}
+type PaymentIntentPaymentDetailsLodgingDatumTotal struct {
+	// Total price of the lodging reservation in cents.
+	Amount int64 `json:"amount"`
+	// Cash advances in cents.
+	CashAdvances int64 `json:"cash_advances"`
+	// Currency of the total amount.
+	Currency  Currency                                               `json:"currency"`
+	Discounts *PaymentIntentPaymentDetailsLodgingDatumTotalDiscounts `json:"discounts"`
+	// Additional charges for the lodging.
+	ExtraCharges []*PaymentIntentPaymentDetailsLodgingDatumTotalExtraCharge `json:"extra_charges"`
+	// Prepaid amount in cents.
+	PrepaidAmount int64                                            `json:"prepaid_amount"`
+	Tax           *PaymentIntentPaymentDetailsLodgingDatumTotalTax `json:"tax"`
+}
+type PaymentIntentPaymentDetailsLodgingDatum struct {
+	Accommodation *PaymentIntentPaymentDetailsLodgingDatumAccommodation `json:"accommodation"`
+	Affiliate     *PaymentIntentPaymentDetailsLodgingDatumAffiliate     `json:"affiliate"`
+	// Booking confirmation number for the lodging.
+	BookingNumber string `json:"booking_number"`
+	// Check-in date.
+	CheckinAt int64 `json:"checkin_at"`
+	// Check-out date.
+	CheckoutAt int64 `json:"checkout_at"`
+	// Customer service phone number for the lodging company.
+	CustomerServicePhoneNumber string `json:"customer_service_phone_number"`
+	// Whether the lodging is compliant with any hotel fire safety regulations.
+	FireSafetyActComplianceIndicator bool `json:"fire_safety_act_compliance_indicator"`
+	// List of guests for the lodging.
+	Guests []*PaymentIntentPaymentDetailsLodgingDatumGuest `json:"guests"`
+	Host   *PaymentIntentPaymentDetailsLodgingDatumHost    `json:"host"`
+	// List of insurances for the lodging.
+	Insurances []*PaymentIntentPaymentDetailsLodgingDatumInsurance `json:"insurances"`
+	// Whether the renter is a no-show.
+	NoShowIndicator bool `json:"no_show_indicator"`
+	// Renter ID number for the lodging.
+	RenterIDNumber string `json:"renter_id_number"`
+	// Renter name for the lodging.
+	RenterName string                                        `json:"renter_name"`
+	Total      *PaymentIntentPaymentDetailsLodgingDatumTotal `json:"total"`
+}
 type PaymentIntentPaymentDetailsSubscriptionAffiliate struct {
 	// The name of the affiliate that originated the purchase.
 	Name string `json:"name"`
@@ -14259,13 +14921,16 @@ type PaymentIntentPaymentDetailsSubscription struct {
 	StartsAt int64 `json:"starts_at"`
 }
 type PaymentIntentPaymentDetails struct {
-	Benefit   *PaymentIntentPaymentDetailsBenefit   `json:"benefit"`
-	CarRental *PaymentIntentPaymentDetailsCarRental `json:"car_rental"`
+	Benefit       *PaymentIntentPaymentDetailsBenefit          `json:"benefit"`
+	CarRental     *PaymentIntentPaymentDetailsCarRental        `json:"car_rental"`
+	CarRentalData []*PaymentIntentPaymentDetailsCarRentalDatum `json:"car_rental_data"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	CustomerReference string                                   `json:"customer_reference"`
-	EventDetails      *PaymentIntentPaymentDetailsEventDetails `json:"event_details"`
+	CustomerReference string                                     `json:"customer_reference"`
+	EventDetails      *PaymentIntentPaymentDetailsEventDetails   `json:"event_details"`
+	FlightData        []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data"`
+	LodgingData       []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.

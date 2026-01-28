@@ -49,6 +49,16 @@ const (
 	FinancialConnectionsSessionPrefetchTransactions     FinancialConnectionsSessionPrefetch = "transactions"
 )
 
+// Reason for why relink failed. One of `no_authorization`, `no_account`, or `other`.
+type FinancialConnectionsSessionRelinkResultFailureReason string
+
+// List of values that FinancialConnectionsSessionRelinkResultFailureReason can take
+const (
+	FinancialConnectionsSessionRelinkResultFailureReasonNoAccount       FinancialConnectionsSessionRelinkResultFailureReason = "no_account"
+	FinancialConnectionsSessionRelinkResultFailureReasonNoAuthorization FinancialConnectionsSessionRelinkResultFailureReason = "no_authorization"
+	FinancialConnectionsSessionRelinkResultFailureReasonOther           FinancialConnectionsSessionRelinkResultFailureReason = "other"
+)
+
 // The current state of the session.
 type FinancialConnectionsSessionStatus string
 
@@ -88,6 +98,8 @@ type FinancialConnectionsSessionParams struct {
 	Permissions []*string `form:"permissions"`
 	// List of data features that you would like to retrieve upon account creation.
 	Prefetch []*string `form:"prefetch"`
+	// Options for specifying a Session targeted to relinking an authorization.
+	RelinkOptions *FinancialConnectionsSessionRelinkOptionsParams `form:"relink_options"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
 }
@@ -129,6 +141,14 @@ type FinancialConnectionsSessionLimitsParams struct {
 type FinancialConnectionsSessionManualEntryParams struct {
 	// Whether manual entry will be handled by Stripe during the Session.
 	Mode *string `form:"mode"`
+}
+
+// Options for specifying a Session targeted to relinking an authorization.
+type FinancialConnectionsSessionRelinkOptionsParams struct {
+	// The account to relink. Must belong to the authorization specified in `authorization`.
+	Account *string `form:"account"`
+	// The authorization to relink.
+	Authorization *string `form:"authorization"`
 }
 
 // Retrieves the details of a Financial Connections Session
@@ -177,6 +197,14 @@ type FinancialConnectionsSessionCreateManualEntryParams struct {
 	Mode *string `form:"mode"`
 }
 
+// Options for specifying a Session targeted to relinking an authorization.
+type FinancialConnectionsSessionCreateRelinkOptionsParams struct {
+	// The account to relink. Must belong to the authorization specified in `authorization`.
+	Account *string `form:"account"`
+	// The authorization to relink.
+	Authorization *string `form:"authorization"`
+}
+
 // To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
 type FinancialConnectionsSessionCreateParams struct {
 	Params `form:"*"`
@@ -196,6 +224,8 @@ type FinancialConnectionsSessionCreateParams struct {
 	Permissions []*string `form:"permissions"`
 	// List of data features that you would like to retrieve upon account creation.
 	Prefetch []*string `form:"prefetch"`
+	// Options for specifying a Session targeted to relinking an authorization.
+	RelinkOptions *FinancialConnectionsSessionCreateRelinkOptionsParams `form:"relink_options"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
 }
@@ -228,6 +258,20 @@ type FinancialConnectionsSessionLimits struct {
 	Accounts int64 `json:"accounts"`
 }
 type FinancialConnectionsSessionManualEntry struct{}
+type FinancialConnectionsSessionRelinkOptions struct {
+	// Requires the end user to repair this specific account during the authentication flow instead of connecting a different one.
+	Account string `json:"account"`
+	// The authorization to relink in the Session.
+	Authorization string `json:"authorization"`
+}
+type FinancialConnectionsSessionRelinkResult struct {
+	// The account relinked in the Session. Only present if `relink_options[account]` is set and relink is successful.
+	Account string `json:"account"`
+	// The authorization relinked in the Session. Only present if relink is successful.
+	Authorization string `json:"authorization"`
+	// Reason for why relink failed. One of `no_authorization`, `no_account`, or `other`.
+	FailureReason FinancialConnectionsSessionRelinkResultFailureReason `json:"failure_reason"`
+}
 type FinancialConnectionsSessionStatusDetailsCancelled struct {
 	// The reason for the Session being cancelled.
 	Reason FinancialConnectionsSessionStatusDetailsCancelledReason `json:"reason"`
@@ -257,7 +301,9 @@ type FinancialConnectionsSession struct {
 	// Permissions requested for accounts collected during this session.
 	Permissions []FinancialConnectionsSessionPermission `json:"permissions"`
 	// Data features requested to be retrieved upon account creation.
-	Prefetch []FinancialConnectionsSessionPrefetch `json:"prefetch"`
+	Prefetch      []FinancialConnectionsSessionPrefetch     `json:"prefetch"`
+	RelinkOptions *FinancialConnectionsSessionRelinkOptions `json:"relink_options"`
+	RelinkResult  *FinancialConnectionsSessionRelinkResult  `json:"relink_result"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL string `json:"return_url"`
 	// The current state of the session.

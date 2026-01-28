@@ -4537,26 +4537,6 @@ type TaxRegistrationCountryOptionsUg struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsUgType `json:"type"`
 }
-type TaxRegistrationCountryOptionsUSLocalAmusementTax struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
-	Jurisdiction string `json:"jurisdiction"`
-}
-type TaxRegistrationCountryOptionsUSLocalLeaseTax struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
-	Jurisdiction string `json:"jurisdiction"`
-}
-
-// Elections for the state sales tax registration.
-type TaxRegistrationCountryOptionsUSStateSalesTaxElection struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
-	Jurisdiction string `json:"jurisdiction"`
-	// The type of the election for the state sales tax registration.
-	Type TaxRegistrationCountryOptionsUSStateSalesTaxElectionType `json:"type"`
-}
-type TaxRegistrationCountryOptionsUSStateSalesTax struct {
-	// Elections for the state sales tax registration.
-	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElection `json:"elections"`
-}
 type TaxRegistrationCountryOptionsUSAdmissionsTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=admissions_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
@@ -4577,6 +4557,14 @@ type TaxRegistrationCountryOptionsUSHospitalityTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=hospitality_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
+type TaxRegistrationCountryOptionsUSLocalAmusementTax struct {
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSLocalLeaseTax struct {
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
 type TaxRegistrationCountryOptionsUSLuxuryTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=luxury_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
@@ -4584,6 +4572,18 @@ type TaxRegistrationCountryOptionsUSLuxuryTax struct {
 type TaxRegistrationCountryOptionsUSResortTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
+}
+
+// Elections for the state sales tax registration.
+type TaxRegistrationCountryOptionsUSStateSalesTaxElection struct {
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+	// The type of the election for the state sales tax registration.
+	Type TaxRegistrationCountryOptionsUSStateSalesTaxElectionType `json:"type"`
+}
+type TaxRegistrationCountryOptionsUSStateSalesTax struct {
+	// Elections for the state sales tax registration.
+	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElection `json:"elections"`
 }
 type TaxRegistrationCountryOptionsUSTourismTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=tourism_tax#registration-types) representing the local jurisdiction.

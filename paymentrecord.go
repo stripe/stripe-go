@@ -342,12 +342,13 @@ const (
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankPermata PaymentRecordPaymentMethodDetailsIDBankTransferBank = "permata"
 )
 
-// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type PaymentRecordPaymentMethodDetailsIDEALBank string
 
 // List of values that PaymentRecordPaymentMethodDetailsIDEALBank can take
 const (
 	PaymentRecordPaymentMethodDetailsIDEALBankAbnAmro       PaymentRecordPaymentMethodDetailsIDEALBank = "abn_amro"
+	PaymentRecordPaymentMethodDetailsIDEALBankAdyen         PaymentRecordPaymentMethodDetailsIDEALBank = "adyen"
 	PaymentRecordPaymentMethodDetailsIDEALBankAsnBank       PaymentRecordPaymentMethodDetailsIDEALBank = "asn_bank"
 	PaymentRecordPaymentMethodDetailsIDEALBankBunq          PaymentRecordPaymentMethodDetailsIDEALBank = "bunq"
 	PaymentRecordPaymentMethodDetailsIDEALBankBuut          PaymentRecordPaymentMethodDetailsIDEALBank = "buut"
@@ -374,6 +375,7 @@ type PaymentRecordPaymentMethodDetailsIDEALBIC string
 // List of values that PaymentRecordPaymentMethodDetailsIDEALBIC can take
 const (
 	PaymentRecordPaymentMethodDetailsIDEALBICABNANL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "ABNANL2A"
+	PaymentRecordPaymentMethodDetailsIDEALBICADYBNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "ADYBNL2A"
 	PaymentRecordPaymentMethodDetailsIDEALBICASNBNL21 PaymentRecordPaymentMethodDetailsIDEALBIC = "ASNBNL21"
 	PaymentRecordPaymentMethodDetailsIDEALBICBITSNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "BITSNL2A"
 	PaymentRecordPaymentMethodDetailsIDEALBICBUNQNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "BUNQNL2A"
@@ -1501,7 +1503,7 @@ type PaymentRecordPaymentMethodDetailsIDBankTransfer struct {
 	DisplayName string `json:"display_name"`
 }
 type PaymentRecordPaymentMethodDetailsIDEAL struct {
-	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank PaymentRecordPaymentMethodDetailsIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank.
 	BIC PaymentRecordPaymentMethodDetailsIDEALBIC `json:"bic"`

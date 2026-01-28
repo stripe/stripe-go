@@ -755,6 +755,36 @@ type SubscriptionDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type SubscriptionDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type SubscriptionDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *SubscriptionDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `subscription_service_cycle_anchor` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type SubscriptionDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *SubscriptionDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `now` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -765,6 +795,8 @@ type SubscriptionDiscountParams struct {
 	DiscountEnd *SubscriptionDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *SubscriptionDiscountSettingsParams `form:"settings"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -1066,6 +1098,8 @@ type SubscriptionListParams struct {
 	ListParams `form:"*"`
 	// Filter subscriptions by their automatic tax settings.
 	AutomaticTax *SubscriptionListAutomaticTaxParams `form:"automatic_tax"`
+	// Filter for subscriptions that have the specified billing cadence.
+	BillingCadence *string `form:"billing_cadence"`
 	// The collection method of the subscriptions to retrieve. Either `charge_automatically` or `send_invoice`.
 	CollectionMethod *string `form:"collection_method"`
 	// Only return subscriptions that were created during the given date interval.
@@ -1185,6 +1219,32 @@ type SubscriptionMigrateParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *SubscriptionMigrateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Controls what to bill for when pausing the subscription.
+type SubscriptionPauseBillForParams struct {
+	// Controls whether to debit for accrued metered usage in the current billing period. The default is `false`.
+	OutstandingUsage *bool `form:"outstanding_usage"`
+	// Controls whether to credit for licensed items in the current billing period. The default is `false`.
+	UnusedTime *bool `form:"unused_time"`
+}
+
+// Pauses a subscription by transitioning it to the paused status. A paused subscription does not generate invoices and will not advance to new billing periods. The subscription can be resumed later using the resume endpoint. Cannot pause subscriptions with attached schedules.
+type SubscriptionPauseParams struct {
+	Params `form:"*"`
+	// Controls what to bill for when pausing the subscription.
+	BillFor *SubscriptionPauseBillForParams `form:"bill_for"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Determines how to handle debits and credits when pausing. The default is `pending_invoice_item`.
+	InvoicingBehavior *string `form:"invoicing_behavior"`
+	// The type of pause to apply.
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionPauseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -1385,6 +1445,36 @@ type SubscriptionUpdateDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type SubscriptionUpdateDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type SubscriptionUpdateDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *SubscriptionUpdateDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `subscription_service_cycle_anchor` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type SubscriptionUpdateDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *SubscriptionUpdateDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `now` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionUpdateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -1395,6 +1485,8 @@ type SubscriptionUpdateDiscountParams struct {
 	DiscountEnd *SubscriptionUpdateDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *SubscriptionUpdateDiscountSettingsParams `form:"settings"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -1445,6 +1537,36 @@ type SubscriptionUpdateItemDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type SubscriptionUpdateItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type SubscriptionUpdateItemDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *SubscriptionUpdateItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `subscription_service_cycle_anchor` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type SubscriptionUpdateItemDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *SubscriptionUpdateItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `now` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionUpdateItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -1455,6 +1577,8 @@ type SubscriptionUpdateItemDiscountParams struct {
 	DiscountEnd *SubscriptionUpdateItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *SubscriptionUpdateItemDiscountSettingsParams `form:"settings"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -2067,6 +2191,36 @@ type SubscriptionCreateDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type SubscriptionCreateDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type SubscriptionCreateDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *SubscriptionCreateDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `subscription_service_cycle_anchor` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type SubscriptionCreateDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *SubscriptionCreateDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `now` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionCreateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -2077,6 +2231,8 @@ type SubscriptionCreateDiscountParams struct {
 	DiscountEnd *SubscriptionCreateDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *SubscriptionCreateDiscountSettingsParams `form:"settings"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -2127,6 +2283,36 @@ type SubscriptionCreateItemDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
+// Anchor the service period to a custom date. Type must be `custom` to specify.
+type SubscriptionCreateItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second"`
+}
+
+// Configures service period cycle anchoring.
+type SubscriptionCreateItemDiscountSettingsServicePeriodAnchorConfigParams struct {
+	// Anchor the service period to a custom date. Type must be `custom` to specify.
+	Custom *SubscriptionCreateItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	// The type of service period anchor config. Defaults to `subscription_service_cycle_anchor` if omitted.
+	Type *string `form:"type"`
+}
+
+// Settings for discount application including service period anchoring.
+type SubscriptionCreateItemDiscountSettingsParams struct {
+	// Configures service period cycle anchoring.
+	ServicePeriodAnchorConfig *SubscriptionCreateItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `now` if omitted.
+	StartDate *string `form:"start_date"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionCreateItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -2137,6 +2323,8 @@ type SubscriptionCreateItemDiscountParams struct {
 	DiscountEnd *SubscriptionCreateItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+	// Settings for discount application including service period anchoring.
+	Settings *SubscriptionCreateItemDiscountSettingsParams `form:"settings"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -2984,7 +3172,7 @@ type Subscription struct {
 	Items *SubscriptionItemList `json:"items"`
 	// Details of the most recent price migration that failed for the subscription.
 	LastPriceMigrationError *SubscriptionLastPriceMigrationError `json:"last_price_migration_error"`
-	// The most recent invoice this subscription has generated.
+	// The most recent invoice this subscription has generated over its lifecycle (for example, when it cycles or is updated).
 	LatestInvoice *Invoice `json:"latest_invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`

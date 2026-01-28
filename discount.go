@@ -16,6 +16,12 @@ const (
 	DiscountSourceTypeCoupon DiscountSourceType = "coupon"
 )
 
+type DiscountServicePeriodDetails struct {
+	// The date that the service period was anchored to.
+	ServicePeriodAnchoredAt int64 `json:"service_period_anchored_at"`
+	// The date that the service period started.
+	StartDate int64 `json:"start_date"`
+}
 type DiscountSource struct {
 	// The coupon that was redeemed to create this discount.
 	Coupon *Coupon `json:"coupon"`
@@ -48,8 +54,9 @@ type Discount struct {
 	// The promotion code applied to create this discount.
 	PromotionCode *PromotionCode `json:"promotion_code"`
 	// The subscription schedule that this coupon is applied to, if it is applied to a particular subscription schedule.
-	Schedule string          `json:"schedule"`
-	Source   *DiscountSource `json:"source"`
+	Schedule             string                        `json:"schedule"`
+	ServicePeriodDetails *DiscountServicePeriodDetails `json:"service_period_details"`
+	Source               *DiscountSource               `json:"source"`
 	// Date that the coupon was applied.
 	Start int64 `json:"start"`
 	// The subscription that this coupon is applied to, if it is applied to a particular subscription.

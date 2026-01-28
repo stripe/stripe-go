@@ -112,6 +112,27 @@ const (
 	FinancialConnectionsAccountStatusInactive     FinancialConnectionsAccountStatus = "inactive"
 )
 
+// The action (if any) to relink the inactive Account.
+type FinancialConnectionsAccountStatusDetailsInactiveAction string
+
+// List of values that FinancialConnectionsAccountStatusDetailsInactiveAction can take
+const (
+	FinancialConnectionsAccountStatusDetailsInactiveActionNone           FinancialConnectionsAccountStatusDetailsInactiveAction = "none"
+	FinancialConnectionsAccountStatusDetailsInactiveActionRelinkRequired FinancialConnectionsAccountStatusDetailsInactiveAction = "relink_required"
+)
+
+// The underlying cause of the Account being inactive.
+type FinancialConnectionsAccountStatusDetailsInactiveCause string
+
+// List of values that FinancialConnectionsAccountStatusDetailsInactiveCause can take
+const (
+	FinancialConnectionsAccountStatusDetailsInactiveCauseAccessDenied       FinancialConnectionsAccountStatusDetailsInactiveCause = "access_denied"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseAccessExpired      FinancialConnectionsAccountStatusDetailsInactiveCause = "access_expired"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseAccountClosed      FinancialConnectionsAccountStatusDetailsInactiveCause = "account_closed"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseAccountUnavailable FinancialConnectionsAccountStatusDetailsInactiveCause = "account_unavailable"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseUnspecified        FinancialConnectionsAccountStatusDetailsInactiveCause = "unspecified"
+)
+
 // If `category` is `cash`, one of:
 //
 //   - `checking`
@@ -370,6 +391,15 @@ type FinancialConnectionsAccountOwnershipRefresh struct {
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountOwnershipRefreshStatus `json:"status"`
 }
+type FinancialConnectionsAccountStatusDetailsInactive struct {
+	// The action (if any) to relink the inactive Account.
+	Action FinancialConnectionsAccountStatusDetailsInactiveAction `json:"action"`
+	// The underlying cause of the Account being inactive.
+	Cause FinancialConnectionsAccountStatusDetailsInactiveCause `json:"cause"`
+}
+type FinancialConnectionsAccountStatusDetails struct {
+	Inactive *FinancialConnectionsAccountStatusDetailsInactive `json:"inactive"`
+}
 
 // The state of the most recent attempt to refresh the account transactions.
 type FinancialConnectionsAccountTransactionRefresh struct {
@@ -390,6 +420,8 @@ type FinancialConnectionsAccount struct {
 	AccountHolder *FinancialConnectionsAccountAccountHolder `json:"account_holder"`
 	// Details about the account numbers.
 	AccountNumbers []*FinancialConnectionsAccountAccountNumber `json:"account_numbers"`
+	// The ID of the Financial Connections Authorization this account belongs to.
+	Authorization string `json:"authorization"`
 	// The most recent information about the account's balance.
 	Balance *FinancialConnectionsAccountBalance `json:"balance"`
 	// The state of the most recent attempt to refresh the account balance.
@@ -421,7 +453,8 @@ type FinancialConnectionsAccount struct {
 	// The list of permissions granted by this account.
 	Permissions []FinancialConnectionsAccountPermission `json:"permissions"`
 	// The status of the link to the account.
-	Status FinancialConnectionsAccountStatus `json:"status"`
+	Status        FinancialConnectionsAccountStatus         `json:"status"`
+	StatusDetails *FinancialConnectionsAccountStatusDetails `json:"status_details"`
 	// If `category` is `cash`, one of:
 	//
 	//  - `checking`

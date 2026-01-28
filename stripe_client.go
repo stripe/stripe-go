@@ -114,6 +114,8 @@ type Client struct {
 	V1FinancialConnectionsAccountInferredBalances *v1FinancialConnectionsAccountInferredBalanceService
 	// V1FinancialConnectionsAccounts is the service used to invoke /v1/financial_connections/accounts APIs.
 	V1FinancialConnectionsAccounts *v1FinancialConnectionsAccountService
+	// V1FinancialConnectionsAuthorizations is the service used to invoke /v1/financial_connections/authorizations APIs.
+	V1FinancialConnectionsAuthorizations *v1FinancialConnectionsAuthorizationService
 	// V1FinancialConnectionsInstitutions is the service used to invoke /v1/financial_connections/institutions APIs.
 	V1FinancialConnectionsInstitutions *v1FinancialConnectionsInstitutionService
 	// V1FinancialConnectionsSessions is the service used to invoke /v1/financial_connections/sessions APIs.
@@ -122,6 +124,8 @@ type Client struct {
 	V1FinancialConnectionsTransactions *v1FinancialConnectionsTransactionService
 	// V1ForwardingRequests is the service used to invoke /v1/forwarding/requests APIs.
 	V1ForwardingRequests *v1ForwardingRequestService
+	// V1FRMealVouchersOnboardings is the service used to invoke /v1/fr_meal_vouchers_onboardings APIs.
+	V1FRMealVouchersOnboardings *v1FRMealVouchersOnboardingService
 	// V1FxQuotes is the service used to invoke /v1/fx_quotes APIs.
 	V1FxQuotes *v1FxQuoteService
 	// V1IdentityBlocklistEntries is the service used to invoke /v1/identity/blocklist_entries APIs.
@@ -220,6 +224,8 @@ type Client struct {
 	V1RadarAccountEvaluations *v1RadarAccountEvaluationService
 	// V1RadarEarlyFraudWarnings is the service used to invoke /v1/radar/early_fraud_warnings APIs.
 	V1RadarEarlyFraudWarnings *v1RadarEarlyFraudWarningService
+	// V1RadarPaymentEvaluations is the service used to invoke /v1/radar/payment_evaluations APIs.
+	V1RadarPaymentEvaluations *v1RadarPaymentEvaluationService
 	// V1RadarValueListItems is the service used to invoke /v1/radar/value_list_items APIs.
 	V1RadarValueListItems *v1RadarValueListItemService
 	// V1RadarValueLists is the service used to invoke /v1/radar/value_lists APIs.
@@ -230,6 +236,12 @@ type Client struct {
 	V1ReportingReportRuns *v1ReportingReportRunService
 	// V1ReportingReportTypes is the service used to invoke /v1/reporting/report_types APIs.
 	V1ReportingReportTypes *v1ReportingReportTypeService
+	// V1ReserveHolds is the service used to invoke /v1/reserve/holds APIs.
+	V1ReserveHolds *v1ReserveHoldService
+	// V1ReservePlans is the service used to invoke /v1/reserve/plans APIs.
+	V1ReservePlans *v1ReservePlanService
+	// V1ReserveReleases is the service used to invoke /v1/reserve/releases APIs.
+	V1ReserveReleases *v1ReserveReleaseService
 	// V1Reviews is the service used to invoke /v1/reviews APIs.
 	V1Reviews *v1ReviewService
 	// V1SetupAttempts is the service used to invoke /v1/setup_attempts APIs.
@@ -564,10 +576,12 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Files = &v1FileService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1FinancialConnectionsAccountInferredBalances = &v1FinancialConnectionsAccountInferredBalanceService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsAccounts = &v1FinancialConnectionsAccountService{B: backends.API, Key: key}
+	client.V1FinancialConnectionsAuthorizations = &v1FinancialConnectionsAuthorizationService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsInstitutions = &v1FinancialConnectionsInstitutionService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsSessions = &v1FinancialConnectionsSessionService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsTransactions = &v1FinancialConnectionsTransactionService{B: backends.API, Key: key}
 	client.V1ForwardingRequests = &v1ForwardingRequestService{B: backends.API, Key: key}
+	client.V1FRMealVouchersOnboardings = &v1FRMealVouchersOnboardingService{B: backends.API, Key: key}
 	client.V1FxQuotes = &v1FxQuoteService{B: backends.API, Key: key}
 	client.V1IdentityBlocklistEntries = &v1IdentityBlocklistEntryService{B: backends.API, Key: key}
 	client.V1IdentityVerificationReports = &v1IdentityVerificationReportService{B: backends.API, Key: key}
@@ -617,11 +631,15 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1RadarAccountEvaluations = &v1RadarAccountEvaluationService{B: backends.API, Key: key}
 	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
+	client.V1RadarPaymentEvaluations = &v1RadarPaymentEvaluationService{B: backends.API, Key: key}
 	client.V1RadarValueListItems = &v1RadarValueListItemService{B: backends.API, Key: key}
 	client.V1RadarValueLists = &v1RadarValueListService{B: backends.API, Key: key}
 	client.V1Refunds = &v1RefundService{B: backends.API, Key: key}
 	client.V1ReportingReportRuns = &v1ReportingReportRunService{B: backends.API, Key: key}
 	client.V1ReportingReportTypes = &v1ReportingReportTypeService{B: backends.API, Key: key}
+	client.V1ReserveHolds = &v1ReserveHoldService{B: backends.API, Key: key}
+	client.V1ReservePlans = &v1ReservePlanService{B: backends.API, Key: key}
+	client.V1ReserveReleases = &v1ReserveReleaseService{B: backends.API, Key: key}
 	client.V1Reviews = &v1ReviewService{B: backends.API, Key: key}
 	client.V1SetupAttempts = &v1SetupAttemptService{B: backends.API, Key: key}
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
