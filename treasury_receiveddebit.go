@@ -160,6 +160,8 @@ type TreasuryReceivedDebitLinkedFlows struct {
 	IssuingTransaction string `json:"issuing_transaction"`
 	// Set if the ReceivedDebit was created due to a [Payout](https://api.stripe.com#payouts) object.
 	Payout string `json:"payout"`
+	// Set if the ReceivedDebit was created due to a [Topup](https://api.stripe.com#topups) object.
+	Topup string `json:"topup"`
 }
 
 // Details describing when a ReceivedDebit might be reversed.

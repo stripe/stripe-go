@@ -172,6 +172,8 @@ type Client struct {
 	V1Quotes *v1QuoteService
 	// V1RadarEarlyFraudWarnings is the service used to invoke /v1/radar/early_fraud_warnings APIs.
 	V1RadarEarlyFraudWarnings *v1RadarEarlyFraudWarningService
+	// V1RadarPaymentEvaluations is the service used to invoke /v1/radar/payment_evaluations APIs.
+	V1RadarPaymentEvaluations *v1RadarPaymentEvaluationService
 	// V1RadarValueListItems is the service used to invoke /v1/radar/value_list_items APIs.
 	V1RadarValueListItems *v1RadarValueListItemService
 	// V1RadarValueLists is the service used to invoke /v1/radar/value_lists APIs.
@@ -429,6 +431,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1PromotionCodes = &v1PromotionCodeService{B: backends.API, Key: key}
 	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
+	client.V1RadarPaymentEvaluations = &v1RadarPaymentEvaluationService{B: backends.API, Key: key}
 	client.V1RadarValueListItems = &v1RadarValueListItemService{B: backends.API, Key: key}
 	client.V1RadarValueLists = &v1RadarValueListService{B: backends.API, Key: key}
 	client.V1Refunds = &v1RefundService{B: backends.API, Key: key}

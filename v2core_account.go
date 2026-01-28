@@ -2137,6 +2137,7 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRSiren  V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_siren"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGiCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gi_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrAfm    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_afm"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrGemi   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_gemi"
@@ -4148,6 +4149,16 @@ type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue struct {
 	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount `json:"amount,omitempty"`
 }
 
+// When the business was incorporated or registered.
+type V2CoreAccountIdentityBusinessDetailsRegistrationDate struct {
+	// The day of registration, between 1 and 31.
+	Day int64 `json:"day"`
+	// The month of registration, between 1 and 12.
+	Month int64 `json:"month"`
+	// The four-digit year of registration.
+	Year int64 `json:"year"`
+}
+
 // Kana Address.
 type V2CoreAccountIdentityBusinessDetailsScriptAddressesKana struct {
 	// City, district, suburb, town, or village.
@@ -4230,6 +4241,8 @@ type V2CoreAccountIdentityBusinessDetails struct {
 	Phone string `json:"phone,omitempty"`
 	// The business legal name.
 	RegisteredName string `json:"registered_name,omitempty"`
+	// When the business was incorporated or registered.
+	RegistrationDate *V2CoreAccountIdentityBusinessDetailsRegistrationDate `json:"registration_date,omitempty"`
 	// The business registration address of the business entity in non latin script.
 	ScriptAddresses *V2CoreAccountIdentityBusinessDetailsScriptAddresses `json:"script_addresses,omitempty"`
 	// The business legal name in non latin script.
@@ -4646,6 +4659,8 @@ type V2CoreAccount struct {
 	Configuration *V2CoreAccountConfiguration `json:"configuration,omitempty"`
 	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail string `json:"contact_email,omitempty"`
+	// The default contact phone for the Account.
+	ContactPhone string `json:"contact_phone,omitempty"`
 	// Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
 	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.

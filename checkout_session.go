@@ -150,7 +150,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
@@ -238,6 +238,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeOmVAT    CheckoutSessionCustomerDetailsTaxIDType = "om_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypePERUC    CheckoutSessionCustomerDetailsTaxIDType = "pe_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypePHTIN    CheckoutSessionCustomerDetailsTaxIDType = "ph_tin"
+	CheckoutSessionCustomerDetailsTaxIDTypePLNip    CheckoutSessionCustomerDetailsTaxIDType = "pl_nip"
 	CheckoutSessionCustomerDetailsTaxIDTypeROTIN    CheckoutSessionCustomerDetailsTaxIDType = "ro_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeRSPIB    CheckoutSessionCustomerDetailsTaxIDType = "rs_pib"
 	CheckoutSessionCustomerDetailsTaxIDTypeRUINN    CheckoutSessionCustomerDetailsTaxIDType = "ru_inn"
@@ -1406,7 +1407,7 @@ type CheckoutSessionAfterExpirationRecoveryParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Configure actions after a Checkout Session has expired.
+// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionAfterExpirationParams struct {
 	// Configure a Checkout Session that can be used to recover an expired session.
 	Recovery *CheckoutSessionAfterExpirationRecoveryParams `form:"recovery"`
@@ -1532,7 +1533,7 @@ type CheckoutSessionCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *CheckoutSessionCustomFieldDropdownParams `form:"dropdown"`
@@ -1574,7 +1575,7 @@ type CheckoutSessionCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message"`
 }
 
-// Display additional text for your customers using custom text.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *CheckoutSessionCustomTextAfterSubmitParams `form:"after_submit"`
@@ -1734,7 +1735,7 @@ type CheckoutSessionLineItemPriceDataParams struct {
 type CheckoutSessionLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
-	// The [tax rates](https://docs.stripe.com/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU.
+	// The [tax rates](https://docs.stripe.com/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU. You can't set this parameter if `ui_mode` is `custom`.
 	DynamicTaxRates []*string `form:"dynamic_tax_rates"`
 	// ID of an existing line item.
 	ID *string `form:"id"`
@@ -1780,6 +1781,8 @@ type CheckoutSessionNameCollectionIndividualParams struct {
 // You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 //
 // If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
+//
+// You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionNameCollectionParams struct {
 	// Controls settings applied for collecting the customer's business name on the session.
 	Business *CheckoutSessionNameCollectionBusinessParams `form:"business"`
@@ -1804,6 +1807,8 @@ type CheckoutSessionOptionalItemAdjustableQuantityParams struct {
 // For `payment` mode, there is a maximum of 100 combined line items and optional items, however it is recommended to consolidate items if there are more than a few dozen.
 //
 // For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
+//
+// You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionOptionalItemParams struct {
 	// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 	AdjustableQuantity *CheckoutSessionOptionalItemAdjustableQuantityParams `form:"adjustable_quantity"`
@@ -1908,7 +1913,7 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	TransactionType *string `form:"transaction_type"`
 }
 
-// contains details about the ACSS Debit payment method options.
+// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). This is only accepted for Checkout Sessions in `setup` mode.
 	Currency *string `form:"currency"`
@@ -2063,7 +2068,7 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
 	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
 	BrandsBlocked []*string `form:"brands_blocked"`
@@ -2085,7 +2090,7 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
-	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
 	Restrictions *CheckoutSessionPaymentMethodOptionsCardRestrictionsParams `form:"restrictions"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -2596,7 +2601,7 @@ type CheckoutSessionPaymentMethodOptionsWeChatPayParams struct {
 
 // Payment-method-specific configuration.
 type CheckoutSessionPaymentMethodOptionsParams struct {
-	// contains details about the ACSS Debit payment method options.
+	// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	// contains details about the Affirm payment method options.
 	Affirm *CheckoutSessionPaymentMethodOptionsAffirmParams `form:"affirm"`
@@ -2876,7 +2881,7 @@ type CheckoutSessionSubscriptionDataTrialSettingsParams struct {
 type CheckoutSessionSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
-	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
+	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `custom`.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *CheckoutSessionSubscriptionDataBillingModeParams `form:"billing_mode"`
@@ -2919,7 +2924,7 @@ func (p *CheckoutSessionSubscriptionDataParams) AddMetadata(key string, value st
 type CheckoutSessionTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
 	Required *string `form:"required"`
 }
 
@@ -2940,7 +2945,7 @@ type CheckoutSessionParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 	AdaptivePricing *CheckoutSessionAdaptivePricingParams `form:"adaptive_pricing"`
-	// Configure actions after a Checkout Session has expired.
+	// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
 	AfterExpiration *CheckoutSessionAfterExpirationParams `form:"after_expiration"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes"`
@@ -2994,9 +2999,9 @@ type CheckoutSessionParams struct {
 	CustomerEmail *string `form:"customer_email"`
 	// Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 	CustomFields []*CheckoutSessionCustomFieldParams `form:"custom_fields"`
-	// Display additional text for your customers using custom text.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionDiscountParams `form:"discounts"`
@@ -3025,6 +3030,8 @@ type CheckoutSessionParams struct {
 	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 	//
 	// If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
+	//
+	// You can't set this parameter if `ui_mode` is `custom`.
 	NameCollection *CheckoutSessionNameCollectionParams `form:"name_collection"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	//
@@ -3033,8 +3040,10 @@ type CheckoutSessionParams struct {
 	// For `payment` mode, there is a maximum of 100 combined line items and optional items, however it is recommended to consolidate items if there are more than a few dozen.
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
+	//
+	// You can't set this parameter if `ui_mode` is `custom`.
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session.
+	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `custom`.
 	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
@@ -3090,6 +3099,7 @@ type CheckoutSessionParams struct {
 	// to customize relevant text on the page, such as the submit button.
 	//  `submit_type` can only be specified on Checkout Sessions in
 	// `payment` or `subscription` mode. If blank or `auto`, `pay` is used.
+	// You can't set this parameter if `ui_mode` is `custom`.
 	SubmitType *string `form:"submit_type"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
@@ -3178,7 +3188,7 @@ type CheckoutSessionCreateAfterExpirationRecoveryParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Configure actions after a Checkout Session has expired.
+// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreateAfterExpirationParams struct {
 	// Configure a Checkout Session that can be used to recover an expired session.
 	Recovery *CheckoutSessionCreateAfterExpirationRecoveryParams `form:"recovery"`
@@ -3304,7 +3314,7 @@ type CheckoutSessionCreateCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreateCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *CheckoutSessionCreateCustomFieldDropdownParams `form:"dropdown"`
@@ -3346,7 +3356,7 @@ type CheckoutSessionCreateCustomTextTermsOfServiceAcceptanceParams struct {
 	Message *string `form:"message"`
 }
 
-// Display additional text for your customers using custom text.
+// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreateCustomTextParams struct {
 	// Custom text that should be displayed after the payment confirmation button.
 	AfterSubmit *CheckoutSessionCreateCustomTextAfterSubmitParams `form:"after_submit"`
@@ -3506,7 +3516,7 @@ type CheckoutSessionCreateLineItemPriceDataParams struct {
 type CheckoutSessionCreateLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionCreateLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
-	// The [tax rates](https://docs.stripe.com/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU.
+	// The [tax rates](https://docs.stripe.com/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU. You can't set this parameter if `ui_mode` is `custom`.
 	DynamicTaxRates []*string `form:"dynamic_tax_rates"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
@@ -3550,6 +3560,8 @@ type CheckoutSessionCreateNameCollectionIndividualParams struct {
 // You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 //
 // If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
+//
+// You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreateNameCollectionParams struct {
 	// Controls settings applied for collecting the customer's business name on the session.
 	Business *CheckoutSessionCreateNameCollectionBusinessParams `form:"business"`
@@ -3574,6 +3586,8 @@ type CheckoutSessionCreateOptionalItemAdjustableQuantityParams struct {
 // For `payment` mode, there is a maximum of 100 combined line items and optional items, however it is recommended to consolidate items if there are more than a few dozen.
 //
 // For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
+//
+// You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreateOptionalItemParams struct {
 	// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
 	AdjustableQuantity *CheckoutSessionCreateOptionalItemAdjustableQuantityParams `form:"adjustable_quantity"`
@@ -3678,7 +3692,7 @@ type CheckoutSessionCreatePaymentMethodOptionsACSSDebitMandateOptionsParams stru
 	TransactionType *string `form:"transaction_type"`
 }
 
-// contains details about the ACSS Debit payment method options.
+// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreatePaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). This is only accepted for Checkout Sessions in `setup` mode.
 	Currency *string `form:"currency"`
@@ -3833,7 +3847,7 @@ type CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams struct {
 	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
 	BrandsBlocked []*string `form:"brands_blocked"`
@@ -3855,7 +3869,7 @@ type CheckoutSessionCreatePaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
-	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
 	Restrictions *CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams `form:"restrictions"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -4366,7 +4380,7 @@ type CheckoutSessionCreatePaymentMethodOptionsWeChatPayParams struct {
 
 // Payment-method-specific configuration.
 type CheckoutSessionCreatePaymentMethodOptionsParams struct {
-	// contains details about the ACSS Debit payment method options.
+	// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
 	ACSSDebit *CheckoutSessionCreatePaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	// contains details about the Affirm payment method options.
 	Affirm *CheckoutSessionCreatePaymentMethodOptionsAffirmParams `form:"affirm"`
@@ -4646,7 +4660,7 @@ type CheckoutSessionCreateSubscriptionDataTrialSettingsParams struct {
 type CheckoutSessionCreateSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
-	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
+	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `custom`.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *CheckoutSessionCreateSubscriptionDataBillingModeParams `form:"billing_mode"`
@@ -4689,7 +4703,7 @@ func (p *CheckoutSessionCreateSubscriptionDataParams) AddMetadata(key string, va
 type CheckoutSessionCreateTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`.
+	// Describes whether a tax ID is required during checkout. Defaults to `never`. You can't set this parameter if `ui_mode` is `custom`.
 	Required *string `form:"required"`
 }
 
@@ -4710,7 +4724,7 @@ type CheckoutSessionCreateParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 	AdaptivePricing *CheckoutSessionCreateAdaptivePricingParams `form:"adaptive_pricing"`
-	// Configure actions after a Checkout Session has expired.
+	// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
 	AfterExpiration *CheckoutSessionCreateAfterExpirationParams `form:"after_expiration"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes"`
@@ -4762,9 +4776,9 @@ type CheckoutSessionCreateParams struct {
 	CustomerEmail *string `form:"customer_email"`
 	// Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 	CustomerUpdate *CheckoutSessionCreateCustomerUpdateParams `form:"customer_update"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 	CustomFields []*CheckoutSessionCreateCustomFieldParams `form:"custom_fields"`
-	// Display additional text for your customers using custom text.
+	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
 	CustomText *CheckoutSessionCreateCustomTextParams `form:"custom_text"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 	Discounts []*CheckoutSessionCreateDiscountParams `form:"discounts"`
@@ -4793,6 +4807,8 @@ type CheckoutSessionCreateParams struct {
 	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 	//
 	// If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
+	//
+	// You can't set this parameter if `ui_mode` is `custom`.
 	NameCollection *CheckoutSessionCreateNameCollectionParams `form:"name_collection"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	//
@@ -4801,8 +4817,10 @@ type CheckoutSessionCreateParams struct {
 	// For `payment` mode, there is a maximum of 100 combined line items and optional items, however it is recommended to consolidate items if there are more than a few dozen.
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
+	//
+	// You can't set this parameter if `ui_mode` is `custom`.
 	OptionalItems []*CheckoutSessionCreateOptionalItemParams `form:"optional_items"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session.
+	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `custom`.
 	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionCreatePaymentIntentDataParams `form:"payment_intent_data"`
@@ -4858,6 +4876,7 @@ type CheckoutSessionCreateParams struct {
 	// to customize relevant text on the page, such as the submit button.
 	//  `submit_type` can only be specified on Checkout Sessions in
 	// `payment` or `subscription` mode. If blank or `auto`, `pay` is used.
+	// You can't set this parameter if `ui_mode` is `custom`.
 	SubmitType *string `form:"submit_type"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionCreateSubscriptionDataParams `form:"subscription_data"`
@@ -5094,7 +5113,7 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 
 // Updates a Checkout Session object.
 //
-// Related guide: [Dynamically update Checkout](https://docs.stripe.com/payments/checkout/dynamic-updates)
+// Related guide: [Dynamically update a Checkout Session](https://docs.stripe.com/payments/advanced/dynamic-updates)
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
 	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
@@ -5315,7 +5334,7 @@ type CheckoutSessionCustomFieldText struct {
 	Value string `json:"value"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCustomField struct {
 	Dropdown *CheckoutSessionCustomFieldDropdown `json:"dropdown"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
@@ -5365,7 +5384,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -6266,7 +6285,7 @@ type CheckoutSession struct {
 	// on file. To access information about the customer once the payment flow is
 	// complete, use the `customer` attribute.
 	CustomerEmail string `json:"customer_email"`
-	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 	CustomFields []*CheckoutSessionCustomField `json:"custom_fields"`
 	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
 	// List of coupons and promotion codes attached to the Checkout Session.

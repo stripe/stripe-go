@@ -8,6 +8,15 @@ package stripe
 
 import "encoding/json"
 
+// The code of the error that occurred when validating the current amount details.
+type PaymentIntentAmountDetailsErrorCode string
+
+// List of values that PaymentIntentAmountDetailsErrorCode can take
+const (
+	PaymentIntentAmountDetailsErrorCodeAmountDetailsAmountMismatch                       PaymentIntentAmountDetailsErrorCode = "amount_details_amount_mismatch"
+	PaymentIntentAmountDetailsErrorCodeAmountDetailsTaxShippingDiscountGreaterThanAmount PaymentIntentAmountDetailsErrorCode = "amount_details_tax_shipping_discount_greater_than_amount"
+)
+
 // Controls whether this PaymentIntent will accept redirect-based payment methods.
 //
 // Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
@@ -1204,15 +1213,6 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod = "paper"
 )
 
-// Preferred transaction settlement speed
-type PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed string
-
-// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed can take
-const (
-	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedFastest  PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "fastest"
-	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedStandard PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "standard"
-)
-
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1237,6 +1237,15 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodAutomatic     PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "automatic"
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodInstant       PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "instant"
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
+)
+
+// Preferred transaction settlement speed
+type PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedFastest  PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "fastest"
+	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedStandard PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "standard"
 )
 
 // The client type that the end customer will pay from
@@ -1436,6 +1445,12 @@ type PaymentIntentAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -3185,6 +3200,12 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -3375,6 +3396,12 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -3618,6 +3645,12 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -3846,6 +3879,12 @@ type PaymentIntentCreateAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -5554,6 +5593,12 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -7053,6 +7098,12 @@ func (p *PaymentIntentUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type PaymentIntentAmountDetailsError struct {
+	// The code of the error that occurred when validating the current amount details.
+	Code PaymentIntentAmountDetailsErrorCode `json:"code"`
+	// A message providing more details about the error.
+	Message string `json:"message"`
+}
 type PaymentIntentAmountDetailsShipping struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount int64 `json:"amount"`
@@ -7075,7 +7126,8 @@ type PaymentIntentAmountDetails struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
-	DiscountAmount int64 `json:"discount_amount"`
+	DiscountAmount int64                            `json:"discount_amount"`
+	Error          *PaymentIntentAmountDetailsError `json:"error"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items"`
 	Shipping  *PaymentIntentAmountDetailsShipping     `json:"shipping"`
