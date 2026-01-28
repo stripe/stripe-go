@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// The type of the alternative reference (e.g., external_account for V1 external accounts).
+type V2MoneyManagementPayoutMethodAlternativeReferenceType string
+
+// List of values that V2MoneyManagementPayoutMethodAlternativeReferenceType can take
+const (
+	V2MoneyManagementPayoutMethodAlternativeReferenceTypeExternalAccount V2MoneyManagementPayoutMethodAlternativeReferenceType = "external_account"
+	V2MoneyManagementPayoutMethodAlternativeReferenceTypePaymentMethod   V2MoneyManagementPayoutMethodAlternativeReferenceType = "payment_method"
+)
+
 // A set of available payout speeds for this payout method.
 type V2MoneyManagementPayoutMethodAvailablePayoutSpeed string
 
@@ -56,6 +65,14 @@ const (
 	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeSavings  V2MoneyManagementPayoutMethodBankAccountBankAccountType = "savings"
 )
 
+// The alternative reference for this payout method, if it's a projected payout method.
+type V2MoneyManagementPayoutMethodAlternativeReference struct {
+	// The ID of the alternative resource being referenced.
+	ID string `json:"id"`
+	// The type of the alternative reference (e.g., external_account for V1 external accounts).
+	Type V2MoneyManagementPayoutMethodAlternativeReferenceType `json:"type"`
+}
+
 // Indicates whether the payout method has met the necessary requirements for outbound money movement.
 type V2MoneyManagementPayoutMethodUsageStatus struct {
 	// Payments status - used when sending OutboundPayments (sending funds to recipients).
@@ -98,6 +115,9 @@ type V2MoneyManagementPayoutMethodCard struct {
 	ExpMonth string `json:"exp_month"`
 	// The year the card expires.
 	ExpYear string `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two
+	// recipients who've signed up with you are using the same card number, for example.
+	Fingerprint string `json:"fingerprint"`
 	// The last 4 digits of the card number.
 	Last4 string `json:"last4"`
 }
@@ -105,6 +125,8 @@ type V2MoneyManagementPayoutMethodCard struct {
 // Use the PayoutMethods API to list and interact with PayoutMethod objects.
 type V2MoneyManagementPayoutMethod struct {
 	APIResource
+	// The alternative reference for this payout method, if it's a projected payout method.
+	AlternativeReference *V2MoneyManagementPayoutMethodAlternativeReference `json:"alternative_reference,omitempty"`
 	// A set of available payout speeds for this payout method.
 	AvailablePayoutSpeeds []V2MoneyManagementPayoutMethodAvailablePayoutSpeed `json:"available_payout_speeds"`
 	// The PayoutMethodBankAccount object details.

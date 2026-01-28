@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// The type of the alternative reference (e.g., external_account for V1 external accounts).
+type V2CoreVaultGBBankAccountAlternativeReferenceType string
+
+// List of values that V2CoreVaultGBBankAccountAlternativeReferenceType can take
+const (
+	V2CoreVaultGBBankAccountAlternativeReferenceTypeExternalAccount V2CoreVaultGBBankAccountAlternativeReferenceType = "external_account"
+	V2CoreVaultGBBankAccountAlternativeReferenceTypePaymentMethod   V2CoreVaultGBBankAccountAlternativeReferenceType = "payment_method"
+)
+
 // Closed Enum. The type of the bank account (checking or savings).
 type V2CoreVaultGBBankAccountBankAccountType string
 
@@ -57,6 +66,14 @@ const (
 	V2CoreVaultGBBankAccountConfirmationOfPayeeStatusUninitiated             V2CoreVaultGBBankAccountConfirmationOfPayeeStatus = "uninitiated"
 )
 
+// The alternative reference for this payout method, if it's a projected payout method.
+type V2CoreVaultGBBankAccountAlternativeReference struct {
+	// The ID of the alternative resource being referenced.
+	ID string `json:"id"`
+	// The type of the alternative reference (e.g., external_account for V1 external accounts).
+	Type V2CoreVaultGBBankAccountAlternativeReferenceType `json:"type"`
+}
+
 // The fields that CoP service matched against. Only has value if MATCH or PARTIAL_MATCH, empty otherwise.
 type V2CoreVaultGBBankAccountConfirmationOfPayeeResultMatched struct {
 	// The business type given by the bank for this account, in case of a MATCH or PARTIAL_MATCH.
@@ -100,6 +117,8 @@ type V2CoreVaultGBBankAccountConfirmationOfPayee struct {
 // Use the GBBankAccounts API to create and manage GB bank account objects
 type V2CoreVaultGBBankAccount struct {
 	APIResource
+	// The alternative reference for this payout method, if it's a projected payout method.
+	AlternativeReference *V2CoreVaultGBBankAccountAlternativeReference `json:"alternative_reference,omitempty"`
 	// Whether this bank account object was archived. Bank account objects can be archived through
 	// the /archive API, and they will not be automatically archived by Stripe. Archived bank account objects
 	// cannot be used as outbound destinations and will not appear in the outbound destination list.

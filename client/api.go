@@ -65,6 +65,7 @@ import (
 	"github.com/stripe/stripe-go/v84/filelink"
 	financialconnectionsaccount "github.com/stripe/stripe-go/v84/financialconnections/account"
 	financialconnectionsaccountinferredbalance "github.com/stripe/stripe-go/v84/financialconnections/accountinferredbalance"
+	financialconnectionsauthorization "github.com/stripe/stripe-go/v84/financialconnections/authorization"
 	financialconnectionsinstitution "github.com/stripe/stripe-go/v84/financialconnections/institution"
 	financialconnectionssession "github.com/stripe/stripe-go/v84/financialconnections/session"
 	financialconnectionstransaction "github.com/stripe/stripe-go/v84/financialconnections/transaction"
@@ -115,6 +116,7 @@ import (
 	"github.com/stripe/stripe-go/v84/quotepreviewinvoice"
 	"github.com/stripe/stripe-go/v84/quotepreviewsubscriptionschedule"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v84/radar/earlyfraudwarning"
+	radarpaymentevaluation "github.com/stripe/stripe-go/v84/radar/paymentevaluation"
 	radarvaluelist "github.com/stripe/stripe-go/v84/radar/valuelist"
 	radarvaluelistitem "github.com/stripe/stripe-go/v84/radar/valuelistitem"
 	"github.com/stripe/stripe-go/v84/refund"
@@ -323,6 +325,8 @@ type API struct {
 	FinancialConnectionsAccountInferredBalances *financialconnectionsaccountinferredbalance.Client
 	// FinancialConnectionsAccounts is the client used to invoke /v1/financial_connections/accounts APIs.
 	FinancialConnectionsAccounts *financialconnectionsaccount.Client
+	// FinancialConnectionsAuthorizations is the client used to invoke /v1/financial_connections/authorizations APIs.
+	FinancialConnectionsAuthorizations *financialconnectionsauthorization.Client
 	// FinancialConnectionsInstitutions is the client used to invoke /v1/financial_connections/institutions APIs.
 	FinancialConnectionsInstitutions *financialconnectionsinstitution.Client
 	// FinancialConnectionsSessions is the client used to invoke /v1/financial_connections/sessions APIs.
@@ -423,6 +427,8 @@ type API struct {
 	Quotes *quote.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
 	RadarEarlyFraudWarnings *radarearlyfraudwarning.Client
+	// RadarPaymentEvaluations is the client used to invoke /v1/radar/payment_evaluations APIs.
+	RadarPaymentEvaluations *radarpaymentevaluation.Client
 	// RadarValueListItems is the client used to invoke /v1/radar/value_list_items APIs.
 	RadarValueListItems *radarvaluelistitem.Client
 	// RadarValueLists is the client used to invoke /v1/radar/value_lists APIs.
@@ -683,6 +689,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Files = &file.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.FinancialConnectionsAccountInferredBalances = &financialconnectionsaccountinferredbalance.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsAccounts = &financialconnectionsaccount.Client{B: backends.API, Key: key}
+	a.FinancialConnectionsAuthorizations = &financialconnectionsauthorization.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsInstitutions = &financialconnectionsinstitution.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsTransactions = &financialconnectionstransaction.Client{B: backends.API, Key: key}
@@ -733,6 +740,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
+	a.RadarPaymentEvaluations = &radarpaymentevaluation.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &radarvaluelistitem.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &radarvaluelist.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}

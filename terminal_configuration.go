@@ -35,7 +35,7 @@ type TerminalConfigurationParams struct {
 	RebootWindow *TerminalConfigurationRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationStripeS700Params `form:"stripe_s700"`
-	// Tipping configurations for readers. supporting on-reader tips
+	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
@@ -98,16 +98,6 @@ type TerminalConfigurationTippingAedParams struct {
 
 // Tipping configuration for AUD
 type TerminalConfigurationTippingAUDParams struct {
-	// Fixed amounts displayed when collecting a tip
-	FixedAmounts []*int64 `form:"fixed_amounts"`
-	// Percentages displayed when collecting a tip
-	Percentages []*int64 `form:"percentages"`
-	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
-	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
-}
-
-// Tipping configuration for BGN
-type TerminalConfigurationTippingBgnParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -312,8 +302,6 @@ type TerminalConfigurationTippingParams struct {
 	Aed *TerminalConfigurationTippingAedParams `form:"aed"`
 	// Tipping configuration for AUD
 	AUD *TerminalConfigurationTippingAUDParams `form:"aud"`
-	// Tipping configuration for BGN
-	Bgn *TerminalConfigurationTippingBgnParams `form:"bgn"`
 	// Tipping configuration for CAD
 	CAD *TerminalConfigurationTippingCADParams `form:"cad"`
 	// Tipping configuration for CHF
@@ -487,16 +475,6 @@ type TerminalConfigurationUpdateTippingAedParams struct {
 
 // Tipping configuration for AUD
 type TerminalConfigurationUpdateTippingAUDParams struct {
-	// Fixed amounts displayed when collecting a tip
-	FixedAmounts []*int64 `form:"fixed_amounts"`
-	// Percentages displayed when collecting a tip
-	Percentages []*int64 `form:"percentages"`
-	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
-	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
-}
-
-// Tipping configuration for BGN
-type TerminalConfigurationUpdateTippingBgnParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -701,8 +679,6 @@ type TerminalConfigurationUpdateTippingParams struct {
 	Aed *TerminalConfigurationUpdateTippingAedParams `form:"aed"`
 	// Tipping configuration for AUD
 	AUD *TerminalConfigurationUpdateTippingAUDParams `form:"aud"`
-	// Tipping configuration for BGN
-	Bgn *TerminalConfigurationUpdateTippingBgnParams `form:"bgn"`
 	// Tipping configuration for CAD
 	CAD *TerminalConfigurationUpdateTippingCADParams `form:"cad"`
 	// Tipping configuration for CHF
@@ -877,16 +853,6 @@ type TerminalConfigurationCreateTippingAedParams struct {
 
 // Tipping configuration for AUD
 type TerminalConfigurationCreateTippingAUDParams struct {
-	// Fixed amounts displayed when collecting a tip
-	FixedAmounts []*int64 `form:"fixed_amounts"`
-	// Percentages displayed when collecting a tip
-	Percentages []*int64 `form:"percentages"`
-	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
-	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
-}
-
-// Tipping configuration for BGN
-type TerminalConfigurationCreateTippingBgnParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -1085,14 +1051,12 @@ type TerminalConfigurationCreateTippingUSDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
-// Tipping configurations for readers. supporting on-reader tips
+// Tipping configurations for readers that support on-reader tips.
 type TerminalConfigurationCreateTippingParams struct {
 	// Tipping configuration for AED
 	Aed *TerminalConfigurationCreateTippingAedParams `form:"aed"`
 	// Tipping configuration for AUD
 	AUD *TerminalConfigurationCreateTippingAUDParams `form:"aud"`
-	// Tipping configuration for BGN
-	Bgn *TerminalConfigurationCreateTippingBgnParams `form:"bgn"`
 	// Tipping configuration for CAD
 	CAD *TerminalConfigurationCreateTippingCADParams `form:"cad"`
 	// Tipping configuration for CHF
@@ -1204,7 +1168,7 @@ type TerminalConfigurationCreateParams struct {
 	RebootWindow *TerminalConfigurationCreateRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationCreateStripeS700Params `form:"stripe_s700"`
-	// Tipping configurations for readers. supporting on-reader tips
+	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationCreateTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationCreateVerifoneP400Params `form:"verifone_p400"`
@@ -1252,14 +1216,6 @@ type TerminalConfigurationTippingAed struct {
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
 type TerminalConfigurationTippingAUD struct {
-	// Fixed amounts displayed when collecting a tip
-	FixedAmounts []int64 `json:"fixed_amounts"`
-	// Percentages displayed when collecting a tip
-	Percentages []int64 `json:"percentages"`
-	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
-	SmartTipThreshold int64 `json:"smart_tip_threshold"`
-}
-type TerminalConfigurationTippingBgn struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -1422,7 +1378,6 @@ type TerminalConfigurationTippingUSD struct {
 type TerminalConfigurationTipping struct {
 	Aed *TerminalConfigurationTippingAed `json:"aed"`
 	AUD *TerminalConfigurationTippingAUD `json:"aud"`
-	Bgn *TerminalConfigurationTippingBgn `json:"bgn"`
 	CAD *TerminalConfigurationTippingCAD `json:"cad"`
 	CHF *TerminalConfigurationTippingCHF `json:"chf"`
 	CZK *TerminalConfigurationTippingCZK `json:"czk"`

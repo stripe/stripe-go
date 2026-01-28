@@ -54,30 +54,6 @@ func (c v1OrderService) Update(ctx context.Context, id string, params *OrderUpda
 	return order, err
 }
 
-// Cancels the order as well as the payment intent if one is attached.
-func (c v1OrderService) Cancel(ctx context.Context, id string, params *OrderCancelParams) (*Order, error) {
-	if params == nil {
-		params = &OrderCancelParams{}
-	}
-	params.Context = ctx
-	path := FormatURLPath("/v1/orders/%s/cancel", id)
-	order := &Order{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, order)
-	return order, err
-}
-
-// Reopens a submitted order.
-func (c v1OrderService) Reopen(ctx context.Context, id string, params *OrderReopenParams) (*Order, error) {
-	if params == nil {
-		params = &OrderReopenParams{}
-	}
-	params.Context = ctx
-	path := FormatURLPath("/v1/orders/%s/reopen", id)
-	order := &Order{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, order)
-	return order, err
-}
-
 // Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://docs.stripe.com/api#reopen_order) method is called.
 func (c v1OrderService) Submit(ctx context.Context, id string, params *OrderSubmitParams) (*Order, error) {
 	if params == nil {
@@ -103,24 +79,6 @@ func (c v1OrderService) List(ctx context.Context, listParams *OrderListParams) S
 		}
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/orders", c.Key, []byte(b.Encode()), p, list)
-		return list, err
-	}).All()
-}
-
-// When retrieving an order, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c v1OrderService) ListLineItems(ctx context.Context, listParams *OrderListLineItemsParams) Seq2[*LineItem, error] {
-	if listParams == nil {
-		listParams = &OrderListLineItemsParams{}
-	}
-	listParams.Context = ctx
-	path := FormatURLPath("/v1/orders/%s/line_items", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*LineItem], error) {
-		list := &v1Page[*LineItem]{}
-		if p == nil {
-			p = &Params{}
-		}
-		p.Context = ctx
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
 	}).All()
 }

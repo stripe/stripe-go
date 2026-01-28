@@ -170,6 +170,8 @@ type TreasuryReceivedDebitLinkedFlows struct {
 	Payout string `json:"payout"`
 	// The ReceivedCredit that Capital withheld from
 	ReceivedCreditCapitalWithholding string `json:"received_credit_capital_withholding"`
+	// Set if the ReceivedDebit was created due to a [Topup](https://api.stripe.com#topups) object.
+	Topup string `json:"topup"`
 }
 
 // Details about an ACH transaction.

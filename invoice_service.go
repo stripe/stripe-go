@@ -19,7 +19,7 @@ type v1InvoiceService struct {
 	Key string
 }
 
-// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](#pay_invoice) or <a href="#send_invoice">send](https://docs.stripe.com/api#finalize_invoice) the invoice to your customers.
+// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](https://docs.stripe.com/api#finalize_invoice) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/pay) the invoice to your customers.
 func (c v1InvoiceService) Create(ctx context.Context, params *InvoiceCreateParams) (*Invoice, error) {
 	if params == nil {
 		params = &InvoiceCreateParams{}
@@ -121,6 +121,18 @@ func (c v1InvoiceService) CreatePreview(ctx context.Context, params *InvoiceCrea
 	invoice := &Invoice{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/invoices/create_preview", c.Key, params, invoice)
+	return invoice, err
+}
+
+// Detaches a payment from the invoice, removing it from the list of payments
+func (c v1InvoiceService) DetachPayment(ctx context.Context, id string, params *InvoiceDetachPaymentParams) (*Invoice, error) {
+	if params == nil {
+		params = &InvoiceDetachPaymentParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/detach_payment", id)
+	invoice := &Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 

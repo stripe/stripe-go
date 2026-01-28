@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](#pay_invoice) or <a href="#send_invoice">send](https://docs.stripe.com/api#finalize_invoice) the invoice to your customers.
+// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](https://docs.stripe.com/api#finalize_invoice) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/pay) the invoice to your customers.
 func New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().New(params)
 }
 
-// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](#pay_invoice) or <a href="#send_invoice">send](https://docs.stripe.com/api#finalize_invoice) the invoice to your customers.
+// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](https://docs.stripe.com/api#finalize_invoice) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/pay) the invoice to your customers.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -182,6 +182,23 @@ func (c Client) CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*strip
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/invoices/create_preview", c.Key, params, invoice)
+	return invoice, err
+}
+
+// Detaches a payment from the invoice, removing it from the list of payments
+func DetachPayment(id string, params *stripe.InvoiceDetachPaymentParams) (*stripe.Invoice, error) {
+	return getC().DetachPayment(id, params)
+}
+
+// Detaches a payment from the invoice, removing it from the list of payments
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) DetachPayment(id string, params *stripe.InvoiceDetachPaymentParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/detach_payment", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
