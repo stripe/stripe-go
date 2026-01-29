@@ -1394,6 +1394,14 @@ type AccountSessionComponentsTaxSettings struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
 }
+type AccountSessionComponentsNetworkCostPassthroughReportFeatures struct{}
+
+// Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
+type AccountSessionComponentsNetworkCostPassthroughReport struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                          `json:"enabled"`
+	Features *AccountSessionComponentsNetworkCostPassthroughReportFeatures `json:"features"`
+}
 type AccountSessionComponents struct {
 	AccountManagement *AccountSessionComponentsAccountManagement `json:"account_management"`
 	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
@@ -1412,6 +1420,8 @@ type AccountSessionComponents struct {
 	InstantPayoutsPromotion      *AccountSessionComponentsInstantPayoutsPromotion      `json:"instant_payouts_promotion"`
 	IssuingCard                  *AccountSessionComponentsIssuingCard                  `json:"issuing_card"`
 	IssuingCardsList             *AccountSessionComponentsIssuingCardsList             `json:"issuing_cards_list"`
+	// Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
+	NetworkCostPassthroughReport *AccountSessionComponentsNetworkCostPassthroughReport `json:"network_cost_passthrough_report"`
 	NotificationBanner           *AccountSessionComponentsNotificationBanner           `json:"notification_banner"`
 	PaymentDetails               *AccountSessionComponentsPaymentDetails               `json:"payment_details"`
 	PaymentDisputes              *AccountSessionComponentsPaymentDisputes              `json:"payment_disputes"`
