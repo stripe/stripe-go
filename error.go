@@ -450,10 +450,10 @@ func (e *TemporarySessionExpiredError) canRetry() bool {
 
 // V2RawError is a catch-all for any errors not covered by other types
 type V2RawError struct {
-	Code       string     `json:"code"`
-	Type       *ErrorType `json:"type,omitempty"`
-	Message    string     `json:"message"`
-	UserMesage *string    `json:"user_message,omitempty"`
+	Code        string     `json:"code"`
+	Type        *ErrorType `json:"type,omitempty"`
+	Message     string     `json:"message"`
+	UserMessage *string    `json:"user_message,omitempty"`
 	// HTTPStatusCode is the HTTP status code of the response returned by Stripe.
 	HTTPStatusCode int `json:"status,omitempty"`
 	// RequestID is the ID of the request, as returned by Stripe.
