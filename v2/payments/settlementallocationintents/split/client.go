@@ -66,3 +66,19 @@ func (c Client) Cancel(id string, params *stripe.V2PaymentsSettlementAllocationI
 		http.MethodPost, path, c.Key, params, settlementallocationintentsplit)
 	return settlementallocationintentsplit, err
 }
+
+// List SettlementAllocationIntentSplits API.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) All(listParams *stripe.V2PaymentsSettlementAllocationIntentsSplitListParams) stripe.Seq2[*stripe.V2PaymentsSettlementAllocationIntentSplit, error] {
+	path := stripe.FormatURLPath(
+		"/v2/payments/settlement_allocation_intents/%s/splits", stripe.StringValue(
+			listParams.SettlementAllocationIntentID))
+	return stripe.NewV2List(path, listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2PaymentsSettlementAllocationIntentSplit], error) {
+		page := &stripe.V2Page[*stripe.V2PaymentsSettlementAllocationIntentSplit]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	}).All()
+}

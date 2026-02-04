@@ -89,3 +89,16 @@ func (c Client) Submit(id string, params *stripe.V2PaymentsSettlementAllocationI
 		http.MethodPost, path, c.Key, params, settlementallocationintent)
 	return settlementallocationintent, err
 }
+
+// Lists all SettlementAllocationIntents.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) All(listParams *stripe.V2PaymentsSettlementAllocationIntentListParams) stripe.Seq2[*stripe.V2PaymentsSettlementAllocationIntent, error] {
+	return stripe.NewV2List("/v2/payments/settlement_allocation_intents", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2PaymentsSettlementAllocationIntent], error) {
+		page := &stripe.V2Page[*stripe.V2PaymentsSettlementAllocationIntent]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	}).All()
+}

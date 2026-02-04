@@ -47,6 +47,14 @@ type V2BillingIntentActionApplyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Details about why the cancellation is being requested.
+type V2BillingIntentActionDeactivateCancellationDetailsParams struct {
+	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
+	Comment *string `form:"comment" json:"comment,omitempty"`
+	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
+	Feedback *string `form:"feedback" json:"feedback,omitempty"`
+}
+
 // When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionDeactivateEffectiveAtParams struct {
 	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
@@ -85,6 +93,8 @@ type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams struct 
 
 // Details for a deactivate action.
 type V2BillingIntentActionDeactivateParams struct {
+	// Details about why the cancellation is being requested.
+	CancellationDetails *V2BillingIntentActionDeactivateCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`
 	// Allows users to override the collect at behavior.
 	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
 	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
@@ -299,6 +309,205 @@ type V2BillingIntentActionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// The time at which the billing cycle ends.
+// This field is optional, and if not provided, it will default to
+// the time at which the cadence was created in UTC timezone.
+type V2BillingIntentCadenceDataBillingCycleDayTimeParams struct {
+	// The hour at which the billing cycle ends.
+	// This must be an integer between 0 and 23, inclusive.
+	// 0 represents midnight, and 23 represents 11 PM.
+	Hour *int64 `form:"hour" json:"hour"`
+	// The minute at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
+}
+
+// Specific configuration for determining billing dates when type=day.
+type V2BillingIntentCadenceDataBillingCycleDayParams struct {
+	// The time at which the billing cycle ends.
+	// This field is optional, and if not provided, it will default to
+	// the time at which the cadence was created in UTC timezone.
+	Time *V2BillingIntentCadenceDataBillingCycleDayTimeParams `form:"time" json:"time,omitempty"`
+}
+
+// The time at which the billing cycle ends.
+// This field is optional, and if not provided, it will default to
+// the time at which the cadence was created in UTC timezone.
+type V2BillingIntentCadenceDataBillingCycleMonthTimeParams struct {
+	// The hour at which the billing cycle ends.
+	// This must be an integer between 0 and 23, inclusive.
+	// 0 represents midnight, and 23 represents 11 PM.
+	Hour *int64 `form:"hour" json:"hour"`
+	// The minute at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
+}
+
+// Specific configuration for determining billing dates when type=month.
+type V2BillingIntentCadenceDataBillingCycleMonthParams struct {
+	// The day to anchor the billing on for a type="month" billing cycle from
+	// 1-31. If this number is greater than the number of days in the month being
+	// billed, this will anchor to the last day of the month. If not provided,
+	// this will default to the day the cadence was created.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The month to anchor the billing on for a type="month" billing cycle from
+	// 1-12. If not provided, this will default to the month the cadence was created.
+	// This setting can only be used for monthly billing cycles with `interval_count` of 2, 3, 4 or 6.
+	// All occurrences will be calculated from month provided.
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
+	// The time at which the billing cycle ends.
+	// This field is optional, and if not provided, it will default to
+	// the time at which the cadence was created in UTC timezone.
+	Time *V2BillingIntentCadenceDataBillingCycleMonthTimeParams `form:"time" json:"time,omitempty"`
+}
+
+// The time at which the billing cycle ends.
+// This field is optional, and if not provided, it will default to
+// the time at which the cadence was created in UTC timezone.
+type V2BillingIntentCadenceDataBillingCycleWeekTimeParams struct {
+	// The hour at which the billing cycle ends.
+	// This must be an integer between 0 and 23, inclusive.
+	// 0 represents midnight, and 23 represents 11 PM.
+	Hour *int64 `form:"hour" json:"hour"`
+	// The minute at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
+}
+
+// Specific configuration for determining billing dates when type=week.
+type V2BillingIntentCadenceDataBillingCycleWeekParams struct {
+	// The day of the week to bill the type=week billing cycle on.
+	// Numbered from 1-7 for Monday to Sunday respectively, based on the ISO-8601
+	// week day numbering. If not provided, this will default to the day the
+	// cadence was created.
+	DayOfWeek *int64 `form:"day_of_week" json:"day_of_week"`
+	// The time at which the billing cycle ends.
+	// This field is optional, and if not provided, it will default to
+	// the time at which the cadence was created in UTC timezone.
+	Time *V2BillingIntentCadenceDataBillingCycleWeekTimeParams `form:"time" json:"time,omitempty"`
+}
+
+// The time at which the billing cycle ends.
+// This field is optional, and if not provided, it will default to
+// the time at which the cadence was created in UTC timezone.
+type V2BillingIntentCadenceDataBillingCycleYearTimeParams struct {
+	// The hour at which the billing cycle ends.
+	// This must be an integer between 0 and 23, inclusive.
+	// 0 represents midnight, and 23 represents 11 PM.
+	Hour *int64 `form:"hour" json:"hour"`
+	// The minute at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
+}
+
+// Specific configuration for determining billing dates when type=year.
+type V2BillingIntentCadenceDataBillingCycleYearParams struct {
+	// The day to anchor the billing on for a type="month" billing cycle from
+	// 1-31. If this number is greater than the number of days in the month being
+	// billed, this will anchor to the last day of the month. If not provided,
+	// this will default to the day the cadence was created.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month,omitempty"`
+	// The month to bill on from 1-12. If not provided, this will default to the
+	// month the cadence was created.
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
+	// The time at which the billing cycle ends.
+	// This field is optional, and if not provided, it will default to
+	// the time at which the cadence was created in UTC timezone.
+	Time *V2BillingIntentCadenceDataBillingCycleYearTimeParams `form:"time" json:"time,omitempty"`
+}
+
+// The billing cycle configuration for this Cadence.
+type V2BillingIntentCadenceDataBillingCycleParams struct {
+	// Specific configuration for determining billing dates when type=day.
+	Day *V2BillingIntentCadenceDataBillingCycleDayParams `form:"day" json:"day,omitempty"`
+	// The number of intervals (specified in the interval attribute) between
+	// cadence billings. For example, type=month and interval_count=3 bills every
+	// 3 months. If this is not provided, it will default to 1.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+	// Specific configuration for determining billing dates when type=month.
+	Month *V2BillingIntentCadenceDataBillingCycleMonthParams `form:"month" json:"month,omitempty"`
+	// The frequency at which a cadence bills.
+	Type *string `form:"type" json:"type"`
+	// Specific configuration for determining billing dates when type=week.
+	Week *V2BillingIntentCadenceDataBillingCycleWeekParams `form:"week" json:"week,omitempty"`
+	// Specific configuration for determining billing dates when type=year.
+	Year *V2BillingIntentCadenceDataBillingCycleYearParams `form:"year" json:"year,omitempty"`
+}
+
+// Data for creating a new profile.
+type V2BillingIntentCadenceDataPayerBillingProfileDataParams struct {
+	// The customer to associate with the profile.
+	Customer *string `form:"customer" json:"customer"`
+	// The default payment method to use when billing this profile.
+	// If left blank, the `PaymentMethod` from the `PaymentIntent` provided
+	// on commit will be used to create the profile.
+	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
+}
+
+// Information about the payer for this Cadence.
+type V2BillingIntentCadenceDataPayerParams struct {
+	// The ID of the Billing Profile object which determines how a bill will be paid.
+	BillingProfile *string `form:"billing_profile" json:"billing_profile,omitempty"`
+	// Data for creating a new profile.
+	BillingProfileData *V2BillingIntentCadenceDataPayerBillingProfileDataParams `form:"billing_profile_data" json:"billing_profile_data,omitempty"`
+}
+
+// Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
+// If no setting is provided here, the settings from the customer referenced on the payer will be used.
+// If no customer settings are present, the merchant default settings will be used.
+type V2BillingIntentCadenceDataSettingsBillParams struct {
+	// The ID of the referenced settings object.
+	ID *string `form:"id" json:"id"`
+	// An optional field to specify the version of the Settings to use.
+	// If not provided, this will always default to the live version any time the settings are used.
+	Version *string `form:"version" json:"version,omitempty"`
+}
+
+// Settings that configure and manage the behavior of collecting payments.
+// If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
+// If no customer settings are present, the merchant default settings will be used.
+type V2BillingIntentCadenceDataSettingsCollectionParams struct {
+	// The ID of the referenced settings object.
+	ID *string `form:"id" json:"id"`
+	// An optional field to specify the version of the Settings to use.
+	// If not provided, this will always default to the live version any time the settings are used.
+	Version *string `form:"version" json:"version,omitempty"`
+}
+
+// Settings for creating the Cadence.
+type V2BillingIntentCadenceDataSettingsParams struct {
+	// Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
+	// If no setting is provided here, the settings from the customer referenced on the payer will be used.
+	// If no customer settings are present, the merchant default settings will be used.
+	Bill *V2BillingIntentCadenceDataSettingsBillParams `form:"bill" json:"bill,omitempty"`
+	// Settings that configure and manage the behavior of collecting payments.
+	// If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
+	// If no customer settings are present, the merchant default settings will be used.
+	Collection *V2BillingIntentCadenceDataSettingsCollectionParams `form:"collection" json:"collection,omitempty"`
+}
+
+// Data for creating a new Cadence.
+type V2BillingIntentCadenceDataParams struct {
+	// The billing cycle configuration for this Cadence.
+	BillingCycle *V2BillingIntentCadenceDataBillingCycleParams `form:"billing_cycle" json:"billing_cycle"`
+	// Information about the payer for this Cadence.
+	Payer *V2BillingIntentCadenceDataPayerParams `form:"payer" json:"payer"`
+	// Settings for creating the Cadence.
+	Settings *V2BillingIntentCadenceDataSettingsParams `form:"settings" json:"settings,omitempty"`
+}
+
 // Create a Billing Intent.
 type V2BillingIntentParams struct {
 	Params `form:"*"`
@@ -306,6 +515,8 @@ type V2BillingIntentParams struct {
 	Actions []*V2BillingIntentActionParams `form:"actions" json:"actions,omitempty"`
 	// ID of an existing Cadence to use.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
+	// Data for creating a new Cadence.
+	CadenceData *V2BillingIntentCadenceDataParams `form:"cadence_data" json:"cadence_data,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 }
@@ -364,6 +575,14 @@ type V2BillingIntentCreateActionApplyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Details about why the cancellation is being requested.
+type V2BillingIntentCreateActionDeactivateCancellationDetailsParams struct {
+	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
+	Comment *string `form:"comment" json:"comment,omitempty"`
+	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
+	Feedback *string `form:"feedback" json:"feedback,omitempty"`
+}
+
 // When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentCreateActionDeactivateEffectiveAtParams struct {
 	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
@@ -402,6 +621,8 @@ type V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams s
 
 // Details for a deactivate action.
 type V2BillingIntentCreateActionDeactivateParams struct {
+	// Details about why the cancellation is being requested.
+	CancellationDetails *V2BillingIntentCreateActionDeactivateCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`
 	// Allows users to override the collect at behavior.
 	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
 	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
@@ -616,6 +837,205 @@ type V2BillingIntentCreateActionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// The time at which the billing cycle ends.
+// This field is optional, and if not provided, it will default to
+// the time at which the cadence was created in UTC timezone.
+type V2BillingIntentCreateCadenceDataBillingCycleDayTimeParams struct {
+	// The hour at which the billing cycle ends.
+	// This must be an integer between 0 and 23, inclusive.
+	// 0 represents midnight, and 23 represents 11 PM.
+	Hour *int64 `form:"hour" json:"hour"`
+	// The minute at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
+}
+
+// Specific configuration for determining billing dates when type=day.
+type V2BillingIntentCreateCadenceDataBillingCycleDayParams struct {
+	// The time at which the billing cycle ends.
+	// This field is optional, and if not provided, it will default to
+	// the time at which the cadence was created in UTC timezone.
+	Time *V2BillingIntentCreateCadenceDataBillingCycleDayTimeParams `form:"time" json:"time,omitempty"`
+}
+
+// The time at which the billing cycle ends.
+// This field is optional, and if not provided, it will default to
+// the time at which the cadence was created in UTC timezone.
+type V2BillingIntentCreateCadenceDataBillingCycleMonthTimeParams struct {
+	// The hour at which the billing cycle ends.
+	// This must be an integer between 0 and 23, inclusive.
+	// 0 represents midnight, and 23 represents 11 PM.
+	Hour *int64 `form:"hour" json:"hour"`
+	// The minute at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
+}
+
+// Specific configuration for determining billing dates when type=month.
+type V2BillingIntentCreateCadenceDataBillingCycleMonthParams struct {
+	// The day to anchor the billing on for a type="month" billing cycle from
+	// 1-31. If this number is greater than the number of days in the month being
+	// billed, this will anchor to the last day of the month. If not provided,
+	// this will default to the day the cadence was created.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The month to anchor the billing on for a type="month" billing cycle from
+	// 1-12. If not provided, this will default to the month the cadence was created.
+	// This setting can only be used for monthly billing cycles with `interval_count` of 2, 3, 4 or 6.
+	// All occurrences will be calculated from month provided.
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
+	// The time at which the billing cycle ends.
+	// This field is optional, and if not provided, it will default to
+	// the time at which the cadence was created in UTC timezone.
+	Time *V2BillingIntentCreateCadenceDataBillingCycleMonthTimeParams `form:"time" json:"time,omitempty"`
+}
+
+// The time at which the billing cycle ends.
+// This field is optional, and if not provided, it will default to
+// the time at which the cadence was created in UTC timezone.
+type V2BillingIntentCreateCadenceDataBillingCycleWeekTimeParams struct {
+	// The hour at which the billing cycle ends.
+	// This must be an integer between 0 and 23, inclusive.
+	// 0 represents midnight, and 23 represents 11 PM.
+	Hour *int64 `form:"hour" json:"hour"`
+	// The minute at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
+}
+
+// Specific configuration for determining billing dates when type=week.
+type V2BillingIntentCreateCadenceDataBillingCycleWeekParams struct {
+	// The day of the week to bill the type=week billing cycle on.
+	// Numbered from 1-7 for Monday to Sunday respectively, based on the ISO-8601
+	// week day numbering. If not provided, this will default to the day the
+	// cadence was created.
+	DayOfWeek *int64 `form:"day_of_week" json:"day_of_week"`
+	// The time at which the billing cycle ends.
+	// This field is optional, and if not provided, it will default to
+	// the time at which the cadence was created in UTC timezone.
+	Time *V2BillingIntentCreateCadenceDataBillingCycleWeekTimeParams `form:"time" json:"time,omitempty"`
+}
+
+// The time at which the billing cycle ends.
+// This field is optional, and if not provided, it will default to
+// the time at which the cadence was created in UTC timezone.
+type V2BillingIntentCreateCadenceDataBillingCycleYearTimeParams struct {
+	// The hour at which the billing cycle ends.
+	// This must be an integer between 0 and 23, inclusive.
+	// 0 represents midnight, and 23 represents 11 PM.
+	Hour *int64 `form:"hour" json:"hour"`
+	// The minute at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Minute *int64 `form:"minute" json:"minute"`
+	// The second at which the billing cycle ends.
+	// Must be an integer between 0 and 59, inclusive.
+	Second *int64 `form:"second" json:"second"`
+}
+
+// Specific configuration for determining billing dates when type=year.
+type V2BillingIntentCreateCadenceDataBillingCycleYearParams struct {
+	// The day to anchor the billing on for a type="month" billing cycle from
+	// 1-31. If this number is greater than the number of days in the month being
+	// billed, this will anchor to the last day of the month. If not provided,
+	// this will default to the day the cadence was created.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month,omitempty"`
+	// The month to bill on from 1-12. If not provided, this will default to the
+	// month the cadence was created.
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
+	// The time at which the billing cycle ends.
+	// This field is optional, and if not provided, it will default to
+	// the time at which the cadence was created in UTC timezone.
+	Time *V2BillingIntentCreateCadenceDataBillingCycleYearTimeParams `form:"time" json:"time,omitempty"`
+}
+
+// The billing cycle configuration for this Cadence.
+type V2BillingIntentCreateCadenceDataBillingCycleParams struct {
+	// Specific configuration for determining billing dates when type=day.
+	Day *V2BillingIntentCreateCadenceDataBillingCycleDayParams `form:"day" json:"day,omitempty"`
+	// The number of intervals (specified in the interval attribute) between
+	// cadence billings. For example, type=month and interval_count=3 bills every
+	// 3 months. If this is not provided, it will default to 1.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+	// Specific configuration for determining billing dates when type=month.
+	Month *V2BillingIntentCreateCadenceDataBillingCycleMonthParams `form:"month" json:"month,omitempty"`
+	// The frequency at which a cadence bills.
+	Type *string `form:"type" json:"type"`
+	// Specific configuration for determining billing dates when type=week.
+	Week *V2BillingIntentCreateCadenceDataBillingCycleWeekParams `form:"week" json:"week,omitempty"`
+	// Specific configuration for determining billing dates when type=year.
+	Year *V2BillingIntentCreateCadenceDataBillingCycleYearParams `form:"year" json:"year,omitempty"`
+}
+
+// Data for creating a new profile.
+type V2BillingIntentCreateCadenceDataPayerBillingProfileDataParams struct {
+	// The customer to associate with the profile.
+	Customer *string `form:"customer" json:"customer"`
+	// The default payment method to use when billing this profile.
+	// If left blank, the `PaymentMethod` from the `PaymentIntent` provided
+	// on commit will be used to create the profile.
+	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
+}
+
+// Information about the payer for this Cadence.
+type V2BillingIntentCreateCadenceDataPayerParams struct {
+	// The ID of the Billing Profile object which determines how a bill will be paid.
+	BillingProfile *string `form:"billing_profile" json:"billing_profile,omitempty"`
+	// Data for creating a new profile.
+	BillingProfileData *V2BillingIntentCreateCadenceDataPayerBillingProfileDataParams `form:"billing_profile_data" json:"billing_profile_data,omitempty"`
+}
+
+// Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
+// If no setting is provided here, the settings from the customer referenced on the payer will be used.
+// If no customer settings are present, the merchant default settings will be used.
+type V2BillingIntentCreateCadenceDataSettingsBillParams struct {
+	// The ID of the referenced settings object.
+	ID *string `form:"id" json:"id"`
+	// An optional field to specify the version of the Settings to use.
+	// If not provided, this will always default to the live version any time the settings are used.
+	Version *string `form:"version" json:"version,omitempty"`
+}
+
+// Settings that configure and manage the behavior of collecting payments.
+// If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
+// If no customer settings are present, the merchant default settings will be used.
+type V2BillingIntentCreateCadenceDataSettingsCollectionParams struct {
+	// The ID of the referenced settings object.
+	ID *string `form:"id" json:"id"`
+	// An optional field to specify the version of the Settings to use.
+	// If not provided, this will always default to the live version any time the settings are used.
+	Version *string `form:"version" json:"version,omitempty"`
+}
+
+// Settings for creating the Cadence.
+type V2BillingIntentCreateCadenceDataSettingsParams struct {
+	// Settings that configure bill generation, which includes calculating totals, tax, and presenting invoices.
+	// If no setting is provided here, the settings from the customer referenced on the payer will be used.
+	// If no customer settings are present, the merchant default settings will be used.
+	Bill *V2BillingIntentCreateCadenceDataSettingsBillParams `form:"bill" json:"bill,omitempty"`
+	// Settings that configure and manage the behavior of collecting payments.
+	// If no setting is provided here, the settings from the customer referenced from the payer will be used if they exist.
+	// If no customer settings are present, the merchant default settings will be used.
+	Collection *V2BillingIntentCreateCadenceDataSettingsCollectionParams `form:"collection" json:"collection,omitempty"`
+}
+
+// Data for creating a new Cadence.
+type V2BillingIntentCreateCadenceDataParams struct {
+	// The billing cycle configuration for this Cadence.
+	BillingCycle *V2BillingIntentCreateCadenceDataBillingCycleParams `form:"billing_cycle" json:"billing_cycle"`
+	// Information about the payer for this Cadence.
+	Payer *V2BillingIntentCreateCadenceDataPayerParams `form:"payer" json:"payer"`
+	// Settings for creating the Cadence.
+	Settings *V2BillingIntentCreateCadenceDataSettingsParams `form:"settings" json:"settings,omitempty"`
+}
+
 // Create a Billing Intent.
 type V2BillingIntentCreateParams struct {
 	Params `form:"*"`
@@ -623,6 +1043,8 @@ type V2BillingIntentCreateParams struct {
 	Actions []*V2BillingIntentCreateActionParams `form:"actions" json:"actions"`
 	// ID of an existing Cadence to use.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
+	// Data for creating a new Cadence.
+	CadenceData *V2BillingIntentCreateCadenceDataParams `form:"cadence_data" json:"cadence_data,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency"`
 }

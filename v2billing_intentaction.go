@@ -52,6 +52,21 @@ const (
 	V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsTypeIndefinite V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsType = "indefinite"
 )
 
+// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
+type V2BillingIntentActionDeactivateCancellationDetailsFeedback string
+
+// List of values that V2BillingIntentActionDeactivateCancellationDetailsFeedback can take
+const (
+	V2BillingIntentActionDeactivateCancellationDetailsFeedbackCustomerService V2BillingIntentActionDeactivateCancellationDetailsFeedback = "customer_service"
+	V2BillingIntentActionDeactivateCancellationDetailsFeedbackLowQuality      V2BillingIntentActionDeactivateCancellationDetailsFeedback = "low_quality"
+	V2BillingIntentActionDeactivateCancellationDetailsFeedbackMissingFeatures V2BillingIntentActionDeactivateCancellationDetailsFeedback = "missing_features"
+	V2BillingIntentActionDeactivateCancellationDetailsFeedbackOther           V2BillingIntentActionDeactivateCancellationDetailsFeedback = "other"
+	V2BillingIntentActionDeactivateCancellationDetailsFeedbackSwitchedService V2BillingIntentActionDeactivateCancellationDetailsFeedback = "switched_service"
+	V2BillingIntentActionDeactivateCancellationDetailsFeedbackTooComplex      V2BillingIntentActionDeactivateCancellationDetailsFeedback = "too_complex"
+	V2BillingIntentActionDeactivateCancellationDetailsFeedbackTooExpensive    V2BillingIntentActionDeactivateCancellationDetailsFeedback = "too_expensive"
+	V2BillingIntentActionDeactivateCancellationDetailsFeedbackUnused          V2BillingIntentActionDeactivateCancellationDetailsFeedback = "unused"
+)
+
 // Allows users to override the collect at behavior.
 type V2BillingIntentActionDeactivateCollectAt string
 
@@ -239,6 +254,14 @@ type V2BillingIntentActionApply struct {
 	Type V2BillingIntentActionApplyType `json:"type"`
 }
 
+// Details about why the cancellation was requested by the user.
+type V2BillingIntentActionDeactivateCancellationDetails struct {
+	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
+	Comment string `json:"comment,omitempty"`
+	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
+	Feedback V2BillingIntentActionDeactivateCancellationDetailsFeedback `json:"feedback,omitempty"`
+}
+
 // When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionDeactivateEffectiveAt struct {
 	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
@@ -277,6 +300,8 @@ type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetails struct {
 
 // Details for a deactivate action.
 type V2BillingIntentActionDeactivate struct {
+	// Details about why the cancellation was requested by the user.
+	CancellationDetails *V2BillingIntentActionDeactivateCancellationDetails `json:"cancellation_details,omitempty"`
 	// Allows users to override the collect at behavior.
 	CollectAt V2BillingIntentActionDeactivateCollectAt `json:"collect_at"`
 	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.

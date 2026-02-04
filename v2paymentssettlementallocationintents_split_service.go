@@ -61,3 +61,19 @@ func (c v2PaymentsSettlementAllocationIntentsSplitService) Cancel(ctx context.Co
 		http.MethodPost, path, c.Key, params, settlementallocationintentsplit)
 	return settlementallocationintentsplit, err
 }
+
+// List SettlementAllocationIntentSplits API.
+func (c v2PaymentsSettlementAllocationIntentsSplitService) List(ctx context.Context, listParams *V2PaymentsSettlementAllocationIntentsSplitListParams) Seq2[*V2PaymentsSettlementAllocationIntentSplit, error] {
+	if listParams == nil {
+		listParams = &V2PaymentsSettlementAllocationIntentsSplitListParams{}
+	}
+	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v2/payments/settlement_allocation_intents/%s/splits", StringValue(
+			listParams.SettlementAllocationIntentID))
+	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2PaymentsSettlementAllocationIntentSplit], error) {
+		page := &V2Page[*V2PaymentsSettlementAllocationIntentSplit]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	}).All()
+}

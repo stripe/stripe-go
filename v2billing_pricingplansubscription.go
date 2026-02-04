@@ -8,6 +8,29 @@ package stripe
 
 import "time"
 
+// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
+type V2BillingPricingPlanSubscriptionCancellationDetailsFeedback string
+
+// List of values that V2BillingPricingPlanSubscriptionCancellationDetailsFeedback can take
+const (
+	V2BillingPricingPlanSubscriptionCancellationDetailsFeedbackCustomerService V2BillingPricingPlanSubscriptionCancellationDetailsFeedback = "customer_service"
+	V2BillingPricingPlanSubscriptionCancellationDetailsFeedbackLowQuality      V2BillingPricingPlanSubscriptionCancellationDetailsFeedback = "low_quality"
+	V2BillingPricingPlanSubscriptionCancellationDetailsFeedbackMissingFeatures V2BillingPricingPlanSubscriptionCancellationDetailsFeedback = "missing_features"
+	V2BillingPricingPlanSubscriptionCancellationDetailsFeedbackOther           V2BillingPricingPlanSubscriptionCancellationDetailsFeedback = "other"
+	V2BillingPricingPlanSubscriptionCancellationDetailsFeedbackSwitchedService V2BillingPricingPlanSubscriptionCancellationDetailsFeedback = "switched_service"
+	V2BillingPricingPlanSubscriptionCancellationDetailsFeedbackTooComplex      V2BillingPricingPlanSubscriptionCancellationDetailsFeedback = "too_complex"
+	V2BillingPricingPlanSubscriptionCancellationDetailsFeedbackTooExpensive    V2BillingPricingPlanSubscriptionCancellationDetailsFeedback = "too_expensive"
+	V2BillingPricingPlanSubscriptionCancellationDetailsFeedbackUnused          V2BillingPricingPlanSubscriptionCancellationDetailsFeedback = "unused"
+)
+
+// System-generated reason for cancellation.
+type V2BillingPricingPlanSubscriptionCancellationDetailsReason string
+
+// List of values that V2BillingPricingPlanSubscriptionCancellationDetailsReason can take
+const (
+	V2BillingPricingPlanSubscriptionCancellationDetailsReasonCancellationRequested V2BillingPricingPlanSubscriptionCancellationDetailsReason = "cancellation_requested"
+)
+
 // Current collection status of this subscription.
 type V2BillingPricingPlanSubscriptionCollectionStatus string
 
@@ -30,6 +53,16 @@ const (
 	V2BillingPricingPlanSubscriptionServicingStatusPaused   V2BillingPricingPlanSubscriptionServicingStatus = "paused"
 	V2BillingPricingPlanSubscriptionServicingStatusPending  V2BillingPricingPlanSubscriptionServicingStatus = "pending"
 )
+
+// Details about why the subscription was canceled, if applicable. Includes system-generated reason.
+type V2BillingPricingPlanSubscriptionCancellationDetails struct {
+	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
+	Comment string `json:"comment,omitempty"`
+	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
+	Feedback V2BillingPricingPlanSubscriptionCancellationDetailsFeedback `json:"feedback,omitempty"`
+	// System-generated reason for cancellation.
+	Reason V2BillingPricingPlanSubscriptionCancellationDetailsReason `json:"reason,omitempty"`
+}
 
 // Timestamps for collection status transitions.
 type V2BillingPricingPlanSubscriptionCollectionStatusTransitions struct {
@@ -62,6 +95,8 @@ type V2BillingPricingPlanSubscription struct {
 	APIResource
 	// The ID of the Billing Cadence this subscription is billed on.
 	BillingCadence string `json:"billing_cadence"`
+	// Details about why the subscription was canceled, if applicable. Includes system-generated reason.
+	CancellationDetails *V2BillingPricingPlanSubscriptionCancellationDetails `json:"cancellation_details,omitempty"`
 	// Current collection status of this subscription.
 	CollectionStatus V2BillingPricingPlanSubscriptionCollectionStatus `json:"collection_status"`
 	// Timestamps for collection status transitions.

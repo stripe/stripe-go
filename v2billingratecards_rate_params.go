@@ -19,7 +19,7 @@ type V2BillingRateCardsRateListParams struct {
 	RateCardVersion *string `form:"rate_card_version" json:"rate_card_version,omitempty"`
 }
 
-// The custom pricing unit that this rate binds to.
+// The custom pricing unit that this rate binds to. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 type V2BillingRateCardsRateCustomPricingUnitAmountParams struct {
 	// The id of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
@@ -27,7 +27,7 @@ type V2BillingRateCardsRateCustomPricingUnitAmountParams struct {
 	Value *string `form:"value" json:"value"`
 }
 
-// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
+// Each element represents a pricing tier. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 type V2BillingRateCardsRateTierParams struct {
 	// Price for the entire tier, represented as a decimal string in minor currency units with at most 12 decimal places.
 	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
@@ -55,7 +55,7 @@ type V2BillingRateCardsRateParams struct {
 	Params `form:"*"`
 	// The ID of the Rate Card to create a new rate for.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
-	// The custom pricing unit that this rate binds to.
+	// The custom pricing unit that this rate binds to. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	CustomPricingUnitAmount *V2BillingRateCardsRateCustomPricingUnitAmountParams `form:"custom_pricing_unit_amount" json:"custom_pricing_unit_amount,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
@@ -63,14 +63,14 @@ type V2BillingRateCardsRateParams struct {
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
-	// grows into new tiers. Can only be set if `tiers` is set.
+	// grows into new tiers. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
+	// Each element represents a pricing tier. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	Tiers []*V2BillingRateCardsRateTierParams `form:"tiers" json:"tiers,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed.
 	TransformQuantity *V2BillingRateCardsRateTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal
-	// places. Cannot be set if `tiers` is provided.
+	// places. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
 
@@ -83,7 +83,7 @@ func (p *V2BillingRateCardsRateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// The custom pricing unit that this rate binds to.
+// The custom pricing unit that this rate binds to. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 type V2BillingRateCardsRateCreateCustomPricingUnitAmountParams struct {
 	// The id of the custom pricing unit.
 	ID *string `form:"id" json:"id"`
@@ -91,7 +91,7 @@ type V2BillingRateCardsRateCreateCustomPricingUnitAmountParams struct {
 	Value *string `form:"value" json:"value"`
 }
 
-// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
+// Each element represents a pricing tier. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 type V2BillingRateCardsRateCreateTierParams struct {
 	// Price for the entire tier, represented as a decimal string in minor currency units with at most 12 decimal places.
 	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
@@ -119,22 +119,22 @@ type V2BillingRateCardsRateCreateParams struct {
 	Params `form:"*"`
 	// The ID of the Rate Card to create a new rate for.
 	RateCardID *string `form:"-" json:"-"` // Included in URL
-	// The custom pricing unit that this rate binds to.
+	// The custom pricing unit that this rate binds to. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	CustomPricingUnitAmount *V2BillingRateCardsRateCreateCustomPricingUnitAmountParams `form:"custom_pricing_unit_amount" json:"custom_pricing_unit_amount,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Metered Item that this rate binds to.
-	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
+	MeteredItem *string `form:"metered_item" json:"metered_item"`
 	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
-	// grows into new tiers. Can only be set if `tiers` is set.
+	// grows into new tiers. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
+	// Each element represents a pricing tier. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	Tiers []*V2BillingRateCardsRateCreateTierParams `form:"tiers" json:"tiers,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed.
 	TransformQuantity *V2BillingRateCardsRateCreateTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal
-	// places. Cannot be set if `tiers` is provided.
+	// places. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
 

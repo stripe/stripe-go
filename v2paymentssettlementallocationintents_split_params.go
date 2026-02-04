@@ -6,6 +6,17 @@
 
 package stripe
 
+// List SettlementAllocationIntentSplits API.
+type V2PaymentsSettlementAllocationIntentsSplitListParams struct {
+	Params `form:"*"`
+	// The ID of the SettlementAllocationIntent this split belongs to.
+	SettlementAllocationIntentID *string `form:"-" json:"-"` // Included in URL
+	// The page size.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// Filter the SettlementAllocationIntentSplits by status.
+	Status *string `form:"status" json:"status,omitempty"`
+}
+
 // The amount and currency of the SettlementAllocationIntentSplit.
 type V2PaymentsSettlementAllocationIntentsSplitAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

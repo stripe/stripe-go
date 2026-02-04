@@ -130,6 +130,9 @@ type V2MoneyManagementPayoutMethodCard struct {
 	ExpMonth string `json:"exp_month"`
 	// The year the card expires.
 	ExpYear string `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two
+	// recipients who've signed up with you are using the same card number, for example.
+	Fingerprint string `json:"fingerprint"`
 	// The last 4 digits of the card number.
 	Last4 string `json:"last4"`
 }

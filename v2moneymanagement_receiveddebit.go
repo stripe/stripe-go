@@ -37,6 +37,7 @@ type V2MoneyManagementReceivedDebitType string
 const (
 	V2MoneyManagementReceivedDebitTypeBalanceTransfer      V2MoneyManagementReceivedDebitType = "balance_transfer"
 	V2MoneyManagementReceivedDebitTypeBankTransfer         V2MoneyManagementReceivedDebitType = "bank_transfer"
+	V2MoneyManagementReceivedDebitTypeCardSpend            V2MoneyManagementReceivedDebitType = "card_spend"
 	V2MoneyManagementReceivedDebitTypeExternalDebit        V2MoneyManagementReceivedDebitType = "external_debit"
 	V2MoneyManagementReceivedDebitTypeStripeBalancePayment V2MoneyManagementReceivedDebitType = "stripe_balance_payment"
 )
@@ -148,6 +149,48 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account"`
 }
 
+// Amount associated with this issuing authorization.
+type V2MoneyManagementReceivedDebitCardSpendAuthorizationAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
+// The Issuing Authorization for this card_spend. Contains the reference id and the amount.
+type V2MoneyManagementReceivedDebitCardSpendAuthorization struct {
+	// Amount associated with this issuing authorization.
+	Amount *V2MoneyManagementReceivedDebitCardSpendAuthorizationAmount `json:"amount"`
+	// The reference to the v1 issuing authorization ID.
+	IssuingAuthorizationV1 string `json:"issuing_authorization_v1"`
+}
+
+// Amount associated with this issuing transaction.
+type V2MoneyManagementReceivedDebitCardSpendCardTransactionAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
+// The list of card spend transactions. These contain the transaction reference ID and the amount.
+type V2MoneyManagementReceivedDebitCardSpendCardTransaction struct {
+	// Amount associated with this issuing transaction.
+	Amount *V2MoneyManagementReceivedDebitCardSpendCardTransactionAmount `json:"amount"`
+	// The reference to the v1 issuing transaction ID.
+	IssuingTransactionV1 string `json:"issuing_transaction_v1"`
+}
+
+// This object stores details about the issuing transactions that resulted in the ReceivedDebit. Present if `type` field value is `card_spend`.
+type V2MoneyManagementReceivedDebitCardSpend struct {
+	// The Issuing Authorization for this card_spend. Contains the reference id and the amount.
+	Authorization *V2MoneyManagementReceivedDebitCardSpendAuthorization `json:"authorization,omitempty"`
+	// The list of card spend transactions. These contain the transaction reference ID and the amount.
+	CardTransactions []*V2MoneyManagementReceivedDebitCardSpendCardTransaction `json:"card_transactions"`
+	// The reference to the card object that resulted in the debit.
+	CardV1ID string `json:"card_v1_id"`
+}
+
 // This object stores details about the Stripe Balance Payment that resulted in the ReceivedDebit.
 type V2MoneyManagementReceivedDebitStripeBalancePayment struct {
 	// ID of the debit agreement associated with this payment.
@@ -165,6 +208,8 @@ type V2MoneyManagementReceivedDebit struct {
 	BalanceTransfer *V2MoneyManagementReceivedDebitBalanceTransfer `json:"balance_transfer,omitempty"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedDebit. Present if `type` field value is `bank_transfer`.
 	BankTransfer *V2MoneyManagementReceivedDebitBankTransfer `json:"bank_transfer,omitempty"`
+	// This object stores details about the issuing transactions that resulted in the ReceivedDebit. Present if `type` field value is `card_spend`.
+	CardSpend *V2MoneyManagementReceivedDebitCardSpend `json:"card_spend,omitempty"`
 	// The time at which the ReceivedDebit was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
 	Created time.Time `json:"created"`

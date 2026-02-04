@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// Direction of fee accrual for this FinancialAccount.
+type V2MoneyManagementFinancialAccountAccruedFeesDirection string
+
+// List of values that V2MoneyManagementFinancialAccountAccruedFeesDirection can take
+const (
+	V2MoneyManagementFinancialAccountAccruedFeesDirectionPayable    V2MoneyManagementFinancialAccountAccruedFeesDirection = "payable"
+	V2MoneyManagementFinancialAccountAccruedFeesDirectionReceivable V2MoneyManagementFinancialAccountAccruedFeesDirection = "receivable"
+)
+
 // Enum describing the Stripe product that is managing this FinancialAccount.
 type V2MoneyManagementFinancialAccountManagedByType string
 
@@ -41,10 +50,19 @@ type V2MoneyManagementFinancialAccountType string
 
 // List of values that V2MoneyManagementFinancialAccountType can take
 const (
-	V2MoneyManagementFinancialAccountTypeOther    V2MoneyManagementFinancialAccountType = "other"
-	V2MoneyManagementFinancialAccountTypePayments V2MoneyManagementFinancialAccountType = "payments"
-	V2MoneyManagementFinancialAccountTypeStorage  V2MoneyManagementFinancialAccountType = "storage"
+	V2MoneyManagementFinancialAccountTypeAccruedFees V2MoneyManagementFinancialAccountType = "accrued_fees"
+	V2MoneyManagementFinancialAccountTypeOther       V2MoneyManagementFinancialAccountType = "other"
+	V2MoneyManagementFinancialAccountTypePayments    V2MoneyManagementFinancialAccountType = "payments"
+	V2MoneyManagementFinancialAccountTypeStorage     V2MoneyManagementFinancialAccountType = "storage"
 )
+
+// If this is a `accrued_fees` FinancialAccount, this hash include details specific to `accrued_fees` FinancialAccount.
+type V2MoneyManagementFinancialAccountAccruedFees struct {
+	// The currencies enabled for fee accrual on this FinancialAccount.
+	Currencies []Currency `json:"currencies"`
+	// Direction of fee accrual for this FinancialAccount.
+	Direction V2MoneyManagementFinancialAccountAccruedFeesDirection `json:"direction"`
+}
 
 // Balance that can be used for money movement.
 type V2MoneyManagementFinancialAccountBalanceAvailable struct {
@@ -93,12 +111,30 @@ type V2MoneyManagementFinancialAccountOther struct {
 	Type string `json:"type"`
 }
 
+// The available balance at the time when the balance was projected.
+type V2MoneyManagementFinancialAccountPaymentsStartingBalanceAvailable struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value,omitempty"`
+}
+
+// Describes the available balance when it was projected.
+type V2MoneyManagementFinancialAccountPaymentsStartingBalance struct {
+	// When the balance was projected.
+	At time.Time `json:"at"`
+	// The available balance at the time when the balance was projected.
+	Available map[string]*V2MoneyManagementFinancialAccountPaymentsStartingBalanceAvailable `json:"available"`
+}
+
 // If this is a `payments` FinancialAccount, this hash include details specific to `payments` FinancialAccount.
 type V2MoneyManagementFinancialAccountPayments struct {
 	// The currency that non-settlement currency payments will be converted to.
 	DefaultCurrency Currency `json:"default_currency"`
 	// Settlement currencies enabled for this FinancialAccount. Payments in other currencies will be automatically converted to `default_currency`.
 	SettlementCurrencies []Currency `json:"settlement_currencies"`
+	// Describes the available balance when it was projected.
+	StartingBalance *V2MoneyManagementFinancialAccountPaymentsStartingBalance `json:"starting_balance,omitempty"`
 }
 type V2MoneyManagementFinancialAccountStatusDetailsClosedForwardingSettings struct {
 	// The address to send forwarded payments to.
@@ -123,6 +159,8 @@ type V2MoneyManagementFinancialAccountStorage struct {
 // A FinancialAccount represents a balance and can be used as the source or destination for the money management (`/v2/money_management`) APIs.
 type V2MoneyManagementFinancialAccount struct {
 	APIResource
+	// If this is a `accrued_fees` FinancialAccount, this hash include details specific to `accrued_fees` FinancialAccount.
+	AccruedFees *V2MoneyManagementFinancialAccountAccruedFees `json:"accrued_fees,omitempty"`
 	// Multi-currency balance of this FinancialAccount, split by availability state. Each balance is represented as a hash where the key is the three-letter ISO currency code, in lowercase, and the value is the amount for that currency.
 	Balance *V2MoneyManagementFinancialAccountBalance `json:"balance"`
 	// Open Enum. Two-letter country code that represents the country where the LegalEntity associated with the FinancialAccount is based in.

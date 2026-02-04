@@ -67,7 +67,7 @@ type V2PaymentsSettlementAllocationIntentSplit struct {
 	// Timestamp at which SettlementAllocationIntentSplit was created.
 	Created time.Time `json:"created"`
 	// Details about the Flow object that settled the split.
-	Flow *V2PaymentsSettlementAllocationIntentSplitFlow `json:"flow"`
+	Flow *V2PaymentsSettlementAllocationIntentSplitFlow `json:"flow,omitempty"`
 	// Unique identifier for the SettlementAllocationIntentSplit.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
