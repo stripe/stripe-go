@@ -13545,6 +13545,10 @@ func TestV2BillingIntentPostService(t *testing.T) {
 					},
 				},
 				Deactivate: &stripe.V2BillingIntentActionDeactivateParams{
+					CancellationDetails: &stripe.V2BillingIntentActionDeactivateCancellationDetailsParams{
+						Comment:  stripe.String("comment"),
+						Feedback: stripe.String("other"),
+					},
 					CollectAt: stripe.String("next_billing_date"),
 					EffectiveAt: &stripe.V2BillingIntentActionDeactivateEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
@@ -13675,6 +13679,10 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 					},
 				},
 				Deactivate: &stripe.V2BillingIntentCreateActionDeactivateParams{
+					CancellationDetails: &stripe.V2BillingIntentCreateActionDeactivateCancellationDetailsParams{
+						Comment:  stripe.String("comment"),
+						Feedback: stripe.String("other"),
+					},
 					CollectAt: stripe.String("next_billing_date"),
 					EffectiveAt: &stripe.V2BillingIntentCreateActionDeactivateEffectiveAtParams{
 						Timestamp: stripe.Time(time.Now()),
@@ -15223,7 +15231,8 @@ func TestV2BillingRateCardsRateGetClient(t *testing.T) {
 
 func TestV2BillingRateCardsRatePostService(t *testing.T) {
 	params := &stripe.V2BillingRateCardsRateParams{
-		RateCardID: stripe.String("rate_card_id_123"),
+		MeteredItem: stripe.String("metered_item"),
+		RateCardID:  stripe.String("rate_card_id_123"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/billing/rate_cards/rate_card_id_123/rates", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metered_item\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"invoice_presentation_dimensions\":[\"invoice_presentation_dimensions\"],\"meter\":\"meter\",\"meter_segment_conditions\":[{\"dimension\":\"dimension\",\"value\":\"value\"}],\"object\":\"v2.billing.metered_item\",\"livemode\":true},\"object\":\"v2.billing.rate_card_rate\",\"rate_card\":\"rate_card\",\"rate_card_version\":\"rate_card_version\",\"tiers\":[{}],\"livemode\":true}")
@@ -15238,7 +15247,8 @@ func TestV2BillingRateCardsRatePostService(t *testing.T) {
 
 func TestV2BillingRateCardsRatePostClient(t *testing.T) {
 	params := &stripe.V2BillingRateCardsRateCreateParams{
-		RateCardID: stripe.String("rate_card_id_123"),
+		MeteredItem: stripe.String("metered_item"),
+		RateCardID:  stripe.String("rate_card_id_123"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/billing/rate_cards/rate_card_id_123/rates", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"metered_item\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"invoice_presentation_dimensions\":[\"invoice_presentation_dimensions\"],\"meter\":\"meter\",\"meter_segment_conditions\":[{\"dimension\":\"dimension\",\"value\":\"value\"}],\"object\":\"v2.billing.metered_item\",\"livemode\":true},\"object\":\"v2.billing.rate_card_rate\",\"rate_card\":\"rate_card\",\"rate_card_version\":\"rate_card_version\",\"tiers\":[{}],\"livemode\":true}")
@@ -16125,6 +16135,63 @@ func TestV2CoreClaimableSandboxGetClient(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreClaimableSandboxes.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreConnectionSessionPostService(t *testing.T) {
+	params := &stripe.V2CoreConnectionSessionParams{
+		Account: stripe.String("account"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/connection_sessions", params, "{\"account\":\"account\",\"client_secret\":\"client_secret\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.connection_session\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreConnectionSessions.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreConnectionSessionPostClient(t *testing.T) {
+	params := &stripe.V2CoreConnectionSessionCreateParams{
+		Account: stripe.String("account"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/connection_sessions", params, "{\"account\":\"account\",\"client_secret\":\"client_secret\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.connection_session\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreConnectionSessions.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreConnectionSessionGetService(t *testing.T) {
+	params := &stripe.V2CoreConnectionSessionParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/connection_sessions/id_123", params, "{\"account\":\"account\",\"client_secret\":\"client_secret\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.connection_session\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreConnectionSessions.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreConnectionSessionGetClient(t *testing.T) {
+	params := &stripe.V2CoreConnectionSessionRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/connection_sessions/id_123", params, "{\"account\":\"account\",\"client_secret\":\"client_secret\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.connection_session\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreConnectionSessions.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -17079,7 +17146,7 @@ func TestV2MoneyManagementCurrencyConversionGet2Client(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/financial_accounts", params, "{\"data\":[{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/financial_accounts", params, "{\"data\":[{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17091,7 +17158,7 @@ func TestV2MoneyManagementFinancialAccountGetService(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/financial_accounts", params, "{\"data\":[{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/financial_accounts", params, "{\"data\":[{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17105,7 +17172,7 @@ func TestV2MoneyManagementFinancialAccountPostService(t *testing.T) {
 		Type: stripe.String("storage"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17120,7 +17187,7 @@ func TestV2MoneyManagementFinancialAccountPostClient(t *testing.T) {
 		Type: stripe.String("storage"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17134,7 +17201,7 @@ func TestV2MoneyManagementFinancialAccountPostClient(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17147,7 +17214,7 @@ func TestV2MoneyManagementFinancialAccountGet2Service(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17161,7 +17228,7 @@ func TestV2MoneyManagementFinancialAccountGet2Client(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountPost2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17174,7 +17241,7 @@ func TestV2MoneyManagementFinancialAccountPost2Service(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountPost2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17188,7 +17255,7 @@ func TestV2MoneyManagementFinancialAccountPost2Client(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountPost3Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17201,7 +17268,7 @@ func TestV2MoneyManagementFinancialAccountPost3Service(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountPost3Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"other\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"balance\":{\"available\":{\"key\":{}},\"inbound_pending\":{\"key\":{}},\"outbound_pending\":{\"key\":{}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_account\",\"status\":\"closed\",\"type\":\"payments\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18016,7 +18083,7 @@ func TestV2MoneyManagementPayoutMethodsBankAccountSpecGetClient(t *testing.T) {
 func TestV2MoneyManagementReceivedCreditGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementReceivedCreditListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/received_credits", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_credit\",\"status\":\"returned\",\"type\":\"external_credit\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/received_credits", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_credit\",\"status\":\"returned\",\"type\":\"balance_transfer\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18028,7 +18095,7 @@ func TestV2MoneyManagementReceivedCreditGetService(t *testing.T) {
 func TestV2MoneyManagementReceivedCreditGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementReceivedCreditListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/received_credits", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_credit\",\"status\":\"returned\",\"type\":\"external_credit\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/received_credits", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_credit\",\"status\":\"returned\",\"type\":\"balance_transfer\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18040,7 +18107,7 @@ func TestV2MoneyManagementReceivedCreditGetClient(t *testing.T) {
 func TestV2MoneyManagementReceivedCreditGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementReceivedCreditParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/received_credits/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_credit\",\"status\":\"returned\",\"type\":\"external_credit\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/received_credits/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_credit\",\"status\":\"returned\",\"type\":\"balance_transfer\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18053,7 +18120,7 @@ func TestV2MoneyManagementReceivedCreditGet2Service(t *testing.T) {
 func TestV2MoneyManagementReceivedCreditGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementReceivedCreditRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/received_credits/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_credit\",\"status\":\"returned\",\"type\":\"external_credit\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/received_credits/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_credit\",\"status\":\"returned\",\"type\":\"balance_transfer\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18067,7 +18134,7 @@ func TestV2MoneyManagementReceivedCreditGet2Client(t *testing.T) {
 func TestV2MoneyManagementReceivedDebitGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementReceivedDebitListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/received_debits", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_debit\",\"status\":\"canceled\",\"type\":\"external_debit\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/received_debits", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_debit\",\"status\":\"canceled\",\"type\":\"balance_transfer\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18079,7 +18146,7 @@ func TestV2MoneyManagementReceivedDebitGetService(t *testing.T) {
 func TestV2MoneyManagementReceivedDebitGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementReceivedDebitListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/received_debits", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_debit\",\"status\":\"canceled\",\"type\":\"external_debit\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/received_debits", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_debit\",\"status\":\"canceled\",\"type\":\"balance_transfer\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18091,7 +18158,7 @@ func TestV2MoneyManagementReceivedDebitGetClient(t *testing.T) {
 func TestV2MoneyManagementReceivedDebitGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementReceivedDebitParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/received_debits/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_debit\",\"status\":\"canceled\",\"type\":\"external_debit\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/received_debits/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_debit\",\"status\":\"canceled\",\"type\":\"balance_transfer\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18104,7 +18171,7 @@ func TestV2MoneyManagementReceivedDebitGet2Service(t *testing.T) {
 func TestV2MoneyManagementReceivedDebitGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementReceivedDebitRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/received_debits/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_debit\",\"status\":\"canceled\",\"type\":\"external_debit\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/received_debits/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.received_debit\",\"status\":\"canceled\",\"type\":\"balance_transfer\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18205,7 +18272,7 @@ func TestV2MoneyManagementRecipientVerificationPost2Client(t *testing.T) {
 func TestV2MoneyManagementTransactionGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transactions", params, "{\"data\":[{\"amount\":{},\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"category\":\"received_debit\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"fee_transaction\"},\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction\",\"status\":\"pending\",\"status_transitions\":{},\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/transactions", params, "{\"data\":[{\"amount\":{},\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"category\":\"issuing_dispute_provisional_credit_reversal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"adjustment\"},\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction\",\"status\":\"pending\",\"status_transitions\":{},\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18217,7 +18284,7 @@ func TestV2MoneyManagementTransactionGetService(t *testing.T) {
 func TestV2MoneyManagementTransactionGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transactions", params, "{\"data\":[{\"amount\":{},\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"category\":\"received_debit\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"fee_transaction\"},\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction\",\"status\":\"pending\",\"status_transitions\":{},\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/transactions", params, "{\"data\":[{\"amount\":{},\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"category\":\"issuing_dispute_provisional_credit_reversal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"adjustment\"},\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction\",\"status\":\"pending\",\"status_transitions\":{},\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18229,7 +18296,7 @@ func TestV2MoneyManagementTransactionGetClient(t *testing.T) {
 func TestV2MoneyManagementTransactionGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transactions/id_123", params, "{\"amount\":{},\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"category\":\"received_debit\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"fee_transaction\"},\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction\",\"status\":\"pending\",\"status_transitions\":{},\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/transactions/id_123", params, "{\"amount\":{},\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"category\":\"issuing_dispute_provisional_credit_reversal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"adjustment\"},\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction\",\"status\":\"pending\",\"status_transitions\":{},\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18242,7 +18309,7 @@ func TestV2MoneyManagementTransactionGet2Service(t *testing.T) {
 func TestV2MoneyManagementTransactionGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transactions/id_123", params, "{\"amount\":{},\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"category\":\"received_debit\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"fee_transaction\"},\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction\",\"status\":\"pending\",\"status_transitions\":{},\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/transactions/id_123", params, "{\"amount\":{},\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"category\":\"issuing_dispute_provisional_credit_reversal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"adjustment\"},\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction\",\"status\":\"pending\",\"status_transitions\":{},\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18256,7 +18323,7 @@ func TestV2MoneyManagementTransactionGet2Client(t *testing.T) {
 func TestV2MoneyManagementTransactionEntryGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionEntryListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transaction_entries", params, "{\"data\":[{\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction_entry\",\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"received_debit\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"fee_transaction\"}},\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/transaction_entries", params, "{\"data\":[{\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction_entry\",\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"issuing_dispute_provisional_credit_reversal\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"adjustment\"}},\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18268,7 +18335,7 @@ func TestV2MoneyManagementTransactionEntryGetService(t *testing.T) {
 func TestV2MoneyManagementTransactionEntryGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionEntryListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transaction_entries", params, "{\"data\":[{\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction_entry\",\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"received_debit\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"fee_transaction\"}},\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/transaction_entries", params, "{\"data\":[{\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction_entry\",\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"issuing_dispute_provisional_credit_reversal\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"adjustment\"}},\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18280,7 +18347,7 @@ func TestV2MoneyManagementTransactionEntryGetClient(t *testing.T) {
 func TestV2MoneyManagementTransactionEntryGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionEntryParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transaction_entries/id_123", params, "{\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction_entry\",\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"received_debit\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"fee_transaction\"}},\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/transaction_entries/id_123", params, "{\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction_entry\",\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"issuing_dispute_provisional_credit_reversal\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"adjustment\"}},\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18293,7 +18360,7 @@ func TestV2MoneyManagementTransactionEntryGet2Service(t *testing.T) {
 func TestV2MoneyManagementTransactionEntryGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionEntryRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transaction_entries/id_123", params, "{\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction_entry\",\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"received_debit\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"fee_transaction\"}},\"livemode\":true}")
+		t, http.MethodGet, "/v2/money_management/transaction_entries/id_123", params, "{\"balance_impact\":{\"available\":{},\"inbound_pending\":{},\"outbound_pending\":{}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"object\":\"v2.money_management.transaction_entry\",\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"issuing_dispute_provisional_credit_reversal\",\"financial_account\":\"financial_account\",\"flow\":{\"type\":\"adjustment\"}},\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18455,6 +18522,31 @@ func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2PaymentsSettlementAllocationIntentGetService(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2PaymentsSettlementAllocationIntents.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2PaymentsSettlementAllocationIntentGetClient(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents", params, "{\"data\":[{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2PaymentsSettlementAllocationIntents.List(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
 func TestV2PaymentsSettlementAllocationIntentPostService(t *testing.T) {
 	params := &stripe.V2PaymentsSettlementAllocationIntentParams{
 		Amount: &stripe.V2PaymentsSettlementAllocationIntentAmountParams{
@@ -18498,7 +18590,7 @@ func TestV2PaymentsSettlementAllocationIntentPostClient(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestV2PaymentsSettlementAllocationIntentGetService(t *testing.T) {
+func TestV2PaymentsSettlementAllocationIntentGet2Service(t *testing.T) {
 	params := &stripe.V2PaymentsSettlementAllocationIntentParams{}
 	testServer := MockServer(
 		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
@@ -18511,7 +18603,7 @@ func TestV2PaymentsSettlementAllocationIntentGetService(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestV2PaymentsSettlementAllocationIntentGetClient(t *testing.T) {
+func TestV2PaymentsSettlementAllocationIntentGet2Client(t *testing.T) {
 	params := &stripe.V2PaymentsSettlementAllocationIntentRetrieveParams{}
 	testServer := MockServer(
 		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/id_123", params, "{\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"expected_settlement_date\":\"1970-01-22T14:14:13.629Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"linked_credits\":[\"linked_credits\"],\"object\":\"v2.payments.settlement_allocation_intent\",\"reference\":\"reference\",\"status\":\"canceled\",\"livemode\":true}")
@@ -18609,6 +18701,35 @@ func TestV2PaymentsSettlementAllocationIntentPost4Client(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2PaymentsSettlementAllocationIntentsSplitGetService(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitListParams{
+		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits", params, "{\"data\":[{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2PaymentsSettlementAllocationIntentsSplits.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2PaymentsSettlementAllocationIntentsSplitGetClient(t *testing.T) {
+	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitListParams{
+		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits", params, "{\"data\":[{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2PaymentsSettlementAllocationIntentsSplits.List(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
 func TestV2PaymentsSettlementAllocationIntentsSplitPostService(t *testing.T) {
 	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitParams{
 		Account: stripe.String("account"),
@@ -18620,7 +18741,7 @@ func TestV2PaymentsSettlementAllocationIntentsSplitPostService(t *testing.T) {
 		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18641,7 +18762,7 @@ func TestV2PaymentsSettlementAllocationIntentsSplitPostClient(t *testing.T) {
 		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18652,12 +18773,12 @@ func TestV2PaymentsSettlementAllocationIntentsSplitPostClient(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestV2PaymentsSettlementAllocationIntentsSplitGetService(t *testing.T) {
+func TestV2PaymentsSettlementAllocationIntentsSplitGet2Service(t *testing.T) {
 	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitParams{
 		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18668,12 +18789,12 @@ func TestV2PaymentsSettlementAllocationIntentsSplitGetService(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestV2PaymentsSettlementAllocationIntentsSplitGetClient(t *testing.T) {
+func TestV2PaymentsSettlementAllocationIntentsSplitGet2Client(t *testing.T) {
 	params := &stripe.V2PaymentsSettlementAllocationIntentsSplitRetrieveParams{
 		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18689,7 +18810,7 @@ func TestV2PaymentsSettlementAllocationIntentsSplitPost2Service(t *testing.T) {
 		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123/cancel", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123/cancel", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18705,7 +18826,7 @@ func TestV2PaymentsSettlementAllocationIntentsSplitPost2Client(t *testing.T) {
 		SettlementAllocationIntentID: stripe.String("settlement_allocation_intent_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123/cancel", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"flow\":{\"type\":\"outbound_payment\"},\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/payments/settlement_allocation_intents/settlement_allocation_intent_id_123/splits/id_123/cancel", params, "{\"account\":\"account\",\"amount\":{},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.payments.settlement_allocation_intent_split\",\"settlement_allocation_intent\":\"settlement_allocation_intent\",\"status\":\"canceled\",\"type\":\"credit\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19178,7 +19299,7 @@ func TestBlockedByStripeErrorService(t *testing.T) {
 		AccountNumber: stripe.String("account_number"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/us_bank_accounts", params, "{\"error\":{\"type\":\"blocked_by_stripe\",\"code\":\"blocked_payout_method_bank_account\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts", params, "{\"error\":{\"type\":\"blocked_by_stripe\",\"code\":\"blocked_payout_method\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19193,7 +19314,7 @@ func TestBlockedByStripeErrorClient(t *testing.T) {
 		AccountNumber: stripe.String("account_number"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/us_bank_accounts", params, "{\"error\":{\"type\":\"blocked_by_stripe\",\"code\":\"blocked_payout_method_bank_account\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts", params, "{\"error\":{\"type\":\"blocked_by_stripe\",\"code\":\"blocked_payout_method\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

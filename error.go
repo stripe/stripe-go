@@ -503,7 +503,7 @@ func (e *AlreadyExistsError) canRetry() bool {
 }
 
 // BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe".
-// Returned when the bank account cannot be added due to previous suspicious activity.
+// Returned when the payout method cannot be used due to suspicious activity.
 type BlockedByStripeError struct {
 	APIResource
 	Code        string    `json:"code"`

@@ -45,6 +45,7 @@ type V2MoneyManagementReceivedCreditType string
 const (
 	V2MoneyManagementReceivedCreditTypeBalanceTransfer      V2MoneyManagementReceivedCreditType = "balance_transfer"
 	V2MoneyManagementReceivedCreditTypeBankTransfer         V2MoneyManagementReceivedCreditType = "bank_transfer"
+	V2MoneyManagementReceivedCreditTypeCardSpend            V2MoneyManagementReceivedCreditType = "card_spend"
 	V2MoneyManagementReceivedCreditTypeExternalCredit       V2MoneyManagementReceivedCreditType = "external_credit"
 	V2MoneyManagementReceivedCreditTypeStripeBalancePayment V2MoneyManagementReceivedCreditType = "stripe_balance_payment"
 )
@@ -219,6 +220,28 @@ type V2MoneyManagementReceivedCreditBankTransfer struct {
 	USBankAccount *V2MoneyManagementReceivedCreditBankTransferUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
+// Hash containing information about the Dispute that triggered this credit.
+type V2MoneyManagementReceivedCreditCardSpendDispute struct {
+	// The reference to the v1 issuing dispute ID.
+	IssuingDisputeV1 string `json:"issuing_dispute_v1"`
+}
+
+// Hash containing information about the Refund that triggered this credit.
+type V2MoneyManagementReceivedCreditCardSpendRefund struct {
+	// The reference to the v1 issuing transaction ID.
+	IssuingTransactionV1 string `json:"issuing_transaction_v1"`
+}
+
+// This object stores details about the originating issuing card spend that resulted in the ReceivedCredit. Present if `type` field value is `card_spend`.
+type V2MoneyManagementReceivedCreditCardSpend struct {
+	// The reference to the issuing card object.
+	CardV1ID string `json:"card_v1_id"`
+	// Hash containing information about the Dispute that triggered this credit.
+	Dispute *V2MoneyManagementReceivedCreditCardSpendDispute `json:"dispute,omitempty"`
+	// Hash containing information about the Refund that triggered this credit.
+	Refund *V2MoneyManagementReceivedCreditCardSpendRefund `json:"refund,omitempty"`
+}
+
 // This object stores details about the stripe balance pay refund that resulted in the ReceivedCredit. Present if `type` field value is `stripe_balance_payment`.
 type V2MoneyManagementReceivedCreditStripeBalancePayment struct {
 	// Statement descriptor for the Stripe Balance Payment.
@@ -234,6 +257,8 @@ type V2MoneyManagementReceivedCredit struct {
 	BalanceTransfer *V2MoneyManagementReceivedCreditBalanceTransfer `json:"balance_transfer,omitempty"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `bank_transfer`.
 	BankTransfer *V2MoneyManagementReceivedCreditBankTransfer `json:"bank_transfer,omitempty"`
+	// This object stores details about the originating issuing card spend that resulted in the ReceivedCredit. Present if `type` field value is `card_spend`.
+	CardSpend *V2MoneyManagementReceivedCreditCardSpend `json:"card_spend,omitempty"`
 	// Time at which the ReceivedCredit was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`

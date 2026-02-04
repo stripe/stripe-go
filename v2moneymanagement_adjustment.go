@@ -70,4 +70,6 @@ type V2MoneyManagementAdjustment struct {
 	Object string `json:"object"`
 	// A link to the Stripe-hosted receipt that is provided when money movement is considered regulated under Stripe's money transmission licenses. The receipt link remains active for 60 days from the Adjustment creation date. After this period, the link will expire and the receipt url value will be null.
 	ReceiptURL string `json:"receipt_url,omitempty"`
+	// A reference for the Adjustment that associates it with related records or operations.
+	Reference string `json:"reference,omitempty"`
 }

@@ -82,3 +82,16 @@ func (c v2PaymentsSettlementAllocationIntentService) Submit(ctx context.Context,
 		http.MethodPost, path, c.Key, params, settlementallocationintent)
 	return settlementallocationintent, err
 }
+
+// Lists all SettlementAllocationIntents.
+func (c v2PaymentsSettlementAllocationIntentService) List(ctx context.Context, listParams *V2PaymentsSettlementAllocationIntentListParams) Seq2[*V2PaymentsSettlementAllocationIntent, error] {
+	if listParams == nil {
+		listParams = &V2PaymentsSettlementAllocationIntentListParams{}
+	}
+	listParams.Context = ctx
+	return NewV2List("/v2/payments/settlement_allocation_intents", listParams, func(path string, p ParamsContainer) (*V2Page[*V2PaymentsSettlementAllocationIntent], error) {
+		page := &V2Page[*V2PaymentsSettlementAllocationIntent]{}
+		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
+		return page, err
+	}).All()
+}

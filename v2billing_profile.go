@@ -17,6 +17,7 @@ const (
 	V2BillingProfileStatusInactive V2BillingProfileStatus = "inactive"
 )
 
+// A Billing Profile is a representation of how a bill is paid, separating payment behavior from customer identity.
 type V2BillingProfile struct {
 	APIResource
 	// Timestamp of when the object was created.

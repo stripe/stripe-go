@@ -474,12 +474,47 @@ type AccountSessionComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsAgenticCommerceSettingsFeaturesParams struct{}
+
+// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+type AccountSessionComponentsAgenticCommerceSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsAgenticCommerceSettingsFeaturesParams `form:"features"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsTerminalHardwareOrdersFeaturesParams struct{}
+
+// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+type AccountSessionComponentsTerminalHardwareOrdersParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsTerminalHardwareOrdersFeaturesParams `form:"features"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsTerminalHardwareShopFeaturesParams struct{}
+
+// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+type AccountSessionComponentsTerminalHardwareShopParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsTerminalHardwareShopFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
 	AccountManagement *AccountSessionComponentsAccountManagementParams `form:"account_management"`
 	// Configuration for the [account onboarding](https://docs.stripe.com/connect/supported-embedded-components/account-onboarding/) embedded component.
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
+	// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+	AgenticCommerceSettings *AccountSessionComponentsAgenticCommerceSettingsParams `form:"agentic_commerce_settings"`
 	// Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
 	AppInstall *AccountSessionComponentsAppInstallParams `form:"app_install"`
 	// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
@@ -540,6 +575,10 @@ type AccountSessionComponentsParams struct {
 	TaxSettings *AccountSessionComponentsTaxSettingsParams `form:"tax_settings"`
 	// Configuration for the [tax threshold monitoring](https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring/) embedded component.
 	TaxThresholdMonitoring *AccountSessionComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring"`
+	// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+	TerminalHardwareOrders *AccountSessionComponentsTerminalHardwareOrdersParams `form:"terminal_hardware_orders"`
+	// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+	TerminalHardwareShop *AccountSessionComponentsTerminalHardwareShopParams `form:"terminal_hardware_shop"`
 }
 
 // Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
@@ -1026,12 +1065,47 @@ type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
 	Features *AccountSessionCreateComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsAgenticCommerceSettingsFeaturesParams struct{}
+
+// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+type AccountSessionCreateComponentsAgenticCommerceSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsAgenticCommerceSettingsFeaturesParams `form:"features"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsTerminalHardwareOrdersFeaturesParams struct{}
+
+// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+type AccountSessionCreateComponentsTerminalHardwareOrdersParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsTerminalHardwareOrdersFeaturesParams `form:"features"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsTerminalHardwareShopFeaturesParams struct{}
+
+// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+type AccountSessionCreateComponentsTerminalHardwareShopParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsTerminalHardwareShopFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionCreateComponentsParams struct {
 	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
 	AccountManagement *AccountSessionCreateComponentsAccountManagementParams `form:"account_management"`
 	// Configuration for the [account onboarding](https://docs.stripe.com/connect/supported-embedded-components/account-onboarding/) embedded component.
 	AccountOnboarding *AccountSessionCreateComponentsAccountOnboardingParams `form:"account_onboarding"`
+	// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+	AgenticCommerceSettings *AccountSessionCreateComponentsAgenticCommerceSettingsParams `form:"agentic_commerce_settings"`
 	// Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
 	AppInstall *AccountSessionCreateComponentsAppInstallParams `form:"app_install"`
 	// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
@@ -1092,6 +1166,10 @@ type AccountSessionCreateComponentsParams struct {
 	TaxSettings *AccountSessionCreateComponentsTaxSettingsParams `form:"tax_settings"`
 	// Configuration for the [tax threshold monitoring](https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring/) embedded component.
 	TaxThresholdMonitoring *AccountSessionCreateComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring"`
+	// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+	TerminalHardwareOrders *AccountSessionCreateComponentsTerminalHardwareOrdersParams `form:"terminal_hardware_orders"`
+	// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+	TerminalHardwareShop *AccountSessionCreateComponentsTerminalHardwareShopParams `form:"terminal_hardware_shop"`
 }
 
 // Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
@@ -1368,6 +1446,30 @@ type AccountSessionComponentsTaxSettings struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
 }
+type AccountSessionComponentsNetworkCostPassthroughReportFeatures struct{}
+
+// Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
+type AccountSessionComponentsNetworkCostPassthroughReport struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                          `json:"enabled"`
+	Features *AccountSessionComponentsNetworkCostPassthroughReportFeatures `json:"features"`
+}
+type AccountSessionComponentsTerminalHardwareOrdersFeatures struct{}
+
+// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+type AccountSessionComponentsTerminalHardwareOrders struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                    `json:"enabled"`
+	Features *AccountSessionComponentsTerminalHardwareOrdersFeatures `json:"features"`
+}
+type AccountSessionComponentsTerminalHardwareShopFeatures struct{}
+
+// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+type AccountSessionComponentsTerminalHardwareShop struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                  `json:"enabled"`
+	Features *AccountSessionComponentsTerminalHardwareShopFeatures `json:"features"`
+}
 type AccountSessionComponents struct {
 	AccountManagement *AccountSessionComponentsAccountManagement `json:"account_management"`
 	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
@@ -1386,6 +1488,8 @@ type AccountSessionComponents struct {
 	InstantPayoutsPromotion      *AccountSessionComponentsInstantPayoutsPromotion      `json:"instant_payouts_promotion"`
 	IssuingCard                  *AccountSessionComponentsIssuingCard                  `json:"issuing_card"`
 	IssuingCardsList             *AccountSessionComponentsIssuingCardsList             `json:"issuing_cards_list"`
+	// Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
+	NetworkCostPassthroughReport *AccountSessionComponentsNetworkCostPassthroughReport `json:"network_cost_passthrough_report"`
 	NotificationBanner           *AccountSessionComponentsNotificationBanner           `json:"notification_banner"`
 	PaymentDetails               *AccountSessionComponentsPaymentDetails               `json:"payment_details"`
 	PaymentDisputes              *AccountSessionComponentsPaymentDisputes              `json:"payment_disputes"`
@@ -1395,6 +1499,10 @@ type AccountSessionComponents struct {
 	PayoutsList                  *AccountSessionComponentsPayoutsList                  `json:"payouts_list"`
 	TaxRegistrations             *AccountSessionComponentsTaxRegistrations             `json:"tax_registrations"`
 	TaxSettings                  *AccountSessionComponentsTaxSettings                  `json:"tax_settings"`
+	// Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
+	TerminalHardwareOrders *AccountSessionComponentsTerminalHardwareOrders `json:"terminal_hardware_orders"`
+	// Configuration for the [Terminal hardware shop](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-shop/) embedded component.
+	TerminalHardwareShop *AccountSessionComponentsTerminalHardwareShop `json:"terminal_hardware_shop"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.

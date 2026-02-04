@@ -1224,9 +1224,9 @@ func (p *SubscriptionMigrateParams) AddExpand(f string) {
 
 // Controls what to bill for when pausing the subscription.
 type SubscriptionPauseBillForParams struct {
-	// Controls whether to debit for accrued metered usage in the current billing period. The default is `false`.
+	// Controls whether to debit for accrued metered usage in the current billing period. The default is `true`.
 	OutstandingUsage *bool `form:"outstanding_usage"`
-	// Controls whether to credit for licensed items in the current billing period. The default is `false`.
+	// Controls whether to credit for licensed items in the current billing period. The default is `true`.
 	UnusedTime *bool `form:"unused_time"`
 }
 

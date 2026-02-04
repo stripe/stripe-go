@@ -8,6 +8,29 @@ package stripe
 
 import "time"
 
+// Lists all SettlementAllocationIntents.
+type V2PaymentsSettlementAllocationIntentListParams struct {
+	Params `form:"*"`
+	// Filter for objects created after the specified timestamp.
+	// Must be an RFC 3339 date & time value, for example: 2025-10-17T13:22::00Z.
+	CreatedGt *time.Time `form:"created_gt" json:"created_gt,omitempty"`
+	// Filter for objects created on or after the specified timestamp.
+	// Must be an RFC 3339 date & time value, for example: 2025-10-17T13:22::00Z.
+	CreatedGTE *time.Time `form:"created_gte" json:"created_gte,omitempty"`
+	// Filter for objects created before the specified timestamp.
+	// Must be an RFC 3339 date & time value, for example: 2025-10-17T13:22::00Z.
+	CreatedLT *time.Time `form:"created_lt" json:"created_lt,omitempty"`
+	// Filter for objects created on or before the specified timestamp.
+	// Must be an RFC 3339 date & time value, for example: 2025-10-17T13:22::00Z.
+	CreatedLte *time.Time `form:"created_lte" json:"created_lte,omitempty"`
+	// Filter the SettlementAllocationIntents by FinancialAccount.
+	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
+	// The page size.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// Filter the SettlementAllocationIntents by status.
+	Status *string `form:"status" json:"status,omitempty"`
+}
+
 // The amount and currency of the SettlementAllocationIntent. Allowed Currencies are `gbp` | `eur`.
 type V2PaymentsSettlementAllocationIntentAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
