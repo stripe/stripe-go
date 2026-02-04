@@ -55,7 +55,7 @@ const (
 	FRMealVouchersOnboardingProvidersConecsStatusPending        FRMealVouchersOnboardingProvidersConecsStatus = "pending"
 )
 
-// Lists French Meal Vouchers Onboarding objects
+// Lists French Meal Vouchers Onboarding objects. The objects are returned in sorted order, with the most recently created objects appearing first.
 type FRMealVouchersOnboardingListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -125,7 +125,10 @@ func (p *FRMealVouchersOnboardingCreateParams) AddMetadata(key string, value str
 	p.Metadata[key] = value
 }
 
-// Retrieves the details of a French Meal Vouchers Onboarding object
+// Retrieves the details of a previously created French Meal Vouchers Onboarding object.
+//
+// Supply the unique French Meal Vouchers Onboarding ID that was returned from your previous request,
+// and Stripe returns the corresponding onboarding information.
 type FRMealVouchersOnboardingRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -137,7 +140,11 @@ func (p *FRMealVouchersOnboardingRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Updates the details of a restaurant's French Meal Vouchers Onboarding object
+// Updates the details of a restaurant's French Meal Vouchers Onboarding object by
+// setting the values of the parameters passed. Any parameters not provided are left unchanged.
+// After you update the object, the onboarding process automatically restarts.
+//
+// You can only update French Meal Vouchers Onboarding objects with the postal_code field requirement in past_due.
 type FRMealVouchersOnboardingUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -191,8 +198,14 @@ type FRMealVouchersOnboardingProviders struct {
 	Conecs *FRMealVouchersOnboardingProvidersConecs `json:"conecs"`
 }
 
-// The French Meal Vouchers Onboarding resource encapsulates the onboarding status and other related information
+// The `French Meal Vouchers Onboarding` resource encapsulates the onboarding status and other related information
 // for a single restaurant (SIRET number) in the context of the French Meal Vouchers program.
+//
+// To onboard a restaurant for the French Meal Vouchers program, you create a `French Meal Vouchers Onboarding` object.
+// You can retrieve individual objects, list all such objects, or update objects to correct the postal code of the restaurant.
+// We identify `French Meal Vouchers Onboarding` objects with a unique, random ID.
+//
+// Related guide: [Set up a restaurant for titres-restaurant payments](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers/set-up-restaurant)
 type FRMealVouchersOnboarding struct {
 	APIResource
 	// Unique identifier for the object.

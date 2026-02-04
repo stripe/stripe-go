@@ -40,12 +40,18 @@ func (c Client) New(params *stripe.FRMealVouchersOnboardingParams) (*stripe.FRMe
 	return frmealvouchersonboarding, err
 }
 
-// Retrieves the details of a French Meal Vouchers Onboarding object
+// Retrieves the details of a previously created French Meal Vouchers Onboarding object.
+//
+// Supply the unique French Meal Vouchers Onboarding ID that was returned from your previous request,
+// and Stripe returns the corresponding onboarding information.
 func Get(id string, params *stripe.FRMealVouchersOnboardingParams) (*stripe.FRMealVouchersOnboarding, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves the details of a French Meal Vouchers Onboarding object
+// Retrieves the details of a previously created French Meal Vouchers Onboarding object.
+//
+// Supply the unique French Meal Vouchers Onboarding ID that was returned from your previous request,
+// and Stripe returns the corresponding onboarding information.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -57,12 +63,20 @@ func (c Client) Get(id string, params *stripe.FRMealVouchersOnboardingParams) (*
 	return frmealvouchersonboarding, err
 }
 
-// Updates the details of a restaurant's French Meal Vouchers Onboarding object
+// Updates the details of a restaurant's French Meal Vouchers Onboarding object by
+// setting the values of the parameters passed. Any parameters not provided are left unchanged.
+// After you update the object, the onboarding process automatically restarts.
+//
+// You can only update French Meal Vouchers Onboarding objects with the postal_code field requirement in past_due.
 func Update(id string, params *stripe.FRMealVouchersOnboardingParams) (*stripe.FRMealVouchersOnboarding, error) {
 	return getC().Update(id, params)
 }
 
-// Updates the details of a restaurant's French Meal Vouchers Onboarding object
+// Updates the details of a restaurant's French Meal Vouchers Onboarding object by
+// setting the values of the parameters passed. Any parameters not provided are left unchanged.
+// After you update the object, the onboarding process automatically restarts.
+//
+// You can only update French Meal Vouchers Onboarding objects with the postal_code field requirement in past_due.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -75,12 +89,12 @@ func (c Client) Update(id string, params *stripe.FRMealVouchersOnboardingParams)
 	return frmealvouchersonboarding, err
 }
 
-// Lists French Meal Vouchers Onboarding objects
+// Lists French Meal Vouchers Onboarding objects. The objects are returned in sorted order, with the most recently created objects appearing first.
 func List(params *stripe.FRMealVouchersOnboardingListParams) *Iter {
 	return getC().List(params)
 }
 
-// Lists French Meal Vouchers Onboarding objects
+// Lists French Meal Vouchers Onboarding objects. The objects are returned in sorted order, with the most recently created objects appearing first.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
