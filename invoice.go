@@ -2657,6 +2657,12 @@ type InvoiceCreatePreviewScheduleDetailsPrebillingParams struct {
 	Iterations *int64 `form:"iterations"`
 }
 
+// Object representing the subscription schedule's default settings.
+type InvoiceCreatePreviewScheduleDetailsDefaultSettingsParams struct {
+	// Configures how the subscription schedule handles billing for phase transitions.
+	PhaseEffectiveAt *string `form:"phase_effective_at"`
+}
+
 // The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
 type InvoiceCreatePreviewScheduleDetailsParams struct {
 	// Changes to apply to the phases of the subscription schedule, in the order provided.
@@ -2667,6 +2673,8 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	BillingMode *InvoiceCreatePreviewScheduleDetailsBillingModeParams `form:"billing_mode"`
 	// Sets the billing schedules for the subscription schedule.
 	BillingSchedules []*InvoiceCreatePreviewScheduleDetailsBillingScheduleParams `form:"billing_schedules"`
+	// Object representing the subscription schedule's default settings.
+	DefaultSettings *InvoiceCreatePreviewScheduleDetailsDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
