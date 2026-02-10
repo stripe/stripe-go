@@ -17,9 +17,9 @@ type V2BillingServiceActionCreditGrantAmountCustomPricingUnitParams struct {
 // The monetary amount of the credit grant. Required if `type` is `monetary`.
 type V2BillingServiceActionCreditGrantAmountMonetaryParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The amount of the credit grant.
@@ -79,9 +79,9 @@ type V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnitParams str
 // The monetary amount of the credit grant. Required if `type` is `monetary`.
 type V2BillingServiceActionCreditGrantPerTenantAmountMonetaryParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The amount of the credit grant.
@@ -190,9 +190,9 @@ type V2BillingServiceActionCreateCreditGrantAmountCustomPricingUnitParams struct
 // The monetary amount of the credit grant. Required if `type` is `monetary`.
 type V2BillingServiceActionCreateCreditGrantAmountMonetaryParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The amount of the credit grant.
@@ -252,9 +252,9 @@ type V2BillingServiceActionCreateCreditGrantPerTenantAmountCustomPricingUnitPara
 // The monetary amount of the credit grant. Required if `type` is `monetary`.
 type V2BillingServiceActionCreateCreditGrantPerTenantAmountMonetaryParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The amount of the credit grant.

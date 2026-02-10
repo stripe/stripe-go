@@ -16,9 +16,9 @@ type V2PaymentsOffSessionPaymentListParams struct {
 // The “presentment amount” to be collected from the customer.
 type V2PaymentsOffSessionPaymentAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Details about the capture configuration for the OffSessionPayment.
@@ -171,9 +171,9 @@ type V2PaymentsOffSessionPaymentCaptureTransferDataParams struct {
 // The “presentment amount” to be collected from the customer.
 type V2PaymentsOffSessionPaymentCreateAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Details about the capture configuration for the OffSessionPayment.

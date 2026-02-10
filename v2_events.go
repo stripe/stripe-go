@@ -6592,9 +6592,9 @@ type V2CoreHealthEventGenerationFailureResolvedEventData struct {
 // Estimated aggregated amount for the impacted requests.
 type V2CoreHealthFraudRateIncreasedEventDataImpactRealizedFraudAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The user impact.
@@ -6626,17 +6626,17 @@ type V2CoreHealthFraudRateIncreasedEventData struct {
 // Estimated aggregated amount for the approved requests.
 type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpactApprovedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Estimated aggregated amount for the declined requests.
 type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpactDeclinedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The user impact.
@@ -6666,17 +6666,17 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventData struct {
 // Estimated aggregated amount for the approved requests.
 type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpactApprovedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Estimated aggregated amount for the declined requests.
 type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpactDeclinedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The user impact.
@@ -6708,17 +6708,17 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventData struct {
 // Estimated aggregated amount for the approved requests.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpactApprovedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Estimated aggregated amount for the declined requests.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpactDeclinedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The user impact.
@@ -6750,17 +6750,17 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventData struct {
 // Estimated aggregated amount for the approved requests.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpactApprovedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Estimated aggregated amount for the declined requests.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpactDeclinedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The user impact.
