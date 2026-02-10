@@ -1255,6 +1255,8 @@ type SubscriptionResumeParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Controls when the subscription transitions from `paused` to `active`. Determines how payment on the invoice affects the resumption process.The default is `pending_if_incomplete`.
+	PaymentBehavior *string `form:"payment_behavior"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor` being `unchanged`. When the `billing_cycle_anchor` is set to `now` (default value), no prorations are generated. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, prorations will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint.
