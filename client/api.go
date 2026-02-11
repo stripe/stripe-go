@@ -192,6 +192,7 @@ import (
 	v2billingbillsetting "github.com/stripe/stripe-go/v84/v2/billing/billsetting"
 	v2billingbillsettingsversion "github.com/stripe/stripe-go/v84/v2/billing/billsettings/version"
 	v2billingcadence "github.com/stripe/stripe-go/v84/v2/billing/cadence"
+	v2billingcadencesspendmodifierrule "github.com/stripe/stripe-go/v84/v2/billing/cadences/spendmodifierrule"
 	v2billingcollectionsetting "github.com/stripe/stripe-go/v84/v2/billing/collectionsetting"
 	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v84/v2/billing/collectionsettings/version"
 	v2billingcustompricingunit "github.com/stripe/stripe-go/v84/v2/billing/custompricingunit"
@@ -206,6 +207,7 @@ import (
 	v2billingmetereventadjustment "github.com/stripe/stripe-go/v84/v2/billing/metereventadjustment"
 	v2billingmetereventsession "github.com/stripe/stripe-go/v84/v2/billing/metereventsession"
 	v2billingmetereventstream "github.com/stripe/stripe-go/v84/v2/billing/metereventstream"
+	v2billingonetimeitem "github.com/stripe/stripe-go/v84/v2/billing/onetimeitem"
 	v2billingpricingplan "github.com/stripe/stripe-go/v84/v2/billing/pricingplan"
 	v2billingpricingplanscomponent "github.com/stripe/stripe-go/v84/v2/billing/pricingplans/component"
 	v2billingpricingplansversion "github.com/stripe/stripe-go/v84/v2/billing/pricingplans/version"
@@ -213,6 +215,7 @@ import (
 	v2billingpricingplansubscriptionscomponent "github.com/stripe/stripe-go/v84/v2/billing/pricingplansubscriptions/component"
 	v2billingprofile "github.com/stripe/stripe-go/v84/v2/billing/profile"
 	v2billingratecard "github.com/stripe/stripe-go/v84/v2/billing/ratecard"
+	v2billingratecardscustompricingunitoveragerate "github.com/stripe/stripe-go/v84/v2/billing/ratecards/custompricingunitoveragerate"
 	v2billingratecardsrate "github.com/stripe/stripe-go/v84/v2/billing/ratecards/rate"
 	v2billingratecardsversion "github.com/stripe/stripe-go/v84/v2/billing/ratecards/version"
 	v2billingratecardsubscription "github.com/stripe/stripe-go/v84/v2/billing/ratecardsubscription"
@@ -620,6 +623,8 @@ type API struct {
 	V2BillingBillSettingsVersions *v2billingbillsettingsversion.Client
 	// V2BillingCadences is the client used to invoke /v2/billing/cadences APIs.
 	V2BillingCadences *v2billingcadence.Client
+	// V2BillingCadencesSpendModifierRules is the client used to invoke /v2/billing/cadences/{cadence_id}/spend_modifier_rules APIs.
+	V2BillingCadencesSpendModifierRules *v2billingcadencesspendmodifierrule.Client
 	// V2BillingCollectionSettings is the client used to invoke /v2/billing/collection_settings APIs.
 	V2BillingCollectionSettings *v2billingcollectionsetting.Client
 	// V2BillingCollectionSettingsVersions is the client used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
@@ -648,6 +653,8 @@ type API struct {
 	V2BillingMeterEventSessions *v2billingmetereventsession.Client
 	// V2BillingMeterEventStreams is the client used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2billingmetereventstream.Client
+	// V2BillingOneTimeItems is the client used to invoke /v2/billing/one_time_items APIs.
+	V2BillingOneTimeItems *v2billingonetimeitem.Client
 	// V2BillingPricingPlans is the client used to invoke /v2/billing/pricing_plans APIs.
 	V2BillingPricingPlans *v2billingpricingplan.Client
 	// V2BillingPricingPlansComponents is the client used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/components APIs.
@@ -662,6 +669,8 @@ type API struct {
 	V2BillingProfiles *v2billingprofile.Client
 	// V2BillingRateCards is the client used to invoke /v2/billing/rate_cards APIs.
 	V2BillingRateCards *v2billingratecard.Client
+	// V2BillingRateCardsCustomPricingUnitOverageRates is the client used to invoke /v2/billing/rate_cards/{rate_card_id}/custom_pricing_unit_overage_rates APIs.
+	V2BillingRateCardsCustomPricingUnitOverageRates *v2billingratecardscustompricingunitoveragerate.Client
 	// V2BillingRateCardsRates is the client used to invoke /v2/billing/rate_cards/{rate_card_id}/rates APIs.
 	V2BillingRateCardsRates *v2billingratecardsrate.Client
 	// V2BillingRateCardSubscriptions is the client used to invoke /v2/billing/rate_card_subscriptions APIs.
@@ -939,6 +948,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingBillSettings = &v2billingbillsetting.Client{B: backends.API, Key: key}
 	a.V2BillingBillSettingsVersions = &v2billingbillsettingsversion.Client{B: backends.API, Key: key}
 	a.V2BillingCadences = &v2billingcadence.Client{B: backends.API, Key: key}
+	a.V2BillingCadencesSpendModifierRules = &v2billingcadencesspendmodifierrule.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettings = &v2billingcollectionsetting.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
 	a.V2BillingCustomPricingUnits = &v2billingcustompricingunit.Client{B: backends.API, Key: key}
@@ -953,6 +963,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingMeterEvents = &v2billingmeterevent.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventSessions = &v2billingmetereventsession.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventStreams = &v2billingmetereventstream.Client{BMeterEvents: backends.MeterEvents, Key: key}
+	a.V2BillingOneTimeItems = &v2billingonetimeitem.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlans = &v2billingpricingplan.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlansComponents = &v2billingpricingplanscomponent.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlanSubscriptions = &v2billingpricingplansubscription.Client{B: backends.API, Key: key}
@@ -960,6 +971,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingPricingPlansVersions = &v2billingpricingplansversion.Client{B: backends.API, Key: key}
 	a.V2BillingProfiles = &v2billingprofile.Client{B: backends.API, Key: key}
 	a.V2BillingRateCards = &v2billingratecard.Client{B: backends.API, Key: key}
+	a.V2BillingRateCardsCustomPricingUnitOverageRates = &v2billingratecardscustompricingunitoveragerate.Client{B: backends.API, Key: key}
 	a.V2BillingRateCardsRates = &v2billingratecardsrate.Client{B: backends.API, Key: key}
 	a.V2BillingRateCardSubscriptions = &v2billingratecardsubscription.Client{B: backends.API, Key: key}
 	a.V2BillingRateCardsVersions = &v2billingratecardsversion.Client{B: backends.API, Key: key}

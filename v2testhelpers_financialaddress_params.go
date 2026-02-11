@@ -9,9 +9,9 @@ package stripe
 // Object containing the amount value and currency to credit.
 type V2TestHelpersFinancialAddressCreditAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Simulate crediting a FinancialAddress in a Sandbox environment. This can be used to add virtual funds and increase your balance for testing.

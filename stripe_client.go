@@ -364,6 +364,8 @@ type Client struct {
 	V2BillingBillSettingsVersions *v2BillingBillSettingsVersionService
 	// V2BillingCadences is the service used to invoke /v2/billing/cadences APIs.
 	V2BillingCadences *v2BillingCadenceService
+	// V2BillingCadencesSpendModifierRules is the service used to invoke /v2/billing/cadences/{cadence_id}/spend_modifier_rules APIs.
+	V2BillingCadencesSpendModifierRules *v2BillingCadencesSpendModifierRuleService
 	// V2BillingCollectionSettings is the service used to invoke /v2/billing/collection_settings APIs.
 	V2BillingCollectionSettings *v2BillingCollectionSettingService
 	// V2BillingCollectionSettingsVersions is the service used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
@@ -392,6 +394,8 @@ type Client struct {
 	V2BillingMeterEventSessions *v2BillingMeterEventSessionService
 	// V2BillingMeterEventStreams is the service used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2BillingMeterEventStreamService
+	// V2BillingOneTimeItems is the service used to invoke /v2/billing/one_time_items APIs.
+	V2BillingOneTimeItems *v2BillingOneTimeItemService
 	// V2BillingPricingPlans is the service used to invoke /v2/billing/pricing_plans APIs.
 	V2BillingPricingPlans *v2BillingPricingPlanService
 	// V2BillingPricingPlansComponents is the service used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/components APIs.
@@ -406,6 +410,8 @@ type Client struct {
 	V2BillingProfiles *v2BillingProfileService
 	// V2BillingRateCards is the service used to invoke /v2/billing/rate_cards APIs.
 	V2BillingRateCards *v2BillingRateCardService
+	// V2BillingRateCardsCustomPricingUnitOverageRates is the service used to invoke /v2/billing/rate_cards/{rate_card_id}/custom_pricing_unit_overage_rates APIs.
+	V2BillingRateCardsCustomPricingUnitOverageRates *v2BillingRateCardsCustomPricingUnitOverageRateService
 	// V2BillingRateCardsRates is the service used to invoke /v2/billing/rate_cards/{rate_card_id}/rates APIs.
 	V2BillingRateCardsRates *v2BillingRateCardsRateService
 	// V2BillingRateCardSubscriptions is the service used to invoke /v2/billing/rate_card_subscriptions APIs.
@@ -703,6 +709,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingBillSettings = &v2BillingBillSettingService{B: backends.API, Key: key}
 	client.V2BillingBillSettingsVersions = &v2BillingBillSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingCadences = &v2BillingCadenceService{B: backends.API, Key: key}
+	client.V2BillingCadencesSpendModifierRules = &v2BillingCadencesSpendModifierRuleService{B: backends.API, Key: key}
 	client.V2BillingCollectionSettings = &v2BillingCollectionSettingService{B: backends.API, Key: key}
 	client.V2BillingCollectionSettingsVersions = &v2BillingCollectionSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingCustomPricingUnits = &v2BillingCustomPricingUnitService{B: backends.API, Key: key}
@@ -717,6 +724,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingMeterEvents = &v2BillingMeterEventService{B: backends.API, Key: key}
 	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
+	client.V2BillingOneTimeItems = &v2BillingOneTimeItemService{B: backends.API, Key: key}
 	client.V2BillingPricingPlans = &v2BillingPricingPlanService{B: backends.API, Key: key}
 	client.V2BillingPricingPlansComponents = &v2BillingPricingPlansComponentService{B: backends.API, Key: key}
 	client.V2BillingPricingPlanSubscriptions = &v2BillingPricingPlanSubscriptionService{B: backends.API, Key: key}
@@ -724,6 +732,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingPricingPlansVersions = &v2BillingPricingPlansVersionService{B: backends.API, Key: key}
 	client.V2BillingProfiles = &v2BillingProfileService{B: backends.API, Key: key}
 	client.V2BillingRateCards = &v2BillingRateCardService{B: backends.API, Key: key}
+	client.V2BillingRateCardsCustomPricingUnitOverageRates = &v2BillingRateCardsCustomPricingUnitOverageRateService{B: backends.API, Key: key}
 	client.V2BillingRateCardsRates = &v2BillingRateCardsRateService{B: backends.API, Key: key}
 	client.V2BillingRateCardSubscriptions = &v2BillingRateCardSubscriptionService{B: backends.API, Key: key}
 	client.V2BillingRateCardsVersions = &v2BillingRateCardsVersionService{B: backends.API, Key: key}

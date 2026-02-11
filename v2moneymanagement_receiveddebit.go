@@ -77,17 +77,17 @@ const (
 // Amount and currency of the ReceivedDebit.
 type V2MoneyManagementReceivedDebitAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The amount and currency of the original/external debit request.
 type V2MoneyManagementReceivedDebitExternalAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Information that elaborates on the `failed` status of a ReceivedDebit.
@@ -152,9 +152,9 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 // Amount associated with this issuing authorization.
 type V2MoneyManagementReceivedDebitCardSpendAuthorizationAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The Issuing Authorization for this card_spend. Contains the reference id and the amount.
@@ -168,9 +168,9 @@ type V2MoneyManagementReceivedDebitCardSpendAuthorization struct {
 // Amount associated with this issuing transaction.
 type V2MoneyManagementReceivedDebitCardSpendCardTransactionAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The list of card spend transactions. These contain the transaction reference ID and the amount.

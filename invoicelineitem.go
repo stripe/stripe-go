@@ -33,9 +33,10 @@ type InvoiceLineItemPricingType string
 
 // List of values that InvoiceLineItemPricingType can take
 const (
-	InvoiceLineItemPricingTypeLicenseFeeDetails   InvoiceLineItemPricingType = "license_fee_details"
-	InvoiceLineItemPricingTypePriceDetails        InvoiceLineItemPricingType = "price_details"
-	InvoiceLineItemPricingTypeRateCardRateDetails InvoiceLineItemPricingType = "rate_card_rate_details"
+	InvoiceLineItemPricingTypeLicenseFeeDetails                           InvoiceLineItemPricingType = "license_fee_details"
+	InvoiceLineItemPricingTypePriceDetails                                InvoiceLineItemPricingType = "price_details"
+	InvoiceLineItemPricingTypeRateCardCustomPricingUnitOverageRateDetails InvoiceLineItemPricingType = "rate_card_custom_pricing_unit_overage_rate_details"
+	InvoiceLineItemPricingTypeRateCardRateDetails                         InvoiceLineItemPricingType = "rate_card_rate_details"
 )
 
 // Whether this tax is inclusive or exclusive.
@@ -599,12 +600,23 @@ type InvoiceLineItemPricingRateCardRateDetails struct {
 	// The ID of the rate card rate this item is associated with
 	RateCardRate string `json:"rate_card_rate"`
 }
+type InvoiceLineItemPricingRateCardCustomPricingUnitOverageRateDetails struct {
+	// The ID of the custom pricing unit this item is associated with
+	CustomPricingUnit string `json:"custom_pricing_unit"`
+	// The ID of the custom pricing unit overage rate this item is associated with
+	CustomPricingUnitOverageRate string `json:"custom_pricing_unit_overage_rate"`
+	// The ID of the one-time item this custom pricing unit overage rate is associated with
+	OneTimeItem string `json:"one_time_item"`
+	// The ID of the rate card this item is associated with
+	RateCard string `json:"rate_card"`
+}
 
 // The pricing information of the line item.
 type InvoiceLineItemPricing struct {
-	LicenseFeeDetails   *InvoiceLineItemPricingLicenseFeeDetails   `json:"license_fee_details"`
-	PriceDetails        *InvoiceLineItemPricingPriceDetails        `json:"price_details"`
-	RateCardRateDetails *InvoiceLineItemPricingRateCardRateDetails `json:"rate_card_rate_details"`
+	LicenseFeeDetails                           *InvoiceLineItemPricingLicenseFeeDetails                           `json:"license_fee_details"`
+	PriceDetails                                *InvoiceLineItemPricingPriceDetails                                `json:"price_details"`
+	RateCardCustomPricingUnitOverageRateDetails *InvoiceLineItemPricingRateCardCustomPricingUnitOverageRateDetails `json:"rate_card_custom_pricing_unit_overage_rate_details"`
+	RateCardRateDetails                         *InvoiceLineItemPricingRateCardRateDetails                         `json:"rate_card_rate_details"`
 	// The type of the pricing details.
 	Type InvoiceLineItemPricingType `json:"type"`
 	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.

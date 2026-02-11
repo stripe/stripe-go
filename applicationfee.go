@@ -18,6 +18,15 @@ const (
 	ApplicationFeeFeeSourceTypeTransfer ApplicationFeeFeeSourceType = "transfer"
 )
 
+// Type of settlement for the application fee. One of `net_settled` or `gross_settled`.
+type ApplicationFeeSettlementType string
+
+// List of values that ApplicationFeeSettlementType can take
+const (
+	ApplicationFeeSettlementTypeGrossSettled ApplicationFeeSettlementType = "gross_settled"
+	ApplicationFeeSettlementTypeNetSettled   ApplicationFeeSettlementType = "net_settled"
+)
+
 // Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
 type ApplicationFeeListParams struct {
 	ListParams `form:"*"`
@@ -103,6 +112,8 @@ type ApplicationFee struct {
 	Refunded bool `json:"refunded"`
 	// A list of refunds that have been applied to the fee.
 	Refunds *FeeRefundList `json:"refunds"`
+	// Type of settlement for the application fee. One of `net_settled` or `gross_settled`.
+	SettlementType ApplicationFeeSettlementType `json:"settlement_type"`
 }
 
 // ApplicationFeeList is a list of ApplicationFees as retrieved from a list endpoint.

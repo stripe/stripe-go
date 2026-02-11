@@ -20,9 +20,9 @@ type V2PaymentsSettlementAllocationIntentsSplitListParams struct {
 // The amount and currency of the SettlementAllocationIntentSplit.
 type V2PaymentsSettlementAllocationIntentsSplitAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Create SettlementAllocationIntentSplit API.
@@ -59,9 +59,9 @@ type V2PaymentsSettlementAllocationIntentsSplitCancelParams struct {
 // The amount and currency of the SettlementAllocationIntentSplit.
 type V2PaymentsSettlementAllocationIntentsSplitCreateAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Create SettlementAllocationIntentSplit API.

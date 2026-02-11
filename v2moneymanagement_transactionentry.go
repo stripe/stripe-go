@@ -90,25 +90,25 @@ const (
 // Impact to the available balance.
 type V2MoneyManagementTransactionEntryBalanceImpactAvailable struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Impact to the inbound_pending balance.
 type V2MoneyManagementTransactionEntryBalanceImpactInboundPending struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Impact to the outbound_pending balance.
 type V2MoneyManagementTransactionEntryBalanceImpactOutboundPending struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The delta to the FinancialAccount's balance.

@@ -31,7 +31,10 @@ func (c v1FRMealVouchersOnboardingService) Create(ctx context.Context, params *F
 	return frmealvouchersonboarding, err
 }
 
-// Retrieves the details of a French Meal Vouchers Onboarding object
+// Retrieves the details of a previously created French Meal Vouchers Onboarding object.
+//
+// Supply the unique French Meal Vouchers Onboarding ID that was returned from your previous request,
+// and Stripe returns the corresponding onboarding information.
 func (c v1FRMealVouchersOnboardingService) Retrieve(ctx context.Context, id string, params *FRMealVouchersOnboardingRetrieveParams) (*FRMealVouchersOnboarding, error) {
 	if params == nil {
 		params = &FRMealVouchersOnboardingRetrieveParams{}
@@ -43,7 +46,11 @@ func (c v1FRMealVouchersOnboardingService) Retrieve(ctx context.Context, id stri
 	return frmealvouchersonboarding, err
 }
 
-// Updates the details of a restaurant's French Meal Vouchers Onboarding object
+// Updates the details of a restaurant's French Meal Vouchers Onboarding object by
+// setting the values of the parameters passed. Any parameters not provided are left unchanged.
+// After you update the object, the onboarding process automatically restarts.
+//
+// You can only update French Meal Vouchers Onboarding objects with the postal_code field requirement in past_due.
 func (c v1FRMealVouchersOnboardingService) Update(ctx context.Context, id string, params *FRMealVouchersOnboardingUpdateParams) (*FRMealVouchersOnboarding, error) {
 	if params == nil {
 		params = &FRMealVouchersOnboardingUpdateParams{}
@@ -56,7 +63,7 @@ func (c v1FRMealVouchersOnboardingService) Update(ctx context.Context, id string
 	return frmealvouchersonboarding, err
 }
 
-// Lists French Meal Vouchers Onboarding objects
+// Lists French Meal Vouchers Onboarding objects. The objects are returned in sorted order, with the most recently created objects appearing first.
 func (c v1FRMealVouchersOnboardingService) List(ctx context.Context, listParams *FRMealVouchersOnboardingListParams) Seq2[*FRMealVouchersOnboarding, error] {
 	if listParams == nil {
 		listParams = &FRMealVouchersOnboardingListParams{}

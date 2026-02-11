@@ -34,9 +34,9 @@ type V2PaymentsSettlementAllocationIntentListParams struct {
 // The amount and currency of the SettlementAllocationIntent. Allowed Currencies are `gbp` | `eur`.
 type V2PaymentsSettlementAllocationIntentAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Create a new SettlementAllocationIntent.
@@ -76,9 +76,9 @@ type V2PaymentsSettlementAllocationIntentSubmitParams struct {
 // The amount and currency of the SettlementAllocationIntent. Allowed Currencies are `gbp` | `eur`.
 type V2PaymentsSettlementAllocationIntentCreateAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Create a new SettlementAllocationIntent.
@@ -113,9 +113,9 @@ type V2PaymentsSettlementAllocationIntentRetrieveParams struct {
 // The new amount for the SettlementAllocationIntent. Only amount.value can be updated and currency must remain same.
 type V2PaymentsSettlementAllocationIntentUpdateAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Updates SettlementAllocationIntent. Only SettlementAllocationIntent with status `pending`, `submitted` and `errored` can be updated. Only amount and reference fields can be updated for a SettlementAllocationIntent and at least one must be present. Updating an `amount` moves the SettlementAllocationIntent `pending` status and updating the `reference` for `errored` SettlementAllocationIntent moves it to `submitted`.
