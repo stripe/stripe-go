@@ -523,6 +523,8 @@ type PaymentMethodCryptoParams struct{}
 
 // If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
 type PaymentMethodCustomParams struct {
+	// A reference to an external payment method, such as a PayPal Billing Agreement ID.
+	PaymentMethodReference *string `form:"payment_method_reference"`
 	// ID of the Dashboard-only CustomPaymentMethodType. This field is used by Stripe products' internal code to support CPMs.
 	Type *string `form:"type"`
 }
@@ -1498,6 +1500,12 @@ type PaymentMethodUpdateUSBankAccountParams struct {
 	AccountType *string `form:"account_type"`
 }
 
+// If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
+type PaymentMethodUpdateCustomParams struct {
+	// A reference to an external payment method, such as a PayPal Billing Agreement ID.
+	PaymentMethodReference *string `form:"payment_method_reference"`
+}
+
 // Updates a PaymentMethod object. A PaymentMethod must be attached to a customer to be updated.
 type PaymentMethodUpdateParams struct {
 	Params `form:"*"`
@@ -1507,6 +1515,8 @@ type PaymentMethodUpdateParams struct {
 	BillingDetails *PaymentMethodUpdateBillingDetailsParams `form:"billing_details"`
 	// If this is a `card` PaymentMethod, this hash contains the user's card details.
 	Card *PaymentMethodUpdateCardParams `form:"card"`
+	// If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
+	Custom *PaymentMethodUpdateCustomParams `form:"custom"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1877,6 +1887,8 @@ type PaymentMethodCustom struct {
 	DisplayName string `json:"display_name"`
 	// Contains information about the Dashboard-only CustomPaymentMethodType logo.
 	Logo *PaymentMethodCustomLogo `json:"logo"`
+	// A reference to an external payment method, such as a PayPal Billing Agreement ID.
+	PaymentMethodReference string `json:"payment_method_reference"`
 	// ID of the Dashboard-only CustomPaymentMethodType. Not expandable.
 	Type string `json:"type"`
 }
