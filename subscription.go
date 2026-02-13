@@ -1222,12 +1222,24 @@ func (p *SubscriptionMigrateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Controls when to bill for metered usage in the current period. Defaults to `{ type: "now" }`.
+type SubscriptionPauseBillForOutstandingUsageThroughParams struct {
+	// When to bill metered usage in the current period.
+	Type *string `form:"type"`
+}
+
+// Controls when to credit for unused time on licensed items. Defaults to `{ type: "now" }`.
+type SubscriptionPauseBillForUnusedTimeFromParams struct {
+	// When to credit for unused time.
+	Type *string `form:"type"`
+}
+
 // Controls what to bill for when pausing the subscription.
 type SubscriptionPauseBillForParams struct {
-	// Controls whether to debit for accrued metered usage in the current billing period. The default is `true`.
-	OutstandingUsage *bool `form:"outstanding_usage"`
-	// Controls whether to credit for licensed items in the current billing period. The default is `true`.
-	UnusedTime *bool `form:"unused_time"`
+	// Controls when to bill for metered usage in the current period. Defaults to `{ type: "now" }`.
+	OutstandingUsageThrough *SubscriptionPauseBillForOutstandingUsageThroughParams `form:"outstanding_usage_through"`
+	// Controls when to credit for unused time on licensed items. Defaults to `{ type: "now" }`.
+	UnusedTimeFrom *SubscriptionPauseBillForUnusedTimeFromParams `form:"unused_time_from"`
 }
 
 // Pauses a subscription by transitioning it to the paused status. A paused subscription does not generate invoices and will not advance to new billing periods. The subscription can be resumed later using the resume endpoint. Cannot pause subscriptions with attached schedules.
@@ -1255,8 +1267,6 @@ type SubscriptionResumeParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Controls when the subscription transitions from `paused` to `active`. Determines how payment on the invoice affects the resumption process.The default is `pending_if_incomplete`.
-	PaymentBehavior *string `form:"payment_behavior"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor` being `unchanged`. When the `billing_cycle_anchor` is set to `now` (default value), no prorations are generated. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, prorations will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint.
