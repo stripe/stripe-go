@@ -12,6 +12,7 @@ type BillingAlertAlertType string
 // List of values that BillingAlertAlertType can take
 const (
 	BillingAlertAlertTypeCreditBalanceThreshold BillingAlertAlertType = "credit_balance_threshold"
+	BillingAlertAlertTypeSpendThreshold         BillingAlertAlertType = "spend_threshold"
 	BillingAlertAlertTypeUsageThreshold         BillingAlertAlertType = "usage_threshold"
 )
 
@@ -55,6 +56,31 @@ type BillingAlertUsageThresholdRecurrence string
 // List of values that BillingAlertUsageThresholdRecurrence can take
 const (
 	BillingAlertUsageThresholdRecurrenceOneTime BillingAlertUsageThresholdRecurrence = "one_time"
+)
+
+// Defines the period over which spend is aggregated.
+type BillingAlertSpendThresholdAggregationPeriod string
+
+// List of values that BillingAlertSpendThresholdAggregationPeriod can take
+const (
+	BillingAlertSpendThresholdAggregationPeriodBilling BillingAlertSpendThresholdAggregationPeriod = "billing"
+)
+
+// Defines the granularity of spend aggregation.
+type BillingAlertSpendThresholdGroupBy string
+
+// List of values that BillingAlertSpendThresholdGroupBy can take
+const (
+	BillingAlertSpendThresholdGroupByPricingPlanSubscription BillingAlertSpendThresholdGroupBy = "pricing_plan_subscription"
+)
+
+// The type of the threshold amount.
+type BillingAlertSpendThresholdGTEType string
+
+// List of values that BillingAlertSpendThresholdGTEType can take
+const (
+	BillingAlertSpendThresholdGTETypeAmount            BillingAlertSpendThresholdGTEType = "amount"
+	BillingAlertSpendThresholdGTETypeCustomPricingUnit BillingAlertSpendThresholdGTEType = "custom_pricing_unit"
 )
 
 // Lists billing active and inactive alerts
@@ -173,6 +199,56 @@ type BillingAlertUsageThresholdParams struct {
 	Recurrence *string `form:"recurrence"`
 }
 
+// Filters to scope the spend calculation.
+type BillingAlertSpendThresholdFiltersParams struct {
+	// Filter by billable item IDs. Maximum of 20 billable items.
+	BillableItems []*string `form:"billable_items"`
+	// Filter by billing cadence ID.
+	BillingCadence *string `form:"billing_cadence"`
+	// Filter by pricing plan ID.
+	PricingPlan *string `form:"pricing_plan"`
+	// Filter by pricing plan subscription ID.
+	PricingPlanSubscription *string `form:"pricing_plan_subscription"`
+}
+
+// The monetary amount. Required when type is `amount`.
+type BillingAlertSpendThresholdGTEAmountParams struct {
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
+	Currency *string `form:"currency"`
+	// An integer representing the amount of the threshold.
+	Value *int64 `form:"value"`
+}
+
+// The custom pricing unit amount. Required when type is `custom_pricing_unit`.
+type BillingAlertSpendThresholdGTECustomPricingUnitParams struct {
+	// The ID of the custom pricing unit.
+	ID *string `form:"id"`
+	// A positive decimal string representing the amount of the custom pricing unit threshold.
+	Value *float64 `form:"value,high_precision"`
+}
+
+// Defines at which value the alert will fire.
+type BillingAlertSpendThresholdGTEParams struct {
+	// The monetary amount. Required when type is `amount`.
+	Amount *BillingAlertSpendThresholdGTEAmountParams `form:"amount"`
+	// The custom pricing unit amount. Required when type is `custom_pricing_unit`.
+	CustomPricingUnit *BillingAlertSpendThresholdGTECustomPricingUnitParams `form:"custom_pricing_unit"`
+	// The type of the threshold amount.
+	Type *string `form:"type"`
+}
+
+// The configuration of the spend threshold.
+type BillingAlertSpendThresholdParams struct {
+	// Defines the period over which spend is aggregated.
+	AggregationPeriod *string `form:"aggregation_period"`
+	// Filters to scope the spend calculation.
+	Filters *BillingAlertSpendThresholdFiltersParams `form:"filters"`
+	// Defines the granularity of spend aggregation. Defaults to `pricing_plan_subscription`.
+	GroupBy *string `form:"group_by"`
+	// Defines at which value the alert will fire.
+	GTE *BillingAlertSpendThresholdGTEParams `form:"gte"`
+}
+
 // Creates a billing alert
 type BillingAlertParams struct {
 	Params `form:"*"`
@@ -182,6 +258,8 @@ type BillingAlertParams struct {
 	CreditBalanceThreshold *BillingAlertCreditBalanceThresholdParams `form:"credit_balance_threshold"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The configuration of the spend threshold.
+	SpendThreshold *BillingAlertSpendThresholdParams `form:"spend_threshold"`
 	// The title of the alert.
 	Title *string `form:"title"`
 	// The configuration of the usage threshold.
@@ -327,6 +405,56 @@ type BillingAlertCreateUsageThresholdParams struct {
 	Recurrence *string `form:"recurrence"`
 }
 
+// Filters to scope the spend calculation.
+type BillingAlertCreateSpendThresholdFiltersParams struct {
+	// Filter by billable item IDs. Maximum of 20 billable items.
+	BillableItems []*string `form:"billable_items"`
+	// Filter by billing cadence ID.
+	BillingCadence *string `form:"billing_cadence"`
+	// Filter by pricing plan ID.
+	PricingPlan *string `form:"pricing_plan"`
+	// Filter by pricing plan subscription ID.
+	PricingPlanSubscription *string `form:"pricing_plan_subscription"`
+}
+
+// The monetary amount. Required when type is `amount`.
+type BillingAlertCreateSpendThresholdGTEAmountParams struct {
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
+	Currency *string `form:"currency"`
+	// An integer representing the amount of the threshold.
+	Value *int64 `form:"value"`
+}
+
+// The custom pricing unit amount. Required when type is `custom_pricing_unit`.
+type BillingAlertCreateSpendThresholdGTECustomPricingUnitParams struct {
+	// The ID of the custom pricing unit.
+	ID *string `form:"id"`
+	// A positive decimal string representing the amount of the custom pricing unit threshold.
+	Value *float64 `form:"value,high_precision"`
+}
+
+// Defines at which value the alert will fire.
+type BillingAlertCreateSpendThresholdGTEParams struct {
+	// The monetary amount. Required when type is `amount`.
+	Amount *BillingAlertCreateSpendThresholdGTEAmountParams `form:"amount"`
+	// The custom pricing unit amount. Required when type is `custom_pricing_unit`.
+	CustomPricingUnit *BillingAlertCreateSpendThresholdGTECustomPricingUnitParams `form:"custom_pricing_unit"`
+	// The type of the threshold amount.
+	Type *string `form:"type"`
+}
+
+// The configuration of the spend threshold.
+type BillingAlertCreateSpendThresholdParams struct {
+	// Defines the period over which spend is aggregated.
+	AggregationPeriod *string `form:"aggregation_period"`
+	// Filters to scope the spend calculation.
+	Filters *BillingAlertCreateSpendThresholdFiltersParams `form:"filters"`
+	// Defines the granularity of spend aggregation. Defaults to `pricing_plan_subscription`.
+	GroupBy *string `form:"group_by"`
+	// Defines at which value the alert will fire.
+	GTE *BillingAlertCreateSpendThresholdGTEParams `form:"gte"`
+}
+
 // Creates a billing alert
 type BillingAlertCreateParams struct {
 	Params `form:"*"`
@@ -336,6 +464,8 @@ type BillingAlertCreateParams struct {
 	CreditBalanceThreshold *BillingAlertCreateCreditBalanceThresholdParams `form:"credit_balance_threshold"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The configuration of the spend threshold.
+	SpendThreshold *BillingAlertCreateSpendThresholdParams `form:"spend_threshold"`
 	// The title of the alert.
 	Title *string `form:"title"`
 	// The configuration of the usage threshold.
@@ -434,6 +564,74 @@ type BillingAlertUsageThreshold struct {
 	Recurrence BillingAlertUsageThresholdRecurrence `json:"recurrence"`
 }
 
+// Filters to scope the spend calculation.
+type BillingAlertSpendThresholdFilters struct {
+	// Filter by billable item IDs.
+	BillableItems []string `json:"billable_items"`
+	// Filter by billing cadence ID.
+	BillingCadence string `json:"billing_cadence"`
+	// Filter by pricing plan ID.
+	PricingPlan string `json:"pricing_plan"`
+	// Filter by pricing plan subscription ID.
+	PricingPlanSubscription string `json:"pricing_plan_subscription"`
+}
+
+// The monetary amount. Present when type is `amount`.
+type BillingAlertSpendThresholdGTEAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount.
+	Value int64 `json:"value"`
+}
+
+// The custom pricing unit object.
+type BillingAlertSpendThresholdGTECustomPricingUnitCustomPricingUnitDetails struct {
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The name of the custom pricing unit.
+	DisplayName string `json:"display_name"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A lookup key for the custom pricing unit.
+	LookupKey string `json:"lookup_key"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// The status of the custom pricing unit.
+	Status string `json:"status"`
+}
+
+// The custom pricing unit amount. Present when type is `custom_pricing_unit`.
+type BillingAlertSpendThresholdGTECustomPricingUnit struct {
+	// The custom pricing unit object.
+	CustomPricingUnitDetails *BillingAlertSpendThresholdGTECustomPricingUnitCustomPricingUnitDetails `json:"custom_pricing_unit_details"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A positive decimal string representing the amount.
+	Value float64 `json:"value,string"`
+}
+
+// The threshold value configuration for a spend threshold alert.
+type BillingAlertSpendThresholdGTE struct {
+	// The monetary amount. Present when type is `amount`.
+	Amount *BillingAlertSpendThresholdGTEAmount `json:"amount"`
+	// The custom pricing unit amount. Present when type is `custom_pricing_unit`.
+	CustomPricingUnit *BillingAlertSpendThresholdGTECustomPricingUnit `json:"custom_pricing_unit"`
+	// The type of the threshold amount.
+	Type BillingAlertSpendThresholdGTEType `json:"type"`
+}
+
+// Encapsulates the alert's configuration to monitor spend on pricing plan subscriptions.
+type BillingAlertSpendThreshold struct {
+	// Defines the period over which spend is aggregated.
+	AggregationPeriod BillingAlertSpendThresholdAggregationPeriod `json:"aggregation_period"`
+	// Filters to scope the spend calculation.
+	Filters *BillingAlertSpendThresholdFilters `json:"filters"`
+	// Defines the granularity of spend aggregation.
+	GroupBy BillingAlertSpendThresholdGroupBy `json:"group_by"`
+	// The threshold value configuration for a spend threshold alert.
+	GTE *BillingAlertSpendThresholdGTE `json:"gte"`
+}
+
 // A billing alert is a resource that notifies you when a certain usage threshold on a meter is crossed. For example, you might create a billing alert to notify you when a certain user made 100 API requests.
 type BillingAlert struct {
 	APIResource
@@ -447,6 +645,8 @@ type BillingAlert struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// Encapsulates the alert's configuration to monitor spend on pricing plan subscriptions.
+	SpendThreshold *BillingAlertSpendThreshold `json:"spend_threshold"`
 	// Status of the alert. This can be active, inactive or archived.
 	Status BillingAlertStatus `json:"status"`
 	// Title of the alert.
