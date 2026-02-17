@@ -196,6 +196,14 @@ const (
 	PaymentMethodCardPresentWalletTypeUnknown    PaymentMethodCardPresentWalletType = "unknown"
 )
 
+// Indicates whether the payment method supports off-session payments.
+type PaymentMethodCustomUsage string
+
+// List of values that PaymentMethodCustomUsage can take
+const (
+	PaymentMethodCustomUsageOffSession PaymentMethodCustomUsage = "off_session"
+)
+
 // Account holder type, if provided. Can be one of `individual` or `company`.
 type PaymentMethodFPXAccountHolderType string
 
@@ -527,6 +535,8 @@ type PaymentMethodCustomParams struct {
 	PaymentMethodReference *string `form:"payment_method_reference"`
 	// ID of the Dashboard-only CustomPaymentMethodType. This field is used by Stripe products' internal code to support CPMs.
 	Type *string `form:"type"`
+	// Indicates whether the payment method supports off-session payments.
+	Usage *string `form:"usage"`
 }
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
@@ -1504,6 +1514,8 @@ type PaymentMethodUpdateUSBankAccountParams struct {
 type PaymentMethodUpdateCustomParams struct {
 	// A reference to an external payment method, such as a PayPal Billing Agreement ID.
 	PaymentMethodReference *string `form:"payment_method_reference"`
+	// Indicates whether the payment method supports off-session payments.
+	Usage *string `form:"usage"`
 }
 
 // Updates a PaymentMethod object. A PaymentMethod must be attached to a customer to be updated.
@@ -1891,6 +1903,8 @@ type PaymentMethodCustom struct {
 	PaymentMethodReference string `json:"payment_method_reference"`
 	// ID of the Dashboard-only CustomPaymentMethodType. Not expandable.
 	Type string `json:"type"`
+	// Indicates whether the payment method supports off-session payments.
+	Usage PaymentMethodCustomUsage `json:"usage"`
 }
 type PaymentMethodCustomerBalance struct{}
 type PaymentMethodEPS struct {
