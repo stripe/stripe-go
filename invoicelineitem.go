@@ -515,10 +515,32 @@ type InvoiceLineItemParentRateCardSubscriptionDetails struct {
 	RateCardVersion string `json:"rate_card_version"`
 }
 
+// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
+type InvoiceLineItemParentScheduleDetailsProrationDetailsCreditedItems struct {
+	// Invoice containing the credited invoice line items
+	Invoice string `json:"invoice"`
+	// Credited invoice line items
+	InvoiceLineItems []string `json:"invoice_line_items"`
+}
+
+// Additional details for proration line items.
+type InvoiceLineItemParentScheduleDetailsProrationDetails struct {
+	// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
+	CreditedItems *InvoiceLineItemParentScheduleDetailsProrationDetailsCreditedItems `json:"credited_items"`
+}
+
 // Details about the subscription schedule that generated this line item
 type InvoiceLineItemParentScheduleDetails struct {
-	// The subscription schedule that generated this line item
+	// The invoice item that generated this line item.
+	InvoiceItem string `json:"invoice_item"`
+	// Whether this is a proration.
+	Proration bool `json:"proration"`
+	// Additional details for proration line items.
+	ProrationDetails *InvoiceLineItemParentScheduleDetailsProrationDetails `json:"proration_details"`
+	// The subscription schedule that generated this line item.
 	Schedule string `json:"schedule"`
+	// The subscription that the schedule belongs to.
+	Subscription string `json:"subscription"`
 }
 
 // For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
