@@ -14,6 +14,8 @@ type Client struct {
 	V1Accounts *v1AccountService
 	// V1AccountSessions is the service used to invoke /v1/account_sessions APIs.
 	V1AccountSessions *v1AccountSessionService
+	// V1AccountSignals is the service used to invoke /v1/accounts/{account_id}/signals APIs.
+	V1AccountSignals *v1AccountSignalsService
 	// V1ApplePayDomains is the service used to invoke /v1/apple_pay/domains APIs.
 	V1ApplePayDomains *v1ApplePayDomainService
 	// V1ApplicationFees is the service used to invoke /v1/application_fees APIs.
@@ -534,6 +536,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1AccountNotices = &v1AccountNoticeService{B: backends.API, Key: key}
 	client.V1Accounts = &v1AccountService{B: backends.API, Key: key}
 	client.V1AccountSessions = &v1AccountSessionService{B: backends.API, Key: key}
+	client.V1AccountSignals = &v1AccountSignalsService{B: backends.API, Key: key}
 	client.V1ApplePayDomains = &v1ApplePayDomainService{B: backends.API, Key: key}
 	client.V1ApplicationFees = &v1ApplicationFeeService{B: backends.API, Key: key}
 	client.V1AppsSecrets = &v1AppsSecretService{B: backends.API, Key: key}
