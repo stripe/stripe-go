@@ -1,5 +1,17 @@
 # Changelog
 
+## 84.4.0-alpha.4 - 2026-02-19
+* [#2268](https://github.com/stripe/stripe-go/pull/2268) Update generated code for private-preview
+  * Add support for `SpendThreshold` on `BillingAlertParams` and `BillingAlert`
+  * ⚠️ Add support for new value `spend_threshold` on enum `BillingAlert.AlertType`
+  * Add support for `InvoiceItem`, `ProrationDetails`, `Proration`, and `Subscription` on `InvoiceLineItemParentScheduleDetails`
+  * Add support for `Custom` on `PaymentMethodParams`
+  * Add support for `PaymentMethodReference` and `Usage` on `PaymentMethodCustom`
+  * ⚠️ Change type of `QuoteSubscriptionDataOverridesParams.BillingSchedules` from `emptyable(array(billing_schedules_update_specs))` to `array(billing_schedules_update_specs)`
+  * Add support for `OutstandingUsageThrough` and `UnusedTimeFrom` on `SubscriptionPauseBillForParams`
+  * ⚠️ Remove support for `OutstandingUsage` and `UnusedTime` on `SubscriptionPauseBillForParams`
+  * ⚠️ Remove support for `PaymentBehavior` on `SubscriptionResumeParams`
+
 ## 84.4.0-alpha.3 - 2026-02-11
 * [#2264](https://github.com/stripe/stripe-go/pull/2264) Update generated code for private-preview
   * Add support for new resources `V2BillingCadenceSpendModifier`, `V2BillingOneTimeItem`, and `V2BillingRateCardCustomPricingUnitOverageRate`
