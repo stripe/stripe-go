@@ -80,6 +80,14 @@ type ApplicationFeeFeeSource struct {
 	// Type of object that created the application fee.
 	Type ApplicationFeeFeeSourceType `json:"type"`
 }
+
+// Polymorphic funding source of the application fee. Includes the type and details of the funding source.
+type ApplicationFeeFundingSource struct {
+	// The invoice ID associated with this funding source, if applicable.
+	Invoice string `json:"invoice"`
+	// The type of funding source.
+	Type string `json:"type"`
+}
 type ApplicationFee struct {
 	APIResource
 	// ID of the Stripe account this fee was taken from.
@@ -100,6 +108,8 @@ type ApplicationFee struct {
 	Currency Currency `json:"currency"`
 	// Polymorphic source of the application fee. Includes the ID of the object the application fee was created from.
 	FeeSource *ApplicationFeeFeeSource `json:"fee_source"`
+	// Polymorphic funding source of the application fee. Includes the type and details of the funding source.
+	FundingSource *ApplicationFeeFundingSource `json:"funding_source"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
