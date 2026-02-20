@@ -136,7 +136,7 @@ type TaxCalculationLineItem struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// A tax location for a line item that acts as a performance location. This indicates that the line item might be taxed at the place where it is being performed at. This is helpful for events or other services being performed at non-customer addresses like venues or offices. This can be left empty for tax codes that do not require a tax location. For tax codes where the location requirement is "optional", this would override the customer address in most use cases.
+	// Indicates the line item represents a performance where the venue location might determine the tax, not the customer address. Leave empty if the tax code doesn't require a tax location. If you provide this value for tax codes with an `optional` location requirement, it overrides the customer address.
 	PerformanceLocation string `json:"performance_location"`
 	// The ID of an existing [Product](https://docs.stripe.com/api/products/object).
 	Product string `json:"product"`
