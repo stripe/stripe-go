@@ -98,9 +98,11 @@ const (
 	TerminalReaderDeviceTypeBBPOSWisePOSE       TerminalReaderDeviceType = "bbpos_wisepos_e"
 	TerminalReaderDeviceTypeMobilePhoneReader   TerminalReaderDeviceType = "mobile_phone_reader"
 	TerminalReaderDeviceTypeSimulatedStripeS700 TerminalReaderDeviceType = "simulated_stripe_s700"
+	TerminalReaderDeviceTypeSimulatedStripeS710 TerminalReaderDeviceType = "simulated_stripe_s710"
 	TerminalReaderDeviceTypeSimulatedWisePOSE   TerminalReaderDeviceType = "simulated_wisepos_e"
 	TerminalReaderDeviceTypeStripeM2            TerminalReaderDeviceType = "stripe_m2"
 	TerminalReaderDeviceTypeStripeS700          TerminalReaderDeviceType = "stripe_s700"
+	TerminalReaderDeviceTypeStripeS710          TerminalReaderDeviceType = "stripe_s710"
 	TerminalReaderDeviceTypeVerifoneP400        TerminalReaderDeviceType = "verifone_P400"
 )
 
