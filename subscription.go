@@ -1072,6 +1072,8 @@ type SubscriptionTransferDataParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method"`
 }
@@ -1871,6 +1873,8 @@ type SubscriptionUpdateTransferDataParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionUpdateTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method"`
 }
@@ -2613,6 +2617,8 @@ type SubscriptionCreateTransferDataParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionCreateTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method"`
 }
