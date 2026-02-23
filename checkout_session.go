@@ -150,7 +150,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
@@ -221,6 +221,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeLaTin    CheckoutSessionCustomerDetailsTaxIDType = "la_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeLIUID    CheckoutSessionCustomerDetailsTaxIDType = "li_uid"
 	CheckoutSessionCustomerDetailsTaxIDTypeLiVAT    CheckoutSessionCustomerDetailsTaxIDType = "li_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeLkVAT    CheckoutSessionCustomerDetailsTaxIDType = "lk_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMaVAT    CheckoutSessionCustomerDetailsTaxIDType = "ma_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMdVAT    CheckoutSessionCustomerDetailsTaxIDType = "md_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMePib    CheckoutSessionCustomerDetailsTaxIDType = "me_pib"
@@ -1499,7 +1500,7 @@ type CheckoutSessionCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type CheckoutSessionCustomFieldDropdownParams struct {
-	// The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCustomFieldDropdownOptionParams `form:"options"`
@@ -1515,7 +1516,7 @@ type CheckoutSessionCustomFieldLabelParams struct {
 
 // Configuration for `type=numeric` fields.
 type CheckoutSessionCustomFieldNumericParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -1525,7 +1526,7 @@ type CheckoutSessionCustomFieldNumericParams struct {
 
 // Configuration for `type=text` fields.
 type CheckoutSessionCustomFieldTextParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -1553,25 +1554,25 @@ type CheckoutSessionCustomFieldParams struct {
 
 // Custom text that should be displayed after the payment confirmation button.
 type CheckoutSessionCustomTextAfterSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCustomTextShippingAddressParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type CheckoutSessionCustomTextSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type CheckoutSessionCustomTextTermsOfServiceAcceptanceParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -2122,7 +2123,7 @@ type CheckoutSessionPaymentMethodOptionsCashAppParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -3280,7 +3281,7 @@ type CheckoutSessionCreateCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type CheckoutSessionCreateCustomFieldDropdownParams struct {
-	// The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCreateCustomFieldDropdownOptionParams `form:"options"`
@@ -3296,7 +3297,7 @@ type CheckoutSessionCreateCustomFieldLabelParams struct {
 
 // Configuration for `type=numeric` fields.
 type CheckoutSessionCreateCustomFieldNumericParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -3306,7 +3307,7 @@ type CheckoutSessionCreateCustomFieldNumericParams struct {
 
 // Configuration for `type=text` fields.
 type CheckoutSessionCreateCustomFieldTextParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -3334,25 +3335,25 @@ type CheckoutSessionCreateCustomFieldParams struct {
 
 // Custom text that should be displayed after the payment confirmation button.
 type CheckoutSessionCreateCustomTextAfterSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCreateCustomTextShippingAddressParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type CheckoutSessionCreateCustomTextSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type CheckoutSessionCreateCustomTextTermsOfServiceAcceptanceParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -3901,7 +3902,7 @@ type CheckoutSessionCreatePaymentMethodOptionsCashAppParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type CheckoutSessionCreatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -5300,7 +5301,7 @@ type CheckoutSessionCustomFieldDropdownOption struct {
 	Value string `json:"value"`
 }
 type CheckoutSessionCustomFieldDropdown struct {
-	// The value that will pre-fill on the payment page.
+	// The value that pre-fills on the payment page.
 	DefaultValue string `json:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCustomFieldDropdownOption `json:"options"`
@@ -5314,7 +5315,7 @@ type CheckoutSessionCustomFieldLabel struct {
 	Type CheckoutSessionCustomFieldLabelType `json:"type"`
 }
 type CheckoutSessionCustomFieldNumeric struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
@@ -5324,7 +5325,7 @@ type CheckoutSessionCustomFieldNumeric struct {
 	Value string `json:"value"`
 }
 type CheckoutSessionCustomFieldText struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
@@ -5350,25 +5351,25 @@ type CheckoutSessionCustomField struct {
 
 // Custom text that should be displayed after the payment confirmation button.
 type CheckoutSessionCustomTextAfterSubmit struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
 type CheckoutSessionCustomTextShippingAddress struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type CheckoutSessionCustomTextSubmit struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type CheckoutSessionCustomTextTermsOfServiceAcceptance struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 type CheckoutSessionCustomText struct {
@@ -5384,7 +5385,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -5686,7 +5687,7 @@ type CheckoutSessionPaymentMethodOptionsCashApp struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsCashAppSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransfer struct {

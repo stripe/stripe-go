@@ -199,6 +199,8 @@ const (
 	ErrorCodeShippingCalculationFailed                                   ErrorCode = "shipping_calculation_failed"
 	ErrorCodeStateUnsupported                                            ErrorCode = "state_unsupported"
 	ErrorCodeStatusTransitionInvalid                                     ErrorCode = "status_transition_invalid"
+	ErrorCodeStorerCapabilityMissing                                     ErrorCode = "storer_capability_missing"
+	ErrorCodeStorerCapabilityNotActive                                   ErrorCode = "storer_capability_not_active"
 	ErrorCodeStripeTaxInactive                                           ErrorCode = "stripe_tax_inactive"
 	ErrorCodeTLSVersionUnsupported                                       ErrorCode = "tls_version_unsupported"
 	ErrorCodeTaxIDInvalid                                                ErrorCode = "tax_id_invalid"

@@ -23,6 +23,8 @@ type TerminalConfigurationParams struct {
 	BBPOSWisePad3 *TerminalConfigurationBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers.
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Configuration for cellular connectivity.
+	Cellular *TerminalConfigurationCellularParams `form:"cellular"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Name of the configuration
@@ -56,6 +58,12 @@ type TerminalConfigurationBBPOSWisePad3Params struct {
 type TerminalConfigurationBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *string `form:"splashscreen"`
+}
+
+// Configuration for cellular connectivity.
+type TerminalConfigurationCellularParams struct {
+	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	Enabled *bool `form:"enabled"`
 }
 
 // Configurations for collecting transactions offline.
@@ -288,7 +296,7 @@ type TerminalConfigurationTippingUSDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
-// Tipping configurations for readers. supporting on-reader tips
+// Tipping configurations for readers that support on-reader tips.
 type TerminalConfigurationTippingParams struct {
 	// Tipping configuration for AED
 	Aed *TerminalConfigurationTippingAedParams `form:"aed"`
@@ -427,6 +435,12 @@ type TerminalConfigurationUpdateBBPOSWisePad3Params struct {
 type TerminalConfigurationUpdateBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *string `form:"splashscreen"`
+}
+
+// Configuration for cellular connectivity.
+type TerminalConfigurationUpdateCellularParams struct {
+	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	Enabled *bool `form:"enabled"`
 }
 
 // Configurations for collecting transactions offline.
@@ -659,7 +673,7 @@ type TerminalConfigurationUpdateTippingUSDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
-// Tipping configurations for readers. supporting on-reader tips
+// Tipping configurations for readers that support on-reader tips.
 type TerminalConfigurationUpdateTippingParams struct {
 	// Tipping configuration for AED
 	Aed *TerminalConfigurationUpdateTippingAedParams `form:"aed"`
@@ -764,6 +778,8 @@ type TerminalConfigurationUpdateParams struct {
 	BBPOSWisePad3 *TerminalConfigurationUpdateBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers.
 	BBPOSWisePOSE *TerminalConfigurationUpdateBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Configuration for cellular connectivity.
+	Cellular *TerminalConfigurationUpdateCellularParams `form:"cellular"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Name of the configuration
@@ -774,7 +790,7 @@ type TerminalConfigurationUpdateParams struct {
 	RebootWindow *TerminalConfigurationUpdateRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationUpdateStripeS700Params `form:"stripe_s700"`
-	// Tipping configurations for readers. supporting on-reader tips
+	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationUpdateTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationUpdateVerifoneP400Params `form:"verifone_p400"`
@@ -797,6 +813,12 @@ type TerminalConfigurationCreateBBPOSWisePad3Params struct {
 type TerminalConfigurationCreateBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *string `form:"splashscreen"`
+}
+
+// Configuration for cellular connectivity.
+type TerminalConfigurationCreateCellularParams struct {
+	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	Enabled *bool `form:"enabled"`
 }
 
 // Configurations for collecting transactions offline.
@@ -1134,6 +1156,8 @@ type TerminalConfigurationCreateParams struct {
 	BBPOSWisePad3 *TerminalConfigurationCreateBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers.
 	BBPOSWisePOSE *TerminalConfigurationCreateBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Configuration for cellular connectivity.
+	Cellular *TerminalConfigurationCreateCellularParams `form:"cellular"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Name of the configuration
@@ -1164,6 +1188,10 @@ type TerminalConfigurationBBPOSWisePad3 struct {
 type TerminalConfigurationBBPOSWisePOSE struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
+}
+type TerminalConfigurationCellular struct {
+	// Whether a cellular-capable reader can connect to the internet over cellular.
+	Enabled bool `json:"enabled"`
 }
 type TerminalConfigurationOffline struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
@@ -1416,6 +1444,7 @@ type TerminalConfiguration struct {
 	APIResource
 	BBPOSWisePad3 *TerminalConfigurationBBPOSWisePad3 `json:"bbpos_wisepad3"`
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSE `json:"bbpos_wisepos_e"`
+	Cellular      *TerminalConfigurationCellular      `json:"cellular"`
 	Deleted       bool                                `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
