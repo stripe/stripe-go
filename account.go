@@ -282,6 +282,25 @@ const (
 	AccountSettingsPaypayPaymentsSiteTypeRestricted    AccountSettingsPaypayPaymentsSiteType = "restricted"
 )
 
+// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
+type AccountSettingsSmartDisputesAutoRespondPreference string
+
+// List of values that AccountSettingsSmartDisputesAutoRespondPreference can take
+const (
+	AccountSettingsSmartDisputesAutoRespondPreferenceInherit AccountSettingsSmartDisputesAutoRespondPreference = "inherit"
+	AccountSettingsSmartDisputesAutoRespondPreferenceOff     AccountSettingsSmartDisputesAutoRespondPreference = "off"
+	AccountSettingsSmartDisputesAutoRespondPreferenceOn      AccountSettingsSmartDisputesAutoRespondPreference = "on"
+)
+
+// The effective value for auto-respond. Can be 'on' or 'off'.
+type AccountSettingsSmartDisputesAutoRespondValue string
+
+// List of values that AccountSettingsSmartDisputesAutoRespondValue can take
+const (
+	AccountSettingsSmartDisputesAutoRespondValueOff AccountSettingsSmartDisputesAutoRespondValue = "off"
+	AccountSettingsSmartDisputesAutoRespondValueOn  AccountSettingsSmartDisputesAutoRespondValue = "on"
+)
+
 // The user's service agreement type
 type AccountTOSAcceptanceServiceAgreement string
 
@@ -1401,6 +1420,8 @@ type AccountSettingsInvoicesParams struct {
 
 // Settings that apply across payment methods for charging on the account.
 type AccountSettingsPaymentsParams struct {
+	// When you enable this parameter, the customer of this Account receives an email receipt when their payment succeeds. If this parameter isn't set, the default value is `false`.
+	EmailCustomersOnSuccessfulPayment *bool `form:"email_customers_on_successful_payment"`
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a `statement_descriptor_prefix`, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the `statement_descriptor` text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the [account settings documentation](https://docs.stripe.com/get-started/account/statement-descriptors).
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The Kana variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -1482,6 +1503,18 @@ type AccountSettingsPaypayPaymentsParams struct {
 	Site *AccountSettingsPaypayPaymentsSiteParams `form:"site"`
 }
 
+// Smart Disputes auto-respond settings for the account.
+type AccountSettingsSmartDisputesAutoRespondParams struct {
+	// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
+	Preference *string `form:"preference"`
+}
+
+// Settings specific to the account's use of Smart Disputes.
+type AccountSettingsSmartDisputesParams struct {
+	// Smart Disputes auto-respond settings for the account.
+	AutoRespond *AccountSettingsSmartDisputesAutoRespondParams `form:"auto_respond"`
+}
+
 // Settings specific to the account's tax forms.
 type AccountSettingsTaxFormsParams struct {
 	// Whether the account opted out of receiving their tax forms by postal delivery.
@@ -1526,6 +1559,8 @@ type AccountSettingsParams struct {
 	Payouts *AccountSettingsPayoutsParams `form:"payouts"`
 	// Settings specific to the PayPay payments method.
 	PaypayPayments *AccountSettingsPaypayPaymentsParams `form:"paypay_payments"`
+	// Settings specific to the account's use of Smart Disputes.
+	SmartDisputes *AccountSettingsSmartDisputesParams `form:"smart_disputes"`
 	// Settings specific to the account's tax forms.
 	TaxForms *AccountSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
@@ -2680,6 +2715,8 @@ type AccountUpdateSettingsInvoicesParams struct {
 
 // Settings that apply across payment methods for charging on the account.
 type AccountUpdateSettingsPaymentsParams struct {
+	// When you enable this parameter, the customer of this Account receives an email receipt when their payment succeeds. If this parameter isn't set, the default value is `false`.
+	EmailCustomersOnSuccessfulPayment *bool `form:"email_customers_on_successful_payment"`
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a `statement_descriptor_prefix`, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the `statement_descriptor` text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the [account settings documentation](https://docs.stripe.com/get-started/account/statement-descriptors).
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The Kana variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -2761,6 +2798,18 @@ type AccountUpdateSettingsPaypayPaymentsParams struct {
 	Site *AccountUpdateSettingsPaypayPaymentsSiteParams `form:"site"`
 }
 
+// Smart Disputes auto-respond settings for the account.
+type AccountUpdateSettingsSmartDisputesAutoRespondParams struct {
+	// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
+	Preference *string `form:"preference"`
+}
+
+// Settings specific to the account's use of Smart Disputes.
+type AccountUpdateSettingsSmartDisputesParams struct {
+	// Smart Disputes auto-respond settings for the account.
+	AutoRespond *AccountUpdateSettingsSmartDisputesAutoRespondParams `form:"auto_respond"`
+}
+
 // Settings specific to the account's tax forms.
 type AccountUpdateSettingsTaxFormsParams struct {
 	// Whether the account opted out of receiving their tax forms by postal delivery.
@@ -2805,6 +2854,8 @@ type AccountUpdateSettingsParams struct {
 	Payouts *AccountUpdateSettingsPayoutsParams `form:"payouts"`
 	// Settings specific to the PayPay payments method.
 	PaypayPayments *AccountUpdateSettingsPaypayPaymentsParams `form:"paypay_payments"`
+	// Settings specific to the account's use of Smart Disputes.
+	SmartDisputes *AccountUpdateSettingsSmartDisputesParams `form:"smart_disputes"`
 	// Settings specific to the account's tax forms.
 	TaxForms *AccountUpdateSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
@@ -3978,6 +4029,8 @@ type AccountCreateSettingsInvoicesParams struct {
 
 // Settings that apply across payment methods for charging on the account.
 type AccountCreateSettingsPaymentsParams struct {
+	// When you enable this parameter, the customer of this Account receives an email receipt when their payment succeeds. If this parameter isn't set, the default value is `false`.
+	EmailCustomersOnSuccessfulPayment *bool `form:"email_customers_on_successful_payment"`
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a `statement_descriptor_prefix`, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the `statement_descriptor` text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the [account settings documentation](https://docs.stripe.com/get-started/account/statement-descriptors).
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The Kana variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -4059,6 +4112,18 @@ type AccountCreateSettingsPaypayPaymentsParams struct {
 	Site *AccountCreateSettingsPaypayPaymentsSiteParams `form:"site"`
 }
 
+// Smart Disputes auto-respond settings for the account.
+type AccountCreateSettingsSmartDisputesAutoRespondParams struct {
+	// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
+	Preference *string `form:"preference"`
+}
+
+// Settings specific to the account's use of Smart Disputes.
+type AccountCreateSettingsSmartDisputesParams struct {
+	// Smart Disputes auto-respond settings for the account.
+	AutoRespond *AccountCreateSettingsSmartDisputesAutoRespondParams `form:"auto_respond"`
+}
+
 // Settings specific to the account's tax forms.
 type AccountCreateSettingsTaxFormsParams struct {
 	// Whether the account opted out of receiving their tax forms by postal delivery.
@@ -4103,6 +4168,8 @@ type AccountCreateSettingsParams struct {
 	Payouts *AccountCreateSettingsPayoutsParams `form:"payouts"`
 	// Settings specific to the PayPay payments method.
 	PaypayPayments *AccountCreateSettingsPaypayPaymentsParams `form:"paypay_payments"`
+	// Settings specific to the account's use of Smart Disputes.
+	SmartDisputes *AccountCreateSettingsSmartDisputesParams `form:"smart_disputes"`
 	// Settings specific to the account's tax forms.
 	TaxForms *AccountCreateSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
@@ -4709,6 +4776,8 @@ type AccountSettingsInvoices struct {
 	HostedPaymentMethodSave AccountSettingsInvoicesHostedPaymentMethodSave `json:"hosted_payment_method_save"`
 }
 type AccountSettingsPayments struct {
+	// When enabled, the customer of this Account will receive an email receipt when their payment is successful. If this parameter is not set, the default value is `false`.
+	EmailCustomersOnSuccessfulPayment bool `json:"email_customers_on_successful_payment"`
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge.
 	StatementDescriptor string `json:"statement_descriptor"`
 	// The Kana variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
@@ -4770,6 +4839,15 @@ type AccountSettingsSEPADebitPayments struct {
 	// SEPA creditor identifier that identifies the company making the payment.
 	CreditorID string `json:"creditor_id"`
 }
+type AccountSettingsSmartDisputesAutoRespond struct {
+	// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
+	Preference AccountSettingsSmartDisputesAutoRespondPreference `json:"preference"`
+	// The effective value for auto-respond. Can be 'on' or 'off'.
+	Value AccountSettingsSmartDisputesAutoRespondValue `json:"value"`
+}
+type AccountSettingsSmartDisputes struct {
+	AutoRespond *AccountSettingsSmartDisputesAutoRespond `json:"auto_respond"`
+}
 type AccountSettingsTaxForms struct {
 	// Whether the account opted out of receiving their tax forms by postal delivery.
 	ConsentedToPaperlessDelivery bool `json:"consented_to_paperless_delivery"`
@@ -4799,6 +4877,7 @@ type AccountSettings struct {
 	Payouts           *AccountSettingsPayouts           `json:"payouts"`
 	PaypayPayments    *AccountSettingsPaypayPayments    `json:"paypay_payments"`
 	SEPADebitPayments *AccountSettingsSEPADebitPayments `json:"sepa_debit_payments"`
+	SmartDisputes     *AccountSettingsSmartDisputes     `json:"smart_disputes"`
 	TaxForms          *AccountSettingsTaxForms          `json:"tax_forms"`
 	Treasury          *AccountSettingsTreasury          `json:"treasury"`
 }

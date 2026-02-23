@@ -67,7 +67,7 @@ type BillingAlertUsageThresholdFilterParams struct {
 type BillingAlertUsageThresholdParams struct {
 	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
 	Filters []*BillingAlertUsageThresholdFilterParams `form:"filters"`
-	// Defines at which value the alert will fire.
+	// Defines the threshold value that triggers the alert.
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *string `form:"meter"`
@@ -141,7 +141,7 @@ type BillingAlertCreateUsageThresholdFilterParams struct {
 type BillingAlertCreateUsageThresholdParams struct {
 	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
 	Filters []*BillingAlertCreateUsageThresholdFilterParams `form:"filters"`
-	// Defines at which value the alert will fire.
+	// Defines the threshold value that triggers the alert.
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *string `form:"meter"`
