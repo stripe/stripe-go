@@ -37,9 +37,9 @@ type V2MoneyManagementOutboundPaymentListParams struct {
 // The "presentment amount" to be sent to the recipient.
 type V2MoneyManagementOutboundPaymentAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Delivery options to be used to send the OutboundPayment.
@@ -94,6 +94,8 @@ type V2MoneyManagementOutboundPaymentParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
+	// The purpose of the OutboundPayment.
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
 	// To which payout method to send the OutboundPayment.
@@ -117,9 +119,9 @@ type V2MoneyManagementOutboundPaymentCancelParams struct {
 // The "presentment amount" to be sent to the recipient.
 type V2MoneyManagementOutboundPaymentCreateAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Delivery options to be used to send the OutboundPayment.
@@ -174,6 +176,8 @@ type V2MoneyManagementOutboundPaymentCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
+	// The purpose of the OutboundPayment.
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
 	// To which payout method to send the OutboundPayment.

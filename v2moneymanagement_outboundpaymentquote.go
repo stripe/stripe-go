@@ -52,9 +52,9 @@ const (
 // The "presentment amount" for the OutboundPaymentQuote.
 type V2MoneyManagementOutboundPaymentQuoteAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Delivery options to be used to send the OutboundPayment.
@@ -66,9 +66,9 @@ type V2MoneyManagementOutboundPaymentQuoteDeliveryOptions struct {
 // The fee amount for corresponding fee type.
 type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The estimated fees for the OutboundPaymentQuote.
@@ -82,9 +82,9 @@ type V2MoneyManagementOutboundPaymentQuoteEstimatedFee struct {
 // The monetary amount debited from the sender, only set on responses.
 type V2MoneyManagementOutboundPaymentQuoteFromDebited struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Details about the sender of an OutboundPaymentQuote.
@@ -118,9 +118,9 @@ type V2MoneyManagementOutboundPaymentQuoteFxQuote struct {
 // The monetary amount being credited to the destination.
 type V2MoneyManagementOutboundPaymentQuoteToCredited struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Details about the recipient of an OutboundPaymentQuote.

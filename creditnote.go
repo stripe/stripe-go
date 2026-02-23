@@ -140,7 +140,7 @@ func (p *CreditNoteListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNoteLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount"`
@@ -160,11 +160,11 @@ type CreditNoteLineParams struct {
 	InvoiceLineItem *string `form:"invoice_line_item"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
-	// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 	TaxAmounts []*CreditNoteLineTaxAmountParams `form:"tax_amounts"`
-	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
 	TaxRates []*string `form:"tax_rates"`
-	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
+	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`.
 	Type *string `form:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
@@ -255,7 +255,7 @@ func (p *CreditNoteParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNotePreviewLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount"`
@@ -275,11 +275,11 @@ type CreditNotePreviewLineParams struct {
 	InvoiceLineItem *string `form:"invoice_line_item"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
-	// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 	TaxAmounts []*CreditNotePreviewLineTaxAmountParams `form:"tax_amounts"`
-	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
 	TaxRates []*string `form:"tax_rates"`
-	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
+	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`.
 	Type *string `form:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
@@ -360,7 +360,7 @@ func (p *CreditNotePreviewParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNotePreviewLinesLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount"`
@@ -380,11 +380,11 @@ type CreditNotePreviewLinesLineParams struct {
 	InvoiceLineItem *string `form:"invoice_line_item"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
-	// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 	TaxAmounts []*CreditNotePreviewLinesLineTaxAmountParams `form:"tax_amounts"`
-	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
 	TaxRates []*string `form:"tax_rates"`
-	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
+	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`.
 	Type *string `form:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
@@ -490,7 +490,7 @@ func (p *CreditNoteListLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNoteCreateLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount"`
@@ -510,11 +510,11 @@ type CreditNoteCreateLineParams struct {
 	InvoiceLineItem *string `form:"invoice_line_item"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
-	// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 	TaxAmounts []*CreditNoteCreateLineTaxAmountParams `form:"tax_amounts"`
-	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
 	TaxRates []*string `form:"tax_rates"`
-	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
+	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`.
 	Type *string `form:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`

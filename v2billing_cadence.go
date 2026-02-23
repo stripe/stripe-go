@@ -519,6 +519,8 @@ type V2BillingCadenceSettingsData struct {
 	// Expanded collection settings data with actual configuration values.
 	Collection *V2BillingCadenceSettingsDataCollection `json:"collection"`
 }
+
+// A Cadence represents a billing schedule applied to a customer, defining when and how often to generate invoices, such as on monthly or annual billing cycle.
 type V2BillingCadence struct {
 	APIResource
 	// The billing cycle is the object that defines future billing cycle dates.

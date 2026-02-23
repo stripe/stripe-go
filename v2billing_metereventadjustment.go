@@ -30,6 +30,8 @@ type V2BillingMeterEventAdjustmentCancel struct {
 	// Unique identifier for the event. You can only cancel events within 24 hours of Stripe receiving them.
 	Identifier string `json:"identifier"`
 }
+
+// A Meter Event Adjustment is used to cancel or modify previously recorded meter events. Meter Event Adjustments allow you to correct billing data by canceling individual events or event ranges, with tracking of adjustment status and creation time.
 type V2BillingMeterEventAdjustment struct {
 	APIResource
 	// Specifies which event to cancel.

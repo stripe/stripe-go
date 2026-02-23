@@ -139,7 +139,7 @@ type FinancialConnectionsSessionLimitsParams struct {
 
 // Customize manual entry behavior
 type FinancialConnectionsSessionManualEntryParams struct {
-	// Whether manual entry will be handled by Stripe during the Session.
+	// How manual entry should be handled.
 	Mode *string `form:"mode"`
 }
 
@@ -193,7 +193,7 @@ type FinancialConnectionsSessionCreateLimitsParams struct {
 
 // Customize manual entry behavior
 type FinancialConnectionsSessionCreateManualEntryParams struct {
-	// Whether manual entry will be handled by Stripe during the Session.
+	// How manual entry should be handled.
 	Mode *string `form:"mode"`
 }
 

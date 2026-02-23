@@ -8,6 +8,7 @@ package stripe
 
 import "time"
 
+// A Meter Event Session is an authentication session for the high-throughput meter event API. Meter Event Sessions provide temporary authentication tokens with expiration times, enabling secure and efficient bulk submission of usage events.
 type V2BillingMeterEventSession struct {
 	APIResource
 	// The authentication token for this session.  Use this token when calling the

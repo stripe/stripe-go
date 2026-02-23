@@ -56,17 +56,17 @@ const (
 // The amount in specified currency that will land in the FinancialAccount balance.
 type V2MoneyManagementInboundTransferAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The amount in specified currency that was debited from the Payment Method.
 type V2MoneyManagementInboundTransferFromDebited struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The Payment Method object used to create the InboundTransfer.
@@ -88,9 +88,9 @@ type V2MoneyManagementInboundTransferFrom struct {
 // The amount by which the FinancialAccount balance is credited.
 type V2MoneyManagementInboundTransferToCredited struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // A nested object containing information about the destination of the InboundTransfer.
