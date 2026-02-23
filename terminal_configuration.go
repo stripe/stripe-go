@@ -35,6 +35,8 @@ type TerminalConfigurationParams struct {
 	RebootWindow *TerminalConfigurationRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationStripeS700Params `form:"stripe_s700"`
+	// An object containing device type specific settings for Stripe S710 readers.
+	StripeS710 *TerminalConfigurationStripeS710Params `form:"stripe_s710"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
@@ -82,6 +84,12 @@ type TerminalConfigurationRebootWindowParams struct {
 
 // An object containing device type specific settings for Stripe S700 readers.
 type TerminalConfigurationStripeS700Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string `form:"splashscreen"`
+}
+
+// An object containing device type specific settings for Stripe S710 readers.
+type TerminalConfigurationStripeS710Params struct {
 	// A File ID representing an image you want to display on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
@@ -463,6 +471,12 @@ type TerminalConfigurationUpdateStripeS700Params struct {
 	Splashscreen *string `form:"splashscreen"`
 }
 
+// An object containing device type specific settings for Stripe S710 readers.
+type TerminalConfigurationUpdateStripeS710Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string `form:"splashscreen"`
+}
+
 // Tipping configuration for AED
 type TerminalConfigurationUpdateTippingAedParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -790,6 +804,8 @@ type TerminalConfigurationUpdateParams struct {
 	RebootWindow *TerminalConfigurationUpdateRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationUpdateStripeS700Params `form:"stripe_s700"`
+	// An object containing device type specific settings for Stripe S710 readers.
+	StripeS710 *TerminalConfigurationUpdateStripeS710Params `form:"stripe_s710"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationUpdateTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
@@ -837,6 +853,12 @@ type TerminalConfigurationCreateRebootWindowParams struct {
 
 // An object containing device type specific settings for Stripe S700 readers.
 type TerminalConfigurationCreateStripeS700Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string `form:"splashscreen"`
+}
+
+// An object containing device type specific settings for Stripe S710 readers.
+type TerminalConfigurationCreateStripeS710Params struct {
 	// A File ID representing an image you want to display on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
@@ -1168,6 +1190,8 @@ type TerminalConfigurationCreateParams struct {
 	RebootWindow *TerminalConfigurationCreateRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationCreateStripeS700Params `form:"stripe_s700"`
+	// An object containing device type specific settings for Stripe S710 readers.
+	StripeS710 *TerminalConfigurationCreateStripeS710Params `form:"stripe_s710"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationCreateTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
@@ -1204,6 +1228,10 @@ type TerminalConfigurationRebootWindow struct {
 	StartHour int64 `json:"start_hour"`
 }
 type TerminalConfigurationStripeS700 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen"`
+}
+type TerminalConfigurationStripeS710 struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
 }
@@ -1459,6 +1487,7 @@ type TerminalConfiguration struct {
 	Offline      *TerminalConfigurationOffline      `json:"offline"`
 	RebootWindow *TerminalConfigurationRebootWindow `json:"reboot_window"`
 	StripeS700   *TerminalConfigurationStripeS700   `json:"stripe_s700"`
+	StripeS710   *TerminalConfigurationStripeS710   `json:"stripe_s710"`
 	Tipping      *TerminalConfigurationTipping      `json:"tipping"`
 	VerifoneP400 *TerminalConfigurationVerifoneP400 `json:"verifone_p400"`
 	Wifi         *TerminalConfigurationWifi         `json:"wifi"`

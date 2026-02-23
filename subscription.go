@@ -2202,7 +2202,7 @@ type SubscriptionTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
-// Defines how a subscription behaves when a free trial ends.
+// Defines how a subscription behaves when a trial ends.
 type SubscriptionTrialSettingsEndBehavior struct {
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
@@ -2210,7 +2210,7 @@ type SubscriptionTrialSettingsEndBehavior struct {
 
 // Settings related to subscription trials.
 type SubscriptionTrialSettings struct {
-	// Defines how a subscription behaves when a free trial ends.
+	// Defines how a subscription behaves when a trial ends.
 	EndBehavior *SubscriptionTrialSettingsEndBehavior `json:"end_behavior"`
 }
 
