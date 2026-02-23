@@ -79,6 +79,24 @@ const (
 	FinancialConnectionsSessionStatusDetailsCancelledReasonOther             FinancialConnectionsSessionStatusDetailsCancelledReason = "other"
 )
 
+// How the user enters the hosted flow. You can only use the values `email` and `url` if you provide `relink_options`.
+type FinancialConnectionsSessionHostedDeliveryMethod string
+
+// List of values that FinancialConnectionsSessionHostedDeliveryMethod can take
+const (
+	FinancialConnectionsSessionHostedDeliveryMethodEmail FinancialConnectionsSessionHostedDeliveryMethod = "email"
+	FinancialConnectionsSessionHostedDeliveryMethodURL   FinancialConnectionsSessionHostedDeliveryMethod = "url"
+)
+
+// The UI mode for this session.
+type FinancialConnectionsSessionUIMode string
+
+// List of values that FinancialConnectionsSessionUIMode can take
+const (
+	FinancialConnectionsSessionUIModeHosted FinancialConnectionsSessionUIMode = "hosted"
+	FinancialConnectionsSessionUIModeModal  FinancialConnectionsSessionUIMode = "modal"
+)
+
 // Retrieves the details of a Financial Connections Session
 type FinancialConnectionsSessionParams struct {
 	Params `form:"*"`
@@ -88,6 +106,8 @@ type FinancialConnectionsSessionParams struct {
 	Expand []*string `form:"expand"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
+	// Settings for hosted Sessions. Required if `ui_mode` is `hosted`.
+	Hosted *FinancialConnectionsSessionHostedParams `form:"hosted"`
 	// Settings for configuring Session-specific limits.
 	Limits *FinancialConnectionsSessionLimitsParams `form:"limits"`
 	// Customize manual entry behavior
@@ -102,6 +122,8 @@ type FinancialConnectionsSessionParams struct {
 	RelinkOptions *FinancialConnectionsSessionRelinkOptionsParams `form:"relink_options"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
+	// The UI mode of the Session. Defaults to `modal`.
+	UIMode *string `form:"ui_mode"`
 }
 
 // AddExpand appends a new field to expand.
@@ -149,6 +171,12 @@ type FinancialConnectionsSessionRelinkOptionsParams struct {
 	Account *string `form:"account"`
 	// The authorization to relink.
 	Authorization *string `form:"authorization"`
+}
+
+// Settings for hosted Sessions. Required if `ui_mode` is `hosted`.
+type FinancialConnectionsSessionHostedParams struct {
+	// How the user should enter the hosted flow. The values `email` and `url` can only be used if `relink_options` is provided.
+	DeliveryMethod *string `form:"delivery_method"`
 }
 
 // Retrieves the details of a Financial Connections Session
@@ -205,6 +233,12 @@ type FinancialConnectionsSessionCreateRelinkOptionsParams struct {
 	Authorization *string `form:"authorization"`
 }
 
+// Settings for hosted Sessions. Required if `ui_mode` is `hosted`.
+type FinancialConnectionsSessionCreateHostedParams struct {
+	// How the user should enter the hosted flow. The values `email` and `url` can only be used if `relink_options` is provided.
+	DeliveryMethod *string `form:"delivery_method"`
+}
+
 // To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
 type FinancialConnectionsSessionCreateParams struct {
 	Params `form:"*"`
@@ -214,6 +248,8 @@ type FinancialConnectionsSessionCreateParams struct {
 	Expand []*string `form:"expand"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionCreateFiltersParams `form:"filters"`
+	// Settings for hosted Sessions. Required if `ui_mode` is `hosted`.
+	Hosted *FinancialConnectionsSessionCreateHostedParams `form:"hosted"`
 	// Settings for configuring Session-specific limits.
 	Limits *FinancialConnectionsSessionCreateLimitsParams `form:"limits"`
 	// Customize manual entry behavior
@@ -228,6 +264,8 @@ type FinancialConnectionsSessionCreateParams struct {
 	RelinkOptions *FinancialConnectionsSessionCreateRelinkOptionsParams `form:"relink_options"`
 	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
 	ReturnURL *string `form:"return_url"`
+	// The UI mode of the Session. Defaults to `modal`.
+	UIMode *string `form:"ui_mode"`
 }
 
 // AddExpand appends a new field to expand.
@@ -280,6 +318,14 @@ type FinancialConnectionsSessionStatusDetails struct {
 	Cancelled *FinancialConnectionsSessionStatusDetailsCancelled `json:"cancelled"`
 }
 
+// Settings for the Hosted UI mode.
+type FinancialConnectionsSessionHosted struct {
+	// How the user enters the hosted flow. You can only use the values `email` and `url` if you provide `relink_options`.
+	DeliveryMethod FinancialConnectionsSessionHostedDeliveryMethod `json:"delivery_method"`
+	// The URL to redirect your customer back to after they link their accounts or cancel this Session. This parameter is required if `ui_mode` is `hosted`.
+	ReturnURL string `json:"return_url"`
+}
+
 // A Financial Connections Session is the secure way to programmatically launch the client-side Stripe.js modal that lets your users link their accounts.
 type FinancialConnectionsSession struct {
 	APIResource
@@ -290,6 +336,8 @@ type FinancialConnectionsSession struct {
 	// A value that will be passed to the client to launch the authentication flow.
 	ClientSecret string                              `json:"client_secret"`
 	Filters      *FinancialConnectionsSessionFilters `json:"filters"`
+	// Settings for the Hosted UI mode.
+	Hosted *FinancialConnectionsSessionHosted `json:"hosted"`
 	// Unique identifier for the object.
 	ID     string                             `json:"id"`
 	Limits *FinancialConnectionsSessionLimits `json:"limits"`
@@ -309,4 +357,8 @@ type FinancialConnectionsSession struct {
 	// The current state of the session.
 	Status        FinancialConnectionsSessionStatus         `json:"status"`
 	StatusDetails *FinancialConnectionsSessionStatusDetails `json:"status_details"`
+	// The UI mode for this session.
+	UIMode FinancialConnectionsSessionUIMode `json:"ui_mode"`
+	// The hosted URL for this Session. Redirect customers to this URL to take them to the hosted authentication flow. This value is only present when the Session is active and the `ui_mode` is `hosted`.
+	URL string `json:"url"`
 }
