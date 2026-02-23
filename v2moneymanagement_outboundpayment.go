@@ -18,6 +18,14 @@ const (
 	V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccountWire      V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount = "wire"
 )
 
+// The purpose of the OutboundPayment.
+type V2MoneyManagementOutboundPaymentPurpose string
+
+// List of values that V2MoneyManagementOutboundPaymentPurpose can take
+const (
+	V2MoneyManagementOutboundPaymentPurposePayroll V2MoneyManagementOutboundPaymentPurpose = "payroll"
+)
+
 // Closed Enum. Configuration option to enable or disable notifications to recipients.
 // Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
 type V2MoneyManagementOutboundPaymentRecipientNotificationSetting string
@@ -90,9 +98,9 @@ const (
 // The "presentment amount" for the OutboundPayment.
 type V2MoneyManagementOutboundPaymentAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // Delivery options to be used to send the OutboundPayment.
@@ -104,9 +112,9 @@ type V2MoneyManagementOutboundPaymentDeliveryOptions struct {
 // The monetary amount debited from the sender, only set on responses.
 type V2MoneyManagementOutboundPaymentFromDebited struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The FinancialAccount that funds were pulled from.
@@ -163,9 +171,9 @@ type V2MoneyManagementOutboundPaymentStatusTransitions struct {
 // The monetary amount being credited to the destination.
 type V2MoneyManagementOutboundPaymentToCredited struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // To which payout method the OutboundPayment was sent.
@@ -218,6 +226,8 @@ type V2MoneyManagementOutboundPayment struct {
 	Object string `json:"object"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote string `json:"outbound_payment_quote,omitempty"`
+	// The purpose of the OutboundPayment.
+	Purpose V2MoneyManagementOutboundPaymentPurpose `json:"purpose,omitempty"`
 	// A link to the Stripe-hosted receipt for this OutboundPayment. The receipt link remains active for 60 days from the OutboundPayment creation date. After this period, the link will expire and the receipt url value will be null.
 	ReceiptURL string `json:"receipt_url,omitempty"`
 	// Details about the OutboundPayment notification settings for recipient.

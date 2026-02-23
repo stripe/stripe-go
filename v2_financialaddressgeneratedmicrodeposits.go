@@ -17,10 +17,12 @@ const (
 // The amounts of the microdeposits that were generated.
 type V2FinancialAddressGeneratedMicrodepositsAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
+
+// Generated Microdeposits represent verification deposits sent to a financial address for ownership verification, containing the deposited amounts and status.
 type V2FinancialAddressGeneratedMicrodeposits struct {
 	APIResource
 	// The amounts of the microdeposits that were generated.

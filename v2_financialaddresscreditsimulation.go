@@ -6,6 +6,7 @@
 
 package stripe
 
+// Credit Simulations represent simulated credit transactions applied to financial addresses for testing purposes.
 type V2FinancialAddressCreditSimulation struct {
 	APIResource
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

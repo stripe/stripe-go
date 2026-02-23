@@ -91,9 +91,9 @@ type V2CoreAccountTokenIdentityBusinessDetailsAddressParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The business gross annual revenue for its preceding fiscal year.
@@ -229,9 +229,9 @@ type V2CoreAccountTokenIdentityBusinessDetailsIDNumberParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // An estimate of the monthly revenue of the business.
@@ -719,9 +719,9 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsAddressParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The business gross annual revenue for its preceding fiscal year.
@@ -857,9 +857,9 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsIDNumberParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // An estimate of the monthly revenue of the business.

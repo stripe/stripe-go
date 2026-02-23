@@ -543,6 +543,18 @@ type V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams struct {
 	Kanji *V2CoreAccountConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
+// Settings for Smart Disputes auto_respond.
+type V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondParams struct {
+	// The preference for automatic dispute responses.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Settings used for Smart Disputes.
+type V2CoreAccountConfigurationMerchantSmartDisputesParams struct {
+	// Settings for Smart Disputes auto_respond.
+	AutoRespond *V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondParams `form:"auto_respond" json:"auto_respond,omitempty"`
+}
+
 // Statement descriptor.
 type V2CoreAccountConfigurationMerchantStatementDescriptorParams struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -599,6 +611,8 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
+	// Settings for Smart Disputes automatic response feature.
+	SmartDisputes *V2CoreAccountConfigurationMerchantSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
 	StatementDescriptor *V2CoreAccountConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
@@ -934,9 +948,9 @@ type V2CoreAccountIdentityBusinessDetailsAddressParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The business gross annual revenue for its preceding fiscal year.
@@ -1072,9 +1086,9 @@ type V2CoreAccountIdentityBusinessDetailsIDNumberParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // An estimate of the monthly revenue of the business.
@@ -2035,6 +2049,18 @@ type V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams str
 	Kanji *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
+// Settings for Smart Disputes auto_respond.
+type V2CoreAccountCreateConfigurationMerchantSmartDisputesAutoRespondParams struct {
+	// The preference for Smart Disputes auto-respond.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Settings used for Smart Disputes.
+type V2CoreAccountCreateConfigurationMerchantSmartDisputesParams struct {
+	// Settings for Smart Disputes auto_respond.
+	AutoRespond *V2CoreAccountCreateConfigurationMerchantSmartDisputesAutoRespondParams `form:"auto_respond" json:"auto_respond,omitempty"`
+}
+
 // Statement descriptor.
 type V2CoreAccountCreateConfigurationMerchantStatementDescriptorParams struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -2089,6 +2115,8 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountCreateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
+	// Settings used for Smart Disputes.
+	SmartDisputes *V2CoreAccountCreateConfigurationMerchantSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Statement descriptor.
 	StatementDescriptor *V2CoreAccountCreateConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
@@ -2416,9 +2444,9 @@ type V2CoreAccountCreateIdentityBusinessDetailsAddressParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The business gross annual revenue for its preceding fiscal year.
@@ -2554,9 +2582,9 @@ type V2CoreAccountCreateIdentityBusinessDetailsIDNumberParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // An estimate of the monthly revenue of the business.
@@ -3513,6 +3541,18 @@ type V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams str
 	Kanji *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
+// Settings for Smart Disputes auto_respond.
+type V2CoreAccountUpdateConfigurationMerchantSmartDisputesAutoRespondParams struct {
+	// The preference for automatic dispute responses.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Settings for Smart Disputes automatic response feature.
+type V2CoreAccountUpdateConfigurationMerchantSmartDisputesParams struct {
+	// Settings for Smart Disputes auto_respond.
+	AutoRespond *V2CoreAccountUpdateConfigurationMerchantSmartDisputesAutoRespondParams `form:"auto_respond" json:"auto_respond,omitempty"`
+}
+
 // Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
 type V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -3569,6 +3609,8 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	MCC *string `form:"mcc" json:"mcc,omitempty"`
 	// Settings for the default text that appears on statements for language variations.
 	ScriptStatementDescriptor *V2CoreAccountUpdateConfigurationMerchantScriptStatementDescriptorParams `form:"script_statement_descriptor" json:"script_statement_descriptor,omitempty"`
+	// Settings for Smart Disputes automatic response feature.
+	SmartDisputes *V2CoreAccountUpdateConfigurationMerchantSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Settings for the default [statement descriptor](https://docs.stripe.com/connect/statement-descriptors) text.
 	StatementDescriptor *V2CoreAccountUpdateConfigurationMerchantStatementDescriptorParams `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
@@ -3914,9 +3956,9 @@ type V2CoreAccountUpdateIdentityBusinessDetailsAddressParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The business gross annual revenue for its preceding fiscal year.
@@ -4052,9 +4094,9 @@ type V2CoreAccountUpdateIdentityBusinessDetailsIDNumberParams struct {
 // A non-negative integer representing the amount in the smallest currency unit.
 type V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency,omitempty"`
+	Currency *string `form:"currency" json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value,omitempty"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // An estimate of the monthly revenue of the business.
