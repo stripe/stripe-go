@@ -1,5 +1,18 @@
 # Changelog
 
+## 84.5.0-alpha.1 - 2026-02-25
+This release changes the pinned API version to `2026-02-25.preview`.
+
+* [#2275](https://github.com/stripe/stripe-go/pull/2275) Update generated code for private-preview
+  * Add support for new resource `AccountSignals`
+  * Add support for `Get` method on resource `AccountSignals`
+  * Add support for `AggregationPeriod`, `GroupBy`, and `TriggeredAt` on `BillingAlertTriggered`
+  * Add support for `ExternalAccountCollection` on `AccountLinkCollectionOptionsParams`
+  * Add support for `FundingSource` on `ApplicationFee`
+  * Add support for `Hosted` and `UIMode` on `FinancialConnectionsSessionParams` and `FinancialConnectionsSession`
+  * Add support for `URL` on `FinancialConnectionsSession`
+  * Add support for `BillingCycleAnchor` on `SubscriptionTrialSettingsEndBehaviorParams`
+
 ## 84.4.0 - 2026-02-25
 This release changes the pinned API version to `2026-02-25.clover`.
 
