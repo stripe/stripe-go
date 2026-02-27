@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Fix me empty_doc_string.
+// A Meter Event is a usage record that captures billable activity for usage-based billing. Meter Events contain an event name, timestamp, and payload with customer mapping and usage value, enabling accurate usage tracking and billing.
 type V2BillingMeterEvent struct {
 	APIResource
 	// The creation time of this meter event.

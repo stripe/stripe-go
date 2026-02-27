@@ -208,12 +208,16 @@ type MandatePaymentMethodDetailsAUBECSDebit struct {
 	URL string `json:"url"`
 }
 type MandatePaymentMethodDetailsBACSDebit struct {
+	// The display name for the account on this mandate.
+	DisplayName string `json:"display_name"`
 	// The status of the mandate on the Bacs network. Can be one of `pending`, `revoked`, `refused`, or `accepted`.
 	NetworkStatus MandatePaymentMethodDetailsBACSDebitNetworkStatus `json:"network_status"`
 	// The unique reference identifying the mandate on the Bacs network.
 	Reference string `json:"reference"`
 	// When the mandate is revoked on the Bacs network this field displays the reason for the revocation.
 	RevocationReason MandatePaymentMethodDetailsBACSDebitRevocationReason `json:"revocation_reason"`
+	// The service user number for the account on this mandate.
+	ServiceUserNumber string `json:"service_user_number"`
 	// The URL that will contain the mandate that the customer has signed.
 	URL string `json:"url"`
 }

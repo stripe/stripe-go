@@ -679,6 +679,8 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -689,6 +691,8 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// How card details were read in this transaction.
 	ReadMethod ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.

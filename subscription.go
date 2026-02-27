@@ -266,6 +266,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeNaverPay           SubscriptionPaymentSettingsPaymentMethodType = "naver_pay"
 	SubscriptionPaymentSettingsPaymentMethodTypeNzBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "nz_bank_account"
 	SubscriptionPaymentSettingsPaymentMethodTypeP24                SubscriptionPaymentSettingsPaymentMethodType = "p24"
+	SubscriptionPaymentSettingsPaymentMethodTypePayByBank          SubscriptionPaymentSettingsPaymentMethodType = "pay_by_bank"
 	SubscriptionPaymentSettingsPaymentMethodTypePayco              SubscriptionPaymentSettingsPaymentMethodType = "payco"
 	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
 	SubscriptionPaymentSettingsPaymentMethodTypePaypal             SubscriptionPaymentSettingsPaymentMethodType = "paypal"
@@ -699,7 +700,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -945,7 +946,7 @@ func (p *SubscriptionMigrateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
+// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If no resumption invoice is generated, the subscription becomes active immediately. If a resumption invoice is generated, the subscription remains paused until the invoice is paid or marked uncollectible. If the invoice is not paid by the expiration date, it is voided and the subscription remains paused.
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
@@ -1219,7 +1220,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -1720,7 +1721,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -2088,7 +2089,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
@@ -2201,7 +2202,7 @@ type SubscriptionTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
-// Defines how a subscription behaves when a free trial ends.
+// Defines how a subscription behaves when a trial ends.
 type SubscriptionTrialSettingsEndBehavior struct {
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
@@ -2209,7 +2210,7 @@ type SubscriptionTrialSettingsEndBehavior struct {
 
 // Settings related to subscription trials.
 type SubscriptionTrialSettings struct {
-	// Defines how a subscription behaves when a free trial ends.
+	// Defines how a subscription behaves when a trial ends.
 	EndBehavior *SubscriptionTrialSettingsEndBehavior `json:"end_behavior"`
 }
 

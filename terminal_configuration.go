@@ -23,6 +23,8 @@ type TerminalConfigurationParams struct {
 	BBPOSWisePad3 *TerminalConfigurationBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers.
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Configuration for cellular connectivity.
+	Cellular *TerminalConfigurationCellularParams `form:"cellular"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Name of the configuration
@@ -33,6 +35,8 @@ type TerminalConfigurationParams struct {
 	RebootWindow *TerminalConfigurationRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationStripeS700Params `form:"stripe_s700"`
+	// An object containing device type specific settings for Stripe S710 readers.
+	StripeS710 *TerminalConfigurationStripeS710Params `form:"stripe_s710"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
@@ -58,6 +62,12 @@ type TerminalConfigurationBBPOSWisePOSEParams struct {
 	Splashscreen *string `form:"splashscreen"`
 }
 
+// Configuration for cellular connectivity.
+type TerminalConfigurationCellularParams struct {
+	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	Enabled *bool `form:"enabled"`
+}
+
 // Configurations for collecting transactions offline.
 type TerminalConfigurationOfflineParams struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
@@ -74,6 +84,12 @@ type TerminalConfigurationRebootWindowParams struct {
 
 // An object containing device type specific settings for Stripe S700 readers.
 type TerminalConfigurationStripeS700Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string `form:"splashscreen"`
+}
+
+// An object containing device type specific settings for Stripe S710 readers.
+type TerminalConfigurationStripeS710Params struct {
 	// A File ID representing an image you want to display on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
@@ -288,7 +304,7 @@ type TerminalConfigurationTippingUSDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
-// Tipping configurations for readers. supporting on-reader tips
+// Tipping configurations for readers that support on-reader tips.
 type TerminalConfigurationTippingParams struct {
 	// Tipping configuration for AED
 	Aed *TerminalConfigurationTippingAedParams `form:"aed"`
@@ -429,6 +445,12 @@ type TerminalConfigurationUpdateBBPOSWisePOSEParams struct {
 	Splashscreen *string `form:"splashscreen"`
 }
 
+// Configuration for cellular connectivity.
+type TerminalConfigurationUpdateCellularParams struct {
+	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	Enabled *bool `form:"enabled"`
+}
+
 // Configurations for collecting transactions offline.
 type TerminalConfigurationUpdateOfflineParams struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
@@ -445,6 +467,12 @@ type TerminalConfigurationUpdateRebootWindowParams struct {
 
 // An object containing device type specific settings for Stripe S700 readers.
 type TerminalConfigurationUpdateStripeS700Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string `form:"splashscreen"`
+}
+
+// An object containing device type specific settings for Stripe S710 readers.
+type TerminalConfigurationUpdateStripeS710Params struct {
 	// A File ID representing an image you want to display on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
@@ -659,7 +687,7 @@ type TerminalConfigurationUpdateTippingUSDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
-// Tipping configurations for readers. supporting on-reader tips
+// Tipping configurations for readers that support on-reader tips.
 type TerminalConfigurationUpdateTippingParams struct {
 	// Tipping configuration for AED
 	Aed *TerminalConfigurationUpdateTippingAedParams `form:"aed"`
@@ -764,6 +792,8 @@ type TerminalConfigurationUpdateParams struct {
 	BBPOSWisePad3 *TerminalConfigurationUpdateBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers.
 	BBPOSWisePOSE *TerminalConfigurationUpdateBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Configuration for cellular connectivity.
+	Cellular *TerminalConfigurationUpdateCellularParams `form:"cellular"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Name of the configuration
@@ -774,7 +804,9 @@ type TerminalConfigurationUpdateParams struct {
 	RebootWindow *TerminalConfigurationUpdateRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationUpdateStripeS700Params `form:"stripe_s700"`
-	// Tipping configurations for readers. supporting on-reader tips
+	// An object containing device type specific settings for Stripe S710 readers.
+	StripeS710 *TerminalConfigurationUpdateStripeS710Params `form:"stripe_s710"`
+	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationUpdateTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationUpdateVerifoneP400Params `form:"verifone_p400"`
@@ -799,6 +831,12 @@ type TerminalConfigurationCreateBBPOSWisePOSEParams struct {
 	Splashscreen *string `form:"splashscreen"`
 }
 
+// Configuration for cellular connectivity.
+type TerminalConfigurationCreateCellularParams struct {
+	// Determines whether to allow the reader to connect to a cellular network. Defaults to false.
+	Enabled *bool `form:"enabled"`
+}
+
 // Configurations for collecting transactions offline.
 type TerminalConfigurationCreateOfflineParams struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
@@ -815,6 +853,12 @@ type TerminalConfigurationCreateRebootWindowParams struct {
 
 // An object containing device type specific settings for Stripe S700 readers.
 type TerminalConfigurationCreateStripeS700Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string `form:"splashscreen"`
+}
+
+// An object containing device type specific settings for Stripe S710 readers.
+type TerminalConfigurationCreateStripeS710Params struct {
 	// A File ID representing an image you want to display on the reader.
 	Splashscreen *string `form:"splashscreen"`
 }
@@ -1134,6 +1178,8 @@ type TerminalConfigurationCreateParams struct {
 	BBPOSWisePad3 *TerminalConfigurationCreateBBPOSWisePad3Params `form:"bbpos_wisepad3"`
 	// An object containing device type specific settings for BBPOS WisePOS E readers.
 	BBPOSWisePOSE *TerminalConfigurationCreateBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
+	// Configuration for cellular connectivity.
+	Cellular *TerminalConfigurationCreateCellularParams `form:"cellular"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Name of the configuration
@@ -1144,6 +1190,8 @@ type TerminalConfigurationCreateParams struct {
 	RebootWindow *TerminalConfigurationCreateRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers.
 	StripeS700 *TerminalConfigurationCreateStripeS700Params `form:"stripe_s700"`
+	// An object containing device type specific settings for Stripe S710 readers.
+	StripeS710 *TerminalConfigurationCreateStripeS710Params `form:"stripe_s710"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationCreateTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers.
@@ -1165,6 +1213,10 @@ type TerminalConfigurationBBPOSWisePOSE struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
 }
+type TerminalConfigurationCellular struct {
+	// Whether a cellular-capable reader can connect to the internet over cellular.
+	Enabled bool `json:"enabled"`
+}
 type TerminalConfigurationOffline struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled bool `json:"enabled"`
@@ -1176,6 +1228,10 @@ type TerminalConfigurationRebootWindow struct {
 	StartHour int64 `json:"start_hour"`
 }
 type TerminalConfigurationStripeS700 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen"`
+}
+type TerminalConfigurationStripeS710 struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
 }
@@ -1416,6 +1472,7 @@ type TerminalConfiguration struct {
 	APIResource
 	BBPOSWisePad3 *TerminalConfigurationBBPOSWisePad3 `json:"bbpos_wisepad3"`
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSE `json:"bbpos_wisepos_e"`
+	Cellular      *TerminalConfigurationCellular      `json:"cellular"`
 	Deleted       bool                                `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -1430,6 +1487,7 @@ type TerminalConfiguration struct {
 	Offline      *TerminalConfigurationOffline      `json:"offline"`
 	RebootWindow *TerminalConfigurationRebootWindow `json:"reboot_window"`
 	StripeS700   *TerminalConfigurationStripeS700   `json:"stripe_s700"`
+	StripeS710   *TerminalConfigurationStripeS710   `json:"stripe_s710"`
 	Tipping      *TerminalConfigurationTipping      `json:"tipping"`
 	VerifoneP400 *TerminalConfigurationVerifoneP400 `json:"verifone_p400"`
 	Wifi         *TerminalConfigurationWifi         `json:"wifi"`
