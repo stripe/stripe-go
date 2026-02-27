@@ -111,10 +111,11 @@ func TestSearchIterListAndMeta(t *testing.T) {
 func TestSearchIterMultiplePages(t *testing.T) {
 	// Create an ephemeral test server so that we can inspect request attributes.
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.RawQuery == "query=my+query" {
+		switch r.URL.RawQuery {
+		case "query=my+query":
 			w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2", "total_count": 4 }`))
 			return
-		} else if r.URL.RawQuery == "query=my+query&page=page2" {
+		case "query=my+query&page=page2":
 			w.Write([]byte(`{"data":[{"id": "3"}, {"id":"4"}], "has_more":false, "next_page":null }`))
 			return
 		}
@@ -227,10 +228,11 @@ func TestV1SearchListTwoPagesErr(t *testing.T) {
 func TestV1SearchListMultiplePages(t *testing.T) {
 	// Create an ephemeral test server so that we can inspect request attributes.
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.RawQuery == "query=my+query" {
+		switch r.URL.RawQuery {
+		case "query=my+query":
 			w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2", "total_count": 4 }`))
 			return
-		} else if r.URL.RawQuery == "query=my+query&page=page2" {
+		case "query=my+query&page=page2":
 			w.Write([]byte(`{"data":[{"id": "3"}, {"id":"4"}], "has_more":false, "next_page":null }`))
 			return
 		}

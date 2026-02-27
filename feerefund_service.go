@@ -58,14 +58,9 @@ func (c v1FeeRefundService) Retrieve(ctx context.Context, id string, params *Fee
 //
 // This request only accepts metadata as an argument.
 func (c v1FeeRefundService) Update(ctx context.Context, id string, params *FeeRefundUpdateParams) (*FeeRefund, error) {
-	if params == nil {
-		return nil, fmt.Errorf("params cannot be nil")
-	}
-	if params.Fee == nil {
-		return nil, fmt.Errorf("params.Fee must be set")
-	}
-	if params == nil {
-		params = &FeeRefundUpdateParams{}
+	if params == nil || params.Fee == nil {
+		return nil, fmt.Errorf(
+			"params cannot be nil, and params.Fee must be set")
 	}
 	params.Context = ctx
 	path := FormatURLPath(

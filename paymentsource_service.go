@@ -52,14 +52,9 @@ func (c v1PaymentSourceService) Retrieve(ctx context.Context, id string, params 
 
 // Update a specified source for a given customer.
 func (c v1PaymentSourceService) Update(ctx context.Context, id string, params *PaymentSourceUpdateParams) (*PaymentSource, error) {
-	if params == nil {
-		return nil, fmt.Errorf("params should not be nil")
-	}
-	if params.Customer == nil {
-		return nil, fmt.Errorf("Invalid source params: customer needs to be set")
-	}
-	if params == nil {
-		params = &PaymentSourceUpdateParams{}
+	if params == nil || params.Customer == nil {
+		return nil, fmt.Errorf(
+			"params cannot be nil, and params.Customer must be set")
 	}
 	params.Context = ctx
 	path := FormatURLPath(

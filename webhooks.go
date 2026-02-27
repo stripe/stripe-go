@@ -282,7 +282,7 @@ type SignedPayload struct {
 func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
 	signedPayload := &SignedPayload{UnsignedPayload: *options}
 
-	if signedPayload.Timestamp == (time.Time{}) {
+	if signedPayload.Timestamp.Equal((time.Time{})) {
 		signedPayload.Timestamp = time.Now()
 	}
 
