@@ -12,6 +12,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"os"
 	"os/exec"
 	"reflect"
 	"regexp"
@@ -1557,6 +1558,7 @@ func (nopReadCloser) Close() error { return nil }
 // is serialized and sent in the `X-Stripe-Client-User-Agent` as additional
 // debugging information.
 type stripeClientUserAgent struct {
+	AIAgent         string   `json:"ai_agent,omitempty"`
 	Application     *AppInfo `json:"application"`
 	BindingsVersion string   `json:"bindings_version"`
 	Language        string   `json:"lang"`
@@ -1622,6 +1624,25 @@ func getUname() string {
 	return out.String()
 }
 
+var aiAgents = [][2]string{
+	{"ANTIGRAVITY_CLI_ALIAS", "antigravity"},
+	{"CLAUDECODE", "claude_code"},
+	{"CLINE_ACTIVE", "cline"},
+	{"CODEX_SANDBOX", "codex_cli"},
+	{"CURSOR_AGENT", "cursor"},
+	{"GEMINI_CLI", "gemini_cli"},
+	{"OPENCODE", "open_code"},
+}
+
+func detectAIAgent(getEnv func(string) string) string {
+	for _, agent := range aiAgents {
+		if getEnv(agent[0]) != "" {
+			return agent[1]
+		}
+	}
+	return ""
+}
+
 func init() {
 	initUserAgent()
 }
@@ -1631,12 +1652,16 @@ func initUserAgent() {
 	if appInfo != nil {
 		encodedUserAgent += " " + appInfo.formatUserAgent()
 	}
+	if agent := detectAIAgent(os.Getenv); agent != "" {
+		encodedUserAgent += " AIAgent/" + agent
+	}
 	encodedStripeUserAgentReady = &sync.Once{}
 }
 
 func getEncodedStripeUserAgent() string {
 	encodedStripeUserAgentReady.Do(func() {
 		stripeUserAgent := &stripeClientUserAgent{
+			AIAgent:         detectAIAgent(os.Getenv),
 			Application:     appInfo,
 			BindingsVersion: clientversion,
 			Language:        "go",
