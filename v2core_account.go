@@ -1905,6 +1905,25 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolution = "provide_info"
 )
 
+// The preference for automatic dispute responses.
+type V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreference string
+
+// List of values that V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreference can take
+const (
+	V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreferenceInherit V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreference = "inherit"
+	V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreferenceOff     V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreference = "off"
+	V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreferenceOn      V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreference = "on"
+)
+
+// The effective value for automatic dispute responses.
+type V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondValue string
+
+// List of values that V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondValue can take
+const (
+	V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondValueOff V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondValue = "off"
+	V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondValueOn  V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondValue = "on"
+)
+
 // The status of the Capability.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsInstantStatus string
 
@@ -2159,6 +2178,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAgBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ag_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAlBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "al_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAmBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "am_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeARBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ar_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAtBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "at_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeAuBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "au_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ba_bank_account"
@@ -2168,16 +2188,20 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBjBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bj_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBnBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bn_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBsBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bs_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBtBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bt_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeBwBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "bw_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCard          V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "card"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ca_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeChBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ch_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCiBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ci_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCoBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "co_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCryptoWallet  V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "crypto_wallet"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCrBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cr_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCyBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cy_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDEBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "de_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDkBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "dk_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDoBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "do_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "dz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeEcBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ec_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeEeBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ee_bank_account"
@@ -2188,6 +2212,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeGBBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "gb_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeGmBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "gm_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeGrBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "gr_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeGtBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "gt_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeGyBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "gy_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeHkBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "hk_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeHRBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "hr_bank_account"
@@ -2211,19 +2236,25 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeLVBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "lv_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ma_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMcBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mc_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMdBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "md_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMgBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mg_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMkBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mk_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMnBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mn_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMoBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mo_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMTBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mt_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMuBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mu_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMXBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mx_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMyBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "my_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeMzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "mz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeNaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "na_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeNLBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "nl_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeNoBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "no_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeNzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "nz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeOmBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "om_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "pa_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePeBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "pe_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePhBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ph_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePkBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "pk_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePLBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "pl_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypePTBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "pt_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeQaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "qa_bank_account"
@@ -2240,10 +2271,47 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeTnBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "tn_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeTRBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "tr_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeTtBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "tt_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeTwBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "tw_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeTzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "tz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeUSBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "us_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeUzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "uz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeVnBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "vn_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeZaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "za_bank_account"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusActive      V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusPending     V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolution = "provide_info"
 )
 
 // The status of the Capability.
@@ -2979,6 +3047,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialLeadPrepaidCard          V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.lead.prepaid_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripeChargeCard         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.charge_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripePrepaidCard        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.prepaid_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerHoldsCurrenciesUSD         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.holds_currencies.usd"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCrypto                             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "crypto"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityFinancialAddressesBankAccounts     V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "financial_addresses.bank_accounts"
@@ -3644,6 +3713,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialLeadPrepaidCard          V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.lead.prepaid_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripeChargeCard         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.charge_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripePrepaidCard        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.prepaid_card"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerHoldsCurrenciesUSD         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.holds_currencies.usd"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCrypto                             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "crypto"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityFinancialAddressesBankAccounts     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "financial_addresses.bank_accounts"
@@ -4933,6 +5003,20 @@ type V2CoreAccountConfigurationMerchantSEPADebitPayments struct {
 	CreditorID string `json:"creditor_id,omitempty"`
 }
 
+// Settings for Smart Disputes auto_respond.
+type V2CoreAccountConfigurationMerchantSmartDisputesAutoRespond struct {
+	// The preference for automatic dispute responses.
+	Preference V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreference `json:"preference,omitempty"`
+	// The effective value for automatic dispute responses.
+	Value V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondValue `json:"value,omitempty"`
+}
+
+// Settings for Smart Disputes automatic response feature.
+type V2CoreAccountConfigurationMerchantSmartDisputes struct {
+	// Settings for Smart Disputes auto_respond.
+	AutoRespond *V2CoreAccountConfigurationMerchantSmartDisputesAutoRespond `json:"auto_respond,omitempty"`
+}
+
 // Statement descriptor.
 type V2CoreAccountConfigurationMerchantStatementDescriptor struct {
 	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -4991,6 +5075,8 @@ type V2CoreAccountConfigurationMerchant struct {
 	ScriptStatementDescriptor *V2CoreAccountConfigurationMerchantScriptStatementDescriptor `json:"script_statement_descriptor,omitempty"`
 	// Settings for SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantSEPADebitPayments `json:"sepa_debit_payments,omitempty"`
+	// Settings for Smart Disputes automatic response feature.
+	SmartDisputes *V2CoreAccountConfigurationMerchantSmartDisputes `json:"smart_disputes,omitempty"`
 	// Statement descriptor.
 	StatementDescriptor *V2CoreAccountConfigurationMerchantStatementDescriptor `json:"statement_descriptor,omitempty"`
 	// Publicly available contact information for sending support issues to.
@@ -5155,6 +5241,34 @@ type V2CoreAccountConfigurationRecipient struct {
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilities `json:"capabilities,omitempty"`
 	// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard or APIs.
 	DefaultOutboundDestination *V2CoreAccountConfigurationRecipientDefaultOutboundDestination `json:"default_outbound_destination,omitempty"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetailResolution `json:"resolution"`
+}
+
+// Can hold storage-type funds on Stripe consumer FAs in USD.
+type V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSD struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSDStatusDetail `json:"status_details"`
+}
+
+// Can hold storage-type funds on Stripe consumer FAs in USD.
+type V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrencies struct {
+	// Can hold storage-type funds on Stripe consumer FAs in USD.
+	USD *V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrenciesUSD `json:"usd,omitempty"`
+}
+
+// Hash containing capabilities related to consumer financial accounts.
+type V2CoreAccountConfigurationStorerCapabilitiesConsumer struct {
+	// Can hold storage-type funds on Stripe consumer FAs in USD.
+	HoldsCurrencies *V2CoreAccountConfigurationStorerCapabilitiesConsumerHoldsCurrencies `json:"holds_currencies,omitempty"`
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
@@ -5431,6 +5545,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfers struct {
 
 // Capabilities that have been requested on the Storer Configuration.
 type V2CoreAccountConfigurationStorerCapabilities struct {
+	// Hash containing capabilities related to consumer financial accounts.
+	Consumer *V2CoreAccountConfigurationStorerCapabilitiesConsumer `json:"consumer,omitempty"`
 	// Can provision a financial address to credit/debit a FinancialAccount.
 	FinancialAddresses *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddresses `json:"financial_addresses,omitempty"`
 	// Can hold storage-type funds on Stripe.
@@ -6687,7 +6803,9 @@ type V2CoreAccountRequirements struct {
 	Summary *V2CoreAccountRequirementsSummary `json:"summary,omitempty"`
 }
 
-// A V2 Account is a representation of a company or individual that a Stripe user does business with. Accounts contain the contact details, Legal Entity information, and configuration required to enable the Account for use across Stripe products.
+// An Account v2 object represents a company, individual, or other entity that interacts with a platform on Stripe. It contains both identifying information and properties that control its behavior and functionality. An Account can have one or more configurations that enable sets of related features, such as allowing it to act as a merchant or customer.
+// The Accounts v2 API supports both the Global Payouts preview feature and the Connect-Billing integration preview feature. However, a particular Account can only access one of them.
+// The Connect-Billing integration preview feature allows an Account v2 to pay subscription fees to a platform. An Account v1 required a separate Customer object to pay subscription fees.
 type V2CoreAccount struct {
 	APIResource
 	// The configurations that have been applied to this account.

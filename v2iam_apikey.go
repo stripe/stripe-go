@@ -74,7 +74,7 @@ type V2IamAPIKeySecretKey struct {
 	Token string `json:"token,omitempty"`
 }
 
-// An API key.
+// An API key is used to authenticate API requests.
 type V2IamAPIKey struct {
 	APIResource
 	// Timestamp when the API key was created.

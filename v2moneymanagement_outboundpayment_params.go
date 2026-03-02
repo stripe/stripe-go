@@ -108,6 +108,8 @@ type V2MoneyManagementOutboundPaymentParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
+	// The purpose of the OutboundPayment.
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
 	// The recipient verification id for this OutboundPayment. Only required for countries with regulatory mandates to verify recipient names before OutboundPayment creation.
@@ -204,6 +206,8 @@ type V2MoneyManagementOutboundPaymentCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
+	// The purpose of the OutboundPayment.
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
 	RecipientNotification *V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
 	// The recipient verification id for this OutboundPayment. Only required for countries with regulatory mandates to verify recipient names before OutboundPayment creation.

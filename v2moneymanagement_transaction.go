@@ -17,19 +17,21 @@ const (
 	V2MoneyManagementTransactionCategoryAdvance                                 V2MoneyManagementTransactionCategory = "advance"
 	V2MoneyManagementTransactionCategoryAnticipationRepayment                   V2MoneyManagementTransactionCategory = "anticipation_repayment"
 	V2MoneyManagementTransactionCategoryBalanceTransfer                         V2MoneyManagementTransactionCategory = "balance_transfer"
-	V2MoneyManagementTransactionCategoryCharge                                  V2MoneyManagementTransactionCategory = "charge"
-	V2MoneyManagementTransactionCategoryChargeFailure                           V2MoneyManagementTransactionCategory = "charge_failure"
 	V2MoneyManagementTransactionCategoryClimateOrderPurchase                    V2MoneyManagementTransactionCategory = "climate_order_purchase"
 	V2MoneyManagementTransactionCategoryClimateOrderRefund                      V2MoneyManagementTransactionCategory = "climate_order_refund"
 	V2MoneyManagementTransactionCategoryConnectCollectionTransfer               V2MoneyManagementTransactionCategory = "connect_collection_transfer"
 	V2MoneyManagementTransactionCategoryConnectReservedFunds                    V2MoneyManagementTransactionCategory = "connect_reserved_funds"
 	V2MoneyManagementTransactionCategoryContribution                            V2MoneyManagementTransactionCategory = "contribution"
 	V2MoneyManagementTransactionCategoryCurrencyConversion                      V2MoneyManagementTransactionCategory = "currency_conversion"
+	V2MoneyManagementTransactionCategoryDispute                                 V2MoneyManagementTransactionCategory = "dispute"
 	V2MoneyManagementTransactionCategoryDisputeReversal                         V2MoneyManagementTransactionCategory = "dispute_reversal"
 	V2MoneyManagementTransactionCategoryFinancingPaydown                        V2MoneyManagementTransactionCategory = "financing_paydown"
 	V2MoneyManagementTransactionCategoryFinancingPaydownReversal                V2MoneyManagementTransactionCategory = "financing_paydown_reversal"
+	V2MoneyManagementTransactionCategoryInboundPayment                          V2MoneyManagementTransactionCategory = "inbound_payment"
+	V2MoneyManagementTransactionCategoryInboundPaymentFailure                   V2MoneyManagementTransactionCategory = "inbound_payment_failure"
 	V2MoneyManagementTransactionCategoryInboundTransfer                         V2MoneyManagementTransactionCategory = "inbound_transfer"
 	V2MoneyManagementTransactionCategoryInboundTransferReversal                 V2MoneyManagementTransactionCategory = "inbound_transfer_reversal"
+	V2MoneyManagementTransactionCategoryIndiaMdrProcessingFee                   V2MoneyManagementTransactionCategory = "india_mdr_processing_fee"
 	V2MoneyManagementTransactionCategoryIssuingDispute                          V2MoneyManagementTransactionCategory = "issuing_dispute"
 	V2MoneyManagementTransactionCategoryIssuingDisputeFraudLiabilityDebit       V2MoneyManagementTransactionCategory = "issuing_dispute_fraud_liability_debit"
 	V2MoneyManagementTransactionCategoryIssuingDisputeProvisionalCredit         V2MoneyManagementTransactionCategory = "issuing_dispute_provisional_credit"
@@ -42,6 +44,7 @@ const (
 	V2MoneyManagementTransactionCategoryOutboundTransfer                        V2MoneyManagementTransactionCategory = "outbound_transfer"
 	V2MoneyManagementTransactionCategoryOutboundTransferReversal                V2MoneyManagementTransactionCategory = "outbound_transfer_reversal"
 	V2MoneyManagementTransactionCategoryPartialCaptureReversal                  V2MoneyManagementTransactionCategory = "partial_capture_reversal"
+	V2MoneyManagementTransactionCategoryPaymentMethodPassthroughFee             V2MoneyManagementTransactionCategory = "payment_method_passthrough_fee"
 	V2MoneyManagementTransactionCategoryPaymentNetworkReservedFunds             V2MoneyManagementTransactionCategory = "payment_network_reserved_funds"
 	V2MoneyManagementTransactionCategoryPlatformEarning                         V2MoneyManagementTransactionCategory = "platform_earning"
 	V2MoneyManagementTransactionCategoryPlatformEarningRefund                   V2MoneyManagementTransactionCategory = "platform_earning_refund"
@@ -50,6 +53,7 @@ const (
 	V2MoneyManagementTransactionCategoryReceivedCreditReversal                  V2MoneyManagementTransactionCategory = "received_credit_reversal"
 	V2MoneyManagementTransactionCategoryReceivedDebit                           V2MoneyManagementTransactionCategory = "received_debit"
 	V2MoneyManagementTransactionCategoryReceivedDebitReversal                   V2MoneyManagementTransactionCategory = "received_debit_reversal"
+	V2MoneyManagementTransactionCategoryRefund                                  V2MoneyManagementTransactionCategory = "refund"
 	V2MoneyManagementTransactionCategoryRefundFailure                           V2MoneyManagementTransactionCategory = "refund_failure"
 	V2MoneyManagementTransactionCategoryReturn                                  V2MoneyManagementTransactionCategory = "return"
 	V2MoneyManagementTransactionCategoryRiskReservedFunds                       V2MoneyManagementTransactionCategory = "risk_reserved_funds"
@@ -57,6 +61,7 @@ const (
 	V2MoneyManagementTransactionCategoryStripeBalancePaymentDebitReversal       V2MoneyManagementTransactionCategory = "stripe_balance_payment_debit_reversal"
 	V2MoneyManagementTransactionCategoryStripeFee                               V2MoneyManagementTransactionCategory = "stripe_fee"
 	V2MoneyManagementTransactionCategoryStripeFeeTax                            V2MoneyManagementTransactionCategory = "stripe_fee_tax"
+	V2MoneyManagementTransactionCategoryTaxWithholding                          V2MoneyManagementTransactionCategory = "tax_withholding"
 	V2MoneyManagementTransactionCategoryTransferReversal                        V2MoneyManagementTransactionCategory = "transfer_reversal"
 	V2MoneyManagementTransactionCategoryUnreconciledCustomerFunds               V2MoneyManagementTransactionCategory = "unreconciled_customer_funds"
 )
@@ -211,7 +216,7 @@ type V2MoneyManagementTransaction struct {
 	// Indicates the FinancialAccount affected by this Transaction.
 	FinancialAccount string `json:"financial_account"`
 	// Details about the Flow object that created the Transaction.
-	Flow *V2MoneyManagementTransactionFlow `json:"flow"`
+	Flow *V2MoneyManagementTransactionFlow `json:"flow,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

@@ -13,8 +13,10 @@ type V2CoreAccountLinkUseCaseType string
 
 // List of values that V2CoreAccountLinkUseCaseType can take
 const (
-	V2CoreAccountLinkUseCaseTypeAccountOnboarding V2CoreAccountLinkUseCaseType = "account_onboarding"
-	V2CoreAccountLinkUseCaseTypeAccountUpdate     V2CoreAccountLinkUseCaseType = "account_update"
+	V2CoreAccountLinkUseCaseTypeAccountOnboarding   V2CoreAccountLinkUseCaseType = "account_onboarding"
+	V2CoreAccountLinkUseCaseTypeAccountUpdate       V2CoreAccountLinkUseCaseType = "account_update"
+	V2CoreAccountLinkUseCaseTypeRecipientOnboarding V2CoreAccountLinkUseCaseType = "recipient_onboarding"
+	V2CoreAccountLinkUseCaseTypeRecipientUpdate     V2CoreAccountLinkUseCaseType = "recipient_update"
 )
 
 // Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due.
@@ -75,6 +77,58 @@ const (
 	V2CoreAccountLinkUseCaseAccountUpdateConfigurationStorer    V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "storer"
 )
 
+// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due.
+type V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFields string
+
+// List of values that V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFields can take
+const (
+	V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFieldsCurrentlyDue  V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFields = "currently_due"
+	V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFieldsEventuallyDue V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFields = "eventually_due"
+)
+
+// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
+type V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFutureRequirements string
+
+// List of values that V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFutureRequirements can take
+const (
+	V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFutureRequirementsInclude V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFutureRequirements = "include"
+	V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFutureRequirementsOmit    V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFutureRequirements = "omit"
+)
+
+// Open Enum. A v2/core/account can be configured to enable certain functionality. The configuration param targets the v2/core/account_link to collect information for the specified v2/core/account configuration/s.
+type V2CoreAccountLinkUseCaseRecipientOnboardingConfiguration string
+
+// List of values that V2CoreAccountLinkUseCaseRecipientOnboardingConfiguration can take
+const (
+	V2CoreAccountLinkUseCaseRecipientOnboardingConfigurationRecipient V2CoreAccountLinkUseCaseRecipientOnboardingConfiguration = "recipient"
+)
+
+// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). The default value is `currently_due`.
+type V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFields string
+
+// List of values that V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFields can take
+const (
+	V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFieldsCurrentlyDue  V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFields = "currently_due"
+	V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFieldsEventuallyDue V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFields = "eventually_due"
+)
+
+// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
+type V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFutureRequirements string
+
+// List of values that V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFutureRequirements can take
+const (
+	V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFutureRequirementsInclude V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFutureRequirements = "include"
+	V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFutureRequirementsOmit    V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFutureRequirements = "omit"
+)
+
+// Open Enum. A v2/account can be configured to enable certain functionality. The configuration param targets the v2/account_link to collect information for the specified v2/account configuration/s.
+type V2CoreAccountLinkUseCaseRecipientUpdateConfiguration string
+
+// List of values that V2CoreAccountLinkUseCaseRecipientUpdateConfiguration can take
+const (
+	V2CoreAccountLinkUseCaseRecipientUpdateConfigurationRecipient V2CoreAccountLinkUseCaseRecipientUpdateConfiguration = "recipient"
+)
+
 // Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
 type V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptions struct {
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due.
@@ -115,12 +169,56 @@ type V2CoreAccountLinkUseCaseAccountUpdate struct {
 	ReturnURL string `json:"return_url,omitempty"`
 }
 
+// Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
+type V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptions struct {
+	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due.
+	Fields V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFields `json:"fields,omitempty"`
+	// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
+	FutureRequirements V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptionsFutureRequirements `json:"future_requirements,omitempty"`
+}
+
+// Hash containing configuration options for an Account Link object that onboards a new recipient.
+type V2CoreAccountLinkUseCaseRecipientOnboarding struct {
+	// Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
+	CollectionOptions *V2CoreAccountLinkUseCaseRecipientOnboardingCollectionOptions `json:"collection_options,omitempty"`
+	// Open Enum. A v2/core/account can be configured to enable certain functionality. The configuration param targets the v2/core/account_link to collect information for the specified v2/core/account configuration/s.
+	Configurations []V2CoreAccountLinkUseCaseRecipientOnboardingConfiguration `json:"configurations"`
+	// The URL the user will be redirected to if the AccountLink is expired, has been used, or is otherwise invalid. The URL you specify should attempt to generate a new AccountLink with the same parameters used to create the original AccountLink, then redirect the user to the new AccountLink's URL so they can continue the flow. If a new AccountLink cannot be generated or the redirect fails you should display a useful error to the user. Please make sure to implement authentication before redirecting the user in case this URL is leaked to a third party.
+	RefreshURL string `json:"refresh_url"`
+	// The URL that the user will be redirected to upon completing the linked flow.
+	ReturnURL string `json:"return_url,omitempty"`
+}
+
+// Specifies the requirements that Stripe collects from v2/core/accounts in the Update flow.
+type V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptions struct {
+	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). The default value is `currently_due`.
+	Fields V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFields `json:"fields,omitempty"`
+	// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
+	FutureRequirements V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptionsFutureRequirements `json:"future_requirements,omitempty"`
+}
+
+// Hash containing configuration options for an Account Link that updates an existing recipient.
+type V2CoreAccountLinkUseCaseRecipientUpdate struct {
+	// Specifies the requirements that Stripe collects from v2/core/accounts in the Update flow.
+	CollectionOptions *V2CoreAccountLinkUseCaseRecipientUpdateCollectionOptions `json:"collection_options,omitempty"`
+	// Open Enum. A v2/account can be configured to enable certain functionality. The configuration param targets the v2/account_link to collect information for the specified v2/account configuration/s.
+	Configurations []V2CoreAccountLinkUseCaseRecipientUpdateConfiguration `json:"configurations"`
+	// The URL the user will be redirected to if the Account Link is expired, has been used, or is otherwise invalid. The URL you specify should attempt to generate a new Account Link with the same parameters used to create the original Account Link, then redirect the user to the new Account Link URL so they can continue the flow. Make sure to authenticate the user before redirecting to the new Account Link, in case the URL leaks to a third party. If a new Account Link can't be generated, or if the redirect fails, you should display a useful error to the user.
+	RefreshURL string `json:"refresh_url"`
+	// The URL that the user will be redirected to upon completing the linked flow.
+	ReturnURL string `json:"return_url,omitempty"`
+}
+
 // Hash containing usage options.
 type V2CoreAccountLinkUseCase struct {
 	// Hash containing configuration options for an Account Link object that onboards a new account.
 	AccountOnboarding *V2CoreAccountLinkUseCaseAccountOnboarding `json:"account_onboarding,omitempty"`
 	// Hash containing configuration options for an Account Link that updates an existing account.
 	AccountUpdate *V2CoreAccountLinkUseCaseAccountUpdate `json:"account_update,omitempty"`
+	// Hash containing configuration options for an Account Link object that onboards a new recipient.
+	RecipientOnboarding *V2CoreAccountLinkUseCaseRecipientOnboarding `json:"recipient_onboarding,omitempty"`
+	// Hash containing configuration options for an Account Link that updates an existing recipient.
+	RecipientUpdate *V2CoreAccountLinkUseCaseRecipientUpdate `json:"recipient_update,omitempty"`
 	// Open Enum. The type of Account Link the user is requesting.
 	Type V2CoreAccountLinkUseCaseType `json:"type"`
 }

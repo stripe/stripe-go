@@ -265,6 +265,8 @@ type V2BillingCollectionSettingVersionPaymentMethodOptions struct {
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingVersionPaymentMethodOptionsUSBankAccount `json:"us_bank_account,omitempty"`
 }
+
+// A Collection Setting Version is a specific configuration of a CollectionSetting at a point in time. Collection Setting Versions enable you to track changes to payment collection settings over time and manage which version is active for new billing operations.
 type V2BillingCollectionSettingVersion struct {
 	APIResource
 	// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this

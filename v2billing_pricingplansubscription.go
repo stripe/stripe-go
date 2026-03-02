@@ -91,6 +91,10 @@ type V2BillingPricingPlanSubscriptionServicingStatusTransitions struct {
 	// When the servicing is scheduled to cancel.
 	WillCancelAt string `json:"will_cancel_at,omitempty"`
 }
+
+// A Pricing Plan Subscription represents a customer's active subscription to a Pricing Plan. It tracks both the servicing
+// status (whether the customer is receiving service) and collection status (whether payments are current). Subscriptions
+// are created through Billing Intents and bill according to the associated Billing Cadence.
 type V2BillingPricingPlanSubscription struct {
 	APIResource
 	// The ID of the Billing Cadence this subscription is billed on.

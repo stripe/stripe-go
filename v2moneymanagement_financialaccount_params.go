@@ -19,6 +19,8 @@ type V2MoneyManagementFinancialAccountListParams struct {
 
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorageParams struct {
+	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
+	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
 	// The currencies that this FinancialAccount can hold.
 	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }
@@ -62,6 +64,8 @@ type V2MoneyManagementFinancialAccountCloseParams struct {
 
 // Parameters specific to creating `storage` type FinancialAccounts.
 type V2MoneyManagementFinancialAccountCreateStorageParams struct {
+	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
+	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
 	// The currencies that this FinancialAccount can hold.
 	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
 }

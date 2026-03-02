@@ -67,6 +67,10 @@ type V2BillingRateCardRateTransformQuantity struct {
 	// After division, round the result up or down.
 	Round V2BillingRateCardRateTransformQuantityRound `json:"round"`
 }
+
+// A Rate Card Rate represents a single usage-based price within a Rate Card. Each rate binds to one Metered Item and
+// defines the pricing structure for that item, including either a flat unit amount or tiered pricing. Rates support
+// features like graduated or volume-based tiering, quantity transformations, and custom pricing units.
 type V2BillingRateCardRate struct {
 	APIResource
 	// Timestamp of when the object was created.
