@@ -38,6 +38,17 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 	Features *AccountSessionComponentsAccountOnboardingFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsAgenticCommerceSettingsFeaturesParams struct{}
+
+// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+type AccountSessionComponentsAgenticCommerceSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsAgenticCommerceSettingsFeaturesParams `form:"features"`
+}
+
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAppInstallFeaturesParams struct {
 	// The list of apps allowed to be enabled in the embedded component.
@@ -475,17 +486,6 @@ type AccountSessionComponentsTaxThresholdMonitoringParams struct {
 }
 
 // An empty list, because this embedded component has no features.
-type AccountSessionComponentsAgenticCommerceSettingsFeaturesParams struct{}
-
-// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
-type AccountSessionComponentsAgenticCommerceSettingsParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
-	Features *AccountSessionComponentsAgenticCommerceSettingsFeaturesParams `form:"features"`
-}
-
-// An empty list, because this embedded component has no features.
 type AccountSessionComponentsTerminalHardwareOrdersFeaturesParams struct{}
 
 // Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
@@ -627,6 +627,17 @@ type AccountSessionCreateComponentsAccountOnboardingParams struct {
 	Enabled *bool `form:"enabled"`
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionCreateComponentsAccountOnboardingFeaturesParams `form:"features"`
+}
+
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsAgenticCommerceSettingsFeaturesParams struct{}
+
+// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
+type AccountSessionCreateComponentsAgenticCommerceSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsAgenticCommerceSettingsFeaturesParams `form:"features"`
 }
 
 // The list of features enabled in the embedded component.
@@ -1066,17 +1077,6 @@ type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
 }
 
 // An empty list, because this embedded component has no features.
-type AccountSessionCreateComponentsAgenticCommerceSettingsFeaturesParams struct{}
-
-// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
-type AccountSessionCreateComponentsAgenticCommerceSettingsParams struct {
-	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
-	Features *AccountSessionCreateComponentsAgenticCommerceSettingsFeaturesParams `form:"features"`
-}
-
-// An empty list, because this embedded component has no features.
 type AccountSessionCreateComponentsTerminalHardwareOrdersFeaturesParams struct{}
 
 // Configuration for the [Terminal hardware orders](https://docs.stripe.com/connect/supported-embedded-components/terminal-hardware-orders/) embedded component.
@@ -1351,6 +1351,14 @@ type AccountSessionComponentsIssuingCardsList struct {
 	Enabled  bool                                              `json:"enabled"`
 	Features *AccountSessionComponentsIssuingCardsListFeatures `json:"features"`
 }
+type AccountSessionComponentsNetworkCostPassthroughReportFeatures struct{}
+
+// Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
+type AccountSessionComponentsNetworkCostPassthroughReport struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                          `json:"enabled"`
+	Features *AccountSessionComponentsNetworkCostPassthroughReportFeatures `json:"features"`
+}
 type AccountSessionComponentsNotificationBannerFeatures struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
@@ -1445,14 +1453,6 @@ type AccountSessionComponentsTaxSettings struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
-}
-type AccountSessionComponentsNetworkCostPassthroughReportFeatures struct{}
-
-// Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
-type AccountSessionComponentsNetworkCostPassthroughReport struct {
-	// Whether the embedded component is enabled.
-	Enabled  bool                                                          `json:"enabled"`
-	Features *AccountSessionComponentsNetworkCostPassthroughReportFeatures `json:"features"`
 }
 type AccountSessionComponentsTerminalHardwareOrdersFeatures struct{}
 

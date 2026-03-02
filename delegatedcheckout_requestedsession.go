@@ -89,8 +89,16 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptio
 	ShippingOption *string `form:"shipping_option"`
 }
 
+// The digital fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigitalParams struct {
+	// The digital option identifier.
+	DigitalOption *string `form:"digital_option"`
+}
+
 // The fulfillment option to select.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionParams struct {
+	// The digital fulfillment option.
+	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigitalParams `form:"digital"`
 	// The shipping fulfillment option.
 	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams `form:"shipping"`
 	// The type of fulfillment option.
@@ -263,8 +271,16 @@ type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmen
 	ShippingOption *string `form:"shipping_option"`
 }
 
+// The digital fulfillment option.
+type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionDigitalParams struct {
+	// The digital option identifier.
+	DigitalOption *string `form:"digital_option"`
+}
+
 // The fulfillment option to select.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionParams struct {
+	// The digital fulfillment option.
+	Digital *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionDigitalParams `form:"digital"`
 	// The shipping fulfillment option.
 	Shipping *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams `form:"shipping"`
 	// The type of fulfillment option.
@@ -483,8 +499,28 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippin
 	ShippingOptions []*DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingShippingOption `json:"shipping_options"`
 }
 
+// The digital options.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionDigitalDigitalOption struct {
+	// The description of the digital fulfillment option.
+	Description string `json:"description"`
+	// The digital amount of the digital fulfillment option.
+	DigitalAmount int64 `json:"digital_amount"`
+	// The display name of the digital fulfillment option.
+	DisplayName string `json:"display_name"`
+	// The key of the digital fulfillment option.
+	Key string `json:"key"`
+}
+
+// The digital fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionDigital struct {
+	// The digital options.
+	DigitalOptions []*DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionDigitalDigitalOption `json:"digital_options"`
+}
+
 // The fulfillment options.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOption struct {
+	// The digital fulfillment option.
+	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionDigital `json:"digital"`
 	// The shipping option.
 	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShipping `json:"shipping"`
 	// The type of the fulfillment option.
@@ -497,8 +533,16 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptio
 	ShippingOption string `json:"shipping_option"`
 }
 
+// The digital fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigital struct {
+	// The digital option.
+	DigitalOption string `json:"digital_option"`
+}
+
 // The fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOption struct {
+	// The digital fulfillment option.
+	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigital `json:"digital"`
 	// The shipping option.
 	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShipping `json:"shipping"`
 	// The type of the selected fulfillment option.
@@ -557,6 +601,8 @@ type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	AmountDiscount int64 `json:"amount_discount"`
 	// The total before any discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
+	// The fulfillment type of the line item.
+	FulfillmentType string `json:"fulfillment_type"`
 	// The key of the line item.
 	Key            string                                                         `json:"key"`
 	ProductDetails *DelegatedCheckoutRequestedSessionLineItemDetailProductDetails `json:"product_details"`
@@ -627,7 +673,23 @@ type DelegatedCheckoutRequestedSessionRiskDetails struct {
 	// The risk metadata for the client device.
 	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionRiskDetailsClientDeviceMetadataDetails `json:"client_device_metadata_details"`
 }
-type DelegatedCheckoutRequestedSessionSellerDetails struct{}
+
+// The marketplace seller details.
+type DelegatedCheckoutRequestedSessionSellerDetailsMarketplaceSellerDetails struct{}
+type DelegatedCheckoutRequestedSessionSellerDetails struct {
+	// The marketplace seller details.
+	MarketplaceSellerDetails *DelegatedCheckoutRequestedSessionSellerDetailsMarketplaceSellerDetails `json:"marketplace_seller_details"`
+	// The network profile of the seller.
+	NetworkProfile *Profile `json:"network_profile"`
+	// The URL to the seller's privacy notice.
+	PrivacyNoticeURL string `json:"privacy_notice_url"`
+	// The URL to the seller's return policy.
+	ReturnPolicyURL string `json:"return_policy_url"`
+	// The URL to the seller's store policy.
+	StorePolicyURL string `json:"store_policy_url"`
+	// The URL to the seller's terms of service.
+	TermsOfServiceURL string `json:"terms_of_service_url"`
+}
 
 // The applicable fees of the total details.
 type DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee struct {
@@ -672,7 +734,7 @@ type DelegatedCheckoutRequestedSession struct {
 	ID string `json:"id"`
 	// The line items to be purchased.
 	LineItemDetails []*DelegatedCheckoutRequestedSessionLineItemDetail `json:"line_item_details"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

@@ -208,10 +208,23 @@ type BillingCreditBalanceSummaryBalanceLedgerBalance struct {
 	Type BillingCreditBalanceSummaryBalanceLedgerBalanceType `json:"type"`
 }
 
+// The details of the most recent meter event included in the balance update.
+type BillingCreditBalanceSummaryBalanceBalanceUpdateDetailsLatestMeterEvent struct {
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Maximum event time across all meter events that were processed and included in the balance update. Measured in seconds since the Unix epoch.
+	Timestamp int64 `json:"timestamp"`
+}
+type BillingCreditBalanceSummaryBalanceBalanceUpdateDetails struct {
+	// The details of the most recent meter event included in the balance update.
+	LatestMeterEvent *BillingCreditBalanceSummaryBalanceBalanceUpdateDetailsLatestMeterEvent `json:"latest_meter_event"`
+}
+
 // The billing credit balances. One entry per credit grant currency. If a customer only has credit grants in a single currency, then this will have a single balance entry.
 type BillingCreditBalanceSummaryBalance struct {
-	AvailableBalance *BillingCreditBalanceSummaryBalanceAvailableBalance `json:"available_balance"`
-	LedgerBalance    *BillingCreditBalanceSummaryBalanceLedgerBalance    `json:"ledger_balance"`
+	AvailableBalance     *BillingCreditBalanceSummaryBalanceAvailableBalance     `json:"available_balance"`
+	BalanceUpdateDetails *BillingCreditBalanceSummaryBalanceBalanceUpdateDetails `json:"balance_update_details"`
+	LedgerBalance        *BillingCreditBalanceSummaryBalanceLedgerBalance        `json:"ledger_balance"`
 }
 
 // Indicates the billing credit balance for billing credits granted to a customer.

@@ -342,6 +342,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeNaverPay           SubscriptionPaymentSettingsPaymentMethodType = "naver_pay"
 	SubscriptionPaymentSettingsPaymentMethodTypeNzBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "nz_bank_account"
 	SubscriptionPaymentSettingsPaymentMethodTypeP24                SubscriptionPaymentSettingsPaymentMethodType = "p24"
+	SubscriptionPaymentSettingsPaymentMethodTypePayByBank          SubscriptionPaymentSettingsPaymentMethodType = "pay_by_bank"
 	SubscriptionPaymentSettingsPaymentMethodTypePayco              SubscriptionPaymentSettingsPaymentMethodType = "payco"
 	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
 	SubscriptionPaymentSettingsPaymentMethodTypePaypal             SubscriptionPaymentSettingsPaymentMethodType = "paypal"
@@ -411,6 +412,15 @@ const (
 	SubscriptionStatusPaused            SubscriptionStatus = "paused"
 	SubscriptionStatusTrialing          SubscriptionStatus = "trialing"
 	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
+)
+
+// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+type SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor string
+
+// List of values that SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor can take
+const (
+	SubscriptionTrialSettingsEndBehaviorBillingCycleAnchorNow       SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor = "now"
+	SubscriptionTrialSettingsEndBehaviorBillingCycleAnchorUnchanged SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor = "unchanged"
 )
 
 // Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
@@ -905,7 +915,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -974,7 +984,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams stru
 	AmountType *string `form:"amount_type"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description *string `form:"description"`
-	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	// End date of the mandate or subscription.
 	EndDate *int64 `form:"end_date"`
 }
 
@@ -1262,7 +1272,7 @@ func (p *SubscriptionPauseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
+// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If no resumption invoice is generated, the subscription becomes active immediately. If a resumption invoice is generated, the subscription remains paused until the invoice is paid or marked uncollectible. If the invoice is not paid by the expiration date, it is voided and the subscription remains paused.
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
@@ -1706,7 +1716,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -1775,7 +1785,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParam
 	AmountType *string `form:"amount_type"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description *string `form:"description"`
-	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	// End date of the mandate or subscription.
 	EndDate *int64 `form:"end_date"`
 }
 
@@ -2450,7 +2460,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -2519,7 +2529,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParam
 	AmountType *string `form:"amount_type"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description *string `form:"description"`
-	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	// End date of the mandate or subscription.
 	EndDate *int64 `form:"end_date"`
 }
 
@@ -2907,6 +2917,12 @@ type SubscriptionLastPriceMigrationError struct {
 	Type SubscriptionLastPriceMigrationErrorType `json:"type"`
 }
 
+// Settings for Managed Payments for this Subscription and resulting [Invoices](https://docs.stripe.com/api/invoices/object) and [PaymentIntents](https://docs.stripe.com/api/payment_intents/object).
+type SubscriptionManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
+}
+
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
@@ -2949,7 +2965,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
@@ -3008,7 +3024,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
 	AmountType SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType `json:"amount_type"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description string `json:"description"`
-	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	// End date of the mandate or subscription.
 	EndDate int64 `json:"end_date"`
 }
 
@@ -3117,15 +3133,17 @@ type SubscriptionTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
-// Defines how a subscription behaves when a free trial ends.
+// Defines how a subscription behaves when a trial ends.
 type SubscriptionTrialSettingsEndBehavior struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+	BillingCycleAnchor SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
 }
 
 // Settings related to subscription trials.
 type SubscriptionTrialSettings struct {
-	// Defines how a subscription behaves when a free trial ends.
+	// Defines how a subscription behaves when a trial ends.
 	EndBehavior *SubscriptionTrialSettingsEndBehavior `json:"end_behavior"`
 }
 
@@ -3194,6 +3212,8 @@ type Subscription struct {
 	LatestInvoice *Invoice `json:"latest_invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Settings for Managed Payments for this Subscription and resulting [Invoices](https://docs.stripe.com/api/invoices/object) and [PaymentIntents](https://docs.stripe.com/api/payment_intents/object).
+	ManagedPayments *SubscriptionManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`.

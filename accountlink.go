@@ -8,7 +8,7 @@ package stripe
 
 // Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
 type AccountLinkCollectionOptionsParams struct {
-	// Specifies whether the platform collects external account information from connected accounts during Connect Onboarding. When set to `false`, external account collection is skipped. Defaults to `true`.
+	// Specifies whether the platform collects external account information from connected accounts during Connect Onboarding. When set to `true`, the platform only collects external account information if the connected account has capabilities which require it. Some capabilities, such as `treasury`, don't require external account collection. When set to `false`, external account collection is skipped. Defaults to `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`.
 	Fields *string `form:"fields"`
@@ -62,7 +62,7 @@ func (p *AccountLinkParams) AddExpand(f string) {
 
 // Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
 type AccountLinkCreateCollectionOptionsParams struct {
-	// Specifies whether the platform collects external account information from connected accounts during Connect Onboarding. When set to `false`, external account collection is skipped. Defaults to `true`.
+	// Specifies whether the platform collects external account information from connected accounts during Connect Onboarding. When set to `true`, the platform only collects external account information if the connected account has capabilities which require it. Some capabilities, such as `treasury`, don't require external account collection. When set to `false`, external account collection is skipped. Defaults to `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`.
 	Fields *string `form:"fields"`

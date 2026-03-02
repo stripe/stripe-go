@@ -14,12 +14,50 @@ const (
 	QuoteLineActionAddDiscountDiscountEndTypeLineEndsAt QuoteLineActionAddDiscountDiscountEndType = "line_ends_at"
 )
 
+// The type of service period anchor config.
+type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigType string
+
+// List of values that QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigType can take
+const (
+	QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigTypeCustom  QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigType = "custom"
+	QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigTypeInherit QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigType = "inherit"
+)
+
+// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+type QuoteLineActionAddDiscountSettingsStartDate string
+
+// List of values that QuoteLineActionAddDiscountSettingsStartDate can take
+const (
+	QuoteLineActionAddDiscountSettingsStartDateCurrentPeriodEnd   QuoteLineActionAddDiscountSettingsStartDate = "current_period_end"
+	QuoteLineActionAddDiscountSettingsStartDateCurrentPeriodStart QuoteLineActionAddDiscountSettingsStartDate = "current_period_start"
+	QuoteLineActionAddDiscountSettingsStartDateLineStart          QuoteLineActionAddDiscountSettingsStartDate = "line_start"
+)
+
 // The discount end type.
 type QuoteLineActionAddItemDiscountDiscountEndType string
 
 // List of values that QuoteLineActionAddItemDiscountDiscountEndType can take
 const (
 	QuoteLineActionAddItemDiscountDiscountEndTypeTimestamp QuoteLineActionAddItemDiscountDiscountEndType = "timestamp"
+)
+
+// The type of service period anchor config.
+type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigType string
+
+// List of values that QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigType can take
+const (
+	QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigTypeCustom  QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigType = "custom"
+	QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigTypeInherit QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigType = "inherit"
+)
+
+// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+type QuoteLineActionAddItemDiscountSettingsStartDate string
+
+// List of values that QuoteLineActionAddItemDiscountSettingsStartDate can take
+const (
+	QuoteLineActionAddItemDiscountSettingsStartDateCurrentPeriodEnd   QuoteLineActionAddItemDiscountSettingsStartDate = "current_period_end"
+	QuoteLineActionAddItemDiscountSettingsStartDateCurrentPeriodStart QuoteLineActionAddItemDiscountSettingsStartDate = "current_period_start"
+	QuoteLineActionAddItemDiscountSettingsStartDateLineStart          QuoteLineActionAddItemDiscountSettingsStartDate = "line_start"
 )
 
 // Determines the type of trial for this item.
@@ -47,12 +85,50 @@ const (
 	QuoteLineActionSetDiscountDiscountEndTypeTimestamp QuoteLineActionSetDiscountDiscountEndType = "timestamp"
 )
 
+// The type of service period anchor config.
+type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigType string
+
+// List of values that QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigType can take
+const (
+	QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigTypeCustom  QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigType = "custom"
+	QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigTypeInherit QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigType = "inherit"
+)
+
+// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+type QuoteLineActionSetDiscountSettingsStartDate string
+
+// List of values that QuoteLineActionSetDiscountSettingsStartDate can take
+const (
+	QuoteLineActionSetDiscountSettingsStartDateCurrentPeriodEnd   QuoteLineActionSetDiscountSettingsStartDate = "current_period_end"
+	QuoteLineActionSetDiscountSettingsStartDateCurrentPeriodStart QuoteLineActionSetDiscountSettingsStartDate = "current_period_start"
+	QuoteLineActionSetDiscountSettingsStartDateLineStart          QuoteLineActionSetDiscountSettingsStartDate = "line_start"
+)
+
 // The discount end type.
 type QuoteLineActionSetItemDiscountDiscountEndType string
 
 // List of values that QuoteLineActionSetItemDiscountDiscountEndType can take
 const (
 	QuoteLineActionSetItemDiscountDiscountEndTypeTimestamp QuoteLineActionSetItemDiscountDiscountEndType = "timestamp"
+)
+
+// The type of service period anchor config.
+type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigType string
+
+// List of values that QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigType can take
+const (
+	QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigTypeCustom  QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigType = "custom"
+	QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigTypeInherit QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigType = "inherit"
+)
+
+// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+type QuoteLineActionSetItemDiscountSettingsStartDate string
+
+// List of values that QuoteLineActionSetItemDiscountSettingsStartDate can take
+const (
+	QuoteLineActionSetItemDiscountSettingsStartDateCurrentPeriodEnd   QuoteLineActionSetItemDiscountSettingsStartDate = "current_period_end"
+	QuoteLineActionSetItemDiscountSettingsStartDateCurrentPeriodStart QuoteLineActionSetItemDiscountSettingsStartDate = "current_period_start"
+	QuoteLineActionSetItemDiscountSettingsStartDateLineStart          QuoteLineActionSetItemDiscountSettingsStartDate = "line_start"
 )
 
 // Determines the type of trial for this item.
@@ -208,6 +284,28 @@ type QuoteLineActionAddDiscountDiscountEnd struct {
 	// The discount end type.
 	Type QuoteLineActionAddDiscountDiscountEndType `json:"type"`
 }
+type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigCustom struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth int64 `json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour int64 `json:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute int64 `json:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month int64 `json:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second int64 `json:"second"`
+}
+type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfig struct {
+	Custom *QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	// The type of service period anchor config.
+	Type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
+}
+type QuoteLineActionAddDiscountSettings struct {
+	ServicePeriodAnchorConfig *QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfig `json:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+	StartDate QuoteLineActionAddDiscountSettingsStartDate `json:"start_date"`
+}
 
 // Details for the `add_discount` type.
 type QuoteLineActionAddDiscount struct {
@@ -220,7 +318,8 @@ type QuoteLineActionAddDiscount struct {
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
 	Index int64 `json:"index"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *PromotionCode `json:"promotion_code"`
+	PromotionCode *PromotionCode                      `json:"promotion_code"`
+	Settings      *QuoteLineActionAddDiscountSettings `json:"settings"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -229,6 +328,28 @@ type QuoteLineActionAddItemDiscountDiscountEnd struct {
 	Timestamp int64 `json:"timestamp"`
 	// The discount end type.
 	Type QuoteLineActionAddItemDiscountDiscountEndType `json:"type"`
+}
+type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustom struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth int64 `json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour int64 `json:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute int64 `json:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month int64 `json:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second int64 `json:"second"`
+}
+type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfig struct {
+	Custom *QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	// The type of service period anchor config.
+	Type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
+}
+type QuoteLineActionAddItemDiscountSettings struct {
+	ServicePeriodAnchorConfig *QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfig `json:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+	StartDate QuoteLineActionAddItemDiscountSettingsStartDate `json:"start_date"`
 }
 
 // The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
@@ -240,7 +361,8 @@ type QuoteLineActionAddItemDiscount struct {
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEnd `json:"discount_end"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *PromotionCode `json:"promotion_code"`
+	PromotionCode *PromotionCode                          `json:"promotion_code"`
+	Settings      *QuoteLineActionAddItemDiscountSettings `json:"settings"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -302,6 +424,28 @@ type QuoteLineActionSetDiscountDiscountEnd struct {
 	// The discount end type.
 	Type QuoteLineActionSetDiscountDiscountEndType `json:"type"`
 }
+type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigCustom struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth int64 `json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour int64 `json:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute int64 `json:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month int64 `json:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second int64 `json:"second"`
+}
+type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfig struct {
+	Custom *QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	// The type of service period anchor config.
+	Type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
+}
+type QuoteLineActionSetDiscountSettings struct {
+	ServicePeriodAnchorConfig *QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfig `json:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+	StartDate QuoteLineActionSetDiscountSettingsStartDate `json:"start_date"`
+}
 
 // Details for the `set_discounts` type.
 type QuoteLineActionSetDiscount struct {
@@ -312,7 +456,8 @@ type QuoteLineActionSetDiscount struct {
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionSetDiscountDiscountEnd `json:"discount_end"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *PromotionCode `json:"promotion_code"`
+	PromotionCode *PromotionCode                      `json:"promotion_code"`
+	Settings      *QuoteLineActionSetDiscountSettings `json:"settings"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -321,6 +466,28 @@ type QuoteLineActionSetItemDiscountDiscountEnd struct {
 	Timestamp int64 `json:"timestamp"`
 	// The discount end type.
 	Type QuoteLineActionSetItemDiscountDiscountEndType `json:"type"`
+}
+type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustom struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth int64 `json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour int64 `json:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute int64 `json:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month int64 `json:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second int64 `json:"second"`
+}
+type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfig struct {
+	Custom *QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	// The type of service period anchor config.
+	Type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
+}
+type QuoteLineActionSetItemDiscountSettings struct {
+	ServicePeriodAnchorConfig *QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfig `json:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+	StartDate QuoteLineActionSetItemDiscountSettingsStartDate `json:"start_date"`
 }
 
 // The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
@@ -332,7 +499,8 @@ type QuoteLineActionSetItemDiscount struct {
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEnd `json:"discount_end"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *PromotionCode `json:"promotion_code"`
+	PromotionCode *PromotionCode                          `json:"promotion_code"`
+	Settings      *QuoteLineActionSetItemDiscountSettings `json:"settings"`
 }
 
 // Options that configure the trial on the subscription item.

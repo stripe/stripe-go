@@ -77,6 +77,15 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
+// Indicates whether or not the reauthorization feature is supported.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
+)
+
 // Status of a card based on the card issuer.
 type ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus string
 
@@ -678,6 +687,12 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 	Type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType `json:"type"`
 }
+
+// Whether the PaymentIntent can be reauthorized or not.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
+}
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
@@ -715,6 +730,8 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -725,8 +742,14 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// How card details were read in this transaction.
 	ReadMethod ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
+	// Whether the PaymentIntent can be reauthorized or not.
+	Reauthorization *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorization `json:"reauthorization"`
+	// The time at which the associated PaymentIntent will transition to a terminal state if it is not reauthorized.
+	ReauthorizeBefore int64 `json:"reauthorize_before"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
 	Wallet  *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWallet  `json:"wallet"`

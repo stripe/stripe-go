@@ -33,31 +33,6 @@ const (
 	BillingAlertCreditBalanceThresholdLteBalanceTypeMonetary          BillingAlertCreditBalanceThresholdLteBalanceType = "monetary"
 )
 
-// Status of the alert. This can be active, inactive or archived.
-type BillingAlertStatus string
-
-// List of values that BillingAlertStatus can take
-const (
-	BillingAlertStatusActive   BillingAlertStatus = "active"
-	BillingAlertStatusArchived BillingAlertStatus = "archived"
-	BillingAlertStatusInactive BillingAlertStatus = "inactive"
-)
-
-type BillingAlertUsageThresholdFilterType string
-
-// List of values that BillingAlertUsageThresholdFilterType can take
-const (
-	BillingAlertUsageThresholdFilterTypeCustomer BillingAlertUsageThresholdFilterType = "customer"
-)
-
-// Defines how the alert will behave.
-type BillingAlertUsageThresholdRecurrence string
-
-// List of values that BillingAlertUsageThresholdRecurrence can take
-const (
-	BillingAlertUsageThresholdRecurrenceOneTime BillingAlertUsageThresholdRecurrence = "one_time"
-)
-
 // Defines the period over which spend is aggregated.
 type BillingAlertSpendThresholdAggregationPeriod string
 
@@ -81,6 +56,31 @@ type BillingAlertSpendThresholdGTEType string
 const (
 	BillingAlertSpendThresholdGTETypeAmount            BillingAlertSpendThresholdGTEType = "amount"
 	BillingAlertSpendThresholdGTETypeCustomPricingUnit BillingAlertSpendThresholdGTEType = "custom_pricing_unit"
+)
+
+// Status of the alert. This can be active, inactive or archived.
+type BillingAlertStatus string
+
+// List of values that BillingAlertStatus can take
+const (
+	BillingAlertStatusActive   BillingAlertStatus = "active"
+	BillingAlertStatusArchived BillingAlertStatus = "archived"
+	BillingAlertStatusInactive BillingAlertStatus = "inactive"
+)
+
+type BillingAlertUsageThresholdFilterType string
+
+// List of values that BillingAlertUsageThresholdFilterType can take
+const (
+	BillingAlertUsageThresholdFilterTypeCustomer BillingAlertUsageThresholdFilterType = "customer"
+)
+
+// Defines how the alert will behave.
+type BillingAlertUsageThresholdRecurrence string
+
+// List of values that BillingAlertUsageThresholdRecurrence can take
+const (
+	BillingAlertUsageThresholdRecurrenceOneTime BillingAlertUsageThresholdRecurrence = "one_time"
 )
 
 // Lists billing active and inactive alerts
@@ -179,26 +179,6 @@ type BillingAlertCreditBalanceThresholdParams struct {
 	Lte *BillingAlertCreditBalanceThresholdLteParams `form:"lte"`
 }
 
-// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-type BillingAlertUsageThresholdFilterParams struct {
-	// Limit the scope to this usage alert only to this customer.
-	Customer *string `form:"customer"`
-	// What type of filter is being applied to this usage alert.
-	Type *string `form:"type"`
-}
-
-// The configuration of the usage threshold.
-type BillingAlertUsageThresholdParams struct {
-	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-	Filters []*BillingAlertUsageThresholdFilterParams `form:"filters"`
-	// Defines at which value the alert will fire.
-	GTE *int64 `form:"gte"`
-	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-	Meter *string `form:"meter"`
-	// Defines how the alert will behave.
-	Recurrence *string `form:"recurrence"`
-}
-
 // Filters to scope the spend calculation.
 type BillingAlertSpendThresholdFiltersParams struct {
 	// Filter by billable item IDs. Maximum of 20 billable items.
@@ -211,7 +191,7 @@ type BillingAlertSpendThresholdFiltersParams struct {
 	PricingPlanSubscription *string `form:"pricing_plan_subscription"`
 }
 
-// The monetary amount. Required when type is `amount`.
+// The monetary amount. Required when type is `amount`. The threshold is the total_before_tax, the amount consumed after all credits and discounts are applied, but before tax is applied.
 type BillingAlertSpendThresholdGTEAmountParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
 	Currency *string `form:"currency"`
@@ -229,7 +209,7 @@ type BillingAlertSpendThresholdGTECustomPricingUnitParams struct {
 
 // Defines at which value the alert will fire.
 type BillingAlertSpendThresholdGTEParams struct {
-	// The monetary amount. Required when type is `amount`.
+	// The monetary amount. Required when type is `amount`. The threshold is the total_before_tax, the amount consumed after all credits and discounts are applied, but before tax is applied.
 	Amount *BillingAlertSpendThresholdGTEAmountParams `form:"amount"`
 	// The custom pricing unit amount. Required when type is `custom_pricing_unit`.
 	CustomPricingUnit *BillingAlertSpendThresholdGTECustomPricingUnitParams `form:"custom_pricing_unit"`
@@ -237,7 +217,7 @@ type BillingAlertSpendThresholdGTEParams struct {
 	Type *string `form:"type"`
 }
 
-// The configuration of the spend threshold.
+// The configuration of the spend threshold. An event fires when the amount consumed exceeds the threshold, after all credits and discounts are applied but before tax is applied.
 type BillingAlertSpendThresholdParams struct {
 	// Defines the period over which spend is aggregated.
 	AggregationPeriod *string `form:"aggregation_period"`
@@ -249,6 +229,26 @@ type BillingAlertSpendThresholdParams struct {
 	GTE *BillingAlertSpendThresholdGTEParams `form:"gte"`
 }
 
+// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
+type BillingAlertUsageThresholdFilterParams struct {
+	// Limit the scope to this usage alert only to this customer.
+	Customer *string `form:"customer"`
+	// What type of filter is being applied to this usage alert.
+	Type *string `form:"type"`
+}
+
+// The configuration of the usage threshold.
+type BillingAlertUsageThresholdParams struct {
+	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
+	Filters []*BillingAlertUsageThresholdFilterParams `form:"filters"`
+	// Defines the threshold value that triggers the alert.
+	GTE *int64 `form:"gte"`
+	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
+	Meter *string `form:"meter"`
+	// Defines how the alert will behave.
+	Recurrence *string `form:"recurrence"`
+}
+
 // Creates a billing alert
 type BillingAlertParams struct {
 	Params `form:"*"`
@@ -258,7 +258,7 @@ type BillingAlertParams struct {
 	CreditBalanceThreshold *BillingAlertCreditBalanceThresholdParams `form:"credit_balance_threshold"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The configuration of the spend threshold.
+	// The configuration of the spend threshold. An event fires when the amount consumed exceeds the threshold, after all credits and discounts are applied but before tax is applied.
 	SpendThreshold *BillingAlertSpendThresholdParams `form:"spend_threshold"`
 	// The title of the alert.
 	Title *string `form:"title"`
@@ -385,26 +385,6 @@ type BillingAlertCreateCreditBalanceThresholdParams struct {
 	Lte *BillingAlertCreateCreditBalanceThresholdLteParams `form:"lte"`
 }
 
-// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-type BillingAlertCreateUsageThresholdFilterParams struct {
-	// Limit the scope to this usage alert only to this customer.
-	Customer *string `form:"customer"`
-	// What type of filter is being applied to this usage alert.
-	Type *string `form:"type"`
-}
-
-// The configuration of the usage threshold.
-type BillingAlertCreateUsageThresholdParams struct {
-	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-	Filters []*BillingAlertCreateUsageThresholdFilterParams `form:"filters"`
-	// Defines at which value the alert will fire.
-	GTE *int64 `form:"gte"`
-	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-	Meter *string `form:"meter"`
-	// Defines how the alert will behave.
-	Recurrence *string `form:"recurrence"`
-}
-
 // Filters to scope the spend calculation.
 type BillingAlertCreateSpendThresholdFiltersParams struct {
 	// Filter by billable item IDs. Maximum of 20 billable items.
@@ -417,7 +397,7 @@ type BillingAlertCreateSpendThresholdFiltersParams struct {
 	PricingPlanSubscription *string `form:"pricing_plan_subscription"`
 }
 
-// The monetary amount. Required when type is `amount`.
+// The monetary amount. Required when type is `amount`. The threshold is the total_before_tax, the amount consumed after all credits and discounts are applied, but before tax is applied.
 type BillingAlertCreateSpendThresholdGTEAmountParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
 	Currency *string `form:"currency"`
@@ -435,7 +415,7 @@ type BillingAlertCreateSpendThresholdGTECustomPricingUnitParams struct {
 
 // Defines at which value the alert will fire.
 type BillingAlertCreateSpendThresholdGTEParams struct {
-	// The monetary amount. Required when type is `amount`.
+	// The monetary amount. Required when type is `amount`. The threshold is the total_before_tax, the amount consumed after all credits and discounts are applied, but before tax is applied.
 	Amount *BillingAlertCreateSpendThresholdGTEAmountParams `form:"amount"`
 	// The custom pricing unit amount. Required when type is `custom_pricing_unit`.
 	CustomPricingUnit *BillingAlertCreateSpendThresholdGTECustomPricingUnitParams `form:"custom_pricing_unit"`
@@ -443,7 +423,7 @@ type BillingAlertCreateSpendThresholdGTEParams struct {
 	Type *string `form:"type"`
 }
 
-// The configuration of the spend threshold.
+// The configuration of the spend threshold. An event fires when the amount consumed exceeds the threshold, after all credits and discounts are applied but before tax is applied.
 type BillingAlertCreateSpendThresholdParams struct {
 	// Defines the period over which spend is aggregated.
 	AggregationPeriod *string `form:"aggregation_period"`
@@ -455,6 +435,26 @@ type BillingAlertCreateSpendThresholdParams struct {
 	GTE *BillingAlertCreateSpendThresholdGTEParams `form:"gte"`
 }
 
+// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
+type BillingAlertCreateUsageThresholdFilterParams struct {
+	// Limit the scope to this usage alert only to this customer.
+	Customer *string `form:"customer"`
+	// What type of filter is being applied to this usage alert.
+	Type *string `form:"type"`
+}
+
+// The configuration of the usage threshold.
+type BillingAlertCreateUsageThresholdParams struct {
+	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
+	Filters []*BillingAlertCreateUsageThresholdFilterParams `form:"filters"`
+	// Defines the threshold value that triggers the alert.
+	GTE *int64 `form:"gte"`
+	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
+	Meter *string `form:"meter"`
+	// Defines how the alert will behave.
+	Recurrence *string `form:"recurrence"`
+}
+
 // Creates a billing alert
 type BillingAlertCreateParams struct {
 	Params `form:"*"`
@@ -464,7 +464,7 @@ type BillingAlertCreateParams struct {
 	CreditBalanceThreshold *BillingAlertCreateCreditBalanceThresholdParams `form:"credit_balance_threshold"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The configuration of the spend threshold.
+	// The configuration of the spend threshold. An event fires when the amount consumed exceeds the threshold, after all credits and discounts are applied but before tax is applied.
 	SpendThreshold *BillingAlertCreateSpendThresholdParams `form:"spend_threshold"`
 	// The title of the alert.
 	Title *string `form:"title"`
@@ -545,25 +545,6 @@ type BillingAlertCreditBalanceThreshold struct {
 	Lte     *BillingAlertCreditBalanceThresholdLte      `json:"lte"`
 }
 
-// The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
-type BillingAlertUsageThresholdFilter struct {
-	// Limit the scope of the alert to this customer ID
-	Customer *Customer                            `json:"customer"`
-	Type     BillingAlertUsageThresholdFilterType `json:"type"`
-}
-
-// Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://docs.stripe.com/api/billing/meter).
-type BillingAlertUsageThreshold struct {
-	// The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
-	Filters []*BillingAlertUsageThresholdFilter `json:"filters"`
-	// The value at which this alert will trigger.
-	GTE int64 `json:"gte"`
-	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-	Meter *BillingMeter `json:"meter"`
-	// Defines how the alert will behave.
-	Recurrence BillingAlertUsageThresholdRecurrence `json:"recurrence"`
-}
-
 // Filters to scope the spend calculation.
 type BillingAlertSpendThresholdFilters struct {
 	// Filter by billable item IDs.
@@ -630,6 +611,25 @@ type BillingAlertSpendThreshold struct {
 	GroupBy BillingAlertSpendThresholdGroupBy `json:"group_by"`
 	// The threshold value configuration for a spend threshold alert.
 	GTE *BillingAlertSpendThresholdGTE `json:"gte"`
+}
+
+// The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
+type BillingAlertUsageThresholdFilter struct {
+	// Limit the scope of the alert to this customer ID
+	Customer *Customer                            `json:"customer"`
+	Type     BillingAlertUsageThresholdFilterType `json:"type"`
+}
+
+// Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://docs.stripe.com/api/billing/meter).
+type BillingAlertUsageThreshold struct {
+	// The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
+	Filters []*BillingAlertUsageThresholdFilter `json:"filters"`
+	// The value at which this alert will trigger.
+	GTE int64 `json:"gte"`
+	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
+	Meter *BillingMeter `json:"meter"`
+	// Defines how the alert will behave.
+	Recurrence BillingAlertUsageThresholdRecurrence `json:"recurrence"`
 }
 
 // A billing alert is a resource that notifies you when a certain usage threshold on a meter is crossed. For example, you might create a billing alert to notify you when a certain user made 100 API requests.

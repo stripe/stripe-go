@@ -218,6 +218,15 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
+// Indicates whether or not the reauthorization feature is supported.
+type ChargePaymentMethodDetailsCardReauthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardReauthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardReauthorizationStatusAvailable   ChargePaymentMethodDetailsCardReauthorizationStatus = "available"
+	ChargePaymentMethodDetailsCardReauthorizationStatusUnavailable ChargePaymentMethodDetailsCardReauthorizationStatus = "unavailable"
+)
+
 // Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type ChargePaymentMethodDetailsCardPresentNetwork string
 
@@ -263,6 +272,15 @@ const (
 	ChargePaymentMethodDetailsCardPresentWalletTypeGooglePay  ChargePaymentMethodDetailsCardPresentWalletType = "google_pay"
 	ChargePaymentMethodDetailsCardPresentWalletTypeSamsungPay ChargePaymentMethodDetailsCardPresentWalletType = "samsung_pay"
 	ChargePaymentMethodDetailsCardPresentWalletTypeUnknown    ChargePaymentMethodDetailsCardPresentWalletType = "unknown"
+)
+
+// Indicates whether or not the reauthorization feature is supported.
+type ChargePaymentMethodDetailsCardPresentReauthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardPresentReauthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardPresentReauthorizationStatusAvailable   ChargePaymentMethodDetailsCardPresentReauthorizationStatus = "available"
+	ChargePaymentMethodDetailsCardPresentReauthorizationStatusUnavailable ChargePaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
 )
 
 // The blockchain network that the transaction was sent on.
@@ -3631,6 +3649,12 @@ type ChargePaymentMethodDetailsCardWallet struct {
 	Type         PaymentMethodCardWalletType                       `json:"type"`
 	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout"`
 }
+
+// Whether the PaymentIntent can be reauthorized or not.
+type ChargePaymentMethodDetailsCardReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status ChargePaymentMethodDetailsCardReauthorizationStatus `json:"status"`
+}
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
@@ -3679,6 +3703,10 @@ type ChargePaymentMethodDetailsCard struct {
 	NetworkTransactionID string                                              `json:"network_transaction_id"`
 	Overcapture          *ChargePaymentMethodDetailsCardOvercapture          `json:"overcapture"`
 	PartialAuthorization *ChargePaymentMethodDetailsCardPartialAuthorization `json:"partial_authorization"`
+	// Whether the PaymentIntent can be reauthorized or not.
+	Reauthorization *ChargePaymentMethodDetailsCardReauthorization `json:"reauthorization"`
+	// The time at which the associated PaymentIntent will transition to a terminal state if it is not reauthorized.
+	ReauthorizeBefore int64 `json:"reauthorize_before"`
 	// Status of a card based on the card issuer.
 	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
 	// Populated if this transaction used 3D Secure authentication.
@@ -3728,6 +3756,12 @@ type ChargePaymentMethodDetailsCardPresentWallet struct {
 	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 	Type ChargePaymentMethodDetailsCardPresentWalletType `json:"type"`
 }
+
+// Whether the PaymentIntent can be reauthorized or not.
+type ChargePaymentMethodDetailsCardPresentReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status ChargePaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
+}
 type ChargePaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
@@ -3759,6 +3793,8 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardPresentNetwork `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -3769,8 +3805,14 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// How card details were read in this transaction.
 	ReadMethod string `json:"read_method"`
+	// Whether the PaymentIntent can be reauthorized or not.
+	Reauthorization *ChargePaymentMethodDetailsCardPresentReauthorization `json:"reauthorization"`
+	// The time at which the associated PaymentIntent will transition to a terminal state if it is not reauthorized.
+	ReauthorizeBefore int64 `json:"reauthorize_before"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
 	Wallet  *ChargePaymentMethodDetailsCardPresentWallet  `json:"wallet"`
@@ -3909,12 +3951,16 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	GeneratedCard string `json:"generated_card"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// How card details were read in this transaction.
 	ReadMethod string `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.

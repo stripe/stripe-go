@@ -823,6 +823,15 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
 )
 
+// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestReauthorization string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestReauthorization can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestReauthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardRequestReauthorization = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestReauthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestReauthorization = "never"
+)
+
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod string
 
@@ -839,6 +848,15 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority string
 const (
 	PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriorityDomestic      PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority = "domestic"
 	PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriorityInternational PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority = "international"
+)
+
+// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization = "if_available"
+	PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorizationNever       PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization = "never"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -1647,6 +1665,17 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsUSBankAccountSetupFutureUsage = "on_session"
 )
 
+// The purpose of the transaction.
+type PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeGoods       PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "goods"
+	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeOther       PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "other"
+	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeServices    PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "services"
+	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeUnspecified PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "unspecified"
+)
+
 // Bank account verification method.
 type PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -1741,13 +1770,14 @@ type PaymentIntentStatus string
 
 // List of values that PaymentIntentStatus can take
 const (
-	PaymentIntentStatusCanceled              PaymentIntentStatus = "canceled"
-	PaymentIntentStatusProcessing            PaymentIntentStatus = "processing"
-	PaymentIntentStatusRequiresAction        PaymentIntentStatus = "requires_action"
-	PaymentIntentStatusRequiresCapture       PaymentIntentStatus = "requires_capture"
-	PaymentIntentStatusRequiresConfirmation  PaymentIntentStatus = "requires_confirmation"
-	PaymentIntentStatusRequiresPaymentMethod PaymentIntentStatus = "requires_payment_method"
-	PaymentIntentStatusSucceeded             PaymentIntentStatus = "succeeded"
+	PaymentIntentStatusCanceled                PaymentIntentStatus = "canceled"
+	PaymentIntentStatusProcessing              PaymentIntentStatus = "processing"
+	PaymentIntentStatusRequiresAction          PaymentIntentStatus = "requires_action"
+	PaymentIntentStatusRequiresCapture         PaymentIntentStatus = "requires_capture"
+	PaymentIntentStatusRequiresConfirmation    PaymentIntentStatus = "requires_confirmation"
+	PaymentIntentStatusRequiresPaymentMethod   PaymentIntentStatus = "requires_payment_method"
+	PaymentIntentStatusRequiresReauthorization PaymentIntentStatus = "requires_reauthorization"
+	PaymentIntentStatusSucceeded               PaymentIntentStatus = "succeeded"
 )
 
 // Returns a list of PaymentIntents.
@@ -1776,19 +1806,19 @@ type PaymentIntentAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -1800,7 +1830,7 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -1812,13 +1842,13 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 
 // Payment method-specific information for line items.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -1842,7 +1872,7 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -1882,7 +1912,7 @@ type PaymentIntentAmountDetailsParams struct {
 	//
 	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 	//
-	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
 	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
@@ -3305,6 +3335,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture"`
 	// Request partial authorization on this PaymentIntent.
 	RequestPartialAuthorization *string `form:"request_partial_authorization"`
+	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+	RequestReauthorization *string `form:"request_reauthorization"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
@@ -3348,6 +3380,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
+	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+	RequestReauthorization *string `form:"request_reauthorization"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
 	Routing *PaymentIntentPaymentMethodOptionsCardPresentRoutingParams `form:"routing"`
 }
@@ -3388,7 +3422,7 @@ type PaymentIntentPaymentMethodOptionsCryptoParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -4694,6 +4728,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
+	// The purpose of the transaction.
+	TransactionPurpose *string `form:"transaction_purpose"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -5078,19 +5114,19 @@ func (p *PaymentIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -5102,7 +5138,7 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams s
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -5114,13 +5150,13 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsPaypalParams s
 
 // Payment method-specific information for line items.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -5144,7 +5180,7 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -5184,7 +5220,7 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 	//
 	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 	//
-	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
 	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
@@ -6088,19 +6124,19 @@ type PaymentIntentConfirmAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -6112,7 +6148,7 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams s
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -6124,13 +6160,13 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsPaypalParams s
 
 // Payment method-specific information for line items.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -6154,7 +6190,7 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -6194,7 +6230,7 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 	//
 	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 	//
-	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
 	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
@@ -7241,19 +7277,19 @@ func (p *PaymentIntentDecrementAuthorizationParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -7265,7 +7301,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -7277,13 +7313,13 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 
 // Payment method-specific information for line items.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -7307,7 +7343,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -7347,7 +7383,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	//
 	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 	//
-	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
 	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
@@ -7473,6 +7509,38 @@ func (p *PaymentIntentIncrementAuthorizationParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
+// Reauthorize a PaymentIntent to obtain a new valid authorization after the initial authorization has expired.
+//
+// When a PaymentIntent's authorization expires and the capture window elapses, the PaymentIntent transitions to
+// requires_reauthorization status with amount_capturable set to 0. This endpoint
+// brings the PaymentIntent back to requires_capture status, allowing you to capture payment.
+//
+// This is useful for retail and ecommerce scenarios with delayed shipments where
+// authorization validity periods (typically 7 days) expire before the merchant is ready to capture payment.
+type PaymentIntentReauthorizeParams struct {
+	Params `form:"*"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentReauthorizeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentReauthorizeParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Verifies microdeposits on a PaymentIntent object.
 type PaymentIntentVerifyMicrodepositsParams struct {
 	Params `form:"*"`
@@ -7517,19 +7585,19 @@ type PaymentIntentCreateAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -7541,7 +7609,7 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams st
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -7553,13 +7621,13 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsPaypalParams st
 
 // Payment method-specific information for line items.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -7583,7 +7651,7 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -7623,7 +7691,7 @@ type PaymentIntentCreateAmountDetailsParams struct {
 	//
 	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 	//
-	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
 	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
@@ -9046,6 +9114,8 @@ type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture"`
 	// Request partial authorization on this PaymentIntent.
 	RequestPartialAuthorization *string `form:"request_partial_authorization"`
+	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+	RequestReauthorization *string `form:"request_reauthorization"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
@@ -9089,6 +9159,8 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
+	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+	RequestReauthorization *string `form:"request_reauthorization"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
 	Routing *PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams `form:"routing"`
 }
@@ -9129,7 +9201,7 @@ type PaymentIntentCreatePaymentMethodOptionsCryptoParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentCreatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -10435,6 +10507,8 @@ type PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
+	// The purpose of the transaction.
+	TransactionPurpose *string `form:"transaction_purpose"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -10784,19 +10858,19 @@ type PaymentIntentUpdateAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -10808,7 +10882,7 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams st
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -10820,13 +10894,13 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsPaypalParams st
 
 // Payment method-specific information for line items.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -10850,7 +10924,7 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -10890,7 +10964,7 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 	//
 	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
 	//
-	// For card payments, Stripe doesn't send line item data if there's an arithmetic validation error to card networks.
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
 	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
@@ -12296,6 +12370,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture"`
 	// Request partial authorization on this PaymentIntent.
 	RequestPartialAuthorization *string `form:"request_partial_authorization"`
+	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+	RequestReauthorization *string `form:"request_reauthorization"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
@@ -12339,6 +12415,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
+	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+	RequestReauthorization *string `form:"request_reauthorization"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
 	Routing *PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams `form:"routing"`
 }
@@ -12379,7 +12457,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCryptoParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentUpdatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -13685,6 +13763,8 @@ type PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
+	// The purpose of the transaction.
+	TransactionPurpose *string `form:"transaction_purpose"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -14019,6 +14099,12 @@ type PaymentIntentHooksInputs struct {
 }
 type PaymentIntentHooks struct {
 	Inputs *PaymentIntentHooksInputs `json:"inputs"`
+}
+
+// Settings for Managed Payments.
+type PaymentIntentManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
 }
 type PaymentIntentNextActionAlipayHandleRedirect struct {
 	// The native data to be used with Alipay SDK you must redirect your customer to in order to authenticate the payment in an Android App.
@@ -15167,6 +15253,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestOvercapture PaymentIntentPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
 	// Request partial authorization on this PaymentIntent.
 	RequestPartialAuthorization PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization `json:"request_partial_authorization"`
+	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+	RequestReauthorization PaymentIntentPaymentMethodOptionsCardRequestReauthorization `json:"request_reauthorization"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
@@ -15195,8 +15283,10 @@ type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
-	RequestIncrementalAuthorizationSupport bool                                                 `json:"request_incremental_authorization_support"`
-	Routing                                *PaymentIntentPaymentMethodOptionsCardPresentRouting `json:"routing"`
+	RequestIncrementalAuthorizationSupport bool `json:"request_incremental_authorization_support"`
+	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+	RequestReauthorization PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization `json:"request_reauthorization"`
+	Routing                *PaymentIntentPaymentMethodOptionsCardPresentRouting               `json:"routing"`
 }
 type PaymentIntentPaymentMethodOptionsCashApp struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -15221,7 +15311,7 @@ type PaymentIntentPaymentMethodOptionsCrypto struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {
@@ -15744,6 +15834,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsUSBankAccountSetupFutureUsage `json:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date"`
+	// The purpose of the transaction.
+	TransactionPurpose PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose `json:"transaction_purpose"`
 	// Bank account verification method.
 	VerificationMethod PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
@@ -15947,6 +16039,8 @@ type PaymentIntent struct {
 	LatestCharge *Charge `json:"latest_charge"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Settings for Managed Payments.
+	ManagedPayments *PaymentIntentManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Learn more about [storing information in metadata](https://docs.stripe.com/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
 	Metadata map[string]string `json:"metadata"`
 	// If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.

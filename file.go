@@ -40,6 +40,8 @@ const (
 	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"
 	FilePurposeTerminalAndroidApk               FilePurpose = "terminal_android_apk"
 	FilePurposeTerminalReaderSplashscreen       FilePurpose = "terminal_reader_splashscreen"
+	FilePurposeTerminalWifiCertificate          FilePurpose = "terminal_wifi_certificate"
+	FilePurposeTerminalWifiPrivateKey           FilePurpose = "terminal_wifi_private_key"
 )
 
 // Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
