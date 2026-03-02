@@ -1330,37 +1330,31 @@ func TestDetectAIAgent(t *testing.T) {
 			}
 			return ""
 		}
-		assert.Equal(t, "claude_code", detectAIAgent(getEnv))
+		agent, ok := detectAIAgent(getEnv)
+		assert.True(t, ok)
+		assert.Equal(t, "claude_code", agent)
 	})
 
 	// Test no agent detected
 	t.Run("NoAgent", func(t *testing.T) {
 		getEnv := func(key string) string { return "" }
-		assert.Equal(t, "", detectAIAgent(getEnv))
-	})
-
-	// Test first match wins
-	t.Run("FirstMatchWins", func(t *testing.T) {
-		getEnv := func(key string) string {
-			if key == "CURSOR_AGENT" || key == "OPENCODE" {
-				return "1"
-			}
-			return ""
-		}
-		assert.Equal(t, "cursor", detectAIAgent(getEnv))
+		agent, ok := detectAIAgent(getEnv)
+		assert.False(t, ok)
+		assert.Equal(t, "", agent)
 	})
 
 	// Test each agent individually
 	t.Run("AllAgents", func(t *testing.T) {
-		for _, agent := range aiAgents {
-			envVar, expected := agent[0], agent[1]
+		for k, expected := range aiAgents {
 			getEnv := func(key string) string {
-				if key == envVar {
+				if key == k {
 					return "1"
 				}
 				return ""
 			}
-			assert.Equal(t, expected, detectAIAgent(getEnv), "Expected %s for env var %s", expected, envVar)
+			agent, ok := detectAIAgent(getEnv)
+			assert.True(t, ok)
+			assert.Equal(t, expected, agent, "Expected %s for env var %s", expected, k)
 		}
 	})
 }

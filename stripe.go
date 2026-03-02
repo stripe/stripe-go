@@ -1624,23 +1624,23 @@ func getUname() string {
 	return out.String()
 }
 
-var aiAgents = [][2]string{
-	{"ANTIGRAVITY_CLI_ALIAS", "antigravity"},
-	{"CLAUDECODE", "claude_code"},
-	{"CLINE_ACTIVE", "cline"},
-	{"CODEX_SANDBOX", "codex_cli"},
-	{"CURSOR_AGENT", "cursor"},
-	{"GEMINI_CLI", "gemini_cli"},
-	{"OPENCODE", "open_code"},
+var aiAgents = map[string]string{
+	"ANTIGRAVITY_CLI_ALIAS": "antigravity",
+	"CLAUDECODE":            "claude_code",
+	"CLINE_ACTIVE":          "cline",
+	"CODEX_SANDBOX":         "codex_cli",
+	"CURSOR_AGENT":          "cursor",
+	"GEMINI_CLI":            "gemini_cli",
+	"OPENCODE":              "open_code",
 }
 
-func detectAIAgent(getEnv func(string) string) string {
-	for _, agent := range aiAgents {
-		if getEnv(agent[0]) != "" {
-			return agent[1]
+func detectAIAgent(getEnv func(string) string) (string, bool) {
+	for k, name := range aiAgents {
+		if val := getEnv(k); val != "" {
+			return name, true
 		}
 	}
-	return ""
+	return "", false
 }
 
 func init() {
@@ -1652,7 +1652,7 @@ func initUserAgent() {
 	if appInfo != nil {
 		encodedUserAgent += " " + appInfo.formatUserAgent()
 	}
-	if agent := detectAIAgent(os.Getenv); agent != "" {
+	if agent, ok := detectAIAgent(os.Getenv); ok {
 		encodedUserAgent += " AIAgent/" + agent
 	}
 	encodedStripeUserAgentReady = &sync.Once{}
@@ -1661,13 +1661,15 @@ func initUserAgent() {
 func getEncodedStripeUserAgent() string {
 	encodedStripeUserAgentReady.Do(func() {
 		stripeUserAgent := &stripeClientUserAgent{
-			AIAgent:         detectAIAgent(os.Getenv),
 			Application:     appInfo,
 			BindingsVersion: clientversion,
 			Language:        "go",
 			LanguageVersion: runtime.Version(),
 			Publisher:       "stripe",
 			Uname:           getUname(),
+		}
+		if agent, ok := detectAIAgent(os.Getenv); ok {
+			stripeUserAgent.AIAgent = agent
 		}
 		marshaled, err := json.Marshal(stripeUserAgent)
 		// Encoding this struct should never be a problem, so we're okay to panic
