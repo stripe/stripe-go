@@ -1324,11 +1324,11 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 func TestDetectAIAgent(t *testing.T) {
 	// Test detection of a specific agent
 	t.Run("DetectsAgent", func(t *testing.T) {
-		getEnv := func(key string) string {
+		getEnv := func(key string) (string, bool) {
 			if key == "CLAUDECODE" {
-				return "1"
+				return "1", true
 			}
-			return ""
+			return "", false
 		}
 		agent, ok := detectAIAgent(getEnv)
 		assert.True(t, ok)
@@ -1337,7 +1337,7 @@ func TestDetectAIAgent(t *testing.T) {
 
 	// Test no agent detected
 	t.Run("NoAgent", func(t *testing.T) {
-		getEnv := func(key string) string { return "" }
+		getEnv := func(key string) (string, bool) { return "", false }
 		agent, ok := detectAIAgent(getEnv)
 		assert.False(t, ok)
 		assert.Equal(t, "", agent)
@@ -1346,11 +1346,11 @@ func TestDetectAIAgent(t *testing.T) {
 	// Test each agent individually
 	t.Run("AllAgents", func(t *testing.T) {
 		for k, expected := range aiAgents {
-			getEnv := func(key string) string {
+			getEnv := func(key string) (string, bool) {
 				if key == k {
-					return "1"
+					return "1", true
 				}
-				return ""
+				return "", false
 			}
 			agent, ok := detectAIAgent(getEnv)
 			assert.True(t, ok)

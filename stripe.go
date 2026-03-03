@@ -1634,9 +1634,9 @@ var aiAgents = map[string]string{
 	"OPENCODE":              "open_code",
 }
 
-func detectAIAgent(getEnv func(string) string) (string, bool) {
+func detectAIAgent(lookupEnv func(string) (string, bool)) (string, bool) {
 	for k, name := range aiAgents {
-		if val := getEnv(k); val != "" {
+		if val, ok := lookupEnv(k); ok && val != "" {
 			return name, true
 		}
 	}
@@ -1652,7 +1652,7 @@ func initUserAgent() {
 	if appInfo != nil {
 		encodedUserAgent += " " + appInfo.formatUserAgent()
 	}
-	if agent, ok := detectAIAgent(os.Getenv); ok {
+	if agent, ok := detectAIAgent(os.LookupEnv); ok {
 		encodedUserAgent += " AIAgent/" + agent
 	}
 	encodedStripeUserAgentReady = &sync.Once{}
@@ -1668,7 +1668,7 @@ func getEncodedStripeUserAgent() string {
 			Publisher:       "stripe",
 			Uname:           getUname(),
 		}
-		if agent, ok := detectAIAgent(os.Getenv); ok {
+		if agent, ok := detectAIAgent(os.LookupEnv); ok {
 			stripeUserAgent.AIAgent = agent
 		}
 		marshaled, err := json.Marshal(stripeUserAgent)
