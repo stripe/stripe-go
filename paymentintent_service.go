@@ -221,6 +221,25 @@ func (c v1PaymentIntentService) IncrementAuthorization(ctx context.Context, id s
 	return paymentintent, err
 }
 
+// Reauthorize a PaymentIntent to obtain a new valid authorization after the initial authorization has expired.
+//
+// When a PaymentIntent's authorization expires and the capture window elapses, the PaymentIntent transitions to
+// requires_reauthorization status with amount_capturable set to 0. This endpoint
+// brings the PaymentIntent back to requires_capture status, allowing you to capture payment.
+//
+// This is useful for retail and ecommerce scenarios with delayed shipments where
+// authorization validity periods (typically 7 days) expire before the merchant is ready to capture payment.
+func (c v1PaymentIntentService) Reauthorize(ctx context.Context, id string, params *PaymentIntentReauthorizeParams) (*PaymentIntent, error) {
+	if params == nil {
+		params = &PaymentIntentReauthorizeParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s/reauthorize", id)
+	paymentintent := &PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // Trigger an external action on a PaymentIntent.
 func (c v1PaymentIntentService) TriggerAction(ctx context.Context, id string, params *PaymentIntentTriggerActionParams) (*PaymentIntent, error) {
 	if params == nil {

@@ -27,6 +27,15 @@ const (
 	FinancialConnectionsSessionFiltersAccountSubcategorySavings      FinancialConnectionsSessionFiltersAccountSubcategory = "savings"
 )
 
+// How the user enters the hosted flow. You can only use the values `email` and `url` if you provide `relink_options`.
+type FinancialConnectionsSessionHostedDeliveryMethod string
+
+// List of values that FinancialConnectionsSessionHostedDeliveryMethod can take
+const (
+	FinancialConnectionsSessionHostedDeliveryMethodEmail FinancialConnectionsSessionHostedDeliveryMethod = "email"
+	FinancialConnectionsSessionHostedDeliveryMethodURL   FinancialConnectionsSessionHostedDeliveryMethod = "url"
+)
+
 // Permissions requested for accounts collected during this session.
 type FinancialConnectionsSessionPermission string
 
@@ -77,15 +86,6 @@ type FinancialConnectionsSessionStatusDetailsCancelledReason string
 const (
 	FinancialConnectionsSessionStatusDetailsCancelledReasonCustomManualEntry FinancialConnectionsSessionStatusDetailsCancelledReason = "custom_manual_entry"
 	FinancialConnectionsSessionStatusDetailsCancelledReasonOther             FinancialConnectionsSessionStatusDetailsCancelledReason = "other"
-)
-
-// How the user enters the hosted flow. You can only use the values `email` and `url` if you provide `relink_options`.
-type FinancialConnectionsSessionHostedDeliveryMethod string
-
-// List of values that FinancialConnectionsSessionHostedDeliveryMethod can take
-const (
-	FinancialConnectionsSessionHostedDeliveryMethodEmail FinancialConnectionsSessionHostedDeliveryMethod = "email"
-	FinancialConnectionsSessionHostedDeliveryMethodURL   FinancialConnectionsSessionHostedDeliveryMethod = "url"
 )
 
 // The UI mode for this session.
@@ -153,6 +153,12 @@ type FinancialConnectionsSessionFiltersParams struct {
 	Institution *string `form:"institution"`
 }
 
+// Settings for hosted Sessions. Required if `ui_mode` is `hosted`.
+type FinancialConnectionsSessionHostedParams struct {
+	// How the user should enter the hosted flow. The values `email` and `url` can only be used if `relink_options` is provided.
+	DeliveryMethod *string `form:"delivery_method"`
+}
+
 // Settings for configuring Session-specific limits.
 type FinancialConnectionsSessionLimitsParams struct {
 	// The number of accounts that can be linked in this Session.
@@ -161,7 +167,7 @@ type FinancialConnectionsSessionLimitsParams struct {
 
 // Customize manual entry behavior
 type FinancialConnectionsSessionManualEntryParams struct {
-	// Whether manual entry will be handled by Stripe during the Session.
+	// How manual entry should be handled.
 	Mode *string `form:"mode"`
 }
 
@@ -171,12 +177,6 @@ type FinancialConnectionsSessionRelinkOptionsParams struct {
 	Account *string `form:"account"`
 	// The authorization to relink.
 	Authorization *string `form:"authorization"`
-}
-
-// Settings for hosted Sessions. Required if `ui_mode` is `hosted`.
-type FinancialConnectionsSessionHostedParams struct {
-	// How the user should enter the hosted flow. The values `email` and `url` can only be used if `relink_options` is provided.
-	DeliveryMethod *string `form:"delivery_method"`
 }
 
 // Retrieves the details of a Financial Connections Session
@@ -213,6 +213,12 @@ type FinancialConnectionsSessionCreateFiltersParams struct {
 	Institution *string `form:"institution"`
 }
 
+// Settings for hosted Sessions. Required if `ui_mode` is `hosted`.
+type FinancialConnectionsSessionCreateHostedParams struct {
+	// How the user should enter the hosted flow. The values `email` and `url` can only be used if `relink_options` is provided.
+	DeliveryMethod *string `form:"delivery_method"`
+}
+
 // Settings for configuring Session-specific limits.
 type FinancialConnectionsSessionCreateLimitsParams struct {
 	// The number of accounts that can be linked in this Session.
@@ -221,7 +227,7 @@ type FinancialConnectionsSessionCreateLimitsParams struct {
 
 // Customize manual entry behavior
 type FinancialConnectionsSessionCreateManualEntryParams struct {
-	// Whether manual entry will be handled by Stripe during the Session.
+	// How manual entry should be handled.
 	Mode *string `form:"mode"`
 }
 
@@ -231,12 +237,6 @@ type FinancialConnectionsSessionCreateRelinkOptionsParams struct {
 	Account *string `form:"account"`
 	// The authorization to relink.
 	Authorization *string `form:"authorization"`
-}
-
-// Settings for hosted Sessions. Required if `ui_mode` is `hosted`.
-type FinancialConnectionsSessionCreateHostedParams struct {
-	// How the user should enter the hosted flow. The values `email` and `url` can only be used if `relink_options` is provided.
-	DeliveryMethod *string `form:"delivery_method"`
 }
 
 // To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
@@ -291,6 +291,14 @@ type FinancialConnectionsSessionFilters struct {
 	// Stripe ID of the institution with which the customer should be directed to log in.
 	Institution string `json:"institution"`
 }
+
+// Settings for the Hosted UI mode.
+type FinancialConnectionsSessionHosted struct {
+	// How the user enters the hosted flow. You can only use the values `email` and `url` if you provide `relink_options`.
+	DeliveryMethod FinancialConnectionsSessionHostedDeliveryMethod `json:"delivery_method"`
+	// The URL to redirect your customer back to after they link their accounts or cancel this Session. This parameter is required if `ui_mode` is `hosted`.
+	ReturnURL string `json:"return_url"`
+}
 type FinancialConnectionsSessionLimits struct {
 	// The number of accounts that can be linked in this Session.
 	Accounts int64 `json:"accounts"`
@@ -316,14 +324,6 @@ type FinancialConnectionsSessionStatusDetailsCancelled struct {
 }
 type FinancialConnectionsSessionStatusDetails struct {
 	Cancelled *FinancialConnectionsSessionStatusDetailsCancelled `json:"cancelled"`
-}
-
-// Settings for the Hosted UI mode.
-type FinancialConnectionsSessionHosted struct {
-	// How the user enters the hosted flow. You can only use the values `email` and `url` if you provide `relink_options`.
-	DeliveryMethod FinancialConnectionsSessionHostedDeliveryMethod `json:"delivery_method"`
-	// The URL to redirect your customer back to after they link their accounts or cancel this Session. This parameter is required if `ui_mode` is `hosted`.
-	ReturnURL string `json:"return_url"`
 }
 
 // A Financial Connections Session is the secure way to programmatically launch the client-side Stripe.js modal that lets your users link their accounts.

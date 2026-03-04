@@ -367,6 +367,37 @@ func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIn
 	return paymentintent, err
 }
 
+// Reauthorize a PaymentIntent to obtain a new valid authorization after the initial authorization has expired.
+//
+// When a PaymentIntent's authorization expires and the capture window elapses, the PaymentIntent transitions to
+// requires_reauthorization status with amount_capturable set to 0. This endpoint
+// brings the PaymentIntent back to requires_capture status, allowing you to capture payment.
+//
+// This is useful for retail and ecommerce scenarios with delayed shipments where
+// authorization validity periods (typically 7 days) expire before the merchant is ready to capture payment.
+func Reauthorize(id string, params *stripe.PaymentIntentReauthorizeParams) (*stripe.PaymentIntent, error) {
+	return getC().Reauthorize(id, params)
+}
+
+// Reauthorize a PaymentIntent to obtain a new valid authorization after the initial authorization has expired.
+//
+// When a PaymentIntent's authorization expires and the capture window elapses, the PaymentIntent transitions to
+// requires_reauthorization status with amount_capturable set to 0. This endpoint
+// brings the PaymentIntent back to requires_capture status, allowing you to capture payment.
+//
+// This is useful for retail and ecommerce scenarios with delayed shipments where
+// authorization validity periods (typically 7 days) expire before the merchant is ready to capture payment.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Reauthorize(id string, params *stripe.PaymentIntentReauthorizeParams) (*stripe.PaymentIntent, error) {
+	path := stripe.FormatURLPath("/v1/payment_intents/%s/reauthorize", id)
+	paymentintent := &stripe.PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // Trigger an external action on a PaymentIntent.
 func TriggerAction(id string, params *stripe.PaymentIntentTriggerActionParams) (*stripe.PaymentIntent, error) {
 	return getC().TriggerAction(id, params)

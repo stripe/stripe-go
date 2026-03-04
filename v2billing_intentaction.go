@@ -130,7 +130,7 @@ const (
 	V2BillingIntentActionDeactivateTypeV1SubscriptionDetails          V2BillingIntentActionDeactivateType = "v1_subscription_details"
 )
 
-// Type of the partial period behavior override.
+// The type of behavior to override.
 type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType string
 
 // List of values that V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
@@ -138,7 +138,7 @@ const (
 	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
 )
 
-// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating.
+// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating. If not specified, defaults to none.
 type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior string
 
 // List of values that V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior can take
@@ -175,7 +175,7 @@ const (
 	V2BillingIntentActionModifyTypeV1SubscriptionDetails          V2BillingIntentActionModifyType = "v1_subscription_details"
 )
 
-// Type of the partial period behavior override.
+// The type of behavior to override.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType string
 
 // List of values that V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
@@ -183,7 +183,7 @@ const (
 	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
 )
 
-// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is upgrading.
+// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user modifies the subscription. If not specified, defaults to prorated.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior string
 
 // List of values that V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior can take
@@ -192,7 +192,7 @@ const (
 	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehaviorProrated V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior = "prorated"
 )
 
-// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is downgrading.
+// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user modifies the subscription. If not specified, defaults to prorated.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior string
 
 // List of values that V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior can take
@@ -247,7 +247,7 @@ const (
 	V2BillingIntentActionSubscribeTypeV1SubscriptionDetails          V2BillingIntentActionSubscribeType = "v1_subscription_details"
 )
 
-// Type of the partial period behavior override.
+// The type of behavior to override.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType string
 
 // List of values that V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
@@ -255,7 +255,7 @@ const (
 	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
 )
 
-// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is subscribing.
+// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is subscribing. If not specified, defaults to prorated.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior string
 
 // List of values that V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior can take
@@ -364,29 +364,29 @@ type V2BillingIntentActionDeactivateEffectiveAt struct {
 	Type V2BillingIntentActionDeactivateEffectiveAtType `json:"type"`
 }
 
-// Override for the license fee.
+// Overrides the behavior for license fee components when the action takes effect during the service period.
 type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFee struct {
-	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating.
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating. If not specified, defaults to none.
 	CreditProrationBehavior V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior `json:"credit_proration_behavior"`
 }
 
-// Override for the partial period behavior.
+// Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior struct {
-	// Override for the license fee.
+	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFee `json:"license_fee,omitempty"`
-	// Type of the partial period behavior override.
+	// The type of behavior to override.
 	Type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType `json:"type"`
 }
 
-// Allows users to override the partial period behavior.
+// Configurations for overriding behaviors related to the subscription.
 type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverrides struct {
-	// Override for the partial period behavior.
+	// Configurations for behaviors when the action takes effect during the service period.
 	PartialPeriodBehaviors []*V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior `json:"partial_period_behaviors"`
 }
 
 // Details for deactivating a Pricing Plan Subscription.
 type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetails struct {
-	// Allows users to override the partial period behavior.
+	// Configurations for overriding behaviors related to the subscription.
 	Overrides *V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverrides `json:"overrides,omitempty"`
 	// ID of the Pricing Plan Subscription to deactivate.
 	PricingPlanSubscription string `json:"pricing_plan_subscription"`
@@ -424,25 +424,25 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsComponentConfigura
 	Quantity int64 `json:"quantity,omitempty"`
 }
 
-// Override for the license fee.
+// Overrides the behavior for license fee components when the action takes effect during the service period.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFee struct {
-	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is upgrading.
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user modifies the subscription. If not specified, defaults to prorated.
 	CreditProrationBehavior V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior `json:"credit_proration_behavior"`
-	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is downgrading.
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user modifies the subscription. If not specified, defaults to prorated.
 	DebitProrationBehavior V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior `json:"debit_proration_behavior"`
 }
 
-// Override for the partial period behavior.
+// Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior struct {
-	// Override for the license fee.
+	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFee `json:"license_fee,omitempty"`
-	// Type of the partial period behavior override.
+	// The type of behavior to override.
 	Type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType `json:"type"`
 }
 
-// Allows users to override the partial period behavior.
+// Configurations for overriding behaviors related to the subscription.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverrides struct {
-	// Override for the partial period behavior.
+	// Configurations for behaviors when the action takes effect during the service period.
 	PartialPeriodBehaviors []*V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior `json:"partial_period_behaviors"`
 }
 
@@ -454,7 +454,7 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetails struct {
 	NewPricingPlan string `json:"new_pricing_plan"`
 	// Version of the Pricing Plan to use.
 	NewPricingPlanVersion string `json:"new_pricing_plan_version"`
-	// Allows users to override the partial period behavior.
+	// Configurations for overriding behaviors related to the subscription.
 	Overrides *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverrides `json:"overrides,omitempty"`
 	// ID of the Pricing Plan Subscription to modify.
 	PricingPlanSubscription string `json:"pricing_plan_subscription"`
@@ -508,23 +508,23 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfig
 	Quantity int64 `json:"quantity,omitempty"`
 }
 
-// Override for the license fee.
+// Overrides the behavior for license fee components when the action takes effect during the service period.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFee struct {
-	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is subscribing.
+	// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is subscribing. If not specified, defaults to prorated.
 	DebitProrationBehavior V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior `json:"debit_proration_behavior"`
 }
 
-// Override for the partial period behavior.
+// Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior struct {
-	// Override for the license fee.
+	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFee `json:"license_fee,omitempty"`
-	// Type of the partial period behavior override.
+	// The type of behavior to override.
 	Type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType `json:"type"`
 }
 
-// Allows users to override the partial period behavior.
+// Configurations for overriding behaviors related to the subscription.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverrides struct {
-	// Override for the partial period behavior.
+	// Configurations for behaviors when the action takes effect during the service period.
 	PartialPeriodBehaviors []*V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior `json:"partial_period_behaviors"`
 }
 
@@ -534,7 +534,7 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetails struct {
 	ComponentConfigurations []*V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsComponentConfiguration `json:"component_configurations"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata,omitempty"`
-	// Allows users to override the partial period behavior.
+	// Configurations for overriding behaviors related to the subscription.
 	Overrides *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverrides `json:"overrides,omitempty"`
 	// ID of the Pricing Plan to subscribe to.
 	PricingPlan string `json:"pricing_plan"`
@@ -578,6 +578,10 @@ type V2BillingIntentActionSubscribe struct {
 	// Details for subscribing to a V1 subscription.
 	V1SubscriptionDetails *V2BillingIntentActionSubscribeV1SubscriptionDetails `json:"v1_subscription_details,omitempty"`
 }
+
+// A Billing Intent Action represents a specific operation within a Billing Intent, such as subscribing to a Pricing Plan,
+// modifying a subscription's quantity, or deactivating service. Each action has a specific type and associated details that
+// define what change will be made when the Intent is committed.
 type V2BillingIntentAction struct {
 	APIResource
 	// Details for an apply action.

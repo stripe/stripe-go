@@ -165,6 +165,25 @@ const (
 	SubscriptionSchedulePhaseDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseDiscountDiscountEndType = "timestamp"
 )
 
+// The type of service period anchor config.
+type SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigType string
+
+// List of values that SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigType can take
+const (
+	SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigTypeCustom  SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigType = "custom"
+	SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigTypeInherit SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigType = "inherit"
+)
+
+// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+type SubscriptionSchedulePhaseDiscountSettingsStartDate string
+
+// List of values that SubscriptionSchedulePhaseDiscountSettingsStartDate can take
+const (
+	SubscriptionSchedulePhaseDiscountSettingsStartDateCurrentPeriodEnd   SubscriptionSchedulePhaseDiscountSettingsStartDate = "current_period_end"
+	SubscriptionSchedulePhaseDiscountSettingsStartDateCurrentPeriodStart SubscriptionSchedulePhaseDiscountSettingsStartDate = "current_period_start"
+	SubscriptionSchedulePhaseDiscountSettingsStartDatePhaseStart         SubscriptionSchedulePhaseDiscountSettingsStartDate = "phase_start"
+)
+
 // Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
 type SubscriptionSchedulePhaseEffectiveAt string
 
@@ -189,6 +208,25 @@ type SubscriptionSchedulePhaseItemDiscountDiscountEndType string
 // List of values that SubscriptionSchedulePhaseItemDiscountDiscountEndType can take
 const (
 	SubscriptionSchedulePhaseItemDiscountDiscountEndTypeTimestamp SubscriptionSchedulePhaseItemDiscountDiscountEndType = "timestamp"
+)
+
+// The type of service period anchor config.
+type SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigType string
+
+// List of values that SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigType can take
+const (
+	SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigTypeCustom  SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigType = "custom"
+	SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigTypeInherit SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigType = "inherit"
+)
+
+// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+type SubscriptionSchedulePhaseItemDiscountSettingsStartDate string
+
+// List of values that SubscriptionSchedulePhaseItemDiscountSettingsStartDate can take
+const (
+	SubscriptionSchedulePhaseItemDiscountSettingsStartDateCurrentPeriodEnd   SubscriptionSchedulePhaseItemDiscountSettingsStartDate = "current_period_end"
+	SubscriptionSchedulePhaseItemDiscountSettingsStartDateCurrentPeriodStart SubscriptionSchedulePhaseItemDiscountSettingsStartDate = "current_period_start"
+	SubscriptionSchedulePhaseItemDiscountSettingsStartDatePhaseStart         SubscriptionSchedulePhaseItemDiscountSettingsStartDate = "phase_start"
 )
 
 // Determines the type of trial for this item.
@@ -2724,6 +2762,28 @@ type SubscriptionSchedulePhaseDiscountDiscountEnd struct {
 	// The discount end type.
 	Type SubscriptionSchedulePhaseDiscountDiscountEndType `json:"type"`
 }
+type SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigCustom struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth int64 `json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour int64 `json:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute int64 `json:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month int64 `json:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second int64 `json:"second"`
+}
+type SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfig struct {
+	Custom *SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	// The type of service period anchor config.
+	Type SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
+}
+type SubscriptionSchedulePhaseDiscountSettings struct {
+	ServicePeriodAnchorConfig *SubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfig `json:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+	StartDate SubscriptionSchedulePhaseDiscountSettingsStartDate `json:"start_date"`
+}
 
 // The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 type SubscriptionSchedulePhaseDiscount struct {
@@ -2734,7 +2794,8 @@ type SubscriptionSchedulePhaseDiscount struct {
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseDiscountDiscountEnd `json:"discount_end"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *PromotionCode `json:"promotion_code"`
+	PromotionCode *PromotionCode                             `json:"promotion_code"`
+	Settings      *SubscriptionSchedulePhaseDiscountSettings `json:"settings"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -2768,6 +2829,28 @@ type SubscriptionSchedulePhaseItemDiscountDiscountEnd struct {
 	// The discount end type.
 	Type SubscriptionSchedulePhaseItemDiscountDiscountEndType `json:"type"`
 }
+type SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigCustom struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth int64 `json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour int64 `json:"hour"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute int64 `json:"minute"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month int64 `json:"month"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second int64 `json:"second"`
+}
+type SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfig struct {
+	Custom *SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	// The type of service period anchor config.
+	Type SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
+}
+type SubscriptionSchedulePhaseItemDiscountSettings struct {
+	ServicePeriodAnchorConfig *SubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfig `json:"service_period_anchor_config"`
+	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration.
+	StartDate SubscriptionSchedulePhaseItemDiscountSettingsStartDate `json:"start_date"`
+}
 
 // The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 type SubscriptionSchedulePhaseItemDiscount struct {
@@ -2778,7 +2861,8 @@ type SubscriptionSchedulePhaseItemDiscount struct {
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseItemDiscountDiscountEnd `json:"discount_end"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *PromotionCode `json:"promotion_code"`
+	PromotionCode *PromotionCode                                 `json:"promotion_code"`
+	Settings      *SubscriptionSchedulePhaseItemDiscountSettings `json:"settings"`
 }
 
 // Options that configure the trial on the subscription item.

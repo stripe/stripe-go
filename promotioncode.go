@@ -73,7 +73,7 @@ type PromotionCodeParams struct {
 	Params `form:"*"`
 	// Whether the promotion code is currently active. A promotion code can only be reactivated when the coupon is still valid and the promotion code is otherwise redeemable.
 	Active *bool `form:"active"`
-	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9).
+	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), digits (0-9), and dashes (-).
 	//
 	// If left blank, we will generate one automatically.
 	Code *string `form:"code"`
@@ -140,7 +140,7 @@ type PromotionCodeCreateParams struct {
 	Params `form:"*"`
 	// Whether the promotion code is currently active.
 	Active *bool `form:"active"`
-	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9).
+	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), digits (0-9), and dashes (-).
 	//
 	// If left blank, we will generate one automatically.
 	Code *string `form:"code"`
@@ -259,7 +259,7 @@ type PromotionCode struct {
 	APIResource
 	// Whether the promotion code is currently active. A promotion code is only active if the coupon is also valid.
 	Active bool `json:"active"`
-	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9).
+	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), digits (0-9), and dashes (-).
 	Code string `json:"code"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`

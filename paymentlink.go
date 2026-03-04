@@ -302,7 +302,7 @@ type PaymentLinkCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type PaymentLinkCustomFieldDropdownParams struct {
-	// The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOptionParams `form:"options"`
@@ -318,7 +318,7 @@ type PaymentLinkCustomFieldLabelParams struct {
 
 // Configuration for `type=numeric` fields.
 type PaymentLinkCustomFieldNumericParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -328,7 +328,7 @@ type PaymentLinkCustomFieldNumericParams struct {
 
 // Configuration for `type=text` fields.
 type PaymentLinkCustomFieldTextParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -356,25 +356,25 @@ type PaymentLinkCustomFieldParams struct {
 
 // Custom text that should be displayed after the payment confirmation button.
 type PaymentLinkCustomTextAfterSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCustomTextShippingAddressParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type PaymentLinkCustomTextSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type PaymentLinkCustomTextTermsOfServiceAcceptanceParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -892,7 +892,7 @@ type PaymentLinkCreateCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type PaymentLinkCreateCustomFieldDropdownParams struct {
-	// The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCreateCustomFieldDropdownOptionParams `form:"options"`
@@ -908,7 +908,7 @@ type PaymentLinkCreateCustomFieldLabelParams struct {
 
 // Configuration for `type=numeric` fields.
 type PaymentLinkCreateCustomFieldNumericParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -918,7 +918,7 @@ type PaymentLinkCreateCustomFieldNumericParams struct {
 
 // Configuration for `type=text` fields.
 type PaymentLinkCreateCustomFieldTextParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -946,25 +946,25 @@ type PaymentLinkCreateCustomFieldParams struct {
 
 // Custom text that should be displayed after the payment confirmation button.
 type PaymentLinkCreateCustomTextAfterSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCreateCustomTextShippingAddressParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type PaymentLinkCreateCustomTextSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type PaymentLinkCreateCustomTextTermsOfServiceAcceptanceParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -1457,7 +1457,7 @@ type PaymentLinkUpdateCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type PaymentLinkUpdateCustomFieldDropdownParams struct {
-	// The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkUpdateCustomFieldDropdownOptionParams `form:"options"`
@@ -1473,7 +1473,7 @@ type PaymentLinkUpdateCustomFieldLabelParams struct {
 
 // Configuration for `type=numeric` fields.
 type PaymentLinkUpdateCustomFieldNumericParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -1483,7 +1483,7 @@ type PaymentLinkUpdateCustomFieldNumericParams struct {
 
 // Configuration for `type=text` fields.
 type PaymentLinkUpdateCustomFieldTextParams struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
@@ -1511,25 +1511,25 @@ type PaymentLinkUpdateCustomFieldParams struct {
 
 // Custom text that should be displayed after the payment confirmation button.
 type PaymentLinkUpdateCustomTextAfterSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkUpdateCustomTextShippingAddressParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type PaymentLinkUpdateCustomTextSubmitParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type PaymentLinkUpdateCustomTextTermsOfServiceAcceptanceParams struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message *string `form:"message"`
 }
 
@@ -1646,6 +1646,28 @@ type PaymentLinkUpdateNameCollectionParams struct {
 	Business *PaymentLinkUpdateNameCollectionBusinessParams `form:"business"`
 	// Controls settings applied for collecting the customer's individual name.
 	Individual *PaymentLinkUpdateNameCollectionIndividualParams `form:"individual"`
+}
+
+// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
+type PaymentLinkUpdateOptionalItemAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled"`
+	// The maximum quantity of this item the customer can purchase. By default this value is 99.
+	Maximum *int64 `form:"maximum"`
+	// The minimum quantity of this item the customer must purchase, if they choose to purchase it. Because this item is optional, the customer will always be able to remove it from their order, even if the `minimum` configured here is greater than 0. By default this value is 0.
+	Minimum *int64 `form:"minimum"`
+}
+
+// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
+// There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
+// There is a maximum of 20 combined line items and optional items.
+type PaymentLinkUpdateOptionalItemParams struct {
+	// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
+	AdjustableQuantity *PaymentLinkUpdateOptionalItemAdjustableQuantityParams `form:"adjustable_quantity"`
+	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object.
+	Price *string `form:"price"`
+	// The initial quantity of the line item created when a customer chooses to add this optional item to their order.
+	Quantity *int64 `form:"quantity"`
 }
 
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
@@ -1786,6 +1808,10 @@ type PaymentLinkUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Controls settings applied for collecting the customer's name.
 	NameCollection *PaymentLinkUpdateNameCollectionParams `form:"name_collection"`
+	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
+	// There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
+	// There is a maximum of 20 combined line items and optional items.
+	OptionalItems []*PaymentLinkUpdateOptionalItemParams `form:"optional_items"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *PaymentLinkUpdatePaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
@@ -1881,7 +1907,7 @@ type PaymentLinkCustomFieldDropdownOption struct {
 	Value string `json:"value"`
 }
 type PaymentLinkCustomFieldDropdown struct {
-	// The value that will pre-fill on the payment page.
+	// The value that pre-fills on the payment page.
 	DefaultValue string `json:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOption `json:"options"`
@@ -1893,7 +1919,7 @@ type PaymentLinkCustomFieldLabel struct {
 	Type PaymentLinkCustomFieldLabelType `json:"type"`
 }
 type PaymentLinkCustomFieldNumeric struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
@@ -1901,7 +1927,7 @@ type PaymentLinkCustomFieldNumeric struct {
 	MinimumLength int64 `json:"minimum_length"`
 }
 type PaymentLinkCustomFieldText struct {
-	// The value that will pre-fill the field on the payment page.
+	// The value that pre-fills the field on the payment page.
 	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
@@ -1925,25 +1951,25 @@ type PaymentLinkCustomField struct {
 
 // Custom text that should be displayed after the payment confirmation button.
 type PaymentLinkCustomTextAfterSubmit struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed alongside shipping address collection.
 type PaymentLinkCustomTextShippingAddress struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed alongside the payment confirmation button.
 type PaymentLinkCustomTextSubmit struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 
 // Custom text that should be displayed in place of the default terms of service agreement text.
 type PaymentLinkCustomTextTermsOfServiceAcceptance struct {
-	// Text may be up to 1200 characters in length.
+	// Text can be up to 1200 characters in length.
 	Message string `json:"message"`
 }
 type PaymentLinkCustomText struct {

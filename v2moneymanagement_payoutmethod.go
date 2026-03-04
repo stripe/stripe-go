@@ -106,6 +106,8 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	BankAccountType V2MoneyManagementPayoutMethodBankAccountBankAccountType `json:"bank_account_type"`
 	// The name of the bank this bank account is in. This field is populated automatically by Stripe.
 	BankName string `json:"bank_name"`
+	// The branch number of the bank account, if present.
+	BranchNumber string `json:"branch_number,omitempty"`
 	// The country code of the bank account.
 	Country string `json:"country"`
 	// List of enabled flows for this bank account (wire or local).
@@ -118,6 +120,8 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	RoutingNumber string `json:"routing_number,omitempty"`
 	// The list of currencies supported by this bank account.
 	SupportedCurrencies []Currency `json:"supported_currencies"`
+	// The swift code of the bank or financial institution.
+	SwiftCode string `json:"swift_code,omitempty"`
 }
 
 // The PayoutMethodCard object details.

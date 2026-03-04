@@ -37,6 +37,14 @@ const (
 	V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeedStandard V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed = "standard"
 )
 
+// The purpose of the OutboundPayment.
+type V2MoneyManagementOutboundPaymentPurpose string
+
+// List of values that V2MoneyManagementOutboundPaymentPurpose can take
+const (
+	V2MoneyManagementOutboundPaymentPurposePayroll V2MoneyManagementOutboundPaymentPurpose = "payroll"
+)
+
 // Closed Enum. Configuration option to enable or disable notifications to recipients.
 // Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
 type V2MoneyManagementOutboundPaymentRecipientNotificationSetting string
@@ -230,7 +238,7 @@ type V2MoneyManagementOutboundPaymentTo struct {
 	Recipient string `json:"recipient"`
 }
 
-// A unique identifier that can be used to track this OutboundPayment with recipient bank. Banks might call this a “reference number” or something similar.
+// A unique identifier that can be used to track this OutboundPayment with recipient bank. Banks might call this a "reference number" or something similar.
 type V2MoneyManagementOutboundPaymentTraceID struct {
 	// Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 	// `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
@@ -312,6 +320,8 @@ type V2MoneyManagementOutboundPayment struct {
 	Object string `json:"object"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote string `json:"outbound_payment_quote,omitempty"`
+	// The purpose of the OutboundPayment.
+	Purpose V2MoneyManagementOutboundPaymentPurpose `json:"purpose,omitempty"`
 	// A link to the Stripe-hosted receipt for this OutboundPayment. The receipt link remains active for 60 days from the OutboundPayment creation date. After this period, the link will expire and the receipt url value will be null.
 	ReceiptURL string `json:"receipt_url,omitempty"`
 	// Details about the OutboundPayment notification settings for recipient.
@@ -331,7 +341,7 @@ type V2MoneyManagementOutboundPayment struct {
 	StatusTransitions *V2MoneyManagementOutboundPaymentStatusTransitions `json:"status_transitions,omitempty"`
 	// To which payout method the OutboundPayment was sent.
 	To *V2MoneyManagementOutboundPaymentTo `json:"to"`
-	// A unique identifier that can be used to track this OutboundPayment with recipient bank. Banks might call this a “reference number” or something similar.
+	// A unique identifier that can be used to track this OutboundPayment with recipient bank. Banks might call this a "reference number" or something similar.
 	TraceID *V2MoneyManagementOutboundPaymentTraceID `json:"trace_id"`
 	// Information to track this OutboundPayment with the recipient bank.
 	TrackingDetails *V2MoneyManagementOutboundPaymentTrackingDetails `json:"tracking_details,omitempty"`

@@ -703,6 +703,14 @@ const (
 	TaxRegistrationCountryOptionsLaTypeSimplified TaxRegistrationCountryOptionsLaType = "simplified"
 )
 
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsLkType string
+
+// List of values that TaxRegistrationCountryOptionsLkType can take
+const (
+	TaxRegistrationCountryOptionsLkTypeSimplified TaxRegistrationCountryOptionsLkType = "simplified"
+)
+
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme string
 
@@ -1889,6 +1897,12 @@ type TaxRegistrationCountryOptionsLaParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in LK.
+type TaxRegistrationCountryOptionsLkParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsLTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -2279,7 +2293,7 @@ type TaxRegistrationCountryOptionsUgParams struct {
 
 // Options for the local amusement tax registration.
 type TaxRegistrationCountryOptionsUSLocalAmusementTaxParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `02154` (Arlington Heights), `06613` (Bloomington), `10906` (Campton Hills), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), and `68081` (Schiller Park).
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park).
 	Jurisdiction *string `form:"jurisdiction"`
 }
 
@@ -2489,6 +2503,8 @@ type TaxRegistrationCountryOptionsParams struct {
 	Kz *TaxRegistrationCountryOptionsKzParams `form:"kz"`
 	// Options for the registration in LA.
 	La *TaxRegistrationCountryOptionsLaParams `form:"la"`
+	// Options for the registration in LK.
+	Lk *TaxRegistrationCountryOptionsLkParams `form:"lk"`
 	// Options for the registration in LT.
 	LT *TaxRegistrationCountryOptionsLTParams `form:"lt"`
 	// Options for the registration in LU.
@@ -3223,6 +3239,12 @@ type TaxRegistrationCreateCountryOptionsLaParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in LK.
+type TaxRegistrationCreateCountryOptionsLkParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsLTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -3613,7 +3635,7 @@ type TaxRegistrationCreateCountryOptionsUgParams struct {
 
 // Options for the local amusement tax registration.
 type TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `02154` (Arlington Heights), `06613` (Bloomington), `10906` (Campton Hills), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), and `68081` (Schiller Park).
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park).
 	Jurisdiction *string `form:"jurisdiction"`
 }
 
@@ -3823,6 +3845,8 @@ type TaxRegistrationCreateCountryOptionsParams struct {
 	Kz *TaxRegistrationCreateCountryOptionsKzParams `form:"kz"`
 	// Options for the registration in LA.
 	La *TaxRegistrationCreateCountryOptionsLaParams `form:"la"`
+	// Options for the registration in LK.
+	Lk *TaxRegistrationCreateCountryOptionsLkParams `form:"lk"`
 	// Options for the registration in LT.
 	LT *TaxRegistrationCreateCountryOptionsLTParams `form:"lt"`
 	// Options for the registration in LU.
@@ -4315,6 +4339,10 @@ type TaxRegistrationCountryOptionsLa struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsLaType `json:"type"`
 }
+type TaxRegistrationCountryOptionsLk struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsLkType `json:"type"`
+}
 type TaxRegistrationCountryOptionsLTStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
@@ -4686,6 +4714,7 @@ type TaxRegistrationCountryOptions struct {
 	Kr *TaxRegistrationCountryOptionsKr `json:"kr"`
 	Kz *TaxRegistrationCountryOptionsKz `json:"kz"`
 	La *TaxRegistrationCountryOptionsLa `json:"la"`
+	Lk *TaxRegistrationCountryOptionsLk `json:"lk"`
 	LT *TaxRegistrationCountryOptionsLT `json:"lt"`
 	Lu *TaxRegistrationCountryOptionsLu `json:"lu"`
 	LV *TaxRegistrationCountryOptionsLV `json:"lv"`

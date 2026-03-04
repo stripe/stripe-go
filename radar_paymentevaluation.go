@@ -78,15 +78,6 @@ const (
 	RadarPaymentEvaluationEventUserInterventionResolvedOutcomePassed    RadarPaymentEvaluationEventUserInterventionResolvedOutcome = "passed"
 )
 
-// Recommended action based on the model score. Possible values are `block` and `continue`.
-type RadarPaymentEvaluationInsightsCardIssuerDeclineRecommendedAction string
-
-// List of values that RadarPaymentEvaluationInsightsCardIssuerDeclineRecommendedAction can take
-const (
-	RadarPaymentEvaluationInsightsCardIssuerDeclineRecommendedActionBlock    RadarPaymentEvaluationInsightsCardIssuerDeclineRecommendedAction = "block"
-	RadarPaymentEvaluationInsightsCardIssuerDeclineRecommendedActionContinue RadarPaymentEvaluationInsightsCardIssuerDeclineRecommendedAction = "continue"
-)
-
 // Recommended action based on the risk score. Possible values are `block` and `continue`.
 type RadarPaymentEvaluationInsightsFraudulentDisputeRecommendedAction string
 
@@ -546,14 +537,6 @@ type RadarPaymentEvaluationEvent struct {
 	UserInterventionResolved *RadarPaymentEvaluationEventUserInterventionResolved `json:"user_intervention_resolved"`
 }
 
-// Stripe Radar's evaluation of the likelihood of a card issuer decline on this payment.
-type RadarPaymentEvaluationInsightsCardIssuerDecline struct {
-	// Stripe Radar's evaluation of the likelihood that the payment will be declined by the card issuer. Scores range from 0 to 100, with higher values indicating a higher likelihood of decline.
-	ModelScore float64 `json:"model_score"`
-	// Recommended action based on the model score. Possible values are `block` and `continue`.
-	RecommendedAction RadarPaymentEvaluationInsightsCardIssuerDeclineRecommendedAction `json:"recommended_action"`
-}
-
 // Scores, insights and recommended action for one scorer for this PaymentEvaluation.
 type RadarPaymentEvaluationInsightsFraudulentDispute struct {
 	// Recommended action based on the risk score. Possible values are `block` and `continue`.
@@ -564,8 +547,6 @@ type RadarPaymentEvaluationInsightsFraudulentDispute struct {
 
 // Collection of scores and insights for this payment evaluation.
 type RadarPaymentEvaluationInsights struct {
-	// Stripe Radar's evaluation of the likelihood of a card issuer decline on this payment.
-	CardIssuerDecline *RadarPaymentEvaluationInsightsCardIssuerDecline `json:"card_issuer_decline"`
 	// The timestamp when the evaluation was performed.
 	EvaluatedAt int64 `json:"evaluated_at"`
 	// Scores, insights and recommended action for one scorer for this PaymentEvaluation.

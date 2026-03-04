@@ -223,6 +223,8 @@ type V2BillingServiceActionCreditGrantPerTenant struct {
 	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
 	Priority int64 `json:"priority,omitempty"`
 }
+
+// Service Actions represent actions applied during service assessment periods, such as granting credits to a customer.
 type V2BillingServiceAction struct {
 	APIResource
 	// Timestamp of when the object was created.

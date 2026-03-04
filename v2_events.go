@@ -135,6 +135,7 @@ type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUp
 
 // List of values that V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability can take
 const (
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityConsumerHoldsCurrenciesUSD         V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "consumer.holds_currencies.usd"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesBankAccounts    V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.bank_accounts"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesCryptoWallets   V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesEUR                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.eur"
@@ -1629,6 +1630,46 @@ func (n *V2BillingRateCardUpdatedEventNotification) FetchRelatedObject(ctx conte
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	relatedObj := &V2BillingRateCard{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent is the Go struct for the "v2.billing.rate_card_custom_pricing_unit_overage_rate.created" event.
+// Occurs when a RateCardCustomPricingUnitOverageRate is created.
+type V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingRateCardCustomPricingUnitOverageRateCreatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                      `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardCustomPricingUnitOverageRate, error)
+}
+
+// FetchRelatedObject fetches the V2BillingRateCardCustomPricingUnitOverageRate related to the event.
+func (e *V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardCustomPricingUnitOverageRate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.rate_card_custom_pricing_unit_overage_rate.created"
+// Occurs when a RateCardCustomPricingUnitOverageRate is created.
+type V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent that created this Notification
+func (n *V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingRateCardCustomPricingUnitOverageRate related to the event.
+func (n *V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingRateCardCustomPricingUnitOverageRate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	relatedObj := &V2BillingRateCardCustomPricingUnitOverageRate{}
 	err := n.client.backend.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -3695,6 +3736,120 @@ func (n *V2IamAPIKeyUpdatedEventNotification) FetchEvent(ctx context.Context) (*
 		return nil, err
 	}
 	return evt.(*V2IamAPIKeyUpdatedEvent), nil
+}
+
+// V2IamStripeAccessGrantApprovedEvent is the Go struct for the "v2.iam.stripe_access_grant.approved" event.
+// Occurs when a Stripe Access Grant is approved.
+type V2IamStripeAccessGrantApprovedEvent struct{ V2BaseEvent }
+
+// V2IamStripeAccessGrantApprovedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.approved"
+// Occurs when a Stripe Access Grant is approved.
+type V2IamStripeAccessGrantApprovedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2IamStripeAccessGrantApprovedEvent that created this Notification
+func (n *V2IamStripeAccessGrantApprovedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantApprovedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamStripeAccessGrantApprovedEvent), nil
+}
+
+// V2IamStripeAccessGrantCanceledEvent is the Go struct for the "v2.iam.stripe_access_grant.canceled" event.
+// Occurs when a Stripe Access Grant is canceled by the requesting Stripe.
+type V2IamStripeAccessGrantCanceledEvent struct{ V2BaseEvent }
+
+// V2IamStripeAccessGrantCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.canceled"
+// Occurs when a Stripe Access Grant is canceled by the requesting Stripe.
+type V2IamStripeAccessGrantCanceledEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2IamStripeAccessGrantCanceledEvent that created this Notification
+func (n *V2IamStripeAccessGrantCanceledEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantCanceledEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamStripeAccessGrantCanceledEvent), nil
+}
+
+// V2IamStripeAccessGrantDeniedEvent is the Go struct for the "v2.iam.stripe_access_grant.denied" event.
+// Occurs when a Stripe Access Grant is denied (was pending, then denied by the customer).
+type V2IamStripeAccessGrantDeniedEvent struct{ V2BaseEvent }
+
+// V2IamStripeAccessGrantDeniedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.denied"
+// Occurs when a Stripe Access Grant is denied (was pending, then denied by the customer).
+type V2IamStripeAccessGrantDeniedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2IamStripeAccessGrantDeniedEvent that created this Notification
+func (n *V2IamStripeAccessGrantDeniedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantDeniedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamStripeAccessGrantDeniedEvent), nil
+}
+
+// V2IamStripeAccessGrantRemovedEvent is the Go struct for the "v2.iam.stripe_access_grant.removed" event.
+// Occurs when a Stripe Access Grant is removed (was approved, and then removed by the customer).
+type V2IamStripeAccessGrantRemovedEvent struct{ V2BaseEvent }
+
+// V2IamStripeAccessGrantRemovedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.removed"
+// Occurs when a Stripe Access Grant is removed (was approved, and then removed by the customer).
+type V2IamStripeAccessGrantRemovedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2IamStripeAccessGrantRemovedEvent that created this Notification
+func (n *V2IamStripeAccessGrantRemovedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantRemovedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamStripeAccessGrantRemovedEvent), nil
+}
+
+// V2IamStripeAccessGrantRequestedEvent is the Go struct for the "v2.iam.stripe_access_grant.requested" event.
+// Occurs when a Stripe Access Grant is requested.
+type V2IamStripeAccessGrantRequestedEvent struct{ V2BaseEvent }
+
+// V2IamStripeAccessGrantRequestedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.requested"
+// Occurs when a Stripe Access Grant is requested.
+type V2IamStripeAccessGrantRequestedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2IamStripeAccessGrantRequestedEvent that created this Notification
+func (n *V2IamStripeAccessGrantRequestedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantRequestedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamStripeAccessGrantRequestedEvent), nil
+}
+
+// V2IamStripeAccessGrantUpdatedEvent is the Go struct for the "v2.iam.stripe_access_grant.updated" event.
+// Occurs when a Stripe Access Grant is updated.
+type V2IamStripeAccessGrantUpdatedEvent struct{ V2BaseEvent }
+
+// V2IamStripeAccessGrantUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.updated"
+// Occurs when a Stripe Access Grant is updated.
+type V2IamStripeAccessGrantUpdatedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2IamStripeAccessGrantUpdatedEvent that created this Notification
+func (n *V2IamStripeAccessGrantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2IamStripeAccessGrantUpdatedEvent), nil
 }
 
 // V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
@@ -6243,6 +6398,18 @@ type V2BillingRateCardCreatedEventData struct {
 	Created time.Time `json:"created"`
 }
 
+// Occurs when a RateCardCustomPricingUnitOverageRate is created.
+type V2BillingRateCardCustomPricingUnitOverageRateCreatedEventData struct {
+	// Timestamp of when the object was created.
+	Created time.Time `json:"created"`
+	// The ID of the custom pricing unit this overage rate applies to.
+	CustomPricingUnit string `json:"custom_pricing_unit"`
+	// The ID of the RateCard which this custom pricing unit overage rate belongs to.
+	RateCard string `json:"rate_card"`
+	// The ID of the RateCard Version when the custom pricing unit overage rate was created.
+	RateCardVersion string `json:"rate_card_version"`
+}
+
 // Occurs when a RateCardRate is created.
 type V2BillingRateCardRateCreatedEventData struct {
 	// The ID of the BillableItem which this Rate is associated with.
@@ -7348,6 +7515,19 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.billing.rate_card_custom_pricing_unit_overage_rate.created":
+		result := &V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardCustomPricingUnitOverageRate, error) {
+			v := &V2BillingRateCardCustomPricingUnitOverageRate{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.billing.rate_card_rate.created":
 		result := &V2BillingRateCardRateCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -7930,6 +8110,30 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v2.iam.api_key.updated":
 		result := &V2IamAPIKeyUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.stripe_access_grant.approved":
+		result := &V2IamStripeAccessGrantApprovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.stripe_access_grant.canceled":
+		result := &V2IamStripeAccessGrantCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.stripe_access_grant.denied":
+		result := &V2IamStripeAccessGrantDeniedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.stripe_access_grant.removed":
+		result := &V2IamStripeAccessGrantRemovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.stripe_access_grant.requested":
+		result := &V2IamStripeAccessGrantRequestedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		return result, nil
+	case "v2.iam.stripe_access_grant.updated":
+		result := &V2IamStripeAccessGrantUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		return result, nil
 	case "v2.money_management.adjustment.created":
@@ -8780,6 +8984,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.billing.rate_card_custom_pricing_unit_overage_rate.created":
+		evt := V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.billing.rate_card_rate.created":
 		evt := V2BillingRateCardRateCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -9230,6 +9441,48 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.iam.api_key.updated":
 		evt := V2IamAPIKeyUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.stripe_access_grant.approved":
+		evt := V2IamStripeAccessGrantApprovedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.stripe_access_grant.canceled":
+		evt := V2IamStripeAccessGrantCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.stripe_access_grant.denied":
+		evt := V2IamStripeAccessGrantDeniedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.stripe_access_grant.removed":
+		evt := V2IamStripeAccessGrantRemovedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.stripe_access_grant.requested":
+		evt := V2IamStripeAccessGrantRequestedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.iam.stripe_access_grant.updated":
+		evt := V2IamStripeAccessGrantUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

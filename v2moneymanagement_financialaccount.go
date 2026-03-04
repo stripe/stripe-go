@@ -44,6 +44,15 @@ const (
 	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonOther            V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "other"
 )
 
+// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
+type V2MoneyManagementFinancialAccountStorageFundsUsageType string
+
+// List of values that V2MoneyManagementFinancialAccountStorageFundsUsageType can take
+const (
+	V2MoneyManagementFinancialAccountStorageFundsUsageTypeBusiness V2MoneyManagementFinancialAccountStorageFundsUsageType = "business"
+	V2MoneyManagementFinancialAccountStorageFundsUsageTypeConsumer V2MoneyManagementFinancialAccountStorageFundsUsageType = "consumer"
+)
+
 // Type of the FinancialAccount. An additional hash is included on the FinancialAccount with a name matching this value.
 // It contains additional information specific to the FinancialAccount type.
 type V2MoneyManagementFinancialAccountType string
@@ -152,6 +161,8 @@ type V2MoneyManagementFinancialAccountStatusDetails struct {
 
 // If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorage struct {
+	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
+	FundsUsageType V2MoneyManagementFinancialAccountStorageFundsUsageType `json:"funds_usage_type,omitempty"`
 	// The currencies that this FinancialAccount can hold.
 	HoldsCurrencies []Currency `json:"holds_currencies"`
 }

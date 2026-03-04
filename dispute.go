@@ -181,6 +181,8 @@ func (p *DisputeListParams) AddExpand(f string) {
 // Retrieves the dispute with the given ID.
 type DisputeParams struct {
 	Params `form:"*"`
+	// If not countering the full disputed amount, specify an alternate amount, less than or equal to the disputed amount.
+	AmountToCounter *int64 `form:"amount_to_counter"`
 	// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
 	Evidence *DisputeEvidenceParams `form:"evidence"`
 	// Specifies which fields in the response should be expanded.
@@ -482,6 +484,8 @@ type DisputeUpdateEvidenceParams struct {
 // Depending on your dispute type, different evidence fields will give you a better chance of winning your dispute. To figure out which evidence fields to provide, see our [guide to dispute types](https://docs.stripe.com/docs/disputes/categories).
 type DisputeUpdateParams struct {
 	Params `form:"*"`
+	// If not countering the full disputed amount, specify an alternate amount, less than or equal to the disputed amount.
+	AmountToCounter *int64 `form:"amount_to_counter"`
 	// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
 	Evidence *DisputeUpdateEvidenceParams `form:"evidence"`
 	// Specifies which fields in the response should be expanded.

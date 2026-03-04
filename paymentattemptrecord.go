@@ -32,8 +32,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingTypeCard PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingType = "card"
 )
 
-// Preferred language of the Bancontact authorization page that the customer is redirected to.
-// Can be one of `en`, `de`, `fr`, or `nl`
+// Preferred language of the Bancontact authorization page that the customer is redirected to. Can be one of `en`, `de`, `fr`, or `nl`
 type PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage can take
@@ -63,6 +62,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardBrandVisa            PaymentAttemptRecordPaymentMethodDetailsCardBrand = "visa"
 )
 
+// If you provide a value for `address.line1`, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check can take
@@ -73,6 +73,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1CheckUnchecked   PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check = "unchecked"
 )
 
+// If you provide a address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck can take
@@ -83,6 +84,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheckUnchecked   PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck = "unchecked"
 )
 
+// If you provide a CVC, the check results is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type PaymentAttemptRecordPaymentMethodDetailsCardChecksCVCCheck string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardChecksCVCCheck can take
@@ -150,6 +152,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageUnscheduled PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
 )
 
+// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow can take
@@ -158,6 +161,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
 )
 
+// Indicates the outcome of 3D Secure authentication.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult can take
@@ -170,6 +174,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultProcessingError     PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "processing_error"
 )
 
+// Additional information about why 3D Secure succeeded or failed, based on the `result`.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultReason string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultReason can take
@@ -183,6 +188,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultReasonRejected            PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
+// The version of 3D Secure that was used.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion can take
@@ -232,6 +238,15 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletTypeGooglePay  PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType = "google_pay"
 	PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletTypeSamsungPay PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType = "samsung_pay"
 	PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType = "unknown"
+)
+
+// Indicates whether or not the reauthorization feature is supported.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorizationStatus string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorizationStatus can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
 )
 
 // The blockchain network that the transaction was sent on.
@@ -723,9 +738,9 @@ type PaymentAttemptRecordPaymentMethodDetailsACSSDebit struct {
 	TransitNumber string `json:"transit_number"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsAffirm struct {
-	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	// ID of the location that this reader is assigned to.
 	Location string `json:"location"`
-	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	// ID of the reader this transaction was made on.
 	Reader string `json:"reader"`
 	// The Affirm transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
@@ -816,11 +831,9 @@ type PaymentAttemptRecordPaymentMethodDetailsBancontact struct {
 	GeneratedSEPADebitMandate *Mandate `json:"generated_sepa_debit_mandate"`
 	// Last four characters of the IBAN.
 	IBANLast4 string `json:"iban_last4"`
-	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	// Can be one of `en`, `de`, `fr`, or `nl`
+	// Preferred language of the Bancontact authorization page that the customer is redirected to. Can be one of `en`, `de`, `fr`, or `nl`
 	PreferredLanguage PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage `json:"preferred_language"`
-	// Owner's verified full name. Values are verified or provided by Bancontact directly
-	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	// Owner's verified full name. Values are verified or provided by Bancontact directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsBillie struct {
@@ -850,10 +863,15 @@ type PaymentAttemptRecordPaymentMethodDetailsBoleto struct {
 
 // Check results by Card networks on Card address and CVC at time of payment.
 type PaymentAttemptRecordPaymentMethodDetailsCardChecks struct {
-	AddressLine1Check      PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check      `json:"address_line1_check"`
+	// If you provide a value for `address.line1`, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressLine1Check PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressLine1Check `json:"address_line1_check"`
+	// If you provide a address postal code, the check result is one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressPostalCodeCheck PaymentAttemptRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
-	CVCCheck               PaymentAttemptRecordPaymentMethodDetailsCardChecksCVCCheck               `json:"cvc_check"`
+	// If you provide a CVC, the check results is one of `pass`, `fail`, `unavailable`, or `unchecked`.
+	CVCCheck PaymentAttemptRecordPaymentMethodDetailsCardChecksCVCCheck `json:"cvc_check"`
 }
+
+// Installment plan selected for the payment.
 type PaymentAttemptRecordPaymentMethodDetailsCardInstallmentsPlan struct {
 	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
 	Count int64 `json:"count"`
@@ -865,6 +883,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCardInstallmentsPlan struct {
 
 // Installment details for this payment.
 type PaymentAttemptRecordPaymentMethodDetailsCardInstallments struct {
+	// Installment plan selected for the payment.
 	Plan *PaymentAttemptRecordPaymentMethodDetailsCardInstallmentsPlan `json:"plan"`
 }
 
@@ -876,10 +895,14 @@ type PaymentAttemptRecordPaymentMethodDetailsCardNetworkToken struct {
 
 // Populated if this transaction used 3D Secure authentication.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure struct {
+	// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 	AuthenticationFlow PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
-	Result             PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult             `json:"result"`
-	ResultReason       PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
-	Version            PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion            `json:"version"`
+	// Indicates the outcome of 3D Secure authentication.
+	Result PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult `json:"result"`
+	// Additional information about why 3D Secure succeeded or failed, based on the `result`.
+	ResultReason PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultReason `json:"result_reason"`
+	// The version of 3D Secure that was used.
+	Version PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion `json:"version"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsCardWalletApplePay struct {
 	// Type of the apple_pay transaction, one of `apple_pay` or `apple_pay_later`.
@@ -982,6 +1005,12 @@ type PaymentAttemptRecordPaymentMethodDetailsCardPresentWallet struct {
 	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 	Type PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType `json:"type"`
 }
+
+// Whether the PaymentIntent can be reauthorized or not.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
@@ -1019,6 +1048,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCardPresent struct {
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -1029,8 +1060,14 @@ type PaymentAttemptRecordPaymentMethodDetailsCardPresent struct {
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
+	// Whether the PaymentIntent can be reauthorized or not.
+	Reauthorization *PaymentAttemptRecordPaymentMethodDetailsCardPresentReauthorization `json:"reauthorization"`
+	// The time at which the associated PaymentIntent will transition to a terminal state if it is not reauthorized.
+	ReauthorizeBefore int64 `json:"reauthorize_before"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *PaymentAttemptRecordPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
 	Wallet  *PaymentAttemptRecordPaymentMethodDetailsCardPresentWallet  `json:"wallet"`
@@ -1040,7 +1077,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCashApp struct {
 	BuyerID string `json:"buyer_id"`
 	// A public identifier for buyers using Cash App.
 	Cashtag string `json:"cashtag"`
-	// A unique and immutable identifier of payments assigned by Cash App
+	// A unique and immutable identifier of payments assigned by Cash App.
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsCrypto struct {
@@ -1087,9 +1124,7 @@ type PaymentAttemptRecordPaymentMethodDetailsGiropay struct {
 	BankName string `json:"bank_name"`
 	// Bank Identifier Code of the bank associated with the bank account.
 	BIC string `json:"bic"`
-	// Owner's verified full name. Values are verified or provided by Giropay directly
-	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
-	// Giropay rarely provides this information so the attribute is usually empty.
+	// Owner's verified full name. Values are verified or provided by Giropay directly (if supported) at the time of authorization or settlement. They cannot be set or mutated. Giropay rarely provides this information so the attribute is usually empty.
 	VerifiedName string `json:"verified_name"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsGopay struct{}
@@ -1177,12 +1212,16 @@ type PaymentAttemptRecordPaymentMethodDetailsInteracPresent struct {
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.

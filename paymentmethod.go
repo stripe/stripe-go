@@ -108,6 +108,15 @@ const (
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
+// Indicates whether or not the reauthorization feature is supported.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
+)
+
 // All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 type PaymentMethodCardNetworksAvailable string
 
@@ -1492,6 +1501,14 @@ type PaymentMethodUpdateCardParams struct {
 	Networks *PaymentMethodUpdateCardNetworksParams `form:"networks"`
 }
 
+// If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
+type PaymentMethodUpdateCustomParams struct {
+	// A reference to an external payment method, such as a PayPal Billing Agreement ID.
+	PaymentMethodReference *string `form:"payment_method_reference"`
+	// Indicates whether the payment method supports off-session payments.
+	Usage *string `form:"usage"`
+}
+
 // If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
 type PaymentMethodUpdatePaytoParams struct {
 	// The account number for the bank account.
@@ -1508,14 +1525,6 @@ type PaymentMethodUpdateUSBankAccountParams struct {
 	AccountHolderType *string `form:"account_holder_type"`
 	// Bank account type.
 	AccountType *string `form:"account_type"`
-}
-
-// If this is a `custom` PaymentMethod, this hash contains details about the Custom payment method.
-type PaymentMethodUpdateCustomParams struct {
-	// A reference to an external payment method, such as a PayPal Billing Agreement ID.
-	PaymentMethodReference *string `form:"payment_method_reference"`
-	// Indicates whether the payment method supports off-session payments.
-	Usage *string `form:"usage"`
 }
 
 // Updates a PaymentMethod object. A PaymentMethod must be attached to a customer to be updated.
@@ -1657,6 +1666,12 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct 
 	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 	Type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType `json:"type"`
 }
+
+// Whether the PaymentIntent can be reauthorized or not.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
+}
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
@@ -1694,6 +1709,8 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -1704,8 +1721,14 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
+	// Whether the PaymentIntent can be reauthorized or not.
+	Reauthorization *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorization `json:"reauthorization"`
+	// The time at which the associated PaymentIntent will transition to a terminal state if it is not reauthorized.
+	ReauthorizeBefore int64 `json:"reauthorize_before"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
 	Wallet  *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet  `json:"wallet"`

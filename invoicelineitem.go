@@ -614,14 +614,6 @@ type InvoiceLineItemPricingPriceDetails struct {
 	// The ID of the product this item is associated with.
 	Product string `json:"product"`
 }
-type InvoiceLineItemPricingRateCardRateDetails struct {
-	// The ID of billable item this item is associated with
-	MeteredItem string `json:"metered_item"`
-	// The ID of the rate card this item is associated with
-	RateCard string `json:"rate_card"`
-	// The ID of the rate card rate this item is associated with
-	RateCardRate string `json:"rate_card_rate"`
-}
 type InvoiceLineItemPricingRateCardCustomPricingUnitOverageRateDetails struct {
 	// The ID of the custom pricing unit this item is associated with
 	CustomPricingUnit string `json:"custom_pricing_unit"`
@@ -631,6 +623,14 @@ type InvoiceLineItemPricingRateCardCustomPricingUnitOverageRateDetails struct {
 	OneTimeItem string `json:"one_time_item"`
 	// The ID of the rate card this item is associated with
 	RateCard string `json:"rate_card"`
+}
+type InvoiceLineItemPricingRateCardRateDetails struct {
+	// The ID of billable item this item is associated with
+	MeteredItem string `json:"metered_item"`
+	// The ID of the rate card this item is associated with
+	RateCard string `json:"rate_card"`
+	// The ID of the rate card rate this item is associated with
+	RateCardRate string `json:"rate_card_rate"`
 }
 
 // The pricing information of the line item.

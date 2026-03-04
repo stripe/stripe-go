@@ -17,6 +17,9 @@ const (
 	V2BillingPricingPlanTaxBehaviorInclusive V2BillingPricingPlanTaxBehavior = "inclusive"
 )
 
+// A Pricing Plan represents a bundled collection of billing components that define how customers are charged. Each plan
+// can include multiple components such as Rate Cards for usage-based pricing, License Fees for recurring charges, and Service
+// Actions for recurring credit grants. After creating a Pricing Plan, you can subscribe customers to it by creating a Pricing Plan Subscription.
 type V2BillingPricingPlan struct {
 	APIResource
 	// Whether the PricingPlan is active.

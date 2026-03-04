@@ -54,6 +54,8 @@ type V2BillingBillSettingVersionInvoice struct {
 	// The amount of time until the invoice will be overdue for payment.
 	TimeUntilDue *V2BillingBillSettingVersionInvoiceTimeUntilDue `json:"time_until_due,omitempty"`
 }
+
+// A Bill Setting Version is a specific configuration of a BillSetting at a point in time. Bill Setting Versions enable you to track changes to bill generation and invoice settings over time and manage which version is active for new billing operations.
 type V2BillingBillSettingVersion struct {
 	APIResource
 	// Settings related to calculating a bill.

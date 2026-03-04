@@ -21,6 +21,8 @@ type V2FinancialAddressGeneratedMicrodepositsAmount struct {
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
 	Value int64 `json:"value"`
 }
+
+// Generated Microdeposits represent verification deposits sent to a financial address for ownership verification, containing the deposited amounts and status.
 type V2FinancialAddressGeneratedMicrodeposits struct {
 	APIResource
 	// The amounts of the microdeposits that were generated.
