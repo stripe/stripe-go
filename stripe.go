@@ -12,6 +12,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"os"
 	"os/exec"
 	"reflect"
 	"regexp"
@@ -1760,6 +1761,7 @@ func (nopReadCloser) Close() error { return nil }
 // is serialized and sent in the `X-Stripe-Client-User-Agent` as additional
 // debugging information.
 type stripeClientUserAgent struct {
+	AIAgent         string   `json:"ai_agent,omitempty"`
 	Application     *AppInfo `json:"application"`
 	BindingsVersion string   `json:"bindings_version"`
 	Language        string   `json:"lang"`
@@ -1828,6 +1830,25 @@ func getUname() string {
 	return out.String()
 }
 
+var aiAgents = map[string]string{
+	"ANTIGRAVITY_CLI_ALIAS": "antigravity",
+	"CLAUDECODE":            "claude_code",
+	"CLINE_ACTIVE":          "cline",
+	"CODEX_SANDBOX":         "codex_cli",
+	"CURSOR_AGENT":          "cursor",
+	"GEMINI_CLI":            "gemini_cli",
+	"OPENCODE":              "open_code",
+}
+
+func detectAIAgent(lookupEnv func(string) (string, bool)) (string, bool) {
+	for k, name := range aiAgents {
+		if val, ok := lookupEnv(k); ok && val != "" {
+			return name, true
+		}
+	}
+	return "", false
+}
+
 func init() {
 	initUserAgent()
 }
@@ -1836,6 +1857,9 @@ func initUserAgent() {
 	encodedUserAgent = "Stripe/v1 GoBindings/" + clientversion
 	if appInfo != nil {
 		encodedUserAgent += " " + appInfo.formatUserAgent()
+	}
+	if agent, ok := detectAIAgent(os.LookupEnv); ok {
+		encodedUserAgent += " AIAgent/" + agent
 	}
 	encodedStripeUserAgentReady = &sync.Once{}
 }
@@ -1849,6 +1873,9 @@ func getEncodedStripeUserAgent() string {
 			LanguageVersion: runtime.Version(),
 			Publisher:       "stripe",
 			Uname:           getUname(),
+		}
+		if agent, ok := detectAIAgent(os.LookupEnv); ok {
+			stripeUserAgent.AIAgent = agent
 		}
 		marshaled, err := json.Marshal(stripeUserAgent)
 		// Encoding this struct should never be a problem, so we're okay to panic
