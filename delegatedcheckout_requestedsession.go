@@ -42,9 +42,29 @@ const (
 	DelegatedCheckoutRequestedSessionStatusOpen      DelegatedCheckoutRequestedSessionStatus = "open"
 )
 
+// The type of the attribution source.
+type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType string
+
+// List of values that DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType can take
+const (
+	DelegatedCheckoutRequestedSessionAffiliateAttributionSourceTypePlatform DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType = "platform"
+	DelegatedCheckoutRequestedSessionAffiliateAttributionSourceTypeURL      DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType = "url"
+)
+
+// Whether this is the first or last touchpoint.
+type DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint string
+
+// List of values that DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint can take
+const (
+	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointFirst DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "first"
+	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointLast  DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "last"
+)
+
 // Retrieves a requested session
 type DelegatedCheckoutRequestedSessionParams struct {
 	Params `form:"*"`
+	// Affiliate attribution data associated with this requested session.
+	AffiliateAttributions []*DelegatedCheckoutRequestedSessionAffiliateAttributionParams `form:"affiliate_attributions"`
 	// The currency for this requested session.
 	Currency *string `form:"currency"`
 	// The customer for this requested session.
@@ -169,6 +189,42 @@ type DelegatedCheckoutRequestedSessionSellerDetailsParams struct {
 	NetworkProfile *string `form:"network_profile"`
 }
 
+// Context about where the attribution originated.
+type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams struct {
+	// The platform where the attribution originated.
+	Platform *string `form:"platform"`
+	// The type of the attribution source.
+	Type *string `form:"type"`
+	// The URL where the attribution originated.
+	URL *string `form:"url"`
+}
+
+// Affiliate attribution data associated with this requested session.
+type DelegatedCheckoutRequestedSessionAffiliateAttributionParams struct {
+	// Agent-scoped campaign identifier.
+	CampaignID *string `form:"campaign_id"`
+	// Agent-scoped creative identifier.
+	CreativeID *string `form:"creative_id"`
+	// Timestamp when the attribution token expires.
+	ExpiresAt *int64 `form:"expires_at"`
+	// Agent-issued secret to validate the legitimacy of the source of this data.
+	IdentificationToken *string `form:"identification_token"`
+	// Timestamp for when the attribution token was issued.
+	IssuedAt *int64 `form:"issued_at"`
+	// Identifier for the attribution agent / affiliate network namespace.
+	Provider *string `form:"provider"`
+	// Agent-scoped affiliate/publisher identifier.
+	PublisherID *string `form:"publisher_id"`
+	// Freeform key/value pairs for additional non-sensitive per-agent data.
+	SharedMetadata map[string]string `form:"shared_metadata"`
+	// Context about where the attribution originated.
+	Source *DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams `form:"source"`
+	// Agent-scoped sub-tracking identifier.
+	SubID *string `form:"sub_id"`
+	// Whether this is the first or last touchpoint.
+	Touchpoint *string `form:"touchpoint"`
+}
+
 // The billing details for the payment method data.
 type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams struct {
 	// The address for the billing details.
@@ -223,9 +279,47 @@ type DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams struct {
 	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
 }
 
+// Context about where the attribution originated.
+type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams struct {
+	// The platform where the attribution originated.
+	Platform *string `form:"platform"`
+	// The type of the attribution source.
+	Type *string `form:"type"`
+	// The URL where the attribution originated.
+	URL *string `form:"url"`
+}
+
+// Affiliate attribution data associated with this requested session.
+type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams struct {
+	// Agent-scoped campaign identifier.
+	CampaignID *string `form:"campaign_id"`
+	// Agent-scoped creative identifier.
+	CreativeID *string `form:"creative_id"`
+	// Timestamp when the attribution token expires.
+	ExpiresAt *int64 `form:"expires_at"`
+	// Agent-issued secret to validate the legitimacy of the source of this data.
+	IdentificationToken *string `form:"identification_token"`
+	// Timestamp for when the attribution token was issued.
+	IssuedAt *int64 `form:"issued_at"`
+	// Identifier for the attribution agent / affiliate network namespace.
+	Provider *string `form:"provider"`
+	// Agent-scoped affiliate/publisher identifier.
+	PublisherID *string `form:"publisher_id"`
+	// Freeform key/value pairs for additional non-sensitive per-agent data.
+	SharedMetadata map[string]string `form:"shared_metadata"`
+	// Context about where the attribution originated.
+	Source *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams `form:"source"`
+	// Agent-scoped sub-tracking identifier.
+	SubID *string `form:"sub_id"`
+	// Whether this is the first or last touchpoint.
+	Touchpoint *string `form:"touchpoint"`
+}
+
 // Confirms a requested session
 type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Params `form:"*"`
+	// Affiliate attribution data associated with this requested session.
+	AffiliateAttributions []*DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams `form:"affiliate_attributions"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The PaymentMethod to use with the requested session.
@@ -436,9 +530,47 @@ type DelegatedCheckoutRequestedSessionCreateSellerDetailsParams struct {
 	NetworkProfile *string `form:"network_profile"`
 }
 
+// Context about where the attribution originated.
+type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams struct {
+	// The platform where the attribution originated.
+	Platform *string `form:"platform"`
+	// The type of the attribution source.
+	Type *string `form:"type"`
+	// The URL where the attribution originated.
+	URL *string `form:"url"`
+}
+
+// Affiliate attribution data associated with this requested session.
+type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams struct {
+	// Agent-scoped campaign identifier.
+	CampaignID *string `form:"campaign_id"`
+	// Agent-scoped creative identifier.
+	CreativeID *string `form:"creative_id"`
+	// Timestamp when the attribution token expires.
+	ExpiresAt *int64 `form:"expires_at"`
+	// Agent-issued secret to validate the legitimacy of the source of this data.
+	IdentificationToken *string `form:"identification_token"`
+	// Timestamp for when the attribution token was issued.
+	IssuedAt *int64 `form:"issued_at"`
+	// Identifier for the attribution agent / affiliate network namespace.
+	Provider *string `form:"provider"`
+	// Agent-scoped affiliate/publisher identifier.
+	PublisherID *string `form:"publisher_id"`
+	// Freeform key/value pairs for additional non-sensitive per-agent data.
+	SharedMetadata map[string]string `form:"shared_metadata"`
+	// Context about where the attribution originated.
+	Source *DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams `form:"source"`
+	// Agent-scoped sub-tracking identifier.
+	SubID *string `form:"sub_id"`
+	// Whether this is the first or last touchpoint.
+	Touchpoint *string `form:"touchpoint"`
+}
+
 // Creates a requested session
 type DelegatedCheckoutRequestedSessionCreateParams struct {
 	Params `form:"*"`
+	// Affiliate attribution data associated with this requested session.
+	AffiliateAttributions []*DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams `form:"affiliate_attributions"`
 	// The currency for this requested session.
 	Currency *string `form:"currency"`
 	// The customer for this requested session.
@@ -713,9 +845,47 @@ type DelegatedCheckoutRequestedSessionTotalDetails struct {
 	ApplicableFees []*DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee `json:"applicable_fees"`
 }
 
+// Context about where the attribution originated.
+type DelegatedCheckoutRequestedSessionAffiliateAttributionSource struct {
+	// The platform of the attribution source.
+	Platform string `json:"platform"`
+	// The type of the attribution source.
+	Type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType `json:"type"`
+	// The URL of the attribution source.
+	URL string `json:"url"`
+}
+
+// Affiliate attribution data associated with this requested session.
+type DelegatedCheckoutRequestedSessionAffiliateAttribution struct {
+	// Agent-scoped campaign identifier.
+	CampaignID string `json:"campaign_id"`
+	// Agent-scoped creative identifier.
+	CreativeID string `json:"creative_id"`
+	// Timestamp when the attribution token expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// Agent-issued secret to validate the legitimacy of the source of this data.
+	IdentificationToken string `json:"identification_token"`
+	// Timestamp for when the attribution token was issued.
+	IssuedAt int64 `json:"issued_at"`
+	// Identifier for the attribution agent / affiliate network namespace.
+	Provider string `json:"provider"`
+	// Agent-scoped affiliate/publisher identifier.
+	PublisherID string `json:"publisher_id"`
+	// Freeform key/value pairs for additional non-sensitive per-agent data.
+	SharedMetadata map[string]string `json:"shared_metadata"`
+	// Context about where the attribution originated.
+	Source *DelegatedCheckoutRequestedSessionAffiliateAttributionSource `json:"source"`
+	// Agent-scoped sub-tracking identifier.
+	SubID string `json:"sub_id"`
+	// Whether this is the first or last touchpoint.
+	Touchpoint DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint `json:"touchpoint"`
+}
+
 // A requested session is a session that has been requested by a customer.
 type DelegatedCheckoutRequestedSession struct {
 	APIResource
+	// Affiliate attribution data associated with this requested session.
+	AffiliateAttributions []*DelegatedCheckoutRequestedSessionAffiliateAttribution `json:"affiliate_attributions"`
 	// The subtotal amount of the requested session.
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// The total amount of the requested session.
