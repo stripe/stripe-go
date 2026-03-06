@@ -12,11 +12,11 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"os"
 	"os/exec"
 	"reflect"
 	"regexp"
 	"runtime"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -577,7 +577,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 
 	req.Header.Add("Authorization", authorization)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Stripe-Version", apiVersionWithBetaHeaders)
+	req.Header.Add("Stripe-Version", APIVersion)
 	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("X-Stripe-Client-User-Agent", getEncodedStripeUserAgent())
 
@@ -990,173 +990,9 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 	}
 
 	var typedError error
-	// The beginning of the section generated from our OpenAPI spec
+
+	// errorTypeSwitch: The beginning of the section generated from our OpenAPI spec
 	switch *raw.Error.Type {
-	case "already_canceled":
-		tmp := struct {
-			Error *AlreadyCanceledError `json:"error"`
-		}{
-			Error: &AlreadyCanceledError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "already_exists":
-		tmp := struct {
-			Error *AlreadyExistsError `json:"error"`
-		}{
-			Error: &AlreadyExistsError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "blocked_by_stripe":
-		tmp := struct {
-			Error *BlockedByStripeError `json:"error"`
-		}{
-			Error: &BlockedByStripeError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "controlled_by_alternate_resource":
-		tmp := struct {
-			Error *ControlledByAlternateResourceError `json:"error"`
-		}{
-			Error: &ControlledByAlternateResourceError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "controlled_by_dashboard":
-		tmp := struct {
-			Error *ControlledByDashboardError `json:"error"`
-		}{
-			Error: &ControlledByDashboardError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "feature_not_enabled":
-		tmp := struct {
-			Error *FeatureNotEnabledError `json:"error"`
-		}{
-			Error: &FeatureNotEnabledError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "financial_account_not_open":
-		tmp := struct {
-			Error *FinancialAccountNotOpenError `json:"error"`
-		}{
-			Error: &FinancialAccountNotOpenError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "insufficient_funds":
-		tmp := struct {
-			Error *InsufficientFundsError `json:"error"`
-		}{
-			Error: &InsufficientFundsError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "invalid_payment_method":
-		tmp := struct {
-			Error *InvalidPaymentMethodError `json:"error"`
-		}{
-			Error: &InvalidPaymentMethodError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "invalid_payout_method":
-		tmp := struct {
-			Error *InvalidPayoutMethodError `json:"error"`
-		}{
-			Error: &InvalidPayoutMethodError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "non_zero_balance":
-		tmp := struct {
-			Error *NonZeroBalanceError `json:"error"`
-		}{
-			Error: &NonZeroBalanceError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "not_cancelable":
-		tmp := struct {
-			Error *NotCancelableError `json:"error"`
-		}{
-			Error: &NotCancelableError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "quota_exceeded":
-		tmp := struct {
-			Error *QuotaExceededError `json:"error"`
-		}{
-			Error: &QuotaExceededError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "rate_limit":
-		tmp := struct {
-			Error *RateLimitError `json:"error"`
-		}{
-			Error: &RateLimitError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "recipient_not_notifiable":
-		tmp := struct {
-			Error *RecipientNotNotifiableError `json:"error"`
-		}{
-			Error: &RecipientNotNotifiableError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
 	case "temporary_session_expired":
 		tmp := struct {
 			Error *TemporarySessionExpiredError `json:"error"`
@@ -1171,7 +1007,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 	default:
 		typedError = raw.Error
 	}
-	// The end of the section generated from our OpenAPI spec
+	// errorTypeSwitch: The end of the section generated from our OpenAPI spec
 
 	return typedError
 }
@@ -1342,7 +1178,6 @@ func (s *BackendImplementation) sleepTime(numRetries int) time.Duration {
 // Backends are the currently supported endpoints.
 type Backends struct {
 	API, Connect, Uploads, MeterEvents Backend
-	config                             *BackendConfig
 	mu                                 sync.RWMutex
 }
 
@@ -1561,8 +1396,16 @@ func Int64Slice(v []int64) []*int64 {
 
 // NewBackends creates a new set of backends with the given HTTP client.
 func NewBackends(httpClient *http.Client) *Backends {
-	config := &BackendConfig{HTTPClient: httpClient}
-	return NewBackendsWithConfig(config)
+	apiConfig := &BackendConfig{HTTPClient: httpClient}
+	connectConfig := &BackendConfig{HTTPClient: httpClient}
+	uploadConfig := &BackendConfig{HTTPClient: httpClient}
+	meterConfig := &BackendConfig{HTTPClient: httpClient}
+	return &Backends{
+		API:         GetBackendWithConfig(APIBackend, apiConfig),
+		Connect:     GetBackendWithConfig(ConnectBackend, connectConfig),
+		Uploads:     GetBackendWithConfig(UploadsBackend, uploadConfig),
+		MeterEvents: GetBackendWithConfig(MeterEventsBackend, meterConfig),
+	}
 }
 
 // NewBackendsWithConfig creates a new set of backends with the given config for all backends.
@@ -1573,7 +1416,6 @@ func NewBackendsWithConfig(config *BackendConfig) *Backends {
 		Connect:     GetBackendWithConfig(ConnectBackend, config),
 		Uploads:     GetBackendWithConfig(UploadsBackend, config),
 		MeterEvents: GetBackendWithConfig(MeterEventsBackend, config),
-		config:      config,
 	}
 }
 
@@ -1677,50 +1519,12 @@ func TimeValue(v *time.Time) time.Time {
 	return time.Time{}
 }
 
-// AddBetaVersion adds or updates a beta version for a given beta feature in the API version string.
-// It ensures the beta version starts with 'v' followed by a number (e.g. "v2") and updates the API version string
-// with the highest version number for the given beta feature if there's a conflict.
-func AddBetaVersion(betaName string, betaVersion string) error {
-	if !strings.HasPrefix(betaVersion, "v") {
-		return errors.New("beta version should start with 'v'")
-	}
-	if _, err := strconv.Atoi(betaVersion[1:]); err != nil {
-		return errors.New("beta version should start with 'v' followed by a number")
-	}
-
-	parts := strings.Split(apiVersionWithBetaHeaders, "; ")
-	updated := false
-
-	for i, part := range parts {
-		part = strings.TrimSpace(part)
-		if strings.HasPrefix(part, betaName+"=") {
-			// Extract the existing version
-			existingVersion := strings.TrimPrefix(part, betaName+"=")
-			if betaVersion > existingVersion {
-				// Overwrite with the bigger version number
-				parts[i] = fmt.Sprintf("%s=%s", betaName, betaVersion)
-			}
-			updated = true
-			break
-		}
-	}
-
-	if !updated {
-		// Append the new betaName and betaVersion if not found
-		parts = append(parts, fmt.Sprintf("%s=%s", betaName, betaVersion))
-	}
-
-	// Join the parts back together
-	apiVersionWithBetaHeaders = strings.Join(parts, "; ")
-	return nil
-}
-
 //
 // Private constants
 //
 
 // clientversion is the binding version
-const clientversion = "84.5.0-beta.1"
+const clientversion = "84.4.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
@@ -1754,6 +1558,7 @@ func (nopReadCloser) Close() error { return nil }
 // is serialized and sent in the `X-Stripe-Client-User-Agent` as additional
 // debugging information.
 type stripeClientUserAgent struct {
+	AIAgent         string   `json:"ai_agent,omitempty"`
 	Application     *AppInfo `json:"application"`
 	BindingsVersion string   `json:"bindings_version"`
 	Language        string   `json:"lang"`
@@ -1784,9 +1589,6 @@ var backends Backends
 var encodedStripeUserAgent string
 var encodedStripeUserAgentReady *sync.Once
 var encodedUserAgent string
-
-// API Version with beta headers if any
-var apiVersionWithBetaHeaders string = APIVersion
 
 // The default HTTP client used for communication with any of Stripe's
 // backends.
@@ -1822,6 +1624,30 @@ func getUname() string {
 	return out.String()
 }
 
+var aiAgents = map[string]string{
+	// aiAgents: The beginning of the section generated from our OpenAPI spec
+	"ANTIGRAVITY_CLI_ALIAS":          "antigravity",
+	"CLAUDECODE":                     "claude_code",
+	"CLINE_ACTIVE":                   "cline",
+	"CODEX_SANDBOX":                  "codex_cli",
+	"CODEX_THREAD_ID":                "codex_cli",
+	"CODEX_SANDBOX_NETWORK_DISABLED": "codex_cli",
+	"CODEX_CI":                       "codex_cli",
+	"CURSOR_AGENT":                   "cursor",
+	"GEMINI_CLI":                     "gemini_cli",
+	"OPENCODE":                       "open_code",
+	// aiAgents: The end of the section generated from our OpenAPI spec
+}
+
+func detectAIAgent(lookupEnv func(string) (string, bool)) (string, bool) {
+	for k, name := range aiAgents {
+		if val, ok := lookupEnv(k); ok && val != "" {
+			return name, true
+		}
+	}
+	return "", false
+}
+
 func init() {
 	initUserAgent()
 }
@@ -1830,6 +1656,9 @@ func initUserAgent() {
 	encodedUserAgent = "Stripe/v1 GoBindings/" + clientversion
 	if appInfo != nil {
 		encodedUserAgent += " " + appInfo.formatUserAgent()
+	}
+	if agent, ok := detectAIAgent(os.LookupEnv); ok {
+		encodedUserAgent += " AIAgent/" + agent
 	}
 	encodedStripeUserAgentReady = &sync.Once{}
 }
@@ -1843,6 +1672,9 @@ func getEncodedStripeUserAgent() string {
 			LanguageVersion: runtime.Version(),
 			Publisher:       "stripe",
 			Uname:           getUname(),
+		}
+		if agent, ok := detectAIAgent(os.LookupEnv); ok {
+			stripeUserAgent.AIAgent = agent
 		}
 		marshaled, err := json.Marshal(stripeUserAgent)
 		// Encoding this struct should never be a problem, so we're okay to panic
