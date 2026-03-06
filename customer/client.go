@@ -8,6 +8,9 @@
 package customer
 
 import (
+	"crypto/rand"
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go/v84"
@@ -149,6 +152,42 @@ func (c Client) RetrievePaymentMethod(id string, params *stripe.CustomerRetrieve
 	paymentmethod := &stripe.PaymentMethod{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentmethod)
 	return paymentmethod, err
+}
+
+// Serializes a Customer update request into a batch job JSONL line.
+func SerializeBatchUpdate(id string, params *stripe.CustomerParams) (string, error) {
+	return getC().SerializeBatchUpdate(id, params)
+}
+
+// Serializes a Customer update request into a batch job JSONL line.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) SerializeBatchUpdate(id string, params *stripe.CustomerParams) (string, error) {
+	// Generate a UUID v4 using crypto/rand
+	var uuidBytes [16]byte
+	if _, err := rand.Read(uuidBytes[:]); err != nil {
+		return "", err
+	}
+	uuidBytes[6] = (uuidBytes[6] & 0x0f) | 0x40 // version 4
+	uuidBytes[8] = (uuidBytes[8] & 0x3f) | 0x80 // variant bits
+	itemID := fmt.Sprintf("%x-%x-%x-%x-%x", uuidBytes[0:4], uuidBytes[4:6], uuidBytes[6:8], uuidBytes[8:10], uuidBytes[10:16])
+
+	item := stripe.BatchItemParams{
+		ID:            itemID,
+		PathParams:    map[string]string{"customer": id},
+		Params:        params,
+		StripeVersion: stripe.APIVersion, // Default to global API version
+	}
+	if params.StripeContext != nil {
+		item.Context = *params.StripeContext
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.

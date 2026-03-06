@@ -8,6 +8,9 @@
 package subscription
 
 import (
+	"crypto/rand"
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go/v84"
@@ -196,6 +199,42 @@ func (c Client) Resume(id string, params *stripe.SubscriptionResumeParams) (*str
 	subscription := &stripe.Subscription{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
 	return subscription, err
+}
+
+// Serializes a Subscription update request into a batch job JSONL line.
+func SerializeBatchUpdate(id string, params *stripe.SubscriptionParams) (string, error) {
+	return getC().SerializeBatchUpdate(id, params)
+}
+
+// Serializes a Subscription update request into a batch job JSONL line.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) SerializeBatchUpdate(id string, params *stripe.SubscriptionParams) (string, error) {
+	// Generate a UUID v4 using crypto/rand
+	var uuidBytes [16]byte
+	if _, err := rand.Read(uuidBytes[:]); err != nil {
+		return "", err
+	}
+	uuidBytes[6] = (uuidBytes[6] & 0x0f) | 0x40 // version 4
+	uuidBytes[8] = (uuidBytes[8] & 0x3f) | 0x80 // variant bits
+	itemID := fmt.Sprintf("%x-%x-%x-%x-%x", uuidBytes[0:4], uuidBytes[4:6], uuidBytes[6:8], uuidBytes[8:10], uuidBytes[10:16])
+
+	item := stripe.BatchItemParams{
+		ID:            itemID,
+		PathParams:    map[string]string{"subscription_exposed_id": id},
+		Params:        params,
+		StripeVersion: stripe.APIVersion, // Default to global API version
+	}
+	if params.StripeContext != nil {
+		item.Context = *params.StripeContext
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.

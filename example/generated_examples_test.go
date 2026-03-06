@@ -20,6 +20,7 @@ import (
 	applicationfee "github.com/stripe/stripe-go/v84/applicationfee"
 	apps_secret "github.com/stripe/stripe-go/v84/apps/secret"
 	balancetransaction "github.com/stripe/stripe-go/v84/balancetransaction"
+	bankaccount "github.com/stripe/stripe-go/v84/bankaccount"
 	billingportal_configuration "github.com/stripe/stripe-go/v84/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v84/billingportal/session"
 	capability "github.com/stripe/stripe-go/v84/capability"
@@ -269,6 +270,132 @@ func TestAccountsDeleteClient(t *testing.T) {
 	params := &stripe.AccountDeleteParams{}
 	result, err := sc.V1Accounts.Delete(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDelete(t *testing.T) {
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := bankaccount.Del("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDeleteService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := sc.BankAccounts.Del("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDeleteClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BankAccountDeleteParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := sc.V1BankAccounts.Delete(
+		context.TODO(), "ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDelete2(t *testing.T) {
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := bankaccount.Del("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDelete2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := sc.BankAccounts.Del("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDelete2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BankAccountDeleteParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := sc.V1BankAccounts.Delete(
+		context.TODO(), "card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost3(t *testing.T) {
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := bankaccount.Update("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := sc.BankAccounts.Update("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BankAccountUpdateParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := sc.V1BankAccounts.Update(
+		context.TODO(), "ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost4(t *testing.T) {
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := bankaccount.Update("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost4Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := sc.BankAccounts.Update("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost4Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BankAccountUpdateParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := sc.V1BankAccounts.Update(
+		context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -13104,7 +13231,7 @@ func TestV2BillingCadencePostService(t *testing.T) {
 	params := &stripe.V2BillingCadenceParams{
 		BillingCycle: &stripe.V2BillingCadenceBillingCycleParams{
 			IntervalCount: stripe.Int64(797691627),
-			Type:          stripe.String("week"),
+			Type:          stripe.String(V2BillingCadenceBillingCycleType("week")),
 			Day: &stripe.V2BillingCadenceBillingCycleDayParams{
 				Time: &stripe.V2BillingCadenceBillingCycleDayTimeParams{
 					Hour:   stripe.Int64(3208676),
@@ -13158,7 +13285,7 @@ func TestV2BillingCadencePostClient(t *testing.T) {
 	params := &stripe.V2BillingCadenceCreateParams{
 		BillingCycle: &stripe.V2BillingCadenceCreateBillingCycleParams{
 			IntervalCount: stripe.Int64(797691627),
-			Type:          stripe.String("week"),
+			Type:          stripe.String(V2BillingCadenceBillingCycleType("week")),
 			Day: &stripe.V2BillingCadenceCreateBillingCycleDayParams{
 				Time: &stripe.V2BillingCadenceCreateBillingCycleDayTimeParams{
 					Hour:   stripe.Int64(3208676),
@@ -14038,24 +14165,34 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 	params := &stripe.V2CoreAccountLinkParams{
 		Account: stripe.String("account"),
 		UseCase: &stripe.V2CoreAccountLinkUseCaseParams{
-			Type: stripe.String("account_onboarding"),
+			Type: stripe.String(V2CoreAccountLinkUseCaseType("account_onboarding")),
 			AccountOnboarding: &stripe.V2CoreAccountLinkUseCaseAccountOnboardingParams{
 				CollectionOptions: &stripe.V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsParams{
-					Fields:             stripe.String("eventually_due"),
-					FutureRequirements: stripe.String("include"),
+					Fields: stripe.String(V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFields(
+						"eventually_due")),
+					FutureRequirements: stripe.String(V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFutureRequirements(
+						"include")),
 				},
-				Configurations: []*string{stripe.String("storer")},
-				RefreshURL:     stripe.String("refresh_url"),
-				ReturnURL:      stripe.String("return_url"),
+				Configurations: []*string{
+					stripe.String(V2CoreAccountLinkUseCaseAccountOnboardingConfiguration(
+						"storer")),
+				},
+				RefreshURL: stripe.String("refresh_url"),
+				ReturnURL:  stripe.String("return_url"),
 			},
 			AccountUpdate: &stripe.V2CoreAccountLinkUseCaseAccountUpdateParams{
 				CollectionOptions: &stripe.V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsParams{
-					Fields:             stripe.String("eventually_due"),
-					FutureRequirements: stripe.String("include"),
+					Fields: stripe.String(V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsFields(
+						"eventually_due")),
+					FutureRequirements: stripe.String(V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsFutureRequirements(
+						"include")),
 				},
-				Configurations: []*string{stripe.String("storer")},
-				RefreshURL:     stripe.String("refresh_url"),
-				ReturnURL:      stripe.String("return_url"),
+				Configurations: []*string{
+					stripe.String(V2CoreAccountLinkUseCaseAccountUpdateConfiguration(
+						"storer")),
+				},
+				RefreshURL: stripe.String("refresh_url"),
+				ReturnURL:  stripe.String("return_url"),
 			},
 		},
 	}
@@ -14074,24 +14211,34 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 	params := &stripe.V2CoreAccountLinkCreateParams{
 		Account: stripe.String("account"),
 		UseCase: &stripe.V2CoreAccountLinkCreateUseCaseParams{
-			Type: stripe.String("account_onboarding"),
+			Type: stripe.String(V2CoreAccountLinkUseCaseType("account_onboarding")),
 			AccountOnboarding: &stripe.V2CoreAccountLinkCreateUseCaseAccountOnboardingParams{
 				CollectionOptions: &stripe.V2CoreAccountLinkCreateUseCaseAccountOnboardingCollectionOptionsParams{
-					Fields:             stripe.String("eventually_due"),
-					FutureRequirements: stripe.String("include"),
+					Fields: stripe.String(V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFields(
+						"eventually_due")),
+					FutureRequirements: stripe.String(V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFutureRequirements(
+						"include")),
 				},
-				Configurations: []*string{stripe.String("storer")},
-				RefreshURL:     stripe.String("refresh_url"),
-				ReturnURL:      stripe.String("return_url"),
+				Configurations: []*string{
+					stripe.String(V2CoreAccountLinkUseCaseAccountOnboardingConfiguration(
+						"storer")),
+				},
+				RefreshURL: stripe.String("refresh_url"),
+				ReturnURL:  stripe.String("return_url"),
 			},
 			AccountUpdate: &stripe.V2CoreAccountLinkCreateUseCaseAccountUpdateParams{
 				CollectionOptions: &stripe.V2CoreAccountLinkCreateUseCaseAccountUpdateCollectionOptionsParams{
-					Fields:             stripe.String("eventually_due"),
-					FutureRequirements: stripe.String("include"),
+					Fields: stripe.String(V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsFields(
+						"eventually_due")),
+					FutureRequirements: stripe.String(V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsFutureRequirements(
+						"include")),
 				},
-				Configurations: []*string{stripe.String("storer")},
-				RefreshURL:     stripe.String("refresh_url"),
-				ReturnURL:      stripe.String("return_url"),
+				Configurations: []*string{
+					stripe.String(V2CoreAccountLinkUseCaseAccountUpdateConfiguration(
+						"storer")),
+				},
+				RefreshURL: stripe.String("refresh_url"),
+				ReturnURL:  stripe.String("return_url"),
 			},
 		},
 	}
@@ -14155,6 +14302,38 @@ func TestV2CoreAccountTokenGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccountTokens.Retrieve(
 		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreBatchJobPostService(t *testing.T) {
+	params := &stripe.V2CoreBatchJobParams{
+		Endpoint: stripe.String(V2CoreBatchJobEndpoint(
+			"/v1/subscription_schedules")),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"id\":\"obj_123\",\"object\":\"v2.core.batch_job\",\"url\":\"url\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreBatchJobs.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreBatchJobPostClient(t *testing.T) {
+	params := &stripe.V2CoreBatchJobCreateParams{
+		Endpoint: stripe.String(V2CoreBatchJobEndpoint(
+			"/v1/subscription_schedules")),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"id\":\"obj_123\",\"object\":\"v2.core.batch_job\",\"url\":\"url\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreBatchJobs.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -14236,9 +14415,9 @@ func TestV2CoreEventDestinationGetClient(t *testing.T) {
 func TestV2CoreEventDestinationPostService(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationParams{
 		EnabledEvents: []*string{stripe.String("enabled_events")},
-		EventPayload:  stripe.String("thin"),
+		EventPayload:  stripe.String(V2CoreEventDestinationEventPayload("thin")),
 		Name:          stripe.String("name"),
-		Type:          stripe.String("amazon_eventbridge"),
+		Type:          stripe.String(V2CoreEventDestinationType("amazon_eventbridge")),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
@@ -14254,9 +14433,9 @@ func TestV2CoreEventDestinationPostService(t *testing.T) {
 func TestV2CoreEventDestinationPostClient(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationCreateParams{
 		EnabledEvents: []*string{stripe.String("enabled_events")},
-		EventPayload:  stripe.String("thin"),
+		EventPayload:  stripe.String(V2CoreEventDestinationEventPayload("thin")),
 		Name:          stripe.String("name"),
-		Type:          stripe.String("amazon_eventbridge"),
+		Type:          stripe.String(V2CoreEventDestinationType("amazon_eventbridge")),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
@@ -15002,7 +15181,8 @@ func TestV2MoneyManagementFinancialAddressGetClient(t *testing.T) {
 func TestV2MoneyManagementFinancialAddressPostService(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("gb_bank_account"),
+		Type: stripe.String(V2MoneyManagementFinancialAddressType(
+			"gb_bank_account")),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_address\",\"status\":\"failed\",\"livemode\":true}")
@@ -15018,7 +15198,8 @@ func TestV2MoneyManagementFinancialAddressPostService(t *testing.T) {
 func TestV2MoneyManagementFinancialAddressPostClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressCreateParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("gb_bank_account"),
+		Type: stripe.String(V2MoneyManagementFinancialAddressType(
+			"gb_bank_account")),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"object\":\"v2.money_management.financial_address\",\"status\":\"failed\",\"livemode\":true}")
@@ -15986,7 +16167,7 @@ func TestV2TestHelpersFinancialAddressPostService(t *testing.T) {
 			Value:    stripe.Int64(111972721),
 			Currency: stripe.String(stripe.CurrencyUSD),
 		},
-		Network: stripe.String("rtp"),
+		Network: stripe.String(V2TestHelpersFinancialAddressNetwork("rtp")),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/test_helpers/financial_addresses/id_123/credit", params, "{\"object\":\"financial_address_credit_simulation\",\"status\":\"status\",\"livemode\":true}")
@@ -16005,7 +16186,7 @@ func TestV2TestHelpersFinancialAddressPostClient(t *testing.T) {
 			Value:    stripe.Int64(111972721),
 			Currency: stripe.String(stripe.CurrencyUSD),
 		},
-		Network: stripe.String("rtp"),
+		Network: stripe.String(V2TestHelpersFinancialAddressNetwork("rtp")),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/test_helpers/financial_addresses/id_123/credit", params, "{\"object\":\"financial_address_credit_simulation\",\"status\":\"status\",\"livemode\":true}")
@@ -16223,7 +16404,8 @@ func TestFeatureNotEnabledErrorClient(t *testing.T) {
 func TestFinancialAccountNotOpenErrorService(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("gb_bank_account"),
+		Type: stripe.String(V2MoneyManagementFinancialAddressType(
+			"gb_bank_account")),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"error\":{\"type\":\"financial_account_not_open\",\"code\":\"financial_account_not_in_open_status\"}}")
@@ -16239,7 +16421,8 @@ func TestFinancialAccountNotOpenErrorService(t *testing.T) {
 func TestFinancialAccountNotOpenErrorClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressCreateParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("gb_bank_account"),
+		Type: stripe.String(V2MoneyManagementFinancialAddressType(
+			"gb_bank_account")),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"error\":{\"type\":\"financial_account_not_open\",\"code\":\"financial_account_not_in_open_status\"}}")

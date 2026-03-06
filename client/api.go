@@ -193,6 +193,7 @@ import (
 	v2coreaccountsperson "github.com/stripe/stripe-go/v84/v2/core/accounts/person"
 	v2coreaccountspersontoken "github.com/stripe/stripe-go/v84/v2/core/accounts/persontoken"
 	v2coreaccounttoken "github.com/stripe/stripe-go/v84/v2/core/accounttoken"
+	v2corebatchjob "github.com/stripe/stripe-go/v84/v2/core/batchjob"
 	v2coreevent "github.com/stripe/stripe-go/v84/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v84/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v84/v2/core/vault/gbbankaccount"
@@ -581,6 +582,8 @@ type API struct {
 	V2CoreAccountsPersonTokens *v2coreaccountspersontoken.Client
 	// V2CoreAccountTokens is the client used to invoke /v2/core/account_tokens APIs.
 	V2CoreAccountTokens *v2coreaccounttoken.Client
+	// V2CoreBatchJobs is the client used to invoke /v2/core/batch_jobs APIs.
+	V2CoreBatchJobs *v2corebatchjob.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2coreeventdestination.Client
 	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
@@ -817,6 +820,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
 	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
+	a.V2CoreBatchJobs = &v2corebatchjob.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}

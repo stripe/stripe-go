@@ -8,6 +8,9 @@ package stripe
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v84/form"
@@ -89,6 +92,33 @@ func (c v1SubscriptionScheduleService) Release(ctx context.Context, id string, p
 	subscriptionschedule := &SubscriptionSchedule{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionschedule)
 	return subscriptionschedule, err
+}
+
+// Serializes a SubscriptionSchedule create request into a batch job JSONL line.
+func (c v1SubscriptionScheduleService) SerializeBatchCreate(ctx context.Context, params *SubscriptionScheduleCreateParams) (string, error) {
+	// Generate a UUID v4 using crypto/rand
+	var uuidBytes [16]byte
+	if _, err := rand.Read(uuidBytes[:]); err != nil {
+		return "", err
+	}
+	uuidBytes[6] = (uuidBytes[6] & 0x0f) | 0x40 // version 4
+	uuidBytes[8] = (uuidBytes[8] & 0x3f) | 0x80 // variant bits
+	itemID := fmt.Sprintf("%x-%x-%x-%x-%x", uuidBytes[0:4], uuidBytes[4:6], uuidBytes[6:8], uuidBytes[8:10], uuidBytes[10:16])
+
+	item := BatchItemParams{
+		ID:            itemID,
+		PathParams:    nil,
+		Params:        params,
+		StripeVersion: APIVersion, // Default to global API version
+	}
+	if params.StripeContext != nil {
+		item.Context = *params.StripeContext
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // Retrieves the list of your subscription schedules.

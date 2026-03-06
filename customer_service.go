@@ -8,6 +8,9 @@ package stripe
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v84/form"
@@ -105,6 +108,33 @@ func (c v1CustomerService) RetrievePaymentMethod(ctx context.Context, id string,
 	paymentmethod := &PaymentMethod{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentmethod)
 	return paymentmethod, err
+}
+
+// Serializes a Customer update request into a batch job JSONL line.
+func (c v1CustomerService) SerializeBatchUpdate(ctx context.Context, id string, params *CustomerUpdateParams) (string, error) {
+	// Generate a UUID v4 using crypto/rand
+	var uuidBytes [16]byte
+	if _, err := rand.Read(uuidBytes[:]); err != nil {
+		return "", err
+	}
+	uuidBytes[6] = (uuidBytes[6] & 0x0f) | 0x40 // version 4
+	uuidBytes[8] = (uuidBytes[8] & 0x3f) | 0x80 // variant bits
+	itemID := fmt.Sprintf("%x-%x-%x-%x-%x", uuidBytes[0:4], uuidBytes[4:6], uuidBytes[6:8], uuidBytes[8:10], uuidBytes[10:16])
+
+	item := BatchItemParams{
+		ID:            itemID,
+		PathParams:    map[string]string{"customer": id},
+		Params:        params,
+		StripeVersion: APIVersion, // Default to global API version
+	}
+	if params.StripeContext != nil {
+		item.Context = *params.StripeContext
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
