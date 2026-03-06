@@ -14,6 +14,10 @@ This release changes the pinned API version to `2026-02-25.preview`.
   * Add support for `BranchNumber` and `SwiftCode` on `V2MoneyManagementPayoutMethodBankAccount`
   * Add support for error codes `storer_capability_missing` and `storer_capability_not_active` on `QuotePreviewInvoiceLastFinalizationError`
 
+## 84.4.1 - 2026-03-06
+* [#2288](https://github.com/stripe/stripe-go/pull/2288) Add Stripe-Request-Trigger header
+* [#2285](https://github.com/stripe/stripe-go/pull/2285) Add agent information to UserAgent
+
 ## 84.4.0 - 2026-02-25
 This release changes the pinned API version to `2026-02-25.clover`.
 
