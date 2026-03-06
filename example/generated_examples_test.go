@@ -20,6 +20,7 @@ import (
 	applicationfee "github.com/stripe/stripe-go/v84/applicationfee"
 	apps_secret "github.com/stripe/stripe-go/v84/apps/secret"
 	balancetransaction "github.com/stripe/stripe-go/v84/balancetransaction"
+	bankaccount "github.com/stripe/stripe-go/v84/bankaccount"
 	billingportal_configuration "github.com/stripe/stripe-go/v84/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v84/billingportal/session"
 	capability "github.com/stripe/stripe-go/v84/capability"
@@ -269,6 +270,132 @@ func TestAccountsDeleteClient(t *testing.T) {
 	params := &stripe.AccountDeleteParams{}
 	result, err := sc.V1Accounts.Delete(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDelete(t *testing.T) {
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := bankaccount.Del("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDeleteService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := sc.BankAccounts.Del("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDeleteClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BankAccountDeleteParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := sc.V1BankAccounts.Delete(
+		context.TODO(), "ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDelete2(t *testing.T) {
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := bankaccount.Del("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDelete2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := sc.BankAccounts.Del("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsDelete2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BankAccountDeleteParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	result, err := sc.V1BankAccounts.Delete(
+		context.TODO(), "card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost3(t *testing.T) {
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := bankaccount.Update("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := sc.BankAccounts.Update("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BankAccountUpdateParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := sc.V1BankAccounts.Update(
+		context.TODO(), "ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost4(t *testing.T) {
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := bankaccount.Update("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost4Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BankAccountParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := sc.BankAccounts.Update("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestAccountsExternalAccountsPost4Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BankAccountUpdateParams{
+		Account: stripe.String("acct_xxxxxxxxxxxxx"),
+	}
+	params.AddMetadata("order_id", "6735")
+	result, err := sc.V1BankAccounts.Update(
+		context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }

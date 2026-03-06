@@ -646,6 +646,8 @@ func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNo
 func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -685,6 +687,8 @@ func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) Fetc
 func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccount{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1099,6 +1103,8 @@ func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchEvent(ctx con
 func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementAdjustment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementAdjustment{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1138,6 +1144,8 @@ func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchEvent(c
 func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccount{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1177,6 +1185,8 @@ func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(c
 func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAccount{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1216,6 +1226,8 @@ func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchEvent
 func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAddress{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1255,6 +1267,8 @@ func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchEvent(ct
 func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAddress, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementFinancialAddress{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1295,6 +1309,8 @@ func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchEvent(
 func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1334,6 +1350,8 @@ func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) Fetch
 func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1373,6 +1391,8 @@ func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) F
 func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1412,6 +1432,8 @@ func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) Fetch
 func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1451,6 +1473,8 @@ func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) Fet
 func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1490,6 +1514,8 @@ func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) Fe
 func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementInboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementInboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1529,6 +1555,8 @@ func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchEvent(c
 func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1568,6 +1596,8 @@ func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchEvent(ct
 func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1607,6 +1637,8 @@ func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchEvent(ctx
 func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1646,6 +1678,8 @@ func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchEvent(ctx
 func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1685,6 +1719,8 @@ func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(c
 func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1724,6 +1760,8 @@ func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchEvent(ct
 func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundPayment{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1763,6 +1801,8 @@ func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchEvent(
 func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1802,6 +1842,8 @@ func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchEvent(c
 func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1841,6 +1883,8 @@ func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchEvent(ct
 func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1880,6 +1924,8 @@ func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchEvent(ct
 func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1919,6 +1965,8 @@ func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent(
 func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1958,6 +2006,8 @@ func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchEvent(c
 func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -1997,6 +2047,8 @@ func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchEvent(ctx c
 func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutMethod{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2036,6 +2088,8 @@ func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchEvent(ctx c
 func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutMethod, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementPayoutMethod{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2076,6 +2130,8 @@ func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchEvent(c
 func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedCredit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2115,6 +2171,8 @@ func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchEvent(ctx 
 func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedCredit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2154,6 +2212,8 @@ func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchEvent(ct
 func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedCredit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2193,6 +2253,8 @@ func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchEvent(c
 func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedCredit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedCredit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2232,6 +2294,8 @@ func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchEvent(ctx
 func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2271,6 +2335,8 @@ func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchEvent(ctx c
 func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2310,6 +2376,8 @@ func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx 
 func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2349,6 +2417,8 @@ func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchEvent(ct
 func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2388,6 +2458,8 @@ func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchEvent(ctx 
 func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2428,6 +2500,8 @@ func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchEvent(ctx co
 func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementTransaction{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2467,6 +2541,8 @@ func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchEvent(ctx co
 func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementTransaction, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementTransaction{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
@@ -2844,7 +2920,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -2857,7 +2938,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
 			v := &V2CoreAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3010,7 +3096,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementAdjustment, error) {
 			v := &V2MoneyManagementAdjustment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3020,7 +3111,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3030,7 +3126,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
 			v := &V2MoneyManagementFinancialAccount{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3040,7 +3141,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
 			v := &V2MoneyManagementFinancialAddress{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3050,7 +3156,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAddress, error) {
 			v := &V2MoneyManagementFinancialAddress{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3060,7 +3171,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -3073,7 +3189,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3083,7 +3204,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3093,7 +3219,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3103,7 +3234,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3113,7 +3249,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementInboundTransfer, error) {
 			v := &V2MoneyManagementInboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3123,7 +3264,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3133,7 +3279,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3143,7 +3294,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3153,7 +3309,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3163,7 +3324,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3173,7 +3339,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
 			v := &V2MoneyManagementOutboundPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3183,7 +3354,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3193,7 +3369,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3203,7 +3384,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3213,7 +3399,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3223,7 +3414,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3233,7 +3429,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3243,7 +3444,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
 			v := &V2MoneyManagementPayoutMethod{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3253,7 +3459,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
 			v := &V2MoneyManagementPayoutMethod{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3263,7 +3474,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -3276,7 +3492,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3286,7 +3507,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3296,7 +3522,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedCredit, error) {
 			v := &V2MoneyManagementReceivedCredit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3306,7 +3537,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3316,7 +3552,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3326,7 +3567,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3336,7 +3582,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3346,7 +3597,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
@@ -3356,7 +3612,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
 			v := &V2MoneyManagementTransaction{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
@@ -3369,7 +3630,12 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
 			v := &V2MoneyManagementTransaction{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
 		return result, nil
