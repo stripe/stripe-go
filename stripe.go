@@ -13,7 +13,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"os/exec"
 	"reflect"
 	"regexp"
 	"runtime"
@@ -52,10 +51,6 @@ const (
 	MeterEventsBackend SupportedBackend = "meterevents"
 
 	MeterEventsURL = "https://meter-events.stripe.com"
-
-	// UnknownPlatform is the string returned as the system name if we couldn't get
-	// one from `uname`.
-	UnknownPlatform string = "unknown platform"
 
 	// UploadsBackend is a constant representing the uploads service backend.
 	UploadsBackend SupportedBackend = "uploads"
@@ -579,7 +574,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("Stripe-Version", APIVersion)
 	req.Header.Add("User-Agent", encodedUserAgent)
-	req.Header.Add("X-Stripe-Client-User-Agent", getEncodedStripeUserAgent())
+	req.Header.Add("X-Stripe-Client-User-Agent", getEncodedStripeUserAgent(s.enableTelemetry))
 
 	if s.StripeContext != nil {
 		req.Header.Set("Stripe-Context", *s.StripeContext)
@@ -1563,8 +1558,7 @@ type stripeClientUserAgent struct {
 	BindingsVersion string   `json:"bindings_version"`
 	Language        string   `json:"lang"`
 	LanguageVersion string   `json:"lang_version"`
-	Publisher       string   `json:"publisher"`
-	Uname           string   `json:"uname"`
+	Platform        string   `json:"platform,omitempty"`
 }
 
 // requestMetrics contains the id and duration of the last request sent
@@ -1602,27 +1596,6 @@ var httpClient = &http.Client{
 //
 // Private functions
 //
-
-// getUname tries to get a uname from the system, but not that hard. It tries
-// to execute `uname -a`, but swallows any errors in case that didn't work
-// (i.e. non-Unix non-Mac system or some other reason).
-func getUname() string {
-	path, err := exec.LookPath("uname")
-	if err != nil {
-		return UnknownPlatform
-	}
-
-	cmd := exec.Command(path, "-a")
-	var out bytes.Buffer
-	cmd.Stderr = nil // goes to os.DevNull
-	cmd.Stdout = &out
-	err = cmd.Run()
-	if err != nil {
-		return UnknownPlatform
-	}
-
-	return out.String()
-}
 
 var aiAgents = map[string]string{
 	// aiAgents: The beginning of the section generated from our OpenAPI spec
@@ -1663,15 +1636,16 @@ func initUserAgent() {
 	encodedStripeUserAgentReady = &sync.Once{}
 }
 
-func getEncodedStripeUserAgent() string {
+func getEncodedStripeUserAgent(enableTelemetry bool) string {
 	encodedStripeUserAgentReady.Do(func() {
 		stripeUserAgent := &stripeClientUserAgent{
 			Application:     appInfo,
 			BindingsVersion: clientversion,
 			Language:        "go",
 			LanguageVersion: runtime.Version(),
-			Publisher:       "stripe",
-			Uname:           getUname(),
+		}
+		if enableTelemetry {
+			stripeUserAgent.Platform = runtime.GOOS + " " + runtime.GOARCH
 		}
 		if agent, ok := detectAIAgent(os.LookupEnv); ok {
 			stripeUserAgent.AIAgent = agent
