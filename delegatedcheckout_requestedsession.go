@@ -64,7 +64,7 @@ const (
 type DelegatedCheckoutRequestedSessionParams struct {
 	Params `form:"*"`
 	// Affiliate attribution data associated with this requested session.
-	AffiliateAttributions []*DelegatedCheckoutRequestedSessionAffiliateAttributionParams `form:"affiliate_attributions"`
+	AffiliateAttribution *DelegatedCheckoutRequestedSessionAffiliateAttributionParams `form:"affiliate_attribution"`
 	// The currency for this requested session.
 	Currency *string `form:"currency"`
 	// The customer for this requested session.
@@ -319,7 +319,7 @@ type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams struct {
 type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Params `form:"*"`
 	// Affiliate attribution data associated with this requested session.
-	AffiliateAttributions []*DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams `form:"affiliate_attributions"`
+	AffiliateAttribution *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams `form:"affiliate_attribution"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The PaymentMethod to use with the requested session.
@@ -570,7 +570,7 @@ type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams struct {
 type DelegatedCheckoutRequestedSessionCreateParams struct {
 	Params `form:"*"`
 	// Affiliate attribution data associated with this requested session.
-	AffiliateAttributions []*DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams `form:"affiliate_attributions"`
+	AffiliateAttribution *DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams `form:"affiliate_attribution"`
 	// The currency for this requested session.
 	Currency *string `form:"currency"`
 	// The customer for this requested session.

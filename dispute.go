@@ -697,6 +697,8 @@ type Dispute struct {
 	APIResource
 	// Disputed amount. Usually the amount of the charge, but it can differ (usually because of currency fluctuation or because only part of the order is disputed).
 	Amount int64 `json:"amount"`
+	// The amount you want to contest, in the dispute's currency. Setting this to less than the full dispute amount means accepting the loss on the remaining amount. If not specified, the entire disputed amount is contested.
+	AmountToCounter int64 `json:"amount_to_counter"`
 	// List of zero, one, or two balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
 	// ID of the charge that's disputed.
