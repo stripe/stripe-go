@@ -453,7 +453,7 @@ type V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsBancontact struct
 // Configuration options for setting up an eMandate for cards issued in India.
 type V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsCardMandateOptions struct {
 	// Amount to be charged for future payments.
-	Amount int64 `json:"amount,omitempty"`
+	Amount string `json:"amount,omitempty"`
 	// The AmountType for the mandate. One of `fixed` or `maximum`.
 	AmountType V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type,omitempty"`
 	// A description of the mandate that is meant to be displayed to the customer.

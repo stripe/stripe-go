@@ -63,7 +63,7 @@ type V2BillingRateCardRateTier struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingRateCardRateTransformQuantity struct {
 	// Divide usage by this number.
-	DivideBy int64 `json:"divide_by"`
+	DivideBy string `json:"divide_by"`
 	// After division, round the result up or down.
 	Round V2BillingRateCardRateTransformQuantityRound `json:"round"`
 }
