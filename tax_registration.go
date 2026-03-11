@@ -1204,6 +1204,7 @@ const (
 	TaxRegistrationCountryOptionsUSTypeAttendanceTax          TaxRegistrationCountryOptionsUSType = "attendance_tax"
 	TaxRegistrationCountryOptionsUSTypeEntertainmentTax       TaxRegistrationCountryOptionsUSType = "entertainment_tax"
 	TaxRegistrationCountryOptionsUSTypeGrossReceiptsTax       TaxRegistrationCountryOptionsUSType = "gross_receipts_tax"
+	TaxRegistrationCountryOptionsUSTypeHomeRuleTax            TaxRegistrationCountryOptionsUSType = "home_rule_tax"
 	TaxRegistrationCountryOptionsUSTypeHospitalityTax         TaxRegistrationCountryOptionsUSType = "hospitality_tax"
 	TaxRegistrationCountryOptionsUSTypeLocalAmusementTax      TaxRegistrationCountryOptionsUSType = "local_amusement_tax"
 	TaxRegistrationCountryOptionsUSTypeLocalLeaseTax          TaxRegistrationCountryOptionsUSType = "local_lease_tax"
@@ -2317,8 +2318,16 @@ type TaxRegistrationCountryOptionsUSStateSalesTaxParams struct {
 	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams `form:"elections"`
 }
 
+// Options for the home rule tax registration.
+type TaxRegistrationCountryOptionsUSHomeRuleTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction"`
+}
+
 // Options for the registration in US.
 type TaxRegistrationCountryOptionsUSParams struct {
+	// Options for the home rule tax registration.
+	HomeRuleTax *TaxRegistrationCountryOptionsUSHomeRuleTaxParams `form:"home_rule_tax"`
 	// Options for the local amusement tax registration.
 	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax"`
 	// Options for the local lease tax registration.
@@ -3659,8 +3668,16 @@ type TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams struct {
 	Elections []*TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams `form:"elections"`
 }
 
+// Options for the home rule tax registration.
+type TaxRegistrationCreateCountryOptionsUSHomeRuleTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction"`
+}
+
 // Options for the registration in US.
 type TaxRegistrationCreateCountryOptionsUSParams struct {
+	// Options for the home rule tax registration.
+	HomeRuleTax *TaxRegistrationCreateCountryOptionsUSHomeRuleTaxParams `form:"home_rule_tax"`
 	// Options for the local amusement tax registration.
 	LocalAmusementTax *TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax"`
 	// Options for the local lease tax registration.
@@ -4617,11 +4634,16 @@ type TaxRegistrationCountryOptionsUSTourismTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=tourism_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
+type TaxRegistrationCountryOptionsUSHomeRuleTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
 type TaxRegistrationCountryOptionsUS struct {
 	AdmissionsTax     *TaxRegistrationCountryOptionsUSAdmissionsTax     `json:"admissions_tax"`
 	AttendanceTax     *TaxRegistrationCountryOptionsUSAttendanceTax     `json:"attendance_tax"`
 	EntertainmentTax  *TaxRegistrationCountryOptionsUSEntertainmentTax  `json:"entertainment_tax"`
 	GrossReceiptsTax  *TaxRegistrationCountryOptionsUSGrossReceiptsTax  `json:"gross_receipts_tax"`
+	HomeRuleTax       *TaxRegistrationCountryOptionsUSHomeRuleTax       `json:"home_rule_tax"`
 	HospitalityTax    *TaxRegistrationCountryOptionsUSHospitalityTax    `json:"hospitality_tax"`
 	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTax `json:"local_amusement_tax"`
 	LocalLeaseTax     *TaxRegistrationCountryOptionsUSLocalLeaseTax     `json:"local_lease_tax"`

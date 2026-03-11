@@ -176,6 +176,8 @@ type Client struct {
 	V1Mandates *v1MandateService
 	// V1Margins is the service used to invoke /v1/billing/margins APIs.
 	V1Margins *v1MarginService
+	// V1OrchestrationPaymentAttempts is the service used to invoke /v1/orchestration/payment_attempts APIs.
+	V1OrchestrationPaymentAttempts *v1OrchestrationPaymentAttemptService
 	// V1Orders is the service used to invoke /v1/orders APIs.
 	V1Orders *v1OrderService
 	// V1PaymentAttemptRecords is the service used to invoke /v1/payment_attempt_records APIs.
@@ -619,6 +621,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1LoginLinks = &v1LoginLinkService{B: backends.API, Key: key}
 	client.V1Mandates = &v1MandateService{B: backends.API, Key: key}
 	client.V1Margins = &v1MarginService{B: backends.API, Key: key}
+	client.V1OrchestrationPaymentAttempts = &v1OrchestrationPaymentAttemptService{B: backends.API, Key: key}
 	client.V1Orders = &v1OrderService{B: backends.API, Key: key}
 	client.V1PaymentAttemptRecords = &v1PaymentAttemptRecordService{B: backends.API, Key: key}
 	client.V1PaymentIntentAmountDetailsLineItems = &v1PaymentIntentAmountDetailsLineItemService{B: backends.API, Key: key}

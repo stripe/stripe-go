@@ -99,6 +99,7 @@ import (
 	"github.com/stripe/stripe-go/v84/mandate"
 	"github.com/stripe/stripe-go/v84/margin"
 	"github.com/stripe/stripe-go/v84/oauth"
+	orchestrationpaymentattempt "github.com/stripe/stripe-go/v84/orchestration/paymentattempt"
 	"github.com/stripe/stripe-go/v84/order"
 	"github.com/stripe/stripe-go/v84/paymentattemptrecord"
 	"github.com/stripe/stripe-go/v84/paymentintent"
@@ -439,6 +440,8 @@ type API struct {
 	Margins *margin.Client
 	// OAuth is the client used to invoke /oauth APIs
 	OAuth *oauth.Client
+	// OrchestrationPaymentAttempts is the client used to invoke /v1/orchestration/payment_attempts APIs.
+	OrchestrationPaymentAttempts *orchestrationpaymentattempt.Client
 	// Orders is the client used to invoke /v1/orders APIs.
 	Orders *order.Client
 	// PaymentAttemptRecords is the client used to invoke /v1/payment_attempt_records APIs.
@@ -861,6 +864,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Mandates = &mandate.Client{B: backends.API, Key: key}
 	a.Margins = &margin.Client{B: backends.API, Key: key}
 	a.OAuth = &oauth.Client{B: backends.Connect, Key: key}
+	a.OrchestrationPaymentAttempts = &orchestrationpaymentattempt.Client{B: backends.API, Key: key}
 	a.Orders = &order.Client{B: backends.API, Key: key}
 	a.PaymentAttemptRecords = &paymentattemptrecord.Client{B: backends.API, Key: key}
 	a.PaymentIntentAmountDetailsLineItems = &paymentintentamountdetailslineitem.Client{B: backends.API, Key: key}
