@@ -55,6 +55,40 @@ func (p *V2PaymentsOffSessionPaymentCaptureParams) AddMetadata(key string, value
 	p.Metadata[key] = value
 }
 
+// Billing information associated with the payment method.
+type V2PaymentsOffSessionPaymentPaymentMethodDataBillingDetailsParams struct {
+	// Billing address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Billing phone number (including extension).
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Contains card details that can be used to create a card PaymentMethod for PCI compliant users.
+type V2PaymentsOffSessionPaymentPaymentMethodDataCardParams struct {
+	// The card CVC.
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
+	// The card expiration month.
+	ExpMonth *string `form:"exp_month" json:"exp_month"`
+	// The card expiration year.
+	ExpYear *string `form:"exp_year" json:"exp_year"`
+	// The card number.
+	Number *string `form:"number" json:"number,omitempty"`
+}
+
+// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear in the payment_method property on the OffSessionPayment.
+type V2PaymentsOffSessionPaymentPaymentMethodDataParams struct {
+	// Billing information associated with the payment method.
+	BillingDetails *V2PaymentsOffSessionPaymentPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Contains card details that can be used to create a card PaymentMethod for PCI compliant users.
+	Card *V2PaymentsOffSessionPaymentPaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
+	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
+	Type *string `form:"type" json:"type"`
+}
+
 // Payment method options for the card payment type.
 type V2PaymentsOffSessionPaymentPaymentMethodOptionsCardParams struct {
 	// If you are making a Credential On File transaction with a previously saved card, you should pass the Network Transaction ID
@@ -121,6 +155,8 @@ type V2PaymentsOffSessionPaymentParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// ID of the payment method used in this OffSessionPayment.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear in the payment_method property on the OffSessionPayment.
+	PaymentMethodData *V2PaymentsOffSessionPaymentPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method options for the off-session payment.
 	PaymentMethodOptions *V2PaymentsOffSessionPaymentPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// Details about the payments orchestration configuration.
@@ -180,6 +216,40 @@ type V2PaymentsOffSessionPaymentCreateAmountParams struct {
 type V2PaymentsOffSessionPaymentCreateCaptureParams struct {
 	// The method to use to capture the payment.
 	CaptureMethod *string `form:"capture_method" json:"capture_method"`
+}
+
+// Billing information associated with the payment method.
+type V2PaymentsOffSessionPaymentCreatePaymentMethodDataBillingDetailsParams struct {
+	// Billing address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Billing phone number (including extension).
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Contains card details that can be used to create a card PaymentMethod for PCI compliant users.
+type V2PaymentsOffSessionPaymentCreatePaymentMethodDataCardParams struct {
+	// The card CVC.
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
+	// The card expiration month.
+	ExpMonth *string `form:"exp_month" json:"exp_month"`
+	// The card expiration year.
+	ExpYear *string `form:"exp_year" json:"exp_year"`
+	// The card number.
+	Number *string `form:"number" json:"number,omitempty"`
+}
+
+// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear in the payment_method property on the OffSessionPayment.
+type V2PaymentsOffSessionPaymentCreatePaymentMethodDataParams struct {
+	// Billing information associated with the payment method.
+	BillingDetails *V2PaymentsOffSessionPaymentCreatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Contains card details that can be used to create a card PaymentMethod for PCI compliant users.
+	Card *V2PaymentsOffSessionPaymentCreatePaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
+	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
+	Type *string `form:"type" json:"type"`
 }
 
 // Payment method options for the card payment type.
@@ -247,7 +317,9 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	// The account (if any) for which the funds of the OffSessionPayment are intended.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// ID of the payment method used in this OffSessionPayment.
-	PaymentMethod *string `form:"payment_method" json:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear in the payment_method property on the OffSessionPayment.
+	PaymentMethodData *V2PaymentsOffSessionPaymentCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method options for the off-session payment.
 	PaymentMethodOptions *V2PaymentsOffSessionPaymentCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// Details about the payments orchestration configuration.

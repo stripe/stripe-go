@@ -18919,9 +18919,8 @@ func TestV2PaymentsOffSessionPaymentPostService(t *testing.T) {
 			Value:    stripe.Int64(111972721),
 			Currency: stripe.String(stripe.CurrencyUSD),
 		},
-		Cadence:       stripe.String("unscheduled"),
-		Customer:      stripe.String("customer"),
-		PaymentMethod: stripe.String("payment_method"),
+		Cadence:  stripe.String("unscheduled"),
+		Customer: stripe.String("customer"),
 	}
 	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
@@ -18941,9 +18940,8 @@ func TestV2PaymentsOffSessionPaymentPostClient(t *testing.T) {
 			Value:    stripe.Int64(111972721),
 			Currency: stripe.String(stripe.CurrencyUSD),
 		},
-		Cadence:       stripe.String("unscheduled"),
-		Customer:      stripe.String("customer"),
-		PaymentMethod: stripe.String("payment_method"),
+		Cadence:  stripe.String("unscheduled"),
+		Customer: stripe.String("customer"),
 	}
 	params.AddMetadata("key", "metadata")
 	testServer := MockServer(

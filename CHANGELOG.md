@@ -66,6 +66,10 @@ This release uses the API version `2026-01-28.preview`.
   * Add support for `URL` on `FinancialConnectionsSession`
   * Add support for `BillingCycleAnchor` on `SubscriptionTrialSettingsEndBehaviorParams`
 
+## 84.4.1 - 2026-03-06
+* [#2288](https://github.com/stripe/stripe-go/pull/2288) Add Stripe-Request-Trigger header
+* [#2285](https://github.com/stripe/stripe-go/pull/2285) Add agent information to UserAgent
+
 ## 84.4.0 - 2026-02-25
 This release changes the pinned API version to `2026-02-25.clover`.
 

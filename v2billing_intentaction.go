@@ -26,6 +26,7 @@ type V2BillingIntentActionApplyEffectiveAtType string
 // List of values that V2BillingIntentActionApplyEffectiveAtType can take
 const (
 	V2BillingIntentActionApplyEffectiveAtTypeCurrentBillingPeriodEnd V2BillingIntentActionApplyEffectiveAtType = "current_billing_period_end"
+	V2BillingIntentActionApplyEffectiveAtTypeNextBillingPeriodStart  V2BillingIntentActionApplyEffectiveAtType = "next_billing_period_start"
 	V2BillingIntentActionApplyEffectiveAtTypeOnReserve               V2BillingIntentActionApplyEffectiveAtType = "on_reserve"
 )
 

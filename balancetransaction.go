@@ -13,6 +13,7 @@ type BalanceTransactionBalanceType string
 
 // List of values that BalanceTransactionBalanceType can take
 const (
+	BalanceTransactionBalanceTypeFeeCredits                 BalanceTransactionBalanceType = "fee_credits"
 	BalanceTransactionBalanceTypeIssuing                    BalanceTransactionBalanceType = "issuing"
 	BalanceTransactionBalanceTypePayments                   BalanceTransactionBalanceType = "payments"
 	BalanceTransactionBalanceTypeRefundAndDisputePrefunding BalanceTransactionBalanceType = "refund_and_dispute_prefunding"

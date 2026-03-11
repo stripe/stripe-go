@@ -45,6 +45,12 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankCh
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can create commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can create commercial issuing spend cards with Cross River Bank as BIN sponsor.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -55,8 +61,22 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSp
 type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankParams struct {
 	// Can create commercial issuing charge cards with Cross River Bank as BIN sponsor.
 	ChargeCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
+	// Can create commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 	// Can create commercial issuing spend cards with Cross River Bank as BIN sponsor.
 	SpendCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
+}
+
+// Can create commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialFifthThirdChargeCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can create commercial issuing cards with Fifth Third as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialFifthThirdParams struct {
+	// Can create commercial issuing charge cards with Fifth Third as BIN sponsor.
+	ChargeCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialFifthThirdChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 }
 
 // Can create commercial issuing prepaid cards with Lead as BIN sponsor.
@@ -97,16 +117,66 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialParams struct {
 	Celtic *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCelticParams `form:"celtic" json:"celtic,omitempty"`
 	// Can create commercial issuing cards with Cross River Bank as BIN sponsor.
 	CrossRiverBank *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Can create commercial issuing cards with Fifth Third as BIN sponsor.
+	FifthThird *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialFifthThirdParams `form:"fifth_third" json:"fifth_third,omitempty"`
 	// Can create commercial issuing cards with Stripe as BIN sponsor.
 	Lead *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialLeadParams `form:"lead" json:"lead,omitempty"`
 	// Can create commercial issuing cards with Stripe as BIN sponsor.
 	Stripe *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeParams `form:"stripe" json:"stripe,omitempty"`
 }
 
+// Can create consumer issuing charge cards with Celtic as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCelticRevolvingCreditCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can create consumer issuing cards with Celtic as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCelticParams struct {
+	// Can create consumer issuing revolving credit cards with Celtic as BIN sponsor.
+	RevolvingCreditCard *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCelticRevolvingCreditCardParams `form:"revolving_credit_card" json:"revolving_credit_card,omitempty"`
+}
+
+// Can create consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can create consumer issuing cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankParams struct {
+	// Can create consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can create consumer issuing cards with Lead as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadParams struct {
+	// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
+	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Can create cards for consumer issuing use cases.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerParams struct {
+	// Can create consumer issuing cards with Celtic as BIN sponsor.
+	Celtic *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCelticParams `form:"celtic" json:"celtic,omitempty"`
+	// Can create consumer issuing cards with Cross River Bank as BIN sponsor.
+	CrossRiverBank *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Can create consumer issuing cards with Lead as BIN sponsor.
+	Lead *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadParams `form:"lead" json:"lead,omitempty"`
+}
+
 // Capabilities to request on the CardCreator Configuration.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesParams struct {
 	// Can create cards for commercial issuing use cases.
 	Commercial *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialParams `form:"commercial" json:"commercial,omitempty"`
+	// Can create cards for consumer issuing use cases.
+	Consumer *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
 // The CardCreator Configuration allows the Account to create and issue cards to users.
@@ -1241,6 +1311,34 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRi
 	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardPlatformParams `form:"platform" json:"platform,omitempty"`
 }
 
+// Bank terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardParams struct {
+	// Bank terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Platform terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
 // Bank terms of service acceptance for commercial issuing spend cards with Cross River Bank as BIN sponsor.
 type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardBankTermsParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -1275,8 +1373,68 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRi
 	ApplePay *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
 	// Terms of service acceptances for commercial issuing charge cards with Cross River Bank as BIN sponsor.
 	ChargeCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
+	// Terms of service acceptances for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 	// Terms of service acceptances for commercial issuing spend cards with Cross River Bank as BIN sponsor.
 	SpendCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing Apple Pay cards with Fifth Third as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdApplePayParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardParams struct {
+	// Bank terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing cards with Fifth Third as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdParams struct {
+	// Terms of service acceptances for commercial issuing Apple Pay cards with Fifth Third as BIN sponsor.
+	ApplePay *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	ChargeCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 }
 
 // Terms of service acceptances for Stripe commercial card Global issuing.
@@ -1343,16 +1501,206 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialParams 
 	Celtic *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticParams `form:"celtic" json:"celtic,omitempty"`
 	// Terms of service acceptances for commercial issuing cards with Cross River Bank as BIN sponsor.
 	CrossRiverBank *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Terms of service acceptances for commercial issuing cards with Fifth Third as BIN sponsor.
+	FifthThird *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdParams `form:"fifth_third" json:"fifth_third,omitempty"`
 	// Terms of service acceptances for Stripe commercial card Global issuing.
 	GlobalAccountHolder *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialGlobalAccountHolderParams `form:"global_account_holder" json:"global_account_holder,omitempty"`
 	// Terms of service acceptances for commercial issuing cards with Lead as BIN sponsor.
 	Lead *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialLeadParams `form:"lead" json:"lead,omitempty"`
 }
 
+// Terms of service acceptances for Stripe consumer card issuing.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerAccountHolderParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing Apple Pay cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticApplePayParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing charge cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardParams struct {
+	// Bank terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Celtic as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticParams struct {
+	// Terms of service acceptances for consumer issuing Apple Pay cards with Celtic as BIN sponsor.
+	ApplePay *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for consumer issuing revolving credit cards with Celtic as BIN sponsor.
+	RevolvingCreditCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardParams `form:"revolving_credit_card" json:"revolving_credit_card,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardParams struct {
+	// Bank terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankParams struct {
+	// Terms of service acceptances for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Terms of service acceptances for Stripe consumer card Global issuing.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerGlobalAccountHolderParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams struct {
+	// Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams struct {
+	// Terms of service acceptances for consumer issuing Apple Pay cards with Lead as BIN sponsor.
+	ApplePay *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
+	PrepaidCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Terms of service acceptances to create cards for consumer issuing use cases.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerParams struct {
+	// Terms of service acceptances for Stripe consumer card issuing.
+	AccountHolder *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerAccountHolderParams `form:"account_holder" json:"account_holder,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Celtic as BIN sponsor.
+	Celtic *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticParams `form:"celtic" json:"celtic,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Cross River Bank as BIN sponsor.
+	CrossRiverBank *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Terms of service acceptances for Stripe consumer card Global issuing.
+	GlobalAccountHolder *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerGlobalAccountHolderParams `form:"global_account_holder" json:"global_account_holder,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Lead as BIN sponsor.
+	Lead *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams `form:"lead" json:"lead,omitempty"`
+}
+
 // Details on the Account's acceptance of Issuing-specific terms of service.
 type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorParams struct {
 	// Terms of service acceptances to create cards for commercial issuing use cases.
 	Commercial *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorCommercialParams `form:"commercial" json:"commercial,omitempty"`
+	// Terms of service acceptances to create cards for consumer issuing use cases.
+	Consumer *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
 // Details on the Account's acceptance of Crypto-storer-specific terms of service.
@@ -1990,6 +2338,16 @@ func (p *V2CoreAccountParams) AddMetadata(key string, value *string) {
 	p.Metadata[key] = value
 }
 
+// Terms of service acceptances for consumer issuing Apple Pay cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadApplePayParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Removes access to the Account and its associated resources. Closed Accounts can no longer be operated on, but limited information can still be retrieved through the API in order to be able to track their history.
 type V2CoreAccountCloseParams struct {
 	Params `form:"*"`
@@ -2023,6 +2381,12 @@ type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiver
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Can create commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can create commercial issuing spend cards with Cross River Bank as BIN sponsor.
 type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -2033,8 +2397,22 @@ type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiver
 type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankParams struct {
 	// Can create commercial issuing charge cards with Cross River Bank as BIN sponsor.
 	ChargeCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
+	// Can create commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 	// Can create commercial issuing spend cards with Cross River Bank as BIN sponsor.
 	SpendCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
+}
+
+// Can create commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialFifthThirdChargeCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can create commercial issuing cards with Fifth Third as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialFifthThirdParams struct {
+	// Can create commercial issuing charge cards with Fifth Third as BIN sponsor.
+	ChargeCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialFifthThirdChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 }
 
 // Can create commercial issuing prepaid cards with Lead as BIN sponsor.
@@ -2075,16 +2453,66 @@ type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialParams str
 	Celtic *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCelticParams `form:"celtic" json:"celtic,omitempty"`
 	// Can create commercial issuing cards with Cross River Bank as BIN sponsor.
 	CrossRiverBank *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Can create commercial issuing cards with Fifth Third as BIN sponsor.
+	FifthThird *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialFifthThirdParams `form:"fifth_third" json:"fifth_third,omitempty"`
 	// Can create commercial issuing cards with Stripe as BIN sponsor.
 	Lead *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialLeadParams `form:"lead" json:"lead,omitempty"`
 	// Can create commercial issuing cards with Stripe as BIN sponsor.
 	Stripe *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeParams `form:"stripe" json:"stripe,omitempty"`
 }
 
+// Can create consumer issuing charge cards with Celtic as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCelticRevolvingCreditCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can create consumer issuing cards with Celtic as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCelticParams struct {
+	// Can create consumer issuing charge cards with Celtic as BIN sponsor.
+	RevolvingCreditCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCelticRevolvingCreditCardParams `form:"revolving_credit_card" json:"revolving_credit_card,omitempty"`
+}
+
+// Can create consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can create consumer issuing cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankParams struct {
+	// Can create consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can create consumer issuing cards with Lead as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadParams struct {
+	// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
+	PrepaidCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Can create cards for consumer issuing use cases.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerParams struct {
+	// Can create consumer issuing cards with Celtic as BIN sponsor.
+	Celtic *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCelticParams `form:"celtic" json:"celtic,omitempty"`
+	// Can create consumer issuing cards with Cross River Bank as BIN sponsor.
+	CrossRiverBank *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Can create consumer issuing cards with Lead as BIN sponsor.
+	Lead *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadParams `form:"lead" json:"lead,omitempty"`
+}
+
 // Capabilities to request on the CardCreator Configuration.
 type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesParams struct {
 	// Can create cards for commercial issuing use cases.
 	Commercial *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialParams `form:"commercial" json:"commercial,omitempty"`
+	// Can create cards for consumer issuing use cases.
+	Consumer *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
 // The CardCreator Configuration allows the Account to create and issue cards to users.
@@ -3203,6 +3631,34 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialC
 	Platform *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardPlatformParams `form:"platform" json:"platform,omitempty"`
 }
 
+// Bank terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardParams struct {
+	// Bank terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	BankTerms *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Platform terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	Platform *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
 // Bank terms of service acceptance for commercial issuing spend cards with Cross River Bank as BIN sponsor.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardBankTermsParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -3237,8 +3693,68 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialC
 	ApplePay *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
 	// Terms of service acceptances for commercial issuing charge cards with Cross River Bank as BIN sponsor.
 	ChargeCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
+	// Terms of service acceptances for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 	// Terms of service acceptances for commercial issuing spend cards with Cross River Bank as BIN sponsor.
 	SpendCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing Apple Pay cards with Fifth Third as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdApplePayParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardParams struct {
+	// Bank terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	BankTerms *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	Platform *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing cards with Fifth Third as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdParams struct {
+	// Terms of service acceptances for commercial issuing Apple Pay cards with Fifth Third as BIN sponsor.
+	ApplePay *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	ChargeCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 }
 
 // Terms of service acceptances for Stripe commercial card Global issuing.
@@ -3305,16 +3821,204 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialP
 	Celtic *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticParams `form:"celtic" json:"celtic,omitempty"`
 	// Terms of service acceptances for commercial issuing cards with Cross River Bank as BIN sponsor.
 	CrossRiverBank *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Terms of service acceptances for commercial issuing cards with Fifth Third as BIN sponsor.
+	FifthThird *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdParams `form:"fifth_third" json:"fifth_third,omitempty"`
 	// Terms of service acceptances for Stripe commercial card Global issuing.
 	GlobalAccountHolder *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialGlobalAccountHolderParams `form:"global_account_holder" json:"global_account_holder,omitempty"`
 	// Terms of service acceptances for commercial issuing cards with Lead as BIN sponsor.
 	Lead *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialLeadParams `form:"lead" json:"lead,omitempty"`
 }
 
+// Terms of service acceptances for Stripe consumer card issuing.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerAccountHolderParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing Apple Pay cards with Celtic as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticApplePayParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing charge cards with Celtic as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardParams struct {
+	// Bank terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	BankTerms *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	Platform *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Celtic as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticParams struct {
+	// Terms of service acceptances for consumer issuing Apple Pay cards with Celtic as BIN sponsor.
+	ApplePay *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for consumer issuing charge cards with Celtic as BIN sponsor.
+	RevolvingCreditCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardParams `form:"revolving_credit_card" json:"revolving_credit_card,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardParams struct {
+	// Bank terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	BankTerms *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	Platform *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankParams struct {
+	// Terms of service acceptances for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Terms of service acceptances for Stripe consumer card Global issuing.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerGlobalAccountHolderParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams struct {
+	// Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	BankTerms *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	Platform *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams struct {
+	// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
+	PrepaidCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Terms of service acceptances to create cards for consumer issuing use cases.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerParams struct {
+	// Terms of service acceptances for Stripe consumer card issuing.
+	AccountHolder *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerAccountHolderParams `form:"account_holder" json:"account_holder,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Celtic as BIN sponsor.
+	Celtic *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticParams `form:"celtic" json:"celtic,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Cross River Bank as BIN sponsor.
+	CrossRiverBank *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Terms of service acceptances for Stripe consumer card Global issuing.
+	GlobalAccountHolder *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerGlobalAccountHolderParams `form:"global_account_holder" json:"global_account_holder,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Lead as BIN sponsor.
+	Lead *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams `form:"lead" json:"lead,omitempty"`
+}
+
 // Details on the Account's acceptance of Issuing-specific terms of service.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorParams struct {
 	// Terms of service acceptances to create cards for commercial issuing use cases.
 	Commercial *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialParams `form:"commercial" json:"commercial,omitempty"`
+	// Terms of service acceptances to create cards for consumer issuing use cases.
+	Consumer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
 // Details on the Account's acceptance of Crypto-storer-specific terms of service.
@@ -3985,6 +4689,12 @@ type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiver
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can create commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can create commercial issuing spend cards with Cross River Bank as BIN sponsor.
 type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3995,8 +4705,22 @@ type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiver
 type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankParams struct {
 	// Can create commercial issuing charge cards with Cross River Bank as BIN sponsor.
 	ChargeCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
+	// Can create commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 	// Can create commercial issuing spend cards with Cross River Bank as BIN sponsor.
 	SpendCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
+}
+
+// Can create commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialFifthThirdChargeCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can create commercial issuing cards with Fifth Third as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialFifthThirdParams struct {
+	// Can create commercial issuing charge cards with Fifth Third as BIN sponsor.
+	ChargeCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialFifthThirdChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 }
 
 // Can create commercial issuing prepaid cards with Lead as BIN sponsor.
@@ -4037,16 +4761,66 @@ type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialParams str
 	Celtic *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCelticParams `form:"celtic" json:"celtic,omitempty"`
 	// Can create commercial issuing cards with Cross River Bank as BIN sponsor.
 	CrossRiverBank *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Can create commercial issuing cards with Fifth Third as BIN sponsor.
+	FifthThird *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialFifthThirdParams `form:"fifth_third" json:"fifth_third,omitempty"`
 	// Can create commercial issuing cards with Lead as BIN sponsor.
 	Lead *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialLeadParams `form:"lead" json:"lead,omitempty"`
 	// Can create commercial issuing cards with Stripe as BIN sponsor.
 	Stripe *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeParams `form:"stripe" json:"stripe,omitempty"`
 }
 
+// Can create consumer issuing revolving credit cards with Celtic as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCelticRevolvingCreditCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can create consumer issuing cards with Celtic as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCelticParams struct {
+	// Can create consumer issuing revolving credit cards with Celtic as BIN sponsor.
+	RevolvingCreditCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCelticRevolvingCreditCardParams `form:"revolving_credit_card" json:"revolving_credit_card,omitempty"`
+}
+
+// Can create consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can create consumer issuing cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankParams struct {
+	// Can create consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can create consumer issuing cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadParams struct {
+	// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
+	PrepaidCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Can create cards for consumer issuing use cases.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerParams struct {
+	// Can create consumer issuing cards with Celtic as BIN sponsor.
+	Celtic *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCelticParams `form:"celtic" json:"celtic,omitempty"`
+	// Can create consumer issuing cards with Cross River Bank as BIN sponsor.
+	CrossRiverBank *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Can create consumer issuing cards with Lead as BIN sponsor.
+	Lead *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadParams `form:"lead" json:"lead,omitempty"`
+}
+
 // Capabilities to request on the CardCreator Configuration.
 type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesParams struct {
 	// Can create cards for commercial issuing use cases.
 	Commercial *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialParams `form:"commercial" json:"commercial,omitempty"`
+	// Can create cards for consumer issuing use cases.
+	Consumer *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
 // The CardCreator Configuration allows the Account to create and issue cards to users.
@@ -5181,6 +5955,34 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialC
 	Platform *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardPlatformParams `form:"platform" json:"platform,omitempty"`
 }
 
+// Bank terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardParams struct {
+	// Bank terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	BankTerms *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Platform terms of service acceptance for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	Platform *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
 // Bank terms of service acceptance for commercial issuing spend cards with Cross River Bank as BIN sponsor.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardBankTermsParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -5215,8 +6017,56 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialC
 	ApplePay *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
 	// Terms of service acceptances for commercial issuing charge cards with Cross River Bank as BIN sponsor.
 	ChargeCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
+	// Terms of service acceptances for commercial issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 	// Terms of service acceptances for commercial issuing spend cards with Cross River Bank as BIN sponsor.
 	SpendCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing Apple Pay cards with Fifth Third as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdApplePayParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing charge cards with Fifth Third as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardParams struct {
+	// Bank terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	BankTerms *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Platform terms of service acceptance for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	Platform *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for commercial issuing cards with Fifth Third as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdParams struct {
+	// Terms of service acceptances for commercial issuing Apple Pay cards with Fifth Third as BIN sponsor.
+	ApplePay *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for commercial issuing charge cards with Fifth Third as BIN sponsor.
+	ChargeCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 }
 
 // Terms of service acceptances for Stripe commercial card Global issuing.
@@ -5283,16 +6133,216 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialP
 	Celtic *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCelticParams `form:"celtic" json:"celtic,omitempty"`
 	// Terms of service acceptances for commercial issuing cards with Cross River Bank as BIN sponsor.
 	CrossRiverBank *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Terms of service acceptances for commercial issuing cards with Fifth Third as BIN sponsor.
+	FifthThird *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialFifthThirdParams `form:"fifth_third" json:"fifth_third,omitempty"`
 	// Terms of service acceptances for Stripe commercial card Global issuing.
 	GlobalAccountHolder *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialGlobalAccountHolderParams `form:"global_account_holder" json:"global_account_holder,omitempty"`
 	// Terms of service acceptances for commercial issuing cards with Lead as BIN sponsor.
 	Lead *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialLeadParams `form:"lead" json:"lead,omitempty"`
 }
 
+// Terms of service acceptances for Stripe consumer card issuing.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerAccountHolderParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing Apple Pay cards with Celtic as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticApplePayParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing revolving credit cards with Celtic as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardParams struct {
+	// Bank terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	BankTerms *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing spend cards with Celtic as BIN sponsor.
+	Platform *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Celtic as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticParams struct {
+	// Terms of service acceptances for consumer issuing Apple Pay cards with Celtic as BIN sponsor.
+	ApplePay *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for consumer issuing revolving credit cards with Celtic as BIN sponsor.
+	RevolvingCreditCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticRevolvingCreditCardParams `form:"revolving_credit_card" json:"revolving_credit_card,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardParams struct {
+	// Bank terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	BankTerms *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	Platform *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Cross River Bank as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankParams struct {
+	// Terms of service acceptances for consumer issuing prepaid cards with Cross River Bank as BIN sponsor.
+	PrepaidCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Terms of service acceptances for Stripe consumer card Global issuing.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerGlobalAccountHolderParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing Apple Pay cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadApplePayParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams struct {
+	// Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	BankTerms *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
+	Platform *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams struct {
+	// Terms of service acceptances for consumer issuing Apple Pay cards with Lead as BIN sponsor.
+	ApplePay *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
+	PrepaidCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+}
+
+// Terms of service acceptances to create cards for consumer issuing use cases.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerParams struct {
+	// Terms of service acceptances for Stripe consumer card issuing.
+	AccountHolder *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerAccountHolderParams `form:"account_holder" json:"account_holder,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Celtic as BIN sponsor.
+	Celtic *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCelticParams `form:"celtic" json:"celtic,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Cross River Bank as BIN sponsor.
+	CrossRiverBank *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerCrossRiverBankParams `form:"cross_river_bank" json:"cross_river_bank,omitempty"`
+	// Terms of service acceptances for Stripe consumer card Global issuing.
+	GlobalAccountHolder *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerGlobalAccountHolderParams `form:"global_account_holder" json:"global_account_holder,omitempty"`
+	// Terms of service acceptances for consumer issuing cards with Lead as BIN sponsor.
+	Lead *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams `form:"lead" json:"lead,omitempty"`
+}
+
 // Details on the Account's acceptance of Issuing-specific terms of service.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorParams struct {
 	// Terms of service acceptances to create cards for commercial issuing use cases.
 	Commercial *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorCommercialParams `form:"commercial" json:"commercial,omitempty"`
+	// Terms of service acceptances to create cards for consumer issuing use cases.
+	Consumer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
 // Details on the Account's acceptance of Crypto-storer-specific terms of service.
