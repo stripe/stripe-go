@@ -53,7 +53,7 @@ type V2BillingLicenseFeeVersionTier struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingLicenseFeeVersionTransformQuantity struct {
 	// Divide usage by this number.
-	DivideBy string `json:"divide_by"`
+	DivideBy int64 `json:"divide_by"`
 	// After division, round the result up or down.
 	Round V2BillingLicenseFeeVersionTransformQuantityRound `json:"round"`
 }

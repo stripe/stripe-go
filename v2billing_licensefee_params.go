@@ -35,7 +35,7 @@ type V2BillingLicenseFeeTierParams struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingLicenseFeeTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *string `form:"divide_by" json:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by"`
 	// After division, round the result up or down.
 	Round *string `form:"round" json:"round"`
 }
@@ -107,7 +107,7 @@ type V2BillingLicenseFeeCreateTierParams struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingLicenseFeeCreateTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *string `form:"divide_by" json:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by"`
 	// After division, round the result up or down.
 	Round *string `form:"round" json:"round"`
 }
@@ -181,7 +181,7 @@ type V2BillingLicenseFeeUpdateTierParams struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingLicenseFeeUpdateTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *string `form:"divide_by" json:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by"`
 	// After division, round the result up or down.
 	Round *string `form:"round" json:"round"`
 }

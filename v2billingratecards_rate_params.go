@@ -44,7 +44,7 @@ type V2BillingRateCardsRateTierParams struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingRateCardsRateTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *string `form:"divide_by" json:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by"`
 	// After division, round the result up or down.
 	Round *string `form:"round" json:"round"`
 }
@@ -108,7 +108,7 @@ type V2BillingRateCardsRateCreateTierParams struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingRateCardsRateCreateTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *string `form:"divide_by" json:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by"`
 	// After division, round the result up or down.
 	Round *string `form:"round" json:"round"`
 }

@@ -60,7 +60,7 @@ type V2ReportingReportRunResultFile struct {
 	// A pre-signed URL that allows secure, time-limited access to download the file.
 	DownloadURL *V2ReportingReportRunResultFileDownloadURL `json:"download_url"`
 	// The total size of the file in bytes.
-	Size string `json:"size"`
+	Size int64 `json:"size"`
 }
 
 // Details how to retrieve the results of a successfully completed `ReportRun`.
