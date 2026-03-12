@@ -14,6 +14,8 @@ type TestHelpersSharedPaymentGrantedTokenUsageLimitsParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// Max amount that can be captured using this SharedPaymentToken
 	MaxAmount *int64 `form:"max_amount"`
+	// The recurring interval at which the shared payment token's amount usage restrictions reset.
+	RecurringInterval *string `form:"recurring_interval"`
 }
 
 // Creates a new test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to create SharedPaymentGrantedTokens for testing their integration
@@ -56,6 +58,8 @@ type TestHelpersSharedPaymentGrantedTokenCreateUsageLimitsParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// Max amount that can be captured using this SharedPaymentToken
 	MaxAmount *int64 `form:"max_amount"`
+	// The recurring interval at which the shared payment token's amount usage restrictions reset.
+	RecurringInterval *string `form:"recurring_interval"`
 }
 
 // Creates a new test SharedPaymentGrantedToken object. This endpoint is only available in test mode and allows sellers to create SharedPaymentGrantedTokens for testing their integration
