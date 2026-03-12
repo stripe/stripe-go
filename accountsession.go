@@ -143,14 +143,16 @@ type AccountSessionComponentsCapitalOverviewParams struct {
 	Features *AccountSessionComponentsCapitalOverviewFeaturesParams `form:"features"`
 }
 
-// An empty list, because this embedded component has no features.
-type AccountSessionComponentsCheckScanningFeaturesParams struct{}
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsCheckScanningFeaturesParams struct {
+	CreateUSPaperCheckOnApplication *bool `form:"create_us_paper_check_on_application"`
+}
 
 // Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
 type AccountSessionComponentsCheckScanningParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
+	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsCheckScanningFeaturesParams `form:"features"`
 }
 
@@ -734,14 +736,16 @@ type AccountSessionCreateComponentsCapitalOverviewParams struct {
 	Features *AccountSessionCreateComponentsCapitalOverviewFeaturesParams `form:"features"`
 }
 
-// An empty list, because this embedded component has no features.
-type AccountSessionCreateComponentsCheckScanningFeaturesParams struct{}
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsCheckScanningFeaturesParams struct {
+	CreateUSPaperCheckOnApplication *bool `form:"create_us_paper_check_on_application"`
+}
 
 // Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
 type AccountSessionCreateComponentsCheckScanningParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
-	// An empty list, because this embedded component has no features.
+	// The list of features enabled in the embedded component.
 	Features *AccountSessionCreateComponentsCheckScanningFeaturesParams `form:"features"`
 }
 

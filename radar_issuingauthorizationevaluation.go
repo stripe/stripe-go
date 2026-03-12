@@ -6,7 +6,7 @@
 
 package stripe
 
-// The method used for authorization.
+// How the card details were provided.
 type RadarIssuingAuthorizationEvaluationAuthorizationDetailsAuthorizationMethod string
 
 // List of values that RadarIssuingAuthorizationEvaluationAuthorizationDetailsAuthorizationMethod can take
@@ -18,7 +18,7 @@ const (
 	RadarIssuingAuthorizationEvaluationAuthorizationDetailsAuthorizationMethodSwipe       RadarIssuingAuthorizationEvaluationAuthorizationDetailsAuthorizationMethod = "swipe"
 )
 
-// The card entry mode.
+// Defines how the card's information was entered for the authorization.
 type RadarIssuingAuthorizationEvaluationAuthorizationDetailsEntryMode string
 
 // List of values that RadarIssuingAuthorizationEvaluationAuthorizationDetailsEntryMode can take
@@ -34,7 +34,7 @@ const (
 	RadarIssuingAuthorizationEvaluationAuthorizationDetailsEntryModeUnknown               RadarIssuingAuthorizationEvaluationAuthorizationDetailsEntryMode = "unknown"
 )
 
-// The point of sale condition.
+// Defines how the card was read at the point of sale.
 type RadarIssuingAuthorizationEvaluationAuthorizationDetailsPointOfSaleCondition string
 
 // List of values that RadarIssuingAuthorizationEvaluationAuthorizationDetailsPointOfSaleCondition can take
@@ -51,7 +51,7 @@ const (
 	RadarIssuingAuthorizationEvaluationAuthorizationDetailsPointOfSaleConditionRecurring           RadarIssuingAuthorizationEvaluationAuthorizationDetailsPointOfSaleCondition = "recurring"
 )
 
-// The type of card (physical or virtual).
+// The type of the card.
 type RadarIssuingAuthorizationEvaluationCardDetailsCardType string
 
 // List of values that RadarIssuingAuthorizationEvaluationCardDetailsCardType can take
@@ -60,7 +60,7 @@ const (
 	RadarIssuingAuthorizationEvaluationCardDetailsCardTypeVirtual  RadarIssuingAuthorizationEvaluationCardDetailsCardType = "virtual"
 )
 
-// The card network that processed the authorization.
+// The card network over which Stripe received the authorization.
 type RadarIssuingAuthorizationEvaluationNetworkDetailsRoutedNetwork string
 
 // List of values that RadarIssuingAuthorizationEvaluationNetworkDetailsRoutedNetwork can take
@@ -96,7 +96,7 @@ const (
 	RadarIssuingAuthorizationEvaluationSignalsFraudRiskStatusSuccess RadarIssuingAuthorizationEvaluationSignalsFraudRiskStatus = "success"
 )
 
-// The wallet provider, if applicable.
+// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`.
 type RadarIssuingAuthorizationEvaluationTokenDetailsWallet string
 
 // List of values that RadarIssuingAuthorizationEvaluationTokenDetailsWallet can take
@@ -106,7 +106,7 @@ const (
 	RadarIssuingAuthorizationEvaluationTokenDetailsWalletSamsungPay RadarIssuingAuthorizationEvaluationTokenDetailsWallet = "samsung_pay"
 )
 
-// The result of the 3D Secure verification.
+// The outcome of the 3D Secure authentication request.
 type RadarIssuingAuthorizationEvaluationVerificationDetailsThreeDSecureResult string
 
 // List of values that RadarIssuingAuthorizationEvaluationVerificationDetailsThreeDSecureResult can take
@@ -120,85 +120,85 @@ const (
 
 // Details about the authorization.
 type RadarIssuingAuthorizationEvaluationAuthorizationDetailsParams struct {
-	// The authorization amount in the smallest currency unit.
+	// The total amount of the authorization in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
-	// The method used for authorization.
+	// How the card details were provided.
 	AuthorizationMethod *string `form:"authorization_method"`
-	// Three-letter ISO currency code in lowercase.
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The card entry mode.
+	// Defines how the card's information was entered for the authorization.
 	EntryMode *string `form:"entry_mode"`
-	// The raw code for the card entry mode.
+	// Raw code indicating the entry mode from the network message.
 	EntryModeRawCode *string `form:"entry_mode_raw_code"`
-	// The time when the authorization was initiated (Unix timestamp).
+	// The timestamp of the authorization initiated in seconds.
 	InitiatedAt *int64 `form:"initiated_at"`
-	// The point of sale condition.
+	// Defines how the card was read at the point of sale.
 	PointOfSaleCondition *string `form:"point_of_sale_condition"`
-	// The raw code for the point of sale condition.
+	// Raw code indicating the point of sale condition from the network message.
 	PointOfSaleConditionRawCode *string `form:"point_of_sale_condition_raw_code"`
-	// External reference for the authorization.
+	// User's specified unique ID for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference"`
 }
 
 // Details about the card used in the authorization.
 type RadarIssuingAuthorizationEvaluationCardDetailsParams struct {
-	// Bank Identification Number (BIN) of the card.
+	// The Bank Identification Number (BIN) of the card.
 	Bin *string `form:"bin"`
-	// Two-letter ISO country code of the card's issuing bank.
+	// The two-letter country code of the BIN issuer.
 	BinCountry *string `form:"bin_country"`
-	// The type of card (physical or virtual).
+	// The type of the card.
 	CardType *string `form:"card_type"`
-	// The time when the card was created (Unix timestamp).
+	// The timestamp when the card was created.
 	CreatedAt *int64 `form:"created_at"`
-	// Last 4 digits of the card number.
+	// The last 4 digits of the card number.
 	Last4 *string `form:"last4"`
-	// External reference for the card.
+	// User's specified unique ID of the card for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference"`
 }
 
 // Details about the cardholder.
 type RadarIssuingAuthorizationEvaluationCardholderDetailsParams struct {
-	// The time when the cardholder was created (Unix timestamp).
+	// The timestamp when the cardholder was created.
 	CreatedAt *int64 `form:"created_at"`
-	// External reference for the cardholder.
+	// User's specified unique ID of the cardholder for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference"`
 }
 
-// Details about the merchant where the authorization occurred.
+// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type RadarIssuingAuthorizationEvaluationMerchantDetailsParams struct {
-	// Merchant Category Code (MCC).
+	// The merchant category code for the seller's business.
 	CategoryCode *string `form:"category_code"`
-	// Two-letter ISO country code of the merchant.
+	// Country where the seller is located.
 	Country *string `form:"country"`
-	// Name of the merchant.
+	// Name of the seller.
 	Name *string `form:"name"`
-	// Network merchant identifier.
+	// Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.
 	NetworkID *string `form:"network_id"`
-	// Terminal identifier.
+	// An ID assigned by the seller to the location of the sale.
 	TerminalID *string `form:"terminal_id"`
 }
 
-// Details about the card network processing.
+// Details about the authorization, such as identifiers, set by the card network.
 type RadarIssuingAuthorizationEvaluationNetworkDetailsParams struct {
-	// The acquiring institution identifier.
+	// Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be null.
 	AcquiringInstitutionID *string `form:"acquiring_institution_id"`
-	// The card network that routed the authorization.
+	// The card network over which Stripe received the authorization.
 	RoutedNetwork *string `form:"routed_network"`
 }
 
-// Details about the token, if a tokenized payment method was used.
+// Details about the token, if a tokenized payment method was used for the authorization.
 type RadarIssuingAuthorizationEvaluationTokenDetailsParams struct {
-	// The time when the token was created (Unix timestamp).
+	// The timestamp when the network token was created.
 	CreatedAt *int64 `form:"created_at"`
-	// External reference for the token.
+	// User's specified unique ID of the card token for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference"`
-	// The wallet provider for the tokenized payment method.
+	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`.
 	Wallet *string `form:"wallet"`
 }
 
-// Details about verification checks performed.
+// Details about verification data for the authorization.
 type RadarIssuingAuthorizationEvaluationVerificationDetailsParams struct {
-	// The result of 3D Secure verification.
+	// The outcome of the 3D Secure authentication request.
 	ThreeDSecureResult *string `form:"three_d_secure_result"`
 }
 
@@ -213,15 +213,15 @@ type RadarIssuingAuthorizationEvaluationParams struct {
 	CardholderDetails *RadarIssuingAuthorizationEvaluationCardholderDetailsParams `form:"cardholder_details"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Details about the merchant where the authorization occurred.
+	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 	MerchantDetails *RadarIssuingAuthorizationEvaluationMerchantDetailsParams `form:"merchant_details"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// Details about the card network processing.
+	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkDetails *RadarIssuingAuthorizationEvaluationNetworkDetailsParams `form:"network_details"`
-	// Details about the token, if a tokenized payment method was used.
+	// Details about the token, if a tokenized payment method was used for the authorization.
 	TokenDetails *RadarIssuingAuthorizationEvaluationTokenDetailsParams `form:"token_details"`
-	// Details about verification checks performed.
+	// Details about verification data for the authorization.
 	VerificationDetails *RadarIssuingAuthorizationEvaluationVerificationDetailsParams `form:"verification_details"`
 }
 
@@ -241,85 +241,85 @@ func (p *RadarIssuingAuthorizationEvaluationParams) AddMetadata(key string, valu
 
 // Details about the authorization.
 type RadarIssuingAuthorizationEvaluationCreateAuthorizationDetailsParams struct {
-	// The authorization amount in the smallest currency unit.
+	// The total amount of the authorization in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
-	// The method used for authorization.
+	// How the card details were provided.
 	AuthorizationMethod *string `form:"authorization_method"`
-	// Three-letter ISO currency code in lowercase.
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The card entry mode.
+	// Defines how the card's information was entered for the authorization.
 	EntryMode *string `form:"entry_mode"`
-	// The raw code for the card entry mode.
+	// Raw code indicating the entry mode from the network message.
 	EntryModeRawCode *string `form:"entry_mode_raw_code"`
-	// The time when the authorization was initiated (Unix timestamp).
+	// The timestamp of the authorization initiated in seconds.
 	InitiatedAt *int64 `form:"initiated_at"`
-	// The point of sale condition.
+	// Defines how the card was read at the point of sale.
 	PointOfSaleCondition *string `form:"point_of_sale_condition"`
-	// The raw code for the point of sale condition.
+	// Raw code indicating the point of sale condition from the network message.
 	PointOfSaleConditionRawCode *string `form:"point_of_sale_condition_raw_code"`
-	// External reference for the authorization.
+	// User's specified unique ID for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference"`
 }
 
 // Details about the card used in the authorization.
 type RadarIssuingAuthorizationEvaluationCreateCardDetailsParams struct {
-	// Bank Identification Number (BIN) of the card.
+	// The Bank Identification Number (BIN) of the card.
 	Bin *string `form:"bin"`
-	// Two-letter ISO country code of the card's issuing bank.
+	// The two-letter country code of the BIN issuer.
 	BinCountry *string `form:"bin_country"`
-	// The type of card (physical or virtual).
+	// The type of the card.
 	CardType *string `form:"card_type"`
-	// The time when the card was created (Unix timestamp).
+	// The timestamp when the card was created.
 	CreatedAt *int64 `form:"created_at"`
-	// Last 4 digits of the card number.
+	// The last 4 digits of the card number.
 	Last4 *string `form:"last4"`
-	// External reference for the card.
+	// User's specified unique ID of the card for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference"`
 }
 
 // Details about the cardholder.
 type RadarIssuingAuthorizationEvaluationCreateCardholderDetailsParams struct {
-	// The time when the cardholder was created (Unix timestamp).
+	// The timestamp when the cardholder was created.
 	CreatedAt *int64 `form:"created_at"`
-	// External reference for the cardholder.
+	// User's specified unique ID of the cardholder for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference"`
 }
 
-// Details about the merchant where the authorization occurred.
+// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type RadarIssuingAuthorizationEvaluationCreateMerchantDetailsParams struct {
-	// Merchant Category Code (MCC).
+	// The merchant category code for the seller's business.
 	CategoryCode *string `form:"category_code"`
-	// Two-letter ISO country code of the merchant.
+	// Country where the seller is located.
 	Country *string `form:"country"`
-	// Name of the merchant.
+	// Name of the seller.
 	Name *string `form:"name"`
-	// Network merchant identifier.
+	// Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.
 	NetworkID *string `form:"network_id"`
-	// Terminal identifier.
+	// An ID assigned by the seller to the location of the sale.
 	TerminalID *string `form:"terminal_id"`
 }
 
-// Details about the card network processing.
+// Details about the authorization, such as identifiers, set by the card network.
 type RadarIssuingAuthorizationEvaluationCreateNetworkDetailsParams struct {
-	// The acquiring institution identifier.
+	// Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be null.
 	AcquiringInstitutionID *string `form:"acquiring_institution_id"`
-	// The card network that routed the authorization.
+	// The card network over which Stripe received the authorization.
 	RoutedNetwork *string `form:"routed_network"`
 }
 
-// Details about the token, if a tokenized payment method was used.
+// Details about the token, if a tokenized payment method was used for the authorization.
 type RadarIssuingAuthorizationEvaluationCreateTokenDetailsParams struct {
-	// The time when the token was created (Unix timestamp).
+	// The timestamp when the network token was created.
 	CreatedAt *int64 `form:"created_at"`
-	// External reference for the token.
+	// User's specified unique ID of the card token for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference"`
-	// The wallet provider for the tokenized payment method.
+	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`.
 	Wallet *string `form:"wallet"`
 }
 
-// Details about verification checks performed.
+// Details about verification data for the authorization.
 type RadarIssuingAuthorizationEvaluationCreateVerificationDetailsParams struct {
-	// The result of 3D Secure verification.
+	// The outcome of the 3D Secure authentication request.
 	ThreeDSecureResult *string `form:"three_d_secure_result"`
 }
 
@@ -334,15 +334,15 @@ type RadarIssuingAuthorizationEvaluationCreateParams struct {
 	CardholderDetails *RadarIssuingAuthorizationEvaluationCreateCardholderDetailsParams `form:"cardholder_details"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Details about the merchant where the authorization occurred.
+	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 	MerchantDetails *RadarIssuingAuthorizationEvaluationCreateMerchantDetailsParams `form:"merchant_details"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// Details about the card network processing.
+	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkDetails *RadarIssuingAuthorizationEvaluationCreateNetworkDetailsParams `form:"network_details"`
-	// Details about the token, if a tokenized payment method was used.
+	// Details about the token, if a tokenized payment method was used for the authorization.
 	TokenDetails *RadarIssuingAuthorizationEvaluationCreateTokenDetailsParams `form:"token_details"`
-	// Details about verification checks performed.
+	// Details about verification data for the authorization.
 	VerificationDetails *RadarIssuingAuthorizationEvaluationCreateVerificationDetailsParams `form:"verification_details"`
 }
 
@@ -360,25 +360,25 @@ func (p *RadarIssuingAuthorizationEvaluationCreateParams) AddMetadata(key string
 	p.Metadata[key] = value
 }
 
-// Details about the authorization transaction.
+// Details about the authorization.
 type RadarIssuingAuthorizationEvaluationAuthorizationDetails struct {
-	// The authorization amount in the smallest currency unit.
+	// The total amount of the authorization in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
-	// The method used for authorization.
+	// How the card details were provided.
 	AuthorizationMethod RadarIssuingAuthorizationEvaluationAuthorizationDetailsAuthorizationMethod `json:"authorization_method"`
-	// Three-letter ISO currency code in lowercase.
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// The card entry mode.
+	// Defines how the card's information was entered for the authorization.
 	EntryMode RadarIssuingAuthorizationEvaluationAuthorizationDetailsEntryMode `json:"entry_mode"`
-	// The raw code for the card entry mode.
+	// Raw code indicating the entry mode from the network message.
 	EntryModeRawCode string `json:"entry_mode_raw_code"`
-	// The time when the authorization was initiated.
+	// The timestamp of the authorization initiated in seconds.
 	InitiatedAt int64 `json:"initiated_at"`
-	// The point of sale condition.
+	// Defines how the card was read at the point of sale.
 	PointOfSaleCondition RadarIssuingAuthorizationEvaluationAuthorizationDetailsPointOfSaleCondition `json:"point_of_sale_condition"`
-	// The raw code for the point of sale condition.
+	// Raw code indicating the point of sale condition from the network message.
 	PointOfSaleConditionRawCode string `json:"point_of_sale_condition_raw_code"`
-	// External reference for the authorization.
+	// User's specified unique ID for this authorization attempt (e.g., RRN or internal reference).
 	Reference string `json:"reference"`
 }
 
@@ -386,45 +386,45 @@ type RadarIssuingAuthorizationEvaluationAuthorizationDetails struct {
 type RadarIssuingAuthorizationEvaluationCardDetails struct {
 	// The Bank Identification Number (BIN) of the card.
 	Bin string `json:"bin"`
-	// The country code associated with the card BIN.
+	// The two-letter country code of the BIN issuer.
 	BinCountry string `json:"bin_country"`
-	// The type of card (physical or virtual).
+	// The type of the card.
 	CardType RadarIssuingAuthorizationEvaluationCardDetailsCardType `json:"card_type"`
-	// The time when the card was created.
+	// The timestamp when the card was created.
 	CreatedAt int64 `json:"created_at"`
 	// The last 4 digits of the card number.
 	Last4 string `json:"last4"`
-	// External reference for the card.
+	// User's specified unique ID of the card for this authorization attempt (e.g., RRN or internal reference).
 	Reference string `json:"reference"`
 }
 
 // Details about the cardholder.
 type RadarIssuingAuthorizationEvaluationCardholderDetails struct {
-	// The time when the cardholder was created.
+	// The timestamp when the cardholder was created.
 	CreatedAt int64 `json:"created_at"`
-	// External reference for the cardholder.
+	// User's specified unique ID of the cardholder for this authorization attempt (e.g., RRN or internal reference).
 	Reference string `json:"reference"`
 }
 
-// Details about the merchant where the authorization occurred.
+// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type RadarIssuingAuthorizationEvaluationMerchantDetails struct {
-	// The merchant category code (MCC).
+	// The merchant category code for the seller's business.
 	CategoryCode string `json:"category_code"`
-	// The merchant country code.
+	// Country where the seller is located.
 	Country string `json:"country"`
-	// The merchant name.
+	// Name of the seller.
 	Name string `json:"name"`
-	// The merchant identifier from the card network.
+	// Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.
 	NetworkID string `json:"network_id"`
-	// The terminal identifier.
+	// An ID assigned by the seller to the location of the sale.
 	TerminalID string `json:"terminal_id"`
 }
 
-// Details about the card network processing.
+// Details about the authorization, such as identifiers, set by the card network.
 type RadarIssuingAuthorizationEvaluationNetworkDetails struct {
-	// The acquiring institution identifier.
+	// Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be null.
 	AcquiringInstitutionID string `json:"acquiring_institution_id"`
-	// The card network that processed the authorization.
+	// The card network over which Stripe received the authorization.
 	RoutedNetwork RadarIssuingAuthorizationEvaluationNetworkDetailsRoutedNetwork `json:"routed_network"`
 }
 
@@ -454,26 +454,26 @@ type RadarIssuingAuthorizationEvaluationSignals struct {
 	FraudRisk *RadarIssuingAuthorizationEvaluationSignalsFraudRisk `json:"fraud_risk"`
 }
 
-// Details about the token, if a tokenized payment method was used.
+// Details about the token, if a tokenized payment method was used for the authorization.
 type RadarIssuingAuthorizationEvaluationTokenDetails struct {
-	// The time when the token was created.
+	// The timestamp when the network token was created.
 	CreatedAt int64 `json:"created_at"`
-	// External reference for the token.
+	// User's specified unique ID of the card token for this authorization attempt (e.g., RRN or internal reference).
 	Reference string `json:"reference"`
-	// The wallet provider, if applicable.
+	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`.
 	Wallet RadarIssuingAuthorizationEvaluationTokenDetailsWallet `json:"wallet"`
 }
 
-// Details about verification checks performed.
+// Details about verification data for the authorization.
 type RadarIssuingAuthorizationEvaluationVerificationDetails struct {
-	// The result of the 3D Secure verification.
+	// The outcome of the 3D Secure authentication request.
 	ThreeDSecureResult RadarIssuingAuthorizationEvaluationVerificationDetailsThreeDSecureResult `json:"three_d_secure_result"`
 }
 
 // Authorization Evaluations represent fraud risk assessments for Issuing card authorizations. They include fraud risk signals and contextual details about the authorization.
 type RadarIssuingAuthorizationEvaluation struct {
 	APIResource
-	// Details about the authorization transaction.
+	// Details about the authorization.
 	AuthorizationDetails *RadarIssuingAuthorizationEvaluationAuthorizationDetails `json:"authorization_details"`
 	// Details about the card used in the authorization.
 	CardDetails *RadarIssuingAuthorizationEvaluationCardDetails `json:"card_details"`
@@ -483,18 +483,18 @@ type RadarIssuingAuthorizationEvaluation struct {
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
-	// Details about the merchant where the authorization occurred.
+	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 	MerchantDetails *RadarIssuingAuthorizationEvaluationMerchantDetails `json:"merchant_details"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
-	// Details about the card network processing.
+	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkDetails *RadarIssuingAuthorizationEvaluationNetworkDetails `json:"network_details"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Collection of fraud risk signals for this authorization evaluation.
 	Signals *RadarIssuingAuthorizationEvaluationSignals `json:"signals"`
-	// Details about the token, if a tokenized payment method was used.
+	// Details about the token, if a tokenized payment method was used for the authorization.
 	TokenDetails *RadarIssuingAuthorizationEvaluationTokenDetails `json:"token_details"`
-	// Details about verification checks performed.
+	// Details about verification data for the authorization.
 	VerificationDetails *RadarIssuingAuthorizationEvaluationVerificationDetails `json:"verification_details"`
 }
