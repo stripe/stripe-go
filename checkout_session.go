@@ -1539,6 +1539,84 @@ const (
 	CheckoutSessionWalletOptionsLinkDisplayNever CheckoutSessionWalletOptionsLinkDisplay = "never"
 )
 
+// Determines whether the customer's attempt to pay must be manually approved.
+//
+// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
+//
+// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
+type CheckoutSessionApprovalMethod string
+
+// List of values that CheckoutSessionApprovalMethod can take
+const (
+	CheckoutSessionApprovalMethodAuto   CheckoutSessionApprovalMethod = "auto"
+	CheckoutSessionApprovalMethodManual CheckoutSessionApprovalMethod = "manual"
+)
+
+// Indicates whether this payment method can be shown again to its customer in a checkout flow.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay string
+
+// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay can take
+const (
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayAlways      CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "always"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayLimited     CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "limited"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayUnspecified CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "unspecified"
+)
+
+// The brand of the card, accounting for customer's brand choice on dual-branded cards.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand string
+
+// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand can take
+const (
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAccel           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "accel"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAmex            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "amex"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCarnet          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "carnet"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCartesBancaires CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "cartes_bancaires"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandConecs          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "conecs"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiners          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "diners"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiscover        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "discover"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandEFTPOSAU        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "eftpos_au"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandElo             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "elo"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandGirocard        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "girocard"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandInterac         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "interac"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJCB             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jcb"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandLink            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "link"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMaestro         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "maestro"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMastercard      CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "mastercard"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandNyce            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "nyce"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandPulse           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "pulse"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandRupay           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "rupay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandStar            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "star"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnionpay        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unionpay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnknown         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unknown"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandVisa            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "visa"
+)
+
+// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding string
+
+// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding can take
+const (
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingCredit  CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "credit"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingDebit   CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "debit"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingPrepaid CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "prepaid"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingUnknown CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "unknown"
+)
+
+// The type of the wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, `meta_pay`, or `link`.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType string
+
+// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType can take
+const (
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeAmexExpressCheckout CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "amex_express_checkout"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeApplePay            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "apple_pay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeGooglePay           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "google_pay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeLink                CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "link"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeMasterpass          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "masterpass"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeMetaPay             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "meta_pay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeSamsungPay          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "samsung_pay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeVisaCheckout        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "visa_checkout"
+)
+
 type CheckoutSessionCheckoutItemType string
 
 // List of values that CheckoutSessionCheckoutItemType can take
@@ -3290,6 +3368,12 @@ type CheckoutSessionParams struct {
 	AfterExpiration *CheckoutSessionAfterExpirationParams `form:"after_expiration"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes"`
+	// Determines whether the customer's attempt to pay must be manually approved.
+	//
+	// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
+	//
+	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
+	ApprovalMethod *string `form:"approval_method"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
@@ -3499,6 +3583,40 @@ type CheckoutSessionListLineItemsParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *CheckoutSessionListLineItemsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+type CheckoutSessionApprovePaymentIntentDataParams struct {
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+}
+
+// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
+type CheckoutSessionApproveSubscriptionDataParams struct {
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
+	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+}
+
+// Approves a customer's attempt to pay for a Checkout Session with approval_method set to manual.
+type CheckoutSessionApproveParams struct {
+	Params `form:"*"`
+	// The ID of the customer's attempt to pay to approve.
+	Attempt *string `form:"attempt"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
+	PaymentIntentData *CheckoutSessionApprovePaymentIntentDataParams `form:"payment_intent_data"`
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
+	// payment method's app or site. This parameter is allowed and required if and only if you did not
+	// set the return URL during Checkout Session creation or in `checkout.confirm()` in Stripe.js.
+	ReturnURL *string `form:"return_url"`
+	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
+	SubscriptionData *CheckoutSessionApproveSubscriptionDataParams `form:"subscription_data"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CheckoutSessionApproveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -5214,6 +5332,12 @@ type CheckoutSessionCreateParams struct {
 	AfterExpiration *CheckoutSessionCreateAfterExpirationParams `form:"after_expiration"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes"`
+	// Determines whether the customer's attempt to pay must be manually approved.
+	//
+	// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
+	//
+	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
+	ApprovalMethod *string `form:"approval_method"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 	AutomaticTax *CheckoutSessionCreateAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
@@ -6887,6 +7011,73 @@ type CheckoutSessionWalletOptionsLink struct {
 type CheckoutSessionWalletOptions struct {
 	Link *CheckoutSessionWalletOptionsLink `json:"link"`
 }
+
+// The customer's billing information, if provided.
+type CheckoutSessionCurrentAttemptBillingDetails struct {
+	Address *Address `json:"address"`
+	// Customer name.
+	Name string `json:"name"`
+}
+
+// If this Card is part of a card wallet, this contains the details of the card wallet.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet struct {
+	// The type of the wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, `meta_pay`, or `link`.
+	Type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType `json:"type"`
+}
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
+	// The brand of the card, accounting for customer's brand choice on dual-branded cards.
+	Brand CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand `json:"brand"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding `json:"funding"`
+	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
+	IIN string `json:"iin"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// If this Card is part of a card wallet, this contains the details of the card wallet.
+	Wallet *CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet `json:"wallet"`
+}
+
+// Information about the payment method the customer is attempting to pay with.
+type CheckoutSessionCurrentAttemptPaymentMethodDetails struct {
+	// Indicates whether this payment method can be shown again to its customer in a checkout flow.
+	AllowRedisplay CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay `json:"allow_redisplay"`
+	Card           *CheckoutSessionCurrentAttemptPaymentMethodDetailsCard          `json:"card"`
+	// The type of payment method the customer is attempting to pay with. An additional hash is included in the payment method details with a name matching this value. It contains additional information specific to the payment method type.
+	Type string `json:"type"`
+}
+
+// The customer's shipping information, if provided.
+type CheckoutSessionCurrentAttemptShippingDetails struct {
+	Address *Address `json:"address"`
+	// Customer name.
+	Name string `json:"name"`
+}
+
+// The customer's pending attempt to pay that requires your approval. Contains information about the customer and their payment details.
+type CheckoutSessionCurrentAttempt struct {
+	// The customer's billing information, if provided.
+	BillingDetails *CheckoutSessionCurrentAttemptBillingDetails `json:"billing_details"`
+	// The customer's email.
+	Email string `json:"email"`
+	// The attempt ID you will pass to the [Checkout Session approve](api/checkout/sessions/approve) endpoint to approve the attempt.
+	ID string `json:"id"`
+	// Information about the payment method the customer is attempting to pay with.
+	PaymentMethodDetails *CheckoutSessionCurrentAttemptPaymentMethodDetails `json:"payment_method_details"`
+	// The customer's phone number.
+	Phone string `json:"phone"`
+	// The customer's shipping information, if provided.
+	ShippingDetails *CheckoutSessionCurrentAttemptShippingDetails `json:"shipping_details"`
+}
 type CheckoutSessionCheckoutItemRateCardSubscriptionItem struct {
 	BillingCadence       string            `json:"billing_cadence"`
 	Metadata             map[string]string `json:"metadata"`
@@ -6940,8 +7131,14 @@ type CheckoutSession struct {
 	// Total of all items before discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// Total of all items after discounts and taxes are applied.
-	AmountTotal  int64                        `json:"amount_total"`
-	AutomaticTax *CheckoutSessionAutomaticTax `json:"automatic_tax"`
+	AmountTotal int64 `json:"amount_total"`
+	// Determines whether the customer's attempt to pay must be manually approved.
+	//
+	// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
+	//
+	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
+	ApprovalMethod CheckoutSessionApprovalMethod `json:"approval_method"`
+	AutomaticTax   *CheckoutSessionAutomaticTax  `json:"automatic_tax"`
 	// Describes whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
 	BrandingSettings         *CheckoutSessionBrandingSettings        `json:"branding_settings"`
@@ -6967,6 +7164,8 @@ type CheckoutSession struct {
 	Currency Currency `json:"currency"`
 	// Currency conversion details for [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing) sessions created before 2025-03-31.
 	CurrencyConversion *CheckoutSessionCurrencyConversion `json:"currency_conversion"`
+	// The customer's pending attempt to pay that requires your approval. Contains information about the customer and their payment details.
+	CurrentAttempt *CheckoutSessionCurrentAttempt `json:"current_attempt"`
 	// The ID of the customer for this Session.
 	// For Checkout Sessions in `subscription` mode or Checkout Sessions with `customer_creation` set as `always` in `payment` mode, Checkout
 	// will create a new customer object based on information provided

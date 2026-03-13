@@ -86,7 +86,7 @@ type AccountSignalsDelinquencyIndicator struct {
 	Indicator AccountSignalsDelinquencyIndicatorIndicator `json:"indicator"`
 }
 
-// The delinquency signal of the account
+// The delinquency signal of the account.
 type AccountSignalsDelinquency struct {
 	// Time at which the signal was evaluated, measured in seconds since the Unix epoch.
 	EvaluatedAt int64 `json:"evaluated_at"`
@@ -105,7 +105,7 @@ type AccountSignals struct {
 	APIResource
 	// The account for which the signals belong to.
 	Account string `json:"account"`
-	// The delinquency signal of the account
+	// The delinquency signal of the account.
 	Delinquency *AccountSignalsDelinquency `json:"delinquency"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`

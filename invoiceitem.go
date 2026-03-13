@@ -11,10 +11,10 @@ type InvoiceItemParentType string
 
 // List of values that InvoiceItemParentType can take
 const (
-	InvoiceItemParentTypeLicenseFeeSubscriptionDetails InvoiceItemParentType = "license_fee_subscription_details"
-	InvoiceItemParentTypeRateCardSubscriptionDetails   InvoiceItemParentType = "rate_card_subscription_details"
-	InvoiceItemParentTypeScheduleDetails               InvoiceItemParentType = "schedule_details"
-	InvoiceItemParentTypeSubscriptionDetails           InvoiceItemParentType = "subscription_details"
+	InvoiceItemParentTypePricingPlanSubscriptionDetails InvoiceItemParentType = "pricing_plan_subscription_details"
+	InvoiceItemParentTypeRateCardSubscriptionDetails    InvoiceItemParentType = "rate_card_subscription_details"
+	InvoiceItemParentTypeScheduleDetails                InvoiceItemParentType = "schedule_details"
+	InvoiceItemParentTypeSubscriptionDetails            InvoiceItemParentType = "subscription_details"
 )
 
 // The type of the pricing details.
@@ -419,24 +419,8 @@ func (p *InvoiceItemCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Details about the license fee subscription that generated this invoice item
-type InvoiceItemParentLicenseFeeSubscriptionDetails struct {
-	// The license fee subscription that generated this invoice item
-	LicenseFeeSubscription string `json:"license_fee_subscription"`
-	// The license fee version that generated this invoice item
-	LicenseFeeVersion string `json:"license_fee_version"`
-	// The pricing plan subscription that manages the license fee subscription
-	PricingPlanSubscription string `json:"pricing_plan_subscription"`
-	// The pricing plan version at the time this invoice item was generated
-	PricingPlanVersion string `json:"pricing_plan_version"`
-}
-
 // Details about the rate card subscription that generated this invoice item
 type InvoiceItemParentRateCardSubscriptionDetails struct {
-	// The pricing plan subscription that manages the rate card subscription
-	PricingPlanSubscription string `json:"pricing_plan_subscription"`
-	// The pricing plan version at the time this invoice item was generated
-	PricingPlanVersion string `json:"pricing_plan_version"`
 	// The rate card subscription that generated this invoice item
 	RateCardSubscription string `json:"rate_card_subscription"`
 	// The rate card version that generated this invoice item
@@ -457,10 +441,18 @@ type InvoiceItemParentSubscriptionDetails struct {
 	SubscriptionItem string `json:"subscription_item"`
 }
 
+// Details about the pricing plan subscription that generated this invoice item
+type InvoiceItemParentPricingPlanSubscriptionDetails struct {
+	// The pricing plan subscription that manages this charge
+	PricingPlanSubscription string `json:"pricing_plan_subscription"`
+	// The pricing plan version at the time this charge was generated
+	PricingPlanVersion string `json:"pricing_plan_version"`
+}
+
 // The parent that generated this invoice item.
 type InvoiceItemParent struct {
-	// Details about the license fee subscription that generated this invoice item
-	LicenseFeeSubscriptionDetails *InvoiceItemParentLicenseFeeSubscriptionDetails `json:"license_fee_subscription_details"`
+	// Details about the pricing plan subscription that generated this invoice item
+	PricingPlanSubscriptionDetails *InvoiceItemParentPricingPlanSubscriptionDetails `json:"pricing_plan_subscription_details"`
 	// Details about the rate card subscription that generated this invoice item
 	RateCardSubscriptionDetails *InvoiceItemParentRateCardSubscriptionDetails `json:"rate_card_subscription_details"`
 	// Details about the subscription schedule that generated this invoice item

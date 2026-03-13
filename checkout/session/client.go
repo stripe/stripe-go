@@ -78,6 +78,23 @@ func (c Client) Update(id string, params *stripe.CheckoutSessionParams) (*stripe
 	return session, err
 }
 
+// Approves a customer's attempt to pay for a Checkout Session with approval_method set to manual.
+func Approve(id string, params *stripe.CheckoutSessionApproveParams) (*stripe.CheckoutSession, error) {
+	return getC().Approve(id, params)
+}
+
+// Approves a customer's attempt to pay for a Checkout Session with approval_method set to manual.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Approve(id string, params *stripe.CheckoutSessionApproveParams) (*stripe.CheckoutSession, error) {
+	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/approve", id)
+	session := &stripe.CheckoutSession{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, session)
+	return session, err
+}
+
 // A Checkout Session can be expired when it is in one of these statuses: open
 //
 // After it expires, a customer can't complete a Checkout Session and customers loading the Checkout Session see a message saying the Checkout Session is expired.
