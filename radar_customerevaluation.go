@@ -49,11 +49,37 @@ type RadarCustomerEvaluationParams struct {
 	EventType *string `form:"event_type"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Event payload for login_failed.
+	LoginFailed *RadarCustomerEvaluationLoginFailedParams `form:"login_failed"`
+	// Event payload for registration_failed.
+	RegistrationFailed *RadarCustomerEvaluationRegistrationFailedParams `form:"registration_failed"`
+	// Event payload for registration_success.
+	RegistrationSuccess *RadarCustomerEvaluationRegistrationSuccessParams `form:"registration_success"`
+	// The type of event to report.
+	Type *string `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
 func (p *RadarCustomerEvaluationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Event payload for login_failed.
+type RadarCustomerEvaluationLoginFailedParams struct {
+	// The reason why this login failed.
+	Reason *string `form:"reason"`
+}
+
+// Event payload for registration_failed.
+type RadarCustomerEvaluationRegistrationFailedParams struct {
+	// The reason why this registration failed.
+	Reason *string `form:"reason"`
+}
+
+// Event payload for registration_success.
+type RadarCustomerEvaluationRegistrationSuccessParams struct {
+	// Stripe customer ID to attach to an entity-less registration evaluation.
+	Customer *string `form:"customer"`
 }
 
 // Client details context.
@@ -106,6 +132,67 @@ func (p *RadarCustomerEvaluationCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Event payload for login_failed.
+type RadarCustomerEvaluationUpdateLoginFailedParams struct {
+	// The reason why this login failed.
+	Reason *string `form:"reason"`
+}
+
+// Event payload for registration_failed.
+type RadarCustomerEvaluationUpdateRegistrationFailedParams struct {
+	// The reason why this registration failed.
+	Reason *string `form:"reason"`
+}
+
+// Event payload for registration_success.
+type RadarCustomerEvaluationUpdateRegistrationSuccessParams struct {
+	// Stripe customer ID to attach to an entity-less registration evaluation.
+	Customer *string `form:"customer"`
+}
+
+// Reports an event on a CustomerEvaluation object.
+type RadarCustomerEvaluationUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Event payload for login_failed.
+	LoginFailed *RadarCustomerEvaluationUpdateLoginFailedParams `form:"login_failed"`
+	// Event payload for registration_failed.
+	RegistrationFailed *RadarCustomerEvaluationUpdateRegistrationFailedParams `form:"registration_failed"`
+	// Event payload for registration_success.
+	RegistrationSuccess *RadarCustomerEvaluationUpdateRegistrationSuccessParams `form:"registration_success"`
+	// The type of event to report.
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RadarCustomerEvaluationUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Data about a failed login event.
+type RadarCustomerEvaluationEventLoginFailed struct {
+	// The reason why this login failed.
+	Reason string `json:"reason"`
+}
+
+// Data about a failed registration event.
+type RadarCustomerEvaluationEventRegistrationFailed struct {
+	// The reason why this registration failed.
+	Reason string `json:"reason"`
+}
+
+// A list of events that have been reported on this customer evaluation.
+type RadarCustomerEvaluationEvent struct {
+	// Data about a failed login event.
+	LoginFailed *RadarCustomerEvaluationEventLoginFailed `json:"login_failed"`
+	// Time at which the event occurred. Measured in seconds since the Unix epoch.
+	OccurredAt int64 `json:"occurred_at"`
+	// Data about a failed registration event.
+	RegistrationFailed *RadarCustomerEvaluationEventRegistrationFailed `json:"registration_failed"`
+	// The type of event that occurred.
+	Type string `json:"type"`
+}
 type RadarCustomerEvaluationSignalsAccountSharing struct {
 	// Time at which the signal was evaluated. Measured in seconds since the Unix epoch.
 	EvaluatedAt int64 `json:"evaluated_at"`
@@ -136,6 +223,8 @@ type RadarCustomerEvaluation struct {
 	CreatedAt int64 `json:"created_at"`
 	// The ID of the Stripe customer the customer evaluation is associated with.
 	Customer string `json:"customer"`
+	// A list of events that have been reported on this customer evaluation.
+	Events []*RadarCustomerEvaluationEvent `json:"events"`
 	// The type of evaluation event.
 	EventType string `json:"event_type"`
 	// Unique identifier for the object.

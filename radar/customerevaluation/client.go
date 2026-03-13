@@ -39,6 +39,23 @@ func (c Client) New(params *stripe.RadarCustomerEvaluationParams) (*stripe.Radar
 	return customerevaluation, err
 }
 
+// Reports an event on a CustomerEvaluation object.
+func Update(id string, params *stripe.RadarCustomerEvaluationParams) (*stripe.RadarCustomerEvaluation, error) {
+	return getC().Update(id, params)
+}
+
+// Reports an event on a CustomerEvaluation object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Update(id string, params *stripe.RadarCustomerEvaluationParams) (*stripe.RadarCustomerEvaluation, error) {
+	path := stripe.FormatURLPath("/v1/radar/customer_evaluations/%s/report", id)
+	customerevaluation := &stripe.RadarCustomerEvaluation{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, customerevaluation)
+	return customerevaluation, err
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
