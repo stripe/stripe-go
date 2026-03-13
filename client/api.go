@@ -124,6 +124,7 @@ import (
 	"github.com/stripe/stripe-go/v84/quotepreviewinvoice"
 	"github.com/stripe/stripe-go/v84/quotepreviewsubscriptionschedule"
 	radaraccountevaluation "github.com/stripe/stripe-go/v84/radar/accountevaluation"
+	radarcustomerevaluation "github.com/stripe/stripe-go/v84/radar/customerevaluation"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v84/radar/earlyfraudwarning"
 	radarissuingauthorizationevaluation "github.com/stripe/stripe-go/v84/radar/issuingauthorizationevaluation"
 	radarpaymentevaluation "github.com/stripe/stripe-go/v84/radar/paymentevaluation"
@@ -490,6 +491,8 @@ type API struct {
 	Quotes *quote.Client
 	// RadarAccountEvaluations is the client used to invoke /v1/radar/account_evaluations APIs.
 	RadarAccountEvaluations *radaraccountevaluation.Client
+	// RadarCustomerEvaluations is the client used to invoke /v1/radar/customer_evaluations APIs.
+	RadarCustomerEvaluations *radarcustomerevaluation.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
 	RadarEarlyFraudWarnings *radarearlyfraudwarning.Client
 	// RadarIssuingAuthorizationEvaluations is the client used to invoke /v1/radar/issuing_authorization_evaluations APIs.
@@ -889,6 +892,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.RadarAccountEvaluations = &radaraccountevaluation.Client{B: backends.API, Key: key}
+	a.RadarCustomerEvaluations = &radarcustomerevaluation.Client{B: backends.API, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarIssuingAuthorizationEvaluations = &radarissuingauthorizationevaluation.Client{B: backends.API, Key: key}
 	a.RadarPaymentEvaluations = &radarpaymentevaluation.Client{B: backends.API, Key: key}
