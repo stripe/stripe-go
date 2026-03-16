@@ -170,6 +170,7 @@ import (
 	testhelpersissuingcard "github.com/stripe/stripe-go/v84/testhelpers/issuing/card"
 	testhelpersissuingpersonalizationdesign "github.com/stripe/stripe-go/v84/testhelpers/issuing/personalizationdesign"
 	testhelpersissuingtransaction "github.com/stripe/stripe-go/v84/testhelpers/issuing/transaction"
+	testhelperspaymentintent "github.com/stripe/stripe-go/v84/testhelpers/paymentintent"
 	testhelpersrefund "github.com/stripe/stripe-go/v84/testhelpers/refund"
 	testhelperssharedpaymentgrantedtoken "github.com/stripe/stripe-go/v84/testhelpers/sharedpayment/grantedtoken"
 	testhelpersterminalreader "github.com/stripe/stripe-go/v84/testhelpers/terminal/reader"
@@ -583,6 +584,8 @@ type API struct {
 	TestHelpersIssuingPersonalizationDesigns *testhelpersissuingpersonalizationdesign.Client
 	// TestHelpersIssuingTransactions is the client used to invoke /v1/issuing/transactions APIs.
 	TestHelpersIssuingTransactions *testhelpersissuingtransaction.Client
+	// TestHelpersPaymentIntents is the client used to invoke /v1/payment_intents APIs.
+	TestHelpersPaymentIntents *testhelperspaymentintent.Client
 	// TestHelpersRefunds is the client used to invoke /v1/refunds APIs.
 	TestHelpersRefunds *testhelpersrefund.Client
 	// TestHelpersSharedPaymentGrantedTokens is the client used to invoke /v1/shared_payment/granted_tokens APIs.
@@ -938,6 +941,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersIssuingCards = &testhelpersissuingcard.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingPersonalizationDesigns = &testhelpersissuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingTransactions = &testhelpersissuingtransaction.Client{B: backends.API, Key: key}
+	a.TestHelpersPaymentIntents = &testhelperspaymentintent.Client{B: backends.API, Key: key}
 	a.TestHelpersRefunds = &testhelpersrefund.Client{B: backends.API, Key: key}
 	a.TestHelpersSharedPaymentGrantedTokens = &testhelperssharedpaymentgrantedtoken.Client{B: backends.API, Key: key}
 	a.TestHelpersTerminalReaders = &testhelpersterminalreader.Client{B: backends.API, Key: key}

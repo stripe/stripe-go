@@ -186,6 +186,30 @@ const (
 	PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositTypeDescriptorCode PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType = "descriptor_code"
 )
 
+// The supported token currency. Supported token currencies include: `usdc`.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency string
+
+// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency can take
+const (
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdc"
+)
+
+// The supported token currency. Supported token currencies include: `usdc`.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency string
+
+// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency can take
+const (
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdc"
+)
+
+// The supported token currency. Supported token currencies include: `usdc`.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency string
+
+// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency can take
+const (
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdc"
+)
+
 // The delivery method for the payment
 type PaymentIntentPaymentDetailsCarRentalDeliveryMode string
 
@@ -895,6 +919,25 @@ type PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage string
 // List of values that PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage can take
 const (
 	PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage = "none"
+)
+
+// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
+type PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork string
+
+// List of values that PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork can take
+const (
+	PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetworkBase   PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork = "base"
+	PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetworkSolana PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork = "solana"
+	PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetworkTempo  PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork = "tempo"
+)
+
+// The mode of the crypto payment.
+type PaymentIntentPaymentMethodOptionsCryptoMode string
+
+// List of values that PaymentIntentPaymentMethodOptionsCryptoMode can take
+const (
+	PaymentIntentPaymentMethodOptionsCryptoModeDefault PaymentIntentPaymentMethodOptionsCryptoMode = "default"
+	PaymentIntentPaymentMethodOptionsCryptoModeDeposit PaymentIntentPaymentMethodOptionsCryptoMode = "deposit"
 )
 
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
@@ -3406,8 +3449,18 @@ type PaymentIntentPaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Specific configuration for this PaymentIntent when the mode is `deposit`.
+type PaymentIntentPaymentMethodOptionsCryptoDepositOptionsParams struct {
+	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
+	Networks []*string `form:"networks"`
+}
+
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
 type PaymentIntentPaymentMethodOptionsCryptoParams struct {
+	// Specific configuration for this PaymentIntent when the mode is `deposit`.
+	DepositOptions *PaymentIntentPaymentMethodOptionsCryptoDepositOptionsParams `form:"deposit_options"`
+	// The mode of the crypto payment.
+	Mode *string `form:"mode"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -9185,8 +9238,18 @@ type PaymentIntentCreatePaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Specific configuration for this PaymentIntent when the mode is `deposit`.
+type PaymentIntentCreatePaymentMethodOptionsCryptoDepositOptionsParams struct {
+	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
+	Networks []*string `form:"networks"`
+}
+
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
 type PaymentIntentCreatePaymentMethodOptionsCryptoParams struct {
+	// Specific configuration for this PaymentIntent when the mode is `deposit`.
+	DepositOptions *PaymentIntentCreatePaymentMethodOptionsCryptoDepositOptionsParams `form:"deposit_options"`
+	// The mode of the crypto payment.
+	Mode *string `form:"mode"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -12441,8 +12504,18 @@ type PaymentIntentUpdatePaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Specific configuration for this PaymentIntent when the mode is `deposit`.
+type PaymentIntentUpdatePaymentMethodOptionsCryptoDepositOptionsParams struct {
+	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
+	Networks []*string `form:"networks"`
+}
+
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsCryptoParams struct {
+	// Specific configuration for this PaymentIntent when the mode is `deposit`.
+	DepositOptions *PaymentIntentUpdatePaymentMethodOptionsCryptoDepositOptionsParams `form:"deposit_options"`
+	// The mode of the crypto payment.
+	Mode *string `form:"mode"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -14437,12 +14510,63 @@ type PaymentIntentNextActionWeChatPayRedirectToIOSApp struct {
 	NativeURL string `json:"native_url"`
 }
 
+// The token currencies supported on this network.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedToken struct {
+	// The on-chain contract address for the supported token currency on this specific network.
+	TokenContractAddress string `json:"token_contract_address"`
+	// The supported token currency. Supported token currencies include: `usdc`.
+	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency `json:"token_currency"`
+}
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBase struct {
+	// Address of the deposit address.
+	Address string `json:"address"`
+	// The token currencies supported on this network.
+	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedToken `json:"supported_tokens"`
+}
+
+// The token currencies supported on this network.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedToken struct {
+	// The on-chain contract address for the supported token currency on this specific network.
+	TokenContractAddress string `json:"token_contract_address"`
+	// The supported token currency. Supported token currencies include: `usdc`.
+	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency `json:"token_currency"`
+}
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolana struct {
+	// Address of the deposit address.
+	Address string `json:"address"`
+	// The token currencies supported on this network.
+	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedToken `json:"supported_tokens"`
+}
+
+// The token currencies supported on this network.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedToken struct {
+	// The on-chain contract address for the supported token currency on this specific network.
+	TokenContractAddress string `json:"token_contract_address"`
+	// The supported token currency. Supported token currencies include: `usdc`.
+	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency `json:"token_currency"`
+}
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempo struct {
+	// Address of the deposit address.
+	Address string `json:"address"`
+	// The token currencies supported on this network.
+	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedToken `json:"supported_tokens"`
+}
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddresses struct {
+	Base   *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBase   `json:"base"`
+	Solana *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolana `json:"solana"`
+	Tempo  *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempo  `json:"tempo"`
+}
+type PaymentIntentNextActionCryptoDisplayDetails struct {
+	DepositAddresses *PaymentIntentNextActionCryptoDisplayDetailsDepositAddresses `json:"deposit_addresses"`
+}
+
 // If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
 type PaymentIntentNextAction struct {
 	AlipayHandleRedirect                 *PaymentIntentNextActionAlipayHandleRedirect                 `json:"alipay_handle_redirect"`
 	BoletoDisplayDetails                 *PaymentIntentNextActionBoletoDisplayDetails                 `json:"boleto_display_details"`
 	CardAwaitNotification                *PaymentIntentNextActionCardAwaitNotification                `json:"card_await_notification"`
 	CashAppHandleRedirectOrDisplayQRCode *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
+	CryptoDisplayDetails                 *PaymentIntentNextActionCryptoDisplayDetails                 `json:"crypto_display_details"`
 	DisplayBankTransferInstructions      *PaymentIntentNextActionDisplayBankTransferInstructions      `json:"display_bank_transfer_instructions"`
 	KonbiniDisplayDetails                *PaymentIntentNextActionKonbiniDisplayDetails                `json:"konbini_display_details"`
 	MultibancoDisplayDetails             *PaymentIntentNextActionMultibancoDisplayDetails             `json:"multibanco_display_details"`
@@ -15300,7 +15424,14 @@ type PaymentIntentPaymentMethodOptionsCashApp struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsCryptoDepositOptions struct {
+	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
+	Networks []PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork `json:"networks"`
+}
 type PaymentIntentPaymentMethodOptionsCrypto struct {
+	DepositOptions *PaymentIntentPaymentMethodOptionsCryptoDepositOptions `json:"deposit_options"`
+	// The mode of the crypto payment.
+	Mode PaymentIntentPaymentMethodOptionsCryptoMode `json:"mode"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.

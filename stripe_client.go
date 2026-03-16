@@ -318,6 +318,8 @@ type Client struct {
 	V1TestHelpersIssuingPersonalizationDesigns *v1TestHelpersIssuingPersonalizationDesignService
 	// V1TestHelpersIssuingTransactions is the service used to invoke /v1/issuing/transactions APIs.
 	V1TestHelpersIssuingTransactions *v1TestHelpersIssuingTransactionService
+	// V1TestHelpersPaymentIntents is the service used to invoke /v1/payment_intents APIs.
+	V1TestHelpersPaymentIntents *v1TestHelpersPaymentIntentService
 	// V1TestHelpersRefunds is the service used to invoke /v1/refunds APIs.
 	V1TestHelpersRefunds *v1TestHelpersRefundService
 	// V1TestHelpersSharedPaymentGrantedTokens is the service used to invoke /v1/shared_payment/granted_tokens APIs.
@@ -694,6 +696,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TestHelpersIssuingCards = &v1TestHelpersIssuingCardService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingPersonalizationDesigns = &v1TestHelpersIssuingPersonalizationDesignService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingTransactions = &v1TestHelpersIssuingTransactionService{B: backends.API, Key: key}
+	client.V1TestHelpersPaymentIntents = &v1TestHelpersPaymentIntentService{B: backends.API, Key: key}
 	client.V1TestHelpersRefunds = &v1TestHelpersRefundService{B: backends.API, Key: key}
 	client.V1TestHelpersSharedPaymentGrantedTokens = &v1TestHelpersSharedPaymentGrantedTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersTerminalReaders = &v1TestHelpersTerminalReaderService{B: backends.API, Key: key}
