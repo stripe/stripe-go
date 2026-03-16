@@ -15,18 +15,34 @@ type V2MoneyManagementCurrencyConversionListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
+// Amount object.
+type V2MoneyManagementCurrencyConversionFromAmountParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value *int64 `form:"value" json:"value"`
+}
+
 // From amount object indicating the from currency or optional amount.
 type V2MoneyManagementCurrencyConversionFromParams struct {
 	// Amount object.
-	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	Amount *V2MoneyManagementCurrencyConversionFromAmountParams `form:"amount" json:"amount,omitempty"`
 	// A lowercase alpha3 currency code like "usd".
 	Currency *string `form:"currency" json:"currency,omitempty"`
+}
+
+// Amount object.
+type V2MoneyManagementCurrencyConversionToAmountParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value *int64 `form:"value" json:"value"`
 }
 
 // To amount object indicating the to currency or optional amount.
 type V2MoneyManagementCurrencyConversionToParams struct {
 	// Amount object.
-	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	Amount *V2MoneyManagementCurrencyConversionToAmountParams `form:"amount" json:"amount,omitempty"`
 	// A lowercase alpha3 currency code like "usd".
 	Currency *string `form:"currency" json:"currency,omitempty"`
 }
@@ -42,18 +58,34 @@ type V2MoneyManagementCurrencyConversionParams struct {
 	To *V2MoneyManagementCurrencyConversionToParams `form:"to" json:"to,omitempty"`
 }
 
+// Amount object.
+type V2MoneyManagementCurrencyConversionCreateFromAmountParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value *int64 `form:"value" json:"value"`
+}
+
 // From amount object indicating the from currency or optional amount.
 type V2MoneyManagementCurrencyConversionCreateFromParams struct {
 	// Amount object.
-	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	Amount *V2MoneyManagementCurrencyConversionCreateFromAmountParams `form:"amount" json:"amount,omitempty"`
 	// A lowercase alpha3 currency code like "usd".
 	Currency *string `form:"currency" json:"currency,omitempty"`
+}
+
+// Amount object.
+type V2MoneyManagementCurrencyConversionCreateToAmountParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value *int64 `form:"value" json:"value"`
 }
 
 // To amount object indicating the to currency or optional amount.
 type V2MoneyManagementCurrencyConversionCreateToParams struct {
 	// Amount object.
-	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	Amount *V2MoneyManagementCurrencyConversionCreateToAmountParams `form:"amount" json:"amount,omitempty"`
 	// A lowercase alpha3 currency code like "usd".
 	Currency *string `form:"currency" json:"currency,omitempty"`
 }

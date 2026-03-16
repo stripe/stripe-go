@@ -74,6 +74,22 @@ const (
 	V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetworkACH V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork = "ach"
 )
 
+// Amount and currency of the ReceivedDebit.
+type V2MoneyManagementReceivedDebitAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
+// The amount and currency of the original/external debit request.
+type V2MoneyManagementReceivedDebitExternalAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // Information that elaborates on the `failed` status of a ReceivedDebit.
 // It is only present when the ReceivedDebit status is `failed`.
 type V2MoneyManagementReceivedDebitStatusDetailsFailed struct {
@@ -133,18 +149,34 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account"`
 }
 
+// Amount associated with this issuing authorization.
+type V2MoneyManagementReceivedDebitCardSpendAuthorizationAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // The Issuing Authorization for this card_spend. Contains the reference id and the amount.
 type V2MoneyManagementReceivedDebitCardSpendAuthorization struct {
 	// Amount associated with this issuing authorization.
-	Amount Amount `json:"amount"`
+	Amount *V2MoneyManagementReceivedDebitCardSpendAuthorizationAmount `json:"amount"`
 	// The reference to the v1 issuing authorization ID.
 	IssuingAuthorizationV1 string `json:"issuing_authorization_v1"`
+}
+
+// Amount associated with this issuing transaction.
+type V2MoneyManagementReceivedDebitCardSpendCardTransactionAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
 }
 
 // The list of card spend transactions. These contain the transaction reference ID and the amount.
 type V2MoneyManagementReceivedDebitCardSpendCardTransaction struct {
 	// Amount associated with this issuing transaction.
-	Amount Amount `json:"amount"`
+	Amount *V2MoneyManagementReceivedDebitCardSpendCardTransactionAmount `json:"amount"`
 	// The reference to the v1 issuing transaction ID.
 	IssuingTransactionV1 string `json:"issuing_transaction_v1"`
 }
@@ -171,7 +203,7 @@ type V2MoneyManagementReceivedDebitStripeBalancePayment struct {
 type V2MoneyManagementReceivedDebit struct {
 	APIResource
 	// Amount and currency of the ReceivedDebit.
-	Amount Amount `json:"amount"`
+	Amount *V2MoneyManagementReceivedDebitAmount `json:"amount"`
 	// This object stores details about the balance transfer object that resulted in the ReceivedDebit.
 	BalanceTransfer *V2MoneyManagementReceivedDebitBalanceTransfer `json:"balance_transfer,omitempty"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedDebit. Present if `type` field value is `bank_transfer`.
@@ -184,7 +216,7 @@ type V2MoneyManagementReceivedDebit struct {
 	// Freeform string sent by the originator of the ReceivedDebit.
 	Description string `json:"description,omitempty"`
 	// The amount and currency of the original/external debit request.
-	ExternalAmount Amount `json:"external_amount,omitempty"`
+	ExternalAmount *V2MoneyManagementReceivedDebitExternalAmount `json:"external_amount,omitempty"`
 	// Financial Account on which funds for ReceivedDebit were debited.
 	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the ReceivedDebit.

@@ -7014,6 +7014,14 @@ type V2CoreHealthEventGenerationFailureResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// Estimated aggregated amount for the impacted requests.
+type V2CoreHealthFraudRateIncreasedEventDataImpactRealizedFraudAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // The user impact.
 type V2CoreHealthFraudRateIncreasedEventDataImpact struct {
 	// Fraud attack type.
@@ -7021,7 +7029,7 @@ type V2CoreHealthFraudRateIncreasedEventDataImpact struct {
 	// The number of impacted requests which are detected.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// Estimated aggregated amount for the impacted requests.
-	RealizedFraudAmount Amount `json:"realized_fraud_amount"`
+	RealizedFraudAmount *V2CoreHealthFraudRateIncreasedEventDataImpactRealizedFraudAmount `json:"realized_fraud_amount"`
 }
 
 // Occurs when the fraud rate has increased.
@@ -7040,14 +7048,30 @@ type V2CoreHealthFraudRateIncreasedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// Estimated aggregated amount for the approved requests.
+type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpactApprovedAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
+// Estimated aggregated amount for the declined requests.
+type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpactDeclinedAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // The user impact.
 type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpact struct {
 	// Estimated aggregated amount for the approved requests.
-	ApprovedAmount Amount `json:"approved_amount,omitempty"`
+	ApprovedAmount *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpactApprovedAmount `json:"approved_amount,omitempty"`
 	// The number of approved requests which are impacted.
 	ApprovedImpactedRequests int64 `json:"approved_impacted_requests,omitempty"`
 	// Estimated aggregated amount for the declined requests.
-	DeclinedAmount Amount `json:"declined_amount,omitempty"`
+	DeclinedAmount *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpactDeclinedAmount `json:"declined_amount,omitempty"`
 	// The number of declined requests which are impacted.
 	DeclinedImpactedRequests int64 `json:"declined_impacted_requests,omitempty"`
 }
@@ -7064,14 +7088,30 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventData struct {
 	Summary string `json:"summary"`
 }
 
+// Estimated aggregated amount for the approved requests.
+type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpactApprovedAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
+// Estimated aggregated amount for the declined requests.
+type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpactDeclinedAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // The user impact.
 type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpact struct {
 	// Estimated aggregated amount for the approved requests.
-	ApprovedAmount Amount `json:"approved_amount,omitempty"`
+	ApprovedAmount *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpactApprovedAmount `json:"approved_amount,omitempty"`
 	// The number of approved requests which are impacted.
 	ApprovedImpactedRequests int64 `json:"approved_impacted_requests,omitempty"`
 	// Estimated aggregated amount for the declined requests.
-	DeclinedAmount Amount `json:"declined_amount,omitempty"`
+	DeclinedAmount *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpactDeclinedAmount `json:"declined_amount,omitempty"`
 	// The number of declined requests which are impacted.
 	DeclinedImpactedRequests int64 `json:"declined_impacted_requests,omitempty"`
 }
@@ -7090,14 +7130,30 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// Estimated aggregated amount for the approved requests.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpactApprovedAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
+// Estimated aggregated amount for the declined requests.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpactDeclinedAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // The user impact.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpact struct {
 	// Estimated aggregated amount for the approved requests.
-	ApprovedAmount Amount `json:"approved_amount,omitempty"`
+	ApprovedAmount *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpactApprovedAmount `json:"approved_amount,omitempty"`
 	// The number of approved requests which are impacted.
 	ApprovedImpactedRequests int64 `json:"approved_impacted_requests,omitempty"`
 	// Estimated aggregated amount for the declined requests.
-	DeclinedAmount Amount `json:"declined_amount,omitempty"`
+	DeclinedAmount *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventDataImpactDeclinedAmount `json:"declined_amount,omitempty"`
 	// The number of declined requests which are impacted.
 	DeclinedImpactedRequests int64 `json:"declined_impacted_requests,omitempty"`
 }
@@ -7116,14 +7172,30 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventData struct {
 	Summary string `json:"summary"`
 }
 
+// Estimated aggregated amount for the approved requests.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpactApprovedAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
+// Estimated aggregated amount for the declined requests.
+type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpactDeclinedAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // The user impact.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpact struct {
 	// Estimated aggregated amount for the approved requests.
-	ApprovedAmount Amount `json:"approved_amount,omitempty"`
+	ApprovedAmount *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpactApprovedAmount `json:"approved_amount,omitempty"`
 	// The number of approved requests which are impacted.
 	ApprovedImpactedRequests int64 `json:"approved_impacted_requests,omitempty"`
 	// Estimated aggregated amount for the declined requests.
-	DeclinedAmount Amount `json:"declined_amount,omitempty"`
+	DeclinedAmount *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpactDeclinedAmount `json:"declined_amount,omitempty"`
 	// The number of declined requests which are impacted.
 	DeclinedImpactedRequests int64 `json:"declined_impacted_requests,omitempty"`
 }

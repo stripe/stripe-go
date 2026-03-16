@@ -37,6 +37,14 @@ const (
 	V2PaymentsSettlementAllocationIntentSplitTypeDebit  V2PaymentsSettlementAllocationIntentSplitType = "debit"
 )
 
+// The amount and currency of the SettlementAllocationIntentSplit.
+type V2PaymentsSettlementAllocationIntentSplitAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // Details about the Flow object that settled the split.
 type V2PaymentsSettlementAllocationIntentSplitFlow struct {
 	// If applicable, the ID of the OutboundPayment that created this transaction.
@@ -55,7 +63,7 @@ type V2PaymentsSettlementAllocationIntentSplit struct {
 	// The account id against which the SettlementAllocationIntentSplit should be settled.
 	Account string `json:"account"`
 	// The amount and currency of the SettlementAllocationIntentSplit.
-	Amount Amount `json:"amount"`
+	Amount *V2PaymentsSettlementAllocationIntentSplitAmount `json:"amount"`
 	// Timestamp at which SettlementAllocationIntentSplit was created.
 	Created time.Time `json:"created"`
 	// Details about the Flow object that settled the split.

@@ -29,6 +29,14 @@ const (
 	V2PaymentsSettlementAllocationIntentStatusDetailsErroredReasonCodeAmountMismatch V2PaymentsSettlementAllocationIntentStatusDetailsErroredReasonCode = "amount_mismatch"
 )
 
+// The amount and currency of the SettlementAllocationIntent.
+type V2PaymentsSettlementAllocationIntentAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
+	Value int64 `json:"value"`
+}
+
 // Hash that provides additional information regarding the reason behind a `errored` SettlementAllocationIntent status. It is only present when the SettlementAllocationIntent status is `errored`.
 type V2PaymentsSettlementAllocationIntentStatusDetailsErrored struct {
 	// Stripe doc link to debug the issue.
@@ -49,7 +57,7 @@ type V2PaymentsSettlementAllocationIntentStatusDetails struct {
 type V2PaymentsSettlementAllocationIntent struct {
 	APIResource
 	// The amount and currency of the SettlementAllocationIntent.
-	Amount Amount `json:"amount"`
+	Amount *V2PaymentsSettlementAllocationIntentAmount `json:"amount"`
 	// Timestamp at which SettlementAllocationIntent was created .
 	Created time.Time `json:"created"`
 	// Date when we expect to receive the funds.
