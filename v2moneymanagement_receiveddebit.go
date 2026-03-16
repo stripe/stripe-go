@@ -30,7 +30,7 @@ const (
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonStripeRejected           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "stripe_rejected"
 )
 
-// Open enum, the type of the received debit.
+// Open Enum. The type of the ReceivedDebit.
 type V2MoneyManagementReceivedDebitType string
 
 // List of values that V2MoneyManagementReceivedDebitType can take
@@ -203,6 +203,6 @@ type V2MoneyManagementReceivedDebit struct {
 	StatusTransitions *V2MoneyManagementReceivedDebitStatusTransitions `json:"status_transitions,omitempty"`
 	// This object stores details about the Stripe Balance Payment that resulted in the ReceivedDebit.
 	StripeBalancePayment *V2MoneyManagementReceivedDebitStripeBalancePayment `json:"stripe_balance_payment,omitempty"`
-	// Open enum, the type of the received debit.
+	// Open Enum. The type of the ReceivedDebit.
 	Type V2MoneyManagementReceivedDebitType `json:"type"`
 }
