@@ -902,7 +902,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 	resBody := result.([]byte)
 	s.logDebugf(req.Context(), "Response: %s", string(resBody))
 
-	err = s.UnmarshalJSONVerbose(req.Context(), res.StatusCode, resBody, v)
+	err = s.unmarshalJSONVerbose(req.Context(), res.StatusCode, resBody, v)
 	v.SetLastResponse(newAPIResponse(res, resBody, requestDuration))
 	return err
 }
@@ -914,12 +914,12 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 		// If this is an OAuth request, deserialize as Error because OAuth errors
 		// are a different shape from the standard API errors.
 		var topLevelError Error
-		if err := s.UnmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &topLevelError); err != nil {
+		if err := s.unmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &topLevelError); err != nil {
 			return err
 		}
 		raw.Error = &topLevelError
 	} else {
-		if err := s.UnmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &raw); err != nil {
+		if err := s.unmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &raw); err != nil {
 			return err
 		}
 	}
@@ -965,7 +965,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 	var raw struct {
 		Error *V2RawError `json:"error"`
 	}
-	if err := s.UnmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &raw); err != nil {
+	if err := s.unmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &raw); err != nil {
 		return err
 	}
 
@@ -994,7 +994,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &TemporarySessionExpiredError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1023,9 +1023,9 @@ func (s *BackendImplementation) SetNetworkRetriesSleep(sleep bool) {
 	s.networkRetriesSleep = sleep
 }
 
-// UnmarshalJSONVerbose unmarshals JSON, but in case of a failure logs and
+// unmarshalJSONVerbose unmarshals JSON, but in case of a failure logs and
 // produces a more descriptive error.
-func (s *BackendImplementation) UnmarshalJSONVerbose(ctx context.Context, statusCode int, body []byte, v interface{}) error {
+func (s *BackendImplementation) unmarshalJSONVerbose(ctx context.Context, statusCode int, body []byte, v interface{}) error {
 	err := json.Unmarshal(body, v)
 	if err != nil {
 		// If we got invalid JSON back then something totally unexpected is
