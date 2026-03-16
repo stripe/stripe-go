@@ -204,12 +204,13 @@ const (
 	ConfirmationTokenPaymentMethodPreviewFPXBankUob               ConfirmationTokenPaymentMethodPreviewFPXBank = "uob"
 )
 
-// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank, if provided. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type ConfirmationTokenPaymentMethodPreviewIDEALBank string
 
 // List of values that ConfirmationTokenPaymentMethodPreviewIDEALBank can take
 const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBankAbnAmro       ConfirmationTokenPaymentMethodPreviewIDEALBank = "abn_amro"
+	ConfirmationTokenPaymentMethodPreviewIDEALBankAdyen         ConfirmationTokenPaymentMethodPreviewIDEALBank = "adyen"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankAsnBank       ConfirmationTokenPaymentMethodPreviewIDEALBank = "asn_bank"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankBunq          ConfirmationTokenPaymentMethodPreviewIDEALBank = "bunq"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankBuut          ConfirmationTokenPaymentMethodPreviewIDEALBank = "buut"
@@ -236,6 +237,7 @@ type ConfirmationTokenPaymentMethodPreviewIDEALBIC string
 // List of values that ConfirmationTokenPaymentMethodPreviewIDEALBIC can take
 const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBICABNANL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "ABNANL2A"
+	ConfirmationTokenPaymentMethodPreviewIDEALBICADYBNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "ADYBNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICASNBNL21 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "ASNBNL21"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBITSNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BITSNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBUNQNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BUNQNL2A"
@@ -677,6 +679,8 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -687,6 +691,8 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	OvercaptureSupported bool `json:"overcapture_supported"`
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// How card details were read in this transaction.
 	ReadMethod ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -880,7 +886,7 @@ type ConfirmationTokenPaymentMethodPreviewFPX struct {
 type ConfirmationTokenPaymentMethodPreviewGiropay struct{}
 type ConfirmationTokenPaymentMethodPreviewGrabpay struct{}
 type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
-	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank, if provided. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank ConfirmationTokenPaymentMethodPreviewIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
 	BIC ConfirmationTokenPaymentMethodPreviewIDEALBIC `json:"bic"`

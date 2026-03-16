@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 	"time"
 
@@ -198,7 +199,14 @@ func TestParseUnknownEventNotificationWithRelatedObject(t *testing.T) {
 	}`
 
 	// Create mock server that expects a GET to /v1/related_objects/ro_123
-	server := MockServerWithStripeContext(t, http.MethodGet, "/v1/related_objects/ro_123", "ctx_123", nil, relatedObjectResp)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodGet, r.Method)
+		assert.Equal(t, "/v1/related_objects/ro_123", r.URL.Path)
+		assert.Equal(t, "Bearer "+TestAPIKey, r.Header.Get("Authorization"))
+		assert.Equal(t, "ctx_123", r.Header.Get("Stripe-Context"))
+		assert.Equal(t, "event=evt_test_webhook", r.Header.Get("Stripe-Request-Trigger"))
+		w.Write([]byte(relatedObjectResp))
+	}))
 	defer server.Close()
 
 	// Create client with custom backend pointing to mock server
@@ -262,7 +270,14 @@ func TestFetchEventHTTPCall(t *testing.T) {
 	}`
 
 	// Create mock server that expects a GET to /v2/core/events/evt_123
-	server := MockServerWithStripeContext(t, http.MethodGet, "/v2/core/events/evt_123", "ctx_123", nil, mockEventResponse)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodGet, r.Method)
+		assert.Equal(t, "/v2/core/events/evt_123", r.URL.Path)
+		assert.Equal(t, "Bearer "+TestAPIKey, r.Header.Get("Authorization"))
+		assert.Equal(t, "ctx_123", r.Header.Get("Stripe-Context"))
+		assert.Equal(t, "event=evt_123", r.Header.Get("Stripe-Request-Trigger"))
+		w.Write([]byte(mockEventResponse))
+	}))
 	defer server.Close()
 
 	// Create client with custom backend pointing to mock server
@@ -319,7 +334,13 @@ func TestFetchRelatedObject(t *testing.T) {
 	}`
 
 	// Create mock server that expects a GET to /v1/billing/meters/bm_123
-	server := MockServer(t, http.MethodGet, "/v1/billing/meters/bm_123", nil, mockRelatedObjectResponse)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodGet, r.Method)
+		assert.Equal(t, "/v1/billing/meters/bm_123", r.URL.Path)
+		assert.Equal(t, "Bearer "+TestAPIKey, r.Header.Get("Authorization"))
+		assert.Equal(t, "event=evt_123", r.Header.Get("Stripe-Request-Trigger"))
+		w.Write([]byte(mockRelatedObjectResponse))
+	}))
 	defer server.Close()
 
 	// Create client with custom backend pointing to mock server
@@ -385,7 +406,14 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 
 	// Create mock server that expects a GET to /v1/billing/meters/bm_123
 	// it also checks that stripe-context is correct
-	server := MockServerWithStripeContext(t, http.MethodGet, "/v1/billing/meters/bm_123", "ctx_123", nil, mockRelatedObjectResponse)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodGet, r.Method)
+		assert.Equal(t, "/v1/billing/meters/bm_123", r.URL.Path)
+		assert.Equal(t, "Bearer "+TestAPIKey, r.Header.Get("Authorization"))
+		assert.Equal(t, "ctx_123", r.Header.Get("Stripe-Context"))
+		assert.Equal(t, "event=evt_123", r.Header.Get("Stripe-Request-Trigger"))
+		w.Write([]byte(mockRelatedObjectResponse))
+	}))
 	defer server.Close()
 
 	// Create client with custom backend pointing to mock server

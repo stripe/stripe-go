@@ -19,7 +19,7 @@ type v1InvoiceService struct {
 	Key string
 }
 
-// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](#pay_invoice) or <a href="#send_invoice">send](https://docs.stripe.com/api#finalize_invoice) the invoice to your customers.
+// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](https://docs.stripe.com/api#finalize_invoice) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/pay) the invoice to your customers.
 func (c v1InvoiceService) Create(ctx context.Context, params *InvoiceCreateParams) (*Invoice, error) {
 	if params == nil {
 		params = &InvoiceCreateParams{}

@@ -46,7 +46,7 @@ type AccountSessionComponentsBalancesFeaturesParams struct {
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
@@ -131,7 +131,7 @@ type AccountSessionComponentsInstantPayoutsPromotionFeaturesParams struct {
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 }
 
@@ -278,7 +278,7 @@ type AccountSessionComponentsPayoutsFeaturesParams struct {
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
@@ -423,7 +423,7 @@ type AccountSessionCreateComponentsBalancesFeaturesParams struct {
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
@@ -508,7 +508,7 @@ type AccountSessionCreateComponentsInstantPayoutsPromotionFeaturesParams struct 
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 }
 
@@ -655,7 +655,7 @@ type AccountSessionCreateComponentsPayoutsFeaturesParams struct {
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether instant payouts are enabled for this component.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
@@ -789,7 +789,7 @@ type AccountSessionComponentsBalancesFeatures struct {
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether to allow creation of instant payouts. The default value is `enabled` when Stripe is responsible for negative account balances, and `use_dashboard_rules` otherwise.
 	InstantPayouts bool `json:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts bool `json:"standard_payouts"`
@@ -849,7 +849,7 @@ type AccountSessionComponentsInstantPayoutsPromotionFeatures struct {
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether to allow creation of instant payouts. The default value is `enabled` when Stripe is responsible for negative account balances, and `use_dashboard_rules` otherwise.
 	InstantPayouts bool `json:"instant_payouts"`
 }
 type AccountSessionComponentsInstantPayoutsPromotion struct {
@@ -956,7 +956,7 @@ type AccountSessionComponentsPayoutsFeatures struct {
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
 	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	// Whether to allow creation of instant payouts. The default value is `enabled` when Stripe is responsible for negative account balances, and `use_dashboard_rules` otherwise.
 	InstantPayouts bool `json:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts bool `json:"standard_payouts"`

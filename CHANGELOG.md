@@ -1,5 +1,54 @@
 # Changelog
 
+## 84.4.1 - 2026-03-06
+* [#2288](https://github.com/stripe/stripe-go/pull/2288) Add Stripe-Request-Trigger header
+* [#2285](https://github.com/stripe/stripe-go/pull/2285) Add agent information to UserAgent
+
+## 84.4.0 - 2026-02-25
+This release changes the pinned API version to `2026-02-25.clover`.
+
+* [#2277](https://github.com/stripe/stripe-go/pull/2277) Update generated code
+  * Add support for new resources `ReserveHold`, `ReservePlan`, and `ReserveRelease`
+  * Add support for `Location` and `Reader` on `ChargePaymentMethodDetailsCardPresent`, `ChargePaymentMethodDetailsInteracPresent`, `ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent`, `PaymentAttemptRecordPaymentMethodDetailsCardPresent`, `PaymentAttemptRecordPaymentMethodDetailsInteracPresent`, `PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent`, `PaymentRecordPaymentMethodDetailsCardPresent`, and `PaymentRecordPaymentMethodDetailsInteracPresent`
+  * Add support for new value `lk_vat` on enums `CheckoutSessionCustomerDetailsTaxIds.Type`, `TaxCalculationCustomerDetailsTaxId.Type`, `TaxId.Type`, and `TaxTransactionCustomerDetailsTaxId.Type`
+  * Add support for new values `reserve.hold.created`, `reserve.hold.updated`, `reserve.plan.created`, `reserve.plan.disabled`, `reserve.plan.expired`, `reserve.plan.updated`, and `reserve.release.created` on enum `Event.Type`
+  * Add support for new values `terminal_wifi_certificate` and `terminal_wifi_private_key` on enum `File.Purpose`
+  * Add support for new value `pay_by_bank` on enums `InvoicePaymentSettings.PaymentMethodTypes` and `SubscriptionPaymentSettings.PaymentMethodTypes`
+  * Add support for `DisplayName` and `ServiceUserNumber` on `MandatePaymentMethodDetailsBacsDebit`
+  * Add support for `TransactionPurpose` on `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountParams`, and `PaymentIntentPaymentMethodOptionsUsBankAccount`
+  * Add support for `OptionalItems` on `PaymentLinkParams`
+  * Remove support for unused `CardIssuerDecline` on `RadarPaymentEvaluationInsights`
+  * Add support for `PaymentBehavior` on `SubscriptionItemParams`
+  * Add support for `Lk` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
+  * Add support for `Cellular` and `StripeS710` on `TerminalConfigurationParams` and `TerminalConfiguration`
+  * Add support for new values `simulated_stripe_s710` and `stripe_s710` on enum `TerminalReader.DeviceType`
+  * Add support for snapshot events `EventTypeReserveHoldCreated` and `EventTypeReserveHoldUpdated` with resource `ReserveHold`
+  * Add support for snapshot events `EventTypeReservePlanCreated`, `EventTypeReservePlanDisabled`, `EventTypeReservePlanExpired`, and `EventTypeReservePlanUpdated` with resource `ReservePlan`
+  * Add support for snapshot event `EventTypeReserveReleaseCreated` with resource `ReserveRelease`
+  * Add support for error codes `storer_capability_missing` and `storer_capability_not_active` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+
+## 84.3.0 - 2026-01-28
+This release changes the pinned API version to `2026-01-28.clover`.
+
+* [#2258](https://github.com/stripe/stripe-go/pull/2258) Update generated code
+  * Add support for new resource `RadarPaymentEvaluation`
+  * Add support for `New` method on resource `RadarPaymentEvaluation`
+  * Add support for `AdjustableQuantity` on `LineItem`
+  * Add support for new value `risk_reserved` on enum `BalanceTransaction.BalanceType`
+  * Add support for new values `reserve_hold` and `reserve_release` on enum `BalanceTransaction.Type`
+  * Add support for new value `pl_nip` on enums `CheckoutSessionCustomerDetailsTaxIds.Type`, `TaxCalculationCustomerDetailsTaxId.Type`, `TaxId.Type`, and `TaxTransactionCustomerDetailsTaxId.Type`
+  * Add support for new value `adyen` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.Bank`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.Bank`, and `PaymentRecordPaymentMethodDetailsIdeal.Bank`
+  * Add support for new value `ADYBNL2A` on enums `ConfirmationTokenPaymentMethodPreviewIdeal.BIC`, `PaymentAttemptRecordPaymentMethodDetailsIdeal.BIC`, and `PaymentRecordPaymentMethodDetailsIdeal.BIC`
+  * Add support for `EnforceArithmeticValidation` on `PaymentIntentAmountDetailsParams`, `PaymentIntentCaptureAmountDetailsParams`, `PaymentIntentConfirmAmountDetailsParams`, and `PaymentIntentIncrementAuthorizationAmountDetailsParams`
+  * Add support for `Error` on `PaymentIntentAmountDetails`
+  * Remove support for `Bgn` on `TerminalConfigurationTippingParams` and `TerminalConfigurationTipping`
+  * Add support for `Topup` on `TreasuryReceivedDebitLinkedFlows`
+  * Add support for `ContactPhone` on `V2CoreAccountParams`, `V2CoreAccountTokenParams`, and `V2CoreAccount`
+  * Add support for `RegistrationDate` on `V2CoreAccountIdentityBusinessDetailsParams`, `V2CoreAccountIdentityBusinessDetails`, and `V2CoreAccountTokenIdentityBusinessDetailsParams`
+  * Add support for new value `gb_vat` on enum `V2CoreAccountIdentityBusinessDetailsIdNumber.Type`
+  * Add support for error code `request_blocked` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+* [#2178](https://github.com/stripe/stripe-go/pull/2178) Add context-aware logging interface and update logger usage
+
 ## 84.2.0 - 2026-01-16
 * [#2255](https://github.com/stripe/stripe-go/pull/2255) Update generated code
   * Add support for event notifications `V2CoreAccountClosedEvent`, `V2CoreAccountCreatedEvent`, `V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationCustomerUpdatedEvent`, `V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationMerchantUpdatedEvent`, `V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationRecipientUpdatedEvent`, `V2CoreAccountIncludingDefaultsUpdatedEvent`, `V2CoreAccountIncludingFutureRequirementsUpdatedEvent`, `V2CoreAccountIncludingIdentityUpdatedEvent`, `V2CoreAccountIncludingRequirementsUpdatedEvent`, and `V2CoreAccountUpdatedEvent` with related object `V2CoreAccount`

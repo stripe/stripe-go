@@ -1217,7 +1217,7 @@ func TestUserAgent(t *testing.T) {
 
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
-	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[.\-\w\d]+$`)
+	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[.\-\w\d]+( AIAgent/\w+)?$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
 	assert.True(t, match)
@@ -1244,7 +1244,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
-	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[.\-\w\d]+ MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)$`)
+	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[.\-\w\d]+ MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)( AIAgent/\w+)?$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
 	assert.True(t, match)
@@ -1289,9 +1289,9 @@ func TestStripeClientUserAgent(t *testing.T) {
 	assert.Equal(t, "go", userAgent["lang"])
 	assert.Equal(t, runtime.Version(), userAgent["lang_version"])
 
-	// Anywhere these tests are running can reasonable be expected to have a
-	// `uname` to run, so do this basic check.
-	assert.NotEqual(t, UnknownPlatform, userAgent["lang_version"])
+	// platform should be present when telemetry is enabled
+	expectedPlatform := runtime.GOOS + " " + runtime.GOARCH
+	assert.Equal(t, expectedPlatform, userAgent["platform"])
 }
 
 func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
@@ -1319,6 +1319,107 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 	assert.Equal(t, appInfo.Name, decodedAppInfo["name"])
 	assert.Equal(t, appInfo.URL, decodedAppInfo["url"])
 	assert.Equal(t, appInfo.Version, decodedAppInfo["version"])
+}
+
+func TestDetectAIAgent(t *testing.T) {
+	// Test detection of a specific agent
+	t.Run("DetectsAgent", func(t *testing.T) {
+		getEnv := func(key string) (string, bool) {
+			if key == "CLAUDECODE" {
+				return "1", true
+			}
+			return "", false
+		}
+		agent, ok := detectAIAgent(getEnv)
+		assert.True(t, ok)
+		assert.Equal(t, "claude_code", agent)
+	})
+
+	// Test no agent detected
+	t.Run("NoAgent", func(t *testing.T) {
+		getEnv := func(key string) (string, bool) { return "", false }
+		agent, ok := detectAIAgent(getEnv)
+		assert.False(t, ok)
+		assert.Equal(t, "", agent)
+	})
+
+	// Test each agent individually
+	t.Run("AllAgents", func(t *testing.T) {
+		for k, expected := range aiAgents {
+			getEnv := func(key string) (string, bool) {
+				if key == k {
+					return "1", true
+				}
+				return "", false
+			}
+			agent, ok := detectAIAgent(getEnv)
+			assert.True(t, ok)
+			assert.Equal(t, expected, agent, "Expected %s for env var %s", expected, k)
+		}
+	})
+}
+
+func TestUserAgentWithAIAgent(t *testing.T) {
+	// Save and restore the original encodedUserAgent
+	originalEncodedUserAgent := encodedUserAgent
+	defer func() {
+		encodedUserAgent = originalEncodedUserAgent
+	}()
+
+	// Simulate AI agent detection by manually setting the user agent
+	encodedUserAgent = "Stripe/v1 GoBindings/" + clientversion + " AIAgent/claude_code"
+
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
+	assert.NoError(t, err)
+
+	assert.Contains(t, req.Header.Get("User-Agent"), "AIAgent/claude_code")
+}
+
+func TestStripeClientUserAgentWithAIAgent(t *testing.T) {
+	// Save and restore the original state
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+	}()
+
+	// Reset so getEncodedStripeUserAgent re-computes
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(true)
+	var userAgent map[string]interface{}
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	// The ai_agent field may or may not be present depending on the test
+	// environment. If no AI agent env var is set, the key should be absent
+	// (omitempty). We just verify the JSON is valid and the field type is
+	// correct if present.
+	if val, ok := userAgent["ai_agent"]; ok {
+		_, isString := val.(string)
+		assert.True(t, isString)
+	}
+}
+
+func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+	}()
+
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(false)
+	var userAgent map[string]string
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "go", userAgent["lang"])
+	assert.Empty(t, userAgent["platform"])
 }
 
 func TestResponseToError(t *testing.T) {

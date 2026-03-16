@@ -8,6 +8,9 @@ export PATH := home_directory() + "/go/bin:" + env('PATH')
 _default:
     just --list --unsorted
 
+# ⭐ run format, lint, and tests to prepare for CI
+prepare: format lint test
+
 # ⭐ run all unit tests, or pass a package name (./invoice) to only run those tests
 test *args="./...":
     go run scripts/test_with_stripe_mock/main.go -race {{ args }}

@@ -97,6 +97,7 @@ import (
 	"github.com/stripe/stripe-go/v84/promotioncode"
 	"github.com/stripe/stripe-go/v84/quote"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v84/radar/earlyfraudwarning"
+	radarpaymentevaluation "github.com/stripe/stripe-go/v84/radar/paymentevaluation"
 	radarvaluelist "github.com/stripe/stripe-go/v84/radar/valuelist"
 	radarvaluelistitem "github.com/stripe/stripe-go/v84/radar/valuelistitem"
 	"github.com/stripe/stripe-go/v84/refund"
@@ -341,6 +342,8 @@ type API struct {
 	Quotes *quote.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
 	RadarEarlyFraudWarnings *radarearlyfraudwarning.Client
+	// RadarPaymentEvaluations is the client used to invoke /v1/radar/payment_evaluations APIs.
+	RadarPaymentEvaluations *radarpaymentevaluation.Client
 	// RadarValueListItems is the client used to invoke /v1/radar/value_list_items APIs.
 	RadarValueListItems *radarvaluelistitem.Client
 	// RadarValueLists is the client used to invoke /v1/radar/value_lists APIs.
@@ -577,6 +580,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
+	a.RadarPaymentEvaluations = &radarpaymentevaluation.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &radarvaluelistitem.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &radarvaluelist.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}

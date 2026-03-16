@@ -7,6 +7,6 @@
 package stripe
 
 const (
-	APIVersion      string = "2025-12-15.clover"
+	APIVersion      string = "2026-02-25.clover"
 	APIMajorVersion string = "clover"
 )

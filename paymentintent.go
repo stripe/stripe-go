@@ -8,6 +8,15 @@ package stripe
 
 import "encoding/json"
 
+// The code of the error that occurred when validating the current amount details.
+type PaymentIntentAmountDetailsErrorCode string
+
+// List of values that PaymentIntentAmountDetailsErrorCode can take
+const (
+	PaymentIntentAmountDetailsErrorCodeAmountDetailsAmountMismatch                       PaymentIntentAmountDetailsErrorCode = "amount_details_amount_mismatch"
+	PaymentIntentAmountDetailsErrorCodeAmountDetailsTaxShippingDiscountGreaterThanAmount PaymentIntentAmountDetailsErrorCode = "amount_details_tax_shipping_discount_greater_than_amount"
+)
+
 // Controls whether this PaymentIntent will accept redirect-based payment methods.
 //
 // Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
@@ -1204,15 +1213,6 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod = "paper"
 )
 
-// Preferred transaction settlement speed
-type PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed string
-
-// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed can take
-const (
-	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedFastest  PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "fastest"
-	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedStandard PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "standard"
-)
-
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1229,6 +1229,17 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsUSBankAccountSetupFutureUsage = "on_session"
 )
 
+// The purpose of the transaction.
+type PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeGoods       PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "goods"
+	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeOther       PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "other"
+	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeServices    PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "services"
+	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeUnspecified PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "unspecified"
+)
+
 // Bank account verification method.
 type PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -1237,6 +1248,15 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodAutomatic     PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "automatic"
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodInstant       PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "instant"
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
+)
+
+// Preferred transaction settlement speed
+type PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedFastest  PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "fastest"
+	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedStandard PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "standard"
 )
 
 // The client type that the end customer will pay from
@@ -1334,19 +1354,19 @@ func (p *PaymentIntentListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -1358,7 +1378,7 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -1370,13 +1390,13 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 
 // Payment method-specific information for line items.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -1400,7 +1420,7 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -1436,6 +1456,12 @@ type PaymentIntentAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -2090,7 +2116,7 @@ type PaymentIntentPaymentMethodOptionsCryptoParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -2729,6 +2755,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
+	// The purpose of the transaction.
+	TransactionPurpose *string `form:"transaction_purpose"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -3083,19 +3111,19 @@ func (p *PaymentIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -3107,7 +3135,7 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams s
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -3119,13 +3147,13 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsPaypalParams s
 
 // Payment method-specific information for line items.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -3149,7 +3177,7 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -3185,6 +3213,12 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -3273,19 +3307,19 @@ func (p *PaymentIntentCaptureParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -3297,7 +3331,7 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams s
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -3309,13 +3343,13 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsPaypalParams s
 
 // Payment method-specific information for line items.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -3339,7 +3373,7 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -3375,6 +3409,12 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -3516,19 +3556,19 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -3540,7 +3580,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -3552,13 +3592,13 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 
 // Payment method-specific information for line items.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -3582,7 +3622,7 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -3618,6 +3658,12 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -3744,19 +3790,19 @@ func (p *PaymentIntentVerifyMicrodepositsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -3768,7 +3814,7 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams st
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -3780,13 +3826,13 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsPaypalParams st
 
 // Payment method-specific information for line items.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -3810,7 +3856,7 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -3846,6 +3892,12 @@ type PaymentIntentCreateAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -4500,7 +4552,7 @@ type PaymentIntentCreatePaymentMethodOptionsCryptoParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentCreatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -5139,6 +5191,8 @@ type PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
+	// The purpose of the transaction.
+	TransactionPurpose *string `form:"transaction_purpose"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -5452,19 +5506,19 @@ func (p *PaymentIntentRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// This sub-hash contains line item details that are specific to `card` payment method."
+// This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `card_present` payment method."
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
-	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code"`
 }
 
-// This sub-hash contains line item details that are specific to `klarna` payment method."
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
 	// URL to an image for the product. Max length, 4096 characters.
 	ImageURL *string `form:"image_url"`
@@ -5476,7 +5530,7 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams st
 	SubscriptionReference *string `form:"subscription_reference"`
 }
 
-// This sub-hash contains line item details that are specific to `paypal` payment method."
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
 	// Type of the line item.
 	Category *string `form:"category"`
@@ -5488,13 +5542,13 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsPaypalParams st
 
 // Payment method-specific information for line items.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsParams struct {
-	// This sub-hash contains line item details that are specific to `card` payment method."
+	// This sub-hash contains line item details that are specific to the `card` payment method.
 	Card *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
-	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
 	CardPresent *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
-	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
 	Klarna *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
-	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
 	Paypal *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
 }
 
@@ -5518,7 +5572,7 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 	ProductCode *string `form:"product_code"`
 	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
 	//
-	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For Paypal, this field is truncated to 127 characters.
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
 	ProductName *string `form:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity"`
@@ -5554,6 +5608,12 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
 	DiscountAmount *int64 `form:"discount_amount"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
 	// Contains information about the shipping portion of the amount.
@@ -6169,7 +6229,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCryptoParams struct {
 
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentUpdatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country *string `form:"country"`
 }
 
@@ -6808,6 +6868,8 @@ type PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
+	// The purpose of the transaction.
+	TransactionPurpose *string `form:"transaction_purpose"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -7053,6 +7115,12 @@ func (p *PaymentIntentUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type PaymentIntentAmountDetailsError struct {
+	// The code of the error that occurred when validating the current amount details.
+	Code PaymentIntentAmountDetailsErrorCode `json:"code"`
+	// A message providing more details about the error.
+	Message string `json:"message"`
+}
 type PaymentIntentAmountDetailsShipping struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount int64 `json:"amount"`
@@ -7075,7 +7143,8 @@ type PaymentIntentAmountDetails struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
 	//
 	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
-	DiscountAmount int64 `json:"discount_amount"`
+	DiscountAmount int64                            `json:"discount_amount"`
+	Error          *PaymentIntentAmountDetailsError `json:"error"`
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items"`
 	Shipping  *PaymentIntentAmountDetailsShipping     `json:"shipping"`
@@ -7741,7 +7810,7 @@ type PaymentIntentPaymentMethodOptionsCrypto struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
-	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {
@@ -8151,6 +8220,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsUSBankAccountSetupFutureUsage `json:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date"`
+	// The purpose of the transaction.
+	TransactionPurpose PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose `json:"transaction_purpose"`
 	// Bank account verification method.
 	VerificationMethod PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
