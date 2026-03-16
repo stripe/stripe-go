@@ -909,17 +909,18 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 
 // ResponseToError converts a stripe response to an Error.
 func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []byte) error {
+	ctx := contextFromResponse(res)
 	var raw rawError
 	if s.Type == ConnectBackend {
 		// If this is an OAuth request, deserialize as Error because OAuth errors
 		// are a different shape from the standard API errors.
 		var topLevelError Error
-		if err := s.unmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &topLevelError); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &topLevelError); err != nil {
 			return err
 		}
 		raw.Error = &topLevelError
 	} else {
-		if err := s.unmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &raw); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &raw); err != nil {
 			return err
 		}
 	}
@@ -961,11 +962,12 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 
 // responseToErrorV2 converts a stripe V2 response to an error.
 func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []byte) error {
+	ctx := contextFromResponse(res)
 	// First, we partially unmarshal just the error type
 	var raw struct {
 		Error *V2RawError `json:"error"`
 	}
-	if err := s.unmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &raw); err != nil {
+	if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &raw); err != nil {
 		return err
 	}
 
@@ -994,7 +996,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &TemporarySessionExpiredError{},
 		}
-		if err := s.unmarshalJSONVerbose(res.Request.Context(), res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1021,6 +1023,15 @@ func (s *BackendImplementation) SetMaxNetworkRetries(maxNetworkRetries int64) {
 // used in production.
 func (s *BackendImplementation) SetNetworkRetriesSleep(sleep bool) {
 	s.networkRetriesSleep = sleep
+}
+
+// contextFromResponse extracts the context from an HTTP response's request.
+// Falls back to context.Background() if the response has no associated request.
+func contextFromResponse(res *http.Response) context.Context {
+	if res.Request != nil {
+		return res.Request.Context()
+	}
+	return context.Background()
 }
 
 // unmarshalJSONVerbose unmarshals JSON, but in case of a failure logs and
