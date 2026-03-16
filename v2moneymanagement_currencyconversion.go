@@ -8,32 +8,16 @@ package stripe
 
 import "time"
 
-// Amount object.
-type V2MoneyManagementCurrencyConversionFromAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // The from block containing what was debited.
 type V2MoneyManagementCurrencyConversionFrom struct {
 	// Amount object.
-	Amount *V2MoneyManagementCurrencyConversionFromAmount `json:"amount"`
-}
-
-// Amount object.
-type V2MoneyManagementCurrencyConversionToAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
+	Amount Amount `json:"amount"`
 }
 
 // The to block containing what was credited.
 type V2MoneyManagementCurrencyConversionTo struct {
 	// Amount object.
-	Amount *V2MoneyManagementCurrencyConversionToAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 }
 
 // The CurrencyConversion object. Contains details such as the amount debited and credited and the FinancialAccount the CurrencyConversion was performed on.

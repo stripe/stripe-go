@@ -34,14 +34,6 @@ type V2MoneyManagementOutboundPaymentListParams struct {
 	Status []*string `form:"status" json:"status,omitempty"`
 }
 
-// The "presentment amount" to be sent to the recipient.
-type V2MoneyManagementOutboundPaymentAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
-}
-
 // Delivery options for paper check.
 type V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckParams struct {
 	// Memo printed on the memo field of the check.
@@ -97,7 +89,7 @@ type V2MoneyManagementOutboundPaymentToParams struct {
 type V2MoneyManagementOutboundPaymentParams struct {
 	Params `form:"*"`
 	// The "presentment amount" to be sent to the recipient.
-	Amount *V2MoneyManagementOutboundPaymentAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Delivery options to be used to send the OutboundPayment.
 	DeliveryOptions *V2MoneyManagementOutboundPaymentDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
 	// An arbitrary string attached to the OutboundPayment. Often useful for displaying to users.
@@ -130,14 +122,6 @@ func (p *V2MoneyManagementOutboundPaymentParams) AddMetadata(key string, value s
 // Cancels an OutboundPayment. Only processing OutboundPayments can be canceled.
 type V2MoneyManagementOutboundPaymentCancelParams struct {
 	Params `form:"*"`
-}
-
-// The "presentment amount" to be sent to the recipient.
-type V2MoneyManagementOutboundPaymentCreateAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
 }
 
 // Delivery options for paper check.
@@ -195,7 +179,7 @@ type V2MoneyManagementOutboundPaymentCreateToParams struct {
 type V2MoneyManagementOutboundPaymentCreateParams struct {
 	Params `form:"*"`
 	// The "presentment amount" to be sent to the recipient.
-	Amount *V2MoneyManagementOutboundPaymentCreateAmountParams `form:"amount" json:"amount"`
+	Amount *Amount `form:"amount" json:"amount"`
 	// Delivery options to be used to send the OutboundPayment.
 	DeliveryOptions *V2MoneyManagementOutboundPaymentCreateDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
 	// An arbitrary string attached to the OutboundPayment. Often useful for displaying to users.

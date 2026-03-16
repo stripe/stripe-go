@@ -97,22 +97,6 @@ const (
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "us_domestic_wire"
 )
 
-// The amount and currency of the ReceivedCredit.
-type V2MoneyManagementReceivedCreditAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
-// The amount and currency of the original/external credit request.
-type V2MoneyManagementReceivedCreditExternalAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // Hash that provides additional information regarding the reason behind a `failed` ReceivedCredit status. It is only present when the ReceivedCredit status is `failed`.
 type V2MoneyManagementReceivedCreditStatusDetailsFailed struct {
 	// Open Enum. The `failed` status reason.
@@ -252,7 +236,7 @@ type V2MoneyManagementReceivedCreditStripeBalancePayment struct {
 type V2MoneyManagementReceivedCredit struct {
 	APIResource
 	// The amount and currency of the ReceivedCredit.
-	Amount *V2MoneyManagementReceivedCreditAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 	// This object stores details about the originating Stripe transaction that resulted in the ReceivedCredit. Present if `type` field value is `balance_transfer`.
 	BalanceTransfer *V2MoneyManagementReceivedCreditBalanceTransfer `json:"balance_transfer,omitempty"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `bank_transfer`.
@@ -265,7 +249,7 @@ type V2MoneyManagementReceivedCredit struct {
 	// Freeform string set by originator of the ReceivedCredit.
 	Description string `json:"description,omitempty"`
 	// The amount and currency of the original/external credit request.
-	ExternalAmount *V2MoneyManagementReceivedCreditExternalAmount `json:"external_amount,omitempty"`
+	ExternalAmount Amount `json:"external_amount,omitempty"`
 	// Financial Account ID on which funds for ReceivedCredit were received.
 	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the ReceivedCredit.
