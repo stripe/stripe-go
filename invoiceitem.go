@@ -33,8 +33,9 @@ type InvoiceItemFrozenField string
 
 // List of values that InvoiceItemFrozenField can take
 const (
-	InvoiceItemFrozenFieldPricing  InvoiceItemFrozenField = "pricing"
-	InvoiceItemFrozenFieldQuantity InvoiceItemFrozenField = "quantity"
+	InvoiceItemFrozenFieldDiscounts InvoiceItemFrozenField = "discounts"
+	InvoiceItemFrozenFieldPricing   InvoiceItemFrozenField = "pricing"
+	InvoiceItemFrozenFieldQuantity  InvoiceItemFrozenField = "quantity"
 )
 
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
