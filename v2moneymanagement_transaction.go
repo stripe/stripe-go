@@ -96,6 +96,12 @@ type V2MoneyManagementTransactionBalanceImpact struct {
 	OutboundPending *V2MoneyManagementTransactionBalanceImpactOutboundPending `json:"outbound_pending"`
 }
 
+// Counterparty to this Transaction.
+type V2MoneyManagementTransactionCounterparty struct {
+	// Name of the counterparty.
+	Name string `json:"name,omitempty"`
+}
+
 // Details about the Flow object that created the Transaction.
 type V2MoneyManagementTransactionFlow struct {
 	// If applicable, the ID of the Adjustment that created this Transaction.
@@ -136,8 +142,13 @@ type V2MoneyManagementTransaction struct {
 	BalanceImpact *V2MoneyManagementTransactionBalanceImpact `json:"balance_impact"`
 	// Open Enum. A descriptive category used to classify the Transaction.
 	Category V2MoneyManagementTransactionCategory `json:"category"`
+	// Counterparty to this Transaction.
+	Counterparty *V2MoneyManagementTransactionCounterparty `json:"counterparty,omitempty"`
 	// Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
+	// Description of this Transaction. When applicable, the description is copied from the Flow object at the time
+	// of transaction creation.
+	Description string `json:"description,omitempty"`
 	// Indicates the FinancialAccount affected by this Transaction.
 	FinancialAccount string `json:"financial_account"`
 	// Details about the Flow object that created the Transaction.

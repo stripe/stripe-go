@@ -18,6 +18,7 @@ const (
 	V2MoneyManagementFinancialAccountStatusPending V2MoneyManagementFinancialAccountStatus = "pending"
 )
 
+// The reason the FinancialAccount was closed.
 type V2MoneyManagementFinancialAccountStatusDetailsClosedReason string
 
 // List of values that V2MoneyManagementFinancialAccountStatusDetailsClosedReason can take
@@ -76,17 +77,26 @@ type V2MoneyManagementFinancialAccountOther struct {
 	// The type of the FinancialAccount, represented as a string. Upgrade your API version to see the type reflected in `financial_account.type`.
 	Type string `json:"type"`
 }
+
+// The forwarding settings for the closed FinancialAccount.
 type V2MoneyManagementFinancialAccountStatusDetailsClosedForwardingSettings struct {
 	// The address to send forwarded payments to.
 	PaymentMethod string `json:"payment_method,omitempty"`
 	// The address to send forwarded payouts to.
 	PayoutMethod string `json:"payout_method,omitempty"`
 }
+
+// Details related to the closed state of the FinancialAccount.
 type V2MoneyManagementFinancialAccountStatusDetailsClosed struct {
+	// The forwarding settings for the closed FinancialAccount.
 	ForwardingSettings *V2MoneyManagementFinancialAccountStatusDetailsClosedForwardingSettings `json:"forwarding_settings,omitempty"`
-	Reason             V2MoneyManagementFinancialAccountStatusDetailsClosedReason              `json:"reason"`
+	// The reason the FinancialAccount was closed.
+	Reason V2MoneyManagementFinancialAccountStatusDetailsClosedReason `json:"reason"`
 }
+
+// Additional details related to the status of the FinancialAccount.
 type V2MoneyManagementFinancialAccountStatusDetails struct {
+	// Details related to the closed state of the FinancialAccount.
 	Closed *V2MoneyManagementFinancialAccountStatusDetailsClosed `json:"closed,omitempty"`
 }
 
@@ -118,7 +128,8 @@ type V2MoneyManagementFinancialAccount struct {
 	// If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
 	Other *V2MoneyManagementFinancialAccountOther `json:"other,omitempty"`
 	// Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
-	Status        V2MoneyManagementFinancialAccountStatus         `json:"status"`
+	Status V2MoneyManagementFinancialAccountStatus `json:"status"`
+	// Additional details related to the status of the FinancialAccount.
 	StatusDetails *V2MoneyManagementFinancialAccountStatusDetails `json:"status_details,omitempty"`
 	// If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 	Storage *V2MoneyManagementFinancialAccountStorage `json:"storage,omitempty"`

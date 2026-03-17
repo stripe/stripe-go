@@ -159,7 +159,7 @@ type V2MoneyManagementOutboundTransferTo struct {
 	PayoutMethod string `json:"payout_method"`
 }
 
-// A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a “reference number” or something similar.
+// A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a "reference number" or something similar.
 type V2MoneyManagementOutboundTransferTraceID struct {
 	// Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 	// `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
@@ -212,6 +212,6 @@ type V2MoneyManagementOutboundTransfer struct {
 	StatusTransitions *V2MoneyManagementOutboundTransferStatusTransitions `json:"status_transitions,omitempty"`
 	// To which payout method the OutboundTransfer was sent.
 	To *V2MoneyManagementOutboundTransferTo `json:"to"`
-	// A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a “reference number” or something similar.
+	// A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a "reference number" or something similar.
 	TraceID *V2MoneyManagementOutboundTransferTraceID `json:"trace_id"`
 }

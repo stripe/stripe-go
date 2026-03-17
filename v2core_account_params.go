@@ -839,6 +839,8 @@ type V2CoreAccountDefaultsParams struct {
 	Profile *V2CoreAccountDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
+	// The Account's local timezone. A list of possible time zone values is maintained at the [IANA Time Zone Database](https://www.iana.org/time-zones).
+	Timezone *string `form:"timezone" json:"timezone,omitempty"`
 }
 
 // This hash is used to attest that the directors information provided to Stripe is both current and correct.
@@ -2337,6 +2339,8 @@ type V2CoreAccountCreateDefaultsParams struct {
 	Profile *V2CoreAccountCreateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountCreateDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
+	// The Account's local timezone. A list of possible time zone values is maintained at the [IANA Time Zone Database](https://www.iana.org/time-zones).
+	Timezone *string `form:"timezone" json:"timezone,omitempty"`
 }
 
 // This hash is used to attest that the directors information provided to Stripe is both current and correct.
@@ -3837,6 +3841,8 @@ type V2CoreAccountUpdateDefaultsParams struct {
 	Profile *V2CoreAccountUpdateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountUpdateDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
+	// The Account's local timezone. A list of possible time zone values is maintained at the [IANA Time Zone Database](https://www.iana.org/time-zones).
+	Timezone *string `form:"timezone" json:"timezone,omitempty"`
 }
 
 // This hash is used to attest that the directors information provided to Stripe is both current and correct.

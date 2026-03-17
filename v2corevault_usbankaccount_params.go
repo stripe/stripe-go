@@ -22,6 +22,8 @@ type V2CoreVaultUSBankAccountParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Closed Enum. The type of the bank account (checking or savings).
 	BankAccountType *string `form:"bank_account_type" json:"bank_account_type,omitempty"`
+	// The currency of the bank account.
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The fedwire routing number of the bank account. Note that certain banks have the same ACH and wire routing number.
 	FedwireRoutingNumber *string `form:"fedwire_routing_number" json:"fedwire_routing_number,omitempty"`
 	// The ACH routing number of the bank account. Note that certain banks have the same ACH and wire routing number.
@@ -56,6 +58,8 @@ type V2CoreVaultUSBankAccountCreateParams struct {
 	AccountNumber *string `form:"account_number" json:"account_number"`
 	// Closed Enum. The type of the bank account (checking or savings).
 	BankAccountType *string `form:"bank_account_type" json:"bank_account_type,omitempty"`
+	// The currency of the bank account.
+	Currency *string `form:"currency" json:"currency"`
 	// The fedwire routing number of the bank account. Note that certain banks have the same ACH and wire routing number.
 	FedwireRoutingNumber *string `form:"fedwire_routing_number" json:"fedwire_routing_number,omitempty"`
 	// The ACH routing number of the bank account. Note that certain banks have the same ACH and wire routing number.
