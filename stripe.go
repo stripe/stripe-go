@@ -999,7 +999,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &RateLimitError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1010,7 +1010,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &TemporarySessionExpiredError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
