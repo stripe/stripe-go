@@ -4002,9 +4002,9 @@ type V2CoreAccountIdentityBusinessDetailsAddress struct {
 // Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // The business gross annual revenue for its preceding fiscal year.
@@ -4138,9 +4138,9 @@ type V2CoreAccountIdentityBusinessDetailsIDNumber struct {
 // Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
+	Currency Currency `json:"currency"`
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
+	Value int64 `json:"value"`
 }
 
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.

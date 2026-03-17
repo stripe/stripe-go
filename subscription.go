@@ -66,9 +66,10 @@ type SubscriptionCancellationDetailsReason string
 
 // List of values that SubscriptionCancellationDetailsReason can take
 const (
-	SubscriptionCancellationDetailsReasonCancellationRequested SubscriptionCancellationDetailsReason = "cancellation_requested"
-	SubscriptionCancellationDetailsReasonPaymentDisputed       SubscriptionCancellationDetailsReason = "payment_disputed"
-	SubscriptionCancellationDetailsReasonPaymentFailed         SubscriptionCancellationDetailsReason = "payment_failed"
+	SubscriptionCancellationDetailsReasonCanceledByRetentionPolicy SubscriptionCancellationDetailsReason = "canceled_by_retention_policy"
+	SubscriptionCancellationDetailsReasonCancellationRequested     SubscriptionCancellationDetailsReason = "cancellation_requested"
+	SubscriptionCancellationDetailsReasonPaymentDisputed           SubscriptionCancellationDetailsReason = "payment_disputed"
+	SubscriptionCancellationDetailsReasonPaymentFailed             SubscriptionCancellationDetailsReason = "payment_failed"
 )
 
 // Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
@@ -89,7 +90,7 @@ const (
 	SubscriptionInvoiceSettingsIssuerTypeSelf    SubscriptionInvoiceSettingsIssuerType = "self"
 )
 
-// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+// The payment collection behavior for this subscription while paused.
 type SubscriptionPauseCollectionBehavior string
 
 // List of values that SubscriptionPauseCollectionBehavior can take
@@ -108,7 +109,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -222,7 +223,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod string
 
 // List of values that SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod can take
@@ -346,7 +347,7 @@ type SubscriptionCancelCancellationDetailsParams struct {
 
 // Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://docs.stripe.com/metadata).
 //
-// Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
+// Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api/invoiceitems/delete). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
 //
 // By default, upon subscription cancellation, Stripe stops automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
 type SubscriptionCancelParams struct {
@@ -443,7 +444,7 @@ type SubscriptionParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionPaymentSettingsParams `form:"payment_settings"`
-	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -652,7 +653,7 @@ func (p *SubscriptionItemsParams) AddMetadata(key string, value string) {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollectionParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior"`
 	// The time after which the subscription will resume collecting payments.
 	ResumesAt *int64 `form:"resumes_at"`
@@ -680,7 +681,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -794,7 +795,7 @@ type SubscriptionPaymentSettingsParams struct {
 	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
 }
 
-// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionPendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
@@ -1172,7 +1173,7 @@ func (p *SubscriptionUpdateItemParams) AddMetadata(key string, value string) {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionUpdatePauseCollectionParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior"`
 	// The time after which the subscription will resume collecting payments.
 	ResumesAt *int64 `form:"resumes_at"`
@@ -1200,7 +1201,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -1314,7 +1315,7 @@ type SubscriptionUpdatePaymentSettingsParams struct {
 	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
 }
 
-// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionUpdatePendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
@@ -1421,7 +1422,7 @@ type SubscriptionUpdateParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionUpdatePaymentSettingsParams `form:"payment_settings"`
-	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionUpdatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -1701,7 +1702,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -1815,7 +1816,7 @@ type SubscriptionCreatePaymentSettingsParams struct {
 	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
 }
 
-// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionCreatePendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
@@ -1922,7 +1923,7 @@ type SubscriptionCreateParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionCreatePaymentSettingsParams `form:"payment_settings"`
-	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionCreatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -2049,7 +2050,7 @@ type SubscriptionInvoiceSettings struct {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollection struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior SubscriptionPauseCollectionBehavior `json:"behavior"`
 	// The time after which the subscription will resume collecting payments.
 	ResumesAt int64 `json:"resumes_at"`
@@ -2062,7 +2063,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions stru
 // This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
@@ -2072,7 +2073,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	PreferredLanguage string `json:"preferred_language"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount int64 `json:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type"`
@@ -2138,7 +2139,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnec
 // This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
 
@@ -2172,7 +2173,7 @@ type SubscriptionPaymentSettings struct {
 	SaveDefaultPaymentMethod SubscriptionPaymentSettingsSaveDefaultPaymentMethod `json:"save_default_payment_method"`
 }
 
-// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionPendingInvoiceItemInterval struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 	Interval SubscriptionPendingInvoiceItemIntervalInterval `json:"interval"`
@@ -2271,7 +2272,7 @@ type Subscription struct {
 	Items *SubscriptionItemList `json:"items"`
 	// The most recent invoice this subscription has generated over its lifecycle (for example, when it cycles or is updated).
 	LatestInvoice *Invoice `json:"latest_invoice"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
@@ -2285,7 +2286,7 @@ type Subscription struct {
 	PauseCollection *SubscriptionPauseCollection `json:"pause_collection"`
 	// Payment settings passed on to invoices created by the subscription.
 	PaymentSettings *SubscriptionPaymentSettings `json:"payment_settings"`
-	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemInterval `json:"pending_invoice_item_interval"`
 	// You can use this [SetupIntent](https://docs.stripe.com/api/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription's payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication#scenario-2).
 	PendingSetupIntent *SetupIntent `json:"pending_setup_intent"`

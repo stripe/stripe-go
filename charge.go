@@ -254,6 +254,7 @@ const (
 	ChargePaymentMethodDetailsCryptoNetworkEthereum ChargePaymentMethodDetailsCryptoNetwork = "ethereum"
 	ChargePaymentMethodDetailsCryptoNetworkPolygon  ChargePaymentMethodDetailsCryptoNetwork = "polygon"
 	ChargePaymentMethodDetailsCryptoNetworkSolana   ChargePaymentMethodDetailsCryptoNetwork = "solana"
+	ChargePaymentMethodDetailsCryptoNetworkTempo    ChargePaymentMethodDetailsCryptoNetwork = "tempo"
 )
 
 // The token currency that the transaction was sent with.
@@ -1651,6 +1652,10 @@ type ChargePaymentMethodDetailsSwish struct {
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
 type ChargePaymentMethodDetailsTWINT struct{}
+type ChargePaymentMethodDetailsUpi struct {
+	// Customer's unique Virtual Payment Address.
+	Vpa string `json:"vpa"`
+}
 type ChargePaymentMethodDetailsUSBankAccount struct {
 	// Account holder type: individual or company.
 	AccountHolderType ChargePaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
@@ -1743,6 +1748,7 @@ type ChargePaymentMethodDetails struct {
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          ChargePaymentMethodDetailsType           `json:"type"`
+	Upi           *ChargePaymentMethodDetailsUpi           `json:"upi"`
 	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat"`
 	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
@@ -1816,7 +1822,7 @@ type Charge struct {
 	// Unique identifier for the object.
 	ID     string        `json:"id"`
 	Level3 *ChargeLevel3 `json:"level3"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

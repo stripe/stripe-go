@@ -193,7 +193,7 @@ type TreasuryReceivedDebit struct {
 	ID                             string                                               `json:"id"`
 	InitiatingPaymentMethodDetails *TreasuryReceivedDebitInitiatingPaymentMethodDetails `json:"initiating_payment_method_details"`
 	LinkedFlows                    *TreasuryReceivedDebitLinkedFlows                    `json:"linked_flows"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The network used for the ReceivedDebit.
 	Network TreasuryReceivedDebitNetwork `json:"network"`
