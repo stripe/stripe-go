@@ -20,7 +20,7 @@ type v1PaymentIntentAmountDetailsLineItemService struct {
 }
 
 // Lists all LineItems of a given PaymentIntent.
-func (c v1PaymentIntentAmountDetailsLineItemService) List(ctx context.Context, listParams *PaymentIntentAmountDetailsLineItemListParams) Seq2[*PaymentIntentAmountDetailsLineItem, error] {
+func (c v1PaymentIntentAmountDetailsLineItemService) List(ctx context.Context, listParams *PaymentIntentAmountDetailsLineItemListParams) *V1List[*PaymentIntentAmountDetailsLineItem] {
 	if listParams == nil {
 		listParams = &PaymentIntentAmountDetailsLineItemListParams{}
 	}
@@ -28,7 +28,7 @@ func (c v1PaymentIntentAmountDetailsLineItemService) List(ctx context.Context, l
 	path := FormatURLPath(
 		"/v1/payment_intents/%s/amount_details_line_items", StringValue(
 			listParams.Intent))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentIntentAmountDetailsLineItem], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentIntentAmountDetailsLineItem], error) {
 		list := &v1Page[*PaymentIntentAmountDetailsLineItem]{}
 		if p == nil {
 			p = &Params{}
@@ -36,5 +36,5 @@ func (c v1PaymentIntentAmountDetailsLineItemService) List(ctx context.Context, l
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

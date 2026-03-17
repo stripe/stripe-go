@@ -79,5 +79,5 @@ func (c Client) All(listParams *stripe.V2CoreAccountListParams) stripe.Seq2[*str
 		page := &stripe.V2Page[*stripe.V2CoreAccount]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }
