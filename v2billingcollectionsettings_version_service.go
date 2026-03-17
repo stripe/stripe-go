@@ -32,7 +32,7 @@ func (c v2BillingCollectionSettingsVersionService) Retrieve(ctx context.Context,
 }
 
 // List all CollectionSettingVersions by CollectionSetting ID.
-func (c v2BillingCollectionSettingsVersionService) List(ctx context.Context, listParams *V2BillingCollectionSettingsVersionListParams) Seq2[*V2BillingCollectionSettingVersion, error] {
+func (c v2BillingCollectionSettingsVersionService) List(ctx context.Context, listParams *V2BillingCollectionSettingsVersionListParams) *V2List[*V2BillingCollectionSettingVersion] {
 	if listParams == nil {
 		listParams = &V2BillingCollectionSettingsVersionListParams{}
 	}
@@ -40,9 +40,12 @@ func (c v2BillingCollectionSettingsVersionService) List(ctx context.Context, lis
 	path := FormatURLPath(
 		"/v2/billing/collection_settings/%s/versions", StringValue(
 			listParams.CollectionSettingID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingCollectionSettingVersion], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingCollectionSettingVersion], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingCollectionSettingVersion]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

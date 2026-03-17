@@ -47,12 +47,12 @@ func (c v1TaxLocationService) Retrieve(ctx context.Context, id string, params *T
 // The response includes detailed information for each tax location, such as its address, name, description, and current operational status.
 //
 // You can paginate through the list by using the limit parameter to control the number of results returned in each request.
-func (c v1TaxLocationService) List(ctx context.Context, listParams *TaxLocationListParams) Seq2[*TaxLocation, error] {
+func (c v1TaxLocationService) List(ctx context.Context, listParams *TaxLocationListParams) *V1List[*TaxLocation] {
 	if listParams == nil {
 		listParams = &TaxLocationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TaxLocation], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TaxLocation], error) {
 		list := &v1Page[*TaxLocation]{}
 		if p == nil {
 			p = &Params{}
@@ -60,5 +60,5 @@ func (c v1TaxLocationService) List(ctx context.Context, listParams *TaxLocationL
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/tax/locations", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

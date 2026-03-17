@@ -104,12 +104,12 @@ func (c v1PrivacyRedactionJobService) Validate(ctx context.Context, id string, p
 }
 
 // Returns a list of redaction jobs.
-func (c v1PrivacyRedactionJobService) List(ctx context.Context, listParams *PrivacyRedactionJobListParams) Seq2[*PrivacyRedactionJob, error] {
+func (c v1PrivacyRedactionJobService) List(ctx context.Context, listParams *PrivacyRedactionJobListParams) *V1List[*PrivacyRedactionJob] {
 	if listParams == nil {
 		listParams = &PrivacyRedactionJobListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PrivacyRedactionJob], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PrivacyRedactionJob], error) {
 		list := &v1Page[*PrivacyRedactionJob]{}
 		if p == nil {
 			p = &Params{}
@@ -117,5 +117,5 @@ func (c v1PrivacyRedactionJobService) List(ctx context.Context, listParams *Priv
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/privacy/redaction_jobs", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

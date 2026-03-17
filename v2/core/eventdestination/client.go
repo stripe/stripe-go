@@ -115,9 +115,12 @@ func (c Client) Ping(id string, params *stripe.V2CoreEventDestinationPingParams)
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2CoreEventDestinationListParams) stripe.Seq2[*stripe.V2CoreEventDestination, error] {
+	if listParams == nil {
+		listParams = &stripe.V2CoreEventDestinationListParams{}
+	}
 	return stripe.NewV2List("/v2/core/event_destinations", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2CoreEventDestination], error) {
 		page := &stripe.V2Page[*stripe.V2CoreEventDestination]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

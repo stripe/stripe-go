@@ -40,9 +40,12 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementReceivedDebitPara
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2MoneyManagementReceivedDebitListParams) stripe.Seq2[*stripe.V2MoneyManagementReceivedDebit, error] {
+	if listParams == nil {
+		listParams = &stripe.V2MoneyManagementReceivedDebitListParams{}
+	}
 	return stripe.NewV2List("/v2/money_management/received_debits", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementReceivedDebit], error) {
 		page := &stripe.V2Page[*stripe.V2MoneyManagementReceivedDebit]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }
