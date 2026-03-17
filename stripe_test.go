@@ -1369,9 +1369,9 @@ func TestStripeClientUserAgent(t *testing.T) {
 	assert.Equal(t, "go", userAgent["lang"])
 	assert.Equal(t, runtime.Version(), userAgent["lang_version"])
 
-	// Anywhere these tests are running can reasonable be expected to have a
-	// `uname` to run, so do this basic check.
-	assert.NotEqual(t, UnknownPlatform, userAgent["lang_version"])
+	// platform should be present when telemetry is enabled
+	expectedPlatform := runtime.GOOS + " " + runtime.GOARCH
+	assert.Equal(t, expectedPlatform, userAgent["platform"])
 }
 
 func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
@@ -1458,17 +1458,17 @@ func TestUserAgentWithAIAgent(t *testing.T) {
 
 func TestStripeClientUserAgentWithAIAgent(t *testing.T) {
 	// Save and restore the original state
-	originalEncodedStripeUserAgent := encodedStripeUserAgent
+	originalEncoded := encodedStripeUserAgent
 	originalReady := encodedStripeUserAgentReady
 	defer func() {
-		encodedStripeUserAgent = originalEncodedStripeUserAgent
+		encodedStripeUserAgent = originalEncoded
 		encodedStripeUserAgentReady = originalReady
 	}()
 
 	// Reset so getEncodedStripeUserAgent re-computes
 	encodedStripeUserAgentReady = &sync.Once{}
 
-	encoded := getEncodedStripeUserAgent()
+	encoded := getEncodedStripeUserAgent(true)
 	var userAgent map[string]interface{}
 	err := json.Unmarshal([]byte(encoded), &userAgent)
 	assert.NoError(t, err)
@@ -1481,6 +1481,25 @@ func TestStripeClientUserAgentWithAIAgent(t *testing.T) {
 		_, isString := val.(string)
 		assert.True(t, isString)
 	}
+}
+
+func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+	}()
+
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(false)
+	var userAgent map[string]string
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "go", userAgent["lang"])
+	assert.Empty(t, userAgent["platform"])
 }
 
 func TestResponseToError(t *testing.T) {
