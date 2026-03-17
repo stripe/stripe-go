@@ -176,6 +176,8 @@ type Client struct {
 	V1Mandates *v1MandateService
 	// V1Margins is the service used to invoke /v1/billing/margins APIs.
 	V1Margins *v1MarginService
+	// V1OrchestrationPaymentAttempts is the service used to invoke /v1/orchestration/payment_attempts APIs.
+	V1OrchestrationPaymentAttempts *v1OrchestrationPaymentAttemptService
 	// V1Orders is the service used to invoke /v1/orders APIs.
 	V1Orders *v1OrderService
 	// V1PaymentAttemptRecords is the service used to invoke /v1/payment_attempt_records APIs.
@@ -224,6 +226,8 @@ type Client struct {
 	V1Quotes *v1QuoteService
 	// V1RadarAccountEvaluations is the service used to invoke /v1/radar/account_evaluations APIs.
 	V1RadarAccountEvaluations *v1RadarAccountEvaluationService
+	// V1RadarCustomerEvaluations is the service used to invoke /v1/radar/customer_evaluations APIs.
+	V1RadarCustomerEvaluations *v1RadarCustomerEvaluationService
 	// V1RadarEarlyFraudWarnings is the service used to invoke /v1/radar/early_fraud_warnings APIs.
 	V1RadarEarlyFraudWarnings *v1RadarEarlyFraudWarningService
 	// V1RadarIssuingAuthorizationEvaluations is the service used to invoke /v1/radar/issuing_authorization_evaluations APIs.
@@ -314,6 +318,8 @@ type Client struct {
 	V1TestHelpersIssuingPersonalizationDesigns *v1TestHelpersIssuingPersonalizationDesignService
 	// V1TestHelpersIssuingTransactions is the service used to invoke /v1/issuing/transactions APIs.
 	V1TestHelpersIssuingTransactions *v1TestHelpersIssuingTransactionService
+	// V1TestHelpersPaymentIntents is the service used to invoke /v1/payment_intents APIs.
+	V1TestHelpersPaymentIntents *v1TestHelpersPaymentIntentService
 	// V1TestHelpersRefunds is the service used to invoke /v1/refunds APIs.
 	V1TestHelpersRefunds *v1TestHelpersRefundService
 	// V1TestHelpersSharedPaymentGrantedTokens is the service used to invoke /v1/shared_payment/granted_tokens APIs.
@@ -619,6 +625,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1LoginLinks = &v1LoginLinkService{B: backends.API, Key: key}
 	client.V1Mandates = &v1MandateService{B: backends.API, Key: key}
 	client.V1Margins = &v1MarginService{B: backends.API, Key: key}
+	client.V1OrchestrationPaymentAttempts = &v1OrchestrationPaymentAttemptService{B: backends.API, Key: key}
 	client.V1Orders = &v1OrderService{B: backends.API, Key: key}
 	client.V1PaymentAttemptRecords = &v1PaymentAttemptRecordService{B: backends.API, Key: key}
 	client.V1PaymentIntentAmountDetailsLineItems = &v1PaymentIntentAmountDetailsLineItemService{B: backends.API, Key: key}
@@ -643,6 +650,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1QuotePreviewSubscriptionSchedules = &v1QuotePreviewSubscriptionScheduleService{B: backends.API, Key: key}
 	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
 	client.V1RadarAccountEvaluations = &v1RadarAccountEvaluationService{B: backends.API, Key: key}
+	client.V1RadarCustomerEvaluations = &v1RadarCustomerEvaluationService{B: backends.API, Key: key}
 	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
 	client.V1RadarIssuingAuthorizationEvaluations = &v1RadarIssuingAuthorizationEvaluationService{B: backends.API, Key: key}
 	client.V1RadarPaymentEvaluations = &v1RadarPaymentEvaluationService{B: backends.API, Key: key}
@@ -688,6 +696,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TestHelpersIssuingCards = &v1TestHelpersIssuingCardService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingPersonalizationDesigns = &v1TestHelpersIssuingPersonalizationDesignService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingTransactions = &v1TestHelpersIssuingTransactionService{B: backends.API, Key: key}
+	client.V1TestHelpersPaymentIntents = &v1TestHelpersPaymentIntentService{B: backends.API, Key: key}
 	client.V1TestHelpersRefunds = &v1TestHelpersRefundService{B: backends.API, Key: key}
 	client.V1TestHelpersSharedPaymentGrantedTokens = &v1TestHelpersSharedPaymentGrantedTokenService{B: backends.API, Key: key}
 	client.V1TestHelpersTerminalReaders = &v1TestHelpersTerminalReaderService{B: backends.API, Key: key}

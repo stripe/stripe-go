@@ -184,6 +184,261 @@ const (
 	IssuingAuthorizationWalletSamsungPay IssuingAuthorizationWallet = "samsung_pay"
 )
 
+// The ISO 639-1 language code of the device associated with the tokenization request.
+type IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage string
+
+// List of values that IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage can take
+const (
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "aa"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAb IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ab"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ae"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAf IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "af"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAk IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ak"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAm IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "am"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "an"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAR IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ar"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAs IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "as"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAv IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "av"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAy IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ay"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageAz IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "az"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ba"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "be"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBG IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "bg"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "bi"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBm IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "bm"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "bn"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "bo"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBr IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "br"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageBs IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "bs"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ca"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ce"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCh IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ch"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "co"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCr IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "cr"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCS IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "cs"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCu IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "cu"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCv IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "cv"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageCy IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "cy"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageDA IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "da"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageDE IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "de"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageDv IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "dv"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageDz IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "dz"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageEe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ee"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageEL IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "el"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageEN IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "en"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageEo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "eo"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageES IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "es"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageET IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "et"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageEU IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "eu"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageFa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "fa"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageFf IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ff"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageFI IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "fi"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageFj IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "fj"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageFo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "fo"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageFR IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "fr"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageFy IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "fy"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageGa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ga"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageGd IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "gd"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageGl IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "gl"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageGn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "gn"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageGu IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "gu"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageGv IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "gv"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ha"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHE IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "he"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "hi"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ho"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHR IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "hr"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHt IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ht"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHU IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "hu"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHy IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "hy"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageHz IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "hz"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ia"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageID IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "id"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ie"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIg IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ig"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ii"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIk IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ik"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "io"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIs IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "is"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIT IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "it"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageIu IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "iu"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageJA IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ja"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageJv IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "jv"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ka"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKg IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "kg"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ki"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKj IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "kj"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKk IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "kk"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKl IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "kl"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKm IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "km"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "kn"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKO IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ko"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKr IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "kr"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKs IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ks"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKu IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ku"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKv IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "kv"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKw IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "kw"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageKy IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ky"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "la"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLb IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "lb"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLg IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "lg"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "li"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ln"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "lo"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLT IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "lt"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLu IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "lu"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageLV IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "lv"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMg IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "mg"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMh IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "mh"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "mi"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMk IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "mk"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMl IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ml"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "mn"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMr IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "mr"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMS IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ms"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMT IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "mt"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageMy IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "my"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "na"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNB IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "nb"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNd IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "nd"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ne"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNg IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ng"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNL IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "nl"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "nn"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "no"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNr IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "nr"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNv IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "nv"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageNy IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ny"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageOc IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "oc"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageOj IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "oj"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageOm IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "om"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageOr IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "or"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageOs IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "os"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguagePa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "pa"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguagePi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "pi"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguagePL IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "pl"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguagePs IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ps"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguagePT IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "pt"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageQu IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "qu"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageRm IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "rm"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageRn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "rn"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageRO IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ro"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageRU IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ru"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageRw IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "rw"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sa"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSc IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sc"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSd IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sd"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "se"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSg IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sg"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "si"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSK IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sk"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSL IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sl"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSm IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sm"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sn"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "so"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSq IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sq"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSr IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sr"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSs IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ss"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSt IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "st"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSu IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "su"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSV IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sv"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageSw IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "sw"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ta"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "te"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTg IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "tg"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTH IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "th"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ti"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTk IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "tk"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTl IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "tl"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTn IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "tn"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "to"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTR IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "tr"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTS IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ts"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTt IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "tt"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTw IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "tw"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageTy IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ty"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageUg IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ug"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageUk IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "uk"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageUr IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ur"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageUz IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "uz"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageVe IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "ve"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageVI IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "vi"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageVo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "vo"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageWa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "wa"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageWo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "wo"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageXh IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "xh"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageYi IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "yi"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageYo IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "yo"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageZa IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "za"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageZH IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "zh"
+	IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguageZu IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage = "zu"
+)
+
+// The card network for this token.
+type IssuingAuthorizationTokenDetailsNetworkDataType string
+
+// List of values that IssuingAuthorizationTokenDetailsNetworkDataType can take
+const (
+	IssuingAuthorizationTokenDetailsNetworkDataTypeMastercard IssuingAuthorizationTokenDetailsNetworkDataType = "mastercard"
+	IssuingAuthorizationTokenDetailsNetworkDataTypeVisa       IssuingAuthorizationTokenDetailsNetworkDataType = "visa"
+)
+
+// The method used for tokenizing a card.
+type IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource string
+
+// List of values that IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource can take
+const (
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSourceApp    IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource = "app"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSourceManual IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource = "manual"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSourceOnFile IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource = "on_file"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSourceOther  IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource = "other"
+)
+
+// The reasons for suggested tokenization given by the card network.
+type IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode string
+
+// List of values that IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode can take
+const (
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeAccountCardTooNew                       IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "account_card_too_new"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeAccountRecentlyChanged                  IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "account_recently_changed"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeAccountTooNew                           IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "account_too_new"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeAccountTooNewSinceLaunch                IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "account_too_new_since_launch"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeAdditionalDevice                        IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "additional_device"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeDataExpired                             IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "data_expired"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeDeferIDVDecision                        IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "defer_id_v_decision"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeDeviceRecentlyLost                      IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "device_recently_lost"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeGoodActivityHistory                     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "good_activity_history"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeHasSuspendedTokens                      IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "has_suspended_tokens"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeHighRisk                                IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "high_risk"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeInactiveAccount                         IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "inactive_account"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeLongAccountTenure                       IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "long_account_tenure"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeLowAccountScore                         IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "low_account_score"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeLowDeviceScore                          IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "low_device_score"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeLowPhoneNumberScore                     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "low_phone_number_score"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeNetworkServiceError                     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "network_service_error"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeOutsideHomeTerritory                    IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "outside_home_territory"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeProvisioningCardholderMismatch          IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "provisioning_cardholder_mismatch"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeProvisioningDeviceAndCardholderMismatch IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "provisioning_device_and_cardholder_mismatch"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeProvisioningDeviceMismatch              IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "provisioning_device_mismatch"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeSameDeviceNoPriorAuthentication         IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "same_device_no_prior_authentication"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeSameDeviceSuccessfulPriorAuthentication IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "same_device_successful_prior_authentication"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeSoftwareUpdate                          IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "software_update"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeSuspiciousActivity                      IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "suspicious_activity"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeTooManyDifferentCardholders             IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "too_many_different_cardholders"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeTooManyRecentAttempts                   IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "too_many_recent_attempts"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCodeTooManyRecentTokens                     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode = "too_many_recent_tokens"
+)
+
+// The recommendation on responding to the tokenization request.
+type IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision string
+
+// List of values that IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision can take
+const (
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionApprove     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "approve"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionDecline     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "decline"
+	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionRequireAuth IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "require_auth"
+)
+
 // Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingAuthorizationListParams struct {
 	ListParams `form:"*"`
@@ -524,6 +779,61 @@ type IssuingAuthorizationVerificationData struct {
 	// 3D Secure details.
 	ThreeDSecure *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
 }
+type IssuingAuthorizationTokenDetailsNetworkDataDevice struct {
+	// The IP address of the device at provisioning time.
+	IPAddress string `json:"ip_address"`
+	// The ISO 639-1 language code of the device associated with the tokenization request.
+	Language IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage `json:"language"`
+	// The phone number of the device used for tokenization.
+	PhoneNumber string `json:"phone_number"`
+}
+type IssuingAuthorizationTokenDetailsNetworkDataMastercard struct {
+	// A unique reference ID from the network to represent the card account number.
+	CardReferenceID string `json:"card_reference_id"`
+	// The network-unique identifier for the token.
+	TokenReferenceID string `json:"token_reference_id"`
+	// The ID of the entity requesting tokenization.
+	TokenRequestorID string `json:"token_requestor_id"`
+}
+type IssuingAuthorizationTokenDetailsNetworkDataVisa struct {
+	// A unique reference ID from the network to represent the card account number.
+	CardReferenceID string `json:"card_reference_id"`
+	// The network-unique identifier for the token.
+	TokenReferenceID string `json:"token_reference_id"`
+	// The ID of the entity requesting tokenization.
+	TokenRequestorID string `json:"token_requestor_id"`
+	// Degree of risk associated with the token between `01` and `99`, with higher number indicating higher risk. A `00` value indicates the token was not scored by Visa.
+	TokenRiskScore string `json:"token_risk_score"`
+}
+type IssuingAuthorizationTokenDetailsNetworkDataWalletProvider struct {
+	// An evaluation on the trustworthiness of the wallet account between 1 and 5. A higher score indicates more trustworthy.
+	AccountTrustScore int64 `json:"account_trust_score"`
+	// The method used for tokenizing a card.
+	CardNumberSource IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource `json:"card_number_source"`
+	// An evaluation on the trustworthiness of the device. A higher score indicates more trustworthy.
+	DeviceTrustScore int64 `json:"device_trust_score"`
+	// The reasons for suggested tokenization given by the card network.
+	ReasonCodes []IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode `json:"reason_codes"`
+	// The recommendation on responding to the tokenization request.
+	SuggestedDecision IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision `json:"suggested_decision"`
+}
+type IssuingAuthorizationTokenDetailsNetworkData struct {
+	Device     *IssuingAuthorizationTokenDetailsNetworkDataDevice     `json:"device"`
+	Mastercard *IssuingAuthorizationTokenDetailsNetworkDataMastercard `json:"mastercard"`
+	// The card network for this token.
+	Type           IssuingAuthorizationTokenDetailsNetworkDataType            `json:"type"`
+	Visa           *IssuingAuthorizationTokenDetailsNetworkDataVisa           `json:"visa"`
+	WalletProvider *IssuingAuthorizationTokenDetailsNetworkDataWalletProvider `json:"wallet_provider"`
+}
+type IssuingAuthorizationTokenDetails struct {
+	// The card associated with this token.
+	Card string `json:"card"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The hashed ID derived from the device ID from the card network associated with the token.
+	DeviceFingerprint string                                       `json:"device_fingerprint"`
+	NetworkData       *IssuingAuthorizationTokenDetailsNetworkData `json:"network_data"`
+}
 
 // When an [issued card](https://docs.stripe.com/issuing) is used to make a purchase, an Issuing `Authorization`
 // object is created. [Authorizations](https://docs.stripe.com/issuing/purchases/authorizations) must be approved for the
@@ -578,7 +888,8 @@ type IssuingAuthorization struct {
 	// The current status of the authorization in its lifecycle.
 	Status IssuingAuthorizationStatus `json:"status"`
 	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
-	Token *IssuingToken `json:"token"`
+	Token        *IssuingToken                     `json:"token"`
+	TokenDetails *IssuingAuthorizationTokenDetails `json:"token_details"`
 	// List of [transactions](https://docs.stripe.com/api/issuing/transactions) associated with this authorization.
 	Transactions []*IssuingTransaction `json:"transactions"`
 	// [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).

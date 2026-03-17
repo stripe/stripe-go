@@ -105,7 +105,7 @@ func (p *DelegatedCheckoutRequestedSessionParams) AddMetadata(key string, value 
 
 // The shipping fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
-	// The shipping option identifer.
+	// The shipping option identifier.
 	ShippingOption *string `form:"shipping_option"`
 }
 
@@ -125,6 +125,30 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptio
 	Type *string `form:"type"`
 }
 
+// The digital fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams struct {
+	// The digital option identifier.
+	DigitalOption *string `form:"digital_option"`
+}
+
+// The shipping fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams struct {
+	// The shipping option identifier.
+	ShippingOption *string `form:"shipping_option"`
+}
+
+// The fulfillment option overrides for specific line items.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideParams struct {
+	// The digital fulfillment option.
+	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams `form:"digital"`
+	// The line item keys that this fulfillment option override applies to.
+	LineItemKeys []*string `form:"line_item_keys"`
+	// The shipping fulfillment option.
+	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams `form:"shipping"`
+	// The type of fulfillment option.
+	Type *string `form:"type"`
+}
+
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsParams struct {
 	// The customer's address.
@@ -137,6 +161,8 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsParams struct {
 	Phone *string `form:"phone"`
 	// The fulfillment option to select.
 	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionParams `form:"selected_fulfillment_option"`
+	// The fulfillment option overrides for specific line items.
+	SelectedFulfillmentOptionOverrides []*DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideParams `form:"selected_fulfillment_option_overrides"`
 }
 
 // The details of the line items.
@@ -361,7 +387,7 @@ func (p *DelegatedCheckoutRequestedSessionRetrieveParams) AddExpand(f string) {
 
 // The shipping fulfillment option.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
-	// The shipping option identifer.
+	// The shipping option identifier.
 	ShippingOption *string `form:"shipping_option"`
 }
 
@@ -381,6 +407,30 @@ type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmen
 	Type *string `form:"type"`
 }
 
+// The digital fulfillment option.
+type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams struct {
+	// The digital option identifier.
+	DigitalOption *string `form:"digital_option"`
+}
+
+// The shipping fulfillment option.
+type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams struct {
+	// The shipping option identifier.
+	ShippingOption *string `form:"shipping_option"`
+}
+
+// The fulfillment option overrides for specific line items.
+type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideParams struct {
+	// The digital fulfillment option.
+	Digital *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams `form:"digital"`
+	// The line item keys that this fulfillment option override applies to.
+	LineItemKeys []*string `form:"line_item_keys"`
+	// The shipping fulfillment option.
+	Shipping *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams `form:"shipping"`
+	// The type of fulfillment option.
+	Type *string `form:"type"`
+}
+
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsParams struct {
 	// The customer's address.
@@ -393,6 +443,8 @@ type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsParams struct {
 	Phone *string `form:"phone"`
 	// The fulfillment option to select.
 	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionParams `form:"selected_fulfillment_option"`
+	// The fulfillment option overrides for specific line items.
+	SelectedFulfillmentOptionOverrides []*DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideParams `form:"selected_fulfillment_option_overrides"`
 }
 
 // The details of the line items.

@@ -57,6 +57,18 @@ func (c v1CheckoutSessionService) Update(ctx context.Context, id string, params 
 	return session, err
 }
 
+// Approves a customer's attempt to pay for a Checkout Session with approval_method set to manual.
+func (c v1CheckoutSessionService) Approve(ctx context.Context, id string, params *CheckoutSessionApproveParams) (*CheckoutSession, error) {
+	if params == nil {
+		params = &CheckoutSessionApproveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/checkout/sessions/%s/approve", id)
+	session := &CheckoutSession{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, session)
+	return session, err
+}
+
 // A Checkout Session can be expired when it is in one of these statuses: open
 //
 // After it expires, a customer can't complete a Checkout Session and customers loading the Checkout Session see a message saying the Checkout Session is expired.

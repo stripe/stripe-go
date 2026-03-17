@@ -618,6 +618,220 @@ func (p *PaymentAttemptRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Report that the specified Payment Attempt Record was authenticated.
+type PaymentAttemptRecordReportAuthenticatedParams struct {
+	Params `form:"*"`
+	// When the reported payment was authenticated. Measured in seconds since the Unix epoch.
+	AuthenticatedAt *int64 `form:"authenticated_at"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordReportAuthenticatedParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentAttemptRecordReportAuthenticatedParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Report that the specified Payment Attempt Record was canceled.
+type PaymentAttemptRecordReportCanceledParams struct {
+	Params `form:"*"`
+	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
+	CanceledAt *int64 `form:"canceled_at"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordReportCanceledParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentAttemptRecordReportCanceledParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Report that the specified Payment Attempt Record failed.
+type PaymentAttemptRecordReportFailedParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// When the reported payment failed. Measured in seconds since the Unix epoch.
+	FailedAt *int64 `form:"failed_at"`
+	// The failure code for this payment attempt. Must be one of `payment_method_customer_decline` or `payment_method_provider_unknown_outcome`.
+	FailureCode *string `form:"failure_code"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordReportFailedParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentAttemptRecordReportFailedParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Report that the specified Payment Attempt Record was guaranteed.
+type PaymentAttemptRecordReportGuaranteedParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
+	GuaranteedAt *int64 `form:"guaranteed_at"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordReportGuaranteedParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentAttemptRecordReportGuaranteedParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Customer information for this payment.
+type PaymentAttemptRecordReportInformationalCustomerDetailsParams struct {
+	// The customer who made the payment.
+	Customer *string `form:"customer"`
+	// The customer's phone number.
+	Email *string `form:"email"`
+	// The customer's name.
+	Name *string `form:"name"`
+	// The customer's phone number.
+	Phone *string `form:"phone"`
+}
+
+// Shipping information for this payment.
+type PaymentAttemptRecordReportInformationalShippingDetailsParams struct {
+	// The physical shipping address.
+	Address *AddressParams `form:"address"`
+	// The shipping recipient's name.
+	Name *string `form:"name"`
+	// The shipping recipient's phone number.
+	Phone *string `form:"phone"`
+}
+
+// Report informational updates on the specified Payment Attempt Record.
+type PaymentAttemptRecordReportInformationalParams struct {
+	Params `form:"*"`
+	// Customer information for this payment.
+	CustomerDetails *PaymentAttemptRecordReportInformationalCustomerDetailsParams `form:"customer_details"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Shipping information for this payment.
+	ShippingDetails *PaymentAttemptRecordReportInformationalShippingDetailsParams `form:"shipping_details"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordReportInformationalParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentAttemptRecordReportInformationalParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment.
+type PaymentAttemptRecordReportRefundAmountParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value *int64 `form:"value"`
+}
+
+// Information about the custom processor used to make this refund.
+type PaymentAttemptRecordReportRefundProcessorDetailsCustomParams struct {
+	// A reference to the external refund. This field must be unique across all refunds.
+	RefundReference *string `form:"refund_reference"`
+}
+
+// Processor information for this refund.
+type PaymentAttemptRecordReportRefundProcessorDetailsParams struct {
+	// Information about the custom processor used to make this refund.
+	Custom *PaymentAttemptRecordReportRefundProcessorDetailsCustomParams `form:"custom"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type"`
+}
+
+// Information about the payment attempt refund.
+type PaymentAttemptRecordReportRefundRefundedParams struct {
+	// When the reported refund completed. Measured in seconds since the Unix epoch.
+	RefundedAt *int64 `form:"refunded_at"`
+}
+
+// Report that the specified Payment Attempt Record was refunded.
+type PaymentAttemptRecordReportRefundParams struct {
+	Params `form:"*"`
+	// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment.
+	Amount *PaymentAttemptRecordReportRefundAmountParams `form:"amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// When the reported refund was initiated. Measured in seconds since the Unix epoch.
+	InitiatedAt *int64 `form:"initiated_at"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The outcome of the reported refund.
+	Outcome *string `form:"outcome"`
+	// Processor information for this refund.
+	ProcessorDetails *PaymentAttemptRecordReportRefundProcessorDetailsParams `form:"processor_details"`
+	// Information about the payment attempt refund.
+	Refunded *PaymentAttemptRecordReportRefundRefundedParams `form:"refunded"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordReportRefundParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentAttemptRecordReportRefundParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Retrieves a Payment Attempt Record with the given ID
 type PaymentAttemptRecordRetrieveParams struct {
 	Params `form:"*"`
