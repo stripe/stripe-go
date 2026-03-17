@@ -51,7 +51,7 @@ const (
 	OrderPaymentSettingsPaymentMethodOptionsACSSDebitSetupFutureUsageOnSession  OrderPaymentSettingsPaymentMethodOptionsACSSDebitSetupFutureUsage = "on_session"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type OrderPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -828,7 +828,7 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -2088,7 +2088,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -3348,7 +3348,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -4473,7 +4473,7 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod OrderPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpay struct {
@@ -4887,7 +4887,7 @@ type Order struct {
 	IPAddress string `json:"ip_address"`
 	// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost. There is a maximum of 100 line items.
 	LineItems *LineItemList `json:"line_items"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

@@ -23,7 +23,7 @@ type v1PayoutService struct {
 //
 // If your API key is in test mode, money won't actually be sent, though every other action occurs as if you're in live mode.
 //
-// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api#balance_object) details available and pending amounts by source type.
+// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api/balances/object) details available and pending amounts by source type.
 func (c v1PayoutService) Create(ctx context.Context, params *PayoutCreateParams) (*Payout, error) {
 	if params == nil {
 		params = &PayoutCreateParams{}

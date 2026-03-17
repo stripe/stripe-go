@@ -225,7 +225,7 @@ const (
 	QuotePreviewInvoiceIssuerTypeSelf    QuotePreviewInvoiceIssuerType = "self"
 )
 
-// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+// The payment collection behavior for this subscription while paused.
 type QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior string
 
 // List of values that QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior can take
@@ -253,7 +253,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -381,7 +381,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions     QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod string
 
 // List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod can take
@@ -645,7 +645,7 @@ type QuotePreviewInvoiceParentQuoteDetails struct {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior `json:"behavior"`
 	// The time after which the subscription will resume collecting payments.
 	ResumesAt int64 `json:"resumes_at"`
@@ -681,7 +681,7 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptio
 // If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
@@ -741,6 +741,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPayto struct {
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPix struct {
 	// Determines if the amount includes the IOF tax.
 	AmountIncludesIof QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
 }
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -777,7 +779,7 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancia
 // If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
 
@@ -1065,7 +1067,7 @@ type QuotePreviewInvoice struct {
 	LatestRevision *Invoice `json:"latest_revision"`
 	// The individual line items that make up the invoice. `lines` is sorted as follows: (1) pending invoice items (including prorations) in reverse chronological order, (2) subscription items in reverse chronological order, and (3) invoice items added after invoice creation in chronological order.
 	Lines *InvoiceLineItemList `json:"lines"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

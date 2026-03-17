@@ -19,7 +19,7 @@ type v1InvoiceService struct {
 	Key string
 }
 
-// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](https://docs.stripe.com/api#finalize_invoice) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/pay) the invoice to your customers.
+// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](/api/invoices/pay) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/finalize) the invoice to your customers.
 func (c v1InvoiceService) Create(ctx context.Context, params *InvoiceCreateParams) (*Invoice, error) {
 	if params == nil {
 		params = &InvoiceCreateParams{}
@@ -59,7 +59,7 @@ func (c v1InvoiceService) Update(ctx context.Context, id string, params *Invoice
 	return invoice, err
 }
 
-// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://docs.stripe.com/api#void_invoice).
+// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://docs.stripe.com/api/invoices/void).
 func (c v1InvoiceService) Delete(ctx context.Context, id string, params *InvoiceDeleteParams) (*Invoice, error) {
 	if params == nil {
 		params = &InvoiceDeleteParams{}
@@ -210,9 +210,9 @@ func (c v1InvoiceService) UpdateLines(ctx context.Context, id string, params *In
 	return invoice, err
 }
 
-// Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://docs.stripe.com/api#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
+// Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://docs.stripe.com/api/invoices/delete), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
 //
-// Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you're doing business in. You might need to [issue another invoice or <a href="#create_credit_note">credit note](https://docs.stripe.com/api#create_invoice) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
+// Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you're doing business in. You might need to [issue another invoice or <a href="/api/credit_notes/create">credit note](https://docs.stripe.com/api/invoices/create) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
 func (c v1InvoiceService) VoidInvoice(ctx context.Context, id string, params *InvoiceVoidInvoiceParams) (*Invoice, error) {
 	if params == nil {
 		params = &InvoiceVoidInvoiceParams{}
