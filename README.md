@@ -3,6 +3,9 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v84)
 [![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
 
+> [!TIP]
+> Want to chat live with Stripe engineers? Join us on our [Discord server](https://stripe.com/go/discord/go).
+
 The official [Stripe][stripe] Go client library.
 
 ## Requirements
