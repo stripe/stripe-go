@@ -33,13 +33,16 @@ func (c v2CoreEventService) Retrieve(ctx context.Context, id string, params *V2C
 }
 
 // List events, going back up to 30 days.
-func (c v2CoreEventService) List(ctx context.Context, listParams *V2CoreEventListParams) Seq2[V2CoreEvent, error] {
+func (c v2CoreEventService) List(ctx context.Context, listParams *V2CoreEventListParams) *V2List[V2CoreEvent] {
 	if listParams == nil {
 		listParams = &V2CoreEventListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/core/events", listParams, func(path string, p ParamsContainer) (*V2Page[V2CoreEvent], error) {
+	return newV2List(ctx, "/v2/core/events", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[V2CoreEvent], error) {
 		raw := &V2Page[V2CoreRawEvent]{}
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, raw)
 		page := &V2Page[V2CoreEvent]{}
 		page.LastResponse = raw.LastResponse
@@ -52,5 +55,5 @@ func (c v2CoreEventService) List(ctx context.Context, listParams *V2CoreEventLis
 			}
 		}
 		return page, err
-	}).All()
+	})
 }
