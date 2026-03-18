@@ -1258,7 +1258,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 		}
 
 		var sample testServerResponse
-		err := backend.UnmarshalJSONVerbose(200, []byte(`{"message":"hello"}`), &sample)
+		err := backend.unmarshalJSONVerbose(context.Background(), 200, []byte(`{"message":"hello"}`), &sample)
 		assert.NoError(t, err)
 		assert.Equal(t, "hello", sample.Message)
 	}
@@ -1268,7 +1268,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 		body := `server error`
 
 		var sample testServerResponse
-		err := backend.UnmarshalJSONVerbose(200, []byte(body), &sample)
+		err := backend.unmarshalJSONVerbose(context.Background(), 200, []byte(body), &sample)
 		assert.Regexp(t,
 			fmt.Sprintf(`^Couldn't deserialize JSON \(response status: 200, body sample: '%s'\): invalid character`, body),
 			err)
@@ -1282,7 +1282,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 		body := bodyText + bodyText + bodyText + bodyText + bodyText
 
 		var sample testServerResponse
-		err := backend.UnmarshalJSONVerbose(200, []byte(body), &sample)
+		err := backend.unmarshalJSONVerbose(context.Background(), 200, []byte(body), &sample)
 		assert.Regexp(t,
 			fmt.Sprintf(`^Couldn't deserialize JSON \(response status: 200, body sample: '%s ...'\): invalid character`, body[0:500]),
 			err)
