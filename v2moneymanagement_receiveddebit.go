@@ -55,14 +55,6 @@ const (
 	V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetworkACH V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork = "ach"
 )
 
-// Amount and currency of the ReceivedDebit.
-type V2MoneyManagementReceivedDebitAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // Information that elaborates on the `failed` status of a ReceivedDebit.
 // It is only present when the ReceivedDebit status is `failed`.
 type V2MoneyManagementReceivedDebitStatusDetailsFailed struct {
@@ -116,7 +108,7 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 type V2MoneyManagementReceivedDebit struct {
 	APIResource
 	// Amount and currency of the ReceivedDebit.
-	Amount *V2MoneyManagementReceivedDebitAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedDebit. Present if `type` field value is `bank_transfer`.
 	BankTransfer *V2MoneyManagementReceivedDebitBankTransfer `json:"bank_transfer,omitempty"`
 	// The time at which the ReceivedDebit was created.
