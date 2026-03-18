@@ -71,14 +71,14 @@ func (c v1PersonService) Delete(ctx context.Context, id string, params *PersonDe
 }
 
 // Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
-func (c v1PersonService) List(ctx context.Context, listParams *PersonListParams) Seq2[*Person, error] {
+func (c v1PersonService) List(ctx context.Context, listParams *PersonListParams) *V1List[*Person] {
 	if listParams == nil {
 		listParams = &PersonListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/accounts/%s/persons", StringValue(listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Person], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Person], error) {
 		list := &v1Page[*Person]{}
 		if p == nil {
 			p = &Params{}
@@ -86,5 +86,5 @@ func (c v1PersonService) List(ctx context.Context, listParams *PersonListParams)
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

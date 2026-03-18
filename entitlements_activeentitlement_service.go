@@ -32,12 +32,12 @@ func (c v1EntitlementsActiveEntitlementService) Retrieve(ctx context.Context, id
 }
 
 // Retrieve a list of active entitlements for a customer
-func (c v1EntitlementsActiveEntitlementService) List(ctx context.Context, listParams *EntitlementsActiveEntitlementListParams) Seq2[*EntitlementsActiveEntitlement, error] {
+func (c v1EntitlementsActiveEntitlementService) List(ctx context.Context, listParams *EntitlementsActiveEntitlementListParams) *V1List[*EntitlementsActiveEntitlement] {
 	if listParams == nil {
 		listParams = &EntitlementsActiveEntitlementListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*EntitlementsActiveEntitlement], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*EntitlementsActiveEntitlement], error) {
 		list := &v1Page[*EntitlementsActiveEntitlement]{}
 		if p == nil {
 			p = &Params{}
@@ -45,5 +45,5 @@ func (c v1EntitlementsActiveEntitlementService) List(ctx context.Context, listPa
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/entitlements/active_entitlements", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

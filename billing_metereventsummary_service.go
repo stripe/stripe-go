@@ -20,14 +20,14 @@ type v1BillingMeterEventSummaryService struct {
 }
 
 // Retrieve a list of billing meter event summaries.
-func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams *BillingMeterEventSummaryListParams) Seq2[*BillingMeterEventSummary, error] {
+func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams *BillingMeterEventSummaryListParams) *V1List[*BillingMeterEventSummary] {
 	if listParams == nil {
 		listParams = &BillingMeterEventSummaryListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/billing/meters/%s/event_summaries", StringValue(listParams.ID))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BillingMeterEventSummary], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*BillingMeterEventSummary], error) {
 		list := &v1Page[*BillingMeterEventSummary]{}
 		if p == nil {
 			p = &Params{}
@@ -35,5 +35,5 @@ func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams 
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
