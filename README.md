@@ -10,9 +10,9 @@ The official [Stripe][stripe] Go client library.
 
 ## Requirements
 
-Per our [Language Version Support Policy](https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy), we support the 4 most recent Go versions at the time of release. Currently, that's **Go 1.20+**.
+Per our [Language Version Support Policy](https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy), we support the 4 most recent Go versions at the time of release. Currently, that's **Go 1.22+**.
 
-Note: Support for Go 1.20 and 1.21 is deprecated and will be removed in an upcoming major version. Read more and see the full schedule in the docs: https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy
+Read more and see the full schedule in the docs: https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy
 
 ## Installation
 
@@ -161,6 +161,7 @@ While some resources may contain more/less APIs, the following pattern is
 applied throughout the library for a given resource (like `Customer`).
 
 ### With Stripe Client
+
 The recommended pattern to access all Stripe resources is using `stripe.Client`. Below are some examples of how to use it to access the `Customer` resource.
 
 ```go
@@ -191,6 +192,7 @@ for c, err := range sc.Customers.List(context.TODO(), &stripe.CustomerListParams
 ```
 
 ### `stripe.Client` vs legacy `client.API` pattern
+
 We introduced `stripe.Client` in v82.1 of the Go SDK. The legacy client pattern used prior to that version (using `client.API`) is still available to use but is marked as deprecated. Review the [migration guide to use stripe.Client](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client) to help you move from the legacy pattern to `stripe.Client`.
 
 ### Without a Client (Legacy)
@@ -232,6 +234,7 @@ if err := i.Err(); err != nil {
 	// handle
 }
 ```
+
 ## Other usage patterns
 
 ### Accessing the Last Response
@@ -379,6 +382,7 @@ if ok {
 ```
 
 For `List` and `Search` operations, you can access each resource's `RawJSON` as you iterate
+
 ```go
 for cust, err := range sc.V1Customers.List(context.TODO(), &stripe.CustomerListParams{}) {
     if err != nil {
@@ -537,6 +541,7 @@ Some preview features require a name and version to be set in the `Stripe-Versio
 ```go
 stripe.AddBetaVersion("feature_beta", "v3")
 ```
+
 ### Private Preview SDKs
 
 Stripe has features in the [private preview phase](https://docs.stripe.com/release-phases) that can be accessed via versions of this package that have the `-alpha.X` suffix like `82.2.0-alpha.2`. These are invite-only features. Once invited, you can install the private preview SDKs by following the same instructions as for the [public preview SDKs](https://github.com/stripe/stripe-go?tab=readme-ov-file#public-preview-sdks) above and replacing the term `beta` with `alpha`.
