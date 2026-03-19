@@ -84,12 +84,12 @@ func (c v1IssuingCreditUnderwritingRecordService) ReportDecision(ctx context.Con
 }
 
 // Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
-func (c v1IssuingCreditUnderwritingRecordService) List(ctx context.Context, listParams *IssuingCreditUnderwritingRecordListParams) Seq2[*IssuingCreditUnderwritingRecord, error] {
+func (c v1IssuingCreditUnderwritingRecordService) List(ctx context.Context, listParams *IssuingCreditUnderwritingRecordListParams) *V1List[*IssuingCreditUnderwritingRecord] {
 	if listParams == nil {
 		listParams = &IssuingCreditUnderwritingRecordListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingCreditUnderwritingRecord], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IssuingCreditUnderwritingRecord], error) {
 		list := &v1Page[*IssuingCreditUnderwritingRecord]{}
 		if p == nil {
 			p = &Params{}
@@ -97,5 +97,5 @@ func (c v1IssuingCreditUnderwritingRecordService) List(ctx context.Context, list
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/credit_underwriting_records", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

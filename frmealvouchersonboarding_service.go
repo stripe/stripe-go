@@ -64,12 +64,12 @@ func (c v1FRMealVouchersOnboardingService) Update(ctx context.Context, id string
 }
 
 // Lists French Meal Vouchers Onboarding objects. The objects are returned in sorted order, with the most recently created objects appearing first.
-func (c v1FRMealVouchersOnboardingService) List(ctx context.Context, listParams *FRMealVouchersOnboardingListParams) Seq2[*FRMealVouchersOnboarding, error] {
+func (c v1FRMealVouchersOnboardingService) List(ctx context.Context, listParams *FRMealVouchersOnboardingListParams) *V1List[*FRMealVouchersOnboarding] {
 	if listParams == nil {
 		listParams = &FRMealVouchersOnboardingListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FRMealVouchersOnboarding], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FRMealVouchersOnboarding], error) {
 		list := &v1Page[*FRMealVouchersOnboarding]{}
 		if p == nil {
 			p = &Params{}
@@ -77,5 +77,5 @@ func (c v1FRMealVouchersOnboardingService) List(ctx context.Context, listParams 
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/fr_meal_vouchers_onboardings", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

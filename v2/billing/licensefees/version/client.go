@@ -42,6 +42,9 @@ func (c Client) Get(id string, params *stripe.V2BillingLicenseFeesVersionParams)
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingLicenseFeesVersionListParams) stripe.Seq2[*stripe.V2BillingLicenseFeeVersion, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingLicenseFeesVersionListParams{}
+	}
 	path := stripe.FormatURLPath(
 		"/v2/billing/license_fees/%s/versions", stripe.StringValue(
 			listParams.LicenseFeeID))
@@ -49,5 +52,5 @@ func (c Client) All(listParams *stripe.V2BillingLicenseFeesVersionListParams) st
 		page := &stripe.V2Page[*stripe.V2BillingLicenseFeeVersion]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

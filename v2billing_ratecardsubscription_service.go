@@ -66,14 +66,17 @@ func (c v2BillingRateCardSubscriptionService) Cancel(ctx context.Context, id str
 }
 
 // List all Rate Card Subscription objects.
-func (c v2BillingRateCardSubscriptionService) List(ctx context.Context, listParams *V2BillingRateCardSubscriptionListParams) Seq2[*V2BillingRateCardSubscription, error] {
+func (c v2BillingRateCardSubscriptionService) List(ctx context.Context, listParams *V2BillingRateCardSubscriptionListParams) *V2List[*V2BillingRateCardSubscription] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardSubscriptionListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/rate_card_subscriptions", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingRateCardSubscription], error) {
+	return newV2List(ctx, "/v2/billing/rate_card_subscriptions", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingRateCardSubscription], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingRateCardSubscription]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

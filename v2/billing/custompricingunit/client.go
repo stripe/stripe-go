@@ -64,9 +64,12 @@ func (c Client) Update(id string, params *stripe.V2BillingCustomPricingUnitParam
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingCustomPricingUnitListParams) stripe.Seq2[*stripe.V2BillingCustomPricingUnit, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingCustomPricingUnitListParams{}
+	}
 	return stripe.NewV2List("/v2/billing/custom_pricing_units", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2BillingCustomPricingUnit], error) {
 		page := &stripe.V2Page[*stripe.V2BillingCustomPricingUnit]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

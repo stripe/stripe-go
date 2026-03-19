@@ -45,12 +45,12 @@ func (c v1TaxFormService) PDF(ctx context.Context, id string, params *TaxFormPDF
 }
 
 // Returns a list of tax forms which were previously created. The tax forms are returned in sorted order, with the oldest tax forms appearing first.
-func (c v1TaxFormService) List(ctx context.Context, listParams *TaxFormListParams) Seq2[*TaxForm, error] {
+func (c v1TaxFormService) List(ctx context.Context, listParams *TaxFormListParams) *V1List[*TaxForm] {
 	if listParams == nil {
 		listParams = &TaxFormListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*TaxForm], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*TaxForm], error) {
 		list := &v1Page[*TaxForm]{}
 		if p == nil {
 			p = &Params{}
@@ -58,5 +58,5 @@ func (c v1TaxFormService) List(ctx context.Context, listParams *TaxFormListParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/tax/forms", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

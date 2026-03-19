@@ -64,9 +64,12 @@ func (c Client) Update(id string, params *stripe.V2BillingOneTimeItemParams) (*s
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingOneTimeItemListParams) stripe.Seq2[*stripe.V2BillingOneTimeItem, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingOneTimeItemListParams{}
+	}
 	return stripe.NewV2List("/v2/billing/one_time_items", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2BillingOneTimeItem], error) {
 		page := &stripe.V2Page[*stripe.V2BillingOneTimeItem]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

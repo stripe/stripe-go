@@ -123,12 +123,12 @@ func (c v1ExternalAccountService) UpdateCard(ctx context.Context, id string, par
 }
 
 // List external accounts for an account
-func (c v1ExternalAccountService) ListBankAccount(ctx context.Context, listParams *BankAccountListParams) Seq2[*BankAccount, error] {
+func (c v1ExternalAccountService) ListBankAccount(ctx context.Context, listParams *BankAccountListParams) *V1List[*BankAccount] {
 	if listParams == nil {
 		listParams = &BankAccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*BankAccount], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*BankAccount], error) {
 		list := &v1Page[*BankAccount]{}
 		if p == nil {
 			p = &Params{}
@@ -136,16 +136,16 @@ func (c v1ExternalAccountService) ListBankAccount(ctx context.Context, listParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/external_accounts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // List external accounts for an account
-func (c v1ExternalAccountService) ListCard(ctx context.Context, listParams *CardListParams) Seq2[*Card, error] {
+func (c v1ExternalAccountService) ListCard(ctx context.Context, listParams *CardListParams) *V1List[*Card] {
 	if listParams == nil {
 		listParams = &CardListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Card], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Card], error) {
 		list := &v1Page[*Card]{}
 		if p == nil {
 			p = &Params{}
@@ -153,5 +153,5 @@ func (c v1ExternalAccountService) ListCard(ctx context.Context, listParams *Card
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/external_accounts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

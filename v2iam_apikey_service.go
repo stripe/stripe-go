@@ -77,14 +77,17 @@ func (c v2IamAPIKeyService) Rotate(ctx context.Context, id string, params *V2Iam
 }
 
 // List all API Keys of an account.
-func (c v2IamAPIKeyService) List(ctx context.Context, listParams *V2IamAPIKeyListParams) Seq2[*V2IamAPIKey, error] {
+func (c v2IamAPIKeyService) List(ctx context.Context, listParams *V2IamAPIKeyListParams) *V2List[*V2IamAPIKey] {
 	if listParams == nil {
 		listParams = &V2IamAPIKeyListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/iam/api_keys", listParams, func(path string, p ParamsContainer) (*V2Page[*V2IamAPIKey], error) {
+	return newV2List(ctx, "/v2/iam/api_keys", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2IamAPIKey], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2IamAPIKey]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

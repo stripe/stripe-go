@@ -78,9 +78,12 @@ func (c Client) Capture(id string, params *stripe.V2PaymentsOffSessionPaymentCap
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2PaymentsOffSessionPaymentListParams) stripe.Seq2[*stripe.V2PaymentsOffSessionPayment, error] {
+	if listParams == nil {
+		listParams = &stripe.V2PaymentsOffSessionPaymentListParams{}
+	}
 	return stripe.NewV2List("/v2/payments/off_session_payments", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2PaymentsOffSessionPayment], error) {
 		page := &stripe.V2Page[*stripe.V2PaymentsOffSessionPayment]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

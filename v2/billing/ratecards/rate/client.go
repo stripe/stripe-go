@@ -70,6 +70,9 @@ func (c Client) Del(id string, params *stripe.V2BillingRateCardsRateParams) (*st
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingRateCardsRateListParams) stripe.Seq2[*stripe.V2BillingRateCardRate, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingRateCardsRateListParams{}
+	}
 	path := stripe.FormatURLPath(
 		"/v2/billing/rate_cards/%s/rates", stripe.StringValue(
 			listParams.RateCardID))
@@ -77,5 +80,5 @@ func (c Client) All(listParams *stripe.V2BillingRateCardsRateListParams) stripe.
 		page := &stripe.V2Page[*stripe.V2BillingRateCardRate]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

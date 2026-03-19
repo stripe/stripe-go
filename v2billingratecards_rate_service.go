@@ -58,16 +58,19 @@ func (c v2BillingRateCardsRateService) Delete(ctx context.Context, id string, pa
 }
 
 // List all Rates associated with a Rate Card for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.
-func (c v2BillingRateCardsRateService) List(ctx context.Context, listParams *V2BillingRateCardsRateListParams) Seq2[*V2BillingRateCardRate, error] {
+func (c v2BillingRateCardsRateService) List(ctx context.Context, listParams *V2BillingRateCardsRateListParams) *V2List[*V2BillingRateCardRate] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardsRateListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v2/billing/rate_cards/%s/rates", StringValue(listParams.RateCardID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingRateCardRate], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingRateCardRate], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingRateCardRate]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

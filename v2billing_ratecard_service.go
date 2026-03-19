@@ -54,14 +54,17 @@ func (c v2BillingRateCardService) Update(ctx context.Context, id string, params 
 }
 
 // List all Rate Card objects.
-func (c v2BillingRateCardService) List(ctx context.Context, listParams *V2BillingRateCardListParams) Seq2[*V2BillingRateCard, error] {
+func (c v2BillingRateCardService) List(ctx context.Context, listParams *V2BillingRateCardListParams) *V2List[*V2BillingRateCard] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/rate_cards", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingRateCard], error) {
+	return newV2List(ctx, "/v2/billing/rate_cards", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingRateCard], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingRateCard]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

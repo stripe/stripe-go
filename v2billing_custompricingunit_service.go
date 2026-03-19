@@ -54,14 +54,17 @@ func (c v2BillingCustomPricingUnitService) Update(ctx context.Context, id string
 }
 
 // List all Custom Pricing Unit objects.
-func (c v2BillingCustomPricingUnitService) List(ctx context.Context, listParams *V2BillingCustomPricingUnitListParams) Seq2[*V2BillingCustomPricingUnit, error] {
+func (c v2BillingCustomPricingUnitService) List(ctx context.Context, listParams *V2BillingCustomPricingUnitListParams) *V2List[*V2BillingCustomPricingUnit] {
 	if listParams == nil {
 		listParams = &V2BillingCustomPricingUnitListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/custom_pricing_units", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingCustomPricingUnit], error) {
+	return newV2List(ctx, "/v2/billing/custom_pricing_units", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingCustomPricingUnit], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingCustomPricingUnit]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

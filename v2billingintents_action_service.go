@@ -31,16 +31,19 @@ func (c v2BillingIntentsActionService) Retrieve(ctx context.Context, id string, 
 }
 
 // List Billing Intent Actions.
-func (c v2BillingIntentsActionService) List(ctx context.Context, listParams *V2BillingIntentsActionListParams) Seq2[*V2BillingIntentAction, error] {
+func (c v2BillingIntentsActionService) List(ctx context.Context, listParams *V2BillingIntentsActionListParams) *V2List[*V2BillingIntentAction] {
 	if listParams == nil {
 		listParams = &V2BillingIntentsActionListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v2/billing/intents/%s/actions", StringValue(listParams.IntentID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingIntentAction], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingIntentAction], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingIntentAction]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

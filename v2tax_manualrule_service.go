@@ -66,14 +66,17 @@ func (c v2TaxManualRuleService) Deactivate(ctx context.Context, id string, param
 }
 
 // List all ManualRule objects.
-func (c v2TaxManualRuleService) List(ctx context.Context, listParams *V2TaxManualRuleListParams) Seq2[*V2TaxManualRule, error] {
+func (c v2TaxManualRuleService) List(ctx context.Context, listParams *V2TaxManualRuleListParams) *V2List[*V2TaxManualRule] {
 	if listParams == nil {
 		listParams = &V2TaxManualRuleListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/tax/manual_rules", listParams, func(path string, p ParamsContainer) (*V2Page[*V2TaxManualRule], error) {
+	return newV2List(ctx, "/v2/tax/manual_rules", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2TaxManualRule], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2TaxManualRule]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

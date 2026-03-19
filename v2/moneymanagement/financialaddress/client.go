@@ -53,9 +53,12 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementFinancialAddressP
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2MoneyManagementFinancialAddressListParams) stripe.Seq2[*stripe.V2MoneyManagementFinancialAddress, error] {
+	if listParams == nil {
+		listParams = &stripe.V2MoneyManagementFinancialAddressListParams{}
+	}
 	return stripe.NewV2List("/v2/money_management/financial_addresses", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementFinancialAddress], error) {
 		page := &stripe.V2Page[*stripe.V2MoneyManagementFinancialAddress]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

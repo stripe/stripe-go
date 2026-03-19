@@ -74,7 +74,7 @@ func (c v2BillingPricingPlansComponentService) Delete(ctx context.Context, id st
 }
 
 // List all Pricing Plan Component objects for a Pricing Plan.
-func (c v2BillingPricingPlansComponentService) List(ctx context.Context, listParams *V2BillingPricingPlansComponentListParams) Seq2[*V2BillingPricingPlanComponent, error] {
+func (c v2BillingPricingPlansComponentService) List(ctx context.Context, listParams *V2BillingPricingPlansComponentListParams) *V2List[*V2BillingPricingPlanComponent] {
 	if listParams == nil {
 		listParams = &V2BillingPricingPlansComponentListParams{}
 	}
@@ -82,9 +82,12 @@ func (c v2BillingPricingPlansComponentService) List(ctx context.Context, listPar
 	path := FormatURLPath(
 		"/v2/billing/pricing_plans/%s/components", StringValue(
 			listParams.PricingPlanID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingPricingPlanComponent], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingPricingPlanComponent], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingPricingPlanComponent]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }
