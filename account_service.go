@@ -115,12 +115,12 @@ func (c v1AccountService) Reject(ctx context.Context, id string, params *Account
 }
 
 // Returns a list of accounts connected to your platform via [Connect](https://docs.stripe.com/docs/connect). If you're not a platform, the list is empty.
-func (c v1AccountService) List(ctx context.Context, listParams *AccountListParams) Seq2[*Account, error] {
+func (c v1AccountService) List(ctx context.Context, listParams *AccountListParams) *V1List[*Account] {
 	if listParams == nil {
 		listParams = &AccountListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Account], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Account], error) {
 		list := &v1Page[*Account]{}
 		if p == nil {
 			p = &Params{}
@@ -128,5 +128,5 @@ func (c v1AccountService) List(ctx context.Context, listParams *AccountListParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/accounts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -70,12 +70,12 @@ func (c v1IssuingAuthorizationService) Decline(ctx context.Context, id string, p
 }
 
 // Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1IssuingAuthorizationService) List(ctx context.Context, listParams *IssuingAuthorizationListParams) Seq2[*IssuingAuthorization, error] {
+func (c v1IssuingAuthorizationService) List(ctx context.Context, listParams *IssuingAuthorizationListParams) *V1List[*IssuingAuthorization] {
 	if listParams == nil {
 		listParams = &IssuingAuthorizationListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingAuthorization], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IssuingAuthorization], error) {
 		list := &v1Page[*IssuingAuthorization]{}
 		if p == nil {
 			p = &Params{}
@@ -83,5 +83,5 @@ func (c v1IssuingAuthorizationService) List(ctx context.Context, listParams *Iss
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/authorizations", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -80,11 +80,14 @@ func (c Client) Del(id string, params *stripe.V2CoreAccountsPersonParams) (*stri
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2CoreAccountsPersonListParams) stripe.Seq2[*stripe.V2CoreAccountPerson, error] {
+	if listParams == nil {
+		listParams = &stripe.V2CoreAccountsPersonListParams{}
+	}
 	path := stripe.FormatURLPath(
 		"/v2/core/accounts/%s/persons", stripe.StringValue(listParams.AccountID))
 	return stripe.NewV2List(path, listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2CoreAccountPerson], error) {
 		page := &stripe.V2Page[*stripe.V2CoreAccountPerson]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }
