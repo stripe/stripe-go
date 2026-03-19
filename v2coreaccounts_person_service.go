@@ -70,16 +70,19 @@ func (c v2CoreAccountsPersonService) Delete(ctx context.Context, id string, para
 }
 
 // Returns a paginated list of Persons associated with an Account.
-func (c v2CoreAccountsPersonService) List(ctx context.Context, listParams *V2CoreAccountsPersonListParams) Seq2[*V2CoreAccountPerson, error] {
+func (c v2CoreAccountsPersonService) List(ctx context.Context, listParams *V2CoreAccountsPersonListParams) *V2List[*V2CoreAccountPerson] {
 	if listParams == nil {
 		listParams = &V2CoreAccountsPersonListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v2/core/accounts/%s/persons", StringValue(listParams.AccountID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2CoreAccountPerson], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2CoreAccountPerson], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2CoreAccountPerson]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

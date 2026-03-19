@@ -425,6 +425,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeStripeBalance    ConfirmationTokenPaymentMethodPreviewType = "stripe_balance"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
+	ConfirmationTokenPaymentMethodPreviewTypeUpi              ConfirmationTokenPaymentMethodPreviewType = "upi"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
 	ConfirmationTokenPaymentMethodPreviewTypeWeChatPay        ConfirmationTokenPaymentMethodPreviewType = "wechat_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeZip              ConfirmationTokenPaymentMethodPreviewType = "zip"
@@ -1103,6 +1104,10 @@ type ConfirmationTokenPaymentMethodPreviewStripeBalance struct {
 }
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
 type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
+type ConfirmationTokenPaymentMethodPreviewUpi struct {
+	// Customer's unique Virtual Payment Address
+	Vpa string `json:"vpa"`
+}
 
 // Contains information about US bank account networks that can be used.
 type ConfirmationTokenPaymentMethodPreviewUSBankAccountNetworks struct {
@@ -1213,6 +1218,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          ConfirmationTokenPaymentMethodPreviewType           `json:"type"`
+	Upi           *ConfirmationTokenPaymentMethodPreviewUpi           `json:"upi"`
 	USBankAccount *ConfirmationTokenPaymentMethodPreviewUSBankAccount `json:"us_bank_account"`
 	WeChatPay     *ConfirmationTokenPaymentMethodPreviewWeChatPay     `json:"wechat_pay"`
 	Zip           *ConfirmationTokenPaymentMethodPreviewZip           `json:"zip"`
@@ -1242,7 +1248,7 @@ type ConfirmationToken struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Data used for generating a Mandate.
 	MandateData *ConfirmationTokenMandateData `json:"mandate_data"`

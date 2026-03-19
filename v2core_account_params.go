@@ -956,7 +956,7 @@ type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmountParams struct {
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd *string `form:"fiscal_year_end" json:"fiscal_year_end,omitempty"`
 }
@@ -1094,7 +1094,7 @@ type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams str
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 }
 
 // When the business was incorporated or registered.
@@ -2452,7 +2452,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueAmountParams struct 
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd *string `form:"fiscal_year_end" json:"fiscal_year_end,omitempty"`
 }
@@ -2590,7 +2590,7 @@ type V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountPara
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 }
 
 // When the business was incorporated or registered.
@@ -3964,7 +3964,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueAmountParams struct 
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd *string `form:"fiscal_year_end" json:"fiscal_year_end,omitempty"`
 }
@@ -4102,7 +4102,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountPara
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 }
 
 // When the business was incorporated or registered.

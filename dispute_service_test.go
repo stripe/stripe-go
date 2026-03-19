@@ -15,7 +15,7 @@ func TestList_HasLastResponse(t *testing.T) {
 	i := sc.V1Disputes.List(context.TODO(), &stripe.DisputeListParams{
 		PaymentIntent: stripe.String("pi_123"),
 	})
-	i(func(dispute *stripe.Dispute, err error) bool {
+	i.All(context.TODO())(func(dispute *stripe.Dispute, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, dispute)
 		assert.NotNil(t, dispute.LastResponse)
