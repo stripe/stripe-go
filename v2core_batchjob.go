@@ -46,17 +46,17 @@ type V2CoreBatchJobStatusDetailsCanceledOutputFile struct {
 	// A pre-signed URL that allows secure, time-limited access to download the file.
 	DownloadURL *V2CoreBatchJobStatusDetailsCanceledOutputFileDownloadURL `json:"download_url"`
 	// The total size of the file in bytes.
-	Size int64 `json:"size"`
+	Size int64 `json:"size,string"`
 }
 
 // Additional details for the `CANCELED` status of the `BatchJob`.
 type V2CoreBatchJobStatusDetailsCanceled struct {
 	// The total number of records that failed processing.
-	FailureCount int64 `json:"failure_count"`
+	FailureCount int64 `json:"failure_count,string"`
 	// The output file details. If BatchJob is cancelled it's provided only if there is already output at this point.
 	OutputFile *V2CoreBatchJobStatusDetailsCanceledOutputFile `json:"output_file"`
 	// The total number of records that were successfully processed.
-	SuccessCount int64 `json:"success_count"`
+	SuccessCount int64 `json:"success_count,string"`
 }
 
 // A pre-signed URL that allows secure, time-limited access to download the file.
@@ -74,25 +74,25 @@ type V2CoreBatchJobStatusDetailsCompleteOutputFile struct {
 	// A pre-signed URL that allows secure, time-limited access to download the file.
 	DownloadURL *V2CoreBatchJobStatusDetailsCompleteOutputFileDownloadURL `json:"download_url"`
 	// The total size of the file in bytes.
-	Size int64 `json:"size"`
+	Size int64 `json:"size,string"`
 }
 
 // Additional details for the `COMPLETE` status of the `BatchJob`.
 type V2CoreBatchJobStatusDetailsComplete struct {
 	// The total number of records that failed processing.
-	FailureCount int64 `json:"failure_count"`
+	FailureCount int64 `json:"failure_count,string"`
 	// The output file details. If BatchJob is cancelled it's provided only if there is already output at this point.
 	OutputFile *V2CoreBatchJobStatusDetailsCompleteOutputFile `json:"output_file"`
 	// The total number of records that were successfully processed.
-	SuccessCount int64 `json:"success_count"`
+	SuccessCount int64 `json:"success_count,string"`
 }
 
 // Additional details for the `IN_PROGRESS` status of the `BatchJob`.
 type V2CoreBatchJobStatusDetailsInProgress struct {
 	// The number of records that failed processing so far.
-	FailureCount int64 `json:"failure_count"`
+	FailureCount int64 `json:"failure_count,string"`
 	// The number of records that were successfully processed so far.
-	SuccessCount int64 `json:"success_count"`
+	SuccessCount int64 `json:"success_count,string"`
 }
 
 // The upload file details.
@@ -124,24 +124,24 @@ type V2CoreBatchJobStatusDetailsTimeoutOutputFile struct {
 	// A pre-signed URL that allows secure, time-limited access to download the file.
 	DownloadURL *V2CoreBatchJobStatusDetailsTimeoutOutputFileDownloadURL `json:"download_url"`
 	// The total size of the file in bytes.
-	Size int64 `json:"size"`
+	Size int64 `json:"size,string"`
 }
 
 // Additional details for the `TIMEOUT` status of the `BatchJob`.
 type V2CoreBatchJobStatusDetailsTimeout struct {
 	// The total number of records that failed processing.
-	FailureCount int64 `json:"failure_count"`
+	FailureCount int64 `json:"failure_count,string"`
 	// The output file details. If BatchJob is cancelled it's provided only if there is already output at this point.
 	OutputFile *V2CoreBatchJobStatusDetailsTimeoutOutputFile `json:"output_file"`
 	// The total number of records that were successfully processed.
-	SuccessCount int64 `json:"success_count"`
+	SuccessCount int64 `json:"success_count,string"`
 }
 
 // Additional details for the `VALIDATING` status of the `BatchJob`.
 type V2CoreBatchJobStatusDetailsValidating struct {
 	// The number of records that were validated. Note that there is no failure counter here;
 	// once we have any validation failures we give up.
-	ValidatedCount int64 `json:"validated_count"`
+	ValidatedCount int64 `json:"validated_count,string"`
 }
 
 // A pre-signed URL that allows secure, time-limited access to download the file.
@@ -159,17 +159,17 @@ type V2CoreBatchJobStatusDetailsValidationFailedOutputFile struct {
 	// A pre-signed URL that allows secure, time-limited access to download the file.
 	DownloadURL *V2CoreBatchJobStatusDetailsValidationFailedOutputFileDownloadURL `json:"download_url"`
 	// The total size of the file in bytes.
-	Size int64 `json:"size"`
+	Size int64 `json:"size,string"`
 }
 
 // Additional details for the `VALIDATION_FAILED` status of the `BatchJob`.
 type V2CoreBatchJobStatusDetailsValidationFailed struct {
 	// The total number of records that failed processing.
-	FailureCount int64 `json:"failure_count"`
+	FailureCount int64 `json:"failure_count,string"`
 	// The output file details. If BatchJob is cancelled it's provided only if there is already output at this point.
 	OutputFile *V2CoreBatchJobStatusDetailsValidationFailedOutputFile `json:"output_file"`
 	// The total number of records that were successfully processed.
-	SuccessCount int64 `json:"success_count"`
+	SuccessCount int64 `json:"success_count,string"`
 }
 
 // Additional details about the current state of the `BatchJob`.
