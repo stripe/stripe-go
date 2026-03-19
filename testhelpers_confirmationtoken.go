@@ -284,24 +284,6 @@ type TestHelpersConfirmationTokenPaymentMethodDataSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataTWINTParams struct{}
 
-// Configuration options for setting up an eMandate
-type TestHelpersConfirmationTokenPaymentMethodDataUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-type TestHelpersConfirmationTokenPaymentMethodDataUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions *TestHelpersConfirmationTokenPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -442,8 +424,6 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	TWINT *TestHelpersConfirmationTokenPaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
-	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-	Upi *TestHelpersConfirmationTokenPaymentMethodDataUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -806,24 +786,6 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams struct{}
 
-// Configuration options for setting up an eMandate
-type TestHelpersConfirmationTokenCreatePaymentMethodDataUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-type TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -964,8 +926,6 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	TWINT *TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
-	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-	Upi *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.

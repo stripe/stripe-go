@@ -103,9 +103,9 @@ type IssuingCardholderCompanyParams struct {
 
 // Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
-	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
+	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	Date *int64 `form:"date"`
-	// The IP address from which the cardholder accepted the Authorized User Terms.
+	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
 	UserAgent *string `form:"user_agent"`
@@ -240,9 +240,9 @@ type IssuingCardholderCreateCompanyParams struct {
 
 // Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams struct {
-	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
+	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	Date *int64 `form:"date"`
-	// The IP address from which the cardholder accepted the Authorized User Terms.
+	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
 	UserAgent *string `form:"user_agent"`
@@ -389,9 +389,9 @@ type IssuingCardholderUpdateCompanyParams struct {
 
 // Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams struct {
-	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
+	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	Date *int64 `form:"date"`
-	// The IP address from which the cardholder accepted the Authorized User Terms.
+	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
 	UserAgent *string `form:"user_agent"`
@@ -619,7 +619,7 @@ type IssuingCardholder struct {
 	ID string `json:"id"`
 	// Additional information about an `individual` cardholder.
 	Individual *IssuingCardholderIndividual `json:"individual"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

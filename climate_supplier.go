@@ -14,7 +14,6 @@ const (
 	ClimateSupplierRemovalPathwayBiomassCarbonRemovalAndStorage ClimateSupplierRemovalPathway = "biomass_carbon_removal_and_storage"
 	ClimateSupplierRemovalPathwayDirectAirCapture               ClimateSupplierRemovalPathway = "direct_air_capture"
 	ClimateSupplierRemovalPathwayEnhancedWeathering             ClimateSupplierRemovalPathway = "enhanced_weathering"
-	ClimateSupplierRemovalPathwayMarineCarbonRemoval            ClimateSupplierRemovalPathway = "marine_carbon_removal"
 )
 
 // Lists all available Climate supplier objects.

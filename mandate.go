@@ -155,15 +155,6 @@ const (
 	MandatePaymentMethodDetailsTypeUSBankAccount MandatePaymentMethodDetailsType = "us_bank_account"
 )
 
-// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-type MandatePaymentMethodDetailsUpiAmountType string
-
-// List of values that MandatePaymentMethodDetailsUpiAmountType can take
-const (
-	MandatePaymentMethodDetailsUpiAmountTypeFixed   MandatePaymentMethodDetailsUpiAmountType = "fixed"
-	MandatePaymentMethodDetailsUpiAmountTypeMaximum MandatePaymentMethodDetailsUpiAmountType = "maximum"
-)
-
 // Mandate collection method
 type MandatePaymentMethodDetailsUSBankAccountCollectionMethod string
 
@@ -338,16 +329,6 @@ type MandatePaymentMethodDetailsSEPADebit struct {
 	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
 	URL string `json:"url"`
 }
-type MandatePaymentMethodDetailsUpi struct {
-	// Amount to be charged for future payments.
-	Amount int64 `json:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType MandatePaymentMethodDetailsUpiAmountType `json:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description string `json:"description"`
-	// End date of the mandate or subscription.
-	EndDate int64 `json:"end_date"`
-}
 type MandatePaymentMethodDetailsUSBankAccount struct {
 	// Mandate collection method
 	CollectionMethod MandatePaymentMethodDetailsUSBankAccountCollectionMethod `json:"collection_method"`
@@ -372,7 +353,6 @@ type MandatePaymentMethodDetails struct {
 	SEPADebit     *MandatePaymentMethodDetailsSEPADebit     `json:"sepa_debit"`
 	// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 	Type          MandatePaymentMethodDetailsType           `json:"type"`
-	Upi           *MandatePaymentMethodDetailsUpi           `json:"upi"`
 	USBankAccount *MandatePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 }
 type MandateSingleUse struct {
@@ -388,7 +368,7 @@ type Mandate struct {
 	CustomerAcceptance *MandateCustomerAcceptance `json:"customer_acceptance"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool             `json:"livemode"`
 	MultiUse *MandateMultiUse `json:"multi_use"`
 	// String representing the object's type. Objects of the same type share the same value.

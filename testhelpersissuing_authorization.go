@@ -119,7 +119,7 @@ type TestHelpersIssuingAuthorizationRiskAssessmentCardTestingRiskParams struct {
 	// The % of declines due to incorrect verification data (like CVV or expiry) in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of bad actors attempting to utilize valid card credentials at merchants with verification requirements. Takes on values between 0 and 100.
 	InvalidCredentialsDeclineRatePastHour *int64 `form:"invalid_credentials_decline_rate_past_hour"`
 	// The likelihood that this authorization is associated with card testing activity. This is assessed by evaluating decline activity over the last hour.
-	Level *string `form:"level"`
+	RiskLevel *string `form:"risk_level"`
 }
 
 // Stripe's assessment of this authorization's likelihood to be fraudulent.
@@ -135,7 +135,7 @@ type TestHelpersIssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams stru
 	// The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
 	DisputeRate *int64 `form:"dispute_rate"`
 	// The likelihood that authorizations from this merchant will result in a dispute based on their history on Stripe Issuing.
-	Level *string `form:"level"`
+	RiskLevel *string `form:"risk_level"`
 }
 
 // Stripe's assessment of the fraud risk for this authorization.
@@ -629,7 +629,7 @@ type TestHelpersIssuingAuthorizationCreateRiskAssessmentCardTestingRiskParams st
 	// The % of declines due to incorrect verification data (like CVV or expiry) in the past hour, taking place at the same merchant. Higher rates correspond to a greater probability of bad actors attempting to utilize valid card credentials at merchants with verification requirements. Takes on values between 0 and 100.
 	InvalidCredentialsDeclineRatePastHour *int64 `form:"invalid_credentials_decline_rate_past_hour"`
 	// The likelihood that this authorization is associated with card testing activity. This is assessed by evaluating decline activity over the last hour.
-	Level *string `form:"level"`
+	RiskLevel *string `form:"risk_level"`
 }
 
 // Stripe's assessment of this authorization's likelihood to be fraudulent.
@@ -645,7 +645,7 @@ type TestHelpersIssuingAuthorizationCreateRiskAssessmentMerchantDisputeRiskParam
 	// The dispute rate observed across all Stripe Issuing authorizations for this merchant. For example, a value of 50 means 50% of authorizations from this merchant on Stripe Issuing have resulted in a dispute. Higher values mean a higher likelihood the authorization is disputed. Takes on values between 0 and 100.
 	DisputeRate *int64 `form:"dispute_rate"`
 	// The likelihood that authorizations from this merchant will result in a dispute based on their history on Stripe Issuing.
-	Level *string `form:"level"`
+	RiskLevel *string `form:"risk_level"`
 }
 
 // Stripe's assessment of the fraud risk for this authorization.

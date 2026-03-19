@@ -158,8 +158,6 @@ type CreditNoteLineParams struct {
 	Description *string `form:"description"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
 	InvoiceLineItem *string `form:"invoice_line_item"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
@@ -172,15 +170,6 @@ type CreditNoteLineParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *CreditNoteLineParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -284,8 +273,6 @@ type CreditNotePreviewLineParams struct {
 	Description *string `form:"description"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
 	InvoiceLineItem *string `form:"invoice_line_item"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
@@ -298,15 +285,6 @@ type CreditNotePreviewLineParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *CreditNotePreviewLineParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -400,8 +378,6 @@ type CreditNotePreviewLinesLineParams struct {
 	Description *string `form:"description"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
 	InvoiceLineItem *string `form:"invoice_line_item"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
@@ -414,15 +390,6 @@ type CreditNotePreviewLinesLineParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *CreditNotePreviewLinesLineParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -541,8 +508,6 @@ type CreditNoteCreateLineParams struct {
 	Description *string `form:"description"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
 	InvoiceLineItem *string `form:"invoice_line_item"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
@@ -555,15 +520,6 @@ type CreditNoteCreateLineParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *CreditNoteCreateLineParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -807,7 +763,7 @@ type CreditNote struct {
 	Invoice *Invoice `json:"invoice"`
 	// Line items that make up the credit note
 	Lines *CreditNoteLineItemList `json:"lines"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Customer-facing text that appears on the credit note PDF.
 	Memo string `json:"memo"`

@@ -62,22 +62,6 @@ const (
 	V2PaymentsOffSessionPaymentStatusSucceeded       V2PaymentsOffSessionPaymentStatus = "succeeded"
 )
 
-// The amount available to be captured.
-type V2PaymentsOffSessionPaymentAmountCapturable struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
-// The “presentment amount” to be collected from the customer.
-type V2PaymentsOffSessionPaymentAmountRequested struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // Details about the capture configuration for the OffSessionPayment.
 type V2PaymentsOffSessionPaymentCapture struct {
 	// The timestamp when this payment is no longer eligible to be captured.
@@ -126,9 +110,9 @@ type V2PaymentsOffSessionPaymentTransferData struct {
 type V2PaymentsOffSessionPayment struct {
 	APIResource
 	// The amount available to be captured.
-	AmountCapturable *V2PaymentsOffSessionPaymentAmountCapturable `json:"amount_capturable,omitempty"`
+	AmountCapturable Amount `json:"amount_capturable,omitempty"`
 	// The “presentment amount” to be collected from the customer.
-	AmountRequested *V2PaymentsOffSessionPaymentAmountRequested `json:"amount_requested"`
+	AmountRequested Amount `json:"amount_requested"`
 	// The frequency of the underlying payment.
 	Cadence V2PaymentsOffSessionPaymentCadence `json:"cadence"`
 	// Details about the capture configuration for the OffSessionPayment.

@@ -40,11 +40,7 @@ type V2CoreEventDestinationParams struct {
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
 	// Payload type of events being subscribed to.
 	EventPayload *string `form:"event_payload" json:"event_payload,omitempty"`
-	// Specifies which accounts' events route to this destination.
-	// `@self`: Receive events from the account that owns the event destination.
-	// `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
-	// `@organization_members`: Receive events from accounts directly linked to the organization.
-	// `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
+	// Where events should be routed from.
 	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
 	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
 	Include []*string `form:"include" json:"include,omitempty"`
@@ -109,11 +105,7 @@ type V2CoreEventDestinationCreateParams struct {
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events"`
 	// Payload type of events being subscribed to.
 	EventPayload *string `form:"event_payload" json:"event_payload"`
-	// Specifies which accounts' events route to this destination.
-	// `@self`: Receive events from the account that owns the event destination.
-	// `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
-	// `@organization_members`: Receive events from accounts directly linked to the organization.
-	// `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
+	// Where events should be routed from.
 	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`

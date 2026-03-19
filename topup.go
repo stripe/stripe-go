@@ -180,13 +180,13 @@ type Topup struct {
 	Description string `json:"description"`
 	// Date the funds are expected to arrive in your Stripe account for payouts. This factors in delays like weekends or bank holidays. May not be specified depending on status of top-up.
 	ExpectedAvailabilityDate int64 `json:"expected_availability_date"`
-	// Error code explaining reason for top-up failure if available (see [the errors section](https://docs.stripe.com/api/errors) for a list of codes).
+	// Error code explaining reason for top-up failure if available (see [the errors section](https://docs.stripe.com/api#errors) for a list of codes).
 	FailureCode string `json:"failure_code"`
 	// Message to user further explaining reason for top-up failure if available.
 	FailureMessage string `json:"failure_message"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

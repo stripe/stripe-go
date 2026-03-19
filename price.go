@@ -788,7 +788,7 @@ type Price struct {
 	ExternalReference string `json:"external_reference"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey string `json:"lookup_key"`

@@ -175,7 +175,7 @@ type CustomerBalanceTransaction struct {
 	ID string `json:"id"`
 	// The ID of the invoice (if any) related to the transaction.
 	Invoice *Invoice `json:"invoice"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
