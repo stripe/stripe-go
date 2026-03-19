@@ -303,6 +303,15 @@ const (
 	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleYearly     SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "yearly"
 )
 
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type SetupIntentPaymentMethodOptionsUpiMandateOptionsAmountType string
+
+// List of values that SetupIntentPaymentMethodOptionsUpiMandateOptionsAmountType can take
+const (
+	SetupIntentPaymentMethodOptionsUpiMandateOptionsAmountTypeFixed   SetupIntentPaymentMethodOptionsUpiMandateOptionsAmountType = "fixed"
+	SetupIntentPaymentMethodOptionsUpiMandateOptionsAmountTypeMaximum SetupIntentPaymentMethodOptionsUpiMandateOptionsAmountType = "maximum"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 

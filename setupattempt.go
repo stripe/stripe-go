@@ -325,6 +325,7 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 	VerifiedName string `json:"verified_name"`
 }
 type SetupAttemptPaymentMethodDetailsStripeBalance struct{}
+type SetupAttemptPaymentMethodDetailsUpi struct{}
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
 	ACSSDebit      *SetupAttemptPaymentMethodDetailsACSSDebit      `json:"acss_debit"`
