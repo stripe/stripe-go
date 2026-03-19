@@ -122,7 +122,7 @@ type CapitalFinancingTransaction struct {
 	// corresponds with the balance transaction that was created as a result of this
 	// financing transaction.
 	LegacyBalanceTransactionSource string `json:"legacy_balance_transaction_source"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The object type: financing_transaction
 	Object string `json:"object"`

@@ -54,14 +54,17 @@ func (c v2BillingCollectionSettingService) Update(ctx context.Context, id string
 }
 
 // List all CollectionSetting objects.
-func (c v2BillingCollectionSettingService) List(ctx context.Context, listParams *V2BillingCollectionSettingListParams) Seq2[*V2BillingCollectionSetting, error] {
+func (c v2BillingCollectionSettingService) List(ctx context.Context, listParams *V2BillingCollectionSettingListParams) *V2List[*V2BillingCollectionSetting] {
 	if listParams == nil {
 		listParams = &V2BillingCollectionSettingListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/collection_settings", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingCollectionSetting], error) {
+	return newV2List(ctx, "/v2/billing/collection_settings", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingCollectionSetting], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingCollectionSetting]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

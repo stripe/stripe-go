@@ -23,7 +23,7 @@ type v1PayoutService struct {
 //
 // If your API key is in test mode, money won't actually be sent, though every other action occurs as if you're in live mode.
 //
-// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api#balance_object) details available and pending amounts by source type.
+// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api/balances/object) details available and pending amounts by source type.
 func (c v1PayoutService) Create(ctx context.Context, params *PayoutCreateParams) (*Payout, error) {
 	if params == nil {
 		params = &PayoutCreateParams{}
@@ -85,12 +85,12 @@ func (c v1PayoutService) Reverse(ctx context.Context, id string, params *PayoutR
 }
 
 // Returns a list of existing payouts sent to third-party bank accounts or payouts that Stripe sent to you. The payouts return in sorted order, with the most recently created payouts appearing first.
-func (c v1PayoutService) List(ctx context.Context, listParams *PayoutListParams) Seq2[*Payout, error] {
+func (c v1PayoutService) List(ctx context.Context, listParams *PayoutListParams) *V1List[*Payout] {
 	if listParams == nil {
 		listParams = &PayoutListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Payout], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Payout], error) {
 		list := &v1Page[*Payout]{}
 		if p == nil {
 			p = &Params{}
@@ -98,5 +98,5 @@ func (c v1PayoutService) List(ctx context.Context, listParams *PayoutListParams)
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payouts", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

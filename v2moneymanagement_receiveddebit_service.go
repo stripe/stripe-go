@@ -30,14 +30,17 @@ func (c v2MoneyManagementReceivedDebitService) Retrieve(ctx context.Context, id 
 }
 
 // Retrieves a list of ReceivedDebits, given the selected filters.
-func (c v2MoneyManagementReceivedDebitService) List(ctx context.Context, listParams *V2MoneyManagementReceivedDebitListParams) Seq2[*V2MoneyManagementReceivedDebit, error] {
+func (c v2MoneyManagementReceivedDebitService) List(ctx context.Context, listParams *V2MoneyManagementReceivedDebitListParams) *V2List[*V2MoneyManagementReceivedDebit] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementReceivedDebitListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/money_management/received_debits", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementReceivedDebit], error) {
+	return newV2List(ctx, "/v2/money_management/received_debits", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementReceivedDebit], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2MoneyManagementReceivedDebit]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

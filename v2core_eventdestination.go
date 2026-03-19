@@ -17,15 +17,6 @@ const (
 	V2CoreEventDestinationEventPayloadThin     V2CoreEventDestinationEventPayload = "thin"
 )
 
-// Where events should be routed from.
-type V2CoreEventDestinationEventsFrom string
-
-// List of values that V2CoreEventDestinationEventsFrom can take
-const (
-	V2CoreEventDestinationEventsFromOtherAccounts V2CoreEventDestinationEventsFrom = "other_accounts"
-	V2CoreEventDestinationEventsFromSelf          V2CoreEventDestinationEventsFrom = "self"
-)
-
 // Status. It can be set to either enabled or disabled.
 type V2CoreEventDestinationStatus string
 
@@ -40,8 +31,9 @@ type V2CoreEventDestinationStatusDetailsDisabledReason string
 
 // List of values that V2CoreEventDestinationStatusDetailsDisabledReason can take
 const (
-	V2CoreEventDestinationStatusDetailsDisabledReasonNoAwsEventSourceExists V2CoreEventDestinationStatusDetailsDisabledReason = "no_aws_event_source_exists"
-	V2CoreEventDestinationStatusDetailsDisabledReasonUser                   V2CoreEventDestinationStatusDetailsDisabledReason = "user"
+	V2CoreEventDestinationStatusDetailsDisabledReasonNoAwsEventSourceExists    V2CoreEventDestinationStatusDetailsDisabledReason = "no_aws_event_source_exists"
+	V2CoreEventDestinationStatusDetailsDisabledReasonNoAzurePartnerTopicExists V2CoreEventDestinationStatusDetailsDisabledReason = "no_azure_partner_topic_exists"
+	V2CoreEventDestinationStatusDetailsDisabledReasonUser                      V2CoreEventDestinationStatusDetailsDisabledReason = "user"
 )
 
 // Event destination type.
@@ -50,6 +42,7 @@ type V2CoreEventDestinationType string
 // List of values that V2CoreEventDestinationType can take
 const (
 	V2CoreEventDestinationTypeAmazonEventbridge V2CoreEventDestinationType = "amazon_eventbridge"
+	V2CoreEventDestinationTypeAzureEventGrid    V2CoreEventDestinationType = "azure_event_grid"
 	V2CoreEventDestinationTypeWebhookEndpoint   V2CoreEventDestinationType = "webhook_endpoint"
 )
 
@@ -62,6 +55,17 @@ const (
 	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusDeleted V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "deleted"
 	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusPending V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "pending"
 	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusUnknown V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "unknown"
+)
+
+// The status of the Azure partner topic.
+type V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus string
+
+// List of values that V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus can take
+const (
+	V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatusActivated      V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus = "activated"
+	V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatusDeleted        V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus = "deleted"
+	V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatusNeverActivated V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus = "never_activated"
+	V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatusUnknown        V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus = "unknown"
 )
 
 // Details about why the event destination has been disabled.
@@ -86,6 +90,20 @@ type V2CoreEventDestinationAmazonEventbridge struct {
 	AwsEventSourceStatus V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus `json:"aws_event_source_status"`
 }
 
+// Azure Event Grid configuration.
+type V2CoreEventDestinationAzureEventGrid struct {
+	// The name of the Azure partner topic.
+	AzurePartnerTopicName string `json:"azure_partner_topic_name"`
+	// The status of the Azure partner topic.
+	AzurePartnerTopicStatus V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus `json:"azure_partner_topic_status"`
+	// The Azure region.
+	AzureRegion string `json:"azure_region"`
+	// The name of the Azure resource group.
+	AzureResourceGroupName string `json:"azure_resource_group_name"`
+	// The Azure subscription ID.
+	AzureSubscriptionID string `json:"azure_subscription_id"`
+}
+
 // Webhook endpoint configuration.
 type V2CoreEventDestinationWebhookEndpoint struct {
 	// The signing secret of the webhook endpoint, only includable on creation.
@@ -99,6 +117,8 @@ type V2CoreEventDestination struct {
 	APIResource
 	// Amazon EventBridge configuration.
 	AmazonEventbridge *V2CoreEventDestinationAmazonEventbridge `json:"amazon_eventbridge,omitempty"`
+	// Azure Event Grid configuration.
+	AzureEventGrid *V2CoreEventDestinationAzureEventGrid `json:"azure_event_grid,omitempty"`
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
 	// An optional description of what the event destination is used for.
@@ -107,8 +127,12 @@ type V2CoreEventDestination struct {
 	EnabledEvents []string `json:"enabled_events"`
 	// Payload type of events being subscribed to.
 	EventPayload V2CoreEventDestinationEventPayload `json:"event_payload"`
-	// Where events should be routed from.
-	EventsFrom []V2CoreEventDestinationEventsFrom `json:"events_from,omitempty"`
+	// Specifies which accounts' events route to this destination.
+	// `@self`: Receive events from the account that owns the event destination.
+	// `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
+	// `@organization_members`: Receive events from accounts directly linked to the organization.
+	// `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
+	EventsFrom []string `json:"events_from,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

@@ -45,12 +45,12 @@ func (c v1CapitalFinancingOfferService) MarkDelivered(ctx context.Context, id st
 }
 
 // Retrieves the financing offers available for Connected accounts that belong to your platform.
-func (c v1CapitalFinancingOfferService) List(ctx context.Context, listParams *CapitalFinancingOfferListParams) Seq2[*CapitalFinancingOffer, error] {
+func (c v1CapitalFinancingOfferService) List(ctx context.Context, listParams *CapitalFinancingOfferListParams) *V1List[*CapitalFinancingOffer] {
 	if listParams == nil {
 		listParams = &CapitalFinancingOfferListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CapitalFinancingOffer], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CapitalFinancingOffer], error) {
 		list := &v1Page[*CapitalFinancingOffer]{}
 		if p == nil {
 			p = &Params{}
@@ -58,5 +58,5 @@ func (c v1CapitalFinancingOfferService) List(ctx context.Context, listParams *Ca
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/capital/financing_offers", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

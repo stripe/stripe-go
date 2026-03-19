@@ -8,6 +8,15 @@ package stripe
 
 import "encoding/json"
 
+// Describes whether a performance location is required for a successful tax calculation with a tax code.
+type TaxCodeRequirementsPerformanceLocation string
+
+// List of values that TaxCodeRequirementsPerformanceLocation can take
+const (
+	TaxCodeRequirementsPerformanceLocationOptional TaxCodeRequirementsPerformanceLocation = "optional"
+	TaxCodeRequirementsPerformanceLocationRequired TaxCodeRequirementsPerformanceLocation = "required"
+)
+
 // A list of [all tax codes available](https://stripe.com/docs/tax/tax-categories) to add to Products in order to allow specific tax calculations.
 type TaxCodeListParams struct {
 	ListParams `form:"*"`
@@ -44,6 +53,12 @@ func (p *TaxCodeRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// An object that describes more information about the tax location required for this tax code. Some [tax codes](https://docs.stripe.com/tax/tax-for-tickets/integration-guide#types-of-products) require a tax location of type `performance` to calculate tax correctly.
+type TaxCodeRequirements struct {
+	// Describes whether a performance location is required for a successful tax calculation with a tax code.
+	PerformanceLocation TaxCodeRequirementsPerformanceLocation `json:"performance_location"`
+}
+
 // [Tax codes](https://stripe.com/docs/tax/tax-categories) classify goods and services for tax purposes.
 type TaxCode struct {
 	APIResource
@@ -55,6 +70,8 @@ type TaxCode struct {
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// An object that describes more information about the tax location required for this tax code. Some [tax codes](https://docs.stripe.com/tax/tax-for-tickets/integration-guide#types-of-products) require a tax location of type `performance` to calculate tax correctly.
+	Requirements *TaxCodeRequirements `json:"requirements"`
 }
 
 // TaxCodeList is a list of TaxCodes as retrieved from a list endpoint.

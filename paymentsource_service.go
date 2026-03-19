@@ -24,7 +24,7 @@ type v1PaymentSourceService struct {
 //
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
-// To change the default, you should [update the customer](https://docs.stripe.com/docs/api#update_customer) to have a new default_source.
+// To change the default, you should [update the customer](https://docs.stripe.com/api/customers/update) to have a new default_source.
 func (c v1PaymentSourceService) Create(ctx context.Context, params *PaymentSourceCreateParams) (*PaymentSource, error) {
 	if params == nil {
 		params = &PaymentSourceCreateParams{}
@@ -97,14 +97,14 @@ func (c v1PaymentSourceService) Verify(ctx context.Context, id string, params *P
 }
 
 // List sources for a specified customer.
-func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSourceListParams) Seq2[*PaymentSource, error] {
+func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSourceListParams) *V1List[*PaymentSource] {
 	if listParams == nil {
 		listParams = &PaymentSourceListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/sources", StringValue(listParams.Customer))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentSource], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentSource], error) {
 		list := &v1Page[*PaymentSource]{}
 		if p == nil {
 			p = &Params{}
@@ -112,5 +112,5 @@ func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSou
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

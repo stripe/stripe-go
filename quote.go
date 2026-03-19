@@ -591,6 +591,8 @@ type QuoteLineActionAddItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *QuoteLineActionAddItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -680,6 +682,8 @@ type QuoteLineActionSetItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 	Trial *QuoteLineActionSetItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -763,7 +767,7 @@ type QuoteLineEndsAtParams struct {
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteLineSetPauseCollectionSetParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior"`
 }
 
@@ -1480,6 +1484,8 @@ type QuoteCreateLineActionAddItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *QuoteCreateLineActionAddItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1569,6 +1575,8 @@ type QuoteCreateLineActionSetItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 	Trial *QuoteCreateLineActionSetItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1652,7 +1660,7 @@ type QuoteCreateLineEndsAtParams struct {
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteCreateLineSetPauseCollectionSetParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior"`
 }
 
@@ -2230,6 +2238,8 @@ type QuoteUpdateLineActionAddItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *QuoteUpdateLineActionAddItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2319,6 +2329,8 @@ type QuoteUpdateLineActionSetItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 	Trial *QuoteUpdateLineActionSetItemTrialParams `form:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2402,7 +2414,7 @@ type QuoteUpdateLineEndsAtParams struct {
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteUpdateLineSetPauseCollectionSetParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior"`
 }
 
@@ -3271,7 +3283,7 @@ type Quote struct {
 	LineItems *LineItemList `json:"line_items"`
 	// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 	Lines []string `json:"lines"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

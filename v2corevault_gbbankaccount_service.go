@@ -87,14 +87,17 @@ func (c v2CoreVaultGBBankAccountService) InitiateConfirmationOfPayee(ctx context
 }
 
 // List objects that can be used as destinations for outbound money movement via OutboundPayment.
-func (c v2CoreVaultGBBankAccountService) List(ctx context.Context, listParams *V2CoreVaultGBBankAccountListParams) Seq2[*V2CoreVaultGBBankAccount, error] {
+func (c v2CoreVaultGBBankAccountService) List(ctx context.Context, listParams *V2CoreVaultGBBankAccountListParams) *V2List[*V2CoreVaultGBBankAccount] {
 	if listParams == nil {
 		listParams = &V2CoreVaultGBBankAccountListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/core/vault/gb_bank_accounts", listParams, func(path string, p ParamsContainer) (*V2Page[*V2CoreVaultGBBankAccount], error) {
+	return newV2List(ctx, "/v2/core/vault/gb_bank_accounts", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2CoreVaultGBBankAccount], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2CoreVaultGBBankAccount]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

@@ -202,7 +202,7 @@ const (
 	QuotePreviewSubscriptionSchedulePhaseItemTrialTypePaid QuotePreviewSubscriptionSchedulePhaseItemTrialType = "paid"
 )
 
-// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+// The payment collection behavior for this subscription while paused.
 type QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior string
 
 // List of values that QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior can take
@@ -555,11 +555,13 @@ type QuotePreviewSubscriptionSchedulePhaseItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// Options that configure the trial on the subscription item.
 	Trial *QuotePreviewSubscriptionSchedulePhaseItemTrial `json:"trial"`
+	// The ID of the trial offer to apply to the configuration item.
+	TrialOffer string `json:"trial_offer"`
 }
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type QuotePreviewSubscriptionSchedulePhasePauseCollection struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
 }
 
@@ -670,7 +672,7 @@ type QuotePreviewSubscriptionSchedule struct {
 	ID string `json:"id"`
 	// Details of the most recent price migration that failed for the subscription schedule.
 	LastPriceMigrationError *QuotePreviewSubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
