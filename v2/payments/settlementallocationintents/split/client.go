@@ -73,6 +73,9 @@ func (c Client) Cancel(id string, params *stripe.V2PaymentsSettlementAllocationI
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2PaymentsSettlementAllocationIntentsSplitListParams) stripe.Seq2[*stripe.V2PaymentsSettlementAllocationIntentSplit, error] {
+	if listParams == nil {
+		listParams = &stripe.V2PaymentsSettlementAllocationIntentsSplitListParams{}
+	}
 	path := stripe.FormatURLPath(
 		"/v2/payments/settlement_allocation_intents/%s/splits", stripe.StringValue(
 			listParams.SettlementAllocationIntentID))
@@ -80,5 +83,5 @@ func (c Client) All(listParams *stripe.V2PaymentsSettlementAllocationIntentsSpli
 		page := &stripe.V2Page[*stripe.V2PaymentsSettlementAllocationIntentSplit]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

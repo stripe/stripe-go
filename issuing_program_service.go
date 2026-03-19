@@ -56,12 +56,12 @@ func (c v1IssuingProgramService) Update(ctx context.Context, id string, params *
 }
 
 // List all of the programs the given Issuing user has access to.
-func (c v1IssuingProgramService) List(ctx context.Context, listParams *IssuingProgramListParams) Seq2[*IssuingProgram, error] {
+func (c v1IssuingProgramService) List(ctx context.Context, listParams *IssuingProgramListParams) *V1List[*IssuingProgram] {
 	if listParams == nil {
 		listParams = &IssuingProgramListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingProgram], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IssuingProgram], error) {
 		list := &v1Page[*IssuingProgram]{}
 		if p == nil {
 			p = &Params{}
@@ -69,5 +69,5 @@ func (c v1IssuingProgramService) List(ctx context.Context, listParams *IssuingPr
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/programs", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

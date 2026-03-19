@@ -31,16 +31,19 @@ func (c v2BillingRateCardsVersionService) Retrieve(ctx context.Context, id strin
 }
 
 // List the versions of a Rate Card object. Results are sorted in reverse chronological order (most recent first).
-func (c v2BillingRateCardsVersionService) List(ctx context.Context, listParams *V2BillingRateCardsVersionListParams) Seq2[*V2BillingRateCardVersion, error] {
+func (c v2BillingRateCardsVersionService) List(ctx context.Context, listParams *V2BillingRateCardsVersionListParams) *V2List[*V2BillingRateCardVersion] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardsVersionListParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v2/billing/rate_cards/%s/versions", StringValue(listParams.RateCardID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingRateCardVersion], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingRateCardVersion], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingRateCardVersion]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

@@ -30,14 +30,17 @@ func (c v2MoneyManagementAdjustmentService) Retrieve(ctx context.Context, id str
 }
 
 // Returns a list of Adjustments that match the provided filters.
-func (c v2MoneyManagementAdjustmentService) List(ctx context.Context, listParams *V2MoneyManagementAdjustmentListParams) Seq2[*V2MoneyManagementAdjustment, error] {
+func (c v2MoneyManagementAdjustmentService) List(ctx context.Context, listParams *V2MoneyManagementAdjustmentListParams) *V2List[*V2MoneyManagementAdjustment] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementAdjustmentListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/money_management/adjustments", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementAdjustment], error) {
+	return newV2List(ctx, "/v2/money_management/adjustments", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementAdjustment], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2MoneyManagementAdjustment]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

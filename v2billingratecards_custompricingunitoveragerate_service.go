@@ -62,7 +62,7 @@ func (c v2BillingRateCardsCustomPricingUnitOverageRateService) Delete(ctx contex
 }
 
 // List all Rate Card Custom Pricing Unit Overage Rates on a Rate Card.
-func (c v2BillingRateCardsCustomPricingUnitOverageRateService) List(ctx context.Context, listParams *V2BillingRateCardsCustomPricingUnitOverageRateListParams) Seq2[*V2BillingRateCardCustomPricingUnitOverageRate, error] {
+func (c v2BillingRateCardsCustomPricingUnitOverageRateService) List(ctx context.Context, listParams *V2BillingRateCardsCustomPricingUnitOverageRateListParams) *V2List[*V2BillingRateCardCustomPricingUnitOverageRate] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardsCustomPricingUnitOverageRateListParams{}
 	}
@@ -70,9 +70,12 @@ func (c v2BillingRateCardsCustomPricingUnitOverageRateService) List(ctx context.
 	path := FormatURLPath(
 		"/v2/billing/rate_cards/%s/custom_pricing_unit_overage_rates", StringValue(
 			listParams.RateCardID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingRateCardCustomPricingUnitOverageRate], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingRateCardCustomPricingUnitOverageRate], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingRateCardCustomPricingUnitOverageRate]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

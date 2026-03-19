@@ -54,14 +54,17 @@ func (c v2BillingLicenseFeeService) Update(ctx context.Context, id string, param
 }
 
 // List all License Fee objects.
-func (c v2BillingLicenseFeeService) List(ctx context.Context, listParams *V2BillingLicenseFeeListParams) Seq2[*V2BillingLicenseFee, error] {
+func (c v2BillingLicenseFeeService) List(ctx context.Context, listParams *V2BillingLicenseFeeListParams) *V2List[*V2BillingLicenseFee] {
 	if listParams == nil {
 		listParams = &V2BillingLicenseFeeListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/license_fees", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingLicenseFee], error) {
+	return newV2List(ctx, "/v2/billing/license_fees", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingLicenseFee], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingLicenseFee]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

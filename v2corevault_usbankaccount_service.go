@@ -94,14 +94,17 @@ func (c v2CoreVaultUSBankAccountService) SendMicrodeposits(ctx context.Context, 
 }
 
 // List USBankAccount objects. Optionally filter by verification status.
-func (c v2CoreVaultUSBankAccountService) List(ctx context.Context, listParams *V2CoreVaultUSBankAccountListParams) Seq2[*V2CoreVaultUSBankAccount, error] {
+func (c v2CoreVaultUSBankAccountService) List(ctx context.Context, listParams *V2CoreVaultUSBankAccountListParams) *V2List[*V2CoreVaultUSBankAccount] {
 	if listParams == nil {
 		listParams = &V2CoreVaultUSBankAccountListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/core/vault/us_bank_accounts", listParams, func(path string, p ParamsContainer) (*V2Page[*V2CoreVaultUSBankAccount], error) {
+	return newV2List(ctx, "/v2/core/vault/us_bank_accounts", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2CoreVaultUSBankAccount], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2CoreVaultUSBankAccount]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

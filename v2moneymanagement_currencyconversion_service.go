@@ -42,14 +42,17 @@ func (c v2MoneyManagementCurrencyConversionService) Retrieve(ctx context.Context
 }
 
 // List all CurrencyConversion on an account with the option to filter by FinancialAccount.
-func (c v2MoneyManagementCurrencyConversionService) List(ctx context.Context, listParams *V2MoneyManagementCurrencyConversionListParams) Seq2[*V2MoneyManagementCurrencyConversion, error] {
+func (c v2MoneyManagementCurrencyConversionService) List(ctx context.Context, listParams *V2MoneyManagementCurrencyConversionListParams) *V2List[*V2MoneyManagementCurrencyConversion] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementCurrencyConversionListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/money_management/currency_conversions", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementCurrencyConversion], error) {
+	return newV2List(ctx, "/v2/money_management/currency_conversions", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementCurrencyConversion], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2MoneyManagementCurrencyConversion]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

@@ -54,14 +54,17 @@ func (c v2MoneyManagementOutboundPaymentService) Cancel(ctx context.Context, id 
 }
 
 // Returns a list of OutboundPayments that match the provided filters.
-func (c v2MoneyManagementOutboundPaymentService) List(ctx context.Context, listParams *V2MoneyManagementOutboundPaymentListParams) Seq2[*V2MoneyManagementOutboundPayment, error] {
+func (c v2MoneyManagementOutboundPaymentService) List(ctx context.Context, listParams *V2MoneyManagementOutboundPaymentListParams) *V2List[*V2MoneyManagementOutboundPayment] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementOutboundPaymentListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/money_management/outbound_payments", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementOutboundPayment], error) {
+	return newV2List(ctx, "/v2/money_management/outbound_payments", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementOutboundPayment], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2MoneyManagementOutboundPayment]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

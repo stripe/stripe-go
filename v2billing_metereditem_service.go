@@ -54,14 +54,17 @@ func (c v2BillingMeteredItemService) Update(ctx context.Context, id string, para
 }
 
 // List all Metered Item objects in reverse chronological order of creation.
-func (c v2BillingMeteredItemService) List(ctx context.Context, listParams *V2BillingMeteredItemListParams) Seq2[*V2BillingMeteredItem, error] {
+func (c v2BillingMeteredItemService) List(ctx context.Context, listParams *V2BillingMeteredItemListParams) *V2List[*V2BillingMeteredItem] {
 	if listParams == nil {
 		listParams = &V2BillingMeteredItemListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/metered_items", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingMeteredItem], error) {
+	return newV2List(ctx, "/v2/billing/metered_items", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingMeteredItem], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingMeteredItem]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

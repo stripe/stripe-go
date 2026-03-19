@@ -42,6 +42,9 @@ func (c Client) Get(id string, params *stripe.V2BillingCadencesSpendModifierRule
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingCadencesSpendModifierRuleListParams) stripe.Seq2[*stripe.V2BillingCadenceSpendModifier, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingCadencesSpendModifierRuleListParams{}
+	}
 	path := stripe.FormatURLPath(
 		"/v2/billing/cadences/%s/spend_modifier_rules", stripe.StringValue(
 			listParams.CadenceID))
@@ -49,5 +52,5 @@ func (c Client) All(listParams *stripe.V2BillingCadencesSpendModifierRuleListPar
 		page := &stripe.V2Page[*stripe.V2BillingCadenceSpendModifier]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

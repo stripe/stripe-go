@@ -54,14 +54,17 @@ func (c v2BillingOneTimeItemService) Update(ctx context.Context, id string, para
 }
 
 // List all One-Time Item objects in reverse chronological order of creation.
-func (c v2BillingOneTimeItemService) List(ctx context.Context, listParams *V2BillingOneTimeItemListParams) Seq2[*V2BillingOneTimeItem, error] {
+func (c v2BillingOneTimeItemService) List(ctx context.Context, listParams *V2BillingOneTimeItemListParams) *V2List[*V2BillingOneTimeItem] {
 	if listParams == nil {
 		listParams = &V2BillingOneTimeItemListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/one_time_items", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingOneTimeItem], error) {
+	return newV2List(ctx, "/v2/billing/one_time_items", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingOneTimeItem], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingOneTimeItem]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

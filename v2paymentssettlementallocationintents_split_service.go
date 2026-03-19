@@ -63,7 +63,7 @@ func (c v2PaymentsSettlementAllocationIntentsSplitService) Cancel(ctx context.Co
 }
 
 // List SettlementAllocationIntentSplits API.
-func (c v2PaymentsSettlementAllocationIntentsSplitService) List(ctx context.Context, listParams *V2PaymentsSettlementAllocationIntentsSplitListParams) Seq2[*V2PaymentsSettlementAllocationIntentSplit, error] {
+func (c v2PaymentsSettlementAllocationIntentsSplitService) List(ctx context.Context, listParams *V2PaymentsSettlementAllocationIntentsSplitListParams) *V2List[*V2PaymentsSettlementAllocationIntentSplit] {
 	if listParams == nil {
 		listParams = &V2PaymentsSettlementAllocationIntentsSplitListParams{}
 	}
@@ -71,9 +71,12 @@ func (c v2PaymentsSettlementAllocationIntentsSplitService) List(ctx context.Cont
 	path := FormatURLPath(
 		"/v2/payments/settlement_allocation_intents/%s/splits", StringValue(
 			listParams.SettlementAllocationIntentID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2PaymentsSettlementAllocationIntentSplit], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2PaymentsSettlementAllocationIntentSplit], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2PaymentsSettlementAllocationIntentSplit]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

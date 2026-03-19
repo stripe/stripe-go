@@ -32,12 +32,12 @@ func (c v1ReserveHoldService) Retrieve(ctx context.Context, id string, params *R
 }
 
 // Returns a list of ReserveHolds previously created. The ReserveHolds are returned in sorted order, with the most recent ReserveHolds appearing first.
-func (c v1ReserveHoldService) List(ctx context.Context, listParams *ReserveHoldListParams) Seq2[*ReserveHold, error] {
+func (c v1ReserveHoldService) List(ctx context.Context, listParams *ReserveHoldListParams) *V1List[*ReserveHold] {
 	if listParams == nil {
 		listParams = &ReserveHoldListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ReserveHold], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ReserveHold], error) {
 		list := &v1Page[*ReserveHold]{}
 		if p == nil {
 			p = &Params{}
@@ -45,5 +45,5 @@ func (c v1ReserveHoldService) List(ctx context.Context, listParams *ReserveHoldL
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/reserve/holds", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

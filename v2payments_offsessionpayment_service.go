@@ -66,14 +66,17 @@ func (c v2PaymentsOffSessionPaymentService) Capture(ctx context.Context, id stri
 }
 
 // Returns a list of OffSessionPayments matching a filter.
-func (c v2PaymentsOffSessionPaymentService) List(ctx context.Context, listParams *V2PaymentsOffSessionPaymentListParams) Seq2[*V2PaymentsOffSessionPayment, error] {
+func (c v2PaymentsOffSessionPaymentService) List(ctx context.Context, listParams *V2PaymentsOffSessionPaymentListParams) *V2List[*V2PaymentsOffSessionPayment] {
 	if listParams == nil {
 		listParams = &V2PaymentsOffSessionPaymentListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/payments/off_session_payments", listParams, func(path string, p ParamsContainer) (*V2Page[*V2PaymentsOffSessionPayment], error) {
+	return newV2List(ctx, "/v2/payments/off_session_payments", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2PaymentsOffSessionPayment], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2PaymentsOffSessionPayment]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

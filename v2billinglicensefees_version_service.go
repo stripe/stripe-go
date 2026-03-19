@@ -32,7 +32,7 @@ func (c v2BillingLicenseFeesVersionService) Retrieve(ctx context.Context, id str
 }
 
 // List all versions of a License Fee object.
-func (c v2BillingLicenseFeesVersionService) List(ctx context.Context, listParams *V2BillingLicenseFeesVersionListParams) Seq2[*V2BillingLicenseFeeVersion, error] {
+func (c v2BillingLicenseFeesVersionService) List(ctx context.Context, listParams *V2BillingLicenseFeesVersionListParams) *V2List[*V2BillingLicenseFeeVersion] {
 	if listParams == nil {
 		listParams = &V2BillingLicenseFeesVersionListParams{}
 	}
@@ -40,9 +40,12 @@ func (c v2BillingLicenseFeesVersionService) List(ctx context.Context, listParams
 	path := FormatURLPath(
 		"/v2/billing/license_fees/%s/versions", StringValue(
 			listParams.LicenseFeeID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingLicenseFeeVersion], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingLicenseFeeVersion], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingLicenseFeeVersion]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

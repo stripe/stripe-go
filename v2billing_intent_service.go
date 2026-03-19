@@ -89,14 +89,17 @@ func (c v2BillingIntentService) Reserve(ctx context.Context, id string, params *
 }
 
 // List Billing Intents.
-func (c v2BillingIntentService) List(ctx context.Context, listParams *V2BillingIntentListParams) Seq2[*V2BillingIntent, error] {
+func (c v2BillingIntentService) List(ctx context.Context, listParams *V2BillingIntentListParams) *V2List[*V2BillingIntent] {
 	if listParams == nil {
 		listParams = &V2BillingIntentListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/intents", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingIntent], error) {
+	return newV2List(ctx, "/v2/billing/intents", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingIntent], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingIntent]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

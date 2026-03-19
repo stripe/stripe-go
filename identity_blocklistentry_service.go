@@ -75,12 +75,12 @@ func (c v1IdentityBlocklistEntryService) Disable(ctx context.Context, id string,
 // entries appearing first.
 //
 // Related guide: [Identity Verification Blocklist](https://docs.stripe.com/docs/identity/review-tools#block-list)
-func (c v1IdentityBlocklistEntryService) List(ctx context.Context, listParams *IdentityBlocklistEntryListParams) Seq2[*IdentityBlocklistEntry, error] {
+func (c v1IdentityBlocklistEntryService) List(ctx context.Context, listParams *IdentityBlocklistEntryListParams) *V1List[*IdentityBlocklistEntry] {
 	if listParams == nil {
 		listParams = &IdentityBlocklistEntryListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IdentityBlocklistEntry], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IdentityBlocklistEntry], error) {
 		list := &v1Page[*IdentityBlocklistEntry]{}
 		if p == nil {
 			p = &Params{}
@@ -88,5 +88,5 @@ func (c v1IdentityBlocklistEntryService) List(ctx context.Context, listParams *I
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/identity/blocklist_entries", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

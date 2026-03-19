@@ -43,12 +43,12 @@ func (c v1FxQuoteService) Retrieve(ctx context.Context, id string, params *FxQuo
 }
 
 // Returns a list of FX quotes that have been issued. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
-func (c v1FxQuoteService) List(ctx context.Context, listParams *FxQuoteListParams) Seq2[*FxQuote, error] {
+func (c v1FxQuoteService) List(ctx context.Context, listParams *FxQuoteListParams) *V1List[*FxQuote] {
 	if listParams == nil {
 		listParams = &FxQuoteListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FxQuote], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FxQuote], error) {
 		list := &v1Page[*FxQuote]{}
 		if p == nil {
 			p = &Params{}
@@ -56,5 +56,5 @@ func (c v1FxQuoteService) List(ctx context.Context, listParams *FxQuoteListParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/fx_quotes", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

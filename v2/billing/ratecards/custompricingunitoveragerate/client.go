@@ -72,6 +72,9 @@ func (c Client) Del(id string, params *stripe.V2BillingRateCardsCustomPricingUni
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingRateCardsCustomPricingUnitOverageRateListParams) stripe.Seq2[*stripe.V2BillingRateCardCustomPricingUnitOverageRate, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingRateCardsCustomPricingUnitOverageRateListParams{}
+	}
 	path := stripe.FormatURLPath(
 		"/v2/billing/rate_cards/%s/custom_pricing_unit_overage_rates", stripe.StringValue(
 			listParams.RateCardID))
@@ -79,5 +82,5 @@ func (c Client) All(listParams *stripe.V2BillingRateCardsCustomPricingUnitOverag
 		page := &stripe.V2Page[*stripe.V2BillingRateCardCustomPricingUnitOverageRate]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

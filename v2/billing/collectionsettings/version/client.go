@@ -42,6 +42,9 @@ func (c Client) Get(id string, params *stripe.V2BillingCollectionSettingsVersion
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingCollectionSettingsVersionListParams) stripe.Seq2[*stripe.V2BillingCollectionSettingVersion, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingCollectionSettingsVersionListParams{}
+	}
 	path := stripe.FormatURLPath(
 		"/v2/billing/collection_settings/%s/versions", stripe.StringValue(
 			listParams.CollectionSettingID))
@@ -49,5 +52,5 @@ func (c Client) All(listParams *stripe.V2BillingCollectionSettingsVersionListPar
 		page := &stripe.V2Page[*stripe.V2BillingCollectionSettingVersion]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

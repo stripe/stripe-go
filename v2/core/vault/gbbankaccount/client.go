@@ -97,9 +97,12 @@ func (c Client) InitiateConfirmationOfPayee(id string, params *stripe.V2CoreVaul
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2CoreVaultGBBankAccountListParams) stripe.Seq2[*stripe.V2CoreVaultGBBankAccount, error] {
+	if listParams == nil {
+		listParams = &stripe.V2CoreVaultGBBankAccountListParams{}
+	}
 	return stripe.NewV2List("/v2/core/vault/gb_bank_accounts", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2CoreVaultGBBankAccount], error) {
 		page := &stripe.V2Page[*stripe.V2CoreVaultGBBankAccount]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

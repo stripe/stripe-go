@@ -32,7 +32,7 @@ func (c v2BillingCadencesSpendModifierRuleService) Retrieve(ctx context.Context,
 }
 
 // List all Spend Modifiers associated with a Billing Cadence.
-func (c v2BillingCadencesSpendModifierRuleService) List(ctx context.Context, listParams *V2BillingCadencesSpendModifierRuleListParams) Seq2[*V2BillingCadenceSpendModifier, error] {
+func (c v2BillingCadencesSpendModifierRuleService) List(ctx context.Context, listParams *V2BillingCadencesSpendModifierRuleListParams) *V2List[*V2BillingCadenceSpendModifier] {
 	if listParams == nil {
 		listParams = &V2BillingCadencesSpendModifierRuleListParams{}
 	}
@@ -40,9 +40,12 @@ func (c v2BillingCadencesSpendModifierRuleService) List(ctx context.Context, lis
 	path := FormatURLPath(
 		"/v2/billing/cadences/%s/spend_modifier_rules", StringValue(
 			listParams.CadenceID))
-	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingCadenceSpendModifier], error) {
+	return newV2List(ctx, path, listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingCadenceSpendModifier], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingCadenceSpendModifier]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

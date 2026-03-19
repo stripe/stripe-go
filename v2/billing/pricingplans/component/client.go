@@ -84,6 +84,9 @@ func (c Client) Del(id string, params *stripe.V2BillingPricingPlansComponentPara
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingPricingPlansComponentListParams) stripe.Seq2[*stripe.V2BillingPricingPlanComponent, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingPricingPlansComponentListParams{}
+	}
 	path := stripe.FormatURLPath(
 		"/v2/billing/pricing_plans/%s/components", stripe.StringValue(
 			listParams.PricingPlanID))
@@ -91,5 +94,5 @@ func (c Client) All(listParams *stripe.V2BillingPricingPlansComponentListParams)
 		page := &stripe.V2Page[*stripe.V2BillingPricingPlanComponent]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

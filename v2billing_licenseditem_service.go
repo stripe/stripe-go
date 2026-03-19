@@ -54,14 +54,17 @@ func (c v2BillingLicensedItemService) Update(ctx context.Context, id string, par
 }
 
 // List all Licensed Item objects in reverse chronological order of creation.
-func (c v2BillingLicensedItemService) List(ctx context.Context, listParams *V2BillingLicensedItemListParams) Seq2[*V2BillingLicensedItem, error] {
+func (c v2BillingLicensedItemService) List(ctx context.Context, listParams *V2BillingLicensedItemListParams) *V2List[*V2BillingLicensedItem] {
 	if listParams == nil {
 		listParams = &V2BillingLicensedItemListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/licensed_items", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingLicensedItem], error) {
+	return newV2List(ctx, "/v2/billing/licensed_items", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingLicensedItem], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingLicensedItem]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }
