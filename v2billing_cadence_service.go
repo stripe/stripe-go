@@ -66,14 +66,17 @@ func (c v2BillingCadenceService) Cancel(ctx context.Context, id string, params *
 }
 
 // List Billing Cadences.
-func (c v2BillingCadenceService) List(ctx context.Context, listParams *V2BillingCadenceListParams) Seq2[*V2BillingCadence, error] {
+func (c v2BillingCadenceService) List(ctx context.Context, listParams *V2BillingCadenceListParams) *V2List[*V2BillingCadence] {
 	if listParams == nil {
 		listParams = &V2BillingCadenceListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/billing/cadences", listParams, func(path string, p ParamsContainer) (*V2Page[*V2BillingCadence], error) {
+	return newV2List(ctx, "/v2/billing/cadences", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2BillingCadence], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2BillingCadence]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

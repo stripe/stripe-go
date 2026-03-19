@@ -55,12 +55,12 @@ func (c v1MarginService) Update(ctx context.Context, id string, params *MarginUp
 }
 
 // Retrieve a list of your margins.
-func (c v1MarginService) List(ctx context.Context, listParams *MarginListParams) Seq2[*Margin, error] {
+func (c v1MarginService) List(ctx context.Context, listParams *MarginListParams) *V1List[*Margin] {
 	if listParams == nil {
 		listParams = &MarginListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Margin], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Margin], error) {
 		list := &v1Page[*Margin]{}
 		if p == nil {
 			p = &Params{}
@@ -68,5 +68,5 @@ func (c v1MarginService) List(ctx context.Context, listParams *MarginListParams)
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/billing/margins", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

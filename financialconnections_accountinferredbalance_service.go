@@ -20,7 +20,7 @@ type v1FinancialConnectionsAccountInferredBalanceService struct {
 }
 
 // Lists the recorded inferred balances for a Financial Connections Account.
-func (c v1FinancialConnectionsAccountInferredBalanceService) List(ctx context.Context, listParams *FinancialConnectionsAccountInferredBalanceListParams) Seq2[*FinancialConnectionsAccountInferredBalance, error] {
+func (c v1FinancialConnectionsAccountInferredBalanceService) List(ctx context.Context, listParams *FinancialConnectionsAccountInferredBalanceListParams) *V1List[*FinancialConnectionsAccountInferredBalance] {
 	if listParams == nil {
 		listParams = &FinancialConnectionsAccountInferredBalanceListParams{}
 	}
@@ -28,7 +28,7 @@ func (c v1FinancialConnectionsAccountInferredBalanceService) List(ctx context.Co
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/inferred_balances", StringValue(
 			listParams.Account))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountInferredBalance], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*FinancialConnectionsAccountInferredBalance], error) {
 		list := &v1Page[*FinancialConnectionsAccountInferredBalance]{}
 		if p == nil {
 			p = &Params{}
@@ -36,5 +36,5 @@ func (c v1FinancialConnectionsAccountInferredBalanceService) List(ctx context.Co
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

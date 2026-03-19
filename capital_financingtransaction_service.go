@@ -33,12 +33,12 @@ func (c v1CapitalFinancingTransactionService) Retrieve(ctx context.Context, id s
 
 // Returns a list of financing transactions. The transactions are returned in sorted order,
 // with the most recent transactions appearing first.
-func (c v1CapitalFinancingTransactionService) List(ctx context.Context, listParams *CapitalFinancingTransactionListParams) Seq2[*CapitalFinancingTransaction, error] {
+func (c v1CapitalFinancingTransactionService) List(ctx context.Context, listParams *CapitalFinancingTransactionListParams) *V1List[*CapitalFinancingTransaction] {
 	if listParams == nil {
 		listParams = &CapitalFinancingTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*CapitalFinancingTransaction], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*CapitalFinancingTransaction], error) {
 		list := &v1Page[*CapitalFinancingTransaction]{}
 		if p == nil {
 			p = &Params{}
@@ -46,5 +46,5 @@ func (c v1CapitalFinancingTransactionService) List(ctx context.Context, listPara
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/capital/financing_transactions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

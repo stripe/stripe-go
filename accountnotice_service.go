@@ -44,12 +44,12 @@ func (c v1AccountNoticeService) Update(ctx context.Context, id string, params *A
 }
 
 // Retrieves a list of AccountNotice objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
-func (c v1AccountNoticeService) List(ctx context.Context, listParams *AccountNoticeListParams) Seq2[*AccountNotice, error] {
+func (c v1AccountNoticeService) List(ctx context.Context, listParams *AccountNoticeListParams) *V1List[*AccountNotice] {
 	if listParams == nil {
 		listParams = &AccountNoticeListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*AccountNotice], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*AccountNotice], error) {
 		list := &v1Page[*AccountNotice]{}
 		if p == nil {
 			p = &Params{}
@@ -57,5 +57,5 @@ func (c v1AccountNoticeService) List(ctx context.Context, listParams *AccountNot
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/account_notices", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -997,7 +997,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &AlreadyCanceledError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1008,7 +1008,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &AlreadyExistsError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1019,7 +1019,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &BlockedByStripeError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1030,7 +1030,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &ControlledByAlternateResourceError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1041,7 +1041,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &ControlledByDashboardError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1052,7 +1052,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &FeatureNotEnabledError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1063,7 +1063,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &FinancialAccountNotOpenError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1074,7 +1074,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &InsufficientFundsError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1085,7 +1085,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &InvalidPaymentMethodError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1096,7 +1096,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &InvalidPayoutMethodError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1107,7 +1107,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &NonZeroBalanceError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1118,7 +1118,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &NotCancelableError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1129,7 +1129,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &QuotaExceededError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1140,7 +1140,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &RateLimitError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1151,7 +1151,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &RecipientNotNotifiableError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))

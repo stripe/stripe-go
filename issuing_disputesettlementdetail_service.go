@@ -32,12 +32,12 @@ func (c v1IssuingDisputeSettlementDetailService) Retrieve(ctx context.Context, i
 }
 
 // Returns a list of Issuing DisputeSettlementDetail objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-func (c v1IssuingDisputeSettlementDetailService) List(ctx context.Context, listParams *IssuingDisputeSettlementDetailListParams) Seq2[*IssuingDisputeSettlementDetail, error] {
+func (c v1IssuingDisputeSettlementDetailService) List(ctx context.Context, listParams *IssuingDisputeSettlementDetailListParams) *V1List[*IssuingDisputeSettlementDetail] {
 	if listParams == nil {
 		listParams = &IssuingDisputeSettlementDetailListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*IssuingDisputeSettlementDetail], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*IssuingDisputeSettlementDetail], error) {
 		list := &v1Page[*IssuingDisputeSettlementDetail]{}
 		if p == nil {
 			p = &Params{}
@@ -45,5 +45,5 @@ func (c v1IssuingDisputeSettlementDetailService) List(ctx context.Context, listP
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/dispute_settlement_details", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
