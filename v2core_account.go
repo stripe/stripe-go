@@ -3999,18 +3999,10 @@ type V2CoreAccountIdentityBusinessDetailsAddress struct {
 	Town string `json:"town,omitempty"`
 }
 
-// Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
-type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
-
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenue struct {
 	// Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
-	Amount *V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount `json:"amount,omitempty"`
+	Amount Amount `json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd string `json:"fiscal_year_end,omitempty"`
 }
@@ -4135,18 +4127,10 @@ type V2CoreAccountIdentityBusinessDetailsIDNumber struct {
 	Type V2CoreAccountIdentityBusinessDetailsIDNumberType `json:"type"`
 }
 
-// Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
-type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency,omitempty"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value,omitempty"`
-}
-
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue struct {
 	// Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
-	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount `json:"amount,omitempty"`
+	Amount Amount `json:"amount,omitempty"`
 }
 
 // When the business was incorporated or registered.
@@ -4416,7 +4400,7 @@ type V2CoreAccountIdentityIndividualRelationship struct {
 	// Whether the individual is an owner of the Account's identity.
 	Owner bool `json:"owner,omitempty"`
 	// The percentage of the Account's identity that the individual owns.
-	PercentOwnership string `json:"percent_ownership,omitempty"`
+	PercentOwnership float64 `json:"percent_ownership,string,omitempty"`
 	// Whether the individual is authorized as the primary representative of the Account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
 	Representative bool `json:"representative,omitempty"`
 	// The individual's title (e.g., CEO, Support Engineer).
