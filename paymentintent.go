@@ -113,6 +113,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeSofort           PaymentIntentExcludedPaymentMethodType = "sofort"
 	PaymentIntentExcludedPaymentMethodTypeSwish            PaymentIntentExcludedPaymentMethodType = "swish"
 	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
+	PaymentIntentExcludedPaymentMethodTypeUpi              PaymentIntentExcludedPaymentMethodType = "upi"
 	PaymentIntentExcludedPaymentMethodTypeUSBankAccount    PaymentIntentExcludedPaymentMethodType = "us_bank_account"
 	PaymentIntentExcludedPaymentMethodTypeWeChatPay        PaymentIntentExcludedPaymentMethodType = "wechat_pay"
 	PaymentIntentExcludedPaymentMethodTypeZip              PaymentIntentExcludedPaymentMethodType = "zip"
@@ -214,7 +215,7 @@ const (
 	PaymentIntentPaymentMethodOptionsACSSDebitSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsACSSDebitSetupFutureUsage = "on_session"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -1175,6 +1176,21 @@ const (
 	PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsageNone PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage = "none"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsUpiSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsUpiSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage = "on_session"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -1240,7 +1256,7 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeUnspecified PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "unspecified"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod can take
@@ -1248,15 +1264,6 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodAutomatic     PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "automatic"
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodInstant       PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "instant"
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
-)
-
-// Preferred transaction settlement speed
-type PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed string
-
-// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed can take
-const (
-	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedFastest  PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "fastest"
-	PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeedStandard PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed = "standard"
 )
 
 // The client type that the end customer will pay from
@@ -1669,6 +1676,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *PaymentMethodUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -1716,7 +1725,7 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -1932,7 +1941,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsParams struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type PaymentIntentPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -2703,6 +2712,25 @@ type PaymentIntentPaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Configuration options for setting up an eMandate
+type PaymentIntentPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date"`
+}
+
+// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+type PaymentIntentPaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions   *PaymentIntentPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
+	SetupFutureUsage *string                                                   `form:"setup_future_usage"`
+}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -2741,8 +2769,6 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	MandateOptions *PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *PaymentIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
-	// Preferred transaction settlement speed
-	PreferredSettlementSpeed *string `form:"preferred_settlement_speed"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2757,7 +2783,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	TargetDate *string `form:"target_date"`
 	// The purpose of the transaction.
 	TransactionPurpose *string `form:"transaction_purpose"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -2893,6 +2919,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Swish *PaymentIntentPaymentMethodOptionsSwishParams `form:"swish"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentPaymentMethodOptionsTWINTParams `form:"twint"`
+	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+	Upi *PaymentIntentPaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
@@ -3097,7 +3125,7 @@ func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
 //
 // After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
 //
-// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
+// You can directly cancel the PaymentIntent for a Checkout Session only when the PaymentIntent has a status of requires_capture. Otherwise, you must [expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire).
 type PaymentIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this PaymentIntent. Possible values are: `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
@@ -4105,6 +4133,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *PaymentMethodUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -4152,7 +4182,7 @@ type PaymentIntentCreatePaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -4368,7 +4398,7 @@ type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsParams struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type PaymentIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -5139,6 +5169,25 @@ type PaymentIntentCreatePaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Configuration options for setting up an eMandate
+type PaymentIntentCreatePaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date"`
+}
+
+// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+type PaymentIntentCreatePaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions   *PaymentIntentCreatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
+	SetupFutureUsage *string                                                         `form:"setup_future_usage"`
+}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type PaymentIntentCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -5177,8 +5226,6 @@ type PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams struct {
 	MandateOptions *PaymentIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *PaymentIntentCreatePaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
-	// Preferred transaction settlement speed
-	PreferredSettlementSpeed *string `form:"preferred_settlement_speed"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5193,7 +5240,7 @@ type PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams struct {
 	TargetDate *string `form:"target_date"`
 	// The purpose of the transaction.
 	TransactionPurpose *string `form:"transaction_purpose"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -5329,6 +5376,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Swish *PaymentIntentCreatePaymentMethodOptionsSwishParams `form:"swish"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentCreatePaymentMethodOptionsTWINTParams `form:"twint"`
+	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+	Upi *PaymentIntentCreatePaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
@@ -5782,6 +5831,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *PaymentMethodUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -5829,7 +5880,7 @@ type PaymentIntentUpdatePaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -6045,7 +6096,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsParams struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type PaymentIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -6816,6 +6867,25 @@ type PaymentIntentUpdatePaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Configuration options for setting up an eMandate
+type PaymentIntentUpdatePaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date"`
+}
+
+// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions   *PaymentIntentUpdatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
+	SetupFutureUsage *string                                                         `form:"setup_future_usage"`
+}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type PaymentIntentUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -6854,8 +6924,6 @@ type PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams struct {
 	MandateOptions *PaymentIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *PaymentIntentUpdatePaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
-	// Preferred transaction settlement speed
-	PreferredSettlementSpeed *string `form:"preferred_settlement_speed"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -6870,7 +6938,7 @@ type PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams struct {
 	TargetDate *string `form:"target_date"`
 	// The purpose of the transaction.
 	TransactionPurpose *string `form:"transaction_purpose"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -7006,6 +7074,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Swish *PaymentIntentUpdatePaymentMethodOptionsSwishParams `form:"swish"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentUpdatePaymentMethodOptionsTWINTParams `form:"twint"`
+	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+	Upi *PaymentIntentUpdatePaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
@@ -7458,6 +7528,19 @@ type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode struct {
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
 	QRCode        *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
+type PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode struct {
+	// The date (unix timestamp) when the QR code expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The image_url_png string used to render QR code
+	ImageURLPNG string `json:"image_url_png"`
+	// The image_url_svg string used to render QR code
+	ImageURLSVG string `json:"image_url_svg"`
+}
+type PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCode struct {
+	// The URL to the hosted UPI instructions page, which allows customers to view the QR code.
+	HostedInstructionsURL string                                                         `json:"hosted_instructions_url"`
+	QRCode                *PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+}
 
 // When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 type PaymentIntentNextActionUseStripeSDK struct{}
@@ -7518,7 +7601,8 @@ type PaymentIntentNextAction struct {
 	RedirectToURL                        *PaymentIntentNextActionRedirectToURL                        `json:"redirect_to_url"`
 	SwishHandleRedirectOrDisplayQRCode   *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode   `json:"swish_handle_redirect_or_display_qr_code"`
 	// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
-	Type PaymentIntentNextActionType `json:"type"`
+	Type                             PaymentIntentNextActionType                              `json:"type"`
+	UpiHandleRedirectOrDisplayQRCode *PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCode `json:"upi_handle_redirect_or_display_qr_code"`
 	// When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 	UseStripeSDK                  *PaymentIntentNextActionUseStripeSDK                  `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits       *PaymentIntentNextActionVerifyWithMicrodeposits       `json:"verify_with_microdeposits"`
@@ -7568,7 +7652,7 @@ type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type PaymentIntentPaymentMethodOptionsAffirm struct {
@@ -7719,7 +7803,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallments struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type PaymentIntentPaymentMethodOptionsCardMandateOptions struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount int64 `json:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType PaymentIntentPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type"`
@@ -8188,6 +8272,16 @@ type PaymentIntentPaymentMethodOptionsTWINT struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsUpi struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
@@ -8208,8 +8302,6 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptions struct {
 type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
 	MandateOptions       *PaymentIntentPaymentMethodOptionsUSBankAccountMandateOptions       `json:"mandate_options"`
-	// Preferred transaction settlement speed
-	PreferredSettlementSpeed PaymentIntentPaymentMethodOptionsUSBankAccountPreferredSettlementSpeed `json:"preferred_settlement_speed"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -8222,7 +8314,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	TargetDate string `json:"target_date"`
 	// The purpose of the transaction.
 	TransactionPurpose PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose `json:"transaction_purpose"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
 type PaymentIntentPaymentMethodOptionsWeChatPay struct {
@@ -8301,6 +8393,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	Swish            *PaymentIntentPaymentMethodOptionsSwish            `json:"swish"`
 	TWINT            *PaymentIntentPaymentMethodOptionsTWINT            `json:"twint"`
+	Upi              *PaymentIntentPaymentMethodOptionsUpi              `json:"upi"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay"`
 	Zip              *PaymentIntentPaymentMethodOptionsZip              `json:"zip"`
@@ -8405,7 +8498,7 @@ type PaymentIntent struct {
 	LastPaymentError *Error `json:"last_payment_error"`
 	// ID of the latest [Charge object](https://docs.stripe.com/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted.
 	LatestCharge *Charge `json:"latest_charge"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Learn more about [storing information in metadata](https://docs.stripe.com/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
 	Metadata map[string]string `json:"metadata"`

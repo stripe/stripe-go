@@ -817,7 +817,7 @@ type TerminalReader struct {
 	Label string `json:"label"`
 	// The last time this reader reported to Stripe backend. Timestamp is measured in milliseconds since the Unix epoch. Unlike most other Stripe timestamp fields which use seconds, this field uses milliseconds.
 	LastSeenAt int64 `json:"last_seen_at"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The location identifier of the reader.
 	Location *TerminalLocation `json:"location"`

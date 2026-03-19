@@ -351,7 +351,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsACSSDebitSetupFutureUsage = "on_session"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -1143,6 +1143,31 @@ const (
 	CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage = "none"
 )
 
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType can take
+const (
+	CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountTypeFixed   CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType = "fixed"
+	CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountTypeMaximum CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType = "maximum"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage = "off_session"
+	CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage = "on_session"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -1189,7 +1214,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsUSBankAccountSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsUSBankAccountSetupFutureUsage = "on_session"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod string
 
 // List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod can take
@@ -1342,9 +1367,13 @@ type CheckoutSessionUIMode string
 
 // List of values that CheckoutSessionUIMode can take
 const (
-	CheckoutSessionUIModeCustom   CheckoutSessionUIMode = "custom"
-	CheckoutSessionUIModeEmbedded CheckoutSessionUIMode = "embedded"
-	CheckoutSessionUIModeHosted   CheckoutSessionUIMode = "hosted"
+	CheckoutSessionUIModeCustom       CheckoutSessionUIMode = "custom"
+	CheckoutSessionUIModeElements     CheckoutSessionUIMode = "elements"
+	CheckoutSessionUIModeEmbedded     CheckoutSessionUIMode = "embedded"
+	CheckoutSessionUIModeEmbeddedPage CheckoutSessionUIMode = "embedded_page"
+	CheckoutSessionUIModeForm         CheckoutSessionUIMode = "form"
+	CheckoutSessionUIModeHosted       CheckoutSessionUIMode = "hosted"
+	CheckoutSessionUIModeHostedPage   CheckoutSessionUIMode = "hosted_page"
 )
 
 // Describes whether Checkout should display Link. Defaults to `auto`.
@@ -2121,6 +2150,18 @@ type CheckoutSessionPaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Crypto payment method options.
+type CheckoutSessionPaymentMethodOptionsCryptoParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Configuration for eu_bank_transfer funding type.
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
@@ -2558,6 +2599,25 @@ type CheckoutSessionPaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for Mandate creation
+type CheckoutSessionPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date"`
+}
+
+// contains details about the UPI payment method options.
+type CheckoutSessionPaymentMethodOptionsUpiParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions   *CheckoutSessionPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
+	SetupFutureUsage *string                                                     `form:"setup_future_usage"`
+}
+
 // Additional fields for Financial Connections Session creation
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -2628,6 +2688,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Card *CheckoutSessionPaymentMethodOptionsCardParams `form:"card"`
 	// contains details about the Cashapp Pay payment method options.
 	CashApp *CheckoutSessionPaymentMethodOptionsCashAppParams `form:"cashapp"`
+	// contains details about the Crypto payment method options.
+	Crypto *CheckoutSessionPaymentMethodOptionsCryptoParams `form:"crypto"`
 	// contains details about the Customer Balance payment method options.
 	CustomerBalance *CheckoutSessionPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// contains details about the DemoPay payment method options.
@@ -2688,6 +2750,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Swish *CheckoutSessionPaymentMethodOptionsSwishParams `form:"swish"`
 	// contains details about the TWINT payment method options.
 	TWINT *CheckoutSessionPaymentMethodOptionsTWINTParams `form:"twint"`
+	// contains details about the UPI payment method options.
+	Upi *CheckoutSessionPaymentMethodOptionsUpiParams `form:"upi"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
@@ -2858,6 +2922,14 @@ type CheckoutSessionSubscriptionDataInvoiceSettingsParams struct {
 	Issuer *CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+type CheckoutSessionSubscriptionDataPendingInvoiceItemIntervalParams struct {
+	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -2900,6 +2972,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	PendingInvoiceItemInterval *CheckoutSessionSubscriptionDataPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
@@ -3012,6 +3086,8 @@ type CheckoutSessionParams struct {
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at"`
+	// The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier.
+	IntegrationIdentifier *string `form:"integration_identifier"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionInvoiceCreationParams `form:"invoice_creation"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
@@ -3900,6 +3976,18 @@ type CheckoutSessionCreatePaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Crypto payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsCryptoParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Configuration for eu_bank_transfer funding type.
 type CheckoutSessionCreatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
@@ -4337,6 +4425,25 @@ type CheckoutSessionCreatePaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for Mandate creation
+type CheckoutSessionCreatePaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date"`
+}
+
+// contains details about the UPI payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsUpiParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions   *CheckoutSessionCreatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
+	SetupFutureUsage *string                                                           `form:"setup_future_usage"`
+}
+
 // Additional fields for Financial Connections Session creation
 type CheckoutSessionCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -4407,6 +4514,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Card *CheckoutSessionCreatePaymentMethodOptionsCardParams `form:"card"`
 	// contains details about the Cashapp Pay payment method options.
 	CashApp *CheckoutSessionCreatePaymentMethodOptionsCashAppParams `form:"cashapp"`
+	// contains details about the Crypto payment method options.
+	Crypto *CheckoutSessionCreatePaymentMethodOptionsCryptoParams `form:"crypto"`
 	// contains details about the Customer Balance payment method options.
 	CustomerBalance *CheckoutSessionCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// contains details about the DemoPay payment method options.
@@ -4467,6 +4576,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Swish *CheckoutSessionCreatePaymentMethodOptionsSwishParams `form:"swish"`
 	// contains details about the TWINT payment method options.
 	TWINT *CheckoutSessionCreatePaymentMethodOptionsTWINTParams `form:"twint"`
+	// contains details about the UPI payment method options.
+	Upi *CheckoutSessionCreatePaymentMethodOptionsUpiParams `form:"upi"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
@@ -4637,6 +4748,14 @@ type CheckoutSessionCreateSubscriptionDataInvoiceSettingsParams struct {
 	Issuer *CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+type CheckoutSessionCreateSubscriptionDataPendingInvoiceItemIntervalParams struct {
+	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionCreateSubscriptionDataTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -4679,6 +4798,8 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	PendingInvoiceItemInterval *CheckoutSessionCreateSubscriptionDataPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
@@ -4789,6 +4910,8 @@ type CheckoutSessionCreateParams struct {
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at"`
+	// The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier.
+	IntegrationIdentifier *string `form:"integration_identifier"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionCreateInvoiceCreationParams `form:"invoice_creation"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
@@ -5530,7 +5653,7 @@ type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type CheckoutSessionPaymentMethodOptionsAffirm struct {
@@ -6010,6 +6133,27 @@ type CheckoutSessionPaymentMethodOptionsTWINT struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsUpiMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType `json:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description string `json:"description"`
+	// End date of the mandate or subscription.
+	EndDate int64 `json:"end_date"`
+}
+type CheckoutSessionPaymentMethodOptionsUpi struct {
+	MandateOptions *CheckoutSessionPaymentMethodOptionsUpiMandateOptions `json:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage `json:"setup_future_usage"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
@@ -6035,7 +6179,7 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsUSBankAccountSetupFutureUsage `json:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
 
@@ -6082,6 +6226,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish"`
 	TWINT            *CheckoutSessionPaymentMethodOptionsTWINT            `json:"twint"`
+	Upi              *CheckoutSessionPaymentMethodOptionsUpi              `json:"upi"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 }
 
@@ -6297,13 +6442,15 @@ type CheckoutSession struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier.
+	IntegrationIdentifier string `json:"integration_identifier"`
 	// ID of the invoice created by the Checkout Session, if it exists.
 	Invoice *Invoice `json:"invoice"`
 	// Details on the state of invoice creation for the Checkout Session.
 	InvoiceCreation *CheckoutSessionInvoiceCreation `json:"invoice_creation"`
 	// The line items purchased by the customer.
 	LineItems *LineItemList `json:"line_items"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale string `json:"locale"`
