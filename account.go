@@ -867,6 +867,12 @@ type AccountCapabilitiesTWINTPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The upi_payments capability.
+type AccountCapabilitiesUpiPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountCapabilitiesUSBankAccountACHPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -1036,6 +1042,8 @@ type AccountCapabilitiesParams struct {
 	TreasuryGoldmanSachs *AccountCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs"`
 	// The twint_payments capability.
 	TWINTPayments *AccountCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
+	// The upi_payments capability.
+	UpiPayments *AccountCapabilitiesUpiPaymentsParams `form:"upi_payments"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
 	// The us_bank_transfer_payments capability.
@@ -2158,6 +2166,12 @@ type AccountUpdateCapabilitiesTWINTPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The upi_payments capability.
+type AccountUpdateCapabilitiesUpiPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountUpdateCapabilitiesUSBankAccountACHPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2327,6 +2341,8 @@ type AccountUpdateCapabilitiesParams struct {
 	TreasuryGoldmanSachs *AccountUpdateCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs"`
 	// The twint_payments capability.
 	TWINTPayments *AccountUpdateCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
+	// The upi_payments capability.
+	UpiPayments *AccountUpdateCapabilitiesUpiPaymentsParams `form:"upi_payments"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountUpdateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
 	// The us_bank_transfer_payments capability.
@@ -3420,6 +3436,12 @@ type AccountCreateCapabilitiesTWINTPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The upi_payments capability.
+type AccountCreateCapabilitiesUpiPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountCreateCapabilitiesUSBankAccountACHPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3589,6 +3611,8 @@ type AccountCreateCapabilitiesParams struct {
 	TreasuryGoldmanSachs *AccountCreateCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs"`
 	// The twint_payments capability.
 	TWINTPayments *AccountCreateCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
+	// The upi_payments capability.
+	UpiPayments *AccountCreateCapabilitiesUpiPaymentsParams `form:"upi_payments"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCreateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
 	// The us_bank_transfer_payments capability.
@@ -4446,6 +4470,8 @@ type AccountCapabilities struct {
 	TreasuryGoldmanSachs AccountCapabilityStatus `json:"treasury_goldman_sachs"`
 	// The status of the TWINT capability of the account, or whether the account can directly process TWINT charges.
 	TWINTPayments AccountCapabilityStatus `json:"twint_payments"`
+	// The status of the upi payments capability of the account, or whether the account can directly process upi charges.
+	UpiPayments AccountCapabilityStatus `json:"upi_payments"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments"`
 	// The status of the US customer_balance payments (USD currency) capability of the account, or whether the account can directly process US customer_balance charges.
@@ -4892,6 +4918,8 @@ type AccountTOSAcceptance struct {
 	UserAgent string `json:"user_agent"`
 }
 
+// For new integrations, we recommend using the [Accounts v2 API](https://docs.stripe.com/api/v2/core/accounts), in place of /v1/accounts and /v1/customers to represent a user.
+//
 // This is an object representing a Stripe account. You can retrieve it to see
 // properties on the account like its current requirements or if the account is
 // enabled to make live charges or receive payouts.

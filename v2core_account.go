@@ -6760,7 +6760,7 @@ type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount struct {
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenue struct {
 	// Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
-	Amount *V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount `json:"amount,omitempty"`
+	Amount Amount `json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd string `json:"fiscal_year_end,omitempty"`
 }
@@ -6896,7 +6896,7 @@ type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount struct {
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue struct {
 	// Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
-	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount `json:"amount,omitempty"`
+	Amount Amount `json:"amount,omitempty"`
 }
 
 // When the business was incorporated or registered.
