@@ -13,14 +13,6 @@ type V2PaymentsOffSessionPaymentListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
-// The “presentment amount” to be collected from the customer.
-type V2PaymentsOffSessionPaymentAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
-}
-
 // Details about the capture configuration for the OffSessionPayment.
 type V2PaymentsOffSessionPaymentCaptureParams struct {
 	Params `form:"*"`
@@ -139,7 +131,7 @@ type V2PaymentsOffSessionPaymentTransferDataParams struct {
 type V2PaymentsOffSessionPaymentParams struct {
 	Params `form:"*"`
 	// The “presentment amount” to be collected from the customer.
-	Amount *V2PaymentsOffSessionPaymentAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
 	// Details about the capture configuration for the OffSessionPayment.
@@ -202,14 +194,6 @@ type V2PaymentsOffSessionPaymentCaptureTransferDataParams struct {
 	// and must be a positive integer representing how much to transfer in the smallest
 	// currency unit (e.g., 100 cents to charge $1.00).
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-}
-
-// The “presentment amount” to be collected from the customer.
-type V2PaymentsOffSessionPaymentCreateAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
 }
 
 // Details about the capture configuration for the OffSessionPayment.
@@ -302,7 +286,7 @@ type V2PaymentsOffSessionPaymentCreateTransferDataParams struct {
 type V2PaymentsOffSessionPaymentCreateParams struct {
 	Params `form:"*"`
 	// The “presentment amount” to be collected from the customer.
-	Amount *V2PaymentsOffSessionPaymentCreateAmountParams `form:"amount" json:"amount"`
+	Amount *Amount `form:"amount" json:"amount"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence"`
 	// Details about the capture configuration for the OffSessionPayment.

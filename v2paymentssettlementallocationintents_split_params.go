@@ -17,14 +17,6 @@ type V2PaymentsSettlementAllocationIntentsSplitListParams struct {
 	Status *string `form:"status" json:"status,omitempty"`
 }
 
-// The amount and currency of the SettlementAllocationIntentSplit.
-type V2PaymentsSettlementAllocationIntentsSplitAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
-}
-
 // Create SettlementAllocationIntentSplit API.
 type V2PaymentsSettlementAllocationIntentsSplitParams struct {
 	Params `form:"*"`
@@ -33,7 +25,7 @@ type V2PaymentsSettlementAllocationIntentsSplitParams struct {
 	// The target account for settling the SettlementAllocationIntentSplit.
 	Account *string `form:"account" json:"account,omitempty"`
 	// The amount and currency of the SettlementAllocationIntentSplit.
-	Amount *V2PaymentsSettlementAllocationIntentsSplitAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Metadata associated with the SettlementAllocationIntentSplit.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The type of the fund transfer.
@@ -56,14 +48,6 @@ type V2PaymentsSettlementAllocationIntentsSplitCancelParams struct {
 	SettlementAllocationIntentID *string `form:"-" json:"-"` // Included in URL
 }
 
-// The amount and currency of the SettlementAllocationIntentSplit.
-type V2PaymentsSettlementAllocationIntentsSplitCreateAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
-}
-
 // Create SettlementAllocationIntentSplit API.
 type V2PaymentsSettlementAllocationIntentsSplitCreateParams struct {
 	Params `form:"*"`
@@ -72,7 +56,7 @@ type V2PaymentsSettlementAllocationIntentsSplitCreateParams struct {
 	// The target account for settling the SettlementAllocationIntentSplit.
 	Account *string `form:"account" json:"account"`
 	// The amount and currency of the SettlementAllocationIntentSplit.
-	Amount *V2PaymentsSettlementAllocationIntentsSplitCreateAmountParams `form:"amount" json:"amount"`
+	Amount *Amount `form:"amount" json:"amount"`
 	// Metadata associated with the SettlementAllocationIntentSplit.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The type of the fund transfer.
