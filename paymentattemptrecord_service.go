@@ -106,12 +106,12 @@ func (c v1PaymentAttemptRecordService) ReportRefund(ctx context.Context, id stri
 }
 
 // List all the Payment Attempt Records attached to the specified Payment Record.
-func (c v1PaymentAttemptRecordService) List(ctx context.Context, listParams *PaymentAttemptRecordListParams) Seq2[*PaymentAttemptRecord, error] {
+func (c v1PaymentAttemptRecordService) List(ctx context.Context, listParams *PaymentAttemptRecordListParams) *V1List[*PaymentAttemptRecord] {
 	if listParams == nil {
 		listParams = &PaymentAttemptRecordListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentAttemptRecord], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentAttemptRecord], error) {
 		list := &v1Page[*PaymentAttemptRecord]{}
 		if p == nil {
 			p = &Params{}
@@ -119,5 +119,5 @@ func (c v1PaymentAttemptRecordService) List(ctx context.Context, listParams *Pay
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_attempt_records", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
