@@ -242,7 +242,7 @@ func checkEventNotification(payload []byte) error {
 	}
 
 	if e.Object != "event" {
-		return fmt.Errorf("Did you use ConstructEvent to parse an EventNotification? If so, use ParseEventNotification instead.")
+		return fmt.Errorf("Did you use ConstructEvent to parse an event notification? If so, use ParseEventNotification instead.")
 	}
 
 	return nil
