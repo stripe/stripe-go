@@ -1478,7 +1478,7 @@ type TerminalConfiguration struct {
 	ID string `json:"id"`
 	// Whether this Configuration is the default for your account
 	IsAccountDefault bool `json:"is_account_default"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String indicating the name of the Configuration object, set by the user
 	Name string `json:"name"`

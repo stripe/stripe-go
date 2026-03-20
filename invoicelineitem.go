@@ -193,7 +193,7 @@ type InvoiceLineItemParams struct {
 	Discounts []*InvoiceLineItemDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-type) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](api/invoices/line_item#invoice_line_item_object-type) line items, where any existing metadata on the invoice line is merged with the incoming data.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://docs.stripe.com/api/invoices/line_item) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](https://docs.stripe.com/api/invoices/line_item) line items, where any existing metadata on the invoice line is merged with the incoming data.
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceLineItemPeriodParams `form:"period"`
@@ -201,8 +201,10 @@ type InvoiceLineItemParams struct {
 	PriceData *InvoiceLineItemPriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceLineItemPricingParams `form:"pricing"`
-	// Non-negative integer. The quantity of units for the line item.
+	// Non-negative integer. The quantity of units for the line item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemTaxAmountParams `form:"tax_amounts"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
@@ -344,7 +346,7 @@ type InvoiceLineItemUpdateParams struct {
 	Discounts []*InvoiceLineItemUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-type) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](api/invoices/line_item#invoice_line_item_object-type) line items, where any existing metadata on the invoice line is merged with the incoming data.
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://docs.stripe.com/api/invoices/line_item) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](https://docs.stripe.com/api/invoices/line_item) line items, where any existing metadata on the invoice line is merged with the incoming data.
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceLineItemUpdatePeriodParams `form:"period"`
@@ -352,8 +354,10 @@ type InvoiceLineItemUpdateParams struct {
 	PriceData *InvoiceLineItemUpdatePriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceLineItemUpdatePricingParams `form:"pricing"`
-	// Non-negative integer. The quantity of units for the line item.
+	// Non-negative integer. The quantity of units for the line item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemUpdateTaxAmountParams `form:"tax_amounts"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
@@ -516,7 +520,7 @@ type InvoiceLineItem struct {
 	ID string `json:"id"`
 	// The ID of the invoice that contains this line item.
 	Invoice string `json:"invoice"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with `type=subscription`, `metadata` reflects the current metadata from the subscription associated with the line item, unless the invoice line was directly updated with different metadata after creation.
 	Metadata map[string]string `json:"metadata"`
@@ -529,9 +533,11 @@ type InvoiceLineItem struct {
 	PretaxCreditAmounts []*InvoiceLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
 	// The pricing information of the line item.
 	Pricing *InvoiceLineItemPricing `json:"pricing"`
-	// The quantity of the subscription, if the line item is a subscription or a proration.
-	Quantity     int64         `json:"quantity"`
-	Subscription *Subscription `json:"subscription"`
+	// Quantity of units for the invoice line item in integer format, with any decimal precision truncated. For the line item's full-precision decimal quantity, use `quantity_decimal`. This field will be deprecated in favor of `quantity_decimal` in a future version. If the line item is a proration or subscription, the quantity of the subscription that the proration was computed for.
+	Quantity int64 `json:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
+	QuantityDecimal float64       `json:"quantity_decimal,string"`
+	Subscription    *Subscription `json:"subscription"`
 	// The subtotal of the line item, in cents (or local equivalent), before any discounts or taxes.
 	Subtotal int64 `json:"subtotal"`
 	// The tax information of the line item.

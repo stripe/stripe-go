@@ -384,7 +384,7 @@ type FinancialConnectionsAccount struct {
 	InstitutionName string `json:"institution_name"`
 	// The last 4 digits of the account number. If present, this will be 4 numeric characters.
 	Last4 string `json:"last4"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
