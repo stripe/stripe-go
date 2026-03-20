@@ -13828,7 +13828,7 @@ func TestV2BillingIntentPostService(t *testing.T) {
 							MaximumApplications: &stripe.V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams{
 								Type: stripe.String("indefinite"),
 							},
-							PercentOff: stripe.String("percent_off"),
+							PercentOff: stripe.Float64(991934883.3333334),
 						},
 					},
 					SpendModifierRule: &stripe.V2BillingIntentActionApplySpendModifierRuleParams{
@@ -13984,7 +13984,7 @@ func TestV2BillingIntentPostClient(t *testing.T) {
 							MaximumApplications: &stripe.V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams{
 								Type: stripe.String("indefinite"),
 							},
-							PercentOff: stripe.String("percent_off"),
+							PercentOff: stripe.Float64(991934883.3333334),
 						},
 					},
 					SpendModifierRule: &stripe.V2BillingIntentCreateActionApplySpendModifierRuleParams{
@@ -19507,7 +19507,7 @@ func TestV2ReportingReportRunGetClient(t *testing.T) {
 func TestV2TaxManualRuleGetService(t *testing.T) {
 	params := &stripe.V2TaxManualRuleListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/tax/manual_rules", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/tax/manual_rules", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19519,7 +19519,7 @@ func TestV2TaxManualRuleGetService(t *testing.T) {
 func TestV2TaxManualRuleGetClient(t *testing.T) {
 	params := &stripe.V2TaxManualRuleListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/tax/manual_rules", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/tax/manual_rules", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19538,7 +19538,7 @@ func TestV2TaxManualRulePostService(t *testing.T) {
 						Description:  stripe.String("description"),
 						DisplayName:  stripe.String("display_name"),
 						Jurisdiction: stripe.String("jurisdiction"),
-						Percentage:   stripe.String("percentage"),
+						Percentage:   stripe.Float64(614555204),
 						State:        stripe.String("state"),
 					},
 				},
@@ -19547,7 +19547,7 @@ func TestV2TaxManualRulePostService(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/manual_rules", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/tax/manual_rules", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19567,7 +19567,7 @@ func TestV2TaxManualRulePostClient(t *testing.T) {
 						Description:  stripe.String("description"),
 						DisplayName:  stripe.String("display_name"),
 						Jurisdiction: stripe.String("jurisdiction"),
-						Percentage:   stripe.String("percentage"),
+						Percentage:   stripe.Float64(614555204),
 						State:        stripe.String("state"),
 					},
 				},
@@ -19576,7 +19576,7 @@ func TestV2TaxManualRulePostClient(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/manual_rules", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/tax/manual_rules", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19589,7 +19589,7 @@ func TestV2TaxManualRulePostClient(t *testing.T) {
 func TestV2TaxManualRuleGet2Service(t *testing.T) {
 	params := &stripe.V2TaxManualRuleParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19602,7 +19602,7 @@ func TestV2TaxManualRuleGet2Service(t *testing.T) {
 func TestV2TaxManualRuleGet2Client(t *testing.T) {
 	params := &stripe.V2TaxManualRuleRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19622,7 +19622,7 @@ func TestV2TaxManualRulePost2Service(t *testing.T) {
 						Description:  stripe.String("description"),
 						DisplayName:  stripe.String("display_name"),
 						Jurisdiction: stripe.String("jurisdiction"),
-						Percentage:   stripe.String("percentage"),
+						Percentage:   stripe.Float64(614555204),
 						State:        stripe.String("state"),
 					},
 				},
@@ -19631,7 +19631,7 @@ func TestV2TaxManualRulePost2Service(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19651,7 +19651,7 @@ func TestV2TaxManualRulePost2Client(t *testing.T) {
 						Description:  stripe.String("description"),
 						DisplayName:  stripe.String("display_name"),
 						Jurisdiction: stripe.String("jurisdiction"),
-						Percentage:   stripe.String("percentage"),
+						Percentage:   stripe.Float64(614555204),
 						State:        stripe.String("state"),
 					},
 				},
@@ -19660,7 +19660,7 @@ func TestV2TaxManualRulePost2Client(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/tax/manual_rules/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19673,7 +19673,7 @@ func TestV2TaxManualRulePost2Client(t *testing.T) {
 func TestV2TaxManualRulePost3Service(t *testing.T) {
 	params := &stripe.V2TaxManualRuleDeactivateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/manual_rules/id_123/deactivate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/tax/manual_rules/id_123/deactivate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19686,7 +19686,7 @@ func TestV2TaxManualRulePost3Service(t *testing.T) {
 func TestV2TaxManualRulePost3Client(t *testing.T) {
 	params := &stripe.V2TaxManualRuleDeactivateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/tax/manual_rules/id_123/deactivate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"percentage\"}]}],\"status\":\"active\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/tax/manual_rules/id_123/deactivate", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.tax.manual_rule\",\"products\":[{\"type\":\"licensed_item\"}],\"scheduled_tax_rates\":[{\"rates\":[{\"display_name\":\"display_name\",\"percentage\":\"614555204\"}]}],\"status\":\"active\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

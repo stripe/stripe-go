@@ -103,7 +103,7 @@ type V2BillingServiceActionCreditGrantAmountCustomPricingUnit struct {
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value string `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The amount of the credit grant.
@@ -159,7 +159,7 @@ type V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnit struct {
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value string `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The amount of the credit grant.

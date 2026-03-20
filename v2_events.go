@@ -6751,7 +6751,7 @@ type V2CoreHealthAPIErrorFiringEventDataImpactTopImpactedAccount struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 }
 
 // The user impact.
@@ -6767,7 +6767,7 @@ type V2CoreHealthAPIErrorFiringEventDataImpact struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 	// The top impacted connected accounts (only for platforms).
 	TopImpactedAccounts []*V2CoreHealthAPIErrorFiringEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
@@ -6793,7 +6793,7 @@ type V2CoreHealthAPIErrorResolvedEventDataImpactTopImpactedAccount struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 }
 
 // The user impact.
@@ -6809,7 +6809,7 @@ type V2CoreHealthAPIErrorResolvedEventDataImpact struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 	// The top impacted connected accounts (only for platforms).
 	TopImpactedAccounts []*V2CoreHealthAPIErrorResolvedEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
@@ -6835,7 +6835,7 @@ type V2CoreHealthAPILatencyFiringEventDataImpactTopImpactedAccount struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 }
 
 // The user impact.
@@ -6849,7 +6849,7 @@ type V2CoreHealthAPILatencyFiringEventDataImpact struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 	// The top impacted connected accounts (only for platforms).
 	TopImpactedAccounts []*V2CoreHealthAPILatencyFiringEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
@@ -6875,7 +6875,7 @@ type V2CoreHealthAPILatencyResolvedEventDataImpactTopImpactedAccount struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 }
 
 // The user impact.
@@ -6889,7 +6889,7 @@ type V2CoreHealthAPILatencyResolvedEventDataImpact struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 	// The top impacted connected accounts (only for platforms).
 	TopImpactedAccounts []*V2CoreHealthAPILatencyResolvedEventDataImpactTopImpactedAccount `json:"top_impacted_accounts,omitempty"`
 }
@@ -6921,13 +6921,13 @@ type V2CoreHealthAuthorizationRateDropFiringEventDataImpact struct {
 	// The type of the charge.
 	ChargeType V2CoreHealthAuthorizationRateDropFiringEventDataImpactChargeType `json:"charge_type"`
 	// The current authorization rate percentage.
-	CurrentPercentage string `json:"current_percentage"`
+	CurrentPercentage float64 `json:"current_percentage,string"`
 	// Dimensions that describe what subset of payments are impacted.
 	Dimensions []*V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimension `json:"dimensions,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthAuthorizationRateDropFiringEventDataImpactPaymentMethodType `json:"payment_method_type"`
 	// The previous authorization rate percentage.
-	PreviousPercentage string `json:"previous_percentage"`
+	PreviousPercentage float64 `json:"previous_percentage,string"`
 }
 
 // Occurs when an authorization rate drop alert is firing.
@@ -6957,13 +6957,13 @@ type V2CoreHealthAuthorizationRateDropResolvedEventDataImpact struct {
 	// The type of the charge.
 	ChargeType V2CoreHealthAuthorizationRateDropResolvedEventDataImpactChargeType `json:"charge_type"`
 	// The current authorization rate percentage.
-	CurrentPercentage string `json:"current_percentage"`
+	CurrentPercentage float64 `json:"current_percentage,string"`
 	// Dimensions that describe what subset of payments are impacted.
 	Dimensions []*V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimension `json:"dimensions,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType `json:"payment_method_type"`
 	// The previous authorization rate percentage.
-	PreviousPercentage string `json:"previous_percentage"`
+	PreviousPercentage float64 `json:"previous_percentage,string"`
 }
 
 // Occurs when an authorization rate drop alert is resolved.
@@ -7149,7 +7149,7 @@ type V2CoreHealthPaymentMethodErrorFiringEventDataImpactTopImpactedAccount struc
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 }
 
 // The user impact.
@@ -7159,7 +7159,7 @@ type V2CoreHealthPaymentMethodErrorFiringEventDataImpact struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType `json:"payment_method_type"`
 	// The top impacted connected accounts (only for platforms).
@@ -7187,7 +7187,7 @@ type V2CoreHealthPaymentMethodErrorResolvedEventDataImpactTopImpactedAccount str
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 }
 
 // The user impact.
@@ -7197,7 +7197,7 @@ type V2CoreHealthPaymentMethodErrorResolvedEventDataImpact struct {
 	// The number of impacted requests.
 	ImpactedRequests int64 `json:"impacted_requests"`
 	// The percentage of impacted requests.
-	ImpactedRequestsPercentage string `json:"impacted_requests_percentage,omitempty"`
+	ImpactedRequestsPercentage float64 `json:"impacted_requests_percentage,string,omitempty"`
 	// The type of the payment method.
 	PaymentMethodType V2CoreHealthPaymentMethodErrorResolvedEventDataImpactPaymentMethodType `json:"payment_method_type"`
 	// The top impacted connected accounts (only for platforms).
@@ -7223,7 +7223,7 @@ type V2CoreHealthSEPADebitDelayedFiringEventDataImpact struct {
 	// The number of impacted payments.
 	ImpactedPayments int64 `json:"impacted_payments"`
 	// The percentage of impacted payments.
-	ImpactedPaymentsPercentage string `json:"impacted_payments_percentage"`
+	ImpactedPaymentsPercentage float64 `json:"impacted_payments_percentage,string"`
 }
 
 // Occurs when a SEPA debit delayed alert is firing.
@@ -7243,7 +7243,7 @@ type V2CoreHealthSEPADebitDelayedResolvedEventDataImpact struct {
 	// The number of impacted payments.
 	ImpactedPayments int64 `json:"impacted_payments"`
 	// The percentage of impacted payments.
-	ImpactedPaymentsPercentage string `json:"impacted_payments_percentage"`
+	ImpactedPaymentsPercentage float64 `json:"impacted_payments_percentage,string"`
 }
 
 // Occurs when a SEPA debit delayed alert is resolved.
