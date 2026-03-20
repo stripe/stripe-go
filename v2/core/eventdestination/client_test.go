@@ -39,11 +39,12 @@ func TestEventDestinationNew(t *testing.T) {
 			Description:   *params.Description,
 			EnabledEvents: enabledEvents,
 			EventPayload:  stripe.V2CoreEventDestinationEventPayload(*params.EventPayload),
-			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
-			Name:          *params.Name,
-			Status:        stripe.V2CoreEventDestinationStatusEnabled,
-			Type:          stripe.V2CoreEventDestinationType(*params.Type),
-			Updated:       timeNow,
+			// TODO: http://go/j/DEVSDK-3048 - The type change for EventsFrom is currently not in the private preview spec
+			// EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
+			Name:    *params.Name,
+			Status:  stripe.V2CoreEventDestinationStatusEnabled,
+			Type:    stripe.V2CoreEventDestinationType(*params.Type),
+			Updated: timeNow,
 			WebhookEndpoint: &stripe.V2CoreEventDestinationWebhookEndpoint{
 				URL: *params.WebhookEndpoint.URL,
 			},
@@ -80,12 +81,13 @@ func TestEventDestinationGet(t *testing.T) {
 			Description:   "This is my event destination, I like it a lot",
 			EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
 			EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
-			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
-			Name:          "My Event Destination",
-			Status:        stripe.V2CoreEventDestinationStatusEnabled,
-			Type:          stripe.V2CoreEventDestinationTypeWebhookEndpoint,
-			Updated:       timeNow,
-			ID:            "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
+			// TODO: http://go/j/DEVSDK-3048 - The type change for EventsFrom is currently not in the private preview spec
+			// EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
+			Name:    "My Event Destination",
+			Status:  stripe.V2CoreEventDestinationStatusEnabled,
+			Type:    stripe.V2CoreEventDestinationTypeWebhookEndpoint,
+			Updated: timeNow,
+			ID:      "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
 		assert.NoError(t, err)
 		return data
@@ -119,12 +121,13 @@ func TestEventDestinationUpdate(t *testing.T) {
 			Description:   "Better description",
 			EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
 			EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
-			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
-			Name:          "My Event Destination",
-			Status:        stripe.V2CoreEventDestinationStatusEnabled,
-			Type:          stripe.V2CoreEventDestinationTypeWebhookEndpoint,
-			Updated:       timeNow,
-			ID:            "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
+			// TODO: http://go/j/DEVSDK-3048 - The type change for EventsFrom is currently not in the private preview spec
+			// EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
+			Name:    "My Event Destination",
+			Status:  stripe.V2CoreEventDestinationStatusEnabled,
+			Type:    stripe.V2CoreEventDestinationTypeWebhookEndpoint,
+			Updated: timeNow,
+			ID:      "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
 		assert.NoError(t, err)
 		return data
@@ -167,12 +170,13 @@ func TestEventDestinationDisable(t *testing.T) {
 			Description:   "This is my event destination, I like it a lot",
 			EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
 			EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
-			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
-			Name:          "My Event Destination",
-			Status:        stripe.V2CoreEventDestinationStatusDisabled,
-			Type:          stripe.V2CoreEventDestinationTypeWebhookEndpoint,
-			Updated:       timeNow,
-			ID:            "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
+			// TODO: http://go/j/DEVSDK-3048 - The type change for EventsFrom is currently not in the private preview spec
+			// EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
+			Name:    "My Event Destination",
+			Status:  stripe.V2CoreEventDestinationStatusDisabled,
+			Type:    stripe.V2CoreEventDestinationTypeWebhookEndpoint,
+			Updated: timeNow,
+			ID:      "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
 		assert.NoError(t, err)
 		return data
@@ -192,12 +196,13 @@ func TestEventDestinationEnable(t *testing.T) {
 			Description:   "This is my event destination, I like it a lot",
 			EnabledEvents: []string{"v1.billing.meter.error_report_triggered"},
 			EventPayload:  stripe.V2CoreEventDestinationEventPayloadThin,
-			EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
-			Name:          "My Event Destination",
-			Status:        stripe.V2CoreEventDestinationStatusEnabled,
-			Type:          stripe.V2CoreEventDestinationTypeWebhookEndpoint,
-			Updated:       timeNow,
-			ID:            "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
+			// TODO: http://go/j/DEVSDK-3048 - The type change for EventsFrom is currently not in the private preview spec
+			// EventsFrom:    []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf},
+			Name:    "My Event Destination",
+			Status:  stripe.V2CoreEventDestinationStatusEnabled,
+			Type:    stripe.V2CoreEventDestinationTypeWebhookEndpoint,
+			Updated: timeNow,
+			ID:      "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
 		assert.NoError(t, err)
 		return data
