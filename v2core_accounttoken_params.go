@@ -259,7 +259,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueAmountParams struct {
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountTokenIdentityBusinessDetailsAnnualRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd *string `form:"fiscal_year_end" json:"fiscal_year_end,omitempty"`
 }
@@ -397,7 +397,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParam
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountTokenIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 }
 
 // When the business was incorporated or registered.
@@ -651,7 +651,7 @@ type V2CoreAccountTokenIdentityIndividualRelationshipParams struct {
 	// Whether the person is an owner of the account's identity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *string `form:"percent_ownership" json:"percent_ownership,omitempty"`
+	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
 	Title *string `form:"title" json:"title,omitempty"`
 }
@@ -1049,7 +1049,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueAmountParams st
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountTokenCreateIdentityBusinessDetailsAnnualRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd *string `form:"fiscal_year_end" json:"fiscal_year_end,omitempty"`
 }
@@ -1187,7 +1187,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmoun
 // An estimate of the monthly revenue of the business.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
-	Amount *V2CoreAccountTokenCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 }
 
 // When the business was incorporated or registered.
@@ -1441,7 +1441,7 @@ type V2CoreAccountTokenCreateIdentityIndividualRelationshipParams struct {
 	// Whether the person is an owner of the account's identity.
 	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *string `form:"percent_ownership" json:"percent_ownership,omitempty"`
+	PercentOwnership *float64 `form:"percent_ownership,high_precision" json:"percent_ownership,string,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
 	Title *string `form:"title" json:"title,omitempty"`
 }
