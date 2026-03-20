@@ -238,6 +238,14 @@ type Params struct {
 	// Deprecated: Please use Metadata in the surrounding struct instead.
 	Metadata map[string]string `form:"metadata" json:"-"`
 
+	// NullFields is a list of field names (using their JSON/API names, e.g.
+	// "description") that should be explicitly sent as null in the JSON
+	// request body. This is only relevant for v2 API POST requests where
+	// null has semantic meaning (e.g. clearing a field). Fields listed here
+	// will be included as "field_name": null even if the corresponding
+	// struct field is nil.
+	NullFields []string `form:"-" json:"-"`
+
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
@@ -297,6 +305,13 @@ func (p *Params) AddMetadata(key, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// AddNullField adds a field name to the list of fields that should be
+// explicitly sent as null in v2 JSON request bodies. The field name should
+// be the JSON/API field name (e.g. "description"), not the Go field name.
+func (p *Params) AddNullField(field string) {
+	p.NullFields = append(p.NullFields, field)
 }
 
 // GetParams returns a Params struct (itself). It exists because any structs

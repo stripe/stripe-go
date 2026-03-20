@@ -359,6 +359,33 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 	return formValues, commonParams, nil
 }
 
+// marshalV2JSON marshals params to JSON for v2 POST requests. If the params
+// have NullFields set, those field names are explicitly included as null in
+// the JSON output, even if the corresponding struct field is nil/omitted.
+func marshalV2JSON(params ParamsContainer) ([]byte, error) {
+	data, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	p := params.GetParams()
+	if p == nil || len(p.NullFields) == 0 {
+		return data, nil
+	}
+
+	// Parse the marshaled JSON, inject null for each NullFields entry
+	var m map[string]json.RawMessage
+	if err := json.Unmarshal(data, &m); err != nil {
+		return nil, err
+	}
+
+	for _, field := range p.NullFields {
+		m[field] = json.RawMessage("null")
+	}
+
+	return json.Marshal(m)
+}
+
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
 	bodyParams, commonParams, err := extractParams(params)
@@ -376,7 +403,7 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 	if ver == V1APIMode || method != http.MethodPost {
 		body = []byte(bodyParams.Encode())
 	} else if params != nil && !(reflect.ValueOf(params).Kind() == reflect.Ptr && reflect.ValueOf(params).IsNil()) {
-		body, err = json.Marshal(params)
+		body, err = marshalV2JSON(params)
 		if err != nil {
 			return err
 		}
