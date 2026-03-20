@@ -67,7 +67,8 @@ func TestEventDestinationNew(t *testing.T) {
 	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusEnabled)
 	assert.True(t, dest.Created.Equal(timeNow))
 	assert.True(t, dest.Updated.Equal(timeNow))
-	assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
+	// TODO: http://go/j/DEVSDK-3048 - The type change for EventsFrom is currently not in the private preview spec
+	//assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
 }
 
 func TestEventDestinationGet(t *testing.T) {
@@ -106,7 +107,8 @@ func TestEventDestinationGet(t *testing.T) {
 	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusEnabled)
 	assert.True(t, dest.Created.Equal(timeNow))
 	assert.True(t, dest.Updated.Equal(timeNow))
-	assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
+	// TODO: http://go/j/DEVSDK-3048 - The type change for EventsFrom is currently not in the private preview spec
+	//assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
 }
 
@@ -144,7 +146,8 @@ func TestEventDestinationUpdate(t *testing.T) {
 	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusEnabled)
 	assert.True(t, dest.Created.Equal(timeNow))
 	assert.True(t, dest.Updated.Equal(timeNow))
-	assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
+	// TODO: http://go/j/DEVSDK-3048 - The type change for EventsFrom is currently not in the private preview spec
+	//assert.Equal(t, dest.EventsFrom, []stripe.V2CoreEventDestinationEventsFrom{stripe.V2CoreEventDestinationEventsFromSelf})
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
 }
 
