@@ -5332,7 +5332,7 @@ type V2CoreAccountIdentityIndividualRelationship struct {
 	// Whether the individual is an owner of the Account's identity.
 	Owner bool `json:"owner,omitempty"`
 	// The percentage of the Account's identity that the individual owns.
-	PercentOwnership string `json:"percent_ownership,omitempty"`
+	PercentOwnership float64 `json:"percent_ownership,string,omitempty"`
 	// Whether the individual is authorized as the primary representative of the Account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
 	Representative bool `json:"representative,omitempty"`
 	// The individual's title (e.g., CEO, Support Engineer).
