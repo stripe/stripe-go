@@ -32,12 +32,12 @@ func (c v1ReserveReleaseService) Retrieve(ctx context.Context, id string, params
 }
 
 // Returns a list of ReserveReleases previously created. The ReserveReleases are returned in sorted order, with the most recent ReserveReleases appearing first.
-func (c v1ReserveReleaseService) List(ctx context.Context, listParams *ReserveReleaseListParams) Seq2[*ReserveRelease, error] {
+func (c v1ReserveReleaseService) List(ctx context.Context, listParams *ReserveReleaseListParams) *V1List[*ReserveRelease] {
 	if listParams == nil {
 		listParams = &ReserveReleaseListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*ReserveRelease], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ReserveRelease], error) {
 		list := &v1Page[*ReserveRelease]{}
 		if p == nil {
 			p = &Params{}
@@ -45,5 +45,5 @@ func (c v1ReserveReleaseService) List(ctx context.Context, listParams *ReserveRe
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/reserve/releases", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

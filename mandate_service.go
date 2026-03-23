@@ -32,12 +32,12 @@ func (c v1MandateService) Retrieve(ctx context.Context, id string, params *Manda
 }
 
 // Retrieves a list of Mandates for a given PaymentMethod.
-func (c v1MandateService) List(ctx context.Context, listParams *MandateListParams) Seq2[*Mandate, error] {
+func (c v1MandateService) List(ctx context.Context, listParams *MandateListParams) *V1List[*Mandate] {
 	if listParams == nil {
 		listParams = &MandateListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Mandate], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Mandate], error) {
 		list := &v1Page[*Mandate]{}
 		if p == nil {
 			p = &Params{}
@@ -45,5 +45,5 @@ func (c v1MandateService) List(ctx context.Context, listParams *MandateListParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/mandates", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

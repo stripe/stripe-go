@@ -22,6 +22,8 @@ type SubscriptionItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemCurrentTrialParams `form:"current_trial"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
@@ -47,7 +49,7 @@ type SubscriptionItemParams struct {
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity"`
@@ -77,6 +79,14 @@ func (p *SubscriptionItemParams) AddMetadata(key string, value string) {
 type SubscriptionItemBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
 	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// The trial offer to apply to this subscription item.
+type SubscriptionItemCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // Time span for the redeemed discount.
@@ -170,7 +180,7 @@ type SubscriptionItemDeleteParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 }
 
@@ -190,6 +200,14 @@ func (p *SubscriptionItemRetrieveParams) AddExpand(f string) {
 type SubscriptionItemUpdateBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
 	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// The trial offer to apply to this subscription item.
+type SubscriptionItemUpdateCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // Time span for the redeemed discount.
@@ -251,6 +269,8 @@ type SubscriptionItemUpdateParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemUpdateBillingThresholdsParams `form:"billing_thresholds"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemUpdateCurrentTrialParams `form:"current_trial"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
@@ -275,7 +295,7 @@ type SubscriptionItemUpdateParams struct {
 	PriceData *SubscriptionItemUpdatePriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity"`
@@ -301,6 +321,14 @@ func (p *SubscriptionItemUpdateParams) AddMetadata(key string, value string) {
 type SubscriptionItemCreateBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
 	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// The trial offer to apply to this subscription item.
+type SubscriptionItemCreateCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
 }
 
 // Time span for the redeemed discount.
@@ -370,6 +398,8 @@ type SubscriptionItemCreateParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemCreateBillingThresholdsParams `form:"billing_thresholds"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemCreateCurrentTrialParams `form:"current_trial"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemCreateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
@@ -392,7 +422,7 @@ type SubscriptionItemCreateParams struct {
 	PriceData *SubscriptionItemCreatePriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity"`
@@ -424,6 +454,13 @@ type SubscriptionItemBillingThresholds struct {
 	UsageGTE int64 `json:"usage_gte"`
 }
 
+// The current trial that is applied to this subscription item.
+type SubscriptionItemCurrentTrial struct {
+	EndDate    int64  `json:"end_date"`
+	StartDate  int64  `json:"start_date"`
+	TrialOffer string `json:"trial_offer"`
+}
+
 // Options that configure the trial on the subscription item.
 type SubscriptionItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
@@ -446,7 +483,9 @@ type SubscriptionItem struct {
 	CurrentPeriodEnd int64 `json:"current_period_end"`
 	// The start time of this subscription item's current billing period.
 	CurrentPeriodStart int64 `json:"current_period_start"`
-	Deleted            bool  `json:"deleted"`
+	// The current trial that is applied to this subscription item.
+	CurrentTrial *SubscriptionItemCurrentTrial `json:"current_trial"`
+	Deleted      bool                          `json:"deleted"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.

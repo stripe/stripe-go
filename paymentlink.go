@@ -174,6 +174,7 @@ const (
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSwish            PaymentLinkPaymentMethodType = "swish"
 	PaymentLinkPaymentMethodTypeTWINT            PaymentLinkPaymentMethodType = "twint"
+	PaymentLinkPaymentMethodTypeUpi              PaymentLinkPaymentMethodType = "upi"
 	PaymentLinkPaymentMethodTypeUSBankAccount    PaymentLinkPaymentMethodType = "us_bank_account"
 	PaymentLinkPaymentMethodTypeWeChatPay        PaymentLinkPaymentMethodType = "wechat_pay"
 	PaymentLinkPaymentMethodTypeZip              PaymentLinkPaymentMethodType = "zip"
@@ -459,6 +460,14 @@ type PaymentLinkLineItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PaymentLinkLineItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
+
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type PaymentLinkLineItemPriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
@@ -471,6 +480,8 @@ type PaymentLinkLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PaymentLinkLineItemPriceDataProductDataTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
@@ -522,6 +533,12 @@ type PaymentLinkLineItemParams struct {
 	PriceData *PaymentLinkLineItemPriceDataParams `form:"price_data"`
 	// The quantity of the line item being purchased.
 	Quantity *int64 `form:"quantity"`
+}
+
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled *bool `form:"enabled"`
 }
 
 // Controls settings applied for collecting the customer's business name.
@@ -745,6 +762,8 @@ type PaymentLinkParams struct {
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkManagedPaymentsParams `form:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata"`
 	// Controls settings applied for collecting the customer's name.
@@ -1039,6 +1058,14 @@ type PaymentLinkCreateLineItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
+
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type PaymentLinkCreateLineItemPriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
@@ -1051,6 +1078,8 @@ type PaymentLinkCreateLineItemPriceDataProductDataParams struct {
 	Name *string `form:"name"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams `form:"tax_details"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel *string `form:"unit_label"`
 }
@@ -1100,6 +1129,12 @@ type PaymentLinkCreateLineItemParams struct {
 	PriceData *PaymentLinkCreateLineItemPriceDataParams `form:"price_data"`
 	// The quantity of the line item being purchased.
 	Quantity *int64 `form:"quantity"`
+}
+
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkCreateManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled *bool `form:"enabled"`
 }
 
 // Controls settings applied for collecting the customer's business name.
@@ -1321,6 +1356,8 @@ type PaymentLinkCreateParams struct {
 	InvoiceCreation *PaymentLinkCreateInvoiceCreationParams `form:"invoice_creation"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkCreateLineItemParams `form:"line_items"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkCreateManagedPaymentsParams `form:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata"`
 	// Controls settings applied for collecting the customer's name.
@@ -2012,6 +2049,12 @@ type PaymentLinkInvoiceCreation struct {
 	// Configuration for the invoice. Default invoice values will be used if unspecified.
 	InvoiceData *PaymentLinkInvoiceCreationInvoiceData `json:"invoice_data"`
 }
+
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
+}
 type PaymentLinkNameCollectionBusiness struct {
 	// Indicates whether business name collection is enabled for the payment link.
 	Enabled bool `json:"enabled"`
@@ -2176,8 +2219,10 @@ type PaymentLink struct {
 	InvoiceCreation *PaymentLinkInvoiceCreation `json:"invoice_creation"`
 	// The line items representing what is being sold.
 	LineItems *LineItemList `json:"line_items"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata       map[string]string          `json:"metadata"`
 	NameCollection *PaymentLinkNameCollection `json:"name_collection"`

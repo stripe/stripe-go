@@ -110,6 +110,7 @@ import (
 	privacyredactionjob "github.com/stripe/stripe-go/v84/privacy/redactionjob"
 	privacyredactionjobvalidationerror "github.com/stripe/stripe-go/v84/privacy/redactionjobvalidationerror"
 	"github.com/stripe/stripe-go/v84/product"
+	productcatalogtrialoffer "github.com/stripe/stripe-go/v84/productcatalog/trialoffer"
 	"github.com/stripe/stripe-go/v84/productfeature"
 	"github.com/stripe/stripe-go/v84/promotioncode"
 	"github.com/stripe/stripe-go/v84/quote"
@@ -138,6 +139,7 @@ import (
 	taxassociation "github.com/stripe/stripe-go/v84/tax/association"
 	taxcalculation "github.com/stripe/stripe-go/v84/tax/calculation"
 	taxform "github.com/stripe/stripe-go/v84/tax/form"
+	taxlocation "github.com/stripe/stripe-go/v84/tax/location"
 	taxregistration "github.com/stripe/stripe-go/v84/tax/registration"
 	taxsettings "github.com/stripe/stripe-go/v84/tax/settings"
 	taxtransaction "github.com/stripe/stripe-go/v84/tax/transaction"
@@ -193,6 +195,7 @@ import (
 	v2coreaccountsperson "github.com/stripe/stripe-go/v84/v2/core/accounts/person"
 	v2coreaccountspersontoken "github.com/stripe/stripe-go/v84/v2/core/accounts/persontoken"
 	v2coreaccounttoken "github.com/stripe/stripe-go/v84/v2/core/accounttoken"
+	v2corebatchjob "github.com/stripe/stripe-go/v84/v2/core/batchjob"
 	v2coreevent "github.com/stripe/stripe-go/v84/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v84/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v84/v2/core/vault/gbbankaccount"
@@ -413,6 +416,8 @@ type API struct {
 	PrivacyRedactionJobs *privacyredactionjob.Client
 	// PrivacyRedactionJobValidationErrors is the client used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
 	PrivacyRedactionJobValidationErrors *privacyredactionjobvalidationerror.Client
+	// ProductCatalogTrialOffers is the client used to invoke /v1/product_catalog/trial_offers APIs.
+	ProductCatalogTrialOffers *productcatalogtrialoffer.Client
 	// ProductFeatures is the client used to invoke /v1/products/{product}/features APIs.
 	ProductFeatures *productfeature.Client
 	// Products is the client used to invoke /v1/products APIs.
@@ -475,6 +480,8 @@ type API struct {
 	TaxForms *taxform.Client
 	// TaxIDs is the client used to invoke /v1/tax_ids APIs.
 	TaxIDs *taxid.Client
+	// TaxLocations is the client used to invoke /v1/tax/locations APIs.
+	TaxLocations *taxlocation.Client
 	// TaxRates is the client used to invoke /v1/tax_rates APIs.
 	TaxRates *taxrate.Client
 	// TaxRegistrations is the client used to invoke /v1/tax/registrations APIs.
@@ -581,6 +588,8 @@ type API struct {
 	V2CoreAccountsPersonTokens *v2coreaccountspersontoken.Client
 	// V2CoreAccountTokens is the client used to invoke /v2/core/account_tokens APIs.
 	V2CoreAccountTokens *v2coreaccounttoken.Client
+	// V2CoreBatchJobs is the client used to invoke /v2/core/batch_jobs APIs.
+	V2CoreBatchJobs *v2corebatchjob.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2coreeventdestination.Client
 	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
@@ -733,6 +742,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Prices = &price.Client{B: backends.API, Key: key}
 	a.PrivacyRedactionJobs = &privacyredactionjob.Client{B: backends.API, Key: key}
 	a.PrivacyRedactionJobValidationErrors = &privacyredactionjobvalidationerror.Client{B: backends.API, Key: key}
+	a.ProductCatalogTrialOffers = &productcatalogtrialoffer.Client{B: backends.API, Key: key}
 	a.ProductFeatures = &productfeature.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}
@@ -764,6 +774,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
 	a.TaxForms = &taxform.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.TaxIDs = &taxid.Client{B: backends.API, Key: key}
+	a.TaxLocations = &taxlocation.Client{B: backends.API, Key: key}
 	a.TaxRates = &taxrate.Client{B: backends.API, Key: key}
 	a.TaxRegistrations = &taxregistration.Client{B: backends.API, Key: key}
 	a.TaxSettings = &taxsettings.Client{B: backends.API, Key: key}
@@ -817,6 +828,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
 	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
+	a.V2CoreBatchJobs = &v2corebatchjob.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}

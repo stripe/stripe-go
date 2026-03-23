@@ -19,7 +19,7 @@ type v1InvoiceService struct {
 	Key string
 }
 
-// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](https://docs.stripe.com/api#finalize_invoice) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/pay) the invoice to your customers.
+// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](/api/invoices/pay) or <a href="/api/invoices/send">send](https://docs.stripe.com/api/invoices/finalize) the invoice to your customers.
 func (c v1InvoiceService) Create(ctx context.Context, params *InvoiceCreateParams) (*Invoice, error) {
 	if params == nil {
 		params = &InvoiceCreateParams{}
@@ -59,7 +59,7 @@ func (c v1InvoiceService) Update(ctx context.Context, id string, params *Invoice
 	return invoice, err
 }
 
-// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://docs.stripe.com/api#void_invoice).
+// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://docs.stripe.com/api/invoices/void).
 func (c v1InvoiceService) Delete(ctx context.Context, id string, params *InvoiceDeleteParams) (*Invoice, error) {
 	if params == nil {
 		params = &InvoiceDeleteParams{}
@@ -210,9 +210,9 @@ func (c v1InvoiceService) UpdateLines(ctx context.Context, id string, params *In
 	return invoice, err
 }
 
-// Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://docs.stripe.com/api#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
+// Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://docs.stripe.com/api/invoices/delete), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
 //
-// Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you're doing business in. You might need to [issue another invoice or <a href="#create_credit_note">credit note](https://docs.stripe.com/api#create_invoice) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
+// Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you're doing business in. You might need to [issue another invoice or <a href="/api/credit_notes/create">credit note](https://docs.stripe.com/api/invoices/create) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
 func (c v1InvoiceService) VoidInvoice(ctx context.Context, id string, params *InvoiceVoidInvoiceParams) (*Invoice, error) {
 	if params == nil {
 		params = &InvoiceVoidInvoiceParams{}
@@ -225,12 +225,12 @@ func (c v1InvoiceService) VoidInvoice(ctx context.Context, id string, params *In
 }
 
 // You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
-func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParams) Seq2[*Invoice, error] {
+func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParams) *V1List[*Invoice] {
 	if listParams == nil {
 		listParams = &InvoiceListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Invoice], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Invoice], error) {
 		list := &v1Page[*Invoice]{}
 		if p == nil {
 			p = &Params{}
@@ -238,18 +238,18 @@ func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceListLinesParams) Seq2[*InvoiceLineItem, error] {
+func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceListLinesParams) *V1List[*InvoiceLineItem] {
 	if listParams == nil {
 		listParams = &InvoiceListLinesParams{}
 	}
 	listParams.Context = ctx
 	path := FormatURLPath(
 		"/v1/invoices/%s/lines", StringValue(listParams.Invoice))
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*InvoiceLineItem], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*InvoiceLineItem], error) {
 		list := &v1Page[*InvoiceLineItem]{}
 		if p == nil {
 			p = &Params{}
@@ -257,19 +257,19 @@ func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceList
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for invoices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
-func (c v1InvoiceService) Search(ctx context.Context, params *InvoiceSearchParams) Seq2[*Invoice, error] {
+func (c v1InvoiceService) Search(ctx context.Context, params *InvoiceSearchParams) *V1SearchList[*Invoice] {
 	if params == nil {
 		params = &InvoiceSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Invoice], error) {
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*Invoice], error) {
 		list := &v1SearchPage[*Invoice]{}
 		if p == nil {
 			p = &Params{}
@@ -277,5 +277,5 @@ func (c v1InvoiceService) Search(ctx context.Context, params *InvoiceSearchParam
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

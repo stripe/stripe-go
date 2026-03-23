@@ -67,14 +67,17 @@ func (c v2MoneyManagementOutboundSetupIntentService) Cancel(ctx context.Context,
 }
 
 // List the OutboundSetupIntent objects.
-func (c v2MoneyManagementOutboundSetupIntentService) List(ctx context.Context, listParams *V2MoneyManagementOutboundSetupIntentListParams) Seq2[*V2MoneyManagementOutboundSetupIntent, error] {
+func (c v2MoneyManagementOutboundSetupIntentService) List(ctx context.Context, listParams *V2MoneyManagementOutboundSetupIntentListParams) *V2List[*V2MoneyManagementOutboundSetupIntent] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementOutboundSetupIntentListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/money_management/outbound_setup_intents", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementOutboundSetupIntent], error) {
+	return newV2List(ctx, "/v2/money_management/outbound_setup_intents", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementOutboundSetupIntent], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2MoneyManagementOutboundSetupIntent]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

@@ -67,12 +67,12 @@ func (c v1OrderService) Submit(ctx context.Context, id string, params *OrderSubm
 }
 
 // Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.
-func (c v1OrderService) List(ctx context.Context, listParams *OrderListParams) Seq2[*Order, error] {
+func (c v1OrderService) List(ctx context.Context, listParams *OrderListParams) *V1List[*Order] {
 	if listParams == nil {
 		listParams = &OrderListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Order], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Order], error) {
 		list := &v1Page[*Order]{}
 		if p == nil {
 			p = &Params{}
@@ -80,5 +80,5 @@ func (c v1OrderService) List(ctx context.Context, listParams *OrderListParams) S
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/orders", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

@@ -81,7 +81,7 @@ func (c v1SubscriptionService) Update(ctx context.Context, id string, params *Su
 
 // Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://docs.stripe.com/metadata).
 //
-// Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
+// Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api/invoiceitems/delete). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
 //
 // By default, upon subscription cancellation, Stripe stops automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
 func (c v1SubscriptionService) Cancel(ctx context.Context, id string, params *SubscriptionCancelParams) (*Subscription, error) {
@@ -132,12 +132,12 @@ func (c v1SubscriptionService) Resume(ctx context.Context, id string, params *Su
 }
 
 // By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
-func (c v1SubscriptionService) List(ctx context.Context, listParams *SubscriptionListParams) Seq2[*Subscription, error] {
+func (c v1SubscriptionService) List(ctx context.Context, listParams *SubscriptionListParams) *V1List[*Subscription] {
 	if listParams == nil {
 		listParams = &SubscriptionListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*Subscription], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Subscription], error) {
 		list := &v1Page[*Subscription]{}
 		if p == nil {
 			p = &Params{}
@@ -145,19 +145,19 @@ func (c v1SubscriptionService) List(ctx context.Context, listParams *Subscriptio
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for subscriptions you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
-func (c v1SubscriptionService) Search(ctx context.Context, params *SubscriptionSearchParams) Seq2[*Subscription, error] {
+func (c v1SubscriptionService) Search(ctx context.Context, params *SubscriptionSearchParams) *V1SearchList[*Subscription] {
 	if params == nil {
 		params = &SubscriptionSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*Subscription], error) {
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*Subscription], error) {
 		list := &v1SearchPage[*Subscription]{}
 		if p == nil {
 			p = &Params{}
@@ -165,5 +165,5 @@ func (c v1SubscriptionService) Search(ctx context.Context, params *SubscriptionS
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

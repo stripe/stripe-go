@@ -99,6 +99,8 @@ type V2CoreVaultUSBankAccount struct {
 	Object string `json:"object"`
 	// The ACH routing number of the bank account.
 	RoutingNumber string `json:"routing_number,omitempty"`
+	// The list of currencies supported by this bank account.
+	SupportedCurrencies []Currency `json:"supported_currencies"`
 	// The bank account verification details.
 	Verification *V2CoreVaultUSBankAccountVerification `json:"verification"`
 }

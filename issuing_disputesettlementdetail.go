@@ -88,7 +88,7 @@ type IssuingDisputeSettlementDetail struct {
 	EventType IssuingDisputeSettlementDetailEventType `json:"event_type"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The card network for this dispute settlement detail. One of ["visa", "mastercard", "maestro"]
 	Network IssuingDisputeSettlementDetailNetwork `json:"network"`

@@ -94,9 +94,10 @@ type SubscriptionCancellationDetailsReason string
 
 // List of values that SubscriptionCancellationDetailsReason can take
 const (
-	SubscriptionCancellationDetailsReasonCancellationRequested SubscriptionCancellationDetailsReason = "cancellation_requested"
-	SubscriptionCancellationDetailsReasonPaymentDisputed       SubscriptionCancellationDetailsReason = "payment_disputed"
-	SubscriptionCancellationDetailsReasonPaymentFailed         SubscriptionCancellationDetailsReason = "payment_failed"
+	SubscriptionCancellationDetailsReasonCanceledByRetentionPolicy SubscriptionCancellationDetailsReason = "canceled_by_retention_policy"
+	SubscriptionCancellationDetailsReasonCancellationRequested     SubscriptionCancellationDetailsReason = "cancellation_requested"
+	SubscriptionCancellationDetailsReasonPaymentDisputed           SubscriptionCancellationDetailsReason = "payment_disputed"
+	SubscriptionCancellationDetailsReasonPaymentFailed             SubscriptionCancellationDetailsReason = "payment_failed"
 )
 
 // Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
@@ -125,7 +126,7 @@ const (
 	SubscriptionLastPriceMigrationErrorTypePriceUniquenessViolation SubscriptionLastPriceMigrationErrorType = "price_uniqueness_violation"
 )
 
-// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+// The payment collection behavior for this subscription while paused.
 type SubscriptionPauseCollectionBehavior string
 
 // List of values that SubscriptionPauseCollectionBehavior can take
@@ -144,7 +145,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -289,7 +290,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions     SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod string
 
 // List of values that SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod can take
@@ -406,6 +407,15 @@ const (
 	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
 )
 
+// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+type SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor string
+
+// List of values that SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor can take
+const (
+	SubscriptionTrialSettingsEndBehaviorBillingCycleAnchorNow       SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor = "now"
+	SubscriptionTrialSettingsEndBehaviorBillingCycleAnchorUnchanged SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor = "unchanged"
+)
+
 // Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 type SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod string
 
@@ -426,7 +436,7 @@ type SubscriptionCancelCancellationDetailsParams struct {
 
 // Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://docs.stripe.com/metadata).
 //
-// Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
+// Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api/invoiceitems/delete). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
 //
 // By default, upon subscription cancellation, Stripe stops automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
 type SubscriptionCancelParams struct {
@@ -525,7 +535,7 @@ type SubscriptionParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionPaymentSettingsParams `form:"payment_settings"`
-	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionPrebillingParams `form:"prebilling"`
@@ -781,6 +791,8 @@ type SubscriptionItemsParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionItemCurrentTrialParams `form:"current_trial"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
 	// The coupons to redeem into discounts for the subscription item.
@@ -814,7 +826,7 @@ func (p *SubscriptionItemsParams) AddMetadata(key string, value string) {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollectionParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior"`
 	// The time after which the subscription will resume collecting payments.
 	ResumesAt *int64 `form:"resumes_at"`
@@ -842,7 +854,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -910,12 +922,14 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsParams stru
 	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
 	EndDate *string `form:"end_date"`
-	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
 	PaymentSchedule *string `form:"payment_schedule"`
 }
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// Configuration options for setting up a mandate
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
 }
@@ -1003,7 +1017,7 @@ type SubscriptionPaymentSettingsParams struct {
 	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
 }
 
-// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionPendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
@@ -1029,6 +1043,8 @@ type SubscriptionTransferDataParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method"`
 }
@@ -1394,6 +1410,14 @@ type SubscriptionUpdateItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionUpdateItemCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionUpdateItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1454,6 +1478,8 @@ type SubscriptionUpdateItemParams struct {
 	BillingThresholds *SubscriptionUpdateItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionUpdateItemCurrentTrialParams `form:"current_trial"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
 	// The coupons to redeem into discounts for the subscription item.
@@ -1485,7 +1511,7 @@ func (p *SubscriptionUpdateItemParams) AddMetadata(key string, value string) {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionUpdatePauseCollectionParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior"`
 	// The time after which the subscription will resume collecting payments.
 	ResumesAt *int64 `form:"resumes_at"`
@@ -1513,7 +1539,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -1581,12 +1607,14 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParam
 	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
 	EndDate *string `form:"end_date"`
-	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
 	PaymentSchedule *string `form:"payment_schedule"`
 }
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// Configuration options for setting up a mandate
 	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
 }
@@ -1674,7 +1702,7 @@ type SubscriptionUpdatePaymentSettingsParams struct {
 	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
 }
 
-// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionUpdatePendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
@@ -1700,6 +1728,8 @@ type SubscriptionUpdateTransferDataParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionUpdateTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method"`
 }
@@ -1791,7 +1821,7 @@ type SubscriptionUpdateParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionUpdatePaymentSettingsParams `form:"payment_settings"`
-	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionUpdatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionUpdatePrebillingParams `form:"prebilling"`
@@ -2064,6 +2094,14 @@ type SubscriptionCreateItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// The trial offer to apply to this subscription item.
+type SubscriptionCreateItemCurrentTrialParams struct {
+	// Unix timestamp representing the end of the trial offer period. Required when the trial offer has `duration.type=timestamp`. Cannot be specified when `duration.type=relative`.
+	TrialEnd *int64 `form:"trial_end"`
+	// The ID of the trial offer to apply to the subscription item.
+	TrialOffer *string `form:"trial_offer"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionCreateItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -2130,6 +2168,8 @@ type SubscriptionCreateItemTrialParams struct {
 type SubscriptionCreateItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionCreateItemBillingThresholdsParams `form:"billing_thresholds"`
+	// The trial offer to apply to this subscription item.
+	CurrentTrial *SubscriptionCreateItemCurrentTrialParams `form:"current_trial"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionCreateItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -2179,7 +2219,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -2247,12 +2287,14 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParam
 	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
 	EndDate *string `form:"end_date"`
-	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
 	PaymentSchedule *string `form:"payment_schedule"`
 }
 
 // This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// Configuration options for setting up a mandate
 	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
 }
@@ -2340,7 +2382,7 @@ type SubscriptionCreatePaymentSettingsParams struct {
 	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
 }
 
-// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionCreatePendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
@@ -2366,6 +2408,8 @@ type SubscriptionCreateTransferDataParams struct {
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionCreateTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. Defaults to `now`.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod *string `form:"missing_payment_method"`
 }
@@ -2457,7 +2501,7 @@ type SubscriptionCreateParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionCreatePaymentSettingsParams `form:"payment_settings"`
-	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionCreatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionCreatePrebillingParams `form:"prebilling"`
@@ -2648,7 +2692,7 @@ type SubscriptionManagedPayments struct {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollection struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior SubscriptionPauseCollectionBehavior `json:"behavior"`
 	// The time after which the subscription will resume collecting payments.
 	ResumesAt int64 `json:"resumes_at"`
@@ -2661,7 +2705,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions stru
 // This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
@@ -2671,7 +2715,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	PreferredLanguage string `json:"preferred_language"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount int64 `json:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type"`
@@ -2735,7 +2779,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions struct {
 
 // This sub-hash contains details about the Pix payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPix struct {
-	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions `json:"mandate_options"`
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds int64                                                             `json:"expires_after_seconds"`
+	MandateOptions      *SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions `json:"mandate_options"`
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
@@ -2772,7 +2818,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnec
 // This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
 
@@ -2812,7 +2858,7 @@ type SubscriptionPaymentSettings struct {
 	SaveDefaultPaymentMethod SubscriptionPaymentSettingsSaveDefaultPaymentMethod `json:"save_default_payment_method"`
 }
 
-// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionPendingInvoiceItemInterval struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 	Interval SubscriptionPendingInvoiceItemIntervalInterval `json:"interval"`
@@ -2847,6 +2893,10 @@ type SubscriptionPrebilling struct {
 	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 	UpdateBehavior SubscriptionPrebillingUpdateBehavior `json:"update_behavior"`
 }
+type SubscriptionPresentmentDetails struct {
+	// Currency used for customer payments.
+	PresentmentCurrency Currency `json:"presentment_currency"`
+}
 
 // The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 type SubscriptionTransferData struct {
@@ -2858,6 +2908,8 @@ type SubscriptionTransferData struct {
 
 // Defines how a subscription behaves when a trial ends.
 type SubscriptionTrialSettingsEndBehavior struct {
+	// Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
+	BillingCycleAnchor SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 	MissingPaymentMethod SubscriptionTrialSettingsEndBehaviorMissingPaymentMethod `json:"missing_payment_method"`
 }
@@ -2929,7 +2981,7 @@ type Subscription struct {
 	LastPriceMigrationError *SubscriptionLastPriceMigrationError `json:"last_price_migration_error"`
 	// The most recent invoice this subscription has generated over its lifecycle (for example, when it cycles or is updated).
 	LatestInvoice *Invoice `json:"latest_invoice"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Settings for Managed Payments for this Subscription and resulting [Invoices](https://docs.stripe.com/api/invoices/object) and [PaymentIntents](https://docs.stripe.com/api/payment_intents/object).
 	ManagedPayments *SubscriptionManagedPayments `json:"managed_payments"`
@@ -2945,14 +2997,15 @@ type Subscription struct {
 	PauseCollection *SubscriptionPauseCollection `json:"pause_collection"`
 	// Payment settings passed on to invoices created by the subscription.
 	PaymentSettings *SubscriptionPaymentSettings `json:"payment_settings"`
-	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemInterval `json:"pending_invoice_item_interval"`
 	// You can use this [SetupIntent](https://docs.stripe.com/api/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription's payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication#scenario-2).
 	PendingSetupIntent *SetupIntent `json:"pending_setup_intent"`
 	// If specified, [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
 	PendingUpdate *SubscriptionPendingUpdate `json:"pending_update"`
 	// Time period and invoice for a Subscription billed in advance.
-	Prebilling *SubscriptionPrebilling `json:"prebilling"`
+	Prebilling         *SubscriptionPrebilling         `json:"prebilling"`
+	PresentmentDetails *SubscriptionPresentmentDetails `json:"presentment_details"`
 	// The schedule attached to the subscription
 	Schedule *SubscriptionSchedule `json:"schedule"`
 	// Date when the subscription was first created. The date might differ from the `created` date due to backdating.

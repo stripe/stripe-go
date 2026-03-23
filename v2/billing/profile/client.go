@@ -64,9 +64,12 @@ func (c Client) Update(id string, params *stripe.V2BillingProfileParams) (*strip
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2BillingProfileListParams) stripe.Seq2[*stripe.V2BillingProfile, error] {
+	if listParams == nil {
+		listParams = &stripe.V2BillingProfileListParams{}
+	}
 	return stripe.NewV2List("/v2/billing/profiles", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2BillingProfile], error) {
 		page := &stripe.V2Page[*stripe.V2BillingProfile]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	}).All(listParams.Context)
 }

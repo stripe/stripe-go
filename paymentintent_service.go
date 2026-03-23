@@ -90,7 +90,7 @@ func (c v1PaymentIntentService) ApplyCustomerBalance(ctx context.Context, id str
 //
 // After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
 //
-// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
+// You can directly cancel the PaymentIntent for a Checkout Session only when the PaymentIntent has a status of requires_capture. Otherwise, you must [expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire).
 func (c v1PaymentIntentService) Cancel(ctx context.Context, id string, params *PaymentIntentCancelParams) (*PaymentIntent, error) {
 	if params == nil {
 		params = &PaymentIntentCancelParams{}
@@ -246,12 +246,12 @@ func (c v1PaymentIntentService) VerifyMicrodeposits(ctx context.Context, id stri
 }
 
 // Returns a list of PaymentIntents.
-func (c v1PaymentIntentService) List(ctx context.Context, listParams *PaymentIntentListParams) Seq2[*PaymentIntent, error] {
+func (c v1PaymentIntentService) List(ctx context.Context, listParams *PaymentIntentListParams) *V1List[*PaymentIntent] {
 	if listParams == nil {
 		listParams = &PaymentIntentListParams{}
 	}
 	listParams.Context = ctx
-	return newV1List(listParams, func(p *Params, b *form.Values) (*v1Page[*PaymentIntent], error) {
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentIntent], error) {
 		list := &v1Page[*PaymentIntent]{}
 		if p == nil {
 			p = &Params{}
@@ -259,19 +259,19 @@ func (c v1PaymentIntentService) List(ctx context.Context, listParams *PaymentInt
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }
 
 // Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
-func (c v1PaymentIntentService) Search(ctx context.Context, params *PaymentIntentSearchParams) Seq2[*PaymentIntent, error] {
+func (c v1PaymentIntentService) Search(ctx context.Context, params *PaymentIntentSearchParams) *V1SearchList[*PaymentIntent] {
 	if params == nil {
 		params = &PaymentIntentSearchParams{}
 	}
 	params.Context = ctx
-	return newV1SearchList(params, func(p *Params, b *form.Values) (*v1SearchPage[*PaymentIntent], error) {
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*PaymentIntent], error) {
 		list := &v1SearchPage[*PaymentIntent]{}
 		if p == nil {
 			p = &Params{}
@@ -279,5 +279,5 @@ func (c v1PaymentIntentService) Search(ctx context.Context, params *PaymentInten
 		p.Context = ctx
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents/search", c.Key, []byte(b.Encode()), p, list)
 		return list, err
-	}).All()
+	})
 }

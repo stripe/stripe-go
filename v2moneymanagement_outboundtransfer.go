@@ -77,32 +77,16 @@ const (
 	V2MoneyManagementOutboundTransferTraceIDStatusUnsupported V2MoneyManagementOutboundTransferTraceIDStatus = "unsupported"
 )
 
-// The "presentment amount" for the OutboundTransfer.
-type V2MoneyManagementOutboundTransferAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // Delivery options to be used to send the OutboundTransfer.
 type V2MoneyManagementOutboundTransferDeliveryOptions struct {
 	// Open Enum. Method for bank account.
 	BankAccount V2MoneyManagementOutboundTransferDeliveryOptionsBankAccount `json:"bank_account,omitempty"`
 }
 
-// The monetary amount debited from the sender, only set on responses.
-type V2MoneyManagementOutboundTransferFromDebited struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // The FinancialAccount that funds were pulled from.
 type V2MoneyManagementOutboundTransferFrom struct {
 	// The monetary amount debited from the sender, only set on responses.
-	Debited *V2MoneyManagementOutboundTransferFromDebited `json:"debited"`
+	Debited Amount `json:"debited"`
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount string `json:"financial_account"`
 }
@@ -143,23 +127,15 @@ type V2MoneyManagementOutboundTransferStatusTransitions struct {
 	ReturnedAt time.Time `json:"returned_at,omitempty"`
 }
 
-// The monetary amount being credited to the destination.
-type V2MoneyManagementOutboundTransferToCredited struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // To which payout method the OutboundTransfer was sent.
 type V2MoneyManagementOutboundTransferTo struct {
 	// The monetary amount being credited to the destination.
-	Credited *V2MoneyManagementOutboundTransferToCredited `json:"credited"`
+	Credited Amount `json:"credited"`
 	// The payout method which the OutboundTransfer uses to send payout.
 	PayoutMethod string `json:"payout_method"`
 }
 
-// A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a “reference number” or something similar.
+// A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a "reference number" or something similar.
 type V2MoneyManagementOutboundTransferTraceID struct {
 	// Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
 	// `supported` when the recipient bank provides a trace ID, or `unsupported` if the recipient bank doesn't support it.
@@ -174,7 +150,7 @@ type V2MoneyManagementOutboundTransferTraceID struct {
 type V2MoneyManagementOutboundTransfer struct {
 	APIResource
 	// The "presentment amount" for the OutboundTransfer.
-	Amount *V2MoneyManagementOutboundTransferAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 	// Returns true if the OutboundTransfer can be canceled, and false otherwise.
 	Cancelable bool `json:"cancelable"`
 	// Time at which the OutboundTransfer was created.
@@ -212,6 +188,6 @@ type V2MoneyManagementOutboundTransfer struct {
 	StatusTransitions *V2MoneyManagementOutboundTransferStatusTransitions `json:"status_transitions,omitempty"`
 	// To which payout method the OutboundTransfer was sent.
 	To *V2MoneyManagementOutboundTransferTo `json:"to"`
-	// A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a “reference number” or something similar.
+	// A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a "reference number" or something similar.
 	TraceID *V2MoneyManagementOutboundTransferTraceID `json:"trace_id"`
 }

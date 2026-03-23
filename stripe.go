@@ -903,24 +903,25 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 	resBody := result.([]byte)
 	s.logDebugf(req.Context(), "Response: %s", string(resBody))
 
-	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
+	err = s.unmarshalJSONVerbose(req.Context(), res.StatusCode, resBody, v)
 	v.SetLastResponse(newAPIResponse(res, resBody, requestDuration))
 	return err
 }
 
 // ResponseToError converts a stripe response to an Error.
 func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []byte) error {
+	ctx := contextFromResponse(res)
 	var raw rawError
 	if s.Type == ConnectBackend {
 		// If this is an OAuth request, deserialize as Error because OAuth errors
 		// are a different shape from the standard API errors.
 		var topLevelError Error
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &topLevelError); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &topLevelError); err != nil {
 			return err
 		}
 		raw.Error = &topLevelError
 	} else {
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &raw); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &raw); err != nil {
 			return err
 		}
 	}
@@ -962,11 +963,12 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 
 // responseToErrorV2 converts a stripe V2 response to an error.
 func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []byte) error {
+	ctx := contextFromResponse(res)
 	// First, we partially unmarshal just the error type
 	var raw struct {
 		Error *V2RawError `json:"error"`
 	}
-	if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &raw); err != nil {
+	if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &raw); err != nil {
 		return err
 	}
 
@@ -995,7 +997,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &AlreadyCanceledError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1006,7 +1008,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &AlreadyExistsError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1017,7 +1019,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &BlockedByStripeError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1028,7 +1030,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &ControlledByAlternateResourceError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1039,7 +1041,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &ControlledByDashboardError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1050,7 +1052,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &FeatureNotEnabledError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1061,7 +1063,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &FinancialAccountNotOpenError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1072,7 +1074,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &InsufficientFundsError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1083,7 +1085,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &InvalidPaymentMethodError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1094,7 +1096,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &InvalidPayoutMethodError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1105,7 +1107,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &NonZeroBalanceError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1116,7 +1118,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &NotCancelableError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1127,7 +1129,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &QuotaExceededError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1138,7 +1140,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &RateLimitError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1149,7 +1151,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &RecipientNotNotifiableError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1160,7 +1162,7 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}{
 			Error: &TemporarySessionExpiredError{},
 		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
 			return err
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
@@ -1189,9 +1191,18 @@ func (s *BackendImplementation) SetNetworkRetriesSleep(sleep bool) {
 	s.networkRetriesSleep = sleep
 }
 
-// UnmarshalJSONVerbose unmarshals JSON, but in case of a failure logs and
+// contextFromResponse extracts the context from an HTTP response's request.
+// Falls back to context.Background() if the response has no associated request.
+func contextFromResponse(res *http.Response) context.Context {
+	if res.Request != nil {
+		return res.Request.Context()
+	}
+	return context.Background()
+}
+
+// unmarshalJSONVerbose unmarshals JSON, but in case of a failure logs and
 // produces a more descriptive error.
-func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte, v interface{}) error {
+func (s *BackendImplementation) unmarshalJSONVerbose(ctx context.Context, statusCode int, body []byte, v interface{}) error {
 	err := json.Unmarshal(body, v)
 	if err != nil {
 		// If we got invalid JSON back then something totally unexpected is
@@ -1208,7 +1219,7 @@ func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte
 
 		newErr := fmt.Errorf("Couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
 			statusCode, bodySample, err)
-		s.logErrorf(context.Background(), "%s", newErr.Error())
+		s.logErrorf(ctx, "%s", newErr.Error())
 		return newErr
 	}
 

@@ -55,14 +55,17 @@ func (c v2MoneyManagementPayoutMethodService) Unarchive(ctx context.Context, id 
 }
 
 // List objects that adhere to the PayoutMethod interface.
-func (c v2MoneyManagementPayoutMethodService) List(ctx context.Context, listParams *V2MoneyManagementPayoutMethodListParams) Seq2[*V2MoneyManagementPayoutMethod, error] {
+func (c v2MoneyManagementPayoutMethodService) List(ctx context.Context, listParams *V2MoneyManagementPayoutMethodListParams) *V2List[*V2MoneyManagementPayoutMethod] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementPayoutMethodListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/money_management/payout_methods", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementPayoutMethod], error) {
+	return newV2List(ctx, "/v2/money_management/payout_methods", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementPayoutMethod], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2MoneyManagementPayoutMethod]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

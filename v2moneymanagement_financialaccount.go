@@ -18,6 +18,7 @@ const (
 	V2MoneyManagementFinancialAccountStatusPending V2MoneyManagementFinancialAccountStatus = "pending"
 )
 
+// The reason the FinancialAccount was closed.
 type V2MoneyManagementFinancialAccountStatusDetailsClosedReason string
 
 // List of values that V2MoneyManagementFinancialAccountStatusDetailsClosedReason can take
@@ -37,38 +38,14 @@ const (
 	V2MoneyManagementFinancialAccountTypeStorage V2MoneyManagementFinancialAccountType = "storage"
 )
 
-// Balance that can be used for money movement.
-type V2MoneyManagementFinancialAccountBalanceAvailable struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
-// Balance of inbound funds that will later transition to the `available` balance.
-type V2MoneyManagementFinancialAccountBalanceInboundPending struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
-// Balance of funds that are being used for a pending outbound money movement.
-type V2MoneyManagementFinancialAccountBalanceOutboundPending struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // Multi-currency balance of this FinancialAccount, split by availability state. Each balance is represented as a hash where the key is the three-letter ISO currency code, in lowercase, and the value is the amount for that currency.
 type V2MoneyManagementFinancialAccountBalance struct {
 	// Balance that can be used for money movement.
-	Available map[string]*V2MoneyManagementFinancialAccountBalanceAvailable `json:"available"`
+	Available map[string]Amount `json:"available"`
 	// Balance of inbound funds that will later transition to the `available` balance.
-	InboundPending map[string]*V2MoneyManagementFinancialAccountBalanceInboundPending `json:"inbound_pending"`
+	InboundPending map[string]Amount `json:"inbound_pending"`
 	// Balance of funds that are being used for a pending outbound money movement.
-	OutboundPending map[string]*V2MoneyManagementFinancialAccountBalanceOutboundPending `json:"outbound_pending"`
+	OutboundPending map[string]Amount `json:"outbound_pending"`
 }
 
 // If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
@@ -76,17 +53,26 @@ type V2MoneyManagementFinancialAccountOther struct {
 	// The type of the FinancialAccount, represented as a string. Upgrade your API version to see the type reflected in `financial_account.type`.
 	Type string `json:"type"`
 }
+
+// The forwarding settings for the closed FinancialAccount.
 type V2MoneyManagementFinancialAccountStatusDetailsClosedForwardingSettings struct {
 	// The address to send forwarded payments to.
 	PaymentMethod string `json:"payment_method,omitempty"`
 	// The address to send forwarded payouts to.
 	PayoutMethod string `json:"payout_method,omitempty"`
 }
+
+// Details related to the closed state of the FinancialAccount.
 type V2MoneyManagementFinancialAccountStatusDetailsClosed struct {
+	// The forwarding settings for the closed FinancialAccount.
 	ForwardingSettings *V2MoneyManagementFinancialAccountStatusDetailsClosedForwardingSettings `json:"forwarding_settings,omitempty"`
-	Reason             V2MoneyManagementFinancialAccountStatusDetailsClosedReason              `json:"reason"`
+	// The reason the FinancialAccount was closed.
+	Reason V2MoneyManagementFinancialAccountStatusDetailsClosedReason `json:"reason"`
 }
+
+// Additional details related to the status of the FinancialAccount.
 type V2MoneyManagementFinancialAccountStatusDetails struct {
+	// Details related to the closed state of the FinancialAccount.
 	Closed *V2MoneyManagementFinancialAccountStatusDetailsClosed `json:"closed,omitempty"`
 }
 
@@ -118,7 +104,8 @@ type V2MoneyManagementFinancialAccount struct {
 	// If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
 	Other *V2MoneyManagementFinancialAccountOther `json:"other,omitempty"`
 	// Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
-	Status        V2MoneyManagementFinancialAccountStatus         `json:"status"`
+	Status V2MoneyManagementFinancialAccountStatus `json:"status"`
+	// Additional details related to the status of the FinancialAccount.
 	StatusDetails *V2MoneyManagementFinancialAccountStatusDetails `json:"status_details,omitempty"`
 	// If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 	Storage *V2MoneyManagementFinancialAccountStorage `json:"storage,omitempty"`

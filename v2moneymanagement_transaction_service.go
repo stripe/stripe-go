@@ -30,14 +30,17 @@ func (c v2MoneyManagementTransactionService) Retrieve(ctx context.Context, id st
 }
 
 // Returns a list of Transactions that match the provided filters.
-func (c v2MoneyManagementTransactionService) List(ctx context.Context, listParams *V2MoneyManagementTransactionListParams) Seq2[*V2MoneyManagementTransaction, error] {
+func (c v2MoneyManagementTransactionService) List(ctx context.Context, listParams *V2MoneyManagementTransactionListParams) *V2List[*V2MoneyManagementTransaction] {
 	if listParams == nil {
 		listParams = &V2MoneyManagementTransactionListParams{}
 	}
 	listParams.Context = ctx
-	return NewV2List("/v2/money_management/transactions", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementTransaction], error) {
+	return newV2List(ctx, "/v2/money_management/transactions", listParams, func(ctx context.Context, path string, p ParamsContainer) (*V2Page[*V2MoneyManagementTransaction], error) {
+		if p.GetParams() != nil {
+			p.GetParams().Context = ctx
+		}
 		page := &V2Page[*V2MoneyManagementTransaction]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
-	}).All()
+	})
 }

@@ -286,7 +286,7 @@ type IssuingPersonalizationDesign struct {
 	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
 	LookupKey string `json:"lookup_key"`

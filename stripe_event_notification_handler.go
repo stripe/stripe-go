@@ -196,6 +196,57 @@ func (h *EventNotificationHandler) OnV2CoreAccountPersonUpdated(callback func(ct
 	return registerTypedHandler(h, "v2.core.account_person.updated", callback)
 }
 
+// OnV2CoreBatchJobBatchFailed registers a callback to handle notifications about the "v2.core.batch_job.batch_failed" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobBatchFailed(callback func(ctx context.Context, notif *V2CoreBatchJobBatchFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.batch_failed", callback)
+}
+
+// OnV2CoreBatchJobCanceled registers a callback to handle notifications about the "v2.core.batch_job.canceled" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobCanceled(callback func(ctx context.Context, notif *V2CoreBatchJobCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.canceled", callback)
+}
+
+// OnV2CoreBatchJobCompleted registers a callback to handle notifications about the "v2.core.batch_job.completed" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobCompleted(callback func(ctx context.Context, notif *V2CoreBatchJobCompletedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.completed", callback)
+}
+
+// OnV2CoreBatchJobCreated registers a callback to handle notifications about the "v2.core.batch_job.created" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobCreated(callback func(ctx context.Context, notif *V2CoreBatchJobCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.created", callback)
+}
+
+// OnV2CoreBatchJobReadyForUpload registers a callback to handle notifications about the "v2.core.batch_job.ready_for_upload" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobReadyForUpload(callback func(ctx context.Context, notif *V2CoreBatchJobReadyForUploadEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.ready_for_upload", callback)
+}
+
+// OnV2CoreBatchJobTimeout registers a callback to handle notifications about the "v2.core.batch_job.timeout" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobTimeout(callback func(ctx context.Context, notif *V2CoreBatchJobTimeoutEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.timeout", callback)
+}
+
+// OnV2CoreBatchJobUpdated registers a callback to handle notifications about the "v2.core.batch_job.updated" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobUpdated(callback func(ctx context.Context, notif *V2CoreBatchJobUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.updated", callback)
+}
+
+// OnV2CoreBatchJobUploadTimeout registers a callback to handle notifications about the "v2.core.batch_job.upload_timeout" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobUploadTimeout(callback func(ctx context.Context, notif *V2CoreBatchJobUploadTimeoutEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.upload_timeout", callback)
+}
+
+// OnV2CoreBatchJobValidating registers a callback to handle notifications about the "v2.core.batch_job.validating" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobValidating(callback func(ctx context.Context, notif *V2CoreBatchJobValidatingEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.batch_job.validating", callback)
+}
+
+// OnV2CoreBatchJobValidationFailed registers a callback to handle notifications about the "v2.core.batch_job.validation_failed" event.
+func (h *EventNotificationHandler) OnV2CoreBatchJobValidationFailed(callback func(ctx context.Context, notif *V2CoreBatchJobValidationFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.batch_job.validation_failed", callback)
+}
+
 // OnV2CoreEventDestinationPing registers a callback to handle notifications about the "v2.core.event_destination.ping" event.
 func (h *EventNotificationHandler) OnV2CoreEventDestinationPing(callback func(ctx context.Context, notif *V2CoreEventDestinationPingEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.event_destination.ping", callback)
