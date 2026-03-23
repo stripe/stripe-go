@@ -2194,6 +2194,10 @@ type SubscriptionPendingUpdate struct {
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
 	TrialFromPlan bool `json:"trial_from_plan"`
 }
+type SubscriptionPresentmentDetails struct {
+	// Currency used for customer payments.
+	PresentmentCurrency Currency `json:"presentment_currency"`
+}
 
 // The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 type SubscriptionTransferData struct {
@@ -2291,7 +2295,8 @@ type Subscription struct {
 	// You can use this [SetupIntent](https://docs.stripe.com/api/setup_intents) to collect user authentication when creating a subscription without immediate payment or updating a subscription's payment method, allowing you to optimize for off-session payments. Learn more in the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication#scenario-2).
 	PendingSetupIntent *SetupIntent `json:"pending_setup_intent"`
 	// If specified, [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
-	PendingUpdate *SubscriptionPendingUpdate `json:"pending_update"`
+	PendingUpdate      *SubscriptionPendingUpdate      `json:"pending_update"`
+	PresentmentDetails *SubscriptionPresentmentDetails `json:"presentment_details"`
 	// The schedule attached to the subscription
 	Schedule *SubscriptionSchedule `json:"schedule"`
 	// Date when the subscription was first created. The date might differ from the `created` date due to backdating.
