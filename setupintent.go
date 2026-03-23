@@ -1175,6 +1175,9 @@ type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
+// If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
+type SetupIntentPaymentMethodOptionsStripeBalanceParams struct{}
+
 // Configuration options for setting up an eMandate
 type SetupIntentPaymentMethodOptionsUpiMandateOptionsParams struct {
 	// Amount to be charged for future payments.
@@ -1270,6 +1273,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Pix *SetupIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
+	StripeBalance *SetupIntentPaymentMethodOptionsStripeBalanceParams `form:"stripe_balance"`
 	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
 	Upi *SetupIntentPaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -2651,6 +2656,9 @@ type SetupIntentCreatePaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
+// If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
+type SetupIntentCreatePaymentMethodOptionsStripeBalanceParams struct{}
+
 // Configuration options for setting up an eMandate
 type SetupIntentCreatePaymentMethodOptionsUpiMandateOptionsParams struct {
 	// Amount to be charged for future payments.
@@ -2746,6 +2754,8 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	Pix *SetupIntentCreatePaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
+	StripeBalance *SetupIntentCreatePaymentMethodOptionsStripeBalanceParams `form:"stripe_balance"`
 	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
 	Upi *SetupIntentCreatePaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -3575,6 +3585,9 @@ type SetupIntentUpdatePaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
+// If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
+type SetupIntentUpdatePaymentMethodOptionsStripeBalanceParams struct{}
+
 // Configuration options for setting up an eMandate
 type SetupIntentUpdatePaymentMethodOptionsUpiMandateOptionsParams struct {
 	// Amount to be charged for future payments.
@@ -3670,6 +3683,8 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	Pix *SetupIntentUpdatePaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
+	StripeBalance *SetupIntentUpdatePaymentMethodOptionsStripeBalanceParams `form:"stripe_balance"`
 	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
 	Upi *SetupIntentUpdatePaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -3947,6 +3962,13 @@ type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct {
 type SetupIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 }
+type SetupIntentPaymentMethodOptionsStripeBalanceMandateOptions struct {
+	// The ID of the Stripe Balance Debit Agreement used for this mandate.
+	StripeBalanceDebitAgreement string `json:"stripe_balance_debit_agreement"`
+}
+type SetupIntentPaymentMethodOptionsStripeBalance struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsStripeBalanceMandateOptions `json:"mandate_options"`
+}
 type SetupIntentPaymentMethodOptionsUpiMandateOptions struct {
 	// Amount to be charged for future payments.
 	Amount int64 `json:"amount"`
@@ -4004,6 +4026,7 @@ type SetupIntentPaymentMethodOptions struct {
 	Payto         *SetupIntentPaymentMethodOptionsPayto         `json:"payto"`
 	Pix           *SetupIntentPaymentMethodOptionsPix           `json:"pix"`
 	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit"`
+	StripeBalance *SetupIntentPaymentMethodOptionsStripeBalance `json:"stripe_balance"`
 	Upi           *SetupIntentPaymentMethodOptionsUpi           `json:"upi"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }

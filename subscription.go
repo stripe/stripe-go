@@ -2893,6 +2893,10 @@ type SubscriptionPrebilling struct {
 	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 	UpdateBehavior SubscriptionPrebillingUpdateBehavior `json:"update_behavior"`
 }
+type SubscriptionPresentmentDetails struct {
+	// Currency used for customer payments.
+	PresentmentCurrency Currency `json:"presentment_currency"`
+}
 
 // The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 type SubscriptionTransferData struct {
@@ -3000,7 +3004,8 @@ type Subscription struct {
 	// If specified, [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
 	PendingUpdate *SubscriptionPendingUpdate `json:"pending_update"`
 	// Time period and invoice for a Subscription billed in advance.
-	Prebilling *SubscriptionPrebilling `json:"prebilling"`
+	Prebilling         *SubscriptionPrebilling         `json:"prebilling"`
+	PresentmentDetails *SubscriptionPresentmentDetails `json:"presentment_details"`
 	// The schedule attached to the subscription
 	Schedule *SubscriptionSchedule `json:"schedule"`
 	// Date when the subscription was first created. The date might differ from the `created` date due to backdating.
