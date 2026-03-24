@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"reflect"
 	"regexp"
 	"runtime"
 	"strings"
@@ -771,6 +772,581 @@ func TestCall_V2PathPostNilParams(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, message, response.Message)
+}
+
+// Test that UnsetFields causes explicit null values in v2 JSON POST body
+func TestCall_V2PathPostUnsetFields(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodPost, r.Method)
+		assert.Equal(t, "/v2/hello", r.URL.Path)
+		assert.Equal(t, "application/json", r.Header.Get("Content-Type"))
+
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(body, &raw)
+		assert.NoError(t, err)
+
+		// "foo" should be present with value "bar"
+		assert.Equal(t, `"bar"`, string(raw["foo"]))
+		// "description" should be explicitly null
+		assert.Equal(t, "null", string(raw["description"]))
+		// "baz" (nil pointer, not in UnsetFields) should NOT be present
+		_, bazPresent := raw["baz"]
+		assert.False(t, bazPresent, "baz should not be present in JSON")
+
+		data, err := json.Marshal(testServerResponse{Message: message})
+		assert.NoError(t, err)
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type myUpdateParams struct {
+		Params      `form:"*"`
+		Foo         string   `form:"foo" json:"foo"`
+		Description *string  `form:"description" json:"description,omitempty"`
+		Baz         *string  `form:"baz" json:"baz,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
+	}
+	params := &myUpdateParams{
+		Foo: "bar",
+		// Description and Baz are both nil
+	}
+	params.UnsetFields = append(params.UnsetFields, "description") // Explicitly send null for description
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v2/hello", "sk_test_xyz", params, &response)
+
+	assert.NoError(t, err)
+	assert.Equal(t, message, response.Message)
+}
+
+// Test that UnsetFields sends field= (empty string) in v1 form-encoded requests
+func TestCall_V1PathPostUnsetFields(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, http.MethodPost, r.Method)
+		assert.Equal(t, "/v1/hello", r.URL.Path)
+
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+		bodyStr := string(body)
+
+		// "foo" should be present with value "bar"
+		assert.Contains(t, bodyStr, "foo=bar")
+		// "description" should be present as empty string (description=)
+		assert.Contains(t, bodyStr, "description=")
+		// but "description" should NOT have a value after the =
+		// Parse to verify the value is empty
+		vals, err := url.ParseQuery(bodyStr)
+		assert.NoError(t, err)
+		assert.Equal(t, "", vals.Get("description"))
+
+		data, err := json.Marshal(testServerResponse{Message: "ok"})
+		assert.NoError(t, err)
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type myParams struct {
+		Params      `form:"*"`
+		Foo         string   `form:"foo" json:"foo"`
+		Description *string  `form:"description" json:"description,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
+	}
+	params := &myParams{
+		Foo: "bar",
+	}
+	params.UnsetFields = append(params.UnsetFields, "description") // Should send description= in v1
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v1/hello", "sk_test_xyz", params, &response)
+
+	assert.NoError(t, err)
+}
+
+// Test marshalV2JSON directly
+func TestMarshalV2JSON(t *testing.T) {
+	type testParams struct {
+		Params      `form:"*"`
+		Name        *string  `form:"name" json:"name,omitempty"`
+		Description *string  `form:"description" json:"description,omitempty"`
+		Amount      *int64   `form:"amount" json:"amount,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
+	}
+
+	t.Run("without UnsetFields", func(t *testing.T) {
+		params := &testParams{
+			Name: String("test"),
+		}
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(data, &raw)
+		assert.NoError(t, err)
+
+		assert.Equal(t, `"test"`, string(raw["name"]))
+		_, hasDesc := raw["description"]
+		assert.False(t, hasDesc, "description should not be present")
+	})
+
+	t.Run("with UnsetFields", func(t *testing.T) {
+		params := &testParams{
+			Name: String("test"),
+		}
+		params.UnsetFields = append(params.UnsetFields, "description")
+		params.UnsetFields = append(params.UnsetFields, "amount")
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(data, &raw)
+		assert.NoError(t, err)
+
+		assert.Equal(t, `"test"`, string(raw["name"]))
+		assert.Equal(t, "null", string(raw["description"]))
+		assert.Equal(t, "null", string(raw["amount"]))
+	})
+
+	t.Run("UnsetFields overrides set values", func(t *testing.T) {
+		params := &testParams{
+			Name:        String("test"),
+			Description: String("a description"),
+		}
+		params.UnsetFields = append(params.UnsetFields, "description") // UnsetFields overrides even if set
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(data, &raw)
+		assert.NoError(t, err)
+
+		// UnsetFields takes precedence — user explicitly asked for null
+		assert.Equal(t, "null", string(raw["description"]))
+	})
+
+	t.Run("nested struct UnsetFields", func(t *testing.T) {
+		type nestedDetails struct {
+			Comment     *string  `json:"comment,omitempty"`
+			Feedback    *string  `json:"feedback,omitempty"`
+			UnsetFields []string `form:"-" json:"-"`
+		}
+		type outerParams struct {
+			Params      `form:"*"`
+			Name        *string        `json:"name,omitempty"`
+			Details     *nestedDetails `json:"details,omitempty"`
+			UnsetFields []string       `form:"-" json:"-"`
+		}
+
+		params := &outerParams{
+			Name: String("test"),
+			Details: &nestedDetails{
+				Feedback: String("too_expensive"),
+			},
+		}
+		params.UnsetFields = append(params.UnsetFields, "name") // root-level empty
+		params.Details.UnsetFields = append(params.Details.UnsetFields, "comment")
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(data, &raw)
+		assert.NoError(t, err)
+
+		// Root-level: "name" should be null
+		assert.Equal(t, "null", string(raw["name"]))
+
+		// Nested: "details.comment" should be null, "details.feedback" should be present
+		var details map[string]json.RawMessage
+		err = json.Unmarshal(raw["details"], &details)
+		assert.NoError(t, err)
+		assert.Equal(t, "null", string(details["comment"]))
+		assert.Equal(t, `"too_expensive"`, string(details["feedback"]))
+	})
+
+	t.Run("deeply nested UnsetFields", func(t *testing.T) {
+		type innerSettings struct {
+			Threshold   *int64   `json:"threshold,omitempty"`
+			UnsetFields []string `form:"-" json:"-"`
+		}
+		type midLevel struct {
+			Settings    *innerSettings `json:"settings,omitempty"`
+			Mode        *string        `json:"mode,omitempty"`
+			UnsetFields []string       `form:"-" json:"-"`
+		}
+		type rootParams struct {
+			Params  `form:"*"`
+			Details *midLevel `json:"details,omitempty"`
+		}
+
+		params := &rootParams{
+			Details: &midLevel{
+				Mode:     String("auto"),
+				Settings: &innerSettings{},
+			},
+		}
+		params.Details.UnsetFields = append(params.Details.UnsetFields, "mode")
+		params.Details.Settings.UnsetFields = append(params.Details.Settings.UnsetFields, "threshold")
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(data, &raw)
+		assert.NoError(t, err)
+
+		var details map[string]json.RawMessage
+		err = json.Unmarshal(raw["details"], &details)
+		assert.NoError(t, err)
+		assert.Equal(t, "null", string(details["mode"]))
+
+		var settings map[string]json.RawMessage
+		err = json.Unmarshal(details["settings"], &settings)
+		assert.NoError(t, err)
+		assert.Equal(t, "null", string(settings["threshold"]))
+	})
+
+	t.Run("slice element UnsetFields", func(t *testing.T) {
+		type lineItem struct {
+			Price       *string  `json:"price,omitempty"`
+			Quantity    *int64   `json:"quantity,omitempty"`
+			UnsetFields []string `form:"-" json:"-"`
+		}
+		type rootParams struct {
+			Params    `form:"*"`
+			LineItems []*lineItem `json:"line_items,omitempty"`
+		}
+
+		params := &rootParams{
+			LineItems: []*lineItem{
+				{Price: String("price_123"), Quantity: Int64(2)},
+				{Price: String("price_456")},
+			},
+		}
+		// Unset quantity on the second element
+		params.LineItems[1].UnsetFields = append(params.LineItems[1].UnsetFields, "quantity")
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(data, &raw)
+		assert.NoError(t, err)
+
+		var items []json.RawMessage
+		err = json.Unmarshal(raw["line_items"], &items)
+		assert.NoError(t, err)
+		assert.Len(t, items, 2)
+
+		// First element: quantity is set, should not be null
+		var item0 map[string]json.RawMessage
+		err = json.Unmarshal(items[0], &item0)
+		assert.NoError(t, err)
+		assert.Equal(t, `"price_123"`, string(item0["price"]))
+		assert.Equal(t, `2`, string(item0["quantity"]))
+
+		// Second element: quantity should be null via UnsetFields
+		var item1 map[string]json.RawMessage
+		err = json.Unmarshal(items[1], &item1)
+		assert.NoError(t, err)
+		assert.Equal(t, `"price_456"`, string(item1["price"]))
+		assert.Equal(t, "null", string(item1["quantity"]))
+	})
+}
+
+// Test nested UnsetFields with v1 form encoding (bracket notation)
+func TestCall_V1PathPostNestedUnsetFields(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+		bodyStr := string(body)
+
+		// Root-level: "description=" should be present
+		vals, err := url.ParseQuery(bodyStr)
+		assert.NoError(t, err)
+		assert.Equal(t, "", vals.Get("description"))
+		assert.Contains(t, bodyStr, "description=")
+
+		// Nested: "details[comment]=" should be present (stripe form encoder
+		// uses literal brackets, not percent-encoded)
+		assert.Equal(t, "", vals.Get("details[comment]"))
+		assert.Contains(t, bodyStr, "details[comment]=")
+
+		// "details[feedback]" should have a value
+		assert.Equal(t, "too_slow", vals.Get("details[feedback]"))
+
+		data, _ := json.Marshal(testServerResponse{Message: "ok"})
+		w.Write(data)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type nestedDetails struct {
+		Comment     *string  `form:"comment" json:"comment,omitempty"`
+		Feedback    *string  `form:"feedback" json:"feedback,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
+	}
+	type myParams struct {
+		Params      `form:"*"`
+		Description *string        `form:"description" json:"description,omitempty"`
+		Details     *nestedDetails `form:"details" json:"details,omitempty"`
+		UnsetFields []string       `form:"-" json:"-"`
+	}
+	params := &myParams{
+		Details: &nestedDetails{
+			Feedback: String("too_slow"),
+		},
+	}
+	params.UnsetFields = append(params.UnsetFields, "description")
+	params.Details.UnsetFields = append(params.Details.UnsetFields, "comment")
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v1/hello", "sk_test_xyz", params, &response)
+	assert.NoError(t, err)
+}
+
+// Test nested UnsetFields with v2 JSON encoding (end-to-end via Call)
+func TestCall_V2PathPostNestedUnsetFields(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(body, &raw)
+		assert.NoError(t, err)
+
+		// Root-level: "description" should be null
+		assert.Equal(t, "null", string(raw["description"]))
+
+		// Nested: "details.comment" should be null
+		var details map[string]json.RawMessage
+		err = json.Unmarshal(raw["details"], &details)
+		assert.NoError(t, err)
+		assert.Equal(t, "null", string(details["comment"]))
+		assert.Equal(t, `"too_slow"`, string(details["feedback"]))
+
+		data, _ := json.Marshal(testServerResponse{Message: "ok"})
+		w.Write(data)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type nestedDetails struct {
+		Comment     *string  `form:"comment" json:"comment,omitempty"`
+		Feedback    *string  `form:"feedback" json:"feedback,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
+	}
+	type myParams struct {
+		Params      `form:"*"`
+		Description *string        `form:"description" json:"description,omitempty"`
+		Details     *nestedDetails `form:"details" json:"details,omitempty"`
+		UnsetFields []string       `form:"-" json:"-"`
+	}
+	params := &myParams{
+		Details: &nestedDetails{
+			Feedback: String("too_slow"),
+		},
+	}
+	params.UnsetFields = append(params.UnsetFields, "description")
+	params.Details.UnsetFields = append(params.Details.UnsetFields, "comment")
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v2/hello", "sk_test_xyz", params, &response)
+	assert.NoError(t, err)
+}
+
+// Test UnsetFields on slice element params with v1 form encoding
+func TestCall_V1PathPostSliceElementUnsetFields(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+		bodyStr := string(body)
+
+		vals, err := url.ParseQuery(bodyStr)
+		assert.NoError(t, err)
+
+		// First item: price set, no unset
+		assert.Equal(t, "price_123", vals.Get("line_items[0][price]"))
+
+		// Second item: price set, tax_rates cleared via UnsetFields
+		assert.Equal(t, "price_456", vals.Get("line_items[1][price]"))
+		assert.Equal(t, "", vals.Get("line_items[1][tax_rates]"))
+		assert.Contains(t, bodyStr, "line_items[1][tax_rates]=")
+
+		data, _ := json.Marshal(testServerResponse{Message: "ok"})
+		w.Write(data)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type lineItem struct {
+		Price       *string  `form:"price" json:"price,omitempty"`
+		TaxRates    *string  `form:"tax_rates" json:"tax_rates,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
+	}
+	type myParams struct {
+		Params    `form:"*"`
+		LineItems []*lineItem `form:"line_items" json:"line_items,omitempty"`
+	}
+	params := &myParams{
+		LineItems: []*lineItem{
+			{Price: String("price_123")},
+			{Price: String("price_456")},
+		},
+	}
+	params.LineItems[1].UnsetFields = append(params.LineItems[1].UnsetFields, "tax_rates")
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v1/hello", "sk_test_xyz", params, &response)
+	assert.NoError(t, err)
+}
+
+// Test UnsetFields on slice element params with v2 JSON encoding
+func TestCall_V2PathPostSliceElementUnsetFields(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(body, &raw)
+		assert.NoError(t, err)
+
+		var items []json.RawMessage
+		err = json.Unmarshal(raw["line_items"], &items)
+		assert.NoError(t, err)
+		assert.Len(t, items, 2)
+
+		// First item: normal, no nulls
+		var item0 map[string]json.RawMessage
+		err = json.Unmarshal(items[0], &item0)
+		assert.NoError(t, err)
+		assert.Equal(t, `"price_123"`, string(item0["price"]))
+		_, hasTax0 := item0["tax_rates"]
+		assert.False(t, hasTax0)
+
+		// Second item: tax_rates should be null
+		var item1 map[string]json.RawMessage
+		err = json.Unmarshal(items[1], &item1)
+		assert.NoError(t, err)
+		assert.Equal(t, `"price_456"`, string(item1["price"]))
+		assert.Equal(t, "null", string(item1["tax_rates"]))
+
+		data, _ := json.Marshal(testServerResponse{Message: "ok"})
+		w.Write(data)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type lineItem struct {
+		Price       *string  `form:"price" json:"price,omitempty"`
+		TaxRates    *string  `form:"tax_rates" json:"tax_rates,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
+	}
+	type myParams struct {
+		Params    `form:"*"`
+		LineItems []*lineItem `form:"line_items" json:"line_items,omitempty"`
+	}
+	params := &myParams{
+		LineItems: []*lineItem{
+			{Price: String("price_123")},
+			{Price: String("price_456")},
+		},
+	}
+	params.LineItems[1].UnsetFields = append(params.LineItems[1].UnsetFields, "tax_rates")
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v2/hello", "sk_test_xyz", params, &response)
+	assert.NoError(t, err)
 }
 
 func TestDo_Redaction(t *testing.T) {
@@ -1989,4 +2565,62 @@ func TestHandleResponseBufferingErrors_NilResponse(t *testing.T) {
 	_, err := backend.handleResponseBufferingErrors(resp, timeoutErr)
 	assert.Error(t, err)
 	assert.Equal(t, timeoutErr, err)
+}
+
+func BenchmarkCollectAllUnsetFields(b *testing.B) {
+	// Minimal params — just the root struct with one unset field.
+	b.Run("minimal", func(b *testing.B) {
+		params := &PaymentIntentCreateParams{
+			Amount:   Int64(1000),
+			Currency: String("usd"),
+		}
+		params.AddUnsetField(PaymentIntentCreateParamsUnsetFieldMandateData)
+
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			collectAllUnsetFields(reflect.ValueOf(params))
+		}
+	})
+
+	// Deeply nested params — many populated sub-structs to stress the
+	// recursive reflection walk.
+	b.Run("deeply_nested", func(b *testing.B) {
+		params := &PaymentIntentCreateParams{
+			Amount:   Int64(1000),
+			Currency: String("usd"),
+			PaymentMethodOptions: &PaymentIntentCreatePaymentMethodOptionsParams{
+				Card: &PaymentIntentCreatePaymentMethodOptionsCardParams{
+					Installments: &PaymentIntentCreatePaymentMethodOptionsCardInstallmentsParams{
+						Enabled: Bool(true),
+					},
+				},
+				USBankAccount: &PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams{
+					FinancialConnections: &PaymentIntentCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsParams{
+						Permissions: []*string{String("payment_method")},
+					},
+				},
+			},
+			PaymentMethodData: &PaymentIntentCreatePaymentMethodDataParams{
+				BillingDetails: &PaymentIntentCreatePaymentMethodDataBillingDetailsParams{
+					Address: &AddressParams{
+						City:    String("SF"),
+						Country: String("US"),
+					},
+				},
+			},
+			Shipping: &ShippingDetailsParams{
+				Address: &AddressParams{
+					City:    String("SF"),
+					Country: String("US"),
+				},
+				Name: String("Test"),
+			},
+		}
+		params.AddUnsetField(PaymentIntentCreateParamsUnsetFieldMandateData)
+
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			collectAllUnsetFields(reflect.ValueOf(params))
+		}
+	})
 }
