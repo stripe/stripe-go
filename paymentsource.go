@@ -79,7 +79,7 @@ func SourceParamsFor(obj interface{}) (*PaymentSourceSourceParams, error) {
 //
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
-// To change the default, you should [update the customer](https://docs.stripe.com/docs/api#update_customer) to have a new default_source.
+// To change the default, you should [update the customer](https://docs.stripe.com/api/customers/update) to have a new default_source.
 type PaymentSourceParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
@@ -111,8 +111,21 @@ type PaymentSourceParams struct {
 	Name  *string                   `form:"name"`
 	Owner *PaymentSourceOwnerParams `form:"owner"`
 	// Please refer to full [documentation](https://api.stripe.com) instead.
-	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
-	Validate *bool                      `form:"validate"`
+	Source      *PaymentSourceSourceParams      `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
+	Validate    *bool                           `form:"validate"`
+	UnsetFields []PaymentSourceParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentSourceParamsUnsetField is the list of fields that can be cleared/unset on PaymentSourceParams.
+type PaymentSourceParamsUnsetField string
+
+const (
+	PaymentSourceParamsUnsetFieldMetadata PaymentSourceParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentSourceParams) AddUnsetField(field PaymentSourceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -160,7 +173,7 @@ func (p *PaymentSourceVerifyParams) AddExpand(f string) {
 //
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
-// To change the default, you should [update the customer](https://docs.stripe.com/docs/api#update_customer) to have a new default_source.
+// To change the default, you should [update the customer](https://docs.stripe.com/api/customers/update) to have a new default_source.
 type PaymentSourceCreateParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
@@ -240,8 +253,21 @@ type PaymentSourceUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
-	Name  *string                         `form:"name"`
-	Owner *PaymentSourceUpdateOwnerParams `form:"owner"`
+	Name        *string                               `form:"name"`
+	Owner       *PaymentSourceUpdateOwnerParams       `form:"owner"`
+	UnsetFields []PaymentSourceUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentSourceUpdateParamsUnsetField is the list of fields that can be cleared/unset on PaymentSourceUpdateParams.
+type PaymentSourceUpdateParamsUnsetField string
+
+const (
+	PaymentSourceUpdateParamsUnsetFieldMetadata PaymentSourceUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentSourceUpdateParams) AddUnsetField(field PaymentSourceUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

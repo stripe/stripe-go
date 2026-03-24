@@ -64,7 +64,23 @@ type TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID *string `form:"tax_id"`
+	TaxID       *string                                                                       `form:"tax_id"`
+	UnsetFields []TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams.
+type TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField string
+
+const (
+	TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetFieldAddress TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField = "address"
+	TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetFieldEmail   TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField = "email"
+	TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetFieldName    TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField = "name"
+	TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetFieldPhone   TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams) AddUnsetField(field TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -284,6 +300,24 @@ type TestHelpersConfirmationTokenPaymentMethodDataSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataTWINTParams struct{}
 
+// Configuration options for setting up an eMandate
+type TestHelpersConfirmationTokenPaymentMethodDataUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date"`
+}
+
+// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *TestHelpersConfirmationTokenPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -424,6 +458,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	TWINT *TestHelpersConfirmationTokenPaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *TestHelpersConfirmationTokenPaymentMethodDataUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -479,7 +515,20 @@ type TestHelpersConfirmationTokenShippingParams struct {
 	// Recipient name.
 	Name *string `form:"name"`
 	// Recipient phone (including extension)
-	Phone *string `form:"phone"`
+	Phone       *string                                                `form:"phone"`
+	UnsetFields []TestHelpersConfirmationTokenShippingParamsUnsetField `form:"-" json:"-"`
+}
+
+// TestHelpersConfirmationTokenShippingParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersConfirmationTokenShippingParams.
+type TestHelpersConfirmationTokenShippingParamsUnsetField string
+
+const (
+	TestHelpersConfirmationTokenShippingParamsUnsetFieldPhone TestHelpersConfirmationTokenShippingParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TestHelpersConfirmationTokenShippingParams) AddUnsetField(field TestHelpersConfirmationTokenShippingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a test mode Confirmation Token server side for your integration tests.
@@ -566,7 +615,23 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams str
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID *string `form:"tax_id"`
+	TaxID       *string                                                                             `form:"tax_id"`
+	UnsetFields []TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField string
+
+const (
+	TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetFieldAddress TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField = "address"
+	TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetFieldEmail   TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField = "email"
+	TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetFieldName    TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField = "name"
+	TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetFieldPhone   TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams) AddUnsetField(field TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -786,6 +851,24 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams struct{}
 
+// Configuration options for setting up an eMandate
+type TestHelpersConfirmationTokenCreatePaymentMethodDataUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date"`
+}
+
+// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -926,6 +1009,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	TWINT *TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -981,7 +1066,20 @@ type TestHelpersConfirmationTokenCreateShippingParams struct {
 	// Recipient name.
 	Name *string `form:"name"`
 	// Recipient phone (including extension)
-	Phone *string `form:"phone"`
+	Phone       *string                                                      `form:"phone"`
+	UnsetFields []TestHelpersConfirmationTokenCreateShippingParamsUnsetField `form:"-" json:"-"`
+}
+
+// TestHelpersConfirmationTokenCreateShippingParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersConfirmationTokenCreateShippingParams.
+type TestHelpersConfirmationTokenCreateShippingParamsUnsetField string
+
+const (
+	TestHelpersConfirmationTokenCreateShippingParamsUnsetFieldPhone TestHelpersConfirmationTokenCreateShippingParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TestHelpersConfirmationTokenCreateShippingParams) AddUnsetField(field TestHelpersConfirmationTokenCreateShippingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a test mode Confirmation Token server side for your integration tests.

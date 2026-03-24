@@ -128,7 +128,20 @@ type BillingCreditGrantParams struct {
 	// A descriptive name shown in the Dashboard.
 	Name *string `form:"name"`
 	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
-	Priority *int64 `form:"priority"`
+	Priority    *int64                               `form:"priority"`
+	UnsetFields []BillingCreditGrantParamsUnsetField `form:"-" json:"-"`
+}
+
+// BillingCreditGrantParamsUnsetField is the list of fields that can be cleared/unset on BillingCreditGrantParams.
+type BillingCreditGrantParamsUnsetField string
+
+const (
+	BillingCreditGrantParamsUnsetFieldExpiresAt BillingCreditGrantParamsUnsetField = "expires_at"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *BillingCreditGrantParams) AddUnsetField(field BillingCreditGrantParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -284,7 +297,20 @@ type BillingCreditGrantUpdateParams struct {
 	// The time when the billing credits created by this credit grant expire. If set to empty, the billing credits never expire.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Set of key-value pairs you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                          `form:"metadata"`
+	UnsetFields []BillingCreditGrantUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// BillingCreditGrantUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingCreditGrantUpdateParams.
+type BillingCreditGrantUpdateParamsUnsetField string
+
+const (
+	BillingCreditGrantUpdateParamsUnsetFieldExpiresAt BillingCreditGrantUpdateParamsUnsetField = "expires_at"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *BillingCreditGrantUpdateParams) AddUnsetField(field BillingCreditGrantUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -387,7 +413,7 @@ type BillingCreditGrant struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

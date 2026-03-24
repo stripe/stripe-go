@@ -17,15 +17,6 @@ const (
 	V2CoreEventDestinationEventPayloadThin     V2CoreEventDestinationEventPayload = "thin"
 )
 
-// Where events should be routed from.
-type V2CoreEventDestinationEventsFrom string
-
-// List of values that V2CoreEventDestinationEventsFrom can take
-const (
-	V2CoreEventDestinationEventsFromOtherAccounts V2CoreEventDestinationEventsFrom = "other_accounts"
-	V2CoreEventDestinationEventsFromSelf          V2CoreEventDestinationEventsFrom = "self"
-)
-
 // Status. It can be set to either enabled or disabled.
 type V2CoreEventDestinationStatus string
 
@@ -107,8 +98,12 @@ type V2CoreEventDestination struct {
 	EnabledEvents []string `json:"enabled_events"`
 	// Payload type of events being subscribed to.
 	EventPayload V2CoreEventDestinationEventPayload `json:"event_payload"`
-	// Where events should be routed from.
-	EventsFrom []V2CoreEventDestinationEventsFrom `json:"events_from,omitempty"`
+	// Specifies which accounts' events route to this destination.
+	// `@self`: Receive events from the account that owns the event destination.
+	// `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
+	// `@organization_members`: Receive events from accounts directly linked to the organization.
+	// `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
+	EventsFrom []string `json:"events_from,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

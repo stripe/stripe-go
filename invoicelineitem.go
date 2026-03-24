@@ -240,12 +240,30 @@ type InvoiceLineItemParams struct {
 	PriceData *InvoiceLineItemPriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceLineItemPricingParams `form:"pricing"`
-	// Non-negative integer. The quantity of units for the line item.
+	// Non-negative integer. The quantity of units for the line item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemTaxAmountParams `form:"tax_amounts"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                         `form:"tax_rates"`
+	UnsetFields []InvoiceLineItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceLineItemParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemParams.
+type InvoiceLineItemParamsUnsetField string
+
+const (
+	InvoiceLineItemParamsUnsetFieldDiscounts  InvoiceLineItemParamsUnsetField = "discounts"
+	InvoiceLineItemParamsUnsetFieldMetadata   InvoiceLineItemParamsUnsetField = "metadata"
+	InvoiceLineItemParamsUnsetFieldTaxAmounts InvoiceLineItemParamsUnsetField = "tax_amounts"
+	InvoiceLineItemParamsUnsetFieldTaxRates   InvoiceLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemParams) AddUnsetField(field InvoiceLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -423,12 +441,30 @@ type InvoiceLineItemUpdateParams struct {
 	PriceData *InvoiceLineItemUpdatePriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceLineItemUpdatePricingParams `form:"pricing"`
-	// Non-negative integer. The quantity of units for the line item.
+	// Non-negative integer. The quantity of units for the line item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemUpdateTaxAmountParams `form:"tax_amounts"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                               `form:"tax_rates"`
+	UnsetFields []InvoiceLineItemUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceLineItemUpdateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemUpdateParams.
+type InvoiceLineItemUpdateParamsUnsetField string
+
+const (
+	InvoiceLineItemUpdateParamsUnsetFieldDiscounts  InvoiceLineItemUpdateParamsUnsetField = "discounts"
+	InvoiceLineItemUpdateParamsUnsetFieldMetadata   InvoiceLineItemUpdateParamsUnsetField = "metadata"
+	InvoiceLineItemUpdateParamsUnsetFieldTaxAmounts InvoiceLineItemUpdateParamsUnsetField = "tax_amounts"
+	InvoiceLineItemUpdateParamsUnsetFieldTaxRates   InvoiceLineItemUpdateParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemUpdateParams) AddUnsetField(field InvoiceLineItemUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -688,7 +724,7 @@ type InvoiceLineItem struct {
 	ID string `json:"id"`
 	// The ID of the invoice that contains this line item.
 	Invoice string `json:"invoice"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The amount of margin calculated per margin for this line item.
 	MarginAmounts []*InvoiceLineItemMarginAmount `json:"margin_amounts"`
@@ -705,9 +741,11 @@ type InvoiceLineItem struct {
 	PretaxCreditAmounts []*InvoiceLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
 	// The pricing information of the line item.
 	Pricing *InvoiceLineItemPricing `json:"pricing"`
-	// The quantity of the subscription, if the line item is a subscription or a proration.
-	Quantity     int64         `json:"quantity"`
-	Subscription *Subscription `json:"subscription"`
+	// Quantity of units for the invoice line item in integer format, with any decimal precision truncated. For the line item's full-precision decimal quantity, use `quantity_decimal`. This field will be deprecated in favor of `quantity_decimal` in a future version. If the line item is a proration or subscription, the quantity of the subscription that the proration was computed for.
+	Quantity int64 `json:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
+	QuantityDecimal float64       `json:"quantity_decimal,string"`
+	Subscription    *Subscription `json:"subscription"`
 	// The subtotal of the line item, in cents (or local equivalent), before any discounts or taxes.
 	Subtotal int64 `json:"subtotal"`
 	// The tax calculation identifiers of the line item.

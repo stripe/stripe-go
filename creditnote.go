@@ -158,6 +158,8 @@ type CreditNoteLineParams struct {
 	Description *string `form:"description"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
 	InvoiceLineItem *string `form:"invoice_line_item"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
@@ -169,7 +171,30 @@ type CreditNoteLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                         `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []CreditNoteLineParamsUnsetField `form:"-" json:"-"`
+}
+
+// CreditNoteLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNoteLineParams.
+type CreditNoteLineParamsUnsetField string
+
+const (
+	CreditNoteLineParamsUnsetFieldTaxAmounts CreditNoteLineParamsUnsetField = "tax_amounts"
+	CreditNoteLineParamsUnsetFieldTaxRates   CreditNoteLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNoteLineParams) AddUnsetField(field CreditNoteLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CreditNoteLineParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -273,6 +298,8 @@ type CreditNotePreviewLineParams struct {
 	Description *string `form:"description"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
 	InvoiceLineItem *string `form:"invoice_line_item"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
@@ -284,7 +311,30 @@ type CreditNotePreviewLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []CreditNotePreviewLineParamsUnsetField `form:"-" json:"-"`
+}
+
+// CreditNotePreviewLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNotePreviewLineParams.
+type CreditNotePreviewLineParamsUnsetField string
+
+const (
+	CreditNotePreviewLineParamsUnsetFieldTaxAmounts CreditNotePreviewLineParamsUnsetField = "tax_amounts"
+	CreditNotePreviewLineParamsUnsetFieldTaxRates   CreditNotePreviewLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNotePreviewLineParams) AddUnsetField(field CreditNotePreviewLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CreditNotePreviewLineParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -378,6 +428,8 @@ type CreditNotePreviewLinesLineParams struct {
 	Description *string `form:"description"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
 	InvoiceLineItem *string `form:"invoice_line_item"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
@@ -389,7 +441,30 @@ type CreditNotePreviewLinesLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                                     `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []CreditNotePreviewLinesLineParamsUnsetField `form:"-" json:"-"`
+}
+
+// CreditNotePreviewLinesLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNotePreviewLinesLineParams.
+type CreditNotePreviewLinesLineParamsUnsetField string
+
+const (
+	CreditNotePreviewLinesLineParamsUnsetFieldTaxAmounts CreditNotePreviewLinesLineParamsUnsetField = "tax_amounts"
+	CreditNotePreviewLinesLineParamsUnsetFieldTaxRates   CreditNotePreviewLinesLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNotePreviewLinesLineParams) AddUnsetField(field CreditNotePreviewLinesLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CreditNotePreviewLinesLineParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -508,6 +583,8 @@ type CreditNoteCreateLineParams struct {
 	Description *string `form:"description"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
 	InvoiceLineItem *string `form:"invoice_line_item"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
@@ -519,7 +596,30 @@ type CreditNoteCreateLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                               `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []CreditNoteCreateLineParamsUnsetField `form:"-" json:"-"`
+}
+
+// CreditNoteCreateLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNoteCreateLineParams.
+type CreditNoteCreateLineParamsUnsetField string
+
+const (
+	CreditNoteCreateLineParamsUnsetFieldTaxAmounts CreditNoteCreateLineParamsUnsetField = "tax_amounts"
+	CreditNoteCreateLineParamsUnsetFieldTaxRates   CreditNoteCreateLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNoteCreateLineParams) AddUnsetField(field CreditNoteCreateLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CreditNoteCreateLineParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -763,7 +863,7 @@ type CreditNote struct {
 	Invoice *Invoice `json:"invoice"`
 	// Line items that make up the credit note
 	Lines *CreditNoteLineItemList `json:"lines"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Customer-facing text that appears on the credit note PDF.
 	Memo string `json:"memo"`

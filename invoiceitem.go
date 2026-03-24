@@ -69,8 +69,10 @@ type InvoiceItemParams struct {
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceItemPricingParams `form:"pricing"`
-	// Non-negative integer. The quantity of units for the invoice item.
+	// Non-negative integer. The quantity of units for the invoice item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the invoice item.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// The ID of a subscription to add this invoice item to. When left blank, the invoice item is added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.
 	Subscription *string `form:"subscription"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -80,7 +82,23 @@ type InvoiceItemParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                      `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []InvoiceItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceItemParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemParams.
+type InvoiceItemParamsUnsetField string
+
+const (
+	InvoiceItemParamsUnsetFieldDiscounts InvoiceItemParamsUnsetField = "discounts"
+	InvoiceItemParamsUnsetFieldMetadata  InvoiceItemParamsUnsetField = "metadata"
+	InvoiceItemParamsUnsetFieldTaxCode   InvoiceItemParamsUnsetField = "tax_code"
+	InvoiceItemParamsUnsetFieldTaxRates  InvoiceItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemParams) AddUnsetField(field InvoiceItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -277,8 +295,10 @@ type InvoiceItemUpdateParams struct {
 	PriceData *InvoiceItemUpdatePriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceItemUpdatePricingParams `form:"pricing"`
-	// Non-negative integer. The quantity of units for the invoice item.
+	// Non-negative integer. The quantity of units for the invoice item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
@@ -286,7 +306,23 @@ type InvoiceItemUpdateParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                            `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []InvoiceItemUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceItemUpdateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemUpdateParams.
+type InvoiceItemUpdateParamsUnsetField string
+
+const (
+	InvoiceItemUpdateParamsUnsetFieldDiscounts InvoiceItemUpdateParamsUnsetField = "discounts"
+	InvoiceItemUpdateParamsUnsetFieldMetadata  InvoiceItemUpdateParamsUnsetField = "metadata"
+	InvoiceItemUpdateParamsUnsetFieldTaxCode   InvoiceItemUpdateParamsUnsetField = "tax_code"
+	InvoiceItemUpdateParamsUnsetFieldTaxRates  InvoiceItemUpdateParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemUpdateParams) AddUnsetField(field InvoiceItemUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -392,8 +428,10 @@ type InvoiceItemCreateParams struct {
 	PriceData *InvoiceItemCreatePriceDataParams `form:"price_data"`
 	// The pricing information for the invoice item.
 	Pricing *InvoiceItemCreatePricingParams `form:"pricing"`
-	// Non-negative integer. The quantity of units for the invoice item.
+	// Non-negative integer. The quantity of units for the invoice item. Use `quantity_decimal` instead to provide decimal precision. This field will be deprecated in favor of `quantity_decimal` in a future version.
 	Quantity *int64 `form:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the invoice item.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// The ID of a subscription to add this invoice item to. When left blank, the invoice item is added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.
 	Subscription *string `form:"subscription"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -403,7 +441,22 @@ type InvoiceItemCreateParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
 	TaxRates []*string `form:"tax_rates"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                            `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []InvoiceItemCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceItemCreateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemCreateParams.
+type InvoiceItemCreateParamsUnsetField string
+
+const (
+	InvoiceItemCreateParamsUnsetFieldDiscounts InvoiceItemCreateParamsUnsetField = "discounts"
+	InvoiceItemCreateParamsUnsetFieldMetadata  InvoiceItemCreateParamsUnsetField = "metadata"
+	InvoiceItemCreateParamsUnsetFieldTaxCode   InvoiceItemCreateParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemCreateParams) AddUnsetField(field InvoiceItemCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -553,7 +606,7 @@ type InvoiceItem struct {
 	ID string `json:"id"`
 	// The ID of the invoice this invoice item belongs to.
 	Invoice *Invoice `json:"invoice"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The margins which apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
 	Margins []*Margin `json:"margins"`
@@ -571,8 +624,10 @@ type InvoiceItem struct {
 	// Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
 	Proration        bool                         `json:"proration"`
 	ProrationDetails *InvoiceItemProrationDetails `json:"proration_details"`
-	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
+	// Quantity of units for the invoice item in integer format, with any decimal precision truncated. For the item's full-precision decimal quantity, use `quantity_decimal`. This field will be deprecated in favor of `quantity_decimal` in a future version. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
 	Quantity int64 `json:"quantity"`
+	// Non-negative decimal with at most 12 decimal places. The quantity of units for the invoice item.
+	QuantityDecimal float64 `json:"quantity_decimal,string"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// ID of the test clock this invoice item belongs to.

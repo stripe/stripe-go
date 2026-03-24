@@ -44,7 +44,29 @@ type TerminalConfigurationParams struct {
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
-	Wifi *TerminalConfigurationWifiParams `form:"wifi"`
+	Wifi        *TerminalConfigurationWifiParams        `form:"wifi"`
+	UnsetFields []TerminalConfigurationParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationParams.
+type TerminalConfigurationParamsUnsetField string
+
+const (
+	TerminalConfigurationParamsUnsetFieldBBPOSWisePad3 TerminalConfigurationParamsUnsetField = "bbpos_wisepad3"
+	TerminalConfigurationParamsUnsetFieldBBPOSWisePOSE TerminalConfigurationParamsUnsetField = "bbpos_wisepos_e"
+	TerminalConfigurationParamsUnsetFieldCellular      TerminalConfigurationParamsUnsetField = "cellular"
+	TerminalConfigurationParamsUnsetFieldOffline       TerminalConfigurationParamsUnsetField = "offline"
+	TerminalConfigurationParamsUnsetFieldRebootWindow  TerminalConfigurationParamsUnsetField = "reboot_window"
+	TerminalConfigurationParamsUnsetFieldStripeS700    TerminalConfigurationParamsUnsetField = "stripe_s700"
+	TerminalConfigurationParamsUnsetFieldStripeS710    TerminalConfigurationParamsUnsetField = "stripe_s710"
+	TerminalConfigurationParamsUnsetFieldTipping       TerminalConfigurationParamsUnsetField = "tipping"
+	TerminalConfigurationParamsUnsetFieldVerifoneP400  TerminalConfigurationParamsUnsetField = "verifone_p400"
+	TerminalConfigurationParamsUnsetFieldWifi          TerminalConfigurationParamsUnsetField = "wifi"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationParams) AddUnsetField(field TerminalConfigurationParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -55,13 +77,39 @@ func (p *TerminalConfigurationParams) AddExpand(f string) {
 // An object containing device type specific settings for BBPOS WisePad 3 readers.
 type TerminalConfigurationBBPOSWisePad3Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                              `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationBBPOSWisePad3ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationBBPOSWisePad3ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationBBPOSWisePad3Params.
+type TerminalConfigurationBBPOSWisePad3ParamsUnsetField string
+
+const (
+	TerminalConfigurationBBPOSWisePad3ParamsUnsetFieldSplashscreen TerminalConfigurationBBPOSWisePad3ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationBBPOSWisePad3Params) AddUnsetField(field TerminalConfigurationBBPOSWisePad3ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // An object containing device type specific settings for BBPOS WisePOS E readers.
 type TerminalConfigurationBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                              `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationBBPOSWisePOSEParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationBBPOSWisePOSEParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationBBPOSWisePOSEParams.
+type TerminalConfigurationBBPOSWisePOSEParamsUnsetField string
+
+const (
+	TerminalConfigurationBBPOSWisePOSEParamsUnsetFieldSplashscreen TerminalConfigurationBBPOSWisePOSEParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationBBPOSWisePOSEParams) AddUnsetField(field TerminalConfigurationBBPOSWisePOSEParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configuration for cellular connectivity.
@@ -93,13 +141,39 @@ type TerminalConfigurationRebootWindowParams struct {
 // An object containing device type specific settings for Stripe S700 readers.
 type TerminalConfigurationStripeS700Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                           `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationStripeS700ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationStripeS700ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationStripeS700Params.
+type TerminalConfigurationStripeS700ParamsUnsetField string
+
+const (
+	TerminalConfigurationStripeS700ParamsUnsetFieldSplashscreen TerminalConfigurationStripeS700ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationStripeS700Params) AddUnsetField(field TerminalConfigurationStripeS700ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // An object containing device type specific settings for Stripe S710 readers.
 type TerminalConfigurationStripeS710Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                           `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationStripeS710ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationStripeS710ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationStripeS710Params.
+type TerminalConfigurationStripeS710ParamsUnsetField string
+
+const (
+	TerminalConfigurationStripeS710ParamsUnsetFieldSplashscreen TerminalConfigurationStripeS710ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationStripeS710Params) AddUnsetField(field TerminalConfigurationStripeS710ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Tipping configuration for AED
@@ -361,7 +435,20 @@ type TerminalConfigurationTippingParams struct {
 // An object containing device type specific settings for Verifone P400 readers.
 type TerminalConfigurationVerifoneP400Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                             `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationVerifoneP400ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationVerifoneP400ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationVerifoneP400Params.
+type TerminalConfigurationVerifoneP400ParamsUnsetField string
+
+const (
+	TerminalConfigurationVerifoneP400ParamsUnsetFieldSplashscreen TerminalConfigurationVerifoneP400ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationVerifoneP400Params) AddUnsetField(field TerminalConfigurationVerifoneP400ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Credentials for a WPA-Enterprise WiFi network using the EAP-PEAP authentication method.
@@ -444,13 +531,39 @@ func (p *TerminalConfigurationRetrieveParams) AddExpand(f string) {
 // An object containing device type specific settings for BBPOS WisePad 3 readers.
 type TerminalConfigurationUpdateBBPOSWisePad3Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                    `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationUpdateBBPOSWisePad3ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateBBPOSWisePad3ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateBBPOSWisePad3Params.
+type TerminalConfigurationUpdateBBPOSWisePad3ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateBBPOSWisePad3ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateBBPOSWisePad3ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateBBPOSWisePad3Params) AddUnsetField(field TerminalConfigurationUpdateBBPOSWisePad3ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // An object containing device type specific settings for BBPOS WisePOS E readers.
 type TerminalConfigurationUpdateBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                    `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationUpdateBBPOSWisePOSEParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateBBPOSWisePOSEParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateBBPOSWisePOSEParams.
+type TerminalConfigurationUpdateBBPOSWisePOSEParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateBBPOSWisePOSEParamsUnsetFieldSplashscreen TerminalConfigurationUpdateBBPOSWisePOSEParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateBBPOSWisePOSEParams) AddUnsetField(field TerminalConfigurationUpdateBBPOSWisePOSEParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configuration for cellular connectivity.
@@ -482,13 +595,39 @@ type TerminalConfigurationUpdateRebootWindowParams struct {
 // An object containing device type specific settings for Stripe S700 readers.
 type TerminalConfigurationUpdateStripeS700Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                 `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationUpdateStripeS700ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateStripeS700ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateStripeS700Params.
+type TerminalConfigurationUpdateStripeS700ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateStripeS700ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateStripeS700ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateStripeS700Params) AddUnsetField(field TerminalConfigurationUpdateStripeS700ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // An object containing device type specific settings for Stripe S710 readers.
 type TerminalConfigurationUpdateStripeS710Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                 `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationUpdateStripeS710ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateStripeS710ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateStripeS710Params.
+type TerminalConfigurationUpdateStripeS710ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateStripeS710ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateStripeS710ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateStripeS710Params) AddUnsetField(field TerminalConfigurationUpdateStripeS710ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Tipping configuration for AED
@@ -750,7 +889,20 @@ type TerminalConfigurationUpdateTippingParams struct {
 // An object containing device type specific settings for Verifone P400 readers.
 type TerminalConfigurationUpdateVerifoneP400Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                   `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationUpdateVerifoneP400ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateVerifoneP400ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateVerifoneP400Params.
+type TerminalConfigurationUpdateVerifoneP400ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateVerifoneP400ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateVerifoneP400ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateVerifoneP400Params) AddUnsetField(field TerminalConfigurationUpdateVerifoneP400ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Credentials for a WPA-Enterprise WiFi network using the EAP-PEAP authentication method.
@@ -827,7 +979,29 @@ type TerminalConfigurationUpdateParams struct {
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationUpdateVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
-	Wifi *TerminalConfigurationUpdateWifiParams `form:"wifi"`
+	Wifi        *TerminalConfigurationUpdateWifiParams        `form:"wifi"`
+	UnsetFields []TerminalConfigurationUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateParams.
+type TerminalConfigurationUpdateParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePad3 TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepad3"
+	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePOSE TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepos_e"
+	TerminalConfigurationUpdateParamsUnsetFieldCellular      TerminalConfigurationUpdateParamsUnsetField = "cellular"
+	TerminalConfigurationUpdateParamsUnsetFieldOffline       TerminalConfigurationUpdateParamsUnsetField = "offline"
+	TerminalConfigurationUpdateParamsUnsetFieldRebootWindow  TerminalConfigurationUpdateParamsUnsetField = "reboot_window"
+	TerminalConfigurationUpdateParamsUnsetFieldStripeS700    TerminalConfigurationUpdateParamsUnsetField = "stripe_s700"
+	TerminalConfigurationUpdateParamsUnsetFieldStripeS710    TerminalConfigurationUpdateParamsUnsetField = "stripe_s710"
+	TerminalConfigurationUpdateParamsUnsetFieldTipping       TerminalConfigurationUpdateParamsUnsetField = "tipping"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP400  TerminalConfigurationUpdateParamsUnsetField = "verifone_p400"
+	TerminalConfigurationUpdateParamsUnsetFieldWifi          TerminalConfigurationUpdateParamsUnsetField = "wifi"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateParams) AddUnsetField(field TerminalConfigurationUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -838,13 +1012,39 @@ func (p *TerminalConfigurationUpdateParams) AddExpand(f string) {
 // An object containing device type specific settings for BBPOS WisePad 3 readers.
 type TerminalConfigurationCreateBBPOSWisePad3Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                    `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationCreateBBPOSWisePad3ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateBBPOSWisePad3ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateBBPOSWisePad3Params.
+type TerminalConfigurationCreateBBPOSWisePad3ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateBBPOSWisePad3ParamsUnsetFieldSplashscreen TerminalConfigurationCreateBBPOSWisePad3ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateBBPOSWisePad3Params) AddUnsetField(field TerminalConfigurationCreateBBPOSWisePad3ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // An object containing device type specific settings for BBPOS WisePOS E readers.
 type TerminalConfigurationCreateBBPOSWisePOSEParams struct {
 	// A File ID representing an image to display on the reader
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                    `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationCreateBBPOSWisePOSEParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateBBPOSWisePOSEParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateBBPOSWisePOSEParams.
+type TerminalConfigurationCreateBBPOSWisePOSEParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateBBPOSWisePOSEParamsUnsetFieldSplashscreen TerminalConfigurationCreateBBPOSWisePOSEParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateBBPOSWisePOSEParams) AddUnsetField(field TerminalConfigurationCreateBBPOSWisePOSEParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configuration for cellular connectivity.
@@ -876,13 +1076,39 @@ type TerminalConfigurationCreateRebootWindowParams struct {
 // An object containing device type specific settings for Stripe S700 readers.
 type TerminalConfigurationCreateStripeS700Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                 `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationCreateStripeS700ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateStripeS700ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateStripeS700Params.
+type TerminalConfigurationCreateStripeS700ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateStripeS700ParamsUnsetFieldSplashscreen TerminalConfigurationCreateStripeS700ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateStripeS700Params) AddUnsetField(field TerminalConfigurationCreateStripeS700ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // An object containing device type specific settings for Stripe S710 readers.
 type TerminalConfigurationCreateStripeS710Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                 `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationCreateStripeS710ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateStripeS710ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateStripeS710Params.
+type TerminalConfigurationCreateStripeS710ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateStripeS710ParamsUnsetFieldSplashscreen TerminalConfigurationCreateStripeS710ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateStripeS710Params) AddUnsetField(field TerminalConfigurationCreateStripeS710ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Tipping configuration for AED
@@ -1144,7 +1370,20 @@ type TerminalConfigurationCreateTippingParams struct {
 // An object containing device type specific settings for Verifone P400 readers.
 type TerminalConfigurationCreateVerifoneP400Params struct {
 	// A File ID representing an image you want to display on the reader.
-	Splashscreen *string `form:"splashscreen"`
+	Splashscreen *string                                                   `form:"splashscreen"`
+	UnsetFields  []TerminalConfigurationCreateVerifoneP400ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateVerifoneP400ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateVerifoneP400Params.
+type TerminalConfigurationCreateVerifoneP400ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateVerifoneP400ParamsUnsetFieldSplashscreen TerminalConfigurationCreateVerifoneP400ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateVerifoneP400Params) AddUnsetField(field TerminalConfigurationCreateVerifoneP400ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Credentials for a WPA-Enterprise WiFi network using the EAP-PEAP authentication method.
@@ -1221,7 +1460,23 @@ type TerminalConfigurationCreateParams struct {
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationCreateVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
-	Wifi *TerminalConfigurationCreateWifiParams `form:"wifi"`
+	Wifi        *TerminalConfigurationCreateWifiParams        `form:"wifi"`
+	UnsetFields []TerminalConfigurationCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateParams.
+type TerminalConfigurationCreateParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateParamsUnsetFieldCellular TerminalConfigurationCreateParamsUnsetField = "cellular"
+	TerminalConfigurationCreateParamsUnsetFieldOffline  TerminalConfigurationCreateParamsUnsetField = "offline"
+	TerminalConfigurationCreateParamsUnsetFieldTipping  TerminalConfigurationCreateParamsUnsetField = "tipping"
+	TerminalConfigurationCreateParamsUnsetFieldWifi     TerminalConfigurationCreateParamsUnsetField = "wifi"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateParams) AddUnsetField(field TerminalConfigurationCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1506,7 +1761,7 @@ type TerminalConfiguration struct {
 	ID string `json:"id"`
 	// Whether this Configuration is the default for your account
 	IsAccountDefault bool `json:"is_account_default"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String indicating the name of the Configuration object, set by the user
 	Name string `json:"name"`

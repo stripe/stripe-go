@@ -38,7 +38,20 @@ type TransferReversalParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Boolean indicating whether the application fee should be refunded when reversing this transfer. If a full transfer reversal is given, the full application fee will be refunded. Otherwise, the application fee will be refunded with an amount proportional to the amount of the transfer reversed.
-	RefundApplicationFee *bool `form:"refund_application_fee"`
+	RefundApplicationFee *bool                              `form:"refund_application_fee"`
+	UnsetFields          []TransferReversalParamsUnsetField `form:"-" json:"-"`
+}
+
+// TransferReversalParamsUnsetField is the list of fields that can be cleared/unset on TransferReversalParams.
+type TransferReversalParamsUnsetField string
+
+const (
+	TransferReversalParamsUnsetFieldMetadata TransferReversalParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TransferReversalParams) AddUnsetField(field TransferReversalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -72,7 +85,20 @@ type TransferReversalCreateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Boolean indicating whether the application fee should be refunded when reversing this transfer. If a full transfer reversal is given, the full application fee will be refunded. Otherwise, the application fee will be refunded with an amount proportional to the amount of the transfer reversed.
-	RefundApplicationFee *bool `form:"refund_application_fee"`
+	RefundApplicationFee *bool                                    `form:"refund_application_fee"`
+	UnsetFields          []TransferReversalCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// TransferReversalCreateParamsUnsetField is the list of fields that can be cleared/unset on TransferReversalCreateParams.
+type TransferReversalCreateParamsUnsetField string
+
+const (
+	TransferReversalCreateParamsUnsetFieldMetadata TransferReversalCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TransferReversalCreateParams) AddUnsetField(field TransferReversalCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -111,7 +137,20 @@ type TransferReversalUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                        `form:"metadata"`
+	UnsetFields []TransferReversalUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// TransferReversalUpdateParamsUnsetField is the list of fields that can be cleared/unset on TransferReversalUpdateParams.
+type TransferReversalUpdateParamsUnsetField string
+
+const (
+	TransferReversalUpdateParamsUnsetFieldMetadata TransferReversalUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TransferReversalUpdateParams) AddUnsetField(field TransferReversalUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

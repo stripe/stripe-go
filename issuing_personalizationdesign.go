@@ -83,7 +83,23 @@ type IssuingPersonalizationDesignCarrierTextParams struct {
 	// The header body text of the carrier letter.
 	HeaderBody *string `form:"header_body"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string `form:"header_title"`
+	HeaderTitle *string                                                   `form:"header_title"`
+	UnsetFields []IssuingPersonalizationDesignCarrierTextParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingPersonalizationDesignCarrierTextParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignCarrierTextParams.
+type IssuingPersonalizationDesignCarrierTextParamsUnsetField string
+
+const (
+	IssuingPersonalizationDesignCarrierTextParamsUnsetFieldFooterBody  IssuingPersonalizationDesignCarrierTextParamsUnsetField = "footer_body"
+	IssuingPersonalizationDesignCarrierTextParamsUnsetFieldFooterTitle IssuingPersonalizationDesignCarrierTextParamsUnsetField = "footer_title"
+	IssuingPersonalizationDesignCarrierTextParamsUnsetFieldHeaderBody  IssuingPersonalizationDesignCarrierTextParamsUnsetField = "header_body"
+	IssuingPersonalizationDesignCarrierTextParamsUnsetFieldHeaderTitle IssuingPersonalizationDesignCarrierTextParamsUnsetField = "header_title"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingPersonalizationDesignCarrierTextParams) AddUnsetField(field IssuingPersonalizationDesignCarrierTextParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information on whether this personalization design is used to create cards when one is not specified.
@@ -112,7 +128,23 @@ type IssuingPersonalizationDesignParams struct {
 	// Information on whether this personalization design is used to create cards when one is not specified.
 	Preferences *IssuingPersonalizationDesignPreferencesParams `form:"preferences"`
 	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
-	TransferLookupKey *bool `form:"transfer_lookup_key"`
+	TransferLookupKey *bool                                          `form:"transfer_lookup_key"`
+	UnsetFields       []IssuingPersonalizationDesignParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingPersonalizationDesignParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignParams.
+type IssuingPersonalizationDesignParamsUnsetField string
+
+const (
+	IssuingPersonalizationDesignParamsUnsetFieldCardLogo    IssuingPersonalizationDesignParamsUnsetField = "card_logo"
+	IssuingPersonalizationDesignParamsUnsetFieldCarrierText IssuingPersonalizationDesignParamsUnsetField = "carrier_text"
+	IssuingPersonalizationDesignParamsUnsetFieldLookupKey   IssuingPersonalizationDesignParamsUnsetField = "lookup_key"
+	IssuingPersonalizationDesignParamsUnsetFieldName        IssuingPersonalizationDesignParamsUnsetField = "name"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingPersonalizationDesignParams) AddUnsetField(field IssuingPersonalizationDesignParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -138,7 +170,23 @@ type IssuingPersonalizationDesignCreateCarrierTextParams struct {
 	// The header body text of the carrier letter.
 	HeaderBody *string `form:"header_body"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string `form:"header_title"`
+	HeaderTitle *string                                                         `form:"header_title"`
+	UnsetFields []IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignCreateCarrierTextParams.
+type IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField string
+
+const (
+	IssuingPersonalizationDesignCreateCarrierTextParamsUnsetFieldFooterBody  IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField = "footer_body"
+	IssuingPersonalizationDesignCreateCarrierTextParamsUnsetFieldFooterTitle IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField = "footer_title"
+	IssuingPersonalizationDesignCreateCarrierTextParamsUnsetFieldHeaderBody  IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField = "header_body"
+	IssuingPersonalizationDesignCreateCarrierTextParamsUnsetFieldHeaderTitle IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField = "header_title"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingPersonalizationDesignCreateCarrierTextParams) AddUnsetField(field IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information on whether this personalization design is used to create cards when one is not specified.
@@ -205,7 +253,23 @@ type IssuingPersonalizationDesignUpdateCarrierTextParams struct {
 	// The header body text of the carrier letter.
 	HeaderBody *string `form:"header_body"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string `form:"header_title"`
+	HeaderTitle *string                                                         `form:"header_title"`
+	UnsetFields []IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignUpdateCarrierTextParams.
+type IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField string
+
+const (
+	IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetFieldFooterBody  IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField = "footer_body"
+	IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetFieldFooterTitle IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField = "footer_title"
+	IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetFieldHeaderBody  IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField = "header_body"
+	IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetFieldHeaderTitle IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField = "header_title"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingPersonalizationDesignUpdateCarrierTextParams) AddUnsetField(field IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information on whether this personalization design is used to create cards when one is not specified.
@@ -234,7 +298,23 @@ type IssuingPersonalizationDesignUpdateParams struct {
 	// Information on whether this personalization design is used to create cards when one is not specified.
 	Preferences *IssuingPersonalizationDesignUpdatePreferencesParams `form:"preferences"`
 	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
-	TransferLookupKey *bool `form:"transfer_lookup_key"`
+	TransferLookupKey *bool                                                `form:"transfer_lookup_key"`
+	UnsetFields       []IssuingPersonalizationDesignUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingPersonalizationDesignUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignUpdateParams.
+type IssuingPersonalizationDesignUpdateParamsUnsetField string
+
+const (
+	IssuingPersonalizationDesignUpdateParamsUnsetFieldCardLogo    IssuingPersonalizationDesignUpdateParamsUnsetField = "card_logo"
+	IssuingPersonalizationDesignUpdateParamsUnsetFieldCarrierText IssuingPersonalizationDesignUpdateParamsUnsetField = "carrier_text"
+	IssuingPersonalizationDesignUpdateParamsUnsetFieldLookupKey   IssuingPersonalizationDesignUpdateParamsUnsetField = "lookup_key"
+	IssuingPersonalizationDesignUpdateParamsUnsetFieldName        IssuingPersonalizationDesignUpdateParamsUnsetField = "name"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingPersonalizationDesignUpdateParams) AddUnsetField(field IssuingPersonalizationDesignUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -286,7 +366,7 @@ type IssuingPersonalizationDesign struct {
 	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
 	LookupKey string `json:"lookup_key"`

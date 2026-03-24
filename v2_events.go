@@ -9673,12 +9673,16 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 // so you should use [Client.ParseEventNotification] instead for initial handling.
 // This is useful in unit tests and working with EventNotifications that you've already validated the authenticity of.
 func EventNotificationFromJSON(payload []byte, client Client) (EventNotificationContainer, error) {
-	// we can pull the type out to base our matching on
 	var result = &struct {
-		Type string `json:"type"`
+		Type   string `json:"type"`
+		Object string `json:"object"`
 	}{}
 	if err := json.Unmarshal(payload, result); err != nil {
 		return nil, err
+	}
+
+	if result.Object == "event" {
+		return nil, fmt.Errorf("Did you use EventNotificationFromJSON to parse a webhook payload? If so, use ConstructEvent instead.")
 	}
 
 	// V2EventNotificationTypes: The beginning of the section generated from our OpenAPI spec

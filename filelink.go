@@ -39,7 +39,21 @@ type FileLinkParams struct {
 	// The ID of the file. The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `financial_account_statement`, `identity_document_downloadable`, `issuing_regulatory_reporting`, `pci_document`, `selfie`, `sigma_scheduled_query`, `tax_document_user_upload`, `terminal_android_apk`, or `terminal_reader_splashscreen`.
 	File *string `form:"file"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string          `form:"metadata"`
+	UnsetFields []FileLinkParamsUnsetField `form:"-" json:"-"`
+}
+
+// FileLinkParamsUnsetField is the list of fields that can be cleared/unset on FileLinkParams.
+type FileLinkParamsUnsetField string
+
+const (
+	FileLinkParamsUnsetFieldExpiresAt FileLinkParamsUnsetField = "expires_at"
+	FileLinkParamsUnsetFieldMetadata  FileLinkParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FileLinkParams) AddUnsetField(field FileLinkParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -73,7 +87,20 @@ type FileLinkCreateParams struct {
 	// The ID of the file. The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `financial_account_statement`, `identity_document_downloadable`, `issuing_regulatory_reporting`, `pci_document`, `selfie`, `sigma_scheduled_query`, `tax_document_user_upload`, `terminal_android_apk`, or `terminal_reader_splashscreen`.
 	File *string `form:"file"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                `form:"metadata"`
+	UnsetFields []FileLinkCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// FileLinkCreateParamsUnsetField is the list of fields that can be cleared/unset on FileLinkCreateParams.
+type FileLinkCreateParamsUnsetField string
+
+const (
+	FileLinkCreateParamsUnsetFieldMetadata FileLinkCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FileLinkCreateParams) AddUnsetField(field FileLinkCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -111,7 +138,21 @@ type FileLinkUpdateParams struct {
 	ExpiresAt    *int64 `form:"expires_at"`
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                `form:"metadata"`
+	UnsetFields []FileLinkUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// FileLinkUpdateParamsUnsetField is the list of fields that can be cleared/unset on FileLinkUpdateParams.
+type FileLinkUpdateParamsUnsetField string
+
+const (
+	FileLinkUpdateParamsUnsetFieldExpiresAt FileLinkUpdateParamsUnsetField = "expires_at"
+	FileLinkUpdateParamsUnsetFieldMetadata  FileLinkUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FileLinkUpdateParams) AddUnsetField(field FileLinkUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -150,7 +191,7 @@ type FileLink struct {
 	File *File `json:"file"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

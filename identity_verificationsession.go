@@ -152,7 +152,20 @@ type IdentityVerificationSessionOptionsDocumentParams struct {
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document *IdentityVerificationSessionOptionsDocumentParams `form:"document"`
+	Document    *IdentityVerificationSessionOptionsDocumentParams    `form:"document"`
+	UnsetFields []IdentityVerificationSessionOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// IdentityVerificationSessionOptionsParamsUnsetField is the list of fields that can be cleared/unset on IdentityVerificationSessionOptionsParams.
+type IdentityVerificationSessionOptionsParamsUnsetField string
+
+const (
+	IdentityVerificationSessionOptionsParamsUnsetFieldDocument IdentityVerificationSessionOptionsParamsUnsetField = "document"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IdentityVerificationSessionOptionsParams) AddUnsetField(field IdentityVerificationSessionOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details provided about the user being verified. These details may be shown to the user.
@@ -277,7 +290,20 @@ type IdentityVerificationSessionCreateOptionsDocumentParams struct {
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionCreateOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document *IdentityVerificationSessionCreateOptionsDocumentParams `form:"document"`
+	Document    *IdentityVerificationSessionCreateOptionsDocumentParams    `form:"document"`
+	UnsetFields []IdentityVerificationSessionCreateOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// IdentityVerificationSessionCreateOptionsParamsUnsetField is the list of fields that can be cleared/unset on IdentityVerificationSessionCreateOptionsParams.
+type IdentityVerificationSessionCreateOptionsParamsUnsetField string
+
+const (
+	IdentityVerificationSessionCreateOptionsParamsUnsetFieldDocument IdentityVerificationSessionCreateOptionsParamsUnsetField = "document"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IdentityVerificationSessionCreateOptionsParams) AddUnsetField(field IdentityVerificationSessionCreateOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details provided about the user being verified. These details may be shown to the user.
@@ -373,7 +399,20 @@ type IdentityVerificationSessionUpdateOptionsDocumentParams struct {
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionUpdateOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document *IdentityVerificationSessionUpdateOptionsDocumentParams `form:"document"`
+	Document    *IdentityVerificationSessionUpdateOptionsDocumentParams    `form:"document"`
+	UnsetFields []IdentityVerificationSessionUpdateOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// IdentityVerificationSessionUpdateOptionsParamsUnsetField is the list of fields that can be cleared/unset on IdentityVerificationSessionUpdateOptionsParams.
+type IdentityVerificationSessionUpdateOptionsParamsUnsetField string
+
+const (
+	IdentityVerificationSessionUpdateOptionsParamsUnsetFieldDocument IdentityVerificationSessionUpdateOptionsParamsUnsetField = "document"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IdentityVerificationSessionUpdateOptionsParams) AddUnsetField(field IdentityVerificationSessionUpdateOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details provided about the user being verified. These details may be shown to the user.
@@ -539,7 +578,7 @@ type IdentityVerificationSession struct {
 	LastError *IdentityVerificationSessionLastError `json:"last_error"`
 	// ID of the most recent VerificationReport. [Learn more about accessing detailed verification results.](https://docs.stripe.com/identity/verification-sessions#results)
 	LastVerificationReport *IdentityVerificationReport `json:"last_verification_report"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

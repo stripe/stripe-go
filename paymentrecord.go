@@ -163,6 +163,29 @@ const (
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
 )
 
+// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
+type PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator can take
+const (
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator01 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "01"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator02 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "02"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator03 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "03"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator04 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "04"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator05 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "05"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator06 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "06"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator07 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "07"
+)
+
+// The exemption requested via 3DS and accepted by the issuer at authentication time.
+type PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator can take
+const (
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicatorLowRisk PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator = "low_risk"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicatorNone    PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator = "none"
+)
+
 // Indicates the outcome of 3D Secure authentication.
 type PaymentRecordPaymentMethodDetailsCardThreeDSecureResult string
 
@@ -260,6 +283,7 @@ const (
 	PaymentRecordPaymentMethodDetailsCryptoNetworkEthereum PaymentRecordPaymentMethodDetailsCryptoNetwork = "ethereum"
 	PaymentRecordPaymentMethodDetailsCryptoNetworkPolygon  PaymentRecordPaymentMethodDetailsCryptoNetwork = "polygon"
 	PaymentRecordPaymentMethodDetailsCryptoNetworkSolana   PaymentRecordPaymentMethodDetailsCryptoNetwork = "solana"
+	PaymentRecordPaymentMethodDetailsCryptoNetworkTempo    PaymentRecordPaymentMethodDetailsCryptoNetwork = "tempo"
 )
 
 // The token currency that the transaction was sent with.
@@ -534,8 +558,7 @@ const (
 	PaymentRecordPaymentMethodDetailsRevolutPayFundingTypeCard PaymentRecordPaymentMethodDetailsRevolutPayFundingType = "card"
 )
 
-// Preferred language of the SOFORT authorization page that the customer is redirected to.
-// Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
+// Preferred language of the SOFORT authorization page that the customer is redirected to. Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
 type PaymentRecordPaymentMethodDetailsSofortPreferredLanguage string
 
 // List of values that PaymentRecordPaymentMethodDetailsSofortPreferredLanguage can take
@@ -616,7 +639,20 @@ type PaymentRecordReportPaymentAttemptFailedParams struct {
 	// The failure code for this payment attempt. Must be one of `payment_method_customer_decline` or `payment_method_provider_unknown_outcome`.
 	FailureCode *string `form:"failure_code"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                         `form:"metadata"`
+	UnsetFields []PaymentRecordReportPaymentAttemptFailedParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentRecordReportPaymentAttemptFailedParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptFailedParams.
+type PaymentRecordReportPaymentAttemptFailedParamsUnsetField string
+
+const (
+	PaymentRecordReportPaymentAttemptFailedParamsUnsetFieldMetadata PaymentRecordReportPaymentAttemptFailedParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportPaymentAttemptFailedParams) AddUnsetField(field PaymentRecordReportPaymentAttemptFailedParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -641,7 +677,20 @@ type PaymentRecordReportPaymentAttemptGuaranteedParams struct {
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
 	GuaranteedAt *int64 `form:"guaranteed_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                             `form:"metadata"`
+	UnsetFields []PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptGuaranteedParams.
+type PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField string
+
+const (
+	PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetFieldMetadata PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportPaymentAttemptGuaranteedParams) AddUnsetField(field PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -723,6 +772,19 @@ type PaymentRecordReportPaymentAttemptParams struct {
 	PaymentMethodDetails *PaymentRecordReportPaymentAttemptPaymentMethodDetailsParams `form:"payment_method_details"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordReportPaymentAttemptShippingDetailsParams `form:"shipping_details"`
+	UnsetFields     []PaymentRecordReportPaymentAttemptParamsUnsetField     `form:"-" json:"-"`
+}
+
+// PaymentRecordReportPaymentAttemptParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptParams.
+type PaymentRecordReportPaymentAttemptParamsUnsetField string
+
+const (
+	PaymentRecordReportPaymentAttemptParamsUnsetFieldMetadata PaymentRecordReportPaymentAttemptParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportPaymentAttemptParams) AddUnsetField(field PaymentRecordReportPaymentAttemptParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -749,7 +811,20 @@ type PaymentRecordReportPaymentAttemptCanceledParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                           `form:"metadata"`
+	UnsetFields []PaymentRecordReportPaymentAttemptCanceledParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentRecordReportPaymentAttemptCanceledParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptCanceledParams.
+type PaymentRecordReportPaymentAttemptCanceledParamsUnsetField string
+
+const (
+	PaymentRecordReportPaymentAttemptCanceledParamsUnsetFieldMetadata PaymentRecordReportPaymentAttemptCanceledParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddUnsetField(field PaymentRecordReportPaymentAttemptCanceledParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -801,6 +876,21 @@ type PaymentRecordReportPaymentAttemptInformationalParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordReportPaymentAttemptInformationalShippingDetailsParams `form:"shipping_details"`
+	UnsetFields     []PaymentRecordReportPaymentAttemptInformationalParamsUnsetField     `form:"-" json:"-"`
+}
+
+// PaymentRecordReportPaymentAttemptInformationalParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptInformationalParams.
+type PaymentRecordReportPaymentAttemptInformationalParamsUnsetField string
+
+const (
+	PaymentRecordReportPaymentAttemptInformationalParamsUnsetFieldDescription     PaymentRecordReportPaymentAttemptInformationalParamsUnsetField = "description"
+	PaymentRecordReportPaymentAttemptInformationalParamsUnsetFieldMetadata        PaymentRecordReportPaymentAttemptInformationalParamsUnsetField = "metadata"
+	PaymentRecordReportPaymentAttemptInformationalParamsUnsetFieldShippingDetails PaymentRecordReportPaymentAttemptInformationalParamsUnsetField = "shipping_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportPaymentAttemptInformationalParams) AddUnsetField(field PaymentRecordReportPaymentAttemptInformationalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -863,7 +953,20 @@ type PaymentRecordReportRefundParams struct {
 	// Processor information for this refund.
 	ProcessorDetails *PaymentRecordReportRefundProcessorDetailsParams `form:"processor_details"`
 	// Information about the payment attempt refund.
-	Refunded *PaymentRecordReportRefundRefundedParams `form:"refunded"`
+	Refunded    *PaymentRecordReportRefundRefundedParams    `form:"refunded"`
+	UnsetFields []PaymentRecordReportRefundParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentRecordReportRefundParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportRefundParams.
+type PaymentRecordReportRefundParamsUnsetField string
+
+const (
+	PaymentRecordReportRefundParamsUnsetFieldMetadata PaymentRecordReportRefundParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportRefundParams) AddUnsetField(field PaymentRecordReportRefundParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1002,6 +1105,19 @@ type PaymentRecordReportPaymentParams struct {
 	ProcessorDetails *PaymentRecordReportPaymentProcessorDetailsParams `form:"processor_details"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordReportPaymentShippingDetailsParams `form:"shipping_details"`
+	UnsetFields     []PaymentRecordReportPaymentParamsUnsetField     `form:"-" json:"-"`
+}
+
+// PaymentRecordReportPaymentParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentParams.
+type PaymentRecordReportPaymentParamsUnsetField string
+
+const (
+	PaymentRecordReportPaymentParamsUnsetFieldMetadata PaymentRecordReportPaymentParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportPaymentParams) AddUnsetField(field PaymentRecordReportPaymentParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1297,6 +1413,14 @@ type PaymentRecordPaymentMethodDetailsCardNetworkToken struct {
 type PaymentRecordPaymentMethodDetailsCardThreeDSecure struct {
 	// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 	AuthenticationFlow PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	// The 3D Secure cryptogram, also known as the "authentication value" (AAV, CAVV or AEVV).
+	Cryptogram string `json:"cryptogram"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator `json:"electronic_commerce_indicator"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator `json:"exemption_indicator"`
+	// Whether Stripe requested the value of `exemption_indicator` in the transaction. This will depend on the outcome of Stripe's internal risk assessment.
+	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied"`
 	// Indicates the outcome of 3D Secure authentication.
 	Result PaymentRecordPaymentMethodDetailsCardThreeDSecureResult `json:"result"`
 	// Additional information about why 3D Secure succeeded or failed, based on the `result`.
@@ -1557,8 +1681,7 @@ type PaymentRecordPaymentMethodDetailsIDEAL struct {
 	IBANLast4 string `json:"iban_last4"`
 	// Unique transaction ID generated by iDEAL.
 	TransactionID string `json:"transaction_id"`
-	// Owner's verified full name. Values are verified or provided by iDEAL directly
-	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	// Owner's verified full name. Values are verified or provided by iDEAL directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
 
@@ -1896,11 +2019,9 @@ type PaymentRecordPaymentMethodDetailsSofort struct {
 	GeneratedSEPADebitMandate *Mandate `json:"generated_sepa_debit_mandate"`
 	// Last four characters of the IBAN.
 	IBANLast4 string `json:"iban_last4"`
-	// Preferred language of the SOFORT authorization page that the customer is redirected to.
-	// Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
+	// Preferred language of the SOFORT authorization page that the customer is redirected to. Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
 	PreferredLanguage PaymentRecordPaymentMethodDetailsSofortPreferredLanguage `json:"preferred_language"`
-	// Owner's verified full name. Values are verified or provided by SOFORT directly
-	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	// Owner's verified full name. Values are verified or provided by SOFORT directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
 type PaymentRecordPaymentMethodDetailsStripeAccount struct{}
@@ -1919,6 +2040,10 @@ type PaymentRecordPaymentMethodDetailsSwish struct {
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
 type PaymentRecordPaymentMethodDetailsTWINT struct{}
+type PaymentRecordPaymentMethodDetailsUpi struct {
+	// Customer's unique Virtual Payment Address.
+	Vpa string `json:"vpa"`
+}
 type PaymentRecordPaymentMethodDetailsUSBankAccount struct {
 	// The type of entity that holds the account. This can be either 'individual' or 'company'.
 	AccountHolderType PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
@@ -2027,6 +2152,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          string                                          `json:"type"`
+	Upi           *PaymentRecordPaymentMethodDetailsUpi           `json:"upi"`
 	USBankAccount *PaymentRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 	WeChat        *PaymentRecordPaymentMethodDetailsWeChat        `json:"wechat"`
 	WeChatPay     *PaymentRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
@@ -2095,7 +2221,7 @@ type PaymentRecord struct {
 	ID string `json:"id"`
 	// ID of the latest Payment Attempt Record attached to this Payment Record.
 	LatestPaymentAttemptRecord string `json:"latest_payment_attempt_record"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

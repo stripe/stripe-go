@@ -207,6 +207,18 @@ func (p *IssuingCardListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Cancels the card after the specified conditions are met.
+type IssuingCardLifecycleControlsCancelAfterParams struct {
+	// The card is automatically cancelled when it makes this number of non-zero payment authorizations and transactions. The count includes penny authorizations, but doesn't include non-payment actions, such as authorization advice.
+	PaymentCount *int64 `form:"payment_count"`
+}
+
+// Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
+type IssuingCardLifecycleControlsParams struct {
+	// Cancels the card after the specified conditions are met.
+	CancelAfter *IssuingCardLifecycleControlsCancelAfterParams `form:"cancel_after"`
+}
+
 // The desired PIN for this card.
 type IssuingCardPINParams struct {
 	// The card's desired new PIN, encrypted under Stripe's public key.
@@ -284,6 +296,8 @@ type IssuingCardParams struct {
 	ExpYear *int64 `form:"exp_year"`
 	// The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
 	FinancialAccount *string `form:"financial_account"`
+	// Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
+	LifecycleControls *IssuingCardLifecycleControlsParams `form:"lifecycle_controls"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The personalization design object belonging to this card.
@@ -303,10 +317,24 @@ type IssuingCardParams struct {
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
 	Status *string `form:"status"`
 	// The type of card to issue. Possible values are `physical` or `virtual`.
-	Type *string `form:"type"`
+	Type        *string                       `form:"type"`
+	UnsetFields []IssuingCardParamsUnsetField `form:"-" json:"-"`
 	// The following parameter is only supported when updating a card
 	// Reason why the `status` of this card is `canceled`.
 	CancellationReason *string `form:"cancellation_reason"`
+}
+
+// IssuingCardParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardParams.
+type IssuingCardParamsUnsetField string
+
+const (
+	IssuingCardParamsUnsetFieldMetadata   IssuingCardParamsUnsetField = "metadata"
+	IssuingCardParamsUnsetFieldSecondLine IssuingCardParamsUnsetField = "second_line"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardParams) AddUnsetField(field IssuingCardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -321,6 +349,18 @@ func (p *IssuingCardParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Cancels the card after the specified conditions are met.
+type IssuingCardCreateLifecycleControlsCancelAfterParams struct {
+	// The card is automatically cancelled when it makes this number of non-zero payment authorizations and transactions. The count includes penny authorizations, but doesn't include non-payment actions, such as authorization advice.
+	PaymentCount *int64 `form:"payment_count"`
+}
+
+// Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
+type IssuingCardCreateLifecycleControlsParams struct {
+	// Cancels the card after the specified conditions are met.
+	CancelAfter *IssuingCardCreateLifecycleControlsCancelAfterParams `form:"cancel_after"`
 }
 
 // The desired PIN for this card.
@@ -400,6 +440,8 @@ type IssuingCardCreateParams struct {
 	ExpYear *int64 `form:"exp_year"`
 	// The new financial account ID the card will be associated with. This field allows a card to be reassigned to a different financial account.
 	FinancialAccount *string `form:"financial_account"`
+	// Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
+	LifecycleControls *IssuingCardCreateLifecycleControlsParams `form:"lifecycle_controls"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The personalization design object belonging to this card.
@@ -419,7 +461,20 @@ type IssuingCardCreateParams struct {
 	// Whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`.
 	Status *string `form:"status"`
 	// The type of card to issue. Possible values are `physical` or `virtual`.
-	Type *string `form:"type"`
+	Type        *string                             `form:"type"`
+	UnsetFields []IssuingCardCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingCardCreateParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardCreateParams.
+type IssuingCardCreateParamsUnsetField string
+
+const (
+	IssuingCardCreateParamsUnsetFieldSecondLine IssuingCardCreateParamsUnsetField = "second_line"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardCreateParams) AddUnsetField(field IssuingCardCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -527,7 +582,20 @@ type IssuingCardUpdateParams struct {
 	// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardUpdateSpendingControlsParams `form:"spending_controls"`
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
-	Status *string `form:"status"`
+	Status      *string                             `form:"status"`
+	UnsetFields []IssuingCardUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingCardUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardUpdateParams.
+type IssuingCardUpdateParamsUnsetField string
+
+const (
+	IssuingCardUpdateParamsUnsetFieldMetadata IssuingCardUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardUpdateParams) AddUnsetField(field IssuingCardUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -550,6 +618,15 @@ type IssuingCardLatestFraudWarning struct {
 	StartedAt int64 `json:"started_at"`
 	// The type of fraud warning that most recently took place on this card. This field updates with every new fraud warning, so the value changes over time. If populated, cancel and reissue the card.
 	Type IssuingCardLatestFraudWarningType `json:"type"`
+}
+type IssuingCardLifecycleControlsCancelAfter struct {
+	// The card is automatically cancelled when it makes this number of non-zero payment authorizations and transactions. The count includes penny authorizations, but doesn't include non-payment actions, such as authorization advice.
+	PaymentCount int64 `json:"payment_count"`
+}
+
+// Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
+type IssuingCardLifecycleControls struct {
+	CancelAfter *IssuingCardLifecycleControlsCancelAfter `json:"cancel_after"`
 }
 
 // Address validation details for the shipment.
@@ -674,7 +751,9 @@ type IssuingCard struct {
 	Last4 string `json:"last4"`
 	// Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk.
 	LatestFraudWarning *IssuingCardLatestFraudWarning `json:"latest_fraud_warning"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
+	LifecycleControls *IssuingCardLifecycleControls `json:"lifecycle_controls"`
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

@@ -130,6 +130,19 @@ type TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams 
 type TreasuryOutboundTransferDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
 	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+}
+
+// TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundTransferDestinationPaymentMethodOptionsParams.
+type TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField string
+
+const (
+	TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetFieldUSBankAccount TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams) AddUnsetField(field TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Optional fields for `ach`.
@@ -217,6 +230,19 @@ type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountP
 type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
 	USBankAccount *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+}
+
+// TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams.
+type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField string
+
+const (
+	TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetFieldUSBankAccount TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams) AddUnsetField(field TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Optional fields for `ach`.
@@ -405,7 +431,7 @@ type TreasuryOutboundTransfer struct {
 	HostedRegulatoryReceiptURL string `json:"hosted_regulatory_receipt_url"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

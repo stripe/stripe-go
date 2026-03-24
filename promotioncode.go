@@ -93,6 +93,19 @@ type PromotionCodeParams struct {
 	Promotion *PromotionCodePromotionParams `form:"promotion"`
 	// Settings that restrict the redemption of the promotion code.
 	Restrictions *PromotionCodeRestrictionsParams `form:"restrictions"`
+	UnsetFields  []PromotionCodeParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PromotionCodeParamsUnsetField is the list of fields that can be cleared/unset on PromotionCodeParams.
+type PromotionCodeParamsUnsetField string
+
+const (
+	PromotionCodeParamsUnsetFieldMetadata PromotionCodeParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PromotionCodeParams) AddUnsetField(field PromotionCodeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -211,6 +224,19 @@ type PromotionCodeUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Settings that restrict the redemption of the promotion code.
 	Restrictions *PromotionCodeUpdateRestrictionsParams `form:"restrictions"`
+	UnsetFields  []PromotionCodeUpdateParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PromotionCodeUpdateParamsUnsetField is the list of fields that can be cleared/unset on PromotionCodeUpdateParams.
+type PromotionCodeUpdateParamsUnsetField string
+
+const (
+	PromotionCodeUpdateParamsUnsetFieldMetadata PromotionCodeUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PromotionCodeUpdateParams) AddUnsetField(field PromotionCodeUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -271,7 +297,7 @@ type PromotionCode struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Maximum number of times this promotion code can be redeemed.
 	MaxRedemptions int64 `json:"max_redemptions"`

@@ -116,7 +116,7 @@ func (p *PayoutListParams) AddExpand(f string) {
 //
 // If your API key is in test mode, money won't actually be sent, though every other action occurs as if you're in live mode.
 //
-// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api#balance_object) details available and pending amounts by source type.
+// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api/balances/object) details available and pending amounts by source type.
 type PayoutParams struct {
 	Params `form:"*"`
 	// A positive integer in cents representing how much to payout.
@@ -138,7 +138,20 @@ type PayoutParams struct {
 	// The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of `bank_account`, `card`, or `fpx`.
 	SourceType *string `form:"source_type"`
 	// A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string                  `form:"statement_descriptor"`
+	UnsetFields         []PayoutParamsUnsetField `form:"-" json:"-"`
+}
+
+// PayoutParamsUnsetField is the list of fields that can be cleared/unset on PayoutParams.
+type PayoutParamsUnsetField string
+
+const (
+	PayoutParamsUnsetFieldMetadata PayoutParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PayoutParams) AddUnsetField(field PayoutParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -184,7 +197,7 @@ func (p *PayoutReverseParams) AddMetadata(key string, value string) {
 //
 // If your API key is in test mode, money won't actually be sent, though every other action occurs as if you're in live mode.
 //
-// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api#balance_object) details available and pending amounts by source type.
+// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api/balances/object) details available and pending amounts by source type.
 type PayoutCreateParams struct {
 	Params `form:"*"`
 	// A positive integer in cents representing how much to payout.
@@ -253,7 +266,20 @@ type PayoutUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string              `form:"metadata"`
+	UnsetFields []PayoutUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// PayoutUpdateParamsUnsetField is the list of fields that can be cleared/unset on PayoutUpdateParams.
+type PayoutUpdateParamsUnsetField string
+
+const (
+	PayoutUpdateParamsUnsetFieldMetadata PayoutUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PayoutUpdateParams) AddUnsetField(field PayoutUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -316,7 +342,7 @@ type Payout struct {
 	FailureMessage string `json:"failure_message"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

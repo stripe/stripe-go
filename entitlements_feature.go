@@ -36,7 +36,20 @@ type EntitlementsFeatureParams struct {
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name        *string                               `form:"name"`
+	UnsetFields []EntitlementsFeatureParamsUnsetField `form:"-" json:"-"`
+}
+
+// EntitlementsFeatureParamsUnsetField is the list of fields that can be cleared/unset on EntitlementsFeatureParams.
+type EntitlementsFeatureParamsUnsetField string
+
+const (
+	EntitlementsFeatureParamsUnsetFieldMetadata EntitlementsFeatureParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *EntitlementsFeatureParams) AddUnsetField(field EntitlementsFeatureParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -102,7 +115,20 @@ type EntitlementsFeatureUpdateParams struct {
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name        *string                                     `form:"name"`
+	UnsetFields []EntitlementsFeatureUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// EntitlementsFeatureUpdateParamsUnsetField is the list of fields that can be cleared/unset on EntitlementsFeatureUpdateParams.
+type EntitlementsFeatureUpdateParamsUnsetField string
+
+const (
+	EntitlementsFeatureUpdateParamsUnsetFieldMetadata EntitlementsFeatureUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *EntitlementsFeatureUpdateParams) AddUnsetField(field EntitlementsFeatureUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -127,7 +153,7 @@ type EntitlementsFeature struct {
 	Active bool `json:"active"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// A unique key you provide as your own system identifier. This may be up to 80 characters.
 	LookupKey string `json:"lookup_key"`

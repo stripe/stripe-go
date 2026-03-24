@@ -142,7 +142,20 @@ type ShippingRateParams struct {
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *string `form:"tax_code"`
 	// The type of calculation to use on the shipping rate.
-	Type *string `form:"type"`
+	Type        *string                        `form:"type"`
+	UnsetFields []ShippingRateParamsUnsetField `form:"-" json:"-"`
+}
+
+// ShippingRateParamsUnsetField is the list of fields that can be cleared/unset on ShippingRateParams.
+type ShippingRateParamsUnsetField string
+
+const (
+	ShippingRateParamsUnsetFieldMetadata ShippingRateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ShippingRateParams) AddUnsetField(field ShippingRateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -274,7 +287,20 @@ type ShippingRateUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string                              `form:"tax_behavior"`
+	UnsetFields []ShippingRateUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// ShippingRateUpdateParamsUnsetField is the list of fields that can be cleared/unset on ShippingRateUpdateParams.
+type ShippingRateUpdateParamsUnsetField string
+
+const (
+	ShippingRateUpdateParamsUnsetFieldMetadata ShippingRateUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ShippingRateUpdateParams) AddUnsetField(field ShippingRateUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -346,7 +372,7 @@ type ShippingRate struct {
 	FixedAmount *ShippingRateFixedAmount `json:"fixed_amount"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
