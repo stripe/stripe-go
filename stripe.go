@@ -1498,6 +1498,22 @@ func SetHTTPClient(client *http.Client) {
 	httpClient = client
 }
 
+// Pointer returns a pointer to the value passed in.
+// On go 1.26+, this is equivalent to new(v)
+func Pointer[T any](v T) *T {
+	return &v
+}
+
+// PointerValue returns the value of the pointer passed in or
+// the zero value of the type if the pointer is nil.
+func PointerValue[T any](v *T) T {
+	if v != nil {
+		return *v
+	}
+	var zero T
+	return zero
+}
+
 // String returns a pointer to the string value or enum passed in.
 func String[T ~string](v T) *string {
 	result := string(v)
