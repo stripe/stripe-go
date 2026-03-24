@@ -384,7 +384,7 @@ type PaymentLinkCustomTextParams struct {
 	Submit *PaymentLinkCustomTextSubmitParams `form:"submit"`
 	// Custom text that should be displayed in place of the default terms of service agreement text.
 	TermsOfServiceAcceptance *PaymentLinkCustomTextTermsOfServiceAcceptanceParams `form:"terms_of_service_acceptance"`
-	UnsetFields              []string                                             `form:"-" json:"-"`
+	UnsetFields              []PaymentLinkCustomTextParamsUnsetField              `form:"-" json:"-"`
 }
 
 // PaymentLinkCustomTextParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkCustomTextParams.
@@ -399,7 +399,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkCustomTextParams) AddUnsetField(field PaymentLinkCustomTextParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Default custom fields to be displayed on invoices for this customer.
@@ -423,8 +423,8 @@ type PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 	// ID of the invoice rendering template to use for this invoice.
-	Template    *string  `form:"template"`
-	UnsetFields []string `form:"-" json:"-"`
+	Template    *string                                                                 `form:"template"`
+	UnsetFields []PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams.
@@ -436,7 +436,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams) AddUnsetField(field PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Invoice PDF configuration.
@@ -455,7 +455,7 @@ type PaymentLinkInvoiceCreationInvoiceDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
-	UnsetFields      []string                                                     `form:"-" json:"-"`
+	UnsetFields      []PaymentLinkInvoiceCreationInvoiceDataParamsUnsetField      `form:"-" json:"-"`
 }
 
 // PaymentLinkInvoiceCreationInvoiceDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkInvoiceCreationInvoiceDataParams.
@@ -470,7 +470,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkInvoiceCreationInvoiceDataParams) AddUnsetField(field PaymentLinkInvoiceCreationInvoiceDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -638,8 +638,8 @@ type PaymentLinkPaymentIntentDataParams struct {
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
-	TransferGroup *string  `form:"transfer_group"`
-	UnsetFields   []string `form:"-" json:"-"`
+	TransferGroup *string                                        `form:"transfer_group"`
+	UnsetFields   []PaymentLinkPaymentIntentDataParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentLinkPaymentIntentDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkPaymentIntentDataParams.
@@ -655,7 +655,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkPaymentIntentDataParams) AddUnsetField(field PaymentLinkPaymentIntentDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -738,7 +738,7 @@ type PaymentLinkSubscriptionDataParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *PaymentLinkSubscriptionDataTrialSettingsParams `form:"trial_settings"`
-	UnsetFields   []string                                        `form:"-" json:"-"`
+	UnsetFields   []PaymentLinkSubscriptionDataParamsUnsetField   `form:"-" json:"-"`
 }
 
 // PaymentLinkSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkSubscriptionDataParams.
@@ -752,7 +752,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkSubscriptionDataParams) AddUnsetField(field PaymentLinkSubscriptionDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1059,7 +1059,7 @@ type PaymentLinkCreateCustomTextParams struct {
 	Submit *PaymentLinkCreateCustomTextSubmitParams `form:"submit"`
 	// Custom text that should be displayed in place of the default terms of service agreement text.
 	TermsOfServiceAcceptance *PaymentLinkCreateCustomTextTermsOfServiceAcceptanceParams `form:"terms_of_service_acceptance"`
-	UnsetFields              []string                                                   `form:"-" json:"-"`
+	UnsetFields              []PaymentLinkCreateCustomTextParamsUnsetField              `form:"-" json:"-"`
 }
 
 // PaymentLinkCreateCustomTextParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkCreateCustomTextParams.
@@ -1074,7 +1074,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkCreateCustomTextParams) AddUnsetField(field PaymentLinkCreateCustomTextParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Default custom fields to be displayed on invoices for this customer.
@@ -1098,8 +1098,8 @@ type PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 	// ID of the invoice rendering template to use for this invoice.
-	Template    *string  `form:"template"`
-	UnsetFields []string `form:"-" json:"-"`
+	Template    *string                                                                       `form:"template"`
+	UnsetFields []PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParams.
@@ -1111,7 +1111,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParams) AddUnsetField(field PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Invoice PDF configuration.
@@ -1130,7 +1130,7 @@ type PaymentLinkCreateInvoiceCreationInvoiceDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
-	UnsetFields      []string                                                           `form:"-" json:"-"`
+	UnsetFields      []PaymentLinkCreateInvoiceCreationInvoiceDataParamsUnsetField      `form:"-" json:"-"`
 }
 
 // PaymentLinkCreateInvoiceCreationInvoiceDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkCreateInvoiceCreationInvoiceDataParams.
@@ -1145,7 +1145,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkCreateInvoiceCreationInvoiceDataParams) AddUnsetField(field PaymentLinkCreateInvoiceCreationInvoiceDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1659,7 +1659,7 @@ type PaymentLinkUpdateCustomTextParams struct {
 	Submit *PaymentLinkUpdateCustomTextSubmitParams `form:"submit"`
 	// Custom text that should be displayed in place of the default terms of service agreement text.
 	TermsOfServiceAcceptance *PaymentLinkUpdateCustomTextTermsOfServiceAcceptanceParams `form:"terms_of_service_acceptance"`
-	UnsetFields              []string                                                   `form:"-" json:"-"`
+	UnsetFields              []PaymentLinkUpdateCustomTextParamsUnsetField              `form:"-" json:"-"`
 }
 
 // PaymentLinkUpdateCustomTextParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdateCustomTextParams.
@@ -1674,7 +1674,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkUpdateCustomTextParams) AddUnsetField(field PaymentLinkUpdateCustomTextParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Default custom fields to be displayed on invoices for this customer.
@@ -1698,8 +1698,8 @@ type PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 	// ID of the invoice rendering template to use for this invoice.
-	Template    *string  `form:"template"`
-	UnsetFields []string `form:"-" json:"-"`
+	Template    *string                                                                       `form:"template"`
+	UnsetFields []PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParams.
@@ -1711,7 +1711,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParams) AddUnsetField(field PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Invoice PDF configuration.
@@ -1730,7 +1730,7 @@ type PaymentLinkUpdateInvoiceCreationInvoiceDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParams `form:"rendering_options"`
-	UnsetFields      []string                                                           `form:"-" json:"-"`
+	UnsetFields      []PaymentLinkUpdateInvoiceCreationInvoiceDataParamsUnsetField      `form:"-" json:"-"`
 }
 
 // PaymentLinkUpdateInvoiceCreationInvoiceDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdateInvoiceCreationInvoiceDataParams.
@@ -1745,7 +1745,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkUpdateInvoiceCreationInvoiceDataParams) AddUnsetField(field PaymentLinkUpdateInvoiceCreationInvoiceDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1844,8 +1844,8 @@ type PaymentLinkUpdatePaymentIntentDataParams struct {
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
-	TransferGroup *string  `form:"transfer_group"`
-	UnsetFields   []string `form:"-" json:"-"`
+	TransferGroup *string                                              `form:"transfer_group"`
+	UnsetFields   []PaymentLinkUpdatePaymentIntentDataParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentLinkUpdatePaymentIntentDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdatePaymentIntentDataParams.
@@ -1861,7 +1861,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkUpdatePaymentIntentDataParams) AddUnsetField(field PaymentLinkUpdatePaymentIntentDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1936,7 +1936,7 @@ type PaymentLinkUpdateSubscriptionDataParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *PaymentLinkUpdateSubscriptionDataTrialSettingsParams `form:"trial_settings"`
-	UnsetFields   []string                                              `form:"-" json:"-"`
+	UnsetFields   []PaymentLinkUpdateSubscriptionDataParamsUnsetField   `form:"-" json:"-"`
 }
 
 // PaymentLinkUpdateSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdateSubscriptionDataParams.
@@ -1950,7 +1950,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkUpdateSubscriptionDataParams) AddUnsetField(field PaymentLinkUpdateSubscriptionDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

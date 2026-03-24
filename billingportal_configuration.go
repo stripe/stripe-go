@@ -125,8 +125,8 @@ type BillingPortalConfigurationBusinessProfileParams struct {
 	// A link to the business's publicly available privacy policy.
 	PrivacyPolicyURL *string `form:"privacy_policy_url"`
 	// A link to the business's publicly available terms of service.
-	TermsOfServiceURL *string  `form:"terms_of_service_url"`
-	UnsetFields       []string `form:"-" json:"-"`
+	TermsOfServiceURL *string                                                     `form:"terms_of_service_url"`
+	UnsetFields       []BillingPortalConfigurationBusinessProfileParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationBusinessProfileParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationBusinessProfileParams.
@@ -140,7 +140,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationBusinessProfileParams) AddUnsetField(field BillingPortalConfigurationBusinessProfileParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about updating the customer details in the portal.
@@ -148,8 +148,8 @@ type BillingPortalConfigurationFeaturesCustomerUpdateParams struct {
 	// The types of customer updates that are supported. When empty, customers are not updateable.
 	AllowedUpdates []*string `form:"allowed_updates"`
 	// Whether the feature is enabled.
-	Enabled     *bool    `form:"enabled"`
-	UnsetFields []string `form:"-" json:"-"`
+	Enabled     *bool                                                              `form:"enabled"`
+	UnsetFields []BillingPortalConfigurationFeaturesCustomerUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationFeaturesCustomerUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationFeaturesCustomerUpdateParams.
@@ -161,7 +161,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationFeaturesCustomerUpdateParams) AddUnsetField(field BillingPortalConfigurationFeaturesCustomerUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about showing the billing history in the portal.
@@ -175,8 +175,8 @@ type BillingPortalConfigurationFeaturesPaymentMethodUpdateParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set or set to an empty string, the default payment method configuration is used.
-	PaymentMethodConfiguration *string  `form:"payment_method_configuration"`
-	UnsetFields                []string `form:"-" json:"-"`
+	PaymentMethodConfiguration *string                                                                 `form:"payment_method_configuration"`
+	UnsetFields                []BillingPortalConfigurationFeaturesPaymentMethodUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationFeaturesPaymentMethodUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationFeaturesPaymentMethodUpdateParams.
@@ -188,7 +188,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationFeaturesPaymentMethodUpdateParams) AddUnsetField(field BillingPortalConfigurationFeaturesPaymentMethodUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
@@ -196,8 +196,8 @@ type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParam
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// Which cancellation reasons will be given as options to the customer.
-	Options     []*string `form:"options"`
-	UnsetFields []string  `form:"-" json:"-"`
+	Options     []*string                                                                                `form:"options"`
+	UnsetFields []BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParams.
@@ -209,7 +209,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParams) AddUnsetField(field BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about canceling subscriptions in the portal.
@@ -254,7 +254,7 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndCond
 type BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParams struct {
 	// List of conditions. When any condition is true, the update will be scheduled at the end of the current period.
 	Conditions  []*BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionParams `form:"conditions"`
-	UnsetFields []string                                                                                  `form:"-" json:"-"`
+	UnsetFields []BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParams.
@@ -266,7 +266,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParams) AddUnsetField(field BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about updating subscriptions in the portal.
@@ -284,8 +284,8 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
 	// The behavior when updating a subscription that is trialing.
-	TrialUpdateBehavior *string  `form:"trial_update_behavior"`
-	UnsetFields         []string `form:"-" json:"-"`
+	TrialUpdateBehavior *string                                                                `form:"trial_update_behavior"`
+	UnsetFields         []BillingPortalConfigurationFeaturesSubscriptionUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationFeaturesSubscriptionUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationFeaturesSubscriptionUpdateParams.
@@ -298,7 +298,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationFeaturesSubscriptionUpdateParams) AddUnsetField(field BillingPortalConfigurationFeaturesSubscriptionUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about the features available in the portal.
@@ -379,8 +379,8 @@ type BillingPortalConfigurationCreateBusinessProfileParams struct {
 	// A link to the business's publicly available privacy policy.
 	PrivacyPolicyURL *string `form:"privacy_policy_url"`
 	// A link to the business's publicly available terms of service.
-	TermsOfServiceURL *string  `form:"terms_of_service_url"`
-	UnsetFields       []string `form:"-" json:"-"`
+	TermsOfServiceURL *string                                                           `form:"terms_of_service_url"`
+	UnsetFields       []BillingPortalConfigurationCreateBusinessProfileParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationCreateBusinessProfileParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationCreateBusinessProfileParams.
@@ -392,7 +392,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationCreateBusinessProfileParams) AddUnsetField(field BillingPortalConfigurationCreateBusinessProfileParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about updating the customer details in the portal.
@@ -400,8 +400,8 @@ type BillingPortalConfigurationCreateFeaturesCustomerUpdateParams struct {
 	// The types of customer updates that are supported. When empty, customers are not updateable.
 	AllowedUpdates []*string `form:"allowed_updates"`
 	// Whether the feature is enabled.
-	Enabled     *bool    `form:"enabled"`
-	UnsetFields []string `form:"-" json:"-"`
+	Enabled     *bool                                                                    `form:"enabled"`
+	UnsetFields []BillingPortalConfigurationCreateFeaturesCustomerUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationCreateFeaturesCustomerUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationCreateFeaturesCustomerUpdateParams.
@@ -413,7 +413,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationCreateFeaturesCustomerUpdateParams) AddUnsetField(field BillingPortalConfigurationCreateFeaturesCustomerUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about showing the billing history in the portal.
@@ -427,8 +427,8 @@ type BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set or set to an empty string, the default payment method configuration is used.
-	PaymentMethodConfiguration *string  `form:"payment_method_configuration"`
-	UnsetFields                []string `form:"-" json:"-"`
+	PaymentMethodConfiguration *string                                                                       `form:"payment_method_configuration"`
+	UnsetFields                []BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParams.
@@ -440,7 +440,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParams) AddUnsetField(field BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
@@ -448,8 +448,8 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReaso
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// Which cancellation reasons will be given as options to the customer.
-	Options     []*string `form:"options"`
-	UnsetFields []string  `form:"-" json:"-"`
+	Options     []*string                                                                                      `form:"options"`
+	UnsetFields []BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParams.
@@ -461,7 +461,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParams) AddUnsetField(field BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about canceling subscriptions in the portal.
@@ -523,8 +523,8 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams struct {
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
 	// The behavior when updating a subscription that is trialing.
-	TrialUpdateBehavior *string  `form:"trial_update_behavior"`
-	UnsetFields         []string `form:"-" json:"-"`
+	TrialUpdateBehavior *string                                                                      `form:"trial_update_behavior"`
+	UnsetFields         []BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams.
@@ -537,7 +537,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams) AddUnsetField(field BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about the features available in the portal.
@@ -625,8 +625,8 @@ type BillingPortalConfigurationUpdateBusinessProfileParams struct {
 	// A link to the business's publicly available privacy policy.
 	PrivacyPolicyURL *string `form:"privacy_policy_url"`
 	// A link to the business's publicly available terms of service.
-	TermsOfServiceURL *string  `form:"terms_of_service_url"`
-	UnsetFields       []string `form:"-" json:"-"`
+	TermsOfServiceURL *string                                                           `form:"terms_of_service_url"`
+	UnsetFields       []BillingPortalConfigurationUpdateBusinessProfileParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationUpdateBusinessProfileParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationUpdateBusinessProfileParams.
@@ -640,7 +640,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationUpdateBusinessProfileParams) AddUnsetField(field BillingPortalConfigurationUpdateBusinessProfileParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about updating the customer details in the portal.
@@ -648,8 +648,8 @@ type BillingPortalConfigurationUpdateFeaturesCustomerUpdateParams struct {
 	// The types of customer updates that are supported. When empty, customers are not updateable.
 	AllowedUpdates []*string `form:"allowed_updates"`
 	// Whether the feature is enabled.
-	Enabled     *bool    `form:"enabled"`
-	UnsetFields []string `form:"-" json:"-"`
+	Enabled     *bool                                                                    `form:"enabled"`
+	UnsetFields []BillingPortalConfigurationUpdateFeaturesCustomerUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationUpdateFeaturesCustomerUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationUpdateFeaturesCustomerUpdateParams.
@@ -661,7 +661,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationUpdateFeaturesCustomerUpdateParams) AddUnsetField(field BillingPortalConfigurationUpdateFeaturesCustomerUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about showing the billing history in the portal.
@@ -675,8 +675,8 @@ type BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set or set to an empty string, the default payment method configuration is used.
-	PaymentMethodConfiguration *string  `form:"payment_method_configuration"`
-	UnsetFields                []string `form:"-" json:"-"`
+	PaymentMethodConfiguration *string                                                                       `form:"payment_method_configuration"`
+	UnsetFields                []BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParams.
@@ -688,7 +688,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParams) AddUnsetField(field BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
@@ -696,8 +696,8 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReaso
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 	// Which cancellation reasons will be given as options to the customer.
-	Options     []*string `form:"options"`
-	UnsetFields []string  `form:"-" json:"-"`
+	Options     []*string                                                                                      `form:"options"`
+	UnsetFields []BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParams.
@@ -709,7 +709,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParams) AddUnsetField(field BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about canceling subscriptions in the portal.
@@ -754,7 +754,7 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodE
 type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams struct {
 	// List of conditions. When any condition is true, the update will be scheduled at the end of the current period.
 	Conditions  []*BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionParams `form:"conditions"`
-	UnsetFields []string                                                                                        `form:"-" json:"-"`
+	UnsetFields []BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams.
@@ -766,7 +766,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams) AddUnsetField(field BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about updating subscriptions in the portal.
@@ -784,8 +784,8 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams struct {
 	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
 	ScheduleAtPeriodEnd *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
 	// The behavior when updating a subscription that is trialing.
-	TrialUpdateBehavior *string  `form:"trial_update_behavior"`
-	UnsetFields         []string `form:"-" json:"-"`
+	TrialUpdateBehavior *string                                                                      `form:"trial_update_behavior"`
+	UnsetFields         []BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams.
@@ -798,7 +798,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams) AddUnsetField(field BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about the features available in the portal.

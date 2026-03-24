@@ -163,8 +163,8 @@ type CustomerInvoiceSettingsRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 	// ID of the invoice rendering template to use for future invoices.
-	Template    *string  `form:"template"`
-	UnsetFields []string `form:"-" json:"-"`
+	Template    *string                                                   `form:"template"`
+	UnsetFields []CustomerInvoiceSettingsRenderingOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerInvoiceSettingsRenderingOptionsParamsUnsetField is the list of fields that can be cleared/unset on CustomerInvoiceSettingsRenderingOptionsParams.
@@ -176,7 +176,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerInvoiceSettingsRenderingOptionsParams) AddUnsetField(field CustomerInvoiceSettingsRenderingOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Default invoice settings for this customer.
@@ -189,7 +189,7 @@ type CustomerInvoiceSettingsParams struct {
 	Footer *string `form:"footer"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *CustomerInvoiceSettingsRenderingOptionsParams `form:"rendering_options"`
-	UnsetFields      []string                                       `form:"-" json:"-"`
+	UnsetFields      []CustomerInvoiceSettingsParamsUnsetField      `form:"-" json:"-"`
 }
 
 // CustomerInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on CustomerInvoiceSettingsParams.
@@ -202,7 +202,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerInvoiceSettingsParams) AddUnsetField(field CustomerInvoiceSettingsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The customer's shipping information. Appears on invoices emailed to this customer.
@@ -220,8 +220,8 @@ type CustomerTaxParams struct {
 	// A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
 	IPAddress *string `form:"ip_address"`
 	// A flag that indicates when Stripe should validate the customer tax location. Defaults to `deferred`.
-	ValidateLocation *string  `form:"validate_location"`
-	UnsetFields      []string `form:"-" json:"-"`
+	ValidateLocation *string                       `form:"validate_location"`
+	UnsetFields      []CustomerTaxParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerTaxParamsUnsetField is the list of fields that can be cleared/unset on CustomerTaxParams.
@@ -233,7 +233,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerTaxParams) AddUnsetField(field CustomerTaxParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Removes the currently applied discount on a customer.
@@ -398,8 +398,8 @@ type CustomerUpdateInvoiceSettingsRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 	// ID of the invoice rendering template to use for future invoices.
-	Template    *string  `form:"template"`
-	UnsetFields []string `form:"-" json:"-"`
+	Template    *string                                                         `form:"template"`
+	UnsetFields []CustomerUpdateInvoiceSettingsRenderingOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerUpdateInvoiceSettingsRenderingOptionsParamsUnsetField is the list of fields that can be cleared/unset on CustomerUpdateInvoiceSettingsRenderingOptionsParams.
@@ -411,7 +411,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerUpdateInvoiceSettingsRenderingOptionsParams) AddUnsetField(field CustomerUpdateInvoiceSettingsRenderingOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Default invoice settings for this customer.
@@ -424,7 +424,7 @@ type CustomerUpdateInvoiceSettingsParams struct {
 	Footer *string `form:"footer"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *CustomerUpdateInvoiceSettingsRenderingOptionsParams `form:"rendering_options"`
-	UnsetFields      []string                                             `form:"-" json:"-"`
+	UnsetFields      []CustomerUpdateInvoiceSettingsParamsUnsetField      `form:"-" json:"-"`
 }
 
 // CustomerUpdateInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on CustomerUpdateInvoiceSettingsParams.
@@ -437,7 +437,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerUpdateInvoiceSettingsParams) AddUnsetField(field CustomerUpdateInvoiceSettingsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The customer's shipping information. Appears on invoices emailed to this customer.
@@ -455,8 +455,8 @@ type CustomerUpdateTaxParams struct {
 	// A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
 	IPAddress *string `form:"ip_address"`
 	// A flag that indicates when Stripe should validate the customer tax location. Defaults to `auto`.
-	ValidateLocation *string  `form:"validate_location"`
-	UnsetFields      []string `form:"-" json:"-"`
+	ValidateLocation *string                             `form:"validate_location"`
+	UnsetFields      []CustomerUpdateTaxParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerUpdateTaxParamsUnsetField is the list of fields that can be cleared/unset on CustomerUpdateTaxParams.
@@ -468,7 +468,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerUpdateTaxParams) AddUnsetField(field CustomerUpdateTaxParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates the specified customer by setting the values of the parameters passed. Any parameters not provided are left unchanged. For example, if you pass the source parameter, that becomes the customer's active source (such as a card) to be used for all charges in the future. When you update a customer to a new valid card source by passing the source parameter: for each of the customer's current subscriptions, if the subscription bills automatically and is in the past_due state, then the latest open invoice for the subscription with automatic collection enabled is retried. This retry doesn't count as an automatic retry, and doesn't affect the next regularly scheduled payment for the invoice. Changing the default_source for a customer doesn't trigger this behavior.
@@ -580,8 +580,8 @@ type CustomerCreateInvoiceSettingsRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 	// ID of the invoice rendering template to use for future invoices.
-	Template    *string  `form:"template"`
-	UnsetFields []string `form:"-" json:"-"`
+	Template    *string                                                         `form:"template"`
+	UnsetFields []CustomerCreateInvoiceSettingsRenderingOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerCreateInvoiceSettingsRenderingOptionsParamsUnsetField is the list of fields that can be cleared/unset on CustomerCreateInvoiceSettingsRenderingOptionsParams.
@@ -593,7 +593,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerCreateInvoiceSettingsRenderingOptionsParams) AddUnsetField(field CustomerCreateInvoiceSettingsRenderingOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Default invoice settings for this customer.
@@ -606,7 +606,7 @@ type CustomerCreateInvoiceSettingsParams struct {
 	Footer *string `form:"footer"`
 	// Default options for invoice PDF rendering for this customer.
 	RenderingOptions *CustomerCreateInvoiceSettingsRenderingOptionsParams `form:"rendering_options"`
-	UnsetFields      []string                                             `form:"-" json:"-"`
+	UnsetFields      []CustomerCreateInvoiceSettingsParamsUnsetField      `form:"-" json:"-"`
 }
 
 // CustomerCreateInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on CustomerCreateInvoiceSettingsParams.
@@ -619,7 +619,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerCreateInvoiceSettingsParams) AddUnsetField(field CustomerCreateInvoiceSettingsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The customer's shipping information. Appears on invoices emailed to this customer.
@@ -637,8 +637,8 @@ type CustomerCreateTaxParams struct {
 	// A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
 	IPAddress *string `form:"ip_address"`
 	// A flag that indicates when Stripe should validate the customer tax location. Defaults to `deferred`.
-	ValidateLocation *string  `form:"validate_location"`
-	UnsetFields      []string `form:"-" json:"-"`
+	ValidateLocation *string                             `form:"validate_location"`
+	UnsetFields      []CustomerCreateTaxParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerCreateTaxParamsUnsetField is the list of fields that can be cleared/unset on CustomerCreateTaxParams.
@@ -650,7 +650,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerCreateTaxParams) AddUnsetField(field CustomerCreateTaxParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The customer's tax IDs.

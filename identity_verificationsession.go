@@ -150,8 +150,8 @@ type IdentityVerificationSessionOptionsDocumentParams struct {
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document    *IdentityVerificationSessionOptionsDocumentParams `form:"document"`
-	UnsetFields []string                                          `form:"-" json:"-"`
+	Document    *IdentityVerificationSessionOptionsDocumentParams    `form:"document"`
+	UnsetFields []IdentityVerificationSessionOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // IdentityVerificationSessionOptionsParamsUnsetField is the list of fields that can be cleared/unset on IdentityVerificationSessionOptionsParams.
@@ -163,7 +163,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IdentityVerificationSessionOptionsParams) AddUnsetField(field IdentityVerificationSessionOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details provided about the user being verified. These details may be shown to the user.
@@ -288,8 +288,8 @@ type IdentityVerificationSessionCreateOptionsDocumentParams struct {
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionCreateOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document    *IdentityVerificationSessionCreateOptionsDocumentParams `form:"document"`
-	UnsetFields []string                                                `form:"-" json:"-"`
+	Document    *IdentityVerificationSessionCreateOptionsDocumentParams    `form:"document"`
+	UnsetFields []IdentityVerificationSessionCreateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // IdentityVerificationSessionCreateOptionsParamsUnsetField is the list of fields that can be cleared/unset on IdentityVerificationSessionCreateOptionsParams.
@@ -301,7 +301,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IdentityVerificationSessionCreateOptionsParams) AddUnsetField(field IdentityVerificationSessionCreateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details provided about the user being verified. These details may be shown to the user.
@@ -397,8 +397,8 @@ type IdentityVerificationSessionUpdateOptionsDocumentParams struct {
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionUpdateOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document    *IdentityVerificationSessionUpdateOptionsDocumentParams `form:"document"`
-	UnsetFields []string                                                `form:"-" json:"-"`
+	Document    *IdentityVerificationSessionUpdateOptionsDocumentParams    `form:"document"`
+	UnsetFields []IdentityVerificationSessionUpdateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // IdentityVerificationSessionUpdateOptionsParamsUnsetField is the list of fields that can be cleared/unset on IdentityVerificationSessionUpdateOptionsParams.
@@ -410,7 +410,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IdentityVerificationSessionUpdateOptionsParams) AddUnsetField(field IdentityVerificationSessionUpdateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details provided about the user being verified. These details may be shown to the user.

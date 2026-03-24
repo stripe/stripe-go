@@ -383,8 +383,8 @@ type AccountBusinessProfileParams struct {
 	// A publicly available website for handling support issues.
 	SupportURL *string `form:"support_url"`
 	// The business's publicly available website.
-	URL         *string  `form:"url"`
-	UnsetFields []string `form:"-" json:"-"`
+	URL         *string                                  `form:"url"`
+	UnsetFields []AccountBusinessProfileParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountBusinessProfileParamsUnsetField is the list of fields that can be cleared/unset on AccountBusinessProfileParams.
@@ -396,7 +396,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountBusinessProfileParams) AddUnsetField(field AccountBusinessProfileParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The acss_debit_payments capability.
@@ -1046,7 +1046,7 @@ type AccountCompanyParams struct {
 	VATID *string `form:"vat_id"`
 	// Information on the verification state of the company.
 	Verification *AccountCompanyVerificationParams `form:"verification"`
-	UnsetFields  []string                          `form:"-" json:"-"`
+	UnsetFields  []AccountCompanyParamsUnsetField  `form:"-" json:"-"`
 }
 
 // AccountCompanyParamsUnsetField is the list of fields that can be cleared/unset on AccountCompanyParams.
@@ -1060,7 +1060,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountCompanyParams) AddUnsetField(field AccountCompanyParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
@@ -1192,8 +1192,8 @@ func (p *AccountExternalAccountParams) AddMetadata(key string, value string) {
 // A hash of account group type to tokens. These are account groups this account should be added to.
 type AccountGroupsParams struct {
 	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://docs.stripe.com/connect/platform-pricing-tools) for details.
-	PaymentsPricing *string  `form:"payments_pricing"`
-	UnsetFields     []string `form:"-" json:"-"`
+	PaymentsPricing *string                         `form:"payments_pricing"`
+	UnsetFields     []AccountGroupsParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountGroupsParamsUnsetField is the list of fields that can be cleared/unset on AccountGroupsParams.
@@ -1205,7 +1205,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountGroupsParams) AddUnsetField(field AccountGroupsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to Bacs Direct Debit payments.
@@ -1233,8 +1233,8 @@ type AccountSettingsCardIssuingTOSAcceptanceParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                   `form:"user_agent"`
+	UnsetFields []AccountSettingsCardIssuingTOSAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountSettingsCardIssuingTOSAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on AccountSettingsCardIssuingTOSAcceptanceParams.
@@ -1246,7 +1246,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountSettingsCardIssuingTOSAcceptanceParams) AddUnsetField(field AccountSettingsCardIssuingTOSAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's use of the Card Issuing product.
@@ -1272,8 +1272,8 @@ type AccountSettingsCardPaymentsParams struct {
 	// The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
 	StatementDescriptorPrefixKana *string `form:"statement_descriptor_prefix_kana"`
 	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
-	StatementDescriptorPrefixKanji *string  `form:"statement_descriptor_prefix_kanji"`
-	UnsetFields                    []string `form:"-" json:"-"`
+	StatementDescriptorPrefixKanji *string                                       `form:"statement_descriptor_prefix_kanji"`
+	UnsetFields                    []AccountSettingsCardPaymentsParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountSettingsCardPaymentsParamsUnsetField is the list of fields that can be cleared/unset on AccountSettingsCardPaymentsParams.
@@ -1286,7 +1286,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountSettingsCardPaymentsParams) AddUnsetField(field AccountSettingsCardPaymentsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's use of Invoices.
@@ -1294,8 +1294,8 @@ type AccountSettingsInvoicesParams struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
 	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
-	HostedPaymentMethodSave *string  `form:"hosted_payment_method_save"`
-	UnsetFields             []string `form:"-" json:"-"`
+	HostedPaymentMethodSave *string                                   `form:"hosted_payment_method_save"`
+	UnsetFields             []AccountSettingsInvoicesParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountSettingsInvoicesParamsUnsetField is the list of fields that can be cleared/unset on AccountSettingsInvoicesParams.
@@ -1307,7 +1307,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountSettingsInvoicesParams) AddUnsetField(field AccountSettingsInvoicesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings that apply across payment methods for charging on the account.
@@ -1361,8 +1361,8 @@ type AccountSettingsTreasuryTOSAcceptanceParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                `form:"user_agent"`
+	UnsetFields []AccountSettingsTreasuryTOSAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountSettingsTreasuryTOSAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on AccountSettingsTreasuryTOSAcceptanceParams.
@@ -1374,7 +1374,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountSettingsTreasuryTOSAcceptanceParams) AddUnsetField(field AccountSettingsTreasuryTOSAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's Treasury FinancialAccounts.
@@ -1543,8 +1543,8 @@ type AccountUpdateBusinessProfileParams struct {
 	// A publicly available website for handling support issues.
 	SupportURL *string `form:"support_url"`
 	// The business's publicly available website.
-	URL         *string  `form:"url"`
-	UnsetFields []string `form:"-" json:"-"`
+	URL         *string                                        `form:"url"`
+	UnsetFields []AccountUpdateBusinessProfileParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountUpdateBusinessProfileParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateBusinessProfileParams.
@@ -1556,7 +1556,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountUpdateBusinessProfileParams) AddUnsetField(field AccountUpdateBusinessProfileParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The acss_debit_payments capability.
@@ -2201,7 +2201,7 @@ type AccountUpdateCompanyParams struct {
 	VATID *string `form:"vat_id"`
 	// Information on the verification state of the company.
 	Verification *AccountUpdateCompanyVerificationParams `form:"verification"`
-	UnsetFields  []string                                `form:"-" json:"-"`
+	UnsetFields  []AccountUpdateCompanyParamsUnsetField  `form:"-" json:"-"`
 }
 
 // AccountUpdateCompanyParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateCompanyParams.
@@ -2215,7 +2215,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountUpdateCompanyParams) AddUnsetField(field AccountUpdateCompanyParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
@@ -2356,8 +2356,8 @@ func (p *AccountUpdateExternalAccountParams) AddMetadata(key string, value strin
 // A hash of account group type to tokens. These are account groups this account should be added to.
 type AccountUpdateGroupsParams struct {
 	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://docs.stripe.com/connect/platform-pricing-tools) for details.
-	PaymentsPricing *string  `form:"payments_pricing"`
-	UnsetFields     []string `form:"-" json:"-"`
+	PaymentsPricing *string                               `form:"payments_pricing"`
+	UnsetFields     []AccountUpdateGroupsParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountUpdateGroupsParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateGroupsParams.
@@ -2369,7 +2369,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountUpdateGroupsParams) AddUnsetField(field AccountUpdateGroupsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to Bacs Direct Debit payments.
@@ -2397,8 +2397,8 @@ type AccountUpdateSettingsCardIssuingTOSAcceptanceParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                         `form:"user_agent"`
+	UnsetFields []AccountUpdateSettingsCardIssuingTOSAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountUpdateSettingsCardIssuingTOSAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateSettingsCardIssuingTOSAcceptanceParams.
@@ -2410,7 +2410,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountUpdateSettingsCardIssuingTOSAcceptanceParams) AddUnsetField(field AccountUpdateSettingsCardIssuingTOSAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's use of the Card Issuing product.
@@ -2436,8 +2436,8 @@ type AccountUpdateSettingsCardPaymentsParams struct {
 	// The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
 	StatementDescriptorPrefixKana *string `form:"statement_descriptor_prefix_kana"`
 	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
-	StatementDescriptorPrefixKanji *string  `form:"statement_descriptor_prefix_kanji"`
-	UnsetFields                    []string `form:"-" json:"-"`
+	StatementDescriptorPrefixKanji *string                                             `form:"statement_descriptor_prefix_kanji"`
+	UnsetFields                    []AccountUpdateSettingsCardPaymentsParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountUpdateSettingsCardPaymentsParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateSettingsCardPaymentsParams.
@@ -2450,7 +2450,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountUpdateSettingsCardPaymentsParams) AddUnsetField(field AccountUpdateSettingsCardPaymentsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's use of Invoices.
@@ -2458,8 +2458,8 @@ type AccountUpdateSettingsInvoicesParams struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
 	// Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page.
-	HostedPaymentMethodSave *string  `form:"hosted_payment_method_save"`
-	UnsetFields             []string `form:"-" json:"-"`
+	HostedPaymentMethodSave *string                                         `form:"hosted_payment_method_save"`
+	UnsetFields             []AccountUpdateSettingsInvoicesParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountUpdateSettingsInvoicesParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateSettingsInvoicesParams.
@@ -2471,7 +2471,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountUpdateSettingsInvoicesParams) AddUnsetField(field AccountUpdateSettingsInvoicesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings that apply across payment methods for charging on the account.
@@ -2525,8 +2525,8 @@ type AccountUpdateSettingsTreasuryTOSAcceptanceParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                      `form:"user_agent"`
+	UnsetFields []AccountUpdateSettingsTreasuryTOSAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountUpdateSettingsTreasuryTOSAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateSettingsTreasuryTOSAcceptanceParams.
@@ -2538,7 +2538,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountUpdateSettingsTreasuryTOSAcceptanceParams) AddUnsetField(field AccountUpdateSettingsTreasuryTOSAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's Treasury FinancialAccounts.
@@ -2705,8 +2705,8 @@ type AccountCreateBusinessProfileParams struct {
 	// A publicly available website for handling support issues.
 	SupportURL *string `form:"support_url"`
 	// The business's publicly available website.
-	URL         *string  `form:"url"`
-	UnsetFields []string `form:"-" json:"-"`
+	URL         *string                                        `form:"url"`
+	UnsetFields []AccountCreateBusinessProfileParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountCreateBusinessProfileParamsUnsetField is the list of fields that can be cleared/unset on AccountCreateBusinessProfileParams.
@@ -2718,7 +2718,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountCreateBusinessProfileParams) AddUnsetField(field AccountCreateBusinessProfileParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The acss_debit_payments capability.
@@ -3367,7 +3367,7 @@ type AccountCreateCompanyParams struct {
 	VATID *string `form:"vat_id"`
 	// Information on the verification state of the company.
 	Verification *AccountCreateCompanyVerificationParams `form:"verification"`
-	UnsetFields  []string                                `form:"-" json:"-"`
+	UnsetFields  []AccountCreateCompanyParamsUnsetField  `form:"-" json:"-"`
 }
 
 // AccountCreateCompanyParamsUnsetField is the list of fields that can be cleared/unset on AccountCreateCompanyParams.
@@ -3381,7 +3381,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountCreateCompanyParams) AddUnsetField(field AccountCreateCompanyParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // A hash of configuration for who pays Stripe fees for product usage on this account.
@@ -3552,8 +3552,8 @@ func (p *AccountCreateExternalAccountParams) AddMetadata(key string, value strin
 // A hash of account group type to tokens. These are account groups this account should be added to.
 type AccountCreateGroupsParams struct {
 	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://docs.stripe.com/connect/platform-pricing-tools) for details.
-	PaymentsPricing *string  `form:"payments_pricing"`
-	UnsetFields     []string `form:"-" json:"-"`
+	PaymentsPricing *string                               `form:"payments_pricing"`
+	UnsetFields     []AccountCreateGroupsParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountCreateGroupsParamsUnsetField is the list of fields that can be cleared/unset on AccountCreateGroupsParams.
@@ -3565,7 +3565,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountCreateGroupsParams) AddUnsetField(field AccountCreateGroupsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to Bacs Direct Debit.
@@ -3593,8 +3593,8 @@ type AccountCreateSettingsCardIssuingTOSAcceptanceParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                         `form:"user_agent"`
+	UnsetFields []AccountCreateSettingsCardIssuingTOSAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountCreateSettingsCardIssuingTOSAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on AccountCreateSettingsCardIssuingTOSAcceptanceParams.
@@ -3606,7 +3606,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountCreateSettingsCardIssuingTOSAcceptanceParams) AddUnsetField(field AccountCreateSettingsCardIssuingTOSAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's use of the Card Issuing product.
@@ -3632,8 +3632,8 @@ type AccountCreateSettingsCardPaymentsParams struct {
 	// The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
 	StatementDescriptorPrefixKana *string `form:"statement_descriptor_prefix_kana"`
 	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
-	StatementDescriptorPrefixKanji *string  `form:"statement_descriptor_prefix_kanji"`
-	UnsetFields                    []string `form:"-" json:"-"`
+	StatementDescriptorPrefixKanji *string                                             `form:"statement_descriptor_prefix_kanji"`
+	UnsetFields                    []AccountCreateSettingsCardPaymentsParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountCreateSettingsCardPaymentsParamsUnsetField is the list of fields that can be cleared/unset on AccountCreateSettingsCardPaymentsParams.
@@ -3646,7 +3646,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountCreateSettingsCardPaymentsParams) AddUnsetField(field AccountCreateSettingsCardPaymentsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's use of Invoices.
@@ -3706,8 +3706,8 @@ type AccountCreateSettingsTreasuryTOSAcceptanceParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                      `form:"user_agent"`
+	UnsetFields []AccountCreateSettingsTreasuryTOSAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountCreateSettingsTreasuryTOSAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on AccountCreateSettingsTreasuryTOSAcceptanceParams.
@@ -3719,7 +3719,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountCreateSettingsTreasuryTOSAcceptanceParams) AddUnsetField(field AccountCreateSettingsTreasuryTOSAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings specific to the account's Treasury FinancialAccounts.

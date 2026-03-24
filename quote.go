@@ -271,8 +271,8 @@ type QuoteLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates    []*string `form:"tax_rates"`
-	UnsetFields []string  `form:"-" json:"-"`
+	TaxRates    []*string                       `form:"tax_rates"`
+	UnsetFields []QuoteLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
 // QuoteLineItemParamsUnsetField is the list of fields that can be cleared/unset on QuoteLineItemParams.
@@ -285,7 +285,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteLineItemParams) AddUnsetField(field QuoteLineItemParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configure behavior for flexible billing mode.
@@ -314,8 +314,8 @@ type QuoteSubscriptionDataParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64   `form:"trial_period_days"`
-	UnsetFields     []string `form:"-" json:"-"`
+	TrialPeriodDays *int64                                  `form:"trial_period_days"`
+	UnsetFields     []QuoteSubscriptionDataParamsUnsetField `form:"-" json:"-"`
 }
 
 // QuoteSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on QuoteSubscriptionDataParams.
@@ -329,7 +329,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteSubscriptionDataParams) AddUnsetField(field QuoteSubscriptionDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -610,8 +610,8 @@ type QuoteCreateLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates    []*string `form:"tax_rates"`
-	UnsetFields []string  `form:"-" json:"-"`
+	TaxRates    []*string                             `form:"tax_rates"`
+	UnsetFields []QuoteCreateLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
 // QuoteCreateLineItemParamsUnsetField is the list of fields that can be cleared/unset on QuoteCreateLineItemParams.
@@ -624,7 +624,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteCreateLineItemParams) AddUnsetField(field QuoteCreateLineItemParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configure behavior for flexible billing mode.
@@ -653,8 +653,8 @@ type QuoteCreateSubscriptionDataParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64   `form:"trial_period_days"`
-	UnsetFields     []string `form:"-" json:"-"`
+	TrialPeriodDays *int64                                        `form:"trial_period_days"`
+	UnsetFields     []QuoteCreateSubscriptionDataParamsUnsetField `form:"-" json:"-"`
 }
 
 // QuoteCreateSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on QuoteCreateSubscriptionDataParams.
@@ -667,7 +667,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteCreateSubscriptionDataParams) AddUnsetField(field QuoteCreateSubscriptionDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -878,8 +878,8 @@ type QuoteUpdateLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates    []*string `form:"tax_rates"`
-	UnsetFields []string  `form:"-" json:"-"`
+	TaxRates    []*string                             `form:"tax_rates"`
+	UnsetFields []QuoteUpdateLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
 // QuoteUpdateLineItemParamsUnsetField is the list of fields that can be cleared/unset on QuoteUpdateLineItemParams.
@@ -892,7 +892,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteUpdateLineItemParams) AddUnsetField(field QuoteUpdateLineItemParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
@@ -905,8 +905,8 @@ type QuoteUpdateSubscriptionDataParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64   `form:"trial_period_days"`
-	UnsetFields     []string `form:"-" json:"-"`
+	TrialPeriodDays *int64                                        `form:"trial_period_days"`
+	UnsetFields     []QuoteUpdateSubscriptionDataParamsUnsetField `form:"-" json:"-"`
 }
 
 // QuoteUpdateSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on QuoteUpdateSubscriptionDataParams.
@@ -920,7 +920,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteUpdateSubscriptionDataParams) AddUnsetField(field QuoteUpdateSubscriptionDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

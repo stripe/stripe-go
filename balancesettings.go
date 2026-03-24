@@ -71,8 +71,8 @@ type BalanceSettingsPaymentsPayoutsParams struct {
 	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 	Schedule *BalanceSettingsPaymentsPayoutsScheduleParams `form:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
-	StatementDescriptor *string  `form:"statement_descriptor"`
-	UnsetFields         []string `form:"-" json:"-"`
+	StatementDescriptor *string                                          `form:"statement_descriptor"`
+	UnsetFields         []BalanceSettingsPaymentsPayoutsParamsUnsetField `form:"-" json:"-"`
 }
 
 // BalanceSettingsPaymentsPayoutsParamsUnsetField is the list of fields that can be cleared/unset on BalanceSettingsPaymentsPayoutsParams.
@@ -84,14 +84,14 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BalanceSettingsPaymentsPayoutsParams) AddUnsetField(field BalanceSettingsPaymentsPayoutsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings related to the account's balance settlement timing.
 type BalanceSettingsPaymentsSettlementTimingParams struct {
 	// Change `delay_days` for this account, which determines the number of days charge funds are held before becoming available. The maximum value is 31. Passing an empty string to `delay_days_override` will return `delay_days` to the default, which is the lowest available value for the account. [Learn more about controlling delay days](https://docs.stripe.com/connect/manage-payout-schedule).
-	DelayDaysOverride *int64   `form:"delay_days_override"`
-	UnsetFields       []string `form:"-" json:"-"`
+	DelayDaysOverride *int64                                                    `form:"delay_days_override"`
+	UnsetFields       []BalanceSettingsPaymentsSettlementTimingParamsUnsetField `form:"-" json:"-"`
 }
 
 // BalanceSettingsPaymentsSettlementTimingParamsUnsetField is the list of fields that can be cleared/unset on BalanceSettingsPaymentsSettlementTimingParams.
@@ -103,7 +103,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BalanceSettingsPaymentsSettlementTimingParams) AddUnsetField(field BalanceSettingsPaymentsSettlementTimingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings that apply to the [Payments Balance](https://docs.stripe.com/api/balance).
@@ -147,8 +147,8 @@ type BalanceSettingsUpdatePaymentsPayoutsParams struct {
 	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 	Schedule *BalanceSettingsUpdatePaymentsPayoutsScheduleParams `form:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
-	StatementDescriptor *string  `form:"statement_descriptor"`
-	UnsetFields         []string `form:"-" json:"-"`
+	StatementDescriptor *string                                                `form:"statement_descriptor"`
+	UnsetFields         []BalanceSettingsUpdatePaymentsPayoutsParamsUnsetField `form:"-" json:"-"`
 }
 
 // BalanceSettingsUpdatePaymentsPayoutsParamsUnsetField is the list of fields that can be cleared/unset on BalanceSettingsUpdatePaymentsPayoutsParams.
@@ -160,14 +160,14 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BalanceSettingsUpdatePaymentsPayoutsParams) AddUnsetField(field BalanceSettingsUpdatePaymentsPayoutsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings related to the account's balance settlement timing.
 type BalanceSettingsUpdatePaymentsSettlementTimingParams struct {
 	// Change `delay_days` for this account, which determines the number of days charge funds are held before becoming available. The maximum value is 31. Passing an empty string to `delay_days_override` will return `delay_days` to the default, which is the lowest available value for the account. [Learn more about controlling delay days](https://docs.stripe.com/connect/manage-payout-schedule).
-	DelayDaysOverride *int64   `form:"delay_days_override"`
-	UnsetFields       []string `form:"-" json:"-"`
+	DelayDaysOverride *int64                                                          `form:"delay_days_override"`
+	UnsetFields       []BalanceSettingsUpdatePaymentsSettlementTimingParamsUnsetField `form:"-" json:"-"`
 }
 
 // BalanceSettingsUpdatePaymentsSettlementTimingParamsUnsetField is the list of fields that can be cleared/unset on BalanceSettingsUpdatePaymentsSettlementTimingParams.
@@ -179,7 +179,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BalanceSettingsUpdatePaymentsSettlementTimingParams) AddUnsetField(field BalanceSettingsUpdatePaymentsSettlementTimingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Settings that apply to the [Payments Balance](https://docs.stripe.com/api/balance).

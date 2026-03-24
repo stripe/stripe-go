@@ -148,8 +148,8 @@ type IssuingDisputeEvidenceCanceledParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string  `form:"return_status"`
-	UnsetFields  []string `form:"-" json:"-"`
+	ReturnStatus *string                                          `form:"return_status"`
+	UnsetFields  []IssuingDisputeEvidenceCanceledParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceCanceledParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceCanceledParams.
@@ -170,7 +170,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceCanceledParams) AddUnsetField(field IssuingDisputeEvidenceCanceledParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'duplicate'.
@@ -186,8 +186,8 @@ type IssuingDisputeEvidenceDuplicateParams struct {
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
-	OriginalTransaction *string  `form:"original_transaction"`
-	UnsetFields         []string `form:"-" json:"-"`
+	OriginalTransaction *string                                           `form:"original_transaction"`
+	UnsetFields         []IssuingDisputeEvidenceDuplicateParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceDuplicateParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceDuplicateParams.
@@ -203,7 +203,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceDuplicateParams) AddUnsetField(field IssuingDisputeEvidenceDuplicateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'fraudulent'.
@@ -211,8 +211,8 @@ type IssuingDisputeEvidenceFraudulentParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string  `form:"explanation"`
-	UnsetFields []string `form:"-" json:"-"`
+	Explanation *string                                            `form:"explanation"`
+	UnsetFields []IssuingDisputeEvidenceFraudulentParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceFraudulentParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceFraudulentParams.
@@ -225,7 +225,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceFraudulentParams) AddUnsetField(field IssuingDisputeEvidenceFraudulentParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'merchandise_not_as_described'.
@@ -241,8 +241,8 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string  `form:"return_status"`
-	UnsetFields  []string `form:"-" json:"-"`
+	ReturnStatus *string                                                           `form:"return_status"`
+	UnsetFields  []IssuingDisputeEvidenceMerchandiseNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceMerchandiseNotAsDescribedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceMerchandiseNotAsDescribedParams.
@@ -259,7 +259,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceMerchandiseNotAsDescribedParams) AddUnsetField(field IssuingDisputeEvidenceMerchandiseNotAsDescribedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'no_valid_authorization'.
@@ -267,8 +267,8 @@ type IssuingDisputeEvidenceNoValidAuthorizationParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string  `form:"explanation"`
-	UnsetFields []string `form:"-" json:"-"`
+	Explanation *string                                                      `form:"explanation"`
+	UnsetFields []IssuingDisputeEvidenceNoValidAuthorizationParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceNoValidAuthorizationParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceNoValidAuthorizationParams.
@@ -281,7 +281,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceNoValidAuthorizationParams) AddUnsetField(field IssuingDisputeEvidenceNoValidAuthorizationParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'not_received'.
@@ -295,8 +295,8 @@ type IssuingDisputeEvidenceNotReceivedParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string  `form:"product_type"`
-	UnsetFields []string `form:"-" json:"-"`
+	ProductType *string                                             `form:"product_type"`
+	UnsetFields []IssuingDisputeEvidenceNotReceivedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceNotReceivedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceNotReceivedParams.
@@ -312,7 +312,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceNotReceivedParams) AddUnsetField(field IssuingDisputeEvidenceNotReceivedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'other'.
@@ -324,8 +324,8 @@ type IssuingDisputeEvidenceOtherParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string  `form:"product_type"`
-	UnsetFields []string `form:"-" json:"-"`
+	ProductType *string                                       `form:"product_type"`
+	UnsetFields []IssuingDisputeEvidenceOtherParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceOtherParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceOtherParams.
@@ -340,7 +340,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceOtherParams) AddUnsetField(field IssuingDisputeEvidenceOtherParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'service_not_as_described'.
@@ -354,8 +354,8 @@ type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Date when the product was received.
-	ReceivedAt  *int64   `form:"received_at"`
-	UnsetFields []string `form:"-" json:"-"`
+	ReceivedAt  *int64                                                        `form:"received_at"`
+	UnsetFields []IssuingDisputeEvidenceServiceNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceServiceNotAsDescribedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceServiceNotAsDescribedParams.
@@ -371,7 +371,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceServiceNotAsDescribedParams) AddUnsetField(field IssuingDisputeEvidenceServiceNotAsDescribedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided for the dispute.
@@ -394,7 +394,7 @@ type IssuingDisputeEvidenceParams struct {
 	Reason *string `form:"reason"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
 	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
-	UnsetFields           []string                                           `form:"-" json:"-"`
+	UnsetFields           []IssuingDisputeEvidenceParamsUnsetField           `form:"-" json:"-"`
 }
 
 // IssuingDisputeEvidenceParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeEvidenceParams.
@@ -413,7 +413,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeEvidenceParams) AddUnsetField(field IssuingDisputeEvidenceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Params for disputes related to Treasury FinancialAccounts
@@ -521,8 +521,8 @@ type IssuingDisputeCreateEvidenceCanceledParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string  `form:"return_status"`
-	UnsetFields  []string `form:"-" json:"-"`
+	ReturnStatus *string                                                `form:"return_status"`
+	UnsetFields  []IssuingDisputeCreateEvidenceCanceledParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceCanceledParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceCanceledParams.
@@ -543,7 +543,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceCanceledParams) AddUnsetField(field IssuingDisputeCreateEvidenceCanceledParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'duplicate'.
@@ -559,8 +559,8 @@ type IssuingDisputeCreateEvidenceDuplicateParams struct {
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
-	OriginalTransaction *string  `form:"original_transaction"`
-	UnsetFields         []string `form:"-" json:"-"`
+	OriginalTransaction *string                                                 `form:"original_transaction"`
+	UnsetFields         []IssuingDisputeCreateEvidenceDuplicateParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceDuplicateParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceDuplicateParams.
@@ -576,7 +576,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceDuplicateParams) AddUnsetField(field IssuingDisputeCreateEvidenceDuplicateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'fraudulent'.
@@ -584,8 +584,8 @@ type IssuingDisputeCreateEvidenceFraudulentParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string  `form:"explanation"`
-	UnsetFields []string `form:"-" json:"-"`
+	Explanation *string                                                  `form:"explanation"`
+	UnsetFields []IssuingDisputeCreateEvidenceFraudulentParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceFraudulentParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceFraudulentParams.
@@ -598,7 +598,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceFraudulentParams) AddUnsetField(field IssuingDisputeCreateEvidenceFraudulentParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'merchandise_not_as_described'.
@@ -614,8 +614,8 @@ type IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string  `form:"return_status"`
-	UnsetFields  []string `form:"-" json:"-"`
+	ReturnStatus *string                                                                 `form:"return_status"`
+	UnsetFields  []IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams.
@@ -632,7 +632,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams) AddUnsetField(field IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'no_valid_authorization'.
@@ -640,8 +640,8 @@ type IssuingDisputeCreateEvidenceNoValidAuthorizationParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string  `form:"explanation"`
-	UnsetFields []string `form:"-" json:"-"`
+	Explanation *string                                                            `form:"explanation"`
+	UnsetFields []IssuingDisputeCreateEvidenceNoValidAuthorizationParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceNoValidAuthorizationParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceNoValidAuthorizationParams.
@@ -654,7 +654,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceNoValidAuthorizationParams) AddUnsetField(field IssuingDisputeCreateEvidenceNoValidAuthorizationParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'not_received'.
@@ -668,8 +668,8 @@ type IssuingDisputeCreateEvidenceNotReceivedParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string  `form:"product_type"`
-	UnsetFields []string `form:"-" json:"-"`
+	ProductType *string                                                   `form:"product_type"`
+	UnsetFields []IssuingDisputeCreateEvidenceNotReceivedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceNotReceivedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceNotReceivedParams.
@@ -685,7 +685,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceNotReceivedParams) AddUnsetField(field IssuingDisputeCreateEvidenceNotReceivedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'other'.
@@ -697,8 +697,8 @@ type IssuingDisputeCreateEvidenceOtherParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string  `form:"product_type"`
-	UnsetFields []string `form:"-" json:"-"`
+	ProductType *string                                             `form:"product_type"`
+	UnsetFields []IssuingDisputeCreateEvidenceOtherParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceOtherParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceOtherParams.
@@ -713,7 +713,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceOtherParams) AddUnsetField(field IssuingDisputeCreateEvidenceOtherParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'service_not_as_described'.
@@ -727,8 +727,8 @@ type IssuingDisputeCreateEvidenceServiceNotAsDescribedParams struct {
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Date when the product was received.
-	ReceivedAt  *int64   `form:"received_at"`
-	UnsetFields []string `form:"-" json:"-"`
+	ReceivedAt  *int64                                                              `form:"received_at"`
+	UnsetFields []IssuingDisputeCreateEvidenceServiceNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceServiceNotAsDescribedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceServiceNotAsDescribedParams.
@@ -744,7 +744,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceServiceNotAsDescribedParams) AddUnsetField(field IssuingDisputeCreateEvidenceServiceNotAsDescribedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided for the dispute.
@@ -767,7 +767,7 @@ type IssuingDisputeCreateEvidenceParams struct {
 	Reason *string `form:"reason"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
 	ServiceNotAsDescribed *IssuingDisputeCreateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
-	UnsetFields           []string                                                 `form:"-" json:"-"`
+	UnsetFields           []IssuingDisputeCreateEvidenceParamsUnsetField           `form:"-" json:"-"`
 }
 
 // IssuingDisputeCreateEvidenceParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeCreateEvidenceParams.
@@ -786,7 +786,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeCreateEvidenceParams) AddUnsetField(field IssuingDisputeCreateEvidenceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Params for disputes related to Treasury FinancialAccounts
@@ -859,8 +859,8 @@ type IssuingDisputeUpdateEvidenceCanceledParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string  `form:"return_status"`
-	UnsetFields  []string `form:"-" json:"-"`
+	ReturnStatus *string                                                `form:"return_status"`
+	UnsetFields  []IssuingDisputeUpdateEvidenceCanceledParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceCanceledParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceCanceledParams.
@@ -881,7 +881,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceCanceledParams) AddUnsetField(field IssuingDisputeUpdateEvidenceCanceledParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'duplicate'.
@@ -897,8 +897,8 @@ type IssuingDisputeUpdateEvidenceDuplicateParams struct {
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
-	OriginalTransaction *string  `form:"original_transaction"`
-	UnsetFields         []string `form:"-" json:"-"`
+	OriginalTransaction *string                                                 `form:"original_transaction"`
+	UnsetFields         []IssuingDisputeUpdateEvidenceDuplicateParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceDuplicateParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceDuplicateParams.
@@ -914,7 +914,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceDuplicateParams) AddUnsetField(field IssuingDisputeUpdateEvidenceDuplicateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'fraudulent'.
@@ -922,8 +922,8 @@ type IssuingDisputeUpdateEvidenceFraudulentParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string  `form:"explanation"`
-	UnsetFields []string `form:"-" json:"-"`
+	Explanation *string                                                  `form:"explanation"`
+	UnsetFields []IssuingDisputeUpdateEvidenceFraudulentParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceFraudulentParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceFraudulentParams.
@@ -936,7 +936,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceFraudulentParams) AddUnsetField(field IssuingDisputeUpdateEvidenceFraudulentParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'merchandise_not_as_described'.
@@ -952,8 +952,8 @@ type IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams struct {
 	// Date when the product was returned or attempted to be returned.
 	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string  `form:"return_status"`
-	UnsetFields  []string `form:"-" json:"-"`
+	ReturnStatus *string                                                                 `form:"return_status"`
+	UnsetFields  []IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams.
@@ -970,7 +970,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams) AddUnsetField(field IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'no_valid_authorization'.
@@ -978,8 +978,8 @@ type IssuingDisputeUpdateEvidenceNoValidAuthorizationParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string  `form:"explanation"`
-	UnsetFields []string `form:"-" json:"-"`
+	Explanation *string                                                            `form:"explanation"`
+	UnsetFields []IssuingDisputeUpdateEvidenceNoValidAuthorizationParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceNoValidAuthorizationParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceNoValidAuthorizationParams.
@@ -992,7 +992,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceNoValidAuthorizationParams) AddUnsetField(field IssuingDisputeUpdateEvidenceNoValidAuthorizationParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'not_received'.
@@ -1006,8 +1006,8 @@ type IssuingDisputeUpdateEvidenceNotReceivedParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string  `form:"product_type"`
-	UnsetFields []string `form:"-" json:"-"`
+	ProductType *string                                                   `form:"product_type"`
+	UnsetFields []IssuingDisputeUpdateEvidenceNotReceivedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceNotReceivedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceNotReceivedParams.
@@ -1023,7 +1023,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceNotReceivedParams) AddUnsetField(field IssuingDisputeUpdateEvidenceNotReceivedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'other'.
@@ -1035,8 +1035,8 @@ type IssuingDisputeUpdateEvidenceOtherParams struct {
 	// Description of the merchandise or service that was purchased.
 	ProductDescription *string `form:"product_description"`
 	// Whether the product was a merchandise or service.
-	ProductType *string  `form:"product_type"`
-	UnsetFields []string `form:"-" json:"-"`
+	ProductType *string                                             `form:"product_type"`
+	UnsetFields []IssuingDisputeUpdateEvidenceOtherParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceOtherParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceOtherParams.
@@ -1051,7 +1051,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceOtherParams) AddUnsetField(field IssuingDisputeUpdateEvidenceOtherParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided when `reason` is 'service_not_as_described'.
@@ -1065,8 +1065,8 @@ type IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams struct {
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Date when the product was received.
-	ReceivedAt  *int64   `form:"received_at"`
-	UnsetFields []string `form:"-" json:"-"`
+	ReceivedAt  *int64                                                              `form:"received_at"`
+	UnsetFields []IssuingDisputeUpdateEvidenceServiceNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceServiceNotAsDescribedParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams.
@@ -1082,7 +1082,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams) AddUnsetField(field IssuingDisputeUpdateEvidenceServiceNotAsDescribedParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided for the dispute.
@@ -1105,7 +1105,7 @@ type IssuingDisputeUpdateEvidenceParams struct {
 	Reason *string `form:"reason"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
 	ServiceNotAsDescribed *IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
-	UnsetFields           []string                                                 `form:"-" json:"-"`
+	UnsetFields           []IssuingDisputeUpdateEvidenceParamsUnsetField           `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateEvidenceParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateEvidenceParams.
@@ -1124,7 +1124,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateEvidenceParams) AddUnsetField(field IssuingDisputeUpdateEvidenceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates the specified Issuing Dispute object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Properties on the evidence object can be unset by passing in an empty string.

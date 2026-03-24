@@ -202,8 +202,8 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionPa
 	// A description of the product or service that was sold.
 	ProductDescription *string `form:"product_description"`
 	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
-	ShippingAddress *AddressParams `form:"shipping_address"`
-	UnsetFields     []string       `form:"-" json:"-"`
+	ShippingAddress *AddressParams                                                                              `form:"shipping_address"`
+	UnsetFields     []DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField `form:"-" json:"-"`
 }
 
 // DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField is the list of fields that can be cleared/unset on DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams.
@@ -220,7 +220,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams) AddUnsetField(field DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
@@ -240,8 +240,8 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransa
 	// A description of the product or service that was sold.
 	ProductDescription *string `form:"product_description"`
 	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
-	ShippingAddress *AddressParams `form:"shipping_address"`
-	UnsetFields     []string       `form:"-" json:"-"`
+	ShippingAddress *AddressParams                                                                                     `form:"shipping_address"`
+	UnsetFields     []DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField `form:"-" json:"-"`
 }
 
 // DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField is the list of fields that can be cleared/unset on DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams.
@@ -258,7 +258,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams) AddUnsetField(field DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
@@ -340,8 +340,8 @@ type DisputeEvidenceParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any additional evidence or statements.
 	UncategorizedFile *string `form:"uncategorized_file"`
 	// Any additional evidence or statements. Has a maximum character count of 20,000.
-	UncategorizedText *string  `form:"uncategorized_text"`
-	UnsetFields       []string `form:"-" json:"-"`
+	UncategorizedText *string                           `form:"uncategorized_text"`
+	UnsetFields       []DisputeEvidenceParamsUnsetField `form:"-" json:"-"`
 }
 
 // DisputeEvidenceParamsUnsetField is the list of fields that can be cleared/unset on DisputeEvidenceParams.
@@ -353,7 +353,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *DisputeEvidenceParams) AddUnsetField(field DisputeEvidenceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Closing the dispute for a charge indicates that you do not have any evidence to submit and are essentially dismissing the dispute, acknowledging it as lost.
@@ -399,8 +399,8 @@ type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransac
 	// A description of the product or service that was sold.
 	ProductDescription *string `form:"product_description"`
 	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
-	ShippingAddress *AddressParams `form:"shipping_address"`
-	UnsetFields     []string       `form:"-" json:"-"`
+	ShippingAddress *AddressParams                                                                                    `form:"shipping_address"`
+	UnsetFields     []DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField `form:"-" json:"-"`
 }
 
 // DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams.
@@ -417,7 +417,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams) AddUnsetField(field DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
@@ -437,8 +437,8 @@ type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputed
 	// A description of the product or service that was sold.
 	ProductDescription *string `form:"product_description"`
 	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
-	ShippingAddress *AddressParams `form:"shipping_address"`
-	UnsetFields     []string       `form:"-" json:"-"`
+	ShippingAddress *AddressParams                                                                                           `form:"shipping_address"`
+	UnsetFields     []DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField `form:"-" json:"-"`
 }
 
 // DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams.
@@ -455,7 +455,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams) AddUnsetField(field DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
@@ -537,8 +537,8 @@ type DisputeUpdateEvidenceParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any additional evidence or statements.
 	UncategorizedFile *string `form:"uncategorized_file"`
 	// Any additional evidence or statements. Has a maximum character count of 20,000.
-	UncategorizedText *string  `form:"uncategorized_text"`
-	UnsetFields       []string `form:"-" json:"-"`
+	UncategorizedText *string                                 `form:"uncategorized_text"`
+	UnsetFields       []DisputeUpdateEvidenceParamsUnsetField `form:"-" json:"-"`
 }
 
 // DisputeUpdateEvidenceParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateEvidenceParams.
@@ -550,7 +550,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *DisputeUpdateEvidenceParams) AddUnsetField(field DisputeUpdateEvidenceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // When you get a dispute, contacting your customer is always the best first step. If that doesn't work, you can submit evidence to help us resolve the dispute in your favor. You can do this in your [dashboard](https://dashboard.stripe.com/disputes), but if you prefer, you can use the API to submit evidence programmatically.

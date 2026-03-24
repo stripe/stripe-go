@@ -212,8 +212,8 @@ type PersonAdditionalTOSAcceptancesAccountParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                 `form:"user_agent"`
+	UnsetFields []PersonAdditionalTOSAcceptancesAccountParamsUnsetField `form:"-" json:"-"`
 }
 
 // PersonAdditionalTOSAcceptancesAccountParamsUnsetField is the list of fields that can be cleared/unset on PersonAdditionalTOSAcceptancesAccountParams.
@@ -225,7 +225,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonAdditionalTOSAcceptancesAccountParams) AddUnsetField(field PersonAdditionalTOSAcceptancesAccountParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
@@ -325,8 +325,8 @@ type PersonRelationshipParams struct {
 	// Whether the person is authorized as the primary representative of the account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
 	Representative *bool `form:"representative"`
 	// The person's title (e.g., CEO, Support Engineer).
-	Title       *string  `form:"title"`
-	UnsetFields []string `form:"-" json:"-"`
+	Title       *string                              `form:"title"`
+	UnsetFields []PersonRelationshipParamsUnsetField `form:"-" json:"-"`
 }
 
 // PersonRelationshipParamsUnsetField is the list of fields that can be cleared/unset on PersonRelationshipParams.
@@ -338,7 +338,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonRelationshipParams) AddUnsetField(field PersonRelationshipParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The persons ethnicity details
@@ -440,8 +440,8 @@ type PersonUpdateAdditionalTOSAcceptancesAccountParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                       `form:"user_agent"`
+	UnsetFields []PersonUpdateAdditionalTOSAcceptancesAccountParamsUnsetField `form:"-" json:"-"`
 }
 
 // PersonUpdateAdditionalTOSAcceptancesAccountParamsUnsetField is the list of fields that can be cleared/unset on PersonUpdateAdditionalTOSAcceptancesAccountParams.
@@ -453,7 +453,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonUpdateAdditionalTOSAcceptancesAccountParams) AddUnsetField(field PersonUpdateAdditionalTOSAcceptancesAccountParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
@@ -553,8 +553,8 @@ type PersonUpdateRelationshipParams struct {
 	// Whether the person is authorized as the primary representative of the account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
 	Representative *bool `form:"representative"`
 	// The person's title (e.g., CEO, Support Engineer).
-	Title       *string  `form:"title"`
-	UnsetFields []string `form:"-" json:"-"`
+	Title       *string                                    `form:"title"`
+	UnsetFields []PersonUpdateRelationshipParamsUnsetField `form:"-" json:"-"`
 }
 
 // PersonUpdateRelationshipParamsUnsetField is the list of fields that can be cleared/unset on PersonUpdateRelationshipParams.
@@ -566,7 +566,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonUpdateRelationshipParams) AddUnsetField(field PersonUpdateRelationshipParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The persons ethnicity details
@@ -718,8 +718,8 @@ type PersonCreateAdditionalTOSAcceptancesAccountParams struct {
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                       `form:"user_agent"`
+	UnsetFields []PersonCreateAdditionalTOSAcceptancesAccountParamsUnsetField `form:"-" json:"-"`
 }
 
 // PersonCreateAdditionalTOSAcceptancesAccountParamsUnsetField is the list of fields that can be cleared/unset on PersonCreateAdditionalTOSAcceptancesAccountParams.
@@ -731,7 +731,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonCreateAdditionalTOSAcceptancesAccountParams) AddUnsetField(field PersonCreateAdditionalTOSAcceptancesAccountParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
@@ -831,8 +831,8 @@ type PersonCreateRelationshipParams struct {
 	// Whether the person is authorized as the primary representative of the account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
 	Representative *bool `form:"representative"`
 	// The person's title (e.g., CEO, Support Engineer).
-	Title       *string  `form:"title"`
-	UnsetFields []string `form:"-" json:"-"`
+	Title       *string                                    `form:"title"`
+	UnsetFields []PersonCreateRelationshipParamsUnsetField `form:"-" json:"-"`
 }
 
 // PersonCreateRelationshipParamsUnsetField is the list of fields that can be cleared/unset on PersonCreateRelationshipParams.
@@ -844,7 +844,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonCreateRelationshipParams) AddUnsetField(field PersonCreateRelationshipParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The persons ethnicity details

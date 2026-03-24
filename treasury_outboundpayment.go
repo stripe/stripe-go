@@ -119,8 +119,8 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams str
 	// Full name.
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
-	Phone       *string  `form:"phone"`
-	UnsetFields []string `form:"-" json:"-"`
+	Phone       *string                                                                             `form:"phone"`
+	UnsetFields []TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams.
@@ -135,7 +135,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams) AddUnsetField(field TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Required hash if type is set to `us_bank_account`.
@@ -185,7 +185,7 @@ type TreasuryOutboundPaymentDestinationPaymentMethodOptionsUSBankAccountParams s
 type TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
 	USBankAccount *TreasuryOutboundPaymentDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
-	UnsetFields   []string                                                                   `form:"-" json:"-"`
+	UnsetFields   []TreasuryOutboundPaymentDestinationPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
 // TreasuryOutboundPaymentDestinationPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams.
@@ -197,7 +197,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams) AddUnsetField(field TreasuryOutboundPaymentDestinationPaymentMethodOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // End user details.
@@ -272,8 +272,8 @@ type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsPara
 	// Full name.
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
-	Phone       *string  `form:"phone"`
-	UnsetFields []string `form:"-" json:"-"`
+	Phone       *string                                                                                   `form:"phone"`
+	UnsetFields []TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParams.
@@ -288,7 +288,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParams) AddUnsetField(field TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Required hash if type is set to `us_bank_account`.
@@ -338,7 +338,7 @@ type TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsUSBankAccountPa
 type TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
 	USBankAccount *TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
-	UnsetFields   []string                                                                         `form:"-" json:"-"`
+	UnsetFields   []TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
 // TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParams.
@@ -350,7 +350,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParams) AddUnsetField(field TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // End user details.

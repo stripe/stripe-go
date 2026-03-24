@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"reflect"
 	"regexp"
 	"runtime"
 	"strings"
@@ -940,7 +941,7 @@ func TestMarshalV2JSON(t *testing.T) {
 		assert.Equal(t, "null", string(raw["amount"]))
 	})
 
-	t.Run("UnsetFields does not override set values", func(t *testing.T) {
+	t.Run("UnsetFields overrides set values", func(t *testing.T) {
 		params := &testParams{
 			Name:        String("test"),
 			Description: String("a description"),
@@ -2381,4 +2382,17 @@ func TestHandleResponseBufferingErrors_NilResponse(t *testing.T) {
 	_, err := backend.handleResponseBufferingErrors(resp, timeoutErr)
 	assert.Error(t, err)
 	assert.Equal(t, timeoutErr, err)
+}
+
+func BenchmarkCollectAllUnsetFields(b *testing.B) {
+	params := &PaymentIntentCreateParams{
+		Amount:   Int64(1000),
+		Currency: String("usd"),
+	}
+	params.AddUnsetField(PaymentIntentCreateParamsUnsetFieldMandateData)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		collectAllUnsetFields(reflect.ValueOf(params))
+	}
 }

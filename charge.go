@@ -551,8 +551,8 @@ func (p *ChargeParams) AddMetadata(key string, value string) {
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type ChargeFraudDetailsParams struct {
 	// Either `safe` or `fraudulent`.
-	UserReport  *string  `form:"user_report"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserReport  *string                              `form:"user_report"`
+	UnsetFields []ChargeFraudDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // ChargeFraudDetailsParamsUnsetField is the list of fields that can be cleared/unset on ChargeFraudDetailsParams.
@@ -564,7 +564,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ChargeFraudDetailsParams) AddUnsetField(field ChargeFraudDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Search for charges you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
@@ -757,8 +757,8 @@ func (p *ChargeRetrieveParams) AddExpand(f string) {
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type ChargeUpdateFraudDetailsParams struct {
 	// Either `safe` or `fraudulent`.
-	UserReport  *string  `form:"user_report"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserReport  *string                                    `form:"user_report"`
+	UnsetFields []ChargeUpdateFraudDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // ChargeUpdateFraudDetailsParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdateFraudDetailsParams.
@@ -770,7 +770,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ChargeUpdateFraudDetailsParams) AddUnsetField(field ChargeUpdateFraudDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.

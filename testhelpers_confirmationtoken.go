@@ -64,8 +64,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID       *string  `form:"tax_id"`
-	UnsetFields []string `form:"-" json:"-"`
+	TaxID       *string                                                                       `form:"tax_id"`
+	UnsetFields []TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams.
@@ -80,7 +80,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams) AddUnsetField(field TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -459,8 +459,8 @@ type TestHelpersConfirmationTokenShippingParams struct {
 	// Recipient name.
 	Name *string `form:"name"`
 	// Recipient phone (including extension)
-	Phone       *string  `form:"phone"`
-	UnsetFields []string `form:"-" json:"-"`
+	Phone       *string                                                `form:"phone"`
+	UnsetFields []TestHelpersConfirmationTokenShippingParamsUnsetField `form:"-" json:"-"`
 }
 
 // TestHelpersConfirmationTokenShippingParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersConfirmationTokenShippingParams.
@@ -472,7 +472,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TestHelpersConfirmationTokenShippingParams) AddUnsetField(field TestHelpersConfirmationTokenShippingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a test mode Confirmation Token server side for your integration tests.
@@ -559,8 +559,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams str
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID       *string  `form:"tax_id"`
-	UnsetFields []string `form:"-" json:"-"`
+	TaxID       *string                                                                             `form:"tax_id"`
+	UnsetFields []TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams.
@@ -575,7 +575,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams) AddUnsetField(field TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -954,8 +954,8 @@ type TestHelpersConfirmationTokenCreateShippingParams struct {
 	// Recipient name.
 	Name *string `form:"name"`
 	// Recipient phone (including extension)
-	Phone       *string  `form:"phone"`
-	UnsetFields []string `form:"-" json:"-"`
+	Phone       *string                                                      `form:"phone"`
+	UnsetFields []TestHelpersConfirmationTokenCreateShippingParamsUnsetField `form:"-" json:"-"`
 }
 
 // TestHelpersConfirmationTokenCreateShippingParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersConfirmationTokenCreateShippingParams.
@@ -967,7 +967,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TestHelpersConfirmationTokenCreateShippingParams) AddUnsetField(field TestHelpersConfirmationTokenCreateShippingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a test mode Confirmation Token server side for your integration tests.

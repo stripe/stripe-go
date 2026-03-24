@@ -232,8 +232,8 @@ type SourceMandateParams struct {
 	// The interval of debits permitted by the mandate. Either `one_time` (just permitting a single debit), `scheduled` (with debits on an agreed schedule or for clearly-defined events), or `variable`(for debits with any frequency)
 	Interval *string `form:"interval"`
 	// The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification).
-	NotificationMethod *string  `form:"notification_method"`
-	UnsetFields        []string `form:"-" json:"-"`
+	NotificationMethod *string                         `form:"notification_method"`
+	UnsetFields        []SourceMandateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SourceMandateParamsUnsetField is the list of fields that can be cleared/unset on SourceMandateParams.
@@ -245,7 +245,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SourceMandateParams) AddUnsetField(field SourceMandateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about the owner of the payment instrument that may be used or required by particular source types.
@@ -351,8 +351,8 @@ type SourceUpdateMandateParams struct {
 	// The interval of debits permitted by the mandate. Either `one_time` (just permitting a single debit), `scheduled` (with debits on an agreed schedule or for clearly-defined events), or `variable`(for debits with any frequency)
 	Interval *string `form:"interval"`
 	// The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification).
-	NotificationMethod *string  `form:"notification_method"`
-	UnsetFields        []string `form:"-" json:"-"`
+	NotificationMethod *string                               `form:"notification_method"`
+	UnsetFields        []SourceUpdateMandateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SourceUpdateMandateParamsUnsetField is the list of fields that can be cleared/unset on SourceUpdateMandateParams.
@@ -364,7 +364,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SourceUpdateMandateParams) AddUnsetField(field SourceUpdateMandateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about the owner of the payment instrument that may be used or required by particular source types.
@@ -489,8 +489,8 @@ type SourceCreateMandateParams struct {
 	// The interval of debits permitted by the mandate. Either `one_time` (just permitting a single debit), `scheduled` (with debits on an agreed schedule or for clearly-defined events), or `variable`(for debits with any frequency)
 	Interval *string `form:"interval"`
 	// The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification).
-	NotificationMethod *string  `form:"notification_method"`
-	UnsetFields        []string `form:"-" json:"-"`
+	NotificationMethod *string                               `form:"notification_method"`
+	UnsetFields        []SourceCreateMandateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SourceCreateMandateParamsUnsetField is the list of fields that can be cleared/unset on SourceCreateMandateParams.
@@ -502,7 +502,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SourceCreateMandateParams) AddUnsetField(field SourceCreateMandateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information about the owner of the payment instrument that may be used or required by particular source types.

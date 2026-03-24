@@ -70,8 +70,8 @@ type FileFileLinkDataParams struct {
 	// The link isn't available after this future timestamp.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string `form:"metadata"`
-	UnsetFields []string          `form:"-" json:"-"`
+	Metadata    map[string]string                  `form:"metadata"`
+	UnsetFields []FileFileLinkDataParamsUnsetField `form:"-" json:"-"`
 }
 
 // FileFileLinkDataParamsUnsetField is the list of fields that can be cleared/unset on FileFileLinkDataParams.
@@ -83,7 +83,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *FileFileLinkDataParams) AddUnsetField(field FileFileLinkDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -177,8 +177,8 @@ type FileCreateFileLinkDataParams struct {
 	// The link isn't available after this future timestamp.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string `form:"metadata"`
-	UnsetFields []string          `form:"-" json:"-"`
+	Metadata    map[string]string                        `form:"metadata"`
+	UnsetFields []FileCreateFileLinkDataParamsUnsetField `form:"-" json:"-"`
 }
 
 // FileCreateFileLinkDataParamsUnsetField is the list of fields that can be cleared/unset on FileCreateFileLinkDataParams.
@@ -190,7 +190,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *FileCreateFileLinkDataParams) AddUnsetField(field FileCreateFileLinkDataParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

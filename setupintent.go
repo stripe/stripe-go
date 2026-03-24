@@ -470,8 +470,8 @@ type SetupIntentPaymentMethodDataBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID       *string  `form:"tax_id"`
-	UnsetFields []string `form:"-" json:"-"`
+	TaxID       *string                                                      `form:"tax_id"`
+	UnsetFields []SetupIntentPaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentPaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodDataBillingDetailsParams.
@@ -486,7 +486,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentPaymentMethodDataBillingDetailsParams) AddUnsetField(field SetupIntentPaymentMethodDataBillingDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -841,8 +841,8 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Payment schedule for the mandate.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// Transaction type of the mandate.
-	TransactionType *string  `form:"transaction_type"`
-	UnsetFields     []string `form:"-" json:"-"`
+	TransactionType *string                                                                  `form:"transaction_type"`
+	UnsetFields     []SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams.
@@ -854,7 +854,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams) AddUnsetField(field SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
@@ -873,8 +873,8 @@ type SetupIntentPaymentMethodOptionsAmazonPayParams struct{}
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
-	ReferencePrefix *string  `form:"reference_prefix"`
-	UnsetFields     []string `form:"-" json:"-"`
+	ReferencePrefix *string                                                                  `form:"reference_prefix"`
+	UnsetFields     []SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams.
@@ -886,7 +886,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams) AddUnsetField(field SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
@@ -1036,7 +1036,7 @@ type SetupIntentPaymentMethodOptionsKlarnaParams struct {
 	PreferredLocale *string `form:"preferred_locale"`
 	// Subscription details if setting up or charging a subscription
 	Subscriptions []*SetupIntentPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
-	UnsetFields   []string                                                   `form:"-" json:"-"`
+	UnsetFields   []SetupIntentPaymentMethodOptionsKlarnaParamsUnsetField    `form:"-" json:"-"`
 }
 
 // SetupIntentPaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodOptionsKlarnaParams.
@@ -1048,7 +1048,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentPaymentMethodOptionsKlarnaParams) AddUnsetField(field SetupIntentPaymentMethodOptionsKlarnaParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
@@ -1079,8 +1079,8 @@ type SetupIntentPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
-	StartDate   *string  `form:"start_date"`
-	UnsetFields []string `form:"-" json:"-"`
+	StartDate   *string                                                              `form:"start_date"`
+	UnsetFields []SetupIntentPaymentMethodOptionsPaytoMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentPaymentMethodOptionsPaytoMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodOptionsPaytoMandateOptionsParams.
@@ -1098,7 +1098,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentPaymentMethodOptionsPaytoMandateOptionsParams) AddUnsetField(field SetupIntentPaymentMethodOptionsPaytoMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
@@ -1110,8 +1110,8 @@ type SetupIntentPaymentMethodOptionsPaytoParams struct {
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string  `form:"reference_prefix"`
-	UnsetFields     []string `form:"-" json:"-"`
+	ReferencePrefix *string                                                                  `form:"reference_prefix"`
+	UnsetFields     []SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams.
@@ -1123,7 +1123,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams) AddUnsetField(field SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
@@ -1149,6 +1149,19 @@ type SetupIntentPaymentMethodOptionsUpiParams struct {
 	// Configuration options for setting up an eMandate
 	MandateOptions   *SetupIntentPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
 	SetupFutureUsage *string                                                 `form:"setup_future_usage"`
+	UnsetFields      []SetupIntentPaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
+}
+
+// SetupIntentPaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodOptionsUpiParams.
+type SetupIntentPaymentMethodOptionsUpiParamsUnsetField string
+
+const (
+	SetupIntentPaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage SetupIntentPaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SetupIntentPaymentMethodOptionsUpiParams) AddUnsetField(field SetupIntentPaymentMethodOptionsUpiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
@@ -1172,8 +1185,8 @@ type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams stru
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string  `form:"collection_method"`
-	UnsetFields      []string `form:"-" json:"-"`
+	CollectionMethod *string                                                                      `form:"collection_method"`
+	UnsetFields      []SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams.
@@ -1185,7 +1198,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams) AddUnsetField(field SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for network related functions
@@ -1413,8 +1426,8 @@ type SetupIntentConfirmPaymentMethodDataBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID       *string  `form:"tax_id"`
-	UnsetFields []string `form:"-" json:"-"`
+	TaxID       *string                                                             `form:"tax_id"`
+	UnsetFields []SetupIntentConfirmPaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentConfirmPaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentConfirmPaymentMethodDataBillingDetailsParams.
@@ -1429,7 +1442,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentConfirmPaymentMethodDataBillingDetailsParams) AddUnsetField(field SetupIntentConfirmPaymentMethodDataBillingDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -1939,8 +1952,8 @@ type SetupIntentCreatePaymentMethodDataBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID       *string  `form:"tax_id"`
-	UnsetFields []string `form:"-" json:"-"`
+	TaxID       *string                                                            `form:"tax_id"`
+	UnsetFields []SetupIntentCreatePaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentCreatePaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodDataBillingDetailsParams.
@@ -1955,7 +1968,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentCreatePaymentMethodDataBillingDetailsParams) AddUnsetField(field SetupIntentCreatePaymentMethodDataBillingDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -2310,8 +2323,8 @@ type SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Payment schedule for the mandate.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// Transaction type of the mandate.
-	TransactionType *string  `form:"transaction_type"`
-	UnsetFields     []string `form:"-" json:"-"`
+	TransactionType *string                                                                        `form:"transaction_type"`
+	UnsetFields     []SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParams.
@@ -2323,7 +2336,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParams) AddUnsetField(field SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
@@ -2342,8 +2355,8 @@ type SetupIntentCreatePaymentMethodOptionsAmazonPayParams struct{}
 // Additional fields for Mandate creation
 type SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
-	ReferencePrefix *string  `form:"reference_prefix"`
-	UnsetFields     []string `form:"-" json:"-"`
+	ReferencePrefix *string                                                                        `form:"reference_prefix"`
+	UnsetFields     []SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams.
@@ -2355,7 +2368,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams) AddUnsetField(field SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
@@ -2505,7 +2518,7 @@ type SetupIntentCreatePaymentMethodOptionsKlarnaParams struct {
 	PreferredLocale *string `form:"preferred_locale"`
 	// Subscription details if setting up or charging a subscription
 	Subscriptions []*SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
-	UnsetFields   []string                                                         `form:"-" json:"-"`
+	UnsetFields   []SetupIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField    `form:"-" json:"-"`
 }
 
 // SetupIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodOptionsKlarnaParams.
@@ -2517,7 +2530,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentCreatePaymentMethodOptionsKlarnaParams) AddUnsetField(field SetupIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
@@ -2548,8 +2561,8 @@ type SetupIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
-	StartDate   *string  `form:"start_date"`
-	UnsetFields []string `form:"-" json:"-"`
+	StartDate   *string                                                                    `form:"start_date"`
+	UnsetFields []SetupIntentCreatePaymentMethodOptionsPaytoMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentCreatePaymentMethodOptionsPaytoMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams.
@@ -2567,7 +2580,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams) AddUnsetField(field SetupIntentCreatePaymentMethodOptionsPaytoMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
@@ -2579,8 +2592,8 @@ type SetupIntentCreatePaymentMethodOptionsPaytoParams struct {
 // Additional fields for Mandate creation
 type SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string  `form:"reference_prefix"`
-	UnsetFields     []string `form:"-" json:"-"`
+	ReferencePrefix *string                                                                        `form:"reference_prefix"`
+	UnsetFields     []SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams.
@@ -2592,7 +2605,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams) AddUnsetField(field SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
@@ -2618,6 +2631,19 @@ type SetupIntentCreatePaymentMethodOptionsUpiParams struct {
 	// Configuration options for setting up an eMandate
 	MandateOptions   *SetupIntentCreatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
 	SetupFutureUsage *string                                                       `form:"setup_future_usage"`
+	UnsetFields      []SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
+}
+
+// SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodOptionsUpiParams.
+type SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField string
+
+const (
+	SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SetupIntentCreatePaymentMethodOptionsUpiParams) AddUnsetField(field SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
@@ -2641,8 +2667,8 @@ type SetupIntentCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsParam
 // Additional fields for Mandate creation
 type SetupIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string  `form:"collection_method"`
-	UnsetFields      []string `form:"-" json:"-"`
+	CollectionMethod *string                                                                            `form:"collection_method"`
+	UnsetFields      []SetupIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParams.
@@ -2654,7 +2680,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParams) AddUnsetField(field SetupIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for network related functions
@@ -2880,8 +2906,8 @@ type SetupIntentUpdatePaymentMethodDataBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID       *string  `form:"tax_id"`
-	UnsetFields []string `form:"-" json:"-"`
+	TaxID       *string                                                            `form:"tax_id"`
+	UnsetFields []SetupIntentUpdatePaymentMethodDataBillingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentUpdatePaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodDataBillingDetailsParams.
@@ -2896,7 +2922,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentUpdatePaymentMethodDataBillingDetailsParams) AddUnsetField(field SetupIntentUpdatePaymentMethodDataBillingDetailsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -3251,8 +3277,8 @@ type SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Payment schedule for the mandate.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// Transaction type of the mandate.
-	TransactionType *string  `form:"transaction_type"`
-	UnsetFields     []string `form:"-" json:"-"`
+	TransactionType *string                                                                        `form:"transaction_type"`
+	UnsetFields     []SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParams.
@@ -3264,7 +3290,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParams) AddUnsetField(field SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
@@ -3283,8 +3309,8 @@ type SetupIntentUpdatePaymentMethodOptionsAmazonPayParams struct{}
 // Additional fields for Mandate creation
 type SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
-	ReferencePrefix *string  `form:"reference_prefix"`
-	UnsetFields     []string `form:"-" json:"-"`
+	ReferencePrefix *string                                                                        `form:"reference_prefix"`
+	UnsetFields     []SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams.
@@ -3296,7 +3322,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams) AddUnsetField(field SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
@@ -3446,7 +3472,7 @@ type SetupIntentUpdatePaymentMethodOptionsKlarnaParams struct {
 	PreferredLocale *string `form:"preferred_locale"`
 	// Subscription details if setting up or charging a subscription
 	Subscriptions []*SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
-	UnsetFields   []string                                                         `form:"-" json:"-"`
+	UnsetFields   []SetupIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField    `form:"-" json:"-"`
 }
 
 // SetupIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodOptionsKlarnaParams.
@@ -3458,7 +3484,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentUpdatePaymentMethodOptionsKlarnaParams) AddUnsetField(field SetupIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
@@ -3489,8 +3515,8 @@ type SetupIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// The purpose for which payments are made. Has a default value based on your merchant category code.
 	Purpose *string `form:"purpose"`
 	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
-	StartDate   *string  `form:"start_date"`
-	UnsetFields []string `form:"-" json:"-"`
+	StartDate   *string                                                                    `form:"start_date"`
+	UnsetFields []SetupIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams.
@@ -3508,7 +3534,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams) AddUnsetField(field SetupIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
@@ -3520,8 +3546,8 @@ type SetupIntentUpdatePaymentMethodOptionsPaytoParams struct {
 // Additional fields for Mandate creation
 type SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string  `form:"reference_prefix"`
-	UnsetFields     []string `form:"-" json:"-"`
+	ReferencePrefix *string                                                                        `form:"reference_prefix"`
+	UnsetFields     []SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams.
@@ -3533,7 +3559,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams) AddUnsetField(field SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
@@ -3559,6 +3585,19 @@ type SetupIntentUpdatePaymentMethodOptionsUpiParams struct {
 	// Configuration options for setting up an eMandate
 	MandateOptions   *SetupIntentUpdatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
 	SetupFutureUsage *string                                                       `form:"setup_future_usage"`
+	UnsetFields      []SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
+}
+
+// SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodOptionsUpiParams.
+type SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField string
+
+const (
+	SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SetupIntentUpdatePaymentMethodOptionsUpiParams) AddUnsetField(field SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
@@ -3582,8 +3621,8 @@ type SetupIntentUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsParam
 // Additional fields for Mandate creation
 type SetupIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParams struct {
 	// The method used to collect offline mandate customer acceptance.
-	CollectionMethod *string  `form:"collection_method"`
-	UnsetFields      []string `form:"-" json:"-"`
+	CollectionMethod *string                                                                            `form:"collection_method"`
+	UnsetFields      []SetupIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParams.
@@ -3595,7 +3634,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParams) AddUnsetField(field SetupIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for network related functions

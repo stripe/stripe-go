@@ -44,8 +44,8 @@ func (p *ClimateOrderListParams) AddExpand(f string) {
 // Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
 type ClimateOrderBeneficiaryParams struct {
 	// Publicly displayable name for the end beneficiary of carbon removal.
-	PublicName  *string  `form:"public_name"`
-	UnsetFields []string `form:"-" json:"-"`
+	PublicName  *string                                   `form:"public_name"`
+	UnsetFields []ClimateOrderBeneficiaryParamsUnsetField `form:"-" json:"-"`
 }
 
 // ClimateOrderBeneficiaryParamsUnsetField is the list of fields that can be cleared/unset on ClimateOrderBeneficiaryParams.
@@ -57,7 +57,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ClimateOrderBeneficiaryParams) AddUnsetField(field ClimateOrderBeneficiaryParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a Climate order object for a given Climate product. The order will be processed immediately
@@ -176,8 +176,8 @@ func (p *ClimateOrderRetrieveParams) AddExpand(f string) {
 // Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
 type ClimateOrderUpdateBeneficiaryParams struct {
 	// Publicly displayable name for the end beneficiary of carbon removal.
-	PublicName  *string  `form:"public_name"`
-	UnsetFields []string `form:"-" json:"-"`
+	PublicName  *string                                         `form:"public_name"`
+	UnsetFields []ClimateOrderUpdateBeneficiaryParamsUnsetField `form:"-" json:"-"`
 }
 
 // ClimateOrderUpdateBeneficiaryParamsUnsetField is the list of fields that can be cleared/unset on ClimateOrderUpdateBeneficiaryParams.
@@ -189,7 +189,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ClimateOrderUpdateBeneficiaryParams) AddUnsetField(field ClimateOrderUpdateBeneficiaryParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates the specified order by setting the values of the parameters passed.

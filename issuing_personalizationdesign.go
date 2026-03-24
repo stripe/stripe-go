@@ -83,8 +83,8 @@ type IssuingPersonalizationDesignCarrierTextParams struct {
 	// The header body text of the carrier letter.
 	HeaderBody *string `form:"header_body"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string  `form:"header_title"`
-	UnsetFields []string `form:"-" json:"-"`
+	HeaderTitle *string                                                   `form:"header_title"`
+	UnsetFields []IssuingPersonalizationDesignCarrierTextParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingPersonalizationDesignCarrierTextParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignCarrierTextParams.
@@ -99,7 +99,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingPersonalizationDesignCarrierTextParams) AddUnsetField(field IssuingPersonalizationDesignCarrierTextParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information on whether this personalization design is used to create cards when one is not specified.
@@ -169,8 +169,8 @@ type IssuingPersonalizationDesignCreateCarrierTextParams struct {
 	// The header body text of the carrier letter.
 	HeaderBody *string `form:"header_body"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string  `form:"header_title"`
-	UnsetFields []string `form:"-" json:"-"`
+	HeaderTitle *string                                                         `form:"header_title"`
+	UnsetFields []IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignCreateCarrierTextParams.
@@ -185,7 +185,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingPersonalizationDesignCreateCarrierTextParams) AddUnsetField(field IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information on whether this personalization design is used to create cards when one is not specified.
@@ -252,8 +252,8 @@ type IssuingPersonalizationDesignUpdateCarrierTextParams struct {
 	// The header body text of the carrier letter.
 	HeaderBody *string `form:"header_body"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string  `form:"header_title"`
-	UnsetFields []string `form:"-" json:"-"`
+	HeaderTitle *string                                                         `form:"header_title"`
+	UnsetFields []IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignUpdateCarrierTextParams.
@@ -268,7 +268,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingPersonalizationDesignUpdateCarrierTextParams) AddUnsetField(field IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information on whether this personalization design is used to create cards when one is not specified.

@@ -108,8 +108,8 @@ type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The IP address from which the cardholder accepted the Authorized User Terms.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                                     `form:"user_agent"`
+	UnsetFields []IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams.
@@ -121,7 +121,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams) AddUnsetField(field IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information related to the card_issuing program for this cardholder.
@@ -257,8 +257,8 @@ type IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams struc
 	// The IP address from which the cardholder accepted the Authorized User Terms.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                                           `form:"user_agent"`
+	UnsetFields []IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams.
@@ -270,7 +270,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams) AddUnsetField(field IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information related to the card_issuing program for this cardholder.
@@ -418,8 +418,8 @@ type IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams struc
 	// The IP address from which the cardholder accepted the Authorized User Terms.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent   *string  `form:"user_agent"`
-	UnsetFields []string `form:"-" json:"-"`
+	UserAgent   *string                                                                           `form:"user_agent"`
+	UnsetFields []IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams.
@@ -431,7 +431,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams) AddUnsetField(field IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Information related to the card_issuing program for this cardholder.
