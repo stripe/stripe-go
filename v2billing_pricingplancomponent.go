@@ -22,7 +22,7 @@ const (
 type V2BillingPricingPlanComponentLicenseFee struct {
 	// The ID of the License Fee.
 	ID string `json:"id"`
-	// The version of the LicenseFee. Defaults to 'latest', if not specified.
+	// The ID of the License Fee Version. If not specified, defaults to 'latest'.
 	Version string `json:"version,omitempty"`
 }
 
@@ -30,7 +30,7 @@ type V2BillingPricingPlanComponentLicenseFee struct {
 type V2BillingPricingPlanComponentRateCard struct {
 	// The ID of the Rate Card.
 	ID string `json:"id"`
-	// The version of the RateCard. Defaults to 'latest', if not specified.
+	// The ID of the Rate Card Version. If not specified, defaults to 'latest'.
 	Version string `json:"version,omitempty"`
 }
 

@@ -37,6 +37,10 @@ type V2CoreVaultGBBankAccountParams struct {
 	// against what was provided by the bank. Doing so is required for all bank accounts not owned
 	// by you before making domestic UK OutboundPayments.
 	ConfirmationOfPayee *V2CoreVaultGBBankAccountConfirmationOfPayeeParams `form:"confirmation_of_payee" json:"confirmation_of_payee,omitempty"`
+	// The currency of the bank account.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// The IBAN of the bank account.
+	IBAN *string `form:"iban" json:"iban,omitempty"`
 	// The Sort Code of the bank account.
 	SortCode *string `form:"sort_code" json:"sort_code,omitempty"`
 }
@@ -84,15 +88,19 @@ type V2CoreVaultGBBankAccountCreateConfirmationOfPayeeParams struct {
 type V2CoreVaultGBBankAccountCreateParams struct {
 	Params `form:"*"`
 	// The Account Number of the bank account.
-	AccountNumber *string `form:"account_number" json:"account_number"`
+	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// Closed Enum. The type of the bank account (checking or savings).
 	BankAccountType *string `form:"bank_account_type" json:"bank_account_type,omitempty"`
 	// Whether or not to automatically perform Confirmation of Payee to verify the users information
 	// against what was provided by the bank. Doing so is required for all bank accounts not owned
 	// by you before making domestic UK OutboundPayments.
 	ConfirmationOfPayee *V2CoreVaultGBBankAccountCreateConfirmationOfPayeeParams `form:"confirmation_of_payee" json:"confirmation_of_payee,omitempty"`
+	// The currency of the bank account.
+	Currency *string `form:"currency" json:"currency"`
+	// The IBAN of the bank account.
+	IBAN *string `form:"iban" json:"iban,omitempty"`
 	// The Sort Code of the bank account.
-	SortCode *string `form:"sort_code" json:"sort_code"`
+	SortCode *string `form:"sort_code" json:"sort_code,omitempty"`
 }
 
 // Retrieve a GB bank account.

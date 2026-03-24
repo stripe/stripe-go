@@ -58,7 +58,7 @@ type V2TaxManualRuleScheduledTaxRateRate struct {
 	// Jurisdiction of the tax rate should apply as it will be shown on the invoice.
 	Jurisdiction string `json:"jurisdiction,omitempty"`
 	// Percentage of the tax rate. Must be positive and maximum of 4 decimal points.
-	Percentage string `json:"percentage"`
+	Percentage float64 `json:"percentage,string"`
 	// State of the tax rate.
 	State string `json:"state,omitempty"`
 }

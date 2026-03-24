@@ -2380,6 +2380,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "dz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeEcBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ec_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeEeBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ee_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeEgBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "eg_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeESBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "es_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeETBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "et_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeFIBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "fi_bank_account"
@@ -3228,7 +3229,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCrossRiverBankPrepaidCard   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.cross_river_bank.prepaid_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerHoldsCurrenciesUSD          V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.holds_currencies.usd"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerLeadPrepaidCard             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.lead.prepaid_card"
-	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCrypto                              V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "crypto"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCryptoWallets                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "crypto_wallets"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityFinancialAddressesBankAccounts      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "financial_addresses.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityFPXPayments                         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "fpx_payments"
@@ -3899,7 +3900,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCrossRiverBankPrepaidCard   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.cross_river_bank.prepaid_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerHoldsCurrenciesUSD          V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.holds_currencies.usd"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerLeadPrepaidCard             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.lead.prepaid_card"
-	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCrypto                              V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "crypto"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCryptoWallets                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "crypto_wallets"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityFinancialAddressesBankAccounts      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "financial_addresses.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityFPXPayments                         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "fpx_payments"
@@ -5948,6 +5949,8 @@ type V2CoreAccountDefaults struct {
 	Profile *V2CoreAccountDefaultsProfile `json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountDefaultsResponsibilities `json:"responsibilities"`
+	// The Account's local timezone. A list of possible time zone values is maintained at the [IANA Time Zone Database](https://www.iana.org/time-zones).
+	Timezone string `json:"timezone,omitempty"`
 }
 
 // Descriptions of why the requirement must be collected, or why the collected information isn't satisfactory to Stripe.
@@ -6749,18 +6752,10 @@ type V2CoreAccountIdentityBusinessDetailsAddress struct {
 	Town string `json:"town,omitempty"`
 }
 
-// Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
-type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenue struct {
 	// Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
-	Amount *V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmount `json:"amount,omitempty"`
+	Amount Amount `json:"amount,omitempty"`
 	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
 	FiscalYearEnd string `json:"fiscal_year_end,omitempty"`
 }
@@ -6885,18 +6880,10 @@ type V2CoreAccountIdentityBusinessDetailsIDNumber struct {
 	Type V2CoreAccountIdentityBusinessDetailsIDNumberType `json:"type"`
 }
 
-// Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
-type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
-}
-
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenue struct {
 	// Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
-	Amount *V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmount `json:"amount,omitempty"`
+	Amount Amount `json:"amount,omitempty"`
 }
 
 // When the business was incorporated or registered.
@@ -7168,7 +7155,7 @@ type V2CoreAccountIdentityIndividualRelationship struct {
 	// Whether the individual is an owner of the Account's identity.
 	Owner bool `json:"owner,omitempty"`
 	// The percentage of the Account's identity that the individual owns.
-	PercentOwnership string `json:"percent_ownership,omitempty"`
+	PercentOwnership float64 `json:"percent_ownership,string,omitempty"`
 	// Whether the individual is authorized as the primary representative of the Account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
 	Representative bool `json:"representative,omitempty"`
 	// The individual's title (e.g., CEO, Support Engineer).

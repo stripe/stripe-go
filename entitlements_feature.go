@@ -36,7 +36,20 @@ type EntitlementsFeatureParams struct {
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name        *string                               `form:"name"`
+	UnsetFields []EntitlementsFeatureParamsUnsetField `form:"-" json:"-"`
+}
+
+// EntitlementsFeatureParamsUnsetField is the list of fields that can be cleared/unset on EntitlementsFeatureParams.
+type EntitlementsFeatureParamsUnsetField string
+
+const (
+	EntitlementsFeatureParamsUnsetFieldMetadata EntitlementsFeatureParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *EntitlementsFeatureParams) AddUnsetField(field EntitlementsFeatureParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -102,7 +115,20 @@ type EntitlementsFeatureUpdateParams struct {
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name        *string                                     `form:"name"`
+	UnsetFields []EntitlementsFeatureUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// EntitlementsFeatureUpdateParamsUnsetField is the list of fields that can be cleared/unset on EntitlementsFeatureUpdateParams.
+type EntitlementsFeatureUpdateParamsUnsetField string
+
+const (
+	EntitlementsFeatureUpdateParamsUnsetFieldMetadata EntitlementsFeatureUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *EntitlementsFeatureUpdateParams) AddUnsetField(field EntitlementsFeatureUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

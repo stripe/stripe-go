@@ -16,6 +16,8 @@ type V2MoneyManagementPayoutMethodsBankAccountSpecCountriesFieldLocalNameHuman s
 
 // The list of fields for a country, along with associated information.
 type V2MoneyManagementPayoutMethodsBankAccountSpecCountriesField struct {
+	// The currencies supported by the corresponding credentials for bank accounts in the specified country.
+	Currencies []Currency `json:"currencies,omitempty"`
 	// The local name of the field.
 	LocalName string `json:"local_name"`
 	// The human readable local name of the field.

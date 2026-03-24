@@ -32,14 +32,6 @@ type V2MoneyManagementOutboundTransferListParams struct {
 	Status []*string `form:"status" json:"status,omitempty"`
 }
 
-// The "presentment amount" for the OutboundPayment.
-type V2MoneyManagementOutboundTransferAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
-}
-
 // Delivery options to be used to send the OutboundTransfer.
 type V2MoneyManagementOutboundTransferDeliveryOptionsParams struct {
 	// Open Enum. Method for bank account.
@@ -72,7 +64,7 @@ type V2MoneyManagementOutboundTransferToParams struct {
 type V2MoneyManagementOutboundTransferParams struct {
 	Params `form:"*"`
 	// The "presentment amount" for the OutboundPayment.
-	Amount *V2MoneyManagementOutboundTransferAmountParams `form:"amount" json:"amount,omitempty"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Delivery options to be used to send the OutboundTransfer.
 	DeliveryOptions *V2MoneyManagementOutboundTransferDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
 	// An arbitrary string attached to the OutboundTransfer. Often useful for displaying to users.
@@ -83,6 +75,8 @@ type V2MoneyManagementOutboundTransferParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The recipient verification id for this OutboundTransfer. Only required for countries with regulatory mandates to verify recipient names before OutboundTransfer creation.
 	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
+	// The description that appears on the receiving end for an OutboundTransfer (for example, on a bank statement). Must be between 3 and 22 characters long, and not contain profanity.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundTransfer.
 	To *V2MoneyManagementOutboundTransferToParams `form:"to" json:"to,omitempty"`
 }
@@ -99,14 +93,6 @@ func (p *V2MoneyManagementOutboundTransferParams) AddMetadata(key string, value 
 // Cancels an OutboundTransfer. Only processing OutboundTransfers can be canceled.
 type V2MoneyManagementOutboundTransferCancelParams struct {
 	Params `form:"*"`
-}
-
-// The "presentment amount" for the OutboundPayment.
-type V2MoneyManagementOutboundTransferCreateAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
 }
 
 // Delivery options to be used to send the OutboundTransfer.
@@ -141,7 +127,7 @@ type V2MoneyManagementOutboundTransferCreateToParams struct {
 type V2MoneyManagementOutboundTransferCreateParams struct {
 	Params `form:"*"`
 	// The "presentment amount" for the OutboundPayment.
-	Amount *V2MoneyManagementOutboundTransferCreateAmountParams `form:"amount" json:"amount"`
+	Amount *Amount `form:"amount" json:"amount"`
 	// Delivery options to be used to send the OutboundTransfer.
 	DeliveryOptions *V2MoneyManagementOutboundTransferCreateDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
 	// An arbitrary string attached to the OutboundTransfer. Often useful for displaying to users.
@@ -152,6 +138,8 @@ type V2MoneyManagementOutboundTransferCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The recipient verification id for this OutboundTransfer. Only required for countries with regulatory mandates to verify recipient names before OutboundTransfer creation.
 	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
+	// The description that appears on the receiving end for an OutboundTransfer (for example, on a bank statement). Must be between 3 and 22 characters long, and not contain profanity.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundTransfer.
 	To *V2MoneyManagementOutboundTransferCreateToParams `form:"to" json:"to"`
 }

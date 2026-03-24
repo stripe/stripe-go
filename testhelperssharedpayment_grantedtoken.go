@@ -31,6 +31,19 @@ type TestHelpersSharedPaymentGrantedTokenParams struct {
 	SharedMetadata map[string]string `form:"shared_metadata"`
 	// Limits on how this SharedPaymentGrantedToken can be used.
 	UsageLimits *TestHelpersSharedPaymentGrantedTokenUsageLimitsParams `form:"usage_limits"`
+	UnsetFields []TestHelpersSharedPaymentGrantedTokenParamsUnsetField `form:"-" json:"-"`
+}
+
+// TestHelpersSharedPaymentGrantedTokenParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersSharedPaymentGrantedTokenParams.
+type TestHelpersSharedPaymentGrantedTokenParamsUnsetField string
+
+const (
+	TestHelpersSharedPaymentGrantedTokenParamsUnsetFieldSharedMetadata TestHelpersSharedPaymentGrantedTokenParamsUnsetField = "shared_metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TestHelpersSharedPaymentGrantedTokenParams) AddUnsetField(field TestHelpersSharedPaymentGrantedTokenParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -75,6 +88,19 @@ type TestHelpersSharedPaymentGrantedTokenCreateParams struct {
 	SharedMetadata map[string]string `form:"shared_metadata"`
 	// Limits on how this SharedPaymentGrantedToken can be used.
 	UsageLimits *TestHelpersSharedPaymentGrantedTokenCreateUsageLimitsParams `form:"usage_limits"`
+	UnsetFields []TestHelpersSharedPaymentGrantedTokenCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// TestHelpersSharedPaymentGrantedTokenCreateParamsUnsetField is the list of fields that can be cleared/unset on TestHelpersSharedPaymentGrantedTokenCreateParams.
+type TestHelpersSharedPaymentGrantedTokenCreateParamsUnsetField string
+
+const (
+	TestHelpersSharedPaymentGrantedTokenCreateParamsUnsetFieldSharedMetadata TestHelpersSharedPaymentGrantedTokenCreateParamsUnsetField = "shared_metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TestHelpersSharedPaymentGrantedTokenCreateParams) AddUnsetField(field TestHelpersSharedPaymentGrantedTokenCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

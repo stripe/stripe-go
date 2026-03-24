@@ -25,9 +25,11 @@ type V2BillingIntentActionApplyEffectiveAtType string
 
 // List of values that V2BillingIntentActionApplyEffectiveAtType can take
 const (
-	V2BillingIntentActionApplyEffectiveAtTypeCurrentBillingPeriodEnd V2BillingIntentActionApplyEffectiveAtType = "current_billing_period_end"
-	V2BillingIntentActionApplyEffectiveAtTypeNextBillingPeriodStart  V2BillingIntentActionApplyEffectiveAtType = "next_billing_period_start"
-	V2BillingIntentActionApplyEffectiveAtTypeOnReserve               V2BillingIntentActionApplyEffectiveAtType = "on_reserve"
+	V2BillingIntentActionApplyEffectiveAtTypeCurrentBillingPeriodEnd   V2BillingIntentActionApplyEffectiveAtType = "current_billing_period_end"
+	V2BillingIntentActionApplyEffectiveAtTypeCurrentBillingPeriodStart V2BillingIntentActionApplyEffectiveAtType = "current_billing_period_start"
+	V2BillingIntentActionApplyEffectiveAtTypeNextBillingPeriodStart    V2BillingIntentActionApplyEffectiveAtType = "next_billing_period_start"
+	V2BillingIntentActionApplyEffectiveAtTypeOnReserve                 V2BillingIntentActionApplyEffectiveAtType = "on_reserve"
+	V2BillingIntentActionApplyEffectiveAtTypeTimestamp                 V2BillingIntentActionApplyEffectiveAtType = "timestamp"
 )
 
 // Type of the apply action details.
@@ -35,8 +37,18 @@ type V2BillingIntentActionApplyType string
 
 // List of values that V2BillingIntentActionApplyType can take
 const (
+	V2BillingIntentActionApplyTypeDiscount            V2BillingIntentActionApplyType = "discount"
 	V2BillingIntentActionApplyTypeInvoiceDiscountRule V2BillingIntentActionApplyType = "invoice_discount_rule"
 	V2BillingIntentActionApplyTypeSpendModifierRule   V2BillingIntentActionApplyType = "spend_modifier_rule"
+)
+
+// Type of the discount.
+type V2BillingIntentActionApplyDiscountType string
+
+// List of values that V2BillingIntentActionApplyDiscountType can take
+const (
+	V2BillingIntentActionApplyDiscountTypeCoupon        V2BillingIntentActionApplyDiscountType = "coupon"
+	V2BillingIntentActionApplyDiscountTypePromotionCode V2BillingIntentActionApplyDiscountType = "promotion_code"
 )
 
 // The entity that the discount rule applies to, for example, the Billing Cadence.
@@ -136,7 +148,8 @@ type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesParti
 
 // List of values that V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
 const (
-	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
+	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee           V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
+	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeRecurringCreditGrant V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "recurring_credit_grant"
 )
 
 // The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating. If not specified, defaults to none.
@@ -181,7 +194,8 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPe
 
 // List of values that V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
 const (
-	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
+	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee           V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
+	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeRecurringCreditGrant V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "recurring_credit_grant"
 )
 
 // The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user modifies the subscription. If not specified, defaults to prorated.
@@ -253,7 +267,8 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartia
 
 // List of values that V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
 const (
-	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
+	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee           V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
+	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeRecurringCreditGrant V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "recurring_credit_grant"
 )
 
 // The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is subscribing. If not specified, defaults to prorated.
@@ -265,10 +280,24 @@ const (
 	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehaviorProrated V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior = "prorated"
 )
 
-// When the apply action will take effect. Defaults to on_reserve if not specified.
+// When the apply action will take effect. If not specified, defaults to on_reserve.
 type V2BillingIntentActionApplyEffectiveAt struct {
+	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	Timestamp time.Time `json:"timestamp,omitempty"`
 	// When the apply action will take effect.
 	Type V2BillingIntentActionApplyEffectiveAtType `json:"type"`
+}
+
+// Details for applying a discount.
+type V2BillingIntentActionApplyDiscount struct {
+	// The ID of the Coupon applied.
+	Coupon string `json:"coupon,omitempty"`
+	// The ID of the created Discount.
+	Discount string `json:"discount,omitempty"`
+	// The ID of the PromotionCode applied.
+	PromotionCode string `json:"promotion_code,omitempty"`
+	// Type of the discount.
+	Type V2BillingIntentActionApplyDiscountType `json:"type"`
 }
 
 // The maximum number of times this discount can be applied for this Billing Cadence.
@@ -282,7 +311,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOff struct {
 	// The maximum number of times this discount can be applied for this Billing Cadence.
 	MaximumApplications *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplications `json:"maximum_applications"`
 	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
-	PercentOff string `json:"percent_off"`
+	PercentOff float64 `json:"percent_off,string"`
 }
 
 // Details for applying a discount rule to future invoices.
@@ -311,7 +340,7 @@ type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmount stru
 	Type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountType `json:"type"`
 }
 
-// The configration for the overage rate for the custom pricing unit.
+// The configuration for the overage rate for the custom pricing unit.
 type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendCustomPricingUnitOverageRate struct {
 	// ID of the custom pricing unit overage rate.
 	ID string `json:"id"`
@@ -321,7 +350,7 @@ type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendCustomPrici
 type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpend struct {
 	// The maximum amount allowed for the billing period.
 	Amount *V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmount `json:"amount"`
-	// The configration for the overage rate for the custom pricing unit.
+	// The configuration for the overage rate for the custom pricing unit.
 	CustomPricingUnitOverageRate *V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendCustomPricingUnitOverageRate `json:"custom_pricing_unit_overage_rate"`
 }
 
@@ -339,7 +368,9 @@ type V2BillingIntentActionApplySpendModifierRule struct {
 
 // Details for an apply action.
 type V2BillingIntentActionApply struct {
-	// When the apply action will take effect. Defaults to on_reserve if not specified.
+	// Details for applying a discount.
+	Discount *V2BillingIntentActionApplyDiscount `json:"discount,omitempty"`
+	// When the apply action will take effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentActionApplyEffectiveAt `json:"effective_at,omitempty"`
 	// Details for applying a discount rule to future invoices.
 	InvoiceDiscountRule *V2BillingIntentActionApplyInvoiceDiscountRule `json:"invoice_discount_rule,omitempty"`
@@ -473,7 +504,7 @@ type V2BillingIntentActionModify struct {
 	Type V2BillingIntentActionModifyType `json:"type"`
 }
 
-// When the remove action will take effect. Defaults to on_reserve if not specified.
+// When the remove action will take effect. If not specified, defaults to on_reserve.
 type V2BillingIntentActionRemoveEffectiveAt struct {
 	// When the remove action will take effect.
 	Type V2BillingIntentActionRemoveEffectiveAtType `json:"type"`
@@ -481,7 +512,7 @@ type V2BillingIntentActionRemoveEffectiveAt struct {
 
 // Details for a remove action.
 type V2BillingIntentActionRemove struct {
-	// When the remove action will take effect. Defaults to on_reserve if not specified.
+	// When the remove action will take effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentActionRemoveEffectiveAt `json:"effective_at,omitempty"`
 	// The ID of the discount rule to remove for future invoices.
 	InvoiceDiscountRule string `json:"invoice_discount_rule,omitempty"`
@@ -551,7 +582,7 @@ type V2BillingIntentActionSubscribeV1SubscriptionDetailsItem struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// The ID of the price object.
 	Price string `json:"price"`
-	// Quantity for this item. If not provided, will default to 1.
+	// Quantity for this item. If not provided, defaults to 1.
 	Quantity int64 `json:"quantity,omitempty"`
 }
 

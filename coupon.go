@@ -70,6 +70,19 @@ type CouponParams struct {
 	Script *CouponScriptParams `form:"script"`
 	// A hash specifying the service period for the coupon.
 	ServicePeriod *CouponServicePeriodParams `form:"service_period"`
+	UnsetFields   []CouponParamsUnsetField   `form:"-" json:"-"`
+}
+
+// CouponParamsUnsetField is the list of fields that can be cleared/unset on CouponParams.
+type CouponParamsUnsetField string
+
+const (
+	CouponParamsUnsetFieldMetadata CouponParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponParams) AddUnsetField(field CouponParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -176,7 +189,20 @@ type CouponUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
-	Name *string `form:"name"`
+	Name        *string                        `form:"name"`
+	UnsetFields []CouponUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// CouponUpdateParamsUnsetField is the list of fields that can be cleared/unset on CouponUpdateParams.
+type CouponUpdateParamsUnsetField string
+
+const (
+	CouponUpdateParamsUnsetFieldMetadata CouponUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponUpdateParams) AddUnsetField(field CouponUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -269,6 +295,19 @@ type CouponCreateParams struct {
 	Script *CouponCreateScriptParams `form:"script"`
 	// A hash specifying the service period for the coupon.
 	ServicePeriod *CouponCreateServicePeriodParams `form:"service_period"`
+	UnsetFields   []CouponCreateParamsUnsetField   `form:"-" json:"-"`
+}
+
+// CouponCreateParamsUnsetField is the list of fields that can be cleared/unset on CouponCreateParams.
+type CouponCreateParamsUnsetField string
+
+const (
+	CouponCreateParamsUnsetFieldMetadata CouponCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponCreateParams) AddUnsetField(field CouponCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -86,7 +86,22 @@ type DelegatedCheckoutRequestedSessionParams struct {
 	// The setup future usage for this requested session.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The shared metadata for this requested session.
-	SharedMetadata map[string]string `form:"shared_metadata"`
+	SharedMetadata map[string]string                                   `form:"shared_metadata"`
+	UnsetFields    []DelegatedCheckoutRequestedSessionParamsUnsetField `form:"-" json:"-"`
+}
+
+// DelegatedCheckoutRequestedSessionParamsUnsetField is the list of fields that can be cleared/unset on DelegatedCheckoutRequestedSessionParams.
+type DelegatedCheckoutRequestedSessionParamsUnsetField string
+
+const (
+	DelegatedCheckoutRequestedSessionParamsUnsetFieldMetadata          DelegatedCheckoutRequestedSessionParamsUnsetField = "metadata"
+	DelegatedCheckoutRequestedSessionParamsUnsetFieldPaymentMethodData DelegatedCheckoutRequestedSessionParamsUnsetField = "payment_method_data"
+	DelegatedCheckoutRequestedSessionParamsUnsetFieldSharedMetadata    DelegatedCheckoutRequestedSessionParamsUnsetField = "shared_metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DelegatedCheckoutRequestedSessionParams) AddUnsetField(field DelegatedCheckoutRequestedSessionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -505,7 +520,22 @@ type DelegatedCheckoutRequestedSessionUpdateParams struct {
 	// The payment method data for this requested session.
 	PaymentMethodData *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataParams `form:"payment_method_data"`
 	// The shared metadata for this requested session.
-	SharedMetadata map[string]string `form:"shared_metadata"`
+	SharedMetadata map[string]string                                         `form:"shared_metadata"`
+	UnsetFields    []DelegatedCheckoutRequestedSessionUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// DelegatedCheckoutRequestedSessionUpdateParamsUnsetField is the list of fields that can be cleared/unset on DelegatedCheckoutRequestedSessionUpdateParams.
+type DelegatedCheckoutRequestedSessionUpdateParamsUnsetField string
+
+const (
+	DelegatedCheckoutRequestedSessionUpdateParamsUnsetFieldMetadata          DelegatedCheckoutRequestedSessionUpdateParamsUnsetField = "metadata"
+	DelegatedCheckoutRequestedSessionUpdateParamsUnsetFieldPaymentMethodData DelegatedCheckoutRequestedSessionUpdateParamsUnsetField = "payment_method_data"
+	DelegatedCheckoutRequestedSessionUpdateParamsUnsetFieldSharedMetadata    DelegatedCheckoutRequestedSessionUpdateParamsUnsetField = "shared_metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DelegatedCheckoutRequestedSessionUpdateParams) AddUnsetField(field DelegatedCheckoutRequestedSessionUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

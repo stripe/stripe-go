@@ -28,7 +28,7 @@ type V2BillingLicensedItemParams struct {
 	// Description that customers will see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
-	// An internal key you can use to search for a particular billable item.
+	// An internal key you can use to search for a particular licensed item.
 	// Maximum length of 200 characters.
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
@@ -63,8 +63,8 @@ type V2BillingLicensedItemCreateParams struct {
 	// Description that customers will see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
-	// An internal key you can use to search for a particular billable item.
-	// Must be unique among billable items.
+	// An internal key you can use to search for a particular licensed item.
+	// Must be unique among licensed items.
 	// Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -103,7 +103,7 @@ type V2BillingLicensedItemUpdateParams struct {
 	// Description that customers will see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
-	// An internal key you can use to search for a particular billable item.
+	// An internal key you can use to search for a particular licensed item.
 	// Maximum length of 200 characters.
 	// To remove the lookup_key from the object, set it to null in the request.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`

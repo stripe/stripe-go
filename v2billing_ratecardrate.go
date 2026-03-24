@@ -55,7 +55,7 @@ type V2BillingRateCardRateTier struct {
 	UnitAmount string `json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal string `json:"up_to_decimal,omitempty"`
+	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf V2BillingRateCardRateTierUpToInf `json:"up_to_inf,omitempty"`
 }
@@ -63,7 +63,7 @@ type V2BillingRateCardRateTier struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingRateCardRateTransformQuantity struct {
 	// Divide usage by this number.
-	DivideBy int64 `json:"divide_by"`
+	DivideBy int64 `json:"divide_by,string"`
 	// After division, round the result up or down.
 	Round V2BillingRateCardRateTransformQuantityRound `json:"round"`
 }

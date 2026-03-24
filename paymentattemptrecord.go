@@ -626,7 +626,20 @@ type PaymentAttemptRecordReportAuthenticatedParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                         `form:"metadata"`
+	UnsetFields []PaymentAttemptRecordReportAuthenticatedParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentAttemptRecordReportAuthenticatedParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportAuthenticatedParams.
+type PaymentAttemptRecordReportAuthenticatedParamsUnsetField string
+
+const (
+	PaymentAttemptRecordReportAuthenticatedParamsUnsetFieldMetadata PaymentAttemptRecordReportAuthenticatedParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentAttemptRecordReportAuthenticatedParams) AddUnsetField(field PaymentAttemptRecordReportAuthenticatedParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -651,7 +664,20 @@ type PaymentAttemptRecordReportCanceledParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                    `form:"metadata"`
+	UnsetFields []PaymentAttemptRecordReportCanceledParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentAttemptRecordReportCanceledParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportCanceledParams.
+type PaymentAttemptRecordReportCanceledParamsUnsetField string
+
+const (
+	PaymentAttemptRecordReportCanceledParamsUnsetFieldMetadata PaymentAttemptRecordReportCanceledParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentAttemptRecordReportCanceledParams) AddUnsetField(field PaymentAttemptRecordReportCanceledParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -678,7 +704,20 @@ type PaymentAttemptRecordReportFailedParams struct {
 	// The failure code for this payment attempt. Must be one of `payment_method_customer_decline` or `payment_method_provider_unknown_outcome`.
 	FailureCode *string `form:"failure_code"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                  `form:"metadata"`
+	UnsetFields []PaymentAttemptRecordReportFailedParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentAttemptRecordReportFailedParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportFailedParams.
+type PaymentAttemptRecordReportFailedParamsUnsetField string
+
+const (
+	PaymentAttemptRecordReportFailedParamsUnsetFieldMetadata PaymentAttemptRecordReportFailedParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentAttemptRecordReportFailedParams) AddUnsetField(field PaymentAttemptRecordReportFailedParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -703,7 +742,20 @@ type PaymentAttemptRecordReportGuaranteedParams struct {
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
 	GuaranteedAt *int64 `form:"guaranteed_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                      `form:"metadata"`
+	UnsetFields []PaymentAttemptRecordReportGuaranteedParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentAttemptRecordReportGuaranteedParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportGuaranteedParams.
+type PaymentAttemptRecordReportGuaranteedParamsUnsetField string
+
+const (
+	PaymentAttemptRecordReportGuaranteedParamsUnsetFieldMetadata PaymentAttemptRecordReportGuaranteedParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentAttemptRecordReportGuaranteedParams) AddUnsetField(field PaymentAttemptRecordReportGuaranteedParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -755,6 +807,21 @@ type PaymentAttemptRecordReportInformationalParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentAttemptRecordReportInformationalShippingDetailsParams `form:"shipping_details"`
+	UnsetFields     []PaymentAttemptRecordReportInformationalParamsUnsetField     `form:"-" json:"-"`
+}
+
+// PaymentAttemptRecordReportInformationalParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportInformationalParams.
+type PaymentAttemptRecordReportInformationalParamsUnsetField string
+
+const (
+	PaymentAttemptRecordReportInformationalParamsUnsetFieldDescription     PaymentAttemptRecordReportInformationalParamsUnsetField = "description"
+	PaymentAttemptRecordReportInformationalParamsUnsetFieldMetadata        PaymentAttemptRecordReportInformationalParamsUnsetField = "metadata"
+	PaymentAttemptRecordReportInformationalParamsUnsetFieldShippingDetails PaymentAttemptRecordReportInformationalParamsUnsetField = "shipping_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentAttemptRecordReportInformationalParams) AddUnsetField(field PaymentAttemptRecordReportInformationalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -815,7 +882,20 @@ type PaymentAttemptRecordReportRefundParams struct {
 	// Processor information for this refund.
 	ProcessorDetails *PaymentAttemptRecordReportRefundProcessorDetailsParams `form:"processor_details"`
 	// Information about the payment attempt refund.
-	Refunded *PaymentAttemptRecordReportRefundRefundedParams `form:"refunded"`
+	Refunded    *PaymentAttemptRecordReportRefundRefundedParams    `form:"refunded"`
+	UnsetFields []PaymentAttemptRecordReportRefundParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentAttemptRecordReportRefundParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportRefundParams.
+type PaymentAttemptRecordReportRefundParamsUnsetField string
+
+const (
+	PaymentAttemptRecordReportRefundParamsUnsetFieldMetadata PaymentAttemptRecordReportRefundParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentAttemptRecordReportRefundParams) AddUnsetField(field PaymentAttemptRecordReportRefundParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

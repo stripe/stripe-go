@@ -99,7 +99,20 @@ type PlanParams struct {
 	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
-	UsageType *string `form:"usage_type"`
+	UsageType   *string                `form:"usage_type"`
+	UnsetFields []PlanParamsUnsetField `form:"-" json:"-"`
+}
+
+// PlanParamsUnsetField is the list of fields that can be cleared/unset on PlanParams.
+type PlanParamsUnsetField string
+
+const (
+	PlanParamsUnsetFieldMetadata PlanParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanParams) AddUnsetField(field PlanParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -239,7 +252,20 @@ type PlanUpdateParams struct {
 	// The product the plan belongs to. This cannot be changed once it has been used in a subscription or subscription schedule.
 	Product *string `form:"product"`
 	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64                       `form:"trial_period_days"`
+	UnsetFields     []PlanUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// PlanUpdateParamsUnsetField is the list of fields that can be cleared/unset on PlanUpdateParams.
+type PlanUpdateParamsUnsetField string
+
+const (
+	PlanUpdateParamsUnsetFieldMetadata PlanUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanUpdateParams) AddUnsetField(field PlanUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -366,7 +392,20 @@ type PlanCreateParams struct {
 	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
-	UsageType *string `form:"usage_type"`
+	UsageType   *string                      `form:"usage_type"`
+	UnsetFields []PlanCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// PlanCreateParamsUnsetField is the list of fields that can be cleared/unset on PlanCreateParams.
+type PlanCreateParamsUnsetField string
+
+const (
+	PlanCreateParamsUnsetFieldMetadata PlanCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanCreateParams) AddUnsetField(field PlanCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

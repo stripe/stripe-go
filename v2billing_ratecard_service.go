@@ -53,6 +53,18 @@ func (c v2BillingRateCardService) Update(ctx context.Context, id string, params 
 	return ratecard, err
 }
 
+// Creates, updates, and/or deletes multiple Rates on a Rate Card atomically.
+func (c v2BillingRateCardService) ModifyRates(ctx context.Context, id string, params *V2BillingRateCardModifyRatesParams) (*V2BillingRateCardVersion, error) {
+	if params == nil {
+		params = &V2BillingRateCardModifyRatesParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/billing/rate_cards/%s/modify_rates", id)
+	ratecardversion := &V2BillingRateCardVersion{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, ratecardversion)
+	return ratecardversion, err
+}
+
 // List all Rate Card objects.
 func (c v2BillingRateCardService) List(ctx context.Context, listParams *V2BillingRateCardListParams) *V2List[*V2BillingRateCard] {
 	if listParams == nil {

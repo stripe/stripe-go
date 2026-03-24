@@ -332,7 +332,7 @@ type V2BillingCadenceInvoiceDiscountRulePercentOff struct {
 	// The maximum applications configuration for this discount.
 	MaximumApplications *V2BillingCadenceInvoiceDiscountRulePercentOffMaximumApplications `json:"maximum_applications"`
 	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
-	PercentOff string `json:"percent_off"`
+	PercentOff float64 `json:"percent_off,string"`
 }
 
 // The discount rules applied to all invoices for the cadence.
@@ -453,7 +453,7 @@ type V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsBancontact struct
 // Configuration options for setting up an eMandate for cards issued in India.
 type V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsCardMandateOptions struct {
 	// Amount to be charged for future payments.
-	Amount int64 `json:"amount,omitempty"`
+	Amount int64 `json:"amount,string,omitempty"`
 	// The AmountType for the mandate. One of `fixed` or `maximum`.
 	AmountType V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type,omitempty"`
 	// A description of the mandate that is meant to be displayed to the customer.
