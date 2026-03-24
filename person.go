@@ -175,6 +175,7 @@ type PersonParams struct {
 	USCfpbData *PersonUSCfpbDataParams `form:"us_cfpb_data"`
 	// The person's verification status.
 	Verification *PersonVerificationParams `form:"verification"`
+	UnsetFields  []PersonParamsUnsetField  `form:"-" json:"-"`
 }
 
 // PersonParamsUnsetField is the list of fields that can be cleared/unset on PersonParams.
@@ -188,7 +189,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonParams) AddUnsetField(field PersonParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -681,6 +682,7 @@ type PersonUpdateParams struct {
 	USCfpbData *PersonUpdateUSCfpbDataParams `form:"us_cfpb_data"`
 	// The person's verification status.
 	Verification *PersonUpdateVerificationParams `form:"verification"`
+	UnsetFields  []PersonUpdateParamsUnsetField  `form:"-" json:"-"`
 }
 
 // PersonUpdateParamsUnsetField is the list of fields that can be cleared/unset on PersonUpdateParams.
@@ -694,7 +696,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonUpdateParams) AddUnsetField(field PersonUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -959,6 +961,7 @@ type PersonCreateParams struct {
 	USCfpbData *PersonCreateUSCfpbDataParams `form:"us_cfpb_data"`
 	// The person's verification status.
 	Verification *PersonCreateVerificationParams `form:"verification"`
+	UnsetFields  []PersonCreateParamsUnsetField  `form:"-" json:"-"`
 }
 
 // PersonCreateParamsUnsetField is the list of fields that can be cleared/unset on PersonCreateParams.
@@ -972,7 +975,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PersonCreateParams) AddUnsetField(field PersonCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

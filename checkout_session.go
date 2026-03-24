@@ -3361,6 +3361,7 @@ type CheckoutSessionParams struct {
 	UIMode *string `form:"ui_mode"`
 	// Wallet-specific configuration.
 	WalletOptions *CheckoutSessionWalletOptionsParams `form:"wallet_options"`
+	UnsetFields   []CheckoutSessionParamsUnsetField   `form:"-" json:"-"`
 }
 
 // CheckoutSessionParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionParams.
@@ -3373,7 +3374,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CheckoutSessionParams) AddUnsetField(field CheckoutSessionParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -5616,6 +5617,7 @@ type CheckoutSessionUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionUpdateShippingOptionParams `form:"shipping_options"`
+	UnsetFields     []CheckoutSessionUpdateParamsUnsetField      `form:"-" json:"-"`
 }
 
 // CheckoutSessionUpdateParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdateParams.
@@ -5628,7 +5630,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CheckoutSessionUpdateParams) AddUnsetField(field CheckoutSessionUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

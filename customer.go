@@ -101,8 +101,9 @@ type CustomerParams struct {
 	// The customer's tax IDs.
 	TaxIDData []*CustomerTaxIDDataParams `form:"tax_id_data"`
 	// ID of the test clock to attach to the customer.
-	TestClock *string `form:"test_clock"`
-	Validate  *bool   `form:"validate"`
+	TestClock   *string                    `form:"test_clock"`
+	Validate    *bool                      `form:"validate"`
+	UnsetFields []CustomerParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerParamsUnsetField is the list of fields that can be cleared/unset on CustomerParams.
@@ -119,7 +120,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerParams) AddUnsetField(field CustomerParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -518,8 +519,9 @@ type CustomerUpdateParams struct {
 	// Tax details about the customer.
 	Tax *CustomerUpdateTaxParams `form:"tax"`
 	// The customer's tax exemption. One of `none`, `exempt`, or `reverse`.
-	TaxExempt *string `form:"tax_exempt"`
-	Validate  *bool   `form:"validate"`
+	TaxExempt   *string                          `form:"tax_exempt"`
+	Validate    *bool                            `form:"validate"`
+	UnsetFields []CustomerUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerUpdateParamsUnsetField is the list of fields that can be cleared/unset on CustomerUpdateParams.
@@ -536,7 +538,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerUpdateParams) AddUnsetField(field CustomerUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -705,8 +707,9 @@ type CustomerCreateParams struct {
 	// The customer's tax IDs.
 	TaxIDData []*CustomerCreateTaxIDDataParams `form:"tax_id_data"`
 	// ID of the test clock to attach to the customer.
-	TestClock *string `form:"test_clock"`
-	Validate  *bool   `form:"validate"`
+	TestClock   *string                          `form:"test_clock"`
+	Validate    *bool                            `form:"validate"`
+	UnsetFields []CustomerCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // CustomerCreateParamsUnsetField is the list of fields that can be cleared/unset on CustomerCreateParams.
@@ -723,7 +726,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *CustomerCreateParams) AddUnsetField(field CustomerCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

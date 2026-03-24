@@ -822,15 +822,16 @@ func TestCall_V2PathPostUnsetFields(t *testing.T) {
 
 	type myUpdateParams struct {
 		Params      `form:"*"`
-		Foo         string  `form:"foo" json:"foo"`
-		Description *string `form:"description" json:"description,omitempty"`
-		Baz         *string `form:"baz" json:"baz,omitempty"`
+		Foo         string   `form:"foo" json:"foo"`
+		Description *string  `form:"description" json:"description,omitempty"`
+		Baz         *string  `form:"baz" json:"baz,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
 	}
 	params := &myUpdateParams{
 		Foo: "bar",
 		// Description and Baz are both nil
 	}
-	params.AddUnsetField("description") // Explicitly send null for description
+	params.UnsetFields = append(params.UnsetFields, "description") // Explicitly send null for description
 
 	var response testServerResponse
 	err := backend.Call(http.MethodPost, "/v2/hello", "sk_test_xyz", params, &response)
@@ -883,13 +884,14 @@ func TestCall_V1PathPostUnsetFields(t *testing.T) {
 
 	type myParams struct {
 		Params      `form:"*"`
-		Foo         string  `form:"foo" json:"foo"`
-		Description *string `form:"description" json:"description,omitempty"`
+		Foo         string   `form:"foo" json:"foo"`
+		Description *string  `form:"description" json:"description,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
 	}
 	params := &myParams{
 		Foo: "bar",
 	}
-	params.AddUnsetField("description") // Should send description= in v1
+	params.UnsetFields = append(params.UnsetFields, "description") // Should send description= in v1
 
 	var response testServerResponse
 	err := backend.Call(http.MethodPost, "/v1/hello", "sk_test_xyz", params, &response)
@@ -901,9 +903,10 @@ func TestCall_V1PathPostUnsetFields(t *testing.T) {
 func TestMarshalV2JSON(t *testing.T) {
 	type testParams struct {
 		Params      `form:"*"`
-		Name        *string `form:"name" json:"name,omitempty"`
-		Description *string `form:"description" json:"description,omitempty"`
-		Amount      *int64  `form:"amount" json:"amount,omitempty"`
+		Name        *string  `form:"name" json:"name,omitempty"`
+		Description *string  `form:"description" json:"description,omitempty"`
+		Amount      *int64   `form:"amount" json:"amount,omitempty"`
+		UnsetFields []string `form:"-" json:"-"`
 	}
 
 	t.Run("without UnsetFields", func(t *testing.T) {
@@ -926,8 +929,8 @@ func TestMarshalV2JSON(t *testing.T) {
 		params := &testParams{
 			Name: String("test"),
 		}
-		params.AddUnsetField("description")
-		params.AddUnsetField("amount")
+		params.UnsetFields = append(params.UnsetFields, "description")
+		params.UnsetFields = append(params.UnsetFields, "amount")
 
 		data, err := marshalV2JSON(params)
 		assert.NoError(t, err)
@@ -946,7 +949,7 @@ func TestMarshalV2JSON(t *testing.T) {
 			Name:        String("test"),
 			Description: String("a description"),
 		}
-		params.AddUnsetField("description") // UnsetFields overrides even if set
+		params.UnsetFields = append(params.UnsetFields, "description") // UnsetFields overrides even if set
 
 		data, err := marshalV2JSON(params)
 		assert.NoError(t, err)
@@ -966,9 +969,10 @@ func TestMarshalV2JSON(t *testing.T) {
 			UnsetFields []string `form:"-" json:"-"`
 		}
 		type outerParams struct {
-			Params  `form:"*"`
-			Name    *string        `json:"name,omitempty"`
-			Details *nestedDetails `json:"details,omitempty"`
+			Params      `form:"*"`
+			Name        *string        `json:"name,omitempty"`
+			Details     *nestedDetails `json:"details,omitempty"`
+			UnsetFields []string       `form:"-" json:"-"`
 		}
 
 		params := &outerParams{
@@ -977,7 +981,7 @@ func TestMarshalV2JSON(t *testing.T) {
 				Feedback: String("too_expensive"),
 			},
 		}
-		params.AddUnsetField("name") // root-level empty
+		params.UnsetFields = append(params.UnsetFields, "name") // root-level empty
 		params.Details.UnsetFields = append(params.Details.UnsetFields, "comment")
 
 		data, err := marshalV2JSON(params)
@@ -1090,13 +1094,14 @@ func TestCall_V1PathPostNestedUnsetFields(t *testing.T) {
 		Params      `form:"*"`
 		Description *string        `form:"description" json:"description,omitempty"`
 		Details     *nestedDetails `form:"details" json:"details,omitempty"`
+		UnsetFields []string       `form:"-" json:"-"`
 	}
 	params := &myParams{
 		Details: &nestedDetails{
 			Feedback: String("too_slow"),
 		},
 	}
-	params.AddUnsetField("description")
+	params.UnsetFields = append(params.UnsetFields, "description")
 	params.Details.UnsetFields = append(params.Details.UnsetFields, "comment")
 
 	var response testServerResponse
@@ -1152,13 +1157,14 @@ func TestCall_V2PathPostNestedUnsetFields(t *testing.T) {
 		Params      `form:"*"`
 		Description *string        `form:"description" json:"description,omitempty"`
 		Details     *nestedDetails `form:"details" json:"details,omitempty"`
+		UnsetFields []string       `form:"-" json:"-"`
 	}
 	params := &myParams{
 		Details: &nestedDetails{
 			Feedback: String("too_slow"),
 		},
 	}
-	params.AddUnsetField("description")
+	params.UnsetFields = append(params.UnsetFields, "description")
 	params.Details.UnsetFields = append(params.Details.UnsetFields, "comment")
 
 	var response testServerResponse

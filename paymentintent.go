@@ -3739,7 +3739,8 @@ type PaymentIntentParams struct {
 	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
 	// A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string                         `form:"transfer_group"`
+	UnsetFields   []PaymentIntentParamsUnsetField `form:"-" json:"-"`
 	// These parameters apply only for paymentIntent.New with `confirm=true`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://docs.stripe.com/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
@@ -3766,7 +3767,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentParams) AddUnsetField(field PaymentIntentParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -4073,7 +4074,8 @@ type PaymentIntentCaptureParams struct {
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// The parameters that you can use to automatically create a transfer after the payment
 	// is captured. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
-	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
+	TransferData *PaymentIntentTransferDataParams       `form:"transfer_data"`
+	UnsetFields  []PaymentIntentCaptureParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentCaptureParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCaptureParams.
@@ -4086,7 +4088,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentCaptureParams) AddUnsetField(field PaymentIntentCaptureParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -4400,7 +4402,8 @@ type PaymentIntentConfirmParams struct {
 	// Shipping information for this PaymentIntent.
 	Shipping *ShippingDetailsParams `form:"shipping"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
-	UseStripeSDK *bool `form:"use_stripe_sdk"`
+	UseStripeSDK *bool                                  `form:"use_stripe_sdk"`
+	UnsetFields  []PaymentIntentConfirmParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentConfirmParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmParams.
@@ -4417,7 +4420,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentConfirmParams) AddUnsetField(field PaymentIntentConfirmParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -7096,7 +7099,8 @@ type PaymentIntentCreateParams struct {
 	// A string that identifies the resulting payment as part of a group. Learn more about the [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers).
 	TransferGroup *string `form:"transfer_group"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
-	UseStripeSDK *bool `form:"use_stripe_sdk"`
+	UseStripeSDK *bool                                 `form:"use_stripe_sdk"`
+	UnsetFields  []PaymentIntentCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentCreateParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreateParams.
@@ -7108,7 +7112,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentCreateParams) AddUnsetField(field PaymentIntentCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -9435,7 +9439,8 @@ type PaymentIntentUpdateParams struct {
 	// Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentUpdateTransferDataParams `form:"transfer_data"`
 	// A string that identifies the resulting payment as part of a group. You can only provide `transfer_group` if it hasn't been set. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string                               `form:"transfer_group"`
+	UnsetFields   []PaymentIntentUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentUpdateParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdateParams.
@@ -9454,7 +9459,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentUpdateParams) AddUnsetField(field PaymentIntentUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

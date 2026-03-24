@@ -310,7 +310,8 @@ type AccountParams struct {
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
-	Type *string `form:"type"`
+	Type        *string                   `form:"type"`
+	UnsetFields []AccountParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountParamsUnsetField is the list of fields that can be cleared/unset on AccountParams.
@@ -323,7 +324,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountParams) AddUnsetField(field AccountParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -2633,6 +2634,7 @@ type AccountUpdateParams struct {
 	Settings *AccountUpdateSettingsParams `form:"settings"`
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountUpdateTOSAcceptanceParams `form:"tos_acceptance"`
+	UnsetFields   []AccountUpdateParamsUnsetField   `form:"-" json:"-"`
 }
 
 // AccountUpdateParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateParams.
@@ -2645,7 +2647,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountUpdateParams) AddUnsetField(field AccountUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -3812,7 +3814,8 @@ type AccountCreateParams struct {
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountCreateTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
-	Type *string `form:"type"`
+	Type        *string                         `form:"type"`
+	UnsetFields []AccountCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // AccountCreateParamsUnsetField is the list of fields that can be cleared/unset on AccountCreateParams.
@@ -3824,7 +3827,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *AccountCreateParams) AddUnsetField(field AccountCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

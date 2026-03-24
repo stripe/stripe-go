@@ -436,7 +436,8 @@ type IssuingDisputeParams struct {
 	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.
 	Transaction *string `form:"transaction"`
 	// Params for disputes related to Treasury FinancialAccounts
-	Treasury *IssuingDisputeTreasuryParams `form:"treasury"`
+	Treasury    *IssuingDisputeTreasuryParams    `form:"treasury"`
+	UnsetFields []IssuingDisputeParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeParams.
@@ -448,7 +449,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeParams) AddUnsetField(field IssuingDisputeParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -471,7 +472,8 @@ type IssuingDisputeSubmitParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                      `form:"metadata"`
+	UnsetFields []IssuingDisputeSubmitParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeSubmitParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeSubmitParams.
@@ -483,7 +485,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeSubmitParams) AddUnsetField(field IssuingDisputeSubmitParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1137,7 +1139,8 @@ type IssuingDisputeUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                      `form:"metadata"`
+	UnsetFields []IssuingDisputeUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateParams.
@@ -1149,7 +1152,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingDisputeUpdateParams) AddUnsetField(field IssuingDisputeUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

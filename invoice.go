@@ -405,6 +405,7 @@ type InvoiceParams struct {
 	Subscription *string `form:"subscription"`
 	// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
 	TransferData *InvoiceTransferDataParams `form:"transfer_data"`
+	UnsetFields  []InvoiceParamsUnsetField  `form:"-" json:"-"`
 }
 
 // InvoiceParamsUnsetField is the list of fields that can be cleared/unset on InvoiceParams.
@@ -427,7 +428,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoiceParams) AddUnsetField(field InvoiceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1042,7 +1043,8 @@ type InvoiceAddLinesParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	InvoiceMetadata map[string]string `form:"invoice_metadata"`
 	// The line items to add.
-	Lines []*InvoiceAddLinesLineParams `form:"lines"`
+	Lines       []*InvoiceAddLinesLineParams      `form:"lines"`
+	UnsetFields []InvoiceAddLinesParamsUnsetField `form:"-" json:"-"`
 }
 
 // InvoiceAddLinesParamsUnsetField is the list of fields that can be cleared/unset on InvoiceAddLinesParams.
@@ -1054,7 +1056,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoiceAddLinesParams) AddUnsetField(field InvoiceAddLinesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1131,7 +1133,8 @@ type InvoicePayParams struct {
 	// A PaymentMethod to be charged. The PaymentMethod must be the ID of a PaymentMethod belonging to the customer associated with the invoice being paid.
 	PaymentMethod *string `form:"payment_method"`
 	// A payment source to be charged. The source must be the ID of a source belonging to the customer associated with the invoice being paid.
-	Source *string `form:"source"`
+	Source      *string                      `form:"source"`
+	UnsetFields []InvoicePayParamsUnsetField `form:"-" json:"-"`
 }
 
 // InvoicePayParamsUnsetField is the list of fields that can be cleared/unset on InvoicePayParams.
@@ -1143,7 +1146,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoicePayParams) AddUnsetField(field InvoicePayParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1167,7 +1170,8 @@ type InvoiceRemoveLinesParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	InvoiceMetadata map[string]string `form:"invoice_metadata"`
 	// The line items to remove.
-	Lines []*InvoiceRemoveLinesLineParams `form:"lines"`
+	Lines       []*InvoiceRemoveLinesLineParams      `form:"lines"`
+	UnsetFields []InvoiceRemoveLinesParamsUnsetField `form:"-" json:"-"`
 }
 
 // InvoiceRemoveLinesParamsUnsetField is the list of fields that can be cleared/unset on InvoiceRemoveLinesParams.
@@ -1179,7 +1183,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoiceRemoveLinesParams) AddUnsetField(field InvoiceRemoveLinesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1367,7 +1371,8 @@ type InvoiceUpdateLinesParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-type) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](api/invoices/line_item#invoice_line_item_object-type) line items, where any existing metadata on the invoice line is merged with the incoming data.
 	InvoiceMetadata map[string]string `form:"invoice_metadata"`
 	// The line items to update.
-	Lines []*InvoiceUpdateLinesLineParams `form:"lines"`
+	Lines       []*InvoiceUpdateLinesLineParams      `form:"lines"`
+	UnsetFields []InvoiceUpdateLinesParamsUnsetField `form:"-" json:"-"`
 }
 
 // InvoiceUpdateLinesParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdateLinesParams.
@@ -1379,7 +1384,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoiceUpdateLinesParams) AddUnsetField(field InvoiceUpdateLinesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -2176,6 +2181,7 @@ type InvoiceCreatePreviewParams struct {
 	Subscription *string `form:"subscription"`
 	// The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
 	SubscriptionDetails *InvoiceCreatePreviewSubscriptionDetailsParams `form:"subscription_details"`
+	UnsetFields         []InvoiceCreatePreviewParamsUnsetField         `form:"-" json:"-"`
 }
 
 // InvoiceCreatePreviewParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePreviewParams.
@@ -2188,7 +2194,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoiceCreatePreviewParams) AddUnsetField(field InvoiceCreatePreviewParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -2667,6 +2673,7 @@ type InvoiceUpdateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge. This will be unset if you POST an empty value.
 	TransferData *InvoiceUpdateTransferDataParams `form:"transfer_data"`
+	UnsetFields  []InvoiceUpdateParamsUnsetField  `form:"-" json:"-"`
 }
 
 // InvoiceUpdateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdateParams.
@@ -2689,7 +2696,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoiceUpdateParams) AddUnsetField(field InvoiceUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -3162,6 +3169,7 @@ type InvoiceCreateParams struct {
 	Subscription *string `form:"subscription"`
 	// If specified, the funds from the invoice will be transferred to the destination and the ID of the resulting transfer will be found on the invoice's charge.
 	TransferData *InvoiceCreateTransferDataParams `form:"transfer_data"`
+	UnsetFields  []InvoiceCreateParamsUnsetField  `form:"-" json:"-"`
 }
 
 // InvoiceCreateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreateParams.
@@ -3176,7 +3184,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoiceCreateParams) AddUnsetField(field InvoiceCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

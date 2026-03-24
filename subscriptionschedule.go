@@ -565,8 +565,9 @@ type SubscriptionScheduleParams struct {
 	// If the update changes the billing configuration (item price, quantity, etc.) of the current phase, indicates how prorations from this change should be handled. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
-	StartDate    *int64 `form:"start_date"`
-	StartDateNow *bool  `form:"-"` // See custom AppendTo
+	StartDate    *int64                                 `form:"start_date"`
+	StartDateNow *bool                                  `form:"-"` // See custom AppendTo
+	UnsetFields  []SubscriptionScheduleParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionScheduleParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleParams.
@@ -578,7 +579,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SubscriptionScheduleParams) AddUnsetField(field SubscriptionScheduleParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1024,8 +1025,9 @@ type SubscriptionScheduleCreateParams struct {
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*SubscriptionScheduleCreatePhaseParams `form:"phases"`
 	// When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
-	StartDate    *int64 `form:"start_date"`
-	StartDateNow *bool  `form:"-"` // See custom AppendTo
+	StartDate    *int64                                       `form:"start_date"`
+	StartDateNow *bool                                        `form:"-"` // See custom AppendTo
+	UnsetFields  []SubscriptionScheduleCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionScheduleCreateParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleCreateParams.
@@ -1037,7 +1039,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SubscriptionScheduleCreateParams) AddUnsetField(field SubscriptionScheduleCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1461,7 +1463,8 @@ type SubscriptionScheduleUpdateParams struct {
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionScheduleUpdatePhaseParams `form:"phases"`
 	// If the update changes the billing configuration (item price, quantity, etc.) of the current phase, indicates how prorations from this change should be handled. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string                                      `form:"proration_behavior"`
+	UnsetFields       []SubscriptionScheduleUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionScheduleUpdateParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleUpdateParams.
@@ -1473,7 +1476,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SubscriptionScheduleUpdateParams) AddUnsetField(field SubscriptionScheduleUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

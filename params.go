@@ -238,14 +238,6 @@ type Params struct {
 	// Deprecated: Please use Metadata in the surrounding struct instead.
 	Metadata map[string]string `form:"metadata" json:"-"`
 
-	// UnsetFields is a list of field names (using their JSON/API names, e.g.
-	// "description") that should be explicitly emptied (cleared) in the
-	// request. For v2 API POST requests (JSON-encoded), listed fields are
-	// sent as "field_name": null. For v1 API requests (form-encoded),
-	// listed fields are sent as field_name= (empty string). Fields listed
-	// here will be included even if the corresponding struct field is nil.
-	UnsetFields []string `form:"-" json:"-"`
-
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
@@ -305,15 +297,6 @@ func (p *Params) AddMetadata(key, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// AddUnsetField adds a field name to the list of fields that should be
-// explicitly cleared/unset in the request. For v2 JSON requests, the
-// field is sent as null. For v1 form-encoded requests, the field is sent
-// as an empty string. The field name should be the JSON/API field name
-// (e.g. "description"), not the Go field name.
-func (p *Params) AddUnsetField(field string) {
-	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // GetParams returns a Params struct (itself). It exists because any structs

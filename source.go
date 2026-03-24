@@ -157,8 +157,9 @@ type SourceParams struct {
 	// An optional token used to create the source. When passed, token properties will override source parameters.
 	Token *string `form:"token"`
 	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://docs.stripe.com/sources/connect#cloning-card-sources) guide)
-	Type  *string `form:"type"`
-	Usage *string `form:"usage"`
+	Type        *string                  `form:"type"`
+	Usage       *string                  `form:"usage"`
+	UnsetFields []SourceParamsUnsetField `form:"-" json:"-"`
 }
 
 // SourceParamsUnsetField is the list of fields that can be cleared/unset on SourceParams.
@@ -170,7 +171,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SourceParams) AddUnsetField(field SourceParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -416,6 +417,7 @@ type SourceUpdateParams struct {
 	Owner *SourceUpdateOwnerParams `form:"owner"`
 	// Information about the items and shipping associated with the source. Required for transactional credit (for example Klarna) sources before you can charge it.
 	SourceOrder *SourceUpdateSourceOrderParams `form:"source_order"`
+	UnsetFields []SourceUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SourceUpdateParamsUnsetField is the list of fields that can be cleared/unset on SourceUpdateParams.
@@ -427,7 +429,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SourceUpdateParams) AddUnsetField(field SourceUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

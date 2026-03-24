@@ -1321,7 +1321,8 @@ type SetupIntentParams struct {
 	// Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to `off_session`.
 	Usage *string `form:"usage"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
-	UseStripeSDK *bool `form:"use_stripe_sdk"`
+	UseStripeSDK *bool                         `form:"use_stripe_sdk"`
+	UnsetFields  []SetupIntentParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentParams.
@@ -1335,7 +1336,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentParams) AddUnsetField(field SetupIntentParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1819,7 +1820,8 @@ type SetupIntentConfirmParams struct {
 	// This parameter is only used for cards and other redirect-based payment methods.
 	ReturnURL *string `form:"return_url"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
-	UseStripeSDK *bool `form:"use_stripe_sdk"`
+	UseStripeSDK *bool                                `form:"use_stripe_sdk"`
+	UnsetFields  []SetupIntentConfirmParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentConfirmParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentConfirmParams.
@@ -1831,7 +1833,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentConfirmParams) AddUnsetField(field SetupIntentConfirmParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -2801,7 +2803,8 @@ type SetupIntentCreateParams struct {
 	// Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to `off_session`.
 	Usage *string `form:"usage"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
-	UseStripeSDK *bool `form:"use_stripe_sdk"`
+	UseStripeSDK *bool                               `form:"use_stripe_sdk"`
+	UnsetFields  []SetupIntentCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentCreateParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreateParams.
@@ -2813,7 +2816,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentCreateParams) AddUnsetField(field SetupIntentCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -3720,7 +3723,8 @@ type SetupIntentUpdateParams struct {
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentUpdatePaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types"`
+	PaymentMethodTypes []*string                           `form:"payment_method_types"`
+	UnsetFields        []SetupIntentUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetupIntentUpdateParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdateParams.
@@ -3733,7 +3737,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SetupIntentUpdateParams) AddUnsetField(field SetupIntentUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -856,6 +856,7 @@ type PaymentLinkParams struct {
 	TaxIDCollection *PaymentLinkTaxIDCollectionParams `form:"tax_id_collection"`
 	// The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
 	TransferData *PaymentLinkTransferDataParams `form:"transfer_data"`
+	UnsetFields  []PaymentLinkParamsUnsetField  `form:"-" json:"-"`
 }
 
 // PaymentLinkParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkParams.
@@ -873,7 +874,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkParams) AddUnsetField(field PaymentLinkParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -2029,6 +2030,7 @@ type PaymentLinkUpdateParams struct {
 	SubscriptionData *PaymentLinkUpdateSubscriptionDataParams `form:"subscription_data"`
 	// Controls tax ID collection during checkout.
 	TaxIDCollection *PaymentLinkUpdateTaxIDCollectionParams `form:"tax_id_collection"`
+	UnsetFields     []PaymentLinkUpdateParamsUnsetField     `form:"-" json:"-"`
 }
 
 // PaymentLinkUpdateParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdateParams.
@@ -2046,7 +2048,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentLinkUpdateParams) AddUnsetField(field PaymentLinkUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

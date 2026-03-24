@@ -849,7 +849,8 @@ type PaymentMethodParams struct {
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
-	Zip *PaymentMethodZipParams `form:"zip"`
+	Zip         *PaymentMethodZipParams         `form:"zip"`
+	UnsetFields []PaymentMethodParamsUnsetField `form:"-" json:"-"`
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	// The `Customer` to whom the original PaymentMethod is attached.
 	Customer *string `form:"customer"`
@@ -866,7 +867,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentMethodParams) AddUnsetField(field PaymentMethodParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1490,6 +1491,7 @@ type PaymentMethodUpdateParams struct {
 	Payto *PaymentMethodUpdatePaytoParams `form:"payto"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUpdateUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []PaymentMethodUpdateParamsUnsetField   `form:"-" json:"-"`
 }
 
 // PaymentMethodUpdateParamsUnsetField is the list of fields that can be cleared/unset on PaymentMethodUpdateParams.
@@ -1501,7 +1503,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentMethodUpdateParams) AddUnsetField(field PaymentMethodUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

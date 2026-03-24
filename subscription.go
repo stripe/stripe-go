@@ -475,6 +475,7 @@ type SubscriptionParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionParamsUnsetField   `form:"-" json:"-"`
 }
 
 // SubscriptionParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionParams.
@@ -497,7 +498,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SubscriptionParams) AddUnsetField(field SubscriptionParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1652,6 +1653,7 @@ type SubscriptionUpdateParams struct {
 	TrialFromPlan *bool `form:"trial_from_plan"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionUpdateTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionUpdateParamsUnsetField   `form:"-" json:"-"`
 }
 
 // SubscriptionUpdateParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdateParams.
@@ -1674,7 +1676,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SubscriptionUpdateParams) AddUnsetField(field SubscriptionUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -2250,6 +2252,7 @@ type SubscriptionCreateParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionCreateTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionCreateParamsUnsetField   `form:"-" json:"-"`
 }
 
 // SubscriptionCreateParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreateParams.
@@ -2267,7 +2270,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *SubscriptionCreateParams) AddUnsetField(field SubscriptionCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

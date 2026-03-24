@@ -77,7 +77,8 @@ type ClimateOrderParams struct {
 	// Requested number of tons for the order. Either this or `amount` must be specified.
 	MetricTons *float64 `form:"metric_tons,high_precision"`
 	// Unique identifier of the Climate product.
-	Product *string `form:"product"`
+	Product     *string                        `form:"product"`
+	UnsetFields []ClimateOrderParamsUnsetField `form:"-" json:"-"`
 }
 
 // ClimateOrderParamsUnsetField is the list of fields that can be cleared/unset on ClimateOrderParams.
@@ -89,7 +90,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ClimateOrderParams) AddUnsetField(field ClimateOrderParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -200,7 +201,8 @@ type ClimateOrderUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                    `form:"metadata"`
+	UnsetFields []ClimateOrderUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // ClimateOrderUpdateParamsUnsetField is the list of fields that can be cleared/unset on ClimateOrderUpdateParams.
@@ -212,7 +214,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ClimateOrderUpdateParams) AddUnsetField(field ClimateOrderUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

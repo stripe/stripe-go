@@ -128,7 +128,8 @@ type IssuingPersonalizationDesignParams struct {
 	// Information on whether this personalization design is used to create cards when one is not specified.
 	Preferences *IssuingPersonalizationDesignPreferencesParams `form:"preferences"`
 	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
-	TransferLookupKey *bool `form:"transfer_lookup_key"`
+	TransferLookupKey *bool                                          `form:"transfer_lookup_key"`
+	UnsetFields       []IssuingPersonalizationDesignParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingPersonalizationDesignParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignParams.
@@ -143,7 +144,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingPersonalizationDesignParams) AddUnsetField(field IssuingPersonalizationDesignParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -297,7 +298,8 @@ type IssuingPersonalizationDesignUpdateParams struct {
 	// Information on whether this personalization design is used to create cards when one is not specified.
 	Preferences *IssuingPersonalizationDesignUpdatePreferencesParams `form:"preferences"`
 	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
-	TransferLookupKey *bool `form:"transfer_lookup_key"`
+	TransferLookupKey *bool                                                `form:"transfer_lookup_key"`
+	UnsetFields       []IssuingPersonalizationDesignUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // IssuingPersonalizationDesignUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingPersonalizationDesignUpdateParams.
@@ -312,7 +314,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *IssuingPersonalizationDesignUpdateParams) AddUnsetField(field IssuingPersonalizationDesignUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

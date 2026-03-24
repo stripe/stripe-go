@@ -42,7 +42,8 @@ type TerminalConfigurationParams struct {
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
-	Wifi *TerminalConfigurationWifiParams `form:"wifi"`
+	Wifi        *TerminalConfigurationWifiParams        `form:"wifi"`
+	UnsetFields []TerminalConfigurationParamsUnsetField `form:"-" json:"-"`
 }
 
 // TerminalConfigurationParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationParams.
@@ -63,7 +64,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationParams) AddUnsetField(field TerminalConfigurationParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -962,7 +963,8 @@ type TerminalConfigurationUpdateParams struct {
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationUpdateVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
-	Wifi *TerminalConfigurationUpdateWifiParams `form:"wifi"`
+	Wifi        *TerminalConfigurationUpdateWifiParams        `form:"wifi"`
+	UnsetFields []TerminalConfigurationUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // TerminalConfigurationUpdateParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateParams.
@@ -983,7 +985,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationUpdateParams) AddUnsetField(field TerminalConfigurationUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1434,7 +1436,8 @@ type TerminalConfigurationCreateParams struct {
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationCreateVerifoneP400Params `form:"verifone_p400"`
 	// Configurations for connecting to a WiFi network.
-	Wifi *TerminalConfigurationCreateWifiParams `form:"wifi"`
+	Wifi        *TerminalConfigurationCreateWifiParams        `form:"wifi"`
+	UnsetFields []TerminalConfigurationCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // TerminalConfigurationCreateParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateParams.
@@ -1449,7 +1452,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationCreateParams) AddUnsetField(field TerminalConfigurationCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

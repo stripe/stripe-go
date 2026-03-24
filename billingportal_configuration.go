@@ -341,7 +341,8 @@ type BillingPortalConfigurationParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The name of the configuration.
-	Name *string `form:"name"`
+	Name        *string                                      `form:"name"`
+	UnsetFields []BillingPortalConfigurationParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationParams.
@@ -355,7 +356,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationParams) AddUnsetField(field BillingPortalConfigurationParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -576,7 +577,8 @@ type BillingPortalConfigurationCreateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The name of the configuration.
-	Name *string `form:"name"`
+	Name        *string                                            `form:"name"`
+	UnsetFields []BillingPortalConfigurationCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationCreateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationCreateParams.
@@ -589,7 +591,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationCreateParams) AddUnsetField(field BillingPortalConfigurationCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -841,7 +843,8 @@ type BillingPortalConfigurationUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The name of the configuration.
-	Name *string `form:"name"`
+	Name        *string                                            `form:"name"`
+	UnsetFields []BillingPortalConfigurationUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BillingPortalConfigurationUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingPortalConfigurationUpdateParams.
@@ -855,7 +858,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BillingPortalConfigurationUpdateParams) AddUnsetField(field BillingPortalConfigurationUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

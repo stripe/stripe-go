@@ -156,7 +156,8 @@ type DisputeParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
-	Submit *bool `form:"submit"`
+	Submit      *bool                     `form:"submit"`
+	UnsetFields []DisputeParamsUnsetField `form:"-" json:"-"`
 }
 
 // DisputeParamsUnsetField is the list of fields that can be cleared/unset on DisputeParams.
@@ -168,7 +169,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *DisputeParams) AddUnsetField(field DisputeParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -565,7 +566,8 @@ type DisputeUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
-	Submit *bool `form:"submit"`
+	Submit      *bool                           `form:"submit"`
+	UnsetFields []DisputeUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // DisputeUpdateParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateParams.
@@ -577,7 +579,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *DisputeUpdateParams) AddUnsetField(field DisputeUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -403,6 +403,7 @@ type QuoteParams struct {
 	TestClock *string `form:"test_clock"`
 	// The data with which to automatically create a Transfer for each of the invoices.
 	TransferData *QuoteTransferDataParams `form:"transfer_data"`
+	UnsetFields  []QuoteParamsUnsetField  `form:"-" json:"-"`
 }
 
 // QuoteParamsUnsetField is the list of fields that can be cleared/unset on QuoteParams.
@@ -422,7 +423,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteParams) AddUnsetField(field QuoteParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -741,6 +742,7 @@ type QuoteCreateParams struct {
 	TestClock *string `form:"test_clock"`
 	// The data with which to automatically create a Transfer for each of the invoices.
 	TransferData *QuoteCreateTransferDataParams `form:"transfer_data"`
+	UnsetFields  []QuoteCreateParamsUnsetField  `form:"-" json:"-"`
 }
 
 // QuoteCreateParamsUnsetField is the list of fields that can be cleared/unset on QuoteCreateParams.
@@ -760,7 +762,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteCreateParams) AddUnsetField(field QuoteCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -990,6 +992,7 @@ type QuoteUpdateParams struct {
 	SubscriptionData *QuoteUpdateSubscriptionDataParams `form:"subscription_data"`
 	// The data with which to automatically create a Transfer for each of the invoices.
 	TransferData *QuoteUpdateTransferDataParams `form:"transfer_data"`
+	UnsetFields  []QuoteUpdateParamsUnsetField  `form:"-" json:"-"`
 }
 
 // QuoteUpdateParamsUnsetField is the list of fields that can be cleared/unset on QuoteUpdateParams.
@@ -1009,7 +1012,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *QuoteUpdateParams) AddUnsetField(field QuoteUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

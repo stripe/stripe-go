@@ -511,7 +511,8 @@ type ChargeParams struct {
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 	TransferData *ChargeTransferDataParams `form:"transfer_data"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string                  `form:"transfer_group"`
+	UnsetFields   []ChargeParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetSource adds valid sources to a ChargeParams object,
@@ -531,7 +532,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ChargeParams) AddUnsetField(field ChargeParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -705,7 +706,8 @@ type ChargeCreateParams struct {
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 	TransferData *ChargeCreateTransferDataParams `form:"transfer_data"`
 	// A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options).
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string                        `form:"transfer_group"`
+	UnsetFields   []ChargeCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // SetSource adds valid sources to a ChargeCreateParams object,
@@ -725,7 +727,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ChargeCreateParams) AddUnsetField(field ChargeCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -791,7 +793,8 @@ type ChargeUpdateParams struct {
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams `form:"shipping"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string                        `form:"transfer_group"`
+	UnsetFields   []ChargeUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // ChargeUpdateParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdateParams.
@@ -803,7 +806,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ChargeUpdateParams) AddUnsetField(field ChargeUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
