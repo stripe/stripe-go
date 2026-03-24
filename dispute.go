@@ -159,6 +159,18 @@ type DisputeParams struct {
 	Submit *bool `form:"submit"`
 }
 
+// DisputeParamsUnsetField is the list of fields that can be cleared/unset on DisputeParams.
+type DisputeParamsUnsetField string
+
+const (
+	DisputeParamsUnsetFieldMetadata DisputeParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeParams) AddUnsetField(field DisputeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *DisputeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -191,6 +203,24 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionPa
 	ProductDescription *string `form:"product_description"`
 	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
 	ShippingAddress *AddressParams `form:"shipping_address"`
+	UnsetFields     []string       `form:"-" json:"-"`
+}
+
+// DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField is the list of fields that can be cleared/unset on DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams.
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField string
+
+const (
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerAccountID         DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_account_id"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerDeviceFingerprint DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_device_fingerprint"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerDeviceID          DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_device_id"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerEmailAddress      DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_email_address"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerPurchaseIP        DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_purchase_ip"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldProductDescription        DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "product_description"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams) AddUnsetField(field DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
@@ -211,6 +241,24 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransa
 	ProductDescription *string `form:"product_description"`
 	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
 	ShippingAddress *AddressParams `form:"shipping_address"`
+	UnsetFields     []string       `form:"-" json:"-"`
+}
+
+// DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField is the list of fields that can be cleared/unset on DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams.
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField string
+
+const (
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerAccountID         DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_account_id"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerDeviceFingerprint DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_device_fingerprint"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerDeviceID          DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_device_id"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerEmailAddress      DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_email_address"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerPurchaseIP        DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_purchase_ip"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldProductDescription        DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "product_description"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams) AddUnsetField(field DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
@@ -292,7 +340,20 @@ type DisputeEvidenceParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any additional evidence or statements.
 	UncategorizedFile *string `form:"uncategorized_file"`
 	// Any additional evidence or statements. Has a maximum character count of 20,000.
-	UncategorizedText *string `form:"uncategorized_text"`
+	UncategorizedText *string  `form:"uncategorized_text"`
+	UnsetFields       []string `form:"-" json:"-"`
+}
+
+// DisputeEvidenceParamsUnsetField is the list of fields that can be cleared/unset on DisputeEvidenceParams.
+type DisputeEvidenceParamsUnsetField string
+
+const (
+	DisputeEvidenceParamsUnsetFieldEnhancedEvidence DisputeEvidenceParamsUnsetField = "enhanced_evidence"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeEvidenceParams) AddUnsetField(field DisputeEvidenceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Closing the dispute for a charge indicates that you do not have any evidence to submit and are essentially dismissing the dispute, acknowledging it as lost.
@@ -339,6 +400,24 @@ type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransac
 	ProductDescription *string `form:"product_description"`
 	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
 	ShippingAddress *AddressParams `form:"shipping_address"`
+	UnsetFields     []string       `form:"-" json:"-"`
+}
+
+// DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams.
+type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField string
+
+const (
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerAccountID         DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_account_id"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerDeviceFingerprint DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_device_fingerprint"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerDeviceID          DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_device_id"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerEmailAddress      DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_email_address"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldCustomerPurchaseIP        DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "customer_purchase_ip"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetFieldProductDescription        DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField = "product_description"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams) AddUnsetField(field DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
@@ -359,6 +438,24 @@ type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputed
 	ProductDescription *string `form:"product_description"`
 	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
 	ShippingAddress *AddressParams `form:"shipping_address"`
+	UnsetFields     []string       `form:"-" json:"-"`
+}
+
+// DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams.
+type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField string
+
+const (
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerAccountID         DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_account_id"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerDeviceFingerprint DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_device_fingerprint"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerDeviceID          DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_device_id"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerEmailAddress      DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_email_address"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldCustomerPurchaseIP        DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "customer_purchase_ip"
+	DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetFieldProductDescription        DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField = "product_description"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams) AddUnsetField(field DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
@@ -440,7 +537,20 @@ type DisputeUpdateEvidenceParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any additional evidence or statements.
 	UncategorizedFile *string `form:"uncategorized_file"`
 	// Any additional evidence or statements. Has a maximum character count of 20,000.
-	UncategorizedText *string `form:"uncategorized_text"`
+	UncategorizedText *string  `form:"uncategorized_text"`
+	UnsetFields       []string `form:"-" json:"-"`
+}
+
+// DisputeUpdateEvidenceParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateEvidenceParams.
+type DisputeUpdateEvidenceParamsUnsetField string
+
+const (
+	DisputeUpdateEvidenceParamsUnsetFieldEnhancedEvidence DisputeUpdateEvidenceParamsUnsetField = "enhanced_evidence"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeUpdateEvidenceParams) AddUnsetField(field DisputeUpdateEvidenceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // When you get a dispute, contacting your customer is always the best first step. If that doesn't work, you can submit evidence to help us resolve the dispute in your favor. You can do this in your [dashboard](https://dashboard.stripe.com/disputes), but if you prefer, you can use the API to submit evidence programmatically.
@@ -456,6 +566,18 @@ type DisputeUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
 	Submit *bool `form:"submit"`
+}
+
+// DisputeUpdateParamsUnsetField is the list of fields that can be cleared/unset on DisputeUpdateParams.
+type DisputeUpdateParamsUnsetField string
+
+const (
+	DisputeUpdateParamsUnsetFieldMetadata DisputeUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DisputeUpdateParams) AddUnsetField(field DisputeUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

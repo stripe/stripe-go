@@ -170,6 +170,20 @@ type CreditNoteLineParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []string `form:"-" json:"-"`
+}
+
+// CreditNoteLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNoteLineParams.
+type CreditNoteLineParamsUnsetField string
+
+const (
+	CreditNoteLineParamsUnsetFieldTaxAmounts CreditNoteLineParamsUnsetField = "tax_amounts"
+	CreditNoteLineParamsUnsetFieldTaxRates   CreditNoteLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNoteLineParams) AddUnsetField(field CreditNoteLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -285,6 +299,20 @@ type CreditNotePreviewLineParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []string `form:"-" json:"-"`
+}
+
+// CreditNotePreviewLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNotePreviewLineParams.
+type CreditNotePreviewLineParamsUnsetField string
+
+const (
+	CreditNotePreviewLineParamsUnsetFieldTaxAmounts CreditNotePreviewLineParamsUnsetField = "tax_amounts"
+	CreditNotePreviewLineParamsUnsetFieldTaxRates   CreditNotePreviewLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNotePreviewLineParams) AddUnsetField(field CreditNotePreviewLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -390,6 +418,20 @@ type CreditNotePreviewLinesLineParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []string `form:"-" json:"-"`
+}
+
+// CreditNotePreviewLinesLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNotePreviewLinesLineParams.
+type CreditNotePreviewLinesLineParamsUnsetField string
+
+const (
+	CreditNotePreviewLinesLineParamsUnsetFieldTaxAmounts CreditNotePreviewLinesLineParamsUnsetField = "tax_amounts"
+	CreditNotePreviewLinesLineParamsUnsetFieldTaxRates   CreditNotePreviewLinesLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNotePreviewLinesLineParams) AddUnsetField(field CreditNotePreviewLinesLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
@@ -520,6 +562,20 @@ type CreditNoteCreateLineParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []string `form:"-" json:"-"`
+}
+
+// CreditNoteCreateLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNoteCreateLineParams.
+type CreditNoteCreateLineParamsUnsetField string
+
+const (
+	CreditNoteCreateLineParamsUnsetFieldTaxAmounts CreditNoteCreateLineParamsUnsetField = "tax_amounts"
+	CreditNoteCreateLineParamsUnsetFieldTaxRates   CreditNoteCreateLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNoteCreateLineParams) AddUnsetField(field CreditNoteCreateLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.

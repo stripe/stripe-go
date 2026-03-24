@@ -42,6 +42,19 @@ type FileLinkParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// FileLinkParamsUnsetField is the list of fields that can be cleared/unset on FileLinkParams.
+type FileLinkParamsUnsetField string
+
+const (
+	FileLinkParamsUnsetFieldExpiresAt FileLinkParamsUnsetField = "expires_at"
+	FileLinkParamsUnsetFieldMetadata  FileLinkParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FileLinkParams) AddUnsetField(field FileLinkParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *FileLinkParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -74,6 +87,18 @@ type FileLinkCreateParams struct {
 	File *string `form:"file"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// FileLinkCreateParamsUnsetField is the list of fields that can be cleared/unset on FileLinkCreateParams.
+type FileLinkCreateParamsUnsetField string
+
+const (
+	FileLinkCreateParamsUnsetFieldMetadata FileLinkCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FileLinkCreateParams) AddUnsetField(field FileLinkCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.
@@ -112,6 +137,19 @@ type FileLinkUpdateParams struct {
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// FileLinkUpdateParamsUnsetField is the list of fields that can be cleared/unset on FileLinkUpdateParams.
+type FileLinkUpdateParamsUnsetField string
+
+const (
+	FileLinkUpdateParamsUnsetFieldExpiresAt FileLinkUpdateParamsUnsetField = "expires_at"
+	FileLinkUpdateParamsUnsetFieldMetadata  FileLinkUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FileLinkUpdateParams) AddUnsetField(field FileLinkUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

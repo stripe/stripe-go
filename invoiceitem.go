@@ -65,6 +65,21 @@ type InvoiceItemParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// InvoiceItemParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemParams.
+type InvoiceItemParamsUnsetField string
+
+const (
+	InvoiceItemParamsUnsetFieldDiscounts InvoiceItemParamsUnsetField = "discounts"
+	InvoiceItemParamsUnsetFieldMetadata  InvoiceItemParamsUnsetField = "metadata"
+	InvoiceItemParamsUnsetFieldTaxCode   InvoiceItemParamsUnsetField = "tax_code"
+	InvoiceItemParamsUnsetFieldTaxRates  InvoiceItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemParams) AddUnsetField(field InvoiceItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceItemParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -229,6 +244,21 @@ type InvoiceItemUpdateParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// InvoiceItemUpdateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemUpdateParams.
+type InvoiceItemUpdateParamsUnsetField string
+
+const (
+	InvoiceItemUpdateParamsUnsetFieldDiscounts InvoiceItemUpdateParamsUnsetField = "discounts"
+	InvoiceItemUpdateParamsUnsetFieldMetadata  InvoiceItemUpdateParamsUnsetField = "metadata"
+	InvoiceItemUpdateParamsUnsetFieldTaxCode   InvoiceItemUpdateParamsUnsetField = "tax_code"
+	InvoiceItemUpdateParamsUnsetFieldTaxRates  InvoiceItemUpdateParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemUpdateParams) AddUnsetField(field InvoiceItemUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceItemUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -324,6 +354,20 @@ type InvoiceItemCreateParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// InvoiceItemCreateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemCreateParams.
+type InvoiceItemCreateParamsUnsetField string
+
+const (
+	InvoiceItemCreateParamsUnsetFieldDiscounts InvoiceItemCreateParamsUnsetField = "discounts"
+	InvoiceItemCreateParamsUnsetFieldMetadata  InvoiceItemCreateParamsUnsetField = "metadata"
+	InvoiceItemCreateParamsUnsetFieldTaxCode   InvoiceItemCreateParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemCreateParams) AddUnsetField(field InvoiceItemCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceItemCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -355,7 +399,7 @@ type InvoiceItemParent struct {
 }
 type InvoiceItemPricingPriceDetails struct {
 	// The ID of the price this item is associated with.
-	Price string `json:"price"`
+	Price *Price `json:"price"`
 	// The ID of the product this item is associated with.
 	Product string `json:"product"`
 }

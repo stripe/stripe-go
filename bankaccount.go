@@ -378,6 +378,19 @@ func (p *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 	}
 }
 
+// BankAccountParamsUnsetField is the list of fields that can be cleared/unset on BankAccountParams.
+type BankAccountParamsUnsetField string
+
+const (
+	BankAccountParamsUnsetFieldAccountHolderType BankAccountParamsUnsetField = "account_holder_type"
+	BankAccountParamsUnsetFieldMetadata          BankAccountParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *BankAccountParams) AddUnsetField(field BankAccountParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *BankAccountParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -474,6 +487,19 @@ type BankAccountUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// BankAccountUpdateParamsUnsetField is the list of fields that can be cleared/unset on BankAccountUpdateParams.
+type BankAccountUpdateParamsUnsetField string
+
+const (
+	BankAccountUpdateParamsUnsetFieldAccountHolderType BankAccountUpdateParamsUnsetField = "account_holder_type"
+	BankAccountUpdateParamsUnsetFieldMetadata          BankAccountUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *BankAccountUpdateParams) AddUnsetField(field BankAccountUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.
@@ -614,6 +640,18 @@ func (p *BankAccountCreateParams) AppendToAsSourceOrExternalAccount(body *form.V
 		}
 	}
 	return nil
+}
+
+// BankAccountCreateParamsUnsetField is the list of fields that can be cleared/unset on BankAccountCreateParams.
+type BankAccountCreateParamsUnsetField string
+
+const (
+	BankAccountCreateParamsUnsetFieldMetadata BankAccountCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *BankAccountCreateParams) AddUnsetField(field BankAccountCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

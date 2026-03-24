@@ -70,7 +70,20 @@ type FileFileLinkDataParams struct {
 	// The link isn't available after this future timestamp.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string `form:"metadata"`
+	UnsetFields []string          `form:"-" json:"-"`
+}
+
+// FileFileLinkDataParamsUnsetField is the list of fields that can be cleared/unset on FileFileLinkDataParams.
+type FileFileLinkDataParamsUnsetField string
+
+const (
+	FileFileLinkDataParamsUnsetFieldMetadata FileFileLinkDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FileFileLinkDataParams) AddUnsetField(field FileFileLinkDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -164,7 +177,20 @@ type FileCreateFileLinkDataParams struct {
 	// The link isn't available after this future timestamp.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string `form:"metadata"`
+	UnsetFields []string          `form:"-" json:"-"`
+}
+
+// FileCreateFileLinkDataParamsUnsetField is the list of fields that can be cleared/unset on FileCreateFileLinkDataParams.
+type FileCreateFileLinkDataParamsUnsetField string
+
+const (
+	FileCreateFileLinkDataParamsUnsetFieldMetadata FileCreateFileLinkDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FileCreateFileLinkDataParams) AddUnsetField(field FileCreateFileLinkDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

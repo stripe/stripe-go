@@ -108,7 +108,20 @@ type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent *string `form:"user_agent"`
+	UserAgent   *string  `form:"user_agent"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams.
+type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetField string
+
+const (
+	IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetFieldUserAgent IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetField = "user_agent"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams) AddUnsetField(field IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Information related to the card_issuing program for this cardholder.
@@ -244,7 +257,20 @@ type IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams struc
 	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent *string `form:"user_agent"`
+	UserAgent   *string  `form:"user_agent"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams.
+type IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField string
+
+const (
+	IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetFieldUserAgent IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField = "user_agent"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams) AddUnsetField(field IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Information related to the card_issuing program for this cardholder.
@@ -392,7 +418,20 @@ type IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams struc
 	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent *string `form:"user_agent"`
+	UserAgent   *string  `form:"user_agent"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams.
+type IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField string
+
+const (
+	IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetFieldUserAgent IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField = "user_agent"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams) AddUnsetField(field IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Information related to the card_issuing program for this cardholder.

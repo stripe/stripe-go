@@ -95,6 +95,18 @@ type PromotionCodeParams struct {
 	Restrictions *PromotionCodeRestrictionsParams `form:"restrictions"`
 }
 
+// PromotionCodeParamsUnsetField is the list of fields that can be cleared/unset on PromotionCodeParams.
+type PromotionCodeParamsUnsetField string
+
+const (
+	PromotionCodeParamsUnsetFieldMetadata PromotionCodeParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PromotionCodeParams) AddUnsetField(field PromotionCodeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *PromotionCodeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -211,6 +223,18 @@ type PromotionCodeUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Settings that restrict the redemption of the promotion code.
 	Restrictions *PromotionCodeUpdateRestrictionsParams `form:"restrictions"`
+}
+
+// PromotionCodeUpdateParamsUnsetField is the list of fields that can be cleared/unset on PromotionCodeUpdateParams.
+type PromotionCodeUpdateParamsUnsetField string
+
+const (
+	PromotionCodeUpdateParamsUnsetFieldMetadata PromotionCodeUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PromotionCodeUpdateParams) AddUnsetField(field PromotionCodeUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

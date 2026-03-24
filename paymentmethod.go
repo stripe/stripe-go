@@ -453,7 +453,23 @@ type PaymentMethodBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID *string `form:"tax_id"`
+	TaxID       *string  `form:"tax_id"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// PaymentMethodBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentMethodBillingDetailsParams.
+type PaymentMethodBillingDetailsParamsUnsetField string
+
+const (
+	PaymentMethodBillingDetailsParamsUnsetFieldAddress PaymentMethodBillingDetailsParamsUnsetField = "address"
+	PaymentMethodBillingDetailsParamsUnsetFieldEmail   PaymentMethodBillingDetailsParamsUnsetField = "email"
+	PaymentMethodBillingDetailsParamsUnsetFieldName    PaymentMethodBillingDetailsParamsUnsetField = "name"
+	PaymentMethodBillingDetailsParamsUnsetFieldPhone   PaymentMethodBillingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentMethodBillingDetailsParams) AddUnsetField(field PaymentMethodBillingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -468,7 +484,20 @@ type PaymentMethodBoletoParams struct {
 // Contains information about card networks used to process the payment.
 type PaymentMethodCardNetworksParams struct {
 	// The customer's preferred card network for co-branded cards. Supports `cartes_bancaires`, `mastercard`, or `visa`. Selection of a network that does not apply to the card will be stored as `invalid_preference` on the card.
-	Preferred *string `form:"preferred"`
+	Preferred   *string  `form:"preferred"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// PaymentMethodCardNetworksParamsUnsetField is the list of fields that can be cleared/unset on PaymentMethodCardNetworksParams.
+type PaymentMethodCardNetworksParamsUnsetField string
+
+const (
+	PaymentMethodCardNetworksParamsUnsetFieldPreferred PaymentMethodCardNetworksParamsUnsetField = "preferred"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentMethodCardNetworksParams) AddUnsetField(field PaymentMethodCardNetworksParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
@@ -807,6 +836,18 @@ type PaymentMethodParams struct {
 	PaymentMethod *string `form:"payment_method"`
 }
 
+// PaymentMethodParamsUnsetField is the list of fields that can be cleared/unset on PaymentMethodParams.
+type PaymentMethodParamsUnsetField string
+
+const (
+	PaymentMethodParamsUnsetFieldMetadata PaymentMethodParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentMethodParams) AddUnsetField(field PaymentMethodParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *PaymentMethodParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -919,7 +960,23 @@ type PaymentMethodCreateBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID *string `form:"tax_id"`
+	TaxID       *string  `form:"tax_id"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// PaymentMethodCreateBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentMethodCreateBillingDetailsParams.
+type PaymentMethodCreateBillingDetailsParamsUnsetField string
+
+const (
+	PaymentMethodCreateBillingDetailsParamsUnsetFieldAddress PaymentMethodCreateBillingDetailsParamsUnsetField = "address"
+	PaymentMethodCreateBillingDetailsParamsUnsetFieldEmail   PaymentMethodCreateBillingDetailsParamsUnsetField = "email"
+	PaymentMethodCreateBillingDetailsParamsUnsetFieldName    PaymentMethodCreateBillingDetailsParamsUnsetField = "name"
+	PaymentMethodCreateBillingDetailsParamsUnsetFieldPhone   PaymentMethodCreateBillingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentMethodCreateBillingDetailsParams) AddUnsetField(field PaymentMethodCreateBillingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -1309,13 +1366,42 @@ type PaymentMethodUpdateBillingDetailsParams struct {
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
-	TaxID *string `form:"tax_id"`
+	TaxID       *string  `form:"tax_id"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// PaymentMethodUpdateBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentMethodUpdateBillingDetailsParams.
+type PaymentMethodUpdateBillingDetailsParamsUnsetField string
+
+const (
+	PaymentMethodUpdateBillingDetailsParamsUnsetFieldAddress PaymentMethodUpdateBillingDetailsParamsUnsetField = "address"
+	PaymentMethodUpdateBillingDetailsParamsUnsetFieldEmail   PaymentMethodUpdateBillingDetailsParamsUnsetField = "email"
+	PaymentMethodUpdateBillingDetailsParamsUnsetFieldName    PaymentMethodUpdateBillingDetailsParamsUnsetField = "name"
+	PaymentMethodUpdateBillingDetailsParamsUnsetFieldPhone   PaymentMethodUpdateBillingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentMethodUpdateBillingDetailsParams) AddUnsetField(field PaymentMethodUpdateBillingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Contains information about card networks used to process the payment.
 type PaymentMethodUpdateCardNetworksParams struct {
 	// The customer's preferred card network for co-branded cards. Supports `cartes_bancaires`, `mastercard`, or `visa`. Selection of a network that does not apply to the card will be stored as `invalid_preference` on the card.
-	Preferred *string `form:"preferred"`
+	Preferred   *string  `form:"preferred"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// PaymentMethodUpdateCardNetworksParamsUnsetField is the list of fields that can be cleared/unset on PaymentMethodUpdateCardNetworksParams.
+type PaymentMethodUpdateCardNetworksParamsUnsetField string
+
+const (
+	PaymentMethodUpdateCardNetworksParamsUnsetFieldPreferred PaymentMethodUpdateCardNetworksParamsUnsetField = "preferred"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentMethodUpdateCardNetworksParams) AddUnsetField(field PaymentMethodUpdateCardNetworksParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // If this is a `card` PaymentMethod, this hash contains the user's card details.
@@ -1363,6 +1449,18 @@ type PaymentMethodUpdateParams struct {
 	Payto *PaymentMethodUpdatePaytoParams `form:"payto"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUpdateUSBankAccountParams `form:"us_bank_account"`
+}
+
+// PaymentMethodUpdateParamsUnsetField is the list of fields that can be cleared/unset on PaymentMethodUpdateParams.
+type PaymentMethodUpdateParamsUnsetField string
+
+const (
+	PaymentMethodUpdateParamsUnsetFieldMetadata PaymentMethodUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentMethodUpdateParams) AddUnsetField(field PaymentMethodUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

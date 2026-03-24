@@ -209,6 +209,21 @@ type InvoiceLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// InvoiceLineItemParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemParams.
+type InvoiceLineItemParamsUnsetField string
+
+const (
+	InvoiceLineItemParamsUnsetFieldDiscounts  InvoiceLineItemParamsUnsetField = "discounts"
+	InvoiceLineItemParamsUnsetFieldMetadata   InvoiceLineItemParamsUnsetField = "metadata"
+	InvoiceLineItemParamsUnsetFieldTaxAmounts InvoiceLineItemParamsUnsetField = "tax_amounts"
+	InvoiceLineItemParamsUnsetFieldTaxRates   InvoiceLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemParams) AddUnsetField(field InvoiceLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceLineItemParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -360,6 +375,21 @@ type InvoiceLineItemUpdateParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// InvoiceLineItemUpdateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemUpdateParams.
+type InvoiceLineItemUpdateParamsUnsetField string
+
+const (
+	InvoiceLineItemUpdateParamsUnsetFieldDiscounts  InvoiceLineItemUpdateParamsUnsetField = "discounts"
+	InvoiceLineItemUpdateParamsUnsetFieldMetadata   InvoiceLineItemUpdateParamsUnsetField = "metadata"
+	InvoiceLineItemUpdateParamsUnsetFieldTaxAmounts InvoiceLineItemUpdateParamsUnsetField = "tax_amounts"
+	InvoiceLineItemUpdateParamsUnsetFieldTaxRates   InvoiceLineItemUpdateParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemUpdateParams) AddUnsetField(field InvoiceLineItemUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceLineItemUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -459,7 +489,7 @@ type InvoiceLineItemPretaxCreditAmount struct {
 }
 type InvoiceLineItemPricingPriceDetails struct {
 	// The ID of the price this item is associated with.
-	Price string `json:"price"`
+	Price *Price `json:"price"`
 	// The ID of the product this item is associated with.
 	Product string `json:"product"`
 }

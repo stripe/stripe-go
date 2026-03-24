@@ -252,6 +252,18 @@ func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 	}
 }
 
+// CardParamsUnsetField is the list of fields that can be cleared/unset on CardParams.
+type CardParamsUnsetField string
+
+const (
+	CardParamsUnsetFieldMetadata CardParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CardParams) AddUnsetField(field CardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *CardParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -353,6 +365,18 @@ type CardUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
+}
+
+// CardUpdateParamsUnsetField is the list of fields that can be cleared/unset on CardUpdateParams.
+type CardUpdateParamsUnsetField string
+
+const (
+	CardUpdateParamsUnsetFieldMetadata CardUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CardUpdateParams) AddUnsetField(field CardUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.
@@ -518,6 +542,18 @@ func (p *CardCreateParams) AppendToAsCardSourceOrExternalAccount(body *form.Valu
 				p.AddressZip))
 	}
 	return nil
+}
+
+// CardCreateParamsUnsetField is the list of fields that can be cleared/unset on CardCreateParams.
+type CardCreateParamsUnsetField string
+
+const (
+	CardCreateParamsUnsetFieldMetadata CardCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CardCreateParams) AddUnsetField(field CardCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

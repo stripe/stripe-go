@@ -29,6 +29,19 @@ type WebhookEndpointParams struct {
 	APIVersion *string `form:"api_version"`
 }
 
+// WebhookEndpointParamsUnsetField is the list of fields that can be cleared/unset on WebhookEndpointParams.
+type WebhookEndpointParamsUnsetField string
+
+const (
+	WebhookEndpointParamsUnsetFieldDescription WebhookEndpointParamsUnsetField = "description"
+	WebhookEndpointParamsUnsetFieldMetadata    WebhookEndpointParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *WebhookEndpointParams) AddUnsetField(field WebhookEndpointParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *WebhookEndpointParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -89,6 +102,19 @@ type WebhookEndpointUpdateParams struct {
 	URL *string `form:"url"`
 }
 
+// WebhookEndpointUpdateParamsUnsetField is the list of fields that can be cleared/unset on WebhookEndpointUpdateParams.
+type WebhookEndpointUpdateParamsUnsetField string
+
+const (
+	WebhookEndpointUpdateParamsUnsetFieldDescription WebhookEndpointUpdateParamsUnsetField = "description"
+	WebhookEndpointUpdateParamsUnsetFieldMetadata    WebhookEndpointUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *WebhookEndpointUpdateParams) AddUnsetField(field WebhookEndpointUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *WebhookEndpointUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -120,6 +146,19 @@ type WebhookEndpointCreateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The URL of the webhook endpoint.
 	URL *string `form:"url"`
+}
+
+// WebhookEndpointCreateParamsUnsetField is the list of fields that can be cleared/unset on WebhookEndpointCreateParams.
+type WebhookEndpointCreateParamsUnsetField string
+
+const (
+	WebhookEndpointCreateParamsUnsetFieldDescription WebhookEndpointCreateParamsUnsetField = "description"
+	WebhookEndpointCreateParamsUnsetFieldMetadata    WebhookEndpointCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *WebhookEndpointCreateParams) AddUnsetField(field WebhookEndpointCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

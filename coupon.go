@@ -49,6 +49,18 @@ type CouponParams struct {
 	RedeemBy *int64 `form:"redeem_by"`
 }
 
+// CouponParamsUnsetField is the list of fields that can be cleared/unset on CouponParams.
+type CouponParamsUnsetField string
+
+const (
+	CouponParamsUnsetFieldMetadata CouponParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponParams) AddUnsetField(field CouponParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *CouponParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -127,6 +139,18 @@ type CouponUpdateParams struct {
 	Name *string `form:"name"`
 }
 
+// CouponUpdateParamsUnsetField is the list of fields that can be cleared/unset on CouponUpdateParams.
+type CouponUpdateParamsUnsetField string
+
+const (
+	CouponUpdateParamsUnsetFieldMetadata CouponUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponUpdateParams) AddUnsetField(field CouponUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *CouponUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -184,6 +208,18 @@ type CouponCreateParams struct {
 	PercentOff *float64 `form:"percent_off"`
 	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by"`
+}
+
+// CouponCreateParamsUnsetField is the list of fields that can be cleared/unset on CouponCreateParams.
+type CouponCreateParamsUnsetField string
+
+const (
+	CouponCreateParamsUnsetFieldMetadata CouponCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponCreateParams) AddUnsetField(field CouponCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

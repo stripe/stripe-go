@@ -521,6 +521,18 @@ func (p *ChargeParams) SetSource(sp interface{}) error {
 	return err
 }
 
+// ChargeParamsUnsetField is the list of fields that can be cleared/unset on ChargeParams.
+type ChargeParamsUnsetField string
+
+const (
+	ChargeParamsUnsetFieldMetadata ChargeParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeParams) AddUnsetField(field ChargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *ChargeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -538,7 +550,20 @@ func (p *ChargeParams) AddMetadata(key string, value string) {
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type ChargeFraudDetailsParams struct {
 	// Either `safe` or `fraudulent`.
-	UserReport *string `form:"user_report"`
+	UserReport  *string  `form:"user_report"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// ChargeFraudDetailsParamsUnsetField is the list of fields that can be cleared/unset on ChargeFraudDetailsParams.
+type ChargeFraudDetailsParamsUnsetField string
+
+const (
+	ChargeFraudDetailsParamsUnsetFieldUserReport ChargeFraudDetailsParamsUnsetField = "user_report"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeFraudDetailsParams) AddUnsetField(field ChargeFraudDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Search for charges you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
@@ -690,6 +715,18 @@ func (p *ChargeCreateParams) SetSource(sp interface{}) error {
 	return err
 }
 
+// ChargeCreateParamsUnsetField is the list of fields that can be cleared/unset on ChargeCreateParams.
+type ChargeCreateParamsUnsetField string
+
+const (
+	ChargeCreateParamsUnsetFieldMetadata ChargeCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeCreateParams) AddUnsetField(field ChargeCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *ChargeCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -719,7 +756,20 @@ func (p *ChargeRetrieveParams) AddExpand(f string) {
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type ChargeUpdateFraudDetailsParams struct {
 	// Either `safe` or `fraudulent`.
-	UserReport *string `form:"user_report"`
+	UserReport  *string  `form:"user_report"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// ChargeUpdateFraudDetailsParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdateFraudDetailsParams.
+type ChargeUpdateFraudDetailsParamsUnsetField string
+
+const (
+	ChargeUpdateFraudDetailsParamsUnsetFieldUserReport ChargeUpdateFraudDetailsParamsUnsetField = "user_report"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeUpdateFraudDetailsParams) AddUnsetField(field ChargeUpdateFraudDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
@@ -741,6 +791,18 @@ type ChargeUpdateParams struct {
 	Shipping *ShippingDetailsParams `form:"shipping"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// ChargeUpdateParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdateParams.
+type ChargeUpdateParamsUnsetField string
+
+const (
+	ChargeUpdateParamsUnsetFieldMetadata ChargeUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeUpdateParams) AddUnsetField(field ChargeUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

@@ -61,6 +61,18 @@ type TransferParams struct {
 	TransferGroup *string `form:"transfer_group"`
 }
 
+// TransferParamsUnsetField is the list of fields that can be cleared/unset on TransferParams.
+type TransferParamsUnsetField string
+
+const (
+	TransferParamsUnsetFieldMetadata TransferParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TransferParams) AddUnsetField(field TransferParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *TransferParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -135,6 +147,18 @@ type TransferUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// TransferUpdateParamsUnsetField is the list of fields that can be cleared/unset on TransferUpdateParams.
+type TransferUpdateParamsUnsetField string
+
+const (
+	TransferUpdateParamsUnsetFieldMetadata TransferUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TransferUpdateParams) AddUnsetField(field TransferUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

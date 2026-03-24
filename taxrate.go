@@ -98,6 +98,18 @@ type TaxRateParams struct {
 	TaxType *string `form:"tax_type"`
 }
 
+// TaxRateParamsUnsetField is the list of fields that can be cleared/unset on TaxRateParams.
+type TaxRateParamsUnsetField string
+
+const (
+	TaxRateParamsUnsetFieldMetadata TaxRateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TaxRateParams) AddUnsetField(field TaxRateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *TaxRateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -186,6 +198,18 @@ type TaxRateUpdateParams struct {
 	State *string `form:"state"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
 	TaxType *string `form:"tax_type"`
+}
+
+// TaxRateUpdateParamsUnsetField is the list of fields that can be cleared/unset on TaxRateUpdateParams.
+type TaxRateUpdateParamsUnsetField string
+
+const (
+	TaxRateUpdateParamsUnsetFieldMetadata TaxRateUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TaxRateUpdateParams) AddUnsetField(field TaxRateUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

@@ -141,6 +141,18 @@ type PayoutParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// PayoutParamsUnsetField is the list of fields that can be cleared/unset on PayoutParams.
+type PayoutParamsUnsetField string
+
+const (
+	PayoutParamsUnsetFieldMetadata PayoutParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PayoutParams) AddUnsetField(field PayoutParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *PayoutParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -254,6 +266,18 @@ type PayoutUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// PayoutUpdateParamsUnsetField is the list of fields that can be cleared/unset on PayoutUpdateParams.
+type PayoutUpdateParamsUnsetField string
+
+const (
+	PayoutUpdateParamsUnsetFieldMetadata PayoutUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PayoutUpdateParams) AddUnsetField(field PayoutUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

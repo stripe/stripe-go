@@ -44,7 +44,20 @@ func (p *ClimateOrderListParams) AddExpand(f string) {
 // Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
 type ClimateOrderBeneficiaryParams struct {
 	// Publicly displayable name for the end beneficiary of carbon removal.
-	PublicName *string `form:"public_name"`
+	PublicName  *string  `form:"public_name"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// ClimateOrderBeneficiaryParamsUnsetField is the list of fields that can be cleared/unset on ClimateOrderBeneficiaryParams.
+type ClimateOrderBeneficiaryParamsUnsetField string
+
+const (
+	ClimateOrderBeneficiaryParamsUnsetFieldPublicName ClimateOrderBeneficiaryParamsUnsetField = "public_name"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ClimateOrderBeneficiaryParams) AddUnsetField(field ClimateOrderBeneficiaryParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Creates a Climate order object for a given Climate product. The order will be processed immediately
@@ -65,6 +78,18 @@ type ClimateOrderParams struct {
 	MetricTons *float64 `form:"metric_tons,high_precision"`
 	// Unique identifier of the Climate product.
 	Product *string `form:"product"`
+}
+
+// ClimateOrderParamsUnsetField is the list of fields that can be cleared/unset on ClimateOrderParams.
+type ClimateOrderParamsUnsetField string
+
+const (
+	ClimateOrderParamsUnsetFieldBeneficiary ClimateOrderParamsUnsetField = "beneficiary"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ClimateOrderParams) AddUnsetField(field ClimateOrderParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.
@@ -151,7 +176,20 @@ func (p *ClimateOrderRetrieveParams) AddExpand(f string) {
 // Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
 type ClimateOrderUpdateBeneficiaryParams struct {
 	// Publicly displayable name for the end beneficiary of carbon removal.
-	PublicName *string `form:"public_name"`
+	PublicName  *string  `form:"public_name"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// ClimateOrderUpdateBeneficiaryParamsUnsetField is the list of fields that can be cleared/unset on ClimateOrderUpdateBeneficiaryParams.
+type ClimateOrderUpdateBeneficiaryParamsUnsetField string
+
+const (
+	ClimateOrderUpdateBeneficiaryParamsUnsetFieldPublicName ClimateOrderUpdateBeneficiaryParamsUnsetField = "public_name"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ClimateOrderUpdateBeneficiaryParams) AddUnsetField(field ClimateOrderUpdateBeneficiaryParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Updates the specified order by setting the values of the parameters passed.
@@ -163,6 +201,18 @@ type ClimateOrderUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// ClimateOrderUpdateParamsUnsetField is the list of fields that can be cleared/unset on ClimateOrderUpdateParams.
+type ClimateOrderUpdateParamsUnsetField string
+
+const (
+	ClimateOrderUpdateParamsUnsetFieldBeneficiary ClimateOrderUpdateParamsUnsetField = "beneficiary"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ClimateOrderUpdateParams) AddUnsetField(field ClimateOrderUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

@@ -119,7 +119,23 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams str
 	// Full name.
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
-	Phone *string `form:"phone"`
+	Phone       *string  `form:"phone"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams.
+type TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField string
+
+const (
+	TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetFieldAddress TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField = "address"
+	TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetFieldEmail   TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField = "email"
+	TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetFieldName    TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField = "name"
+	TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetFieldPhone   TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams) AddUnsetField(field TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Required hash if type is set to `us_bank_account`.
@@ -169,6 +185,19 @@ type TreasuryOutboundPaymentDestinationPaymentMethodOptionsUSBankAccountParams s
 type TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
 	USBankAccount *TreasuryOutboundPaymentDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []string                                                                   `form:"-" json:"-"`
+}
+
+// TreasuryOutboundPaymentDestinationPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams.
+type TreasuryOutboundPaymentDestinationPaymentMethodOptionsParamsUnsetField string
+
+const (
+	TreasuryOutboundPaymentDestinationPaymentMethodOptionsParamsUnsetFieldUSBankAccount TreasuryOutboundPaymentDestinationPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryOutboundPaymentDestinationPaymentMethodOptionsParams) AddUnsetField(field TreasuryOutboundPaymentDestinationPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // End user details.
@@ -243,7 +272,23 @@ type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsPara
 	// Full name.
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
-	Phone *string `form:"phone"`
+	Phone       *string  `form:"phone"`
+	UnsetFields []string `form:"-" json:"-"`
+}
+
+// TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParams.
+type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField string
+
+const (
+	TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetFieldAddress TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField = "address"
+	TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetFieldEmail   TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField = "email"
+	TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetFieldName    TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField = "name"
+	TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetFieldPhone   TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParams) AddUnsetField(field TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // Required hash if type is set to `us_bank_account`.
@@ -293,6 +338,19 @@ type TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsUSBankAccountPa
 type TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
 	USBankAccount *TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []string                                                                         `form:"-" json:"-"`
+}
+
+// TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParams.
+type TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParamsUnsetField string
+
+const (
+	TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParamsUnsetFieldUSBankAccount TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParams) AddUnsetField(field TreasuryOutboundPaymentCreateDestinationPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // End user details.

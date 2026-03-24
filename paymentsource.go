@@ -115,6 +115,18 @@ type PaymentSourceParams struct {
 	Validate *bool                      `form:"validate"`
 }
 
+// PaymentSourceParamsUnsetField is the list of fields that can be cleared/unset on PaymentSourceParams.
+type PaymentSourceParamsUnsetField string
+
+const (
+	PaymentSourceParamsUnsetFieldMetadata PaymentSourceParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentSourceParams) AddUnsetField(field PaymentSourceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *PaymentSourceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -242,6 +254,18 @@ type PaymentSourceUpdateParams struct {
 	// Cardholder name.
 	Name  *string                         `form:"name"`
 	Owner *PaymentSourceUpdateOwnerParams `form:"owner"`
+}
+
+// PaymentSourceUpdateParamsUnsetField is the list of fields that can be cleared/unset on PaymentSourceUpdateParams.
+type PaymentSourceUpdateParamsUnsetField string
+
+const (
+	PaymentSourceUpdateParamsUnsetFieldMetadata PaymentSourceUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentSourceUpdateParams) AddUnsetField(field PaymentSourceUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

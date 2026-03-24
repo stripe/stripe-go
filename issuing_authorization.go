@@ -215,6 +215,18 @@ type IssuingAuthorizationParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// IssuingAuthorizationParamsUnsetField is the list of fields that can be cleared/unset on IssuingAuthorizationParams.
+type IssuingAuthorizationParamsUnsetField string
+
+const (
+	IssuingAuthorizationParamsUnsetFieldMetadata IssuingAuthorizationParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingAuthorizationParams) AddUnsetField(field IssuingAuthorizationParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *IssuingAuthorizationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -241,6 +253,18 @@ type IssuingAuthorizationApproveParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// IssuingAuthorizationApproveParamsUnsetField is the list of fields that can be cleared/unset on IssuingAuthorizationApproveParams.
+type IssuingAuthorizationApproveParamsUnsetField string
+
+const (
+	IssuingAuthorizationApproveParamsUnsetFieldMetadata IssuingAuthorizationApproveParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingAuthorizationApproveParams) AddUnsetField(field IssuingAuthorizationApproveParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *IssuingAuthorizationApproveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -263,6 +287,18 @@ type IssuingAuthorizationDeclineParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// IssuingAuthorizationDeclineParamsUnsetField is the list of fields that can be cleared/unset on IssuingAuthorizationDeclineParams.
+type IssuingAuthorizationDeclineParamsUnsetField string
+
+const (
+	IssuingAuthorizationDeclineParamsUnsetFieldMetadata IssuingAuthorizationDeclineParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingAuthorizationDeclineParams) AddUnsetField(field IssuingAuthorizationDeclineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.
@@ -298,6 +334,18 @@ type IssuingAuthorizationUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// IssuingAuthorizationUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingAuthorizationUpdateParams.
+type IssuingAuthorizationUpdateParamsUnsetField string
+
+const (
+	IssuingAuthorizationUpdateParamsUnsetFieldMetadata IssuingAuthorizationUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingAuthorizationUpdateParams) AddUnsetField(field IssuingAuthorizationUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

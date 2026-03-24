@@ -301,6 +301,19 @@ type PriceParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// PriceParamsUnsetField is the list of fields that can be cleared/unset on PriceParams.
+type PriceParamsUnsetField string
+
+const (
+	PriceParamsUnsetFieldCurrencyOptions PriceParamsUnsetField = "currency_options"
+	PriceParamsUnsetFieldMetadata        PriceParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PriceParams) AddUnsetField(field PriceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *PriceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -601,6 +614,19 @@ type PriceUpdateParams struct {
 	TaxBehavior *string `form:"tax_behavior"`
 	// If set to true, will atomically remove the lookup key from the existing price, and assign it to this price.
 	TransferLookupKey *bool `form:"transfer_lookup_key"`
+}
+
+// PriceUpdateParamsUnsetField is the list of fields that can be cleared/unset on PriceUpdateParams.
+type PriceUpdateParamsUnsetField string
+
+const (
+	PriceUpdateParamsUnsetFieldCurrencyOptions PriceUpdateParamsUnsetField = "currency_options"
+	PriceUpdateParamsUnsetFieldMetadata        PriceUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PriceUpdateParams) AddUnsetField(field PriceUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

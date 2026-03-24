@@ -2606,6 +2606,18 @@ type TaxRegistrationParams struct {
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 }
 
+// TaxRegistrationParamsUnsetField is the list of fields that can be cleared/unset on TaxRegistrationParams.
+type TaxRegistrationParamsUnsetField string
+
+const (
+	TaxRegistrationParamsUnsetFieldExpiresAt TaxRegistrationParamsUnsetField = "expires_at"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TaxRegistrationParams) AddUnsetField(field TaxRegistrationParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *TaxRegistrationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -3984,6 +3996,18 @@ type TaxRegistrationUpdateParams struct {
 	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
 	ExpiresAt    *int64 `form:"expires_at"`
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
+}
+
+// TaxRegistrationUpdateParamsUnsetField is the list of fields that can be cleared/unset on TaxRegistrationUpdateParams.
+type TaxRegistrationUpdateParamsUnsetField string
+
+const (
+	TaxRegistrationUpdateParamsUnsetFieldExpiresAt TaxRegistrationUpdateParamsUnsetField = "expires_at"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TaxRegistrationUpdateParams) AddUnsetField(field TaxRegistrationUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

@@ -63,6 +63,18 @@ type TopupParams struct {
 	TransferGroup *string `form:"transfer_group"`
 }
 
+// TopupParamsUnsetField is the list of fields that can be cleared/unset on TopupParams.
+type TopupParamsUnsetField string
+
+const (
+	TopupParamsUnsetFieldMetadata TopupParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TopupParams) AddUnsetField(field TopupParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *TopupParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -96,6 +108,18 @@ type TopupCreateParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A string that identifies this top-up as part of a group.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// TopupCreateParamsUnsetField is the list of fields that can be cleared/unset on TopupCreateParams.
+type TopupCreateParamsUnsetField string
+
+const (
+	TopupCreateParamsUnsetFieldMetadata TopupCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TopupCreateParams) AddUnsetField(field TopupCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.
@@ -145,6 +169,18 @@ type TopupUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// TopupUpdateParamsUnsetField is the list of fields that can be cleared/unset on TopupUpdateParams.
+type TopupUpdateParamsUnsetField string
+
+const (
+	TopupUpdateParamsUnsetFieldMetadata TopupUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TopupUpdateParams) AddUnsetField(field TopupUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

@@ -145,6 +145,18 @@ type ShippingRateParams struct {
 	Type *string `form:"type"`
 }
 
+// ShippingRateParamsUnsetField is the list of fields that can be cleared/unset on ShippingRateParams.
+type ShippingRateParamsUnsetField string
+
+const (
+	ShippingRateParamsUnsetFieldMetadata ShippingRateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ShippingRateParams) AddUnsetField(field ShippingRateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *ShippingRateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -275,6 +287,18 @@ type ShippingRateUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// ShippingRateUpdateParamsUnsetField is the list of fields that can be cleared/unset on ShippingRateUpdateParams.
+type ShippingRateUpdateParamsUnsetField string
+
+const (
+	ShippingRateUpdateParamsUnsetFieldMetadata ShippingRateUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ShippingRateUpdateParams) AddUnsetField(field ShippingRateUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

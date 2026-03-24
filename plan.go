@@ -102,6 +102,18 @@ type PlanParams struct {
 	UsageType *string `form:"usage_type"`
 }
 
+// PlanParamsUnsetField is the list of fields that can be cleared/unset on PlanParams.
+type PlanParamsUnsetField string
+
+const (
+	PlanParamsUnsetFieldMetadata PlanParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanParams) AddUnsetField(field PlanParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *PlanParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -233,6 +245,18 @@ type PlanUpdateParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 }
 
+// PlanUpdateParamsUnsetField is the list of fields that can be cleared/unset on PlanUpdateParams.
+type PlanUpdateParamsUnsetField string
+
+const (
+	PlanUpdateParamsUnsetFieldMetadata PlanUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanUpdateParams) AddUnsetField(field PlanUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *PlanUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -349,6 +373,18 @@ type PlanCreateParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
 	UsageType *string `form:"usage_type"`
+}
+
+// PlanCreateParamsUnsetField is the list of fields that can be cleared/unset on PlanCreateParams.
+type PlanCreateParamsUnsetField string
+
+const (
+	PlanCreateParamsUnsetFieldMetadata PlanCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanCreateParams) AddUnsetField(field PlanCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

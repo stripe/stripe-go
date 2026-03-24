@@ -287,6 +287,19 @@ type IssuingCardParams struct {
 	CancellationReason *string `form:"cancellation_reason"`
 }
 
+// IssuingCardParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardParams.
+type IssuingCardParamsUnsetField string
+
+const (
+	IssuingCardParamsUnsetFieldMetadata   IssuingCardParamsUnsetField = "metadata"
+	IssuingCardParamsUnsetFieldSecondLine IssuingCardParamsUnsetField = "second_line"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardParams) AddUnsetField(field IssuingCardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *IssuingCardParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -400,6 +413,18 @@ type IssuingCardCreateParams struct {
 	Type *string `form:"type"`
 }
 
+// IssuingCardCreateParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardCreateParams.
+type IssuingCardCreateParamsUnsetField string
+
+const (
+	IssuingCardCreateParamsUnsetFieldSecondLine IssuingCardCreateParamsUnsetField = "second_line"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardCreateParams) AddUnsetField(field IssuingCardCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *IssuingCardCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -506,6 +531,18 @@ type IssuingCardUpdateParams struct {
 	SpendingControls *IssuingCardUpdateSpendingControlsParams `form:"spending_controls"`
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
 	Status *string `form:"status"`
+}
+
+// IssuingCardUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardUpdateParams.
+type IssuingCardUpdateParamsUnsetField string
+
+const (
+	IssuingCardUpdateParamsUnsetFieldMetadata IssuingCardUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardUpdateParams) AddUnsetField(field IssuingCardUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

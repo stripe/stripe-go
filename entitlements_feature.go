@@ -39,6 +39,18 @@ type EntitlementsFeatureParams struct {
 	Name *string `form:"name"`
 }
 
+// EntitlementsFeatureParamsUnsetField is the list of fields that can be cleared/unset on EntitlementsFeatureParams.
+type EntitlementsFeatureParamsUnsetField string
+
+const (
+	EntitlementsFeatureParamsUnsetFieldMetadata EntitlementsFeatureParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *EntitlementsFeatureParams) AddUnsetField(field EntitlementsFeatureParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *EntitlementsFeatureParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -103,6 +115,18 @@ type EntitlementsFeatureUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
 	Name *string `form:"name"`
+}
+
+// EntitlementsFeatureUpdateParamsUnsetField is the list of fields that can be cleared/unset on EntitlementsFeatureUpdateParams.
+type EntitlementsFeatureUpdateParamsUnsetField string
+
+const (
+	EntitlementsFeatureUpdateParamsUnsetFieldMetadata EntitlementsFeatureUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *EntitlementsFeatureUpdateParams) AddUnsetField(field EntitlementsFeatureUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

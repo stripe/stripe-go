@@ -112,6 +112,18 @@ type BillingCreditGrantParams struct {
 	Priority *int64 `form:"priority"`
 }
 
+// BillingCreditGrantParamsUnsetField is the list of fields that can be cleared/unset on BillingCreditGrantParams.
+type BillingCreditGrantParamsUnsetField string
+
+const (
+	BillingCreditGrantParamsUnsetFieldExpiresAt BillingCreditGrantParamsUnsetField = "expires_at"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *BillingCreditGrantParams) AddUnsetField(field BillingCreditGrantParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *BillingCreditGrantParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -248,6 +260,18 @@ type BillingCreditGrantUpdateParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// Set of key-value pairs you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// BillingCreditGrantUpdateParamsUnsetField is the list of fields that can be cleared/unset on BillingCreditGrantUpdateParams.
+type BillingCreditGrantUpdateParamsUnsetField string
+
+const (
+	BillingCreditGrantUpdateParamsUnsetFieldExpiresAt BillingCreditGrantUpdateParamsUnsetField = "expires_at"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *BillingCreditGrantUpdateParams) AddUnsetField(field BillingCreditGrantUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.

@@ -259,6 +259,18 @@ type TreasuryFinancialAccountParams struct {
 	SupportedCurrencies []*string `form:"supported_currencies"`
 }
 
+// TreasuryFinancialAccountParamsUnsetField is the list of fields that can be cleared/unset on TreasuryFinancialAccountParams.
+type TreasuryFinancialAccountParamsUnsetField string
+
+const (
+	TreasuryFinancialAccountParamsUnsetFieldNickname TreasuryFinancialAccountParamsUnsetField = "nickname"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryFinancialAccountParams) AddUnsetField(field TreasuryFinancialAccountParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *TreasuryFinancialAccountParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -552,6 +564,18 @@ type TreasuryFinancialAccountCreateParams struct {
 	SupportedCurrencies []*string `form:"supported_currencies"`
 }
 
+// TreasuryFinancialAccountCreateParamsUnsetField is the list of fields that can be cleared/unset on TreasuryFinancialAccountCreateParams.
+type TreasuryFinancialAccountCreateParamsUnsetField string
+
+const (
+	TreasuryFinancialAccountCreateParamsUnsetFieldNickname TreasuryFinancialAccountCreateParamsUnsetField = "nickname"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryFinancialAccountCreateParams) AddUnsetField(field TreasuryFinancialAccountCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
+}
+
 // AddExpand appends a new field to expand.
 func (p *TreasuryFinancialAccountCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -611,6 +635,18 @@ type TreasuryFinancialAccountUpdateParams struct {
 	Nickname *string `form:"nickname"`
 	// The set of functionalities that the platform can restrict on the FinancialAccount.
 	PlatformRestrictions *TreasuryFinancialAccountUpdatePlatformRestrictionsParams `form:"platform_restrictions"`
+}
+
+// TreasuryFinancialAccountUpdateParamsUnsetField is the list of fields that can be cleared/unset on TreasuryFinancialAccountUpdateParams.
+type TreasuryFinancialAccountUpdateParamsUnsetField string
+
+const (
+	TreasuryFinancialAccountUpdateParamsUnsetFieldNickname TreasuryFinancialAccountUpdateParamsUnsetField = "nickname"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryFinancialAccountUpdateParams) AddUnsetField(field TreasuryFinancialAccountUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, string(field))
 }
 
 // AddExpand appends a new field to expand.
